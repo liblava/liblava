@@ -1,0 +1,42 @@
+language: cpp
+compiler: gcc
+sudo: false
+dist: trusty
+
+os:
+  - linux
+
+git:
+  submodules: false
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-8
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+  - git submodule update --init
+
+install:
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
+  - travis_retry wget --no-check-certificate https://github.com/Kitware/CMake/releases/download/v3.15.3/cmake-3.15.3-Linux-x86_64.tar.gz
+  - tar -xvf cmake-3.15.3-Linux-x86_64.tar.gz > /dev/null
+  - mv cmake-3.15.3-Linux-x86_64 cmake-install
+  - PATH=${DEPS_DIR}/cmake-install:${DEPS_DIR}/cmake-install/bin:$PATH
+  - cd ${TRAVIS_BUILD_DIR}
+
+script:
+  - echo ${PATH}
+  - cmake --version
+  - export CC=gcc-8
+  - export CXX=g++-8
+  - echo ${CXX}
+  - ${CXX} --version
+  - ${CXX} -v
+  - mkdir -p build && cd build
+  - cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=Release .. && make -j4

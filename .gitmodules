@@ -1,0 +1,52 @@
+[submodule "ext/argh"]
+	path = ext/argh
+	url = https://github.com/adishavit/argh.git
+[submodule "ext/assimp"]
+	path = ext/assimp
+	url = https://github.com/assimp/assimp.git
+[submodule "ext/better-enums"]
+	path = ext/better-enums
+	url = https://github.com/aantron/better-enums.git
+[submodule "ext/bitmap"]
+	path = ext/bitmap
+	url = https://github.com/ArashPartow/bitmap.git
+[submodule "ext/glfw"]
+	path = ext/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "ext/gli"]
+	path = ext/gli
+	url = https://github.com/g-truc/gli.git
+[submodule "ext/glm"]
+	path = ext/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "ext/json"]
+	path = ext/json
+	url = https://github.com/nlohmann/json.git
+[submodule "ext/physfs"]
+	path = ext/physfs
+	url = https://github.com/criptych/physfs.git
+[submodule "ext/selene"]
+	path = ext/selene
+	url = https://github.com/kmhofmann/selene.git
+	ignore = dirty
+[submodule "ext/spdlog"]
+	path = ext/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "ext/stb"]
+	path = ext/stb
+	url = https://github.com/nothings/stb.git
+[submodule "ext/tinyfiledialogs"]
+	path = ext/tinyfiledialogs
+	url = https://github.com/native-toolkit/tinyfiledialogs.git
+[submodule "ext/tinyobjloader"]
+	path = ext/tinyobjloader
+	url = https://github.com/syoyo/tinyobjloader.git
+[submodule "ext/volk"]
+	path = ext/volk
+	url = https://github.com/zeux/volk.git
+[submodule "ext/Vulkan-Headers"]
+	path = ext/Vulkan-Headers
+	url = https://github.com/KhronosGroup/Vulkan-Headers.git
+[submodule "ext/VulkanMemoryAllocator"]
+	path = ext/VulkanMemoryAllocator
+	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
