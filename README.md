@@ -8,7 +8,7 @@ liblava is a lean framework that provides essentials for low-level graphics and 
     + Modular (5 modules)
     + Cross Platform (Windows | Linux)
 
-![version](https://img.shields.io/badge/version-0.4.2-blue) [![LoC](https://tokei.rs/b1/github/liblava/liblava?category=code)](https://github.com/liblava/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/thelavablock)
+![version](https://img.shields.io/badge/version-0.4.3-blue) [![LoC](https://tokei.rs/b1/github/liblava/liblava?category=code)](https://github.com/liblava/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/thelavablock)
 
 ## features
 
@@ -22,15 +22,15 @@ liblava is a lean framework that provides essentials for low-level graphics and 
 * test driver
 * and much more...
 
-WIP latest **<a href="https://github.com/liblava/liblava/releases">preview 2 / v0.4.2</a>**  (Sep 18, 2019)
+Download latest **<a href="https://github.com/liblava/liblava/releases">preview 2 / v0.4.2</a>**  (Sep 18, 2019)
 
 ## hello frame
 
-Let's write **Hello World** in Vulkan: *a simple program that just renders a colored window*
-
-Well, just ? - Vulkan is a low-level, verbose graphics API and such a program can take several hundred lines of code.
+Let's write **Hello World** in Vulkan: *"a simple program that renders a colored window"*
 
 All we need is a window, a device and a renderer.
+
+Vulkan is a low-level, verbose graphics API and such a program can take several hundred lines of code.
 
 The good news is that **liblava** will set up all for you.
 
@@ -84,7 +84,7 @@ The last line performs a loop with the run we added before. If *count* reaches 3
 
 #### 3. window input
 
-Here is another example that shows how to create a window and handle input. This is straightforward.
+Here is another example that shows how to create a window and handle input:
 
 ```c++
 frame frame(argh);
@@ -117,7 +117,7 @@ frame.add_run([&]() {
 return frame.run() ? 0 : error::aborted;
 ```
 
-With this knowledge in hand let's write **hello frame**...
+Straightforward. With this knowledge in hand let's write **hello frame**...
 
 #### 4. clear color
 
@@ -163,7 +163,7 @@ auto build_cmd_bufs = [&]() {
         .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
         .queueFamilyIndex = device->get_graphics_queue().family_index,
     };
-    if (!check(device->call().vkCreateCommandPool(device->get(), &create_info, memory::alloc(), &cmd_pool)))
+    if (!device->vkCreateCommandPool(&create_info, memory::alloc(), &cmd_pool))
         return false;
 
     VkCommandBufferAllocateInfo alloc_info
@@ -173,7 +173,7 @@ auto build_cmd_bufs = [&]() {
         .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
         .commandBufferCount = frame_count,
     };
-    if (!check(device->call().vkAllocateCommandBuffers(device->get(), &alloc_info, cmd_bufs.data())))
+    if (!device->vkAllocateCommandBuffers(&alloc_info, cmd_bufs.data()))
         return false;
 
     VkCommandBufferBeginInfo begin_info
@@ -196,7 +196,7 @@ auto build_cmd_bufs = [&]() {
         auto cmd_buf = cmd_bufs[i];
         auto target_image = render_target->get_backbuffer_image(i);
 
-        if (!check(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
+        if (failed(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
             return false;
 
         insert_image_memory_barrier(device, cmd_buf, target_image,
@@ -214,7 +214,7 @@ auto build_cmd_bufs = [&]() {
                                     VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 
                                     image_range);
 
-        if (!check(device->call().vkEndCommandBuffer(cmd_buf)))
+        if (failed(device->call().vkEndCommandBuffer(cmd_buf)))
             return false;
     }
 
@@ -223,10 +223,8 @@ auto build_cmd_bufs = [&]() {
 
 auto clean_cmd_bufs = [&]() {
 
-    for (auto& cmd_buf : cmd_bufs)
-        device->call().vkFreeCommandBuffers(device->get(), cmd_pool, 1, &cmd_buf);
-
-    device->call().vkDestroyCommandPool(device->get(), cmd_pool, memory::alloc());
+    device->vkFreeCommandBuffers(cmd_pool, frame_count, cmd_bufs.data());
+    device->vkDestroyCommandPool(cmd_pool, memory::alloc());
 };
 
 build_cmd_bufs();

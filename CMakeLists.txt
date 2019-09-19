@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 3.12)
 
-project(liblava VERSION 0.4.2 LANGUAGES C CXX)
+project(liblava VERSION 0.4.3 LANGUAGES C CXX)
 
 message("")
 message("========================================================================")
@@ -18,7 +18,7 @@ message("  _|  _|  _|    _|      _|      _|    _|        _|  _|        _|    _| 
 message("  _|  _|  _|_|_|        _|        _|_|_|          _|            _|_|_|  ")
 message("                                                                        ")
 message("========================================================================")
-message(" 2019 preview 2                                                  v0.4.2 ")
+message(" 2019 preview 3                                                  v0.4.3 ")
 message("========================================================================")
 message(" https://git.io/liblava                                  lava-block.com ")
 message("========================================================================")

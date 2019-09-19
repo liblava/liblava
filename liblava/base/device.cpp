@@ -143,6 +143,11 @@ bool device::is_surface_supported(VkSurfaceKHR surface) const {
     return _physical_device->is_surface_supported(get_graphics_queue().family_index, surface);
 }
 
+VkPhysicalDevice device::get_vk_physical_device() const {
+
+    return _physical_device->get();
+}
+
 VkPhysicalDeviceFeatures const& device::get_features() const { return _physical_device->get_features(); }
 
 VkPhysicalDeviceProperties const& device::get_properties() const { return _physical_device->get_properties(); }
@@ -193,7 +198,7 @@ void device_manager::clear() {
 
 } // lava
 
-bool lava::load_and_create_shader_module(device* device, data const& data, VkShaderModule& out) {
+VkShaderModule lava::create_shader_module(device* device, data const& data) {
 
     VkShaderModuleCreateInfo shader_module_create_info
     {
@@ -202,11 +207,9 @@ bool lava::load_and_create_shader_module(device* device, data const& data, VkSha
         .pCode = reinterpret_cast<ui32*>(data.ptr),
     };
 
-    VkShaderModule new_module;
-    auto result = device->call().vkCreateShaderModule(device->get(), &shader_module_create_info, memory::alloc(), &new_module);
-    if (failed(result))
-        return false;
+    VkShaderModule result;
+    if (!device->vkCreateShaderModule(&shader_module_create_info, memory::alloc(), &result))
+        return nullptr;
 
-    out = new_module;
-    return true;
+    return result;
 }

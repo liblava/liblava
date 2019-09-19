@@ -112,7 +112,7 @@ LAVA_TEST(4, "clear color")
             .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
             .queueFamilyIndex = device->get_graphics_queue().family_index,
         };
-        if (!check(device->call().vkCreateCommandPool(device->get(), &create_info, memory::alloc(), &cmd_pool)))
+        if (!device->vkCreateCommandPool(&create_info, memory::alloc(), &cmd_pool))
             return false;
 
         VkCommandBufferAllocateInfo alloc_info
@@ -122,7 +122,7 @@ LAVA_TEST(4, "clear color")
             .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
             .commandBufferCount = frame_count,
         };
-        if (!check(device->call().vkAllocateCommandBuffers(device->get(), &alloc_info, cmd_bufs.data())))
+        if (!device->vkAllocateCommandBuffers(&alloc_info, cmd_bufs.data()))
             return false;
 
         VkCommandBufferBeginInfo begin_info
@@ -145,7 +145,7 @@ LAVA_TEST(4, "clear color")
             auto cmd_buf = cmd_bufs[i];
             auto target_image = render_target->get_backbuffer_image(i);
 
-            if (!check(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
+            if (failed(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
                 return false;
 
             insert_image_memory_barrier(device, cmd_buf, target_image,
@@ -160,7 +160,7 @@ LAVA_TEST(4, "clear color")
                                         VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
                                         VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, image_range);
 
-            if (!check(device->call().vkEndCommandBuffer(cmd_buf)))
+            if (failed(device->call().vkEndCommandBuffer(cmd_buf)))
                 return false;
         }
 
@@ -169,10 +169,8 @@ LAVA_TEST(4, "clear color")
 
     auto clean_cmd_bufs = [&]() {
 
-        for (auto& cmd_buf : cmd_bufs)
-            device->call().vkFreeCommandBuffers(device->get(), cmd_pool, 1, &cmd_buf);
-
-        device->call().vkDestroyCommandPool(device->get(), cmd_pool, memory::alloc());
+        device->vkFreeCommandBuffers(cmd_pool, frame_count, cmd_bufs.data());
+        device->vkDestroyCommandPool(cmd_pool, memory::alloc());
     };
 
     if (!build_cmd_bufs())

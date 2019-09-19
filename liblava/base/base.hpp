@@ -63,6 +63,14 @@ inline bool failed(VkResult result) { return !check(result); }
 string to_string(VkResult result);
 string version_to_string(ui32 version);
 
+struct vk_result {
+
+    bool state = false;
+    VkResult value = VK_NOT_READY;
+
+    operator bool() { return state; }
+};
+
 // limits
 
 static constexpr ui32 const Vk_Limit_DescriptorSets		= 4;

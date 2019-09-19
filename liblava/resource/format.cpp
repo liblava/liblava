@@ -345,9 +345,10 @@ bool lava::get_supported_depth_format(VkPhysicalDevice physical_device, VkFormat
     return false;
 }
 
-VkImageMemoryBarrier lava::new_image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout) {
+VkImageMemoryBarrier lava::image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout) {
 
     return {
+
         .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
         .pNext = nullptr,
         .srcAccessMask = 0,
@@ -361,40 +362,40 @@ VkImageMemoryBarrier lava::new_image_memory_barrier(VkImage image, VkImageLayout
     };
 }
 
-void lava::set_image_layout(VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout, VkImageLayout new_image_layout,
+void lava::set_image_layout(device* device, VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout, VkImageLayout new_image_layout,
                             VkImageSubresourceRange subresource_range, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
 
-    auto image_memory_barrier = new_image_memory_barrier(image, old_image_layout, new_image_layout);
-    image_memory_barrier.subresourceRange = subresource_range;
+    auto barrier = image_memory_barrier(image, old_image_layout, new_image_layout);
+    barrier.subresourceRange = subresource_range;
 
     switch (old_image_layout) {
 
         case VK_IMAGE_LAYOUT_UNDEFINED:
-            image_memory_barrier.srcAccessMask = 0;
+            barrier.srcAccessMask = 0;
             break;
 
         case VK_IMAGE_LAYOUT_PREINITIALIZED:
-            image_memory_barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
+            barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
             break;
 
         case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-            image_memory_barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+            barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
             break;
 
         case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-            image_memory_barrier.srcAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+            barrier.srcAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
             break;
 
         case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-            image_memory_barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+            barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
             break;
 
         case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-            image_memory_barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+            barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
             break;
 
         case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-            image_memory_barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
+            barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
             break;
         default:
             break;
@@ -403,36 +404,36 @@ void lava::set_image_layout(VkCommandBuffer cmd_buffer, VkImage image, VkImageLa
     switch (new_image_layout) {
 
         case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-            image_memory_barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+            barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
             break;
 
         case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-            image_memory_barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+            barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
             break;
 
         case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-            image_memory_barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+            barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
             break;
 
         case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-            image_memory_barrier.dstAccessMask = image_memory_barrier.dstAccessMask | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+            barrier.dstAccessMask = barrier.dstAccessMask | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
             break;
 
         case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-            if (image_memory_barrier.srcAccessMask == 0)
-                image_memory_barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
+            if (barrier.srcAccessMask == 0)
+                barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
 
-            image_memory_barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+            barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
             break;
         default:
             break;
     }
 
-    vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier);
+    device->call().vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 }
 
-void lava::set_image_layout(VkCommandBuffer cmd_buffer, VkImage image, VkImageAspectFlags aspect_mask, VkImageLayout old_image_layout,
-                            VkImageLayout new_image_layout, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
+void lava::set_image_layout(device* device, VkCommandBuffer cmd_buffer, VkImage image, VkImageAspectFlags aspect_mask, VkImageLayout old_image_layout,
+                                            VkImageLayout new_image_layout, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
 
     VkImageSubresourceRange subresource_range
     {
@@ -443,18 +444,18 @@ void lava::set_image_layout(VkCommandBuffer cmd_buffer, VkImage image, VkImageAs
         .layerCount = 1,
     };
 
-    set_image_layout(cmd_buffer, image, old_image_layout, new_image_layout, subresource_range, src_stage_mask, dst_stage_mask);
+    set_image_layout(device, cmd_buffer, image, old_image_layout, new_image_layout, subresource_range, src_stage_mask, dst_stage_mask);
 }
 
 void lava::insert_image_memory_barrier(lava::device* device, VkCommandBuffer cmd_buffer, VkImage image, VkAccessFlags src_access_mask, VkAccessFlags dst_access_mask,
                                         VkImageLayout old_image_layout, VkImageLayout new_image_layout, 
                                         VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask, VkImageSubresourceRange subresource_range) {
 
-    auto image_memory_barrier = new_image_memory_barrier(image, old_image_layout, new_image_layout);
+    auto barrier = image_memory_barrier(image, old_image_layout, new_image_layout);
 
-    image_memory_barrier.srcAccessMask = src_access_mask;
-    image_memory_barrier.dstAccessMask = dst_access_mask;
-    image_memory_barrier.subresourceRange = subresource_range;
+    barrier.srcAccessMask = src_access_mask;
+    barrier.dstAccessMask = dst_access_mask;
+    barrier.subresourceRange = subresource_range;
 
-    device->call().vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &image_memory_barrier);
+    device->call().vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 }

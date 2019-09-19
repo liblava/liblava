@@ -69,8 +69,6 @@ bool texture::create(device* device, uv2 size, VkFormat format, layer::list cons
     VkSamplerCreateInfo sampler_info
     {
         .sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO,
-        .pNext = nullptr,
-        .flags = 0,
         .magFilter = VK_FILTER_LINEAR,
         .minFilter = VK_FILTER_LINEAR,
         .mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR,
@@ -89,7 +87,7 @@ bool texture::create(device* device, uv2 size, VkFormat format, layer::list cons
     };
 
 
-    if (failed(device->call().vkCreateSampler(device->get(), &sampler_info, memory::alloc(), &sampler))) {
+    if (!device->vkCreateSampler(&sampler_info, memory::alloc(), &sampler)) {
 
         log()->error("texture create vkCreateSampler failed");
         return false;
@@ -182,8 +180,8 @@ bool texture::stage(VkCommandBuffer cmd_buffer) {
 
     auto device = _image->get_device();
 
-    set_image_layout(cmd_buffer, _image->get(), VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range,
-                                                VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
+    set_image_layout(device, cmd_buffer, _image->get(), VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range,
+                                                        VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
 
     std::vector<VkBufferImageCopy> regions;
 
@@ -248,12 +246,12 @@ bool texture::stage(VkCommandBuffer cmd_buffer) {
         regions.push_back(region);
     }
 
-    device->call().vkCmdCopyBufferToImage(cmd_buffer, upload_buffer->get(), _image->get(),
-                                            VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, to_ui32(regions.size()), regions.data());
+    device->call().vkCmdCopyBufferToImage(cmd_buffer, upload_buffer->get(), _image->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 
+                                                                to_ui32(regions.size()), regions.data());
 
-    set_image_layout(cmd_buffer, _image->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                                            VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, subresource_range,
-                                            VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+    set_image_layout(device, cmd_buffer, _image->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                                        VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, subresource_range,
+                                                        VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
 
     return true;
 }

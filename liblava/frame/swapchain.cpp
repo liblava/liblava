@@ -65,10 +65,10 @@ bool swapchain::resize(uv2 new_size) {
 void swapchain::set_surface_format() {
 
     auto count = 0u;
-    check(vkGetPhysicalDeviceSurfaceFormatsKHR(dev->get_physical_device()->get(), surface, &count, nullptr));
+    check(vkGetPhysicalDeviceSurfaceFormatsKHR(dev->get_vk_physical_device(), surface, &count, nullptr));
 
     std::vector<VkSurfaceFormatKHR> formats(count);
-    check(vkGetPhysicalDeviceSurfaceFormatsKHR(dev->get_physical_device()->get(), surface, &count, formats.data()));
+    check(vkGetPhysicalDeviceSurfaceFormatsKHR(dev->get_vk_physical_device(), surface, &count, formats.data()));
 
     if (count == 1) {
 
@@ -122,14 +122,14 @@ VkPresentModeKHR swapchain::choose_present_mode(VkPresentModeKHRs const& present
 bool swapchain::create_internal() {
 
     auto present_mode_count = 0u;
-    if (vkGetPhysicalDeviceSurfacePresentModesKHR(dev->get_physical_device()->get(), surface, &present_mode_count, nullptr) != VK_SUCCESS || present_mode_count == 0) {
+    if (vkGetPhysicalDeviceSurfacePresentModesKHR(dev->get_vk_physical_device(), surface, &present_mode_count, nullptr) != VK_SUCCESS || present_mode_count == 0) {
 
         log()->error("swapchain::create_internal vkGetPhysicalDeviceSurfacePresentModesKHR(1) failed");
         return false;
     }
 
     VkPresentModeKHRs present_modes(present_mode_count);
-    if (vkGetPhysicalDeviceSurfacePresentModesKHR(dev->get_physical_device()->get(), surface, &present_mode_count, present_modes.data()) != VK_SUCCESS) {
+    if (vkGetPhysicalDeviceSurfacePresentModesKHR(dev->get_vk_physical_device(), surface, &present_mode_count, present_modes.data()) != VK_SUCCESS) {
 
         log()->error("swapchain::create_internal vkGetPhysicalDeviceSurfacePresentModesKHR(2) failed");
         return false;
@@ -159,7 +159,7 @@ bool swapchain::create_internal() {
     };
 
     VkSurfaceCapabilitiesKHR cap{};
-    check(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(dev->get_physical_device()->get(), surface, &cap));
+    check(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(dev->get_vk_physical_device(), surface, &cap));
 
     if (cap.maxImageCount > 0)
         info.minImageCount = (cap.minImageCount + 2 < cap.maxImageCount) ? (cap.minImageCount + 2) : cap.maxImageCount;
@@ -181,13 +181,16 @@ bool swapchain::create_internal() {
 
     info.preTransform = cap.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR ? VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR : cap.currentTransform;
 
-    check(dev->call().vkCreateSwapchainKHR(dev->get(), &info, memory::alloc(), &vk_swapchain));
+    if (!dev->vkCreateSwapchainKHR(&info, memory::alloc(), &vk_swapchain))
+        return false;
 
     auto backbuffer_count = 0u;
-    check(dev->call().vkGetSwapchainImagesKHR(dev->get(), vk_swapchain, &backbuffer_count, nullptr));
+    if (!dev->vkGetSwapchainImagesKHR(vk_swapchain, &backbuffer_count, nullptr))
+        return false;
 
     VkImages images(backbuffer_count);
-    check(dev->call().vkGetSwapchainImagesKHR(dev->get(), vk_swapchain, &backbuffer_count, images.data()));
+    if (!dev->vkGetSwapchainImagesKHR(vk_swapchain, &backbuffer_count, images.data()))
+        return false;
 
     for (auto& image : images) {
 
@@ -208,7 +211,7 @@ bool swapchain::create_internal() {
     }
 
     if (old_swapchain)
-        dev->call().vkDestroySwapchainKHR(dev->get(), old_swapchain, memory::alloc());
+        dev->vkDestroySwapchainKHR(old_swapchain, memory::alloc());
 
     return true;
 }
@@ -218,7 +221,7 @@ void swapchain::destroy_internal() {
     if (!vk_swapchain)
         return;
 
-    dev->call().vkDestroySwapchainKHR(dev->get(), vk_swapchain, memory::alloc());
+    dev->vkDestroySwapchainKHR(vk_swapchain, memory::alloc());
     vk_swapchain = nullptr;
 }
 

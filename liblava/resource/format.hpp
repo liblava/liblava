@@ -27,22 +27,22 @@ ui32 format_block_size(VkFormat format);
 
 bool get_supported_depth_format(VkPhysicalDevice physical_device, VkFormat* depth_format);
 
-VkImageMemoryBarrier new_image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout);
+VkImageMemoryBarrier image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout);
 
-void set_image_layout(VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout,
-                        VkImageLayout new_image_layout, VkImageSubresourceRange subresource_range,
-                        VkPipelineStageFlags src_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
-                        VkPipelineStageFlags dst_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
+void set_image_layout(device* device, VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout,
+                                        VkImageLayout new_image_layout, VkImageSubresourceRange subresource_range,
+                                        VkPipelineStageFlags src_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
+                                        VkPipelineStageFlags dst_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
 
-void set_image_layout(VkCommandBuffer cmd_buffer, VkImage image, VkImageAspectFlags aspect_mask,
-                        VkImageLayout old_image_layout, VkImageLayout new_image_layout,
-                        VkPipelineStageFlags src_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
-                        VkPipelineStageFlags dst_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
+void set_image_layout(device* device, VkCommandBuffer cmd_buffer, VkImage image, VkImageAspectFlags aspect_mask,
+                                        VkImageLayout old_image_layout, VkImageLayout new_image_layout,
+                                        VkPipelineStageFlags src_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
+                                        VkPipelineStageFlags dst_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
 
 void insert_image_memory_barrier(lava::device* device, VkCommandBuffer cmd_buffer, VkImage image, VkAccessFlags src_access_mask,
-                                    VkAccessFlags dst_access_mask, VkImageLayout old_image_layout,
-                                    VkImageLayout new_image_layout, VkPipelineStageFlags src_stage_mask,
-                                    VkPipelineStageFlags dst_stage_mask,
-                                    VkImageSubresourceRange subresource_range);
+                                                        VkAccessFlags dst_access_mask, VkImageLayout old_image_layout,
+                                                        VkImageLayout new_image_layout, VkPipelineStageFlags src_stage_mask,
+                                                        VkPipelineStageFlags dst_stage_mask,
+                                                        VkImageSubresourceRange subresource_range);
 
 } // lava

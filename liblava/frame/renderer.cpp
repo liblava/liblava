@@ -29,7 +29,7 @@ bool renderer::create(swapchain* target_) {
                 .flags = VK_FENCE_CREATE_SIGNALED_BIT,
             };
 
-            if (failed(dev->call().vkCreateFence(dev->get(), &create_info, memory::alloc(), &fences[i])))
+            if (!dev->vkCreateFence(&create_info, memory::alloc(), &fences[i]))
                 return false;
         }
 
@@ -39,10 +39,10 @@ bool renderer::create(swapchain* target_) {
                 .sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO,
             };
 
-            if (failed(dev->call().vkCreateSemaphore(dev->get(), &create_info, memory::alloc(), &image_acquired_semaphores[i])))
+            if (!dev->vkCreateSemaphore(&create_info, memory::alloc(), &image_acquired_semaphores[i]))
                 return false;
 
-            if (failed(dev->call().vkCreateSemaphore(dev->get(), &create_info, memory::alloc(), &render_complete_semaphores[i])))
+            if (!dev->vkCreateSemaphore(&create_info, memory::alloc(), &render_complete_semaphores[i]))
                 return false;
         }
     }
@@ -57,9 +57,9 @@ void renderer::destroy() {
 
     for (auto i = 0u; i < queued_frames; ++i) {
 
-        dev->call().vkDestroyFence(dev->get(), fences[i], memory::alloc());
-        dev->call().vkDestroySemaphore(dev->get(), image_acquired_semaphores[i], memory::alloc());
-        dev->call().vkDestroySemaphore(dev->get(), render_complete_semaphores[i], memory::alloc());
+        dev->vkDestroyFence(fences[i], memory::alloc());
+        dev->vkDestroySemaphore(image_acquired_semaphores[i], memory::alloc());
+        dev->vkDestroySemaphore(render_complete_semaphores[i], memory::alloc());
     }
 
     fences.clear();
@@ -78,36 +78,36 @@ std::optional<index> renderer::begin_frame() {
 
     for (;;) {
 
-        auto result = dev->call().vkWaitForFences(dev->get(), to_ui32(wait_fences.size()), wait_fences.data(), VK_TRUE, 100);
-        if (result == VK_SUCCESS)
+        auto result = dev->vkWaitForFences(to_ui32(wait_fences.size()), wait_fences.data(), VK_TRUE, 100);
+        if (result)
             break;
 
-        if (result == VK_TIMEOUT)
+        if (result.value == VK_TIMEOUT)
             continue;
 
-        if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+        if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
 
             target->request_reload();
             return {};
         }
 
-        if (failed(result))
+        if (!result)
             return {};
     }
 
     auto current_semaphore = image_acquired_semaphores[current_sync];
 
-    auto result = dev->call().vkAcquireNextImageKHR(dev->get(), target->get(), UINT64_MAX, current_semaphore, nullptr, &frame_index);
-    if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+    auto result = dev->vkAcquireNextImageKHR(target->get(), UINT64_MAX, current_semaphore, nullptr, &frame_index);
+    if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
 
         target->request_reload();
         return {};
     }
 
-    if (failed(result))
+    if (!result)
         return {};
 
-    if (!check(dev->call().vkResetFences(dev->get(), to_ui32(wait_fences.size()), wait_fences.data())))
+    if (!dev->vkResetFences(to_ui32(wait_fences.size()), wait_fences.data()))
         return {};
 
     return get_current_frame();
@@ -137,7 +137,7 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
     std::array<VkSubmitInfo, 1> const submit_infos = { submit_info };
     VkFence current_fence = fences[current_sync];
 
-    if (failed(dev->call().vkQueueSubmit(queue.vk_queue, to_ui32(submit_infos.size()), submit_infos.data(), current_fence)))
+    if (!dev->vkQueueSubmit(queue.vk_queue, to_ui32(submit_infos.size()), submit_infos.data(), current_fence))
         return false;
 
     std::array<VkSwapchainKHR, 1> const swapchains = { target->get() };
@@ -153,8 +153,8 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
         .pImageIndices = indices.data(),
     };
 
-    if (failed(dev->call().vkQueuePresentKHR(queue.vk_queue, &present_info)))
-    return false;
+    if (!dev->vkQueuePresentKHR(queue.vk_queue, &present_info))
+        return false;
 
     current_sync = (current_sync + 1) % queued_frames;
 
