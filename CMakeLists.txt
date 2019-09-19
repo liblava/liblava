@@ -196,7 +196,7 @@ message(">>> ext/selene")
 
 add_subdirectory(${LIBLAVA_EXT_DIR}/selene selene EXCLUDE_FROM_ALL)
 
-message("<<< ext/glfw")
+message("<<< ext/selene")
 
 target_link_libraries(lava.resource
         lava.base
