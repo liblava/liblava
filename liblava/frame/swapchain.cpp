@@ -181,7 +181,7 @@ bool swapchain::create_internal() {
 
     info.preTransform = cap.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR ? VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR : cap.currentTransform;
 
-    if (!dev->vkCreateSwapchainKHR(&info, memory::alloc(), &vk_swapchain))
+    if (!dev->vkCreateSwapchainKHR(&info,  &vk_swapchain))
         return false;
 
     auto backbuffer_count = 0u;
@@ -211,7 +211,7 @@ bool swapchain::create_internal() {
     }
 
     if (old_swapchain)
-        dev->vkDestroySwapchainKHR(old_swapchain, memory::alloc());
+        dev->vkDestroySwapchainKHR(old_swapchain);
 
     return true;
 }
@@ -221,7 +221,7 @@ void swapchain::destroy_internal() {
     if (!vk_swapchain)
         return;
 
-    dev->vkDestroySwapchainKHR(vk_swapchain, memory::alloc());
+    dev->vkDestroySwapchainKHR(vk_swapchain);
     vk_swapchain = nullptr;
 }
 

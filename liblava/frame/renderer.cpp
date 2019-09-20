@@ -29,7 +29,7 @@ bool renderer::create(swapchain* target_) {
                 .flags = VK_FENCE_CREATE_SIGNALED_BIT,
             };
 
-            if (!dev->vkCreateFence(&create_info, memory::alloc(), &fences[i]))
+            if (!dev->vkCreateFence(&create_info, &fences[i]))
                 return false;
         }
 
@@ -39,10 +39,10 @@ bool renderer::create(swapchain* target_) {
                 .sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO,
             };
 
-            if (!dev->vkCreateSemaphore(&create_info, memory::alloc(), &image_acquired_semaphores[i]))
+            if (!dev->vkCreateSemaphore(&create_info, &image_acquired_semaphores[i]))
                 return false;
 
-            if (!dev->vkCreateSemaphore(&create_info, memory::alloc(), &render_complete_semaphores[i]))
+            if (!dev->vkCreateSemaphore(&create_info, &render_complete_semaphores[i]))
                 return false;
         }
     }
@@ -57,9 +57,9 @@ void renderer::destroy() {
 
     for (auto i = 0u; i < queued_frames; ++i) {
 
-        dev->vkDestroyFence(fences[i], memory::alloc());
-        dev->vkDestroySemaphore(image_acquired_semaphores[i], memory::alloc());
-        dev->vkDestroySemaphore(render_complete_semaphores[i], memory::alloc());
+        dev->vkDestroyFence(fences[i]);
+        dev->vkDestroySemaphore(image_acquired_semaphores[i]);
+        dev->vkDestroySemaphore(render_complete_semaphores[i]);
     }
 
     fences.clear();
@@ -110,7 +110,7 @@ std::optional<index> renderer::begin_frame() {
     if (!dev->vkResetFences(to_ui32(wait_fences.size()), wait_fences.data()))
         return {};
 
-    return get_current_frame();
+    return get_frame();
 }
 
 bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {

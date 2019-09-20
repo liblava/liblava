@@ -86,14 +86,14 @@ bool image::create(device* device, uv2 size, VmaMemoryUsage memory_usage, bool m
     view_info.image = vk_image;
     view_info.subresourceRange = subresource_range;
 
-    return device->vkCreateImageView(&view_info, memory::alloc(), &view);
+    return device->vkCreateImageView(&view_info, &view);
 }
 
 void image::destroy(bool only_view) {
 
     if (view) {
 
-        dev->vkDestroyImageView(view, memory::alloc());
+        dev->vkDestroyImageView(view);
         view = nullptr;
     }
 

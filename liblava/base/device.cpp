@@ -208,7 +208,7 @@ VkShaderModule lava::create_shader_module(device* device, data const& data) {
     };
 
     VkShaderModule result;
-    if (!device->vkCreateShaderModule(&shader_module_create_info, memory::alloc(), &result))
+    if (!device->vkCreateShaderModule(&shader_module_create_info, &result))
         return nullptr;
 
     return result;

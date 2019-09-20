@@ -87,7 +87,7 @@ bool texture::create(device* device, uv2 size, VkFormat format, layer::list cons
     };
 
 
-    if (!device->vkCreateSampler(&sampler_info, memory::alloc(), &sampler)) {
+    if (!device->vkCreateSampler(&sampler_info, &sampler)) {
 
         log()->error("texture create vkCreateSampler failed");
         return false;
@@ -137,7 +137,7 @@ void texture::destroy() {
     if (sampler) {
 
         if (device)
-            device->call().vkDestroySampler(device->get(), sampler, memory::alloc());
+            device->vkDestroySampler(sampler);
 
         sampler = nullptr;
     }
@@ -156,9 +156,9 @@ void texture::destroy_upload_buffer() {
 
 bool texture::upload(void const* data, size_t data_size) {
 
-    auto device = _image->get_device();
     upload_buffer = buffer::make();
-    return upload_buffer->create(device, data, data_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, false, VMA_MEMORY_USAGE_CPU_TO_GPU);
+
+    return upload_buffer->create(_image->get_device(), data, data_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, false, VMA_MEMORY_USAGE_CPU_TO_GPU);
 }
 
 bool texture::stage(VkCommandBuffer cmd_buffer) {

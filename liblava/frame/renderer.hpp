@@ -26,7 +26,7 @@ struct renderer {
         return end_frame(cmd_buffers);
     }
 
-    index get_current_frame() const { return frame_index; }
+    index get_frame() const { return frame_index; }
 
     using destroy_func = std::function<void()>;
     destroy_func on_destroy;

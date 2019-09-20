@@ -163,7 +163,7 @@ auto build_cmd_bufs = [&]() {
         .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
         .queueFamilyIndex = device->get_graphics_queue().family_index,
     };
-    if (!device->vkCreateCommandPool(&create_info, memory::alloc(), &cmd_pool))
+    if (!device->vkCreateCommandPool(&create_info, &cmd_pool))
         return false;
 
     VkCommandBufferAllocateInfo alloc_info
@@ -224,7 +224,7 @@ auto build_cmd_bufs = [&]() {
 auto clean_cmd_bufs = [&]() {
 
     device->vkFreeCommandBuffers(cmd_pool, frame_count, cmd_bufs.data());
-    device->vkDestroyCommandPool(cmd_pool, memory::alloc());
+    device->vkDestroyCommandPool(cmd_pool);
 };
 
 build_cmd_bufs();
