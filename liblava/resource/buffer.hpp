@@ -9,7 +9,7 @@
 
 namespace lava {
 
-struct buffer {
+struct buffer : id_obj {
 
     using ptr = std::shared_ptr<buffer>;
     using list = std::vector<ptr>;
@@ -17,8 +17,7 @@ struct buffer {
     static VkPipelineStageFlags usage_to_possible_stages(VkBufferUsageFlags usage);
     static VkAccessFlags usage_to_possible_access(VkBufferUsageFlags usage);
 
-    explicit buffer();
-    ~buffer();
+    ~buffer() { destroy(); }
 
     static ptr make() { return std::make_shared<buffer>(); }
 
@@ -26,7 +25,6 @@ struct buffer {
                                 VmaMemoryUsage memoryUsage = VMA_MEMORY_USAGE_GPU_ONLY);
     void destroy();
 
-    id::ref get_id() const { return _id; }
     device* get_device() { return dev; }
 
     bool is_valid() const { return vk_buffer != nullptr; }
@@ -41,7 +39,6 @@ struct buffer {
     void flush(VkDeviceSize offset = 0, VkDeviceSize size = VK_WHOLE_SIZE);
 
 private:
-    id _id;
     device* dev = nullptr;
 
     VkBuffer vk_buffer = nullptr;

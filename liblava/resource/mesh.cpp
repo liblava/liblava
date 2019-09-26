@@ -41,15 +41,6 @@
 
 namespace lava {
 
-mesh::mesh() : _id(ids::next()) {}
-
-mesh::~mesh() {
-
-    ids::free(_id);
-
-    destroy();
-}
-
 void mesh::add_data(mesh_data const& value) {
 
     auto index_base = to_ui32(data.vertices.size());

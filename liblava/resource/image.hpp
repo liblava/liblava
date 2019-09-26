@@ -11,7 +11,7 @@
 
 namespace lava {
 
-struct image {
+struct image : id_obj {
 
     using ptr = std::shared_ptr<image>;
     using map = std::map<id, ptr>;
@@ -21,13 +21,11 @@ struct image {
     static ptr make(VkFormat format, device* device, uv2 size, VkImage vk_image = nullptr);
 
     explicit image(VkFormat format, VkImage vk_image = nullptr);
-    ~image();
 
     bool create(device* device, uv2 size, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY, bool mip_levels_generation = false);
     void destroy(bool only_view = false);
     void destroy_view() { destroy(true); }
 
-    id::ref get_id() const { return _id; }
     device* get_device() { return dev; }
 
     VkFormat get_format() const { return info.format; }
@@ -55,7 +53,6 @@ struct image {
     void set_view_type(VkImageViewType type) { view_info.viewType = type; }
 
 private:
-    id _id;
     device* dev = nullptr;
 
     VkImage vk_image = nullptr;

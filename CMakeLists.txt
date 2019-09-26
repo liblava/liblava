@@ -124,6 +124,7 @@ message(">> liblava/base")
 add_library(lava.base STATIC
         ${LIBLAVA_DIR}/base/base.cpp
         ${LIBLAVA_DIR}/base/base.hpp
+        ${LIBLAVA_DIR}/base/device_table.hpp
         ${LIBLAVA_DIR}/base/device.cpp
         ${LIBLAVA_DIR}/base/device.hpp
         ${LIBLAVA_DIR}/base/instance.cpp
@@ -142,8 +143,19 @@ target_include_directories(lava.base PUBLIC
         )
 
 target_link_libraries(lava.base 
-        lava.utils 
+        lava.utils
         ${CMAKE_DL_LIBS}
+        )
+
+message(">> liblava/block")
+
+add_library(lava.block STATIC
+        ${LIBLAVA_DIR}/block/block.cpp
+        ${LIBLAVA_DIR}/block/block.hpp
+        )
+
+target_link_libraries(lava.block 
+        lava.base
         )
 
 message(">> liblava/resource")
@@ -249,6 +261,6 @@ add_executable(lava
         ${LIBLAVA_TESTS_DIR}/tests.cpp
         )
 
-target_link_libraries(lava lava.frame)
+target_link_libraries(lava lava.frame lava.block)
 
 message("========================================================================")

@@ -5,7 +5,7 @@
 liblava is a lean framework that provides essentials for low-level graphics and is specially well suited for prototyping, tooling and education.
 
     + C++20 standard
-    + Modular (5 modules)
+    + Modular (6 modules)
     + Cross Platform (Windows | Linux)
 
 ![version](https://img.shields.io/badge/version-0.4.3-blue) [![LoC](https://tokei.rs/b1/github/liblava/liblava?category=code)](https://github.com/liblava/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/thelavablock)
@@ -17,6 +17,7 @@ liblava is a lean framework that provides essentials for low-level graphics and 
 * run loop abstraction
 * window and input handling
 * render target and renderer
+* command buffer modeling
 * load texture and mesh
 * file system and logging
 * test driver
@@ -161,7 +162,7 @@ auto build_cmd_bufs = [&]() {
     VkCommandPoolCreateInfo create_info
     {
         .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
-        .queueFamilyIndex = device->get_graphics_queue().family_index,
+        .queueFamilyIndex = device->get_graphics_queue().family,
     };
     if (!device->vkCreateCommandPool(&create_info, &cmd_pool))
         return false;
@@ -194,21 +195,21 @@ auto build_cmd_bufs = [&]() {
     for (auto i = 0u; i < frame_count; i++) {
 
         auto cmd_buf = cmd_bufs[i];
-        auto target_image = render_target->get_backbuffer_image(i);
+        auto frame_image = render_target->get_backbuffer_image(i);
 
         if (failed(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
             return false;
 
-        insert_image_memory_barrier(device, cmd_buf, target_image,
+        insert_image_memory_barrier(device, cmd_buf, frame_image,
                                     VK_ACCESS_MEMORY_READ_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
                                     VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
                                     VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, 
                                     image_range);
 
-        device->call().vkCmdClearColorImage(cmd_buf, target_image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 
+        device->call().vkCmdClearColorImage(cmd_buf, frame_image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 
                                             &clear_color, 1, &image_range);
 
-        insert_image_memory_barrier(device, cmd_buf, target_image,
+        insert_image_memory_barrier(device, cmd_buf, frame_image,
                                     VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_MEMORY_READ_BIT,
                                     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
                                     VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 
@@ -227,7 +228,8 @@ auto clean_cmd_bufs = [&]() {
     device->vkDestroyCommandPool(cmd_pool);
 };
 
-build_cmd_bufs();
+if (!build_cmd_bufs())
+	return error::create_failed;
 
 render_target->on_swapchain_start = build_cmd_bufs;
 render_target->on_swapchain_stop = clean_cmd_bufs;
@@ -270,7 +272,85 @@ frame.add_run_end([&]() {
 return frame.run() ? 0 : error::aborted;
 ```
 
-Check the [Awesome Vulkan ecosystem](http://www.vinjn.com/awesome-vulkan/) to learn more about Vulkan (Tutorials/Samples/Books).
+Welcome on **Planet Vulkan**. That's a lot to display a colored window.
+
+Take a closer look at the `build_cmd_bufs` function: 
+
+- We create a command pool and command buffers for each frame of the render target. 
+- We set each command buffer to clear the frame image with some random color. 
+
+Watch out the *VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT* flag that specifies the reusage of command buffers.
+
+The `clean_cmd_bufs` function frees all buffers and destroys the command pool. 
+
+In case of swap chain restoration we simply recreate the command buffers with a new random color. This happens for example on window resize.
+
+That's a static example with command buffer reusage.
+
+Vulkan supports a more dynamic and common usage by resetting the command pool before recording commands. 
+
+It's time for `lava::block`...
+
+#### 5. color block
+
+```c++
+block block;
+
+if (!block.create(device, frame_count, device->get_graphics_queue().family))
+    return error::create_failed;
+
+block.add_command([&](VkCommandBuffer cmd_buf) {
+
+    VkClearColorValue clear_color = { random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f), 0.f };
+
+    VkImageSubresourceRange image_range
+    {
+        .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+        .levelCount = 1,
+        .layerCount = 1,
+    };
+
+    auto frame_image = render_target->get_backbuffer_image(block.get_current_frame());
+
+    insert_image_memory_barrier(device, cmd_buf, frame_image,
+                                VK_ACCESS_MEMORY_READ_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
+                                VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, 
+                                image_range);
+
+    device->call().vkCmdClearColorImage(cmd_buf, frame_image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 
+                                        &clear_color, 1, &image_range);
+
+    insert_image_memory_barrier(device, cmd_buf, frame_image,
+                                VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_MEMORY_READ_BIT,
+                                VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+                                VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, 
+                                image_range);
+});
+```
+
+This is much more simpler than before: 
+
+We create a `lava::block` and add the command that clears the current frame image.
+
+Now all we need to do is to process the block in the run loop...
+
+```c++
+if (!block.process(*frame_index))
+    return false;
+
+return simple_renderer.end_frame(block.get_buffers());
+```
+
+... and call the renderer with the recorded command buffers.
+
+Don't forget to destroy the block at the run end:
+
+```c++
+block.destroy();
+```
+
+Check [Awesome Vulkan ecosystem](http://www.vinjn.com/awesome-vulkan/) for tutorials, samples and books.
 
 ## tests
 

@@ -44,15 +44,6 @@ VkAccessFlags buffer::usage_to_possible_access(VkBufferUsageFlags usage) {
     return flags;
 }
 
-buffer::buffer() : _id(ids::next()) {}
-
-buffer::~buffer() {
-
-    ids::free(_id);
-
-    destroy();
-}
-
 bool buffer::create(device* device, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped, VmaMemoryUsage memoryUsage) {
 
     dev = device;

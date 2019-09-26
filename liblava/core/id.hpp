@@ -160,6 +160,17 @@ private:
     typename T::listeners list = {};
 };
 
+struct id_obj : interface {
+
+    id_obj() : _id(ids::next()) {}
+    ~id_obj() { ids::free(_id); }
+
+    id::ref get_id() const { return _id; }
+
+private:
+    id _id;
+};
+
 template <typename T, typename Meta>
 struct registry {
 

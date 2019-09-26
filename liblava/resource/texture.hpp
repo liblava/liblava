@@ -19,7 +19,7 @@ struct file_format {
     VkFormat format = VK_FORMAT_R8G8B8A8_UNORM;
 };
 
-struct texture {
+struct texture : id_obj {
 
     using ptr = std::shared_ptr<texture>;
     using map = std::map<id, ptr>;
@@ -40,8 +40,7 @@ struct texture {
         mip_level::list levels;
     };
 
-    explicit texture();
-    ~texture();
+    ~texture() { destroy(); }
 
     static ptr make() { return std::make_shared<texture>(); }
 
@@ -58,13 +57,9 @@ struct texture {
     uv2 get_size() const { return _image ? _image->get_size() : uv2(); }
     texture_type get_type() const { return type; }
 
-    id::ref get_id() const { return _id; }
-
     VkFormat get_format() const { return _image ? _image->get_format() : VK_FORMAT_UNDEFINED; }
 
 private:
-    id _id;
-
     image::ptr _image;
 
     texture_type type = texture_type::none;

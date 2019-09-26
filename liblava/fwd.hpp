@@ -37,12 +37,17 @@ namespace lava {
     struct thread_pool;
 
     // liblava/base.h
+    struct device_table;
     struct device_manager;
     struct device;
     struct instance;
     struct allocator;
     struct memory;
     struct physical_device;
+
+    // liblava/block.h
+    struct command;
+    struct block;
 
     // liblava/resource.h
     struct buffer;

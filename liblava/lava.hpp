@@ -7,5 +7,6 @@
 #include <liblava/core.hpp>
 #include <liblava/utils.hpp>
 #include <liblava/base.hpp>
+#include <liblava/block.hpp>
 #include <liblava/resource.hpp>
 #include <liblava/frame.hpp>

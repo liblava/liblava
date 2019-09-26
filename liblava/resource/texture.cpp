@@ -37,15 +37,6 @@
 
 namespace lava {
 
-texture::texture() : _id(ids::next()) {}
-
-texture::~texture() {
-
-    ids::free(_id);
-
-    destroy();
-}
-
 bool texture::create(device* device, uv2 size, VkFormat format, layer::list const& layers_, texture_type type_) {
 
     layers = layers_;

@@ -8,11 +8,6 @@
 
 namespace lava {
 
-device::~device() {
-
-    destroy();
-}
-
 bool device::create(create_param const& param) {
 
     _physical_device = param._physical_device;
@@ -55,7 +50,7 @@ bool device::create(create_param const& param) {
         return false;
     }
 
-    volkLoadDeviceTable(&table, vk_device);
+    load_table();
 
     graphics_queues.clear();
     compute_queues.clear();
@@ -140,7 +135,7 @@ bool device::create_descriptor_pool() {
 
 bool device::is_surface_supported(VkSurfaceKHR surface) const {
 
-    return _physical_device->is_surface_supported(get_graphics_queue().family_index, surface);
+    return _physical_device->is_surface_supported(get_graphics_queue().family, surface);
 }
 
 VkPhysicalDevice device::get_vk_physical_device() const {
@@ -208,7 +203,7 @@ VkShaderModule lava::create_shader_module(device* device, data const& data) {
     };
 
     VkShaderModule result;
-    if (!device->vkCreateShaderModule(&shader_module_create_info, &result))
+    if (!device->vkCreateShaderModule(&shader_module_create_info, memory::alloc(), &result))
         return nullptr;
 
     return result;

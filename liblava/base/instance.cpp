@@ -30,8 +30,7 @@ instance::instance() : _impl(std::make_unique<impl>(this)) {}
 
 instance::~instance() {
 
-    if (vk_instance)
-        destroy();
+    destroy();
 }
 
 bool instance::create(create_param& param, debug& debug, name appName) {

@@ -6,7 +6,7 @@
 
 namespace lava {
 
-image::image(VkFormat format, VkImage vk_image) : _id(ids::next()), vk_image(vk_image) {
+image::image(VkFormat format, VkImage vk_image) : vk_image(vk_image) {
 
     info =
     {
@@ -48,8 +48,6 @@ image::image(VkFormat format, VkImage vk_image) : _id(ids::next()), vk_image(vk_
         .subresourceRange = subresource_range,
     };
 }
-
-image::~image() { ids::free(_id); }
 
 image::ptr image::make(VkFormat format, VkImage vk_image) { return std::make_shared<image>(format, vk_image);  }
 

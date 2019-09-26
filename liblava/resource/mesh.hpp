@@ -43,7 +43,7 @@ struct mesh_data {
     }
 };
 
-struct mesh {
+struct mesh : id_obj {
 
     using ptr = std::shared_ptr<mesh>;
     using map = std::map<id, ptr>;
@@ -51,8 +51,7 @@ struct mesh {
 
     static ptr make() { return std::make_shared<mesh>(); }
 
-    explicit mesh();
-    ~mesh();
+    ~mesh() { destroy(); }
 
     bool create(device* device, bool mapped = false, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
     void destroy();
@@ -60,7 +59,6 @@ struct mesh {
     void bind(VkCommandBuffer cmd_buffer) const;
     void draw(VkCommandBuffer cmd_buffer) const;
 
-    id::ref get_id() const { return _id; }
     device* get_device() { return dev; }
 
     bool empty() const { return data.vertices.empty(); }
@@ -83,7 +81,6 @@ struct mesh {
     buffer::ptr get_index_buffer() { return index_buffer; }
 
 private:
-    id _id;
     device* dev = nullptr;
 
     mesh_data data;

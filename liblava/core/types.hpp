@@ -111,12 +111,20 @@ inline ui64 to_ui64(T value) { return static_cast<ui64>(value); }
 template <typename T>
 inline size_t to_size_t(T value) { return static_cast<size_t>(value); }
 
+template <typename T>
+inline index to_index(T value) { return static_cast<index>(value); }
+
 struct no_copy_no_move {
 
     no_copy_no_move() = default;
     no_copy_no_move(no_copy_no_move const&) = delete;
 
     void operator=(no_copy_no_move const&) = delete;
+};
+
+struct interface {
+
+    virtual ~interface() = default;
 };
 
 } // lava
