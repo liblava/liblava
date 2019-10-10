@@ -27,9 +27,6 @@ struct render_target {
     bool create(device* device, VkSurfaceKHR surface, uv2 size);
     void destroy();
 
-    void set_clear_color(v3 value = default_color);
-    VkClearColorValue get_clear_color() const { return clear_color; }
-
     uv2 get_size() const { return _swapchain.get_size(); }
     bool resize(uv2 new_size) { return _swapchain.resize(new_size); }
 
@@ -76,7 +73,6 @@ struct render_target {
 private:
     swapchain _swapchain;
     swapchain::callback _swapchain_callback;
-    VkClearColorValue clear_color = {};
 
     callback::list target_callbacks;
 };

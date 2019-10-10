@@ -13,8 +13,6 @@ bool render_target::create(device* device, VkSurfaceKHR surface, uv2 size) {
     if (!_swapchain.create(device, surface, size))
         return false;
 
-    set_clear_color();
-
     _swapchain_callback.on_created = [&]() {
 
         if (on_create_attachments) {
@@ -56,14 +54,6 @@ void render_target::destroy() {
 
     _swapchain.remove_callback(&_swapchain_callback);
     _swapchain.destroy();
-}
-
-void render_target::set_clear_color(v3 value) {
-
-    clear_color.float32[0] = value.r;
-    clear_color.float32[1] = value.g;
-    clear_color.float32[2] = value.b;
-    clear_color.float32[3] = 1.f;
 }
 
 } // lava

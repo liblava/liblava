@@ -37,7 +37,7 @@ set(LIBLAVA_TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
 # add_subdirectory(ext)
 
-message(">> liblava/core")
+message(">> lava::core")
 
 if(CMAKE_COMPILER_IS_GNUCXX)
         find_package (Threads)
@@ -71,7 +71,9 @@ if(CMAKE_COMPILER_IS_GNUCXX)
                 )
 endif()
 
-message(">> liblava/utils")
+add_library(lava::core ALIAS lava.core)
+
+message(">> lava::utils")
 
 add_library(lava.utils STATIC
         ${LIBLAVA_DIR}/utils/file.cpp
@@ -95,7 +97,7 @@ target_include_directories(lava.utils PUBLIC
         ${LIBLAVA_EXT_DIR}/json/single_include
         )
 
-message(">>> ext/physfs")
+message(">>> physfs")
 
 set(PHYSFS_ARCHIVE_ZIP ON CACHE BOOL "" FORCE)
 set(PHYSFS_ARCHIVE_7Z OFF CACHE BOOL "" FORCE)
@@ -112,14 +114,16 @@ set(PHYSFS_BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(PHYSFS_BUILD_TEST OFF CACHE BOOL "" FORCE)
 add_subdirectory(${LIBLAVA_EXT_DIR}/physfs physfs EXCLUDE_FROM_ALL)
 
-message("<<< ext/physfs")
+message("<<< physfs")
 
 target_link_libraries(lava.utils
-        lava.core
+        lava::core
         physfs-static
         )
 
-message(">> liblava/base")
+add_library(lava::utils ALIAS lava.utils)
+
+message(">> lava::base")
 
 add_library(lava.base STATIC
         ${LIBLAVA_DIR}/base/base.cpp
@@ -143,11 +147,13 @@ target_include_directories(lava.base PUBLIC
         )
 
 target_link_libraries(lava.base 
-        lava.utils
+        lava::utils
         ${CMAKE_DL_LIBS}
         )
 
-message(">> liblava/block")
+add_library(lava::base ALIAS lava.base)
+
+message(">> lava::block")
 
 add_library(lava.block STATIC
         ${LIBLAVA_DIR}/block/block.cpp
@@ -155,10 +161,12 @@ add_library(lava.block STATIC
         )
 
 target_link_libraries(lava.block 
-        lava.base
+        lava::base
         )
 
-message(">> liblava/resource")
+add_library(lava::block ALIAS lava.block)
+
+message(">> lava::resource")
 
 option(LIBLAVA_ASSIMP "build assimp library" ON)
 
@@ -193,7 +201,7 @@ target_include_directories(lava.resource PUBLIC
         ${LIBLAVA_ASSIMP_INC}
         )
 
-message(">>> ext/assimp")
+message(">>> assimp")
 
 if(LIBLAVA_ASSIMP)
         set(BUILD_SHARED_LIBS OFF)
@@ -203,19 +211,21 @@ if(LIBLAVA_ASSIMP)
         add_subdirectory(${LIBLAVA_EXT_DIR}/assimp assimp EXCLUDE_FROM_ALL)
 endif()
 
-message("<<< ext/assimp")
-message(">>> ext/selene")
+message("<<< assimp")
+message(">>> selene")
 
 add_subdirectory(${LIBLAVA_EXT_DIR}/selene selene EXCLUDE_FROM_ALL)
 
-message("<<< ext/selene")
+message("<<< selene")
 
 target_link_libraries(lava.resource
-        lava.base
+        lava::base
         ${LIBLAVA_ASSIMP_LIB}
         )
 
-message(">> liblava/frame")
+add_library(lava::resource ALIAS lava.resource)
+
+message(">> lava::frame")
 
 add_library(lava.frame STATIC
         ${LIBLAVA_DIR}/frame/frame.cpp
@@ -238,22 +248,24 @@ target_include_directories(lava.frame PUBLIC
         ${LIBLAVA_EXT_DIR}/argh
         )
 
-message(">>> ext/glfw")
+message(">>> glfw")
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${LIBLAVA_EXT_DIR}/glfw glfw EXCLUDE_FROM_ALL)
 
-message("<<< ext/glfw")
+message("<<< glfw")
 
 target_link_libraries(lava.frame
-        lava.resource
+        lava::resource
         glfw
         ${GLFW_LIBRARIES}
         )
 
-message(">> tests/driver")
+add_library(lava::frame ALIAS lava.frame)
+
+message(">> tests")
 
 add_executable(lava 
         ${LIBLAVA_TESTS_DIR}/driver.cpp
@@ -261,6 +273,6 @@ add_executable(lava
         ${LIBLAVA_TESTS_DIR}/tests.cpp
         )
 
-target_link_libraries(lava lava.frame lava.block)
+target_link_libraries(lava lava::frame lava::block)
 
 message("========================================================================")
