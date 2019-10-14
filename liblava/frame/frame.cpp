@@ -5,6 +5,10 @@
 #include <liblava/frame/frame.hpp>
 #include <liblava/base/memory.hpp>
 
+#define GLFW_INCLUDE_NONE
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
+
 #if !LIBLAVA_DEBUG && _WIN32
 #include <windows.h>
 #include <iostream>
@@ -253,16 +257,6 @@ id frame::add_run(run_func_ref func) {
     return id;
 }
 
-bool frame::remove_run(id::ref id) {
-
-    if (!run_map.count(id))
-        return false;
-
-    run_map.erase(id);
-
-    return true;
-}
-
 id frame::add_run_end(run_end_func_ref func) {
 
     auto id = ids::next();
@@ -271,14 +265,25 @@ id frame::add_run_end(run_end_func_ref func) {
     return id;
 }
 
-bool frame::remove_run_end(id::ref id) {
+bool frame::remove(id::ref id) {
 
-    if (!run_end_map.count(id))
-        return false;
+    auto result = false;
 
-    run_end_map.erase(id);
+    if (run_map.count(id)) {
 
-    return true;
+        run_map.erase(id);
+        result = true;
+    }
+    else if (run_end_map.count(id)) {
+
+        run_end_map.erase(id);
+        result = true;
+    }
+    
+    if (result)
+        ids::free(id);
+
+    return result;
 }
 
 void frame::trigger_run_end() {
@@ -289,19 +294,20 @@ void frame::trigger_run_end() {
 
 } // lava
 
-VkSurfaceKHR lava::create_surface(GLFWwindow* window) {
-
-    VkSurfaceKHR surface = nullptr;
-    if (failed(glfwCreateWindowSurface(instance::get(), window, memory::alloc(), &surface)))
-        return nullptr;
-
-    return surface;
-}
-
 void lava::handle_events(bool wait_for_events) {
 
     if (wait_for_events)
         glfwWaitEvents();
     else
         glfwPollEvents();
+}
+
+void lava::handle_events(time timeout) {
+
+    glfwWaitEventsTimeout(timeout);
+}
+
+void lava::post_empty_event() {
+
+    glfwPostEmptyEvent();
 }

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <liblava/utils.hpp>
+#include <liblava/core/math.hpp>
 
 #define VK_NO_PROTOTYPES
 #include <vulkan/vulkan.h>
@@ -19,8 +20,6 @@ using VkImages = std::vector<VkImage>;
 using VkImagesRef = VkImages const&;
 
 using VkImageViews = std::vector<VkImageView>;
-using VkImageViewsRef = VkImageViews const&;
-
 using VkFramebuffers = std::vector<VkFramebuffer>;
 
 using VkCommandPools = std::vector<VkCommandPool>;
@@ -69,6 +68,20 @@ struct vk_result {
     VkResult value = VK_NOT_READY;
 
     operator bool() { return state; }
+};
+
+using VkAttachments = std::vector<VkImageViews>;
+using VkAttachmentsRef = VkAttachments const&;
+
+struct target_callback {
+
+    using list = std::vector<target_callback*>;
+
+    using created_func = std::function<bool(VkAttachmentsRef, rect)>;
+    created_func on_created;
+
+    using destroyed_func = std::function<void()>;
+    destroyed_func on_destroyed;
 };
 
 // limits

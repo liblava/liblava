@@ -17,7 +17,7 @@ struct physical_device {
     void initialize(VkPhysicalDevice vk_device);
 
     bool is_supported(string_ref extension) const;
-    bool get_queue_family(ui32& index, VkQueueFlags flags) const;
+    bool get_queue_family(index& index, VkQueueFlags flags) const;
 
     device::create_param create_default_device_param() const;
 
@@ -33,7 +33,7 @@ struct physical_device {
     string get_device_type_string() const;
 
     bool is_swapchain_supported() const;
-    bool is_surface_supported(ui32 queue_family_index, VkSurfaceKHR surface) const;
+    bool is_surface_supported(index queue_family, VkSurfaceKHR surface) const;
 
 private:
     VkPhysicalDevice vk_device = nullptr;

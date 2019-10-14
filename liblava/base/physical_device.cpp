@@ -42,13 +42,13 @@ bool physical_device::is_supported(string_ref extension) const {
     return false;
 }
 
-bool physical_device::get_queue_family(ui32& index, VkQueueFlags flags) const {
+bool physical_device::get_queue_family(index& index, VkQueueFlags flags) const {
 
     for (size_t i = 0, e = queue_family_properties.size(); i != e; ++i) {
 
         if (queue_family_properties[i].queueFlags & flags) {
 
-            index = (ui32)i;
+            index = to_index(i);
             return true;
         }
     }
@@ -97,10 +97,10 @@ bool physical_device::is_swapchain_supported() const {
     return is_supported(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 }
 
-bool physical_device::is_surface_supported(ui32 queue_family_index, VkSurfaceKHR surface) const {
+bool physical_device::is_surface_supported(index queue_family, VkSurfaceKHR surface) const {
 
     VkBool32 res = VK_FALSE;
-    if (failed(vkGetPhysicalDeviceSurfaceSupportKHR(vk_device, queue_family_index, surface, &res)))
+    if (failed(vkGetPhysicalDeviceSurfaceSupportKHR(vk_device, queue_family, surface, &res)))
         return false;
 
     return res == VK_TRUE;

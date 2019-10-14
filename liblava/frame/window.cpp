@@ -3,7 +3,13 @@
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/frame/window.hpp>
-#include <liblava/frame/frame.hpp>
+
+#include <liblava/base/instance.hpp>
+#include <liblava/base/device.hpp>
+
+#define GLFW_INCLUDE_NONE
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
 
 namespace lava {
 
@@ -145,7 +151,7 @@ void window::handle_message() {
         if (!window)
             return;
 
-        window->_input->add_key_event({ window->get_id(), key, scancode, action, mods });
+        window->_input->key.add({ window->get_id(), lava::key(key), lava::action(action), lava::mod(mods), scancode });
     });
 
     glfwSetScrollCallback(handle, [](GLFWwindow* handle, r64 x_offset, r64 y_offset) {
@@ -155,7 +161,7 @@ void window::handle_message() {
             return;
 
         if (window->_input)
-            window->_input->add_scroll_event({ window->get_id(), x_offset, y_offset });
+            window->_input->scroll.add({ window->get_id(), x_offset, y_offset });
     });
 
     glfwSetMouseButtonCallback(handle, [](GLFWwindow* handle, i32 button, i32 action, i32 mods) {
@@ -165,7 +171,7 @@ void window::handle_message() {
             return;
 
         if (window->_input)
-            window->_input->add_mouse_button_event({ window->get_id(), button, action, mods });
+            window->_input->mouse_button.add({ window->get_id(), mouse_button(button), lava::action(action), lava::mod(mods) });
     });
 
     glfwSetCursorPosCallback(handle, [](GLFWwindow* handle, r64 x_position, r64 y_position) {
@@ -175,7 +181,7 @@ void window::handle_message() {
             return;
 
         if (window->_input)
-            window->_input->add_mouse_move_event({ window->get_id(), { x_position, y_position } });
+            window->_input->mouse_move.add({ window->get_id(), { x_position, y_position } });
     });
 
     glfwSetCursorEnterCallback(handle, [](GLFWwindow* handle, i32 entered) {
@@ -185,7 +191,7 @@ void window::handle_message() {
             return;
 
         if (window->_input)
-            window->_input->add_mouse_active_event({ window->get_id(), entered > 0 });
+            window->_input->mouse_active.add({ window->get_id(), entered > 0 });
     });
 }
 
@@ -253,4 +259,15 @@ window* window::get_window(GLFWwindow* handle) { return static_cast<window*>(glf
 
 bool window::has_close_request() const { return glfwWindowShouldClose(handle) == 1; }
 
+VkSurfaceKHR window::create_surface() { return lava::create_surface(handle); }
+
 } // lava
+
+VkSurfaceKHR lava::create_surface(GLFWwindow* window) {
+
+    VkSurfaceKHR surface = nullptr;
+    if (failed(glfwCreateWindowSurface(instance::get(), window, memory::alloc(), &surface)))
+        return nullptr;
+
+    return surface;
+}

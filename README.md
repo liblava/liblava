@@ -99,15 +99,15 @@ if (!window.create())
 input input;
 window.assign(&input);
 
-input.key_listeners.add([&](key_event::ref event) {
+input.key._listeners.add([&](key_event::ref event) {
 
-    if (event.key == GLFW_KEY_ESCAPE && event.action == GLFW_PRESS)
+    if (event._key == key::escape && event._action == action::press)
         frame.shut_down();
 });
 
 frame.add_run([&]() {
 
-    handle_events(input);
+    input.handle_events();
 
     if (window.has_close_request())
         frame.shut_down();
@@ -134,9 +134,9 @@ if (!window.create())
 input input;
 window.assign(&input);
 
-input.key_listeners.add([&](key_event::ref event) {
+input.key._listeners.add([&](key_event::ref event) {
 
-    if (event.key == GLFW_KEY_ESCAPE && event.action == GLFW_PRESS)
+    if (event._key == key::escape && event._action == action::press)
         frame.shut_down();
 });
 
@@ -159,22 +159,10 @@ VkCommandBuffers cmd_bufs(frame_count);
 
 auto build_cmd_bufs = [&]() {
 
-    VkCommandPoolCreateInfo create_info
-    {
-        .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
-        .queueFamilyIndex = device->get_graphics_queue().family,
-    };
-    if (!device->vkCreateCommandPool(&create_info, &cmd_pool))
+    if (!device->vkCreateCommandPool(device->get_graphics_queue().family, &cmd_pool))
         return false;
 
-    VkCommandBufferAllocateInfo alloc_info
-    {
-        .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
-        .commandPool = cmd_pool,
-        .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
-        .commandBufferCount = frame_count,
-    };
-    if (!device->vkAllocateCommandBuffers(&alloc_info, cmd_bufs.data()))
+    if (!device->vkAllocateCommandBuffers(cmd_pool, frame_count, cmd_bufs.data()))
         return false;
 
     VkCommandBufferBeginInfo begin_info
@@ -229,14 +217,14 @@ auto clean_cmd_bufs = [&]() {
 };
 
 if (!build_cmd_bufs())
-	return error::create_failed;
+    return error::create_failed;
 
 render_target->on_swapchain_start = build_cmd_bufs;
 render_target->on_swapchain_stop = clean_cmd_bufs;
 
 frame.add_run([&]() {
 
-    handle_events(input);
+    input.handle_events();
 
     if (window.has_close_request())
         return frame.shut_down();

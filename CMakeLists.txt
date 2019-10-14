@@ -156,8 +156,17 @@ add_library(lava::base ALIAS lava.base)
 message(">> lava::block")
 
 add_library(lava.block STATIC
+        ${LIBLAVA_DIR}/block/attachment.hpp
         ${LIBLAVA_DIR}/block/block.cpp
         ${LIBLAVA_DIR}/block/block.hpp
+        ${LIBLAVA_DIR}/block/descriptor.cpp
+        ${LIBLAVA_DIR}/block/descriptor.hpp
+        ${LIBLAVA_DIR}/block/pipeline.cpp
+        ${LIBLAVA_DIR}/block/pipeline.hpp
+        ${LIBLAVA_DIR}/block/render_pass.cpp
+        ${LIBLAVA_DIR}/block/render_pass.hpp
+        ${LIBLAVA_DIR}/block/subpass.cpp
+        ${LIBLAVA_DIR}/block/subpass.hpp
         )
 
 target_link_libraries(lava.block 

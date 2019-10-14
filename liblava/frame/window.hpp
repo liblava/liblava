@@ -6,6 +6,9 @@
 
 #include <liblava/frame/input.hpp>
 
+#define VK_NO_PROTOTYPES
+#include <vulkan/vulkan.h>
+
 // fwd
 struct GLFWwindow;
 
@@ -124,6 +127,8 @@ struct window {
 
     void update_title() { set_title(title.c_str()); }
 
+    VkSurfaceKHR create_surface();
+
 private:
     void handle_message();
 
@@ -143,5 +148,7 @@ private:
     ui32 width = 0;
     ui32 height = 0;
 };
+
+VkSurfaceKHR create_surface(GLFWwindow* window);
 
 } // lava

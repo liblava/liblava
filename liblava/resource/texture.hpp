@@ -84,7 +84,7 @@ struct staging {
 
     void add(texture::ptr texture) { todo.push_back(texture); }
 
-    bool stage(VkCommandBuffer cmdBuffer, index frame);
+    bool stage(VkCommandBuffer cmd_buf, index frame);
 
 private:
     texture::list todo;

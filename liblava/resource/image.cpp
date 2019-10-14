@@ -69,12 +69,12 @@ bool image::create(device* device, uv2 size, VmaMemoryUsage memory_usage, bool m
 
     if (!vk_image) {
 
-        VmaAllocationCreateInfo allocInfo
+        VmaAllocationCreateInfo create_info
         {
             .usage = memory_usage,
         };
 
-        if (failed(vmaCreateImage(dev->alloc(), &info, &allocInfo, &vk_image, &allocation, nullptr))) {
+        if (failed(vmaCreateImage(dev->alloc(), &info, &create_info, &vk_image, &allocation, nullptr))) {
 
             log()->error("image::create vmaCreateImage failed");
             return false;

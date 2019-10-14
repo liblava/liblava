@@ -4,94 +4,120 @@
 
 #include <liblava/frame/input.hpp>
 
+#define GLFW_INCLUDE_NONE
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
+
 namespace lava {
 
-void input::clear_all_events() {
+template <typename T>
+void _handle_events(input_events<T>& events, input_callback::func<T> input_callback) {
 
-    clear_key_events();
-    clear_scroll_events();
-    clear_mouse_button_events();
-    clear_mouse_move_events();
-    clear_mouse_active_events();
+    for (auto& event : events) {
+
+        for (auto& listener : events._listeners.get_list())
+            listener.second(event);
+
+        if (input_callback)
+            input_callback(event);
+    }
+
+    events.clear();
+}
+
+void input::handle_events() {
+
+    _handle_events<key_event>(key, [&](auto& event) {
+
+        for (auto& callback : callbacks)
+            callback->on_key_event(event);
+    });
+
+    _handle_events<scroll_event>(scroll, [&](auto& event) {
+
+        for (auto& callback : callbacks)
+            callback->on_scroll_event(event);
+    });
+
+    _handle_events<mouse_move_event>(mouse_move, [&](auto& event) {
+
+        for (auto& callback : callbacks)
+            callback->on_mouse_move_event(event);
+    });
+
+    _handle_events<mouse_button_event>(mouse_button, [&](auto& event) {
+
+        for (auto& callback : callbacks)
+            callback->on_mouse_button_event(event);
+    });
+
+    _handle_events<mouse_active_event>(mouse_active, [&](auto& event) {
+
+        for (auto& callback : callbacks)
+            callback->on_mouse_active_event(event);
+    });
+}
+
+gamepad::gamepad(gamepad_id id) : id(id) {
+
+    if (ready())
+        update();
+}
+
+name gamepad::get_name() const {
+
+    return glfwGetGamepadName(to_i32(id));;
+}
+
+bool gamepad::ready() const {
+
+    return glfwJoystickIsGamepad(to_i32(id));
+}
+
+void gamepad::update() {
+
+    glfwGetGamepadState(to_i32(id), (GLFWgamepadstate*)&_state);
+}
+
+gamepad_manager::gamepad_manager() {
+   
+    glfwSetJoystickCallback([](int jid, int e) {
+
+        for (auto& event : get().map)
+            event.second(gamepad(gamepad_id(jid)), e == GLFW_CONNECTED);
+    });
+}
+
+id gamepad_manager::add(listener_func event) {
+
+    auto id = ids::next();
+
+    map.emplace(id, event);
+
+    return id;
+}
+
+void gamepad_manager::remove(id::ref id) {
+
+    if (!map.count(id))
+        return;
+
+    map.erase(id);
+
+    ids::free(id);
 }
 
 } // lava
 
-void lava::handle_key_events(input& input) {
+lava::gamepad::list lava::gamepads() {
 
-    for (auto& event : input.get_key_events()) {
+    gamepad::list result;
 
-        for (auto& listener : input.key_listeners.get_list())
-            listener.second(event);
+    for (auto id = GLFW_JOYSTICK_1; id < GLFW_JOYSTICK_LAST; ++id) {
 
-        for (auto& callback : input.get_callbacks())
-            callback->on_key_event(event);
+        if (glfwJoystickIsGamepad(id))
+            result.emplace_back(gamepad_id(id));
     }
 
-    input.clear_key_events();
-}
-
-void lava::handle_scroll_events(input& input) {
-
-    for (auto& event : input.get_scroll_events()) {
-
-        for (auto& listener : input.scroll_listeners.get_list())
-            listener.second(event);
-
-        for (auto& callback : input.get_callbacks())
-            callback->on_scroll_event(event);
-    }
-
-    input.clear_scroll_events();
-}
-
-void lava::handle_mouse_button_events(input& input) {
-
-    for (auto& event : input.get_mouse_button_events()) {
-
-        for (auto& listener : input.mouse_button_listeners.get_list())
-            listener.second(event);
-
-        for (auto& callback : input.get_callbacks())
-            callback->on_mouse_button_event(event);
-    }
-
-    input.clear_mouse_button_events();
-}
-
-void lava::handle_mouse_move_events(input& input) {
-
-    for (auto& event : input.get_mouse_move_events()) {
-
-        for (auto& listener : input.mouse_move_listeners.get_list())
-            listener.second(event);
-
-        for (auto& callback : input.get_callbacks())
-            callback->on_mouse_move_event(event);
-    }
-
-    input.clear_mouse_move_events();
-}
-
-void lava::handle_mouse_active_events(input& input) {
-
-    for (auto& event : input.get_mouse_active_events()) {
-
-        for (auto& listener : input.mouse_active_listeners.get_list())
-            listener.second(event);
-
-        for (auto& callback : input.get_callbacks())
-            callback->on_mouse_active_event(event);
-    }
-
-    input.clear_mouse_active_events();
-}
-
-void lava::handle_events(input& input) {
-
-    handle_key_events(input);
-    handle_scroll_events(input);
-    handle_mouse_button_events(input);
-    handle_mouse_move_events(input);
-    handle_mouse_active_events(input);
+    return result;
 }

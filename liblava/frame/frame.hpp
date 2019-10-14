@@ -7,10 +7,6 @@
 #include <liblava/base/instance.hpp>
 #include <liblava/base/device.hpp>
 
-#define GLFW_INCLUDE_NONE
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
 #include <argh.h>
 
 namespace lava {
@@ -46,15 +42,30 @@ struct frame : no_copy_no_move {
     explicit frame(frame_config config);
     ~frame();
 
-    static ptr make(argh::parser cmd_line) { return std::make_shared<frame>(cmd_line); }
-    static ptr make(frame_config config) { return std::make_shared<frame>(config); }
-
     bool ready() const;
 
     bool run();
-    bool run_step();
 
     bool shut_down();
+
+    using run_func = std::function<bool()>;
+    using run_func_ref = run_func const&;
+
+    id add_run(run_func_ref func);
+   
+    using run_end_func = std::function<void()>;
+    using run_end_func_ref = run_end_func const&;
+
+    id add_run_end(run_end_func_ref func);
+
+    bool remove(id::ref id);
+
+    time get_running_time() const { return now() - start_time; }
+
+    argh::parser& get_cmd_line() { return cmd_line; }
+
+    bool waiting_for_events() const { return wait_for_events; }
+    void set_wait_for_events(bool value = true) { wait_for_events = value; }
 
     device* create_device() {
 
@@ -67,37 +78,13 @@ struct frame : no_copy_no_move {
 
     device_manager manager;
 
-    using run_func = std::function<bool()>;
-    using run_func_ref = run_func const&;
-
-    id add_run(run_func_ref func);
-    bool remove_run(id::ref id);
-
-    time get_running_time() const {
-
-        if (start_time == 0.0)
-            return 0.0;
-
-        return now() - start_time;
-    }
-
-    using run_end_func = std::function<void()>;
-    using run_end_func_ref = run_end_func const&;
-
-    id add_run_end(run_end_func_ref func);
-    bool remove_run_end(id::ref id);
-
-    void trigger_run_end();
-
-    argh::parser& get_cmd_line() { return cmd_line; }
-
-    bool waiting_for_events() const { return wait_for_events; }
-    void set_wait_for_events(bool value = true) { wait_for_events = value; }
-
 private:
-
     bool setup(frame_config config = {});
     void teardown();
+
+    bool run_step();
+
+    void trigger_run_end();
 
     argh::parser cmd_line;
 
@@ -112,8 +99,10 @@ private:
     run_end_func_map run_end_map;
 };
 
-VkSurfaceKHR create_surface(GLFWwindow* window);
-
 void handle_events(bool wait_for_events = false);
+
+void handle_events(time timeout);
+
+void post_empty_event();
 
 } // lava

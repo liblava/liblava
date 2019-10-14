@@ -247,7 +247,7 @@ bool texture::stage(VkCommandBuffer cmd_buffer) {
     return true;
 }
 
-bool staging::stage(VkCommandBuffer cmdBuffer, index frame) {
+bool staging::stage(VkCommandBuffer cmd_buf, index frame) {
 
     if (!staged.empty() && staged.count(frame) && !staged.at(frame).empty()) {
 
@@ -264,7 +264,7 @@ bool staging::stage(VkCommandBuffer cmdBuffer, index frame) {
 
     for (auto& texture : todo) {
 
-        if (!texture->stage(cmdBuffer))
+        if (!texture->stage(cmd_buf))
             continue;
 
         stage_done.push_back(texture);

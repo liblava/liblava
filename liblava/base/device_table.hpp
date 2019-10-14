@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <liblava/base/base.hpp>
 #include <liblava/base/memory.hpp>
 
 namespace lava {
@@ -129,10 +128,33 @@ struct device_table {
         return vkCreateCommandPool(pCreateInfo, memory::alloc(), pCommandPool);
     }
 
+    vk_result vkCreateCommandPool(index queue_family, VkCommandPool* pCommandPool) {
+
+        VkCommandPoolCreateInfo create_info
+        {
+            .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
+            .queueFamilyIndex = queue_family,
+        };
+        return vkCreateCommandPool(&create_info, pCommandPool);
+    }
+
     vk_result vkAllocateCommandBuffers(const VkCommandBufferAllocateInfo* pAllocateInfo, VkCommandBuffer* pCommandBuffers) {
 
         auto result = table.vkAllocateCommandBuffers(vk_device, pAllocateInfo, pCommandBuffers);
         return { check(result), result };
+    }
+
+    vk_result vkAllocateCommandBuffers(VkCommandPool commandPool, ui32 commandBufferCount, 
+                                        VkCommandBuffer* pCommandBuffers, VkCommandBufferLevel level = VK_COMMAND_BUFFER_LEVEL_PRIMARY) {
+
+        VkCommandBufferAllocateInfo alloc_info
+        {
+            .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
+            .commandPool = commandPool,
+            .level = level,
+            .commandBufferCount = commandBufferCount,
+        };
+        return vkAllocateCommandBuffers(&alloc_info, pCommandBuffers);
     }
 
     void vkDestroyImageView(VkImageView imageView, const VkAllocationCallbacks* pAllocator = memory::alloc()) {

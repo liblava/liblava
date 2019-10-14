@@ -125,7 +125,7 @@ bool block::process(index frame) {
 
     for (auto& command : cmd_order) {
 
-        auto cmd_buf = command->buffers.at(frame);
+        auto& cmd_buf = command->buffers.at(frame);
 
         VkCommandBufferBeginInfo begin_info
         {

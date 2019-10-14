@@ -95,6 +95,8 @@ void device::destroy() {
     call().vkDestroyDescriptorPool(vk_device, descriptor_pool, memory::alloc());
     descriptor_pool = nullptr;
 
+    _allocator = nullptr;
+
     call().vkDestroyDevice(vk_device, memory::alloc());
     vk_device = nullptr;
 

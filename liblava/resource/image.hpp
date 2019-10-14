@@ -44,7 +44,7 @@ struct image : id_obj {
     void set_usage(VkImageUsageFlags usage) { info.usage = usage; }
     void set_layout(VkImageLayout initial) { info.initialLayout = initial; }
 
-    void set_aspectMask(VkImageAspectFlags aspectMask) { subresource_range.aspectMask = aspectMask; }
+    void set_aspect_mask(VkImageAspectFlags aspectMask) { subresource_range.aspectMask = aspectMask; }
 
     void set_level_count(ui32 levels) { subresource_range.levelCount = levels; info.mipLevels = levels; }
     void set_layer_count(ui32 layers) { subresource_range.layerCount = layers; info.arrayLayers = layers; }

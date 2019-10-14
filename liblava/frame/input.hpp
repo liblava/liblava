@@ -9,6 +9,84 @@
 
 namespace lava {
 
+enum class key : i32 {
+
+    unknown         = -1,
+
+    /* printable keys */
+
+    space           = 32,
+    apostrophe      = 29, /* ' */
+    comma           = 44, /* , */
+    minus           = 45, /* - */
+    period          = 46, /* . */
+    slash           = 47, /* / */
+
+    _0              = 48, 
+    _1, _2, _3, _4, _5, _6, _7, _8, _9,
+
+    semicolon       = 59, /* ; */
+    equal           = 61, /* = */
+
+    a               = 65,
+    b, c, d, e, f, g, h, i, j, k, l, m, n, 
+    o, p, q, r, s, t, u, v, w, x, y, z,
+
+    left_bracket    = 91, /* [ */
+    backslash       = 92, /* \ */
+    right_bracket   = 93, /* ] */
+    grave_accent    = 96, /* ` */
+
+    world_1         = 161, /* non-US #1 */
+    world_2         = 162, /* non-US #2 */
+
+    /* function keys */
+
+    escape          = 256,
+    enter, tab, backspace, insert, del, /* delete */
+
+    right, left, down, up,
+    
+    page_up, page_down, home, end,
+
+    caps_lock       = 280,
+    scroll_lock, num_lock, print_screen, pause,
+
+    f1              = 290,
+    f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, 
+    f15, f16, f17, f18, f19, f20, f21, f22, f23, f24, f25,
+
+    kp_0            = 320,
+    kp_1, kp_2, kp_3, kp_4, kp_5, kp_6, kp_7, kp_8, kp_9,
+
+    kp_decimal, kp_divide, kp_multiply, kp_substract,
+    kp_add, kp_enter, kp_equal,
+
+    left_shift      = 340,
+    left_control, left_alt, left_super,
+
+    right_shift, right_control, right_alt, right_super,
+
+    menu,
+
+    last = menu,
+};
+
+enum class action : type {
+
+    release = 0, press, repeat
+};
+
+enum class mod : c8 {
+
+    shift       = 0x01,
+    control     = 0x02,
+    alt         = 0x04,
+    super       = 0x08,
+    caps_lock   = 0x10,
+    num_lock    = 0x20,
+};
+
 struct key_event {
 
     using ref = key_event const&;
@@ -18,10 +96,11 @@ struct key_event {
 
     id sender;
 
-    i32 key = 0;
+    key _key;
+    action _action;
+    mod mods;
+
     i32 scancode = 0;
-    i32 action = 0;
-    i32 mods = 0;
 };
 
 struct scroll_offset {
@@ -42,20 +121,6 @@ struct scroll_event {
     scroll_offset offset;
 };
 
-struct mouse_button_event {
-
-    using ref = mouse_button_event const&;
-    using func = std::function<void(ref)>;
-    using listeners = std::map<id, func>;
-    using list = std::vector<mouse_button_event>;
-
-    id sender;
-
-    i32 button = 0;
-    i32 action = 0;
-    i32 modes = 0;
-};
-
 struct mouse_position {
 
     r64 x = 0.0;
@@ -74,6 +139,30 @@ struct mouse_move_event {
     mouse_position position;
 };
 
+enum class mouse_button : type {
+
+    _1 = 0, _2, _3, _4, _5, _6, _7, _8,
+    
+    last = _8,
+
+    left = _1, right = _2, middle = _3,
+};
+
+struct mouse_button_event {
+
+    using ref = mouse_button_event const&;
+    using func = std::function<void(ref)>;
+    using listeners = std::map<id, func>;
+    using list = std::vector<mouse_button_event>;
+
+    id sender;
+
+    mouse_button button;
+    
+    action _action;
+    mod mods;
+};
+
 struct mouse_active_event {
 
     using ref = mouse_active_event const&;
@@ -90,44 +179,38 @@ struct input_callback {
 
     using list = std::vector<input_callback*>;
 
+    template <typename T>
+    using func = std::function<void(typename T::ref)>;
+
     key_event::func on_key_event;
     scroll_event::func on_scroll_event;
-    mouse_button_event::func on_mouse_button_event;
+
     mouse_move_event::func on_mouse_move_event;
+    mouse_button_event::func on_mouse_button_event;
     mouse_active_event::func on_mouse_active_event;
+};
+
+template <typename T>
+struct input_events : T::list {
+
+    void add(typename T::ref event) { this->push_back(event); }
+
+    listeners<T> _listeners;
 };
 
 struct input {
 
-    void add_key_event(key_event::ref event) { key_events.push_back(event); }
-    void add_scroll_event(scroll_event::ref event) { scroll_events.push_back(event); }
-    void add_mouse_button_event(mouse_button_event::ref event) { mouse_button_events.push_back(event); }
-    void add_mouse_move_event(mouse_move_event::ref event) { mouse_move_events.push_back(event); }
-    void add_mouse_active_event(mouse_active_event::ref event) { mouse_active_events.push_back(event); }
+    input_events<key_event> key;
+    input_events<scroll_event> scroll;
 
-    listeners<key_event> key_listeners;
-    listeners<scroll_event> scroll_listeners;
-    listeners<mouse_button_event> mouse_button_listeners;
-    listeners<mouse_move_event> mouse_move_listeners;
-    listeners<mouse_active_event> mouse_active_listeners;
+    input_events<mouse_move_event> mouse_move;
+    input_events<mouse_button_event> mouse_button;    
+    input_events<mouse_active_event> mouse_active;
 
-    void add_callback(input_callback* callback) { callbacks.push_back(callback); }
-    void remove_callback(input_callback* callback) { remove(callbacks, callback); }
-    input_callback::list const& get_callbacks() const { return callbacks; }
+    void handle_events();
 
-    key_event::list const& get_key_events() const { return key_events; }
-    scroll_event::list const& get_scroll_events() const { return scroll_events; }
-    mouse_button_event::list const& get_mouse_button_events() const { return mouse_button_events; }
-    mouse_move_event::list const& get_mouse_move_events() const { return mouse_move_events; }
-    mouse_active_event::list const& get_mouse_active_events() const { return mouse_active_events; }
-
-    void clear_key_events() { key_events.clear(); }
-    void clear_scroll_events() { scroll_events.clear(); }
-    void clear_mouse_button_events() { mouse_button_events.clear(); }
-    void clear_mouse_move_events() { mouse_move_events.clear(); }
-    void clear_mouse_active_events() { mouse_active_events.clear(); }
-
-    void clear_all_events();
+    void add(input_callback* callback) { callbacks.push_back(callback); }
+    void remove(input_callback* callback) { lava::remove(callbacks, callback); }
 
     mouse_position get_mouse_position() const { return _mouse_position; }
     void set_mouse_position(mouse_position const& position) { _mouse_position = position; }
@@ -135,25 +218,97 @@ struct input {
 private:
     mouse_position _mouse_position;
 
-    key_event::list key_events;
-    scroll_event::list scroll_events;
-    mouse_button_event::list mouse_button_events;
-    mouse_move_event::list mouse_move_events;
-    mouse_active_event::list mouse_active_events;
-
     input_callback::list callbacks;
 };
 
-void handle_key_events(input& input);
+enum class gamepad_id : ui32 {
 
-void handle_scroll_events(input& input);
+    _1 = 0, _2, _3, _4, _5, _6, _7, _8, _9, 
+    _10, _11, _12, _13, _14, _15, _16,
 
-void handle_mouse_button_events(input& input);
+    last = _16,
+};
 
-void handle_mouse_move_events(input& input);
+enum class gamepad_button : type {
 
-void handle_mouse_active_events(input& input);
+    a = 0, b, x, y,
+    
+    left_bumper, right_bumper,
+    
+    back, start, guide,
+    
+    left_thumb, right_thumb,
+    
+    dpad_up, dpad_right, dpad_down, dpad_left,
 
-void handle_events(input& input);
+    last = dpad_left,
+    
+    cross = a,  circle = b,
+    square = x, triangle = y,
+};
+
+enum class gamepad_axis : type {
+
+    left_x = 0, left_y,
+    
+    right_x, right_y,
+    
+    left_trigger, right_trigger,
+
+    last = right_trigger,
+};
+
+struct gamepad {
+
+    using list = std::vector<gamepad>;
+
+    explicit gamepad(gamepad_id id);
+
+    bool ready() const;
+    void update();
+
+    bool pressed(gamepad_button button) const { return _state.buttons[to_ui32(button)]; }
+    r32 value(gamepad_axis axis) const { return _state.axes[to_ui32(axis)]; }
+
+    gamepad_id get_id() const { return id; }
+    name get_name() const;
+
+private:
+    gamepad_id id;
+
+    struct state {
+
+        unsigned char buttons[15];
+        r32 axes[6];
+    };
+
+    state _state;
+};
+
+gamepad::list gamepads();
+
+struct gamepad_manager {
+
+    static gamepad_manager& get() {
+
+        static gamepad_manager manager;
+        return manager;
+    }
+
+    using listener_func = std::function<void(gamepad, bool)>;
+
+    id add(listener_func listener);
+
+    void remove(id::ref id);
+
+    static id add_listener(listener_func listener) { return get().add(listener); }
+    static void remove_listenerer(id::ref id) { get().remove(id); }
+
+private:
+    explicit gamepad_manager();
+
+    using listener_map = std::map<id, listener_func>;
+    listener_map map;
+};
 
 } // lava

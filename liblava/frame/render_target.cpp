@@ -20,7 +20,7 @@ bool render_target::create(device* device, VkSurfaceKHR surface, uv2 size) {
             auto target_attachments = on_create_attachments();
 
             for (auto& callback : target_callbacks)
-                if (!callback->on_created(target_attachments, get_size()))
+                if (!callback->on_created(target_attachments, { {}, get_size() }))
                     return false;
         }
 
@@ -60,7 +60,7 @@ void render_target::destroy() {
 
 lava::render_target::ptr lava::create_target(window* window, device* device) {
 
-    auto surface = create_surface(window->get());
+    auto surface = window->create_surface();
     if (!surface)
         return nullptr;
 
