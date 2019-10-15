@@ -1,4 +1,4 @@
-<img align="left" src="https://raw.githubusercontent.com/liblava/liblava/master/res/texture/lava_block_logo_200.png">
+<img align="left" src="https://github.com/liblava.png" width="200">
 
 **liblava is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/">Vulkan API</a>**
 
@@ -403,4 +403,4 @@ liblava is licensed under [MIT License](LICENSE.md) which allows you to use the 
 
 Copyright (c) 2018-present, <a href="https://lava-block.com">Lava Block OÜ</a>
 
-<img src="https://raw.githubusercontent.com/liblava/liblava/master/res/texture/lava_block_logo_50.png">
+<img src="https://github.com/liblava.png" width="50">
