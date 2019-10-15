@@ -46,6 +46,7 @@ struct render_target {
     }
 
     void add_callback(target_callback* callback) { target_callbacks.push_back(callback); }
+    void remove_callback(target_callback* callback) { remove(target_callbacks, callback); }
 
     using swapchain__start_func = std::function<bool()>;
     swapchain__start_func on_swapchain_start;

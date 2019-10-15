@@ -28,6 +28,8 @@ struct block : id_obj {
     using map = std::map<id, block>;
     using list = std::vector<block*>;
 
+    static ptr make() { return std::make_shared<block>(); }
+
     ~block() { destroy(); }
 
     bool create(device* device, index frame_count, index queue_family);

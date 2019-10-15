@@ -1,12 +1,12 @@
-<img align="left" src="https://github.com/liblava.png" width="200">
+<a href="https://lava-block.com"><img align="left" src="https://github.com/liblava.png" width="200"></a>
 
 **liblava is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/">Vulkan API</a>**
 
-liblava is a lean framework that provides essentials for low-level graphics and is specially well suited for prototyping, tooling and education.
+**liblava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education**. (<a href="https://git.io/liblava-demo">demo</a>)
 
-    + C++20 standard
-    + Modular (6 modules)
-    + Cross Platform (Windows | Linux)
+    + C++20
+    + Modular (7 modules)
+    + Cross Platform (Windows | Linux | soon: macOS)
 
 ![version](https://img.shields.io/badge/version-0.4.3-blue) [![LoC](https://tokei.rs/b1/github/liblava/liblava?category=code)](https://github.com/liblava/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/thelavablock)
 
@@ -23,7 +23,11 @@ liblava is a lean framework that provides essentials for low-level graphics and 
 * test driver
 * and much more...
 
-Download latest **<a href="https://github.com/liblava/liblava/releases">preview 2 / v0.4.2</a>**  (Sep 18, 2019)
+Download latest **<a href="https://github.com/liblava/liblava/releases">preview 2 / v0.4.2</a>**  (Sep 18, 2019) and **<a href="https://github.com/liblava/liblava-demo/releases">demo projects</a>**
+
+## modules
+
+[![core](https://img.shields.io/badge/lava-core-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core) [![utils](https://img.shields.io/badge/lava-utils-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/utils) [![base](https://img.shields.io/badge/lava-base-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/base) [![resource](https://img.shields.io/badge/lava-resource-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block) [![tool](https://img.shields.io/badge/lava-tool-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/tool) 
 
 ## hello frame
 
@@ -350,6 +354,14 @@ List all tests:
 $ lava -t
 ```
 
+1. frame init
+2. run loop
+3. window input
+4. clear color
+5. color block
+6. gamepad listener
+7. forward shading
+
 Run test 2 for example:
 
 ```
@@ -403,4 +415,4 @@ liblava is licensed under [MIT License](LICENSE.md) which allows you to use the 
 
 Copyright (c) 2018-present, <a href="https://lava-block.com">Lava Block OÜ</a>
 
-<img src="https://github.com/liblava.png" width="50">
+<a href="https://lava-block.com"><img src="https://github.com/liblava.png" width="50"></a>

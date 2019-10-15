@@ -274,6 +274,20 @@ target_link_libraries(lava.frame
 
 add_library(lava::frame ALIAS lava.frame)
 
+message(">> lava::tool")
+
+add_library(lava.tool STATIC
+        ${LIBLAVA_DIR}/tool/forward_shading.cpp
+        ${LIBLAVA_DIR}/tool/forward_shading.hpp
+        )
+
+target_link_libraries(lava.tool 
+        lava::frame
+        lava::block
+        )
+
+add_library(lava::tool ALIAS lava.tool)
+
 message(">> tests")
 
 add_executable(lava 
@@ -282,6 +296,6 @@ add_executable(lava
         ${LIBLAVA_TESTS_DIR}/tests.cpp
         )
 
-target_link_libraries(lava lava::frame lava::block)
+target_link_libraries(lava lava::tool)
 
 message("========================================================================")
