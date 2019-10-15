@@ -141,7 +141,7 @@ inline bool remove_from_id_map(id::ref object, std::map<id, T>& map) {
 }
 
 template <typename T>
-struct listeners {
+struct id_listeners {
 
     id add(typename T::func const& listener) {
 

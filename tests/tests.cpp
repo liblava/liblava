@@ -50,9 +50,9 @@ LAVA_TEST(3, "window input")
     input input;
     window.assign(&input);
 
-    input.key._listeners.add([&](key_event::ref event) {
+    input.key.listeners.add([&](key_event::ref event) {
 
-        if (event._key == key::escape && event._action == action::press)
+        if (event.key == key::escape && event.action == action::press)
             frame.shut_down();
     });
 
@@ -82,9 +82,9 @@ LAVA_TEST(4, "clear color")
     input input;
     window.assign(&input);
 
-    input.key._listeners.add([&](key_event::ref event) {
+    input.key.listeners.add([&](key_event::ref event) {
 
-        if (event._key == key::escape && event._action == action::press)
+        if (event.key == key::escape && event.action == action::press)
             frame.shut_down();
     });
 
@@ -218,9 +218,9 @@ LAVA_TEST(5, "color block")
     input input;
     window.assign(&input);
 
-    input.key._listeners.add([&](key_event::ref event) {
+    input.key.listeners.add([&](key_event::ref event) {
 
-        if (event._key == key::escape && event._action == action::press)
+        if (event.key == key::escape && event.action == action::press)
             frame.shut_down();
     });
 
@@ -352,9 +352,9 @@ LAVA_TEST(7, "forward shading")
     input input;
     window.assign(&input);
 
-    input.key._listeners.add([&](key_event::ref event) {
+    input.key.listeners.add([&](key_event::ref event) {
 
-        if (event._key == key::escape && event._action == action::press)
+        if (event.key == key::escape && event.action == action::press)
             frame.shut_down();
     });
 

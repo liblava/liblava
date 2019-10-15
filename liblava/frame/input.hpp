@@ -72,10 +72,14 @@ enum class key : i32 {
     last = menu,
 };
 
+using input_key = key;
+
 enum class action : type {
 
     release = 0, press, repeat
 };
+
+using input_action = action;
 
 enum class mod : c8 {
 
@@ -87,6 +91,8 @@ enum class mod : c8 {
     num_lock    = 0x20,
 };
 
+using input_mod = mod;
+
 struct key_event {
 
     using ref = key_event const&;
@@ -96,9 +102,9 @@ struct key_event {
 
     id sender;
 
-    key _key;
-    action _action;
-    mod mods;
+    input_key key;
+    input_action action;
+    input_mod mods;
 
     i32 scancode = 0;
 };
@@ -159,8 +165,8 @@ struct mouse_button_event {
 
     mouse_button button;
     
-    action _action;
-    mod mods;
+    input_action action;
+    input_mod mods;
 };
 
 struct mouse_active_event {
@@ -195,7 +201,7 @@ struct input_events : T::list {
 
     void add(typename T::ref event) { this->push_back(event); }
 
-    listeners<T> _listeners;
+    id_listeners<T> listeners;
 };
 
 struct input {

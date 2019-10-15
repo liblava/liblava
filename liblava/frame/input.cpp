@@ -15,7 +15,7 @@ void _handle_events(input_events<T>& events, input_callback::func<T> input_callb
 
     for (auto& event : events) {
 
-        for (auto& listener : events._listeners.get_list())
+        for (auto& listener : events.listeners.get_list())
             listener.second(event);
 
         if (input_callback)

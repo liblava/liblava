@@ -99,9 +99,9 @@ if (!window.create())
 input input;
 window.assign(&input);
 
-input.key._listeners.add([&](key_event::ref event) {
+input.key.listeners.add([&](key_event::ref event) {
 
-    if (event._key == key::escape && event._action == action::press)
+    if (event.key == key::escape && event.action == action::press)
         frame.shut_down();
 });
 
@@ -134,9 +134,9 @@ if (!window.create())
 input input;
 window.assign(&input);
 
-input.key._listeners.add([&](key_event::ref event) {
+input.key.listeners.add([&](key_event::ref event) {
 
-    if (event._key == key::escape && event._action == action::press)
+    if (event.key == key::escape && event.action == action::press)
         frame.shut_down();
 });
 
