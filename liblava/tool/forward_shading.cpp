@@ -84,6 +84,8 @@ bool forward_shading::create(render_target::ptr target_) {
 
     target->add_callback(pass.get());
 
+    pass->set_clear_color();
+
     return true;
 }
 

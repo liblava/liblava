@@ -19,7 +19,7 @@ addons:
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
-  - git submodule update --init
+  - git submodule update --init --recursive
 
 install:
   - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"

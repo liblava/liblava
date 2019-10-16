@@ -11,7 +11,7 @@ environment:
 matrix:
   fast_finish: true
 install:
-  - git submodule update --init
+  - git submodule update --init --recursive
 before_build:
   - cmake -G "Visual Studio 16 2019" -A x64 .
 build:

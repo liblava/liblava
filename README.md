@@ -2,7 +2,7 @@
 
 **liblava is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/">Vulkan API</a>**
 
-**liblava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education**. (<a href="https://git.io/liblava-demo">demo</a>)
+**liblava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education**. (<a href="https://git.io/liblava-demo">demo</a>) (<a href="https://git.io/liblava-template">template</a>)
 
     + C++20
     + Modular (7 modules)
@@ -20,7 +20,7 @@
 * command buffer modeling
 * load texture and mesh
 * file system and logging
-* test driver
+* gui and test driver
 * and much more...
 
 Download latest **<a href="https://github.com/liblava/liblava/releases">preview 2 / v0.4.2</a>**  (Sep 18, 2019) and **<a href="https://github.com/liblava/liblava-demo/releases">demo projects</a>**
@@ -361,6 +361,7 @@ $ lava -t
 5. color block
 6. gamepad listener
 7. forward shading
+8. imgui demo
 
 Run test 2 for example:
 
@@ -398,6 +399,7 @@ $ make
 * [glfw](https://github.com/glfw/glfw) / zlib
 * [gli](https://github.com/g-truc/gli) / MIT
 * [glm](https://github.com/g-truc/glm) / MIT
+* [imgui](https://github.com/ocornut/imgui) / MIT
 * [json](https://github.com/nlohmann/json) / MIT
 * [physfs](https://github.com/criptych/physfs) / zlib
 * [selene](https://github.com/kmhofmann/selene) / MIT

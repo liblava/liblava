@@ -30,31 +30,36 @@ void input::handle_events() {
     _handle_events<key_event>(key, [&](auto& event) {
 
         for (auto& callback : callbacks)
-            callback->on_key_event(event);
+            if (callback->on_key_event)
+                callback->on_key_event(event);
     });
 
     _handle_events<scroll_event>(scroll, [&](auto& event) {
 
         for (auto& callback : callbacks)
-            callback->on_scroll_event(event);
+            if (callback->on_scroll_event)
+                callback->on_scroll_event(event);
     });
 
     _handle_events<mouse_move_event>(mouse_move, [&](auto& event) {
 
         for (auto& callback : callbacks)
-            callback->on_mouse_move_event(event);
+            if (callback->on_mouse_move_event)
+                callback->on_mouse_move_event(event);
     });
 
     _handle_events<mouse_button_event>(mouse_button, [&](auto& event) {
 
         for (auto& callback : callbacks)
-            callback->on_mouse_button_event(event);
+            if (callback->on_mouse_button_event)
+                callback->on_mouse_button_event(event);
     });
 
     _handle_events<mouse_active_event>(mouse_active, [&](auto& event) {
 
         for (auto& callback : callbacks)
-            callback->on_mouse_active_event(event);
+            if (callback->on_mouse_active_event)
+                callback->on_mouse_active_event(event);
     });
 }
 

@@ -52,7 +52,7 @@ struct pipeline : id_obj {
     using process_func = std::function<void(VkCommandBuffer)>;
     process_func on_process;
 
-    explicit pipeline(device* device, VkPipelineCache pipeline_cache);
+    explicit pipeline(device* device, VkPipelineCache pipeline_cache = nullptr);
     ~pipeline() override;
 
     bool create();
@@ -121,7 +121,7 @@ struct graphics_pipeline : pipeline {
     using map = std::map<id, ptr>;
     using list = std::vector<ptr>;
 
-    static ptr make(device* device, VkPipelineCache pipeline_cache) {
+    static ptr make(device* device, VkPipelineCache pipeline_cache = nullptr) {
 
         return std::make_shared<graphics_pipeline>(device, pipeline_cache);
     }
@@ -224,7 +224,7 @@ struct compute_pipeline : pipeline {
 
     using pipeline::pipeline;
 
-    static ptr make(device* device, VkPipelineCache pipeline_cache) {
+    static ptr make(device* device, VkPipelineCache pipeline_cache = nullptr) {
 
         return std::make_shared<compute_pipeline>(device, pipeline_cache);
     }

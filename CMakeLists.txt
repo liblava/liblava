@@ -279,6 +279,16 @@ message(">> lava::tool")
 add_library(lava.tool STATIC
         ${LIBLAVA_DIR}/tool/forward_shading.cpp
         ${LIBLAVA_DIR}/tool/forward_shading.hpp
+        ${LIBLAVA_DIR}/tool/gui.cpp
+        ${LIBLAVA_DIR}/tool/gui.hpp
+        ${LIBLAVA_EXT_DIR}/imgui/imgui.cpp
+        ${LIBLAVA_EXT_DIR}/imgui/imgui_draw.cpp
+        ${LIBLAVA_EXT_DIR}/imgui/imgui_widgets.cpp
+        ${LIBLAVA_EXT_DIR}/imgui/imgui_demo.cpp
+        )
+
+target_include_directories(lava.tool PUBLIC
+        ${LIBLAVA_EXT_DIR}/imgui
         )
 
 target_link_libraries(lava.tool 
