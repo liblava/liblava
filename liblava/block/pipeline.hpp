@@ -63,6 +63,8 @@ struct pipeline : id_obj {
     void set_active(bool value = true) { active = value; }
     bool is_active() const { return active; }
 
+    void toggle() { active = !active; }
+
     void set_auto_bind(bool value = true) { auto_bind = value; }
     bool is_auto_bind() const { return auto_bind; }
 
