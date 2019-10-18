@@ -410,16 +410,10 @@ bool gui::initialize(graphics_pipeline::ptr pipeline_, index max_frames_) {
             { 2, 0, VK_FORMAT_R8G8B8A8_UNORM, to_ui32(offsetof(ImDrawVert, col)) },
     });
 
-    data vertex_data;
-    vertex_data.ptr = as_ptr(imgui_vert_shader);
-    vertex_data.size = sizeof(imgui_vert_shader);
-    if (!pipeline->add_shader_stage(vertex_data, VK_SHADER_STAGE_VERTEX_BIT))
+    if (!pipeline->add_shader_stage({ imgui_vert_shader, sizeof(imgui_vert_shader) }, VK_SHADER_STAGE_VERTEX_BIT))
         return false;
 
-    data fragment_data;
-    fragment_data.ptr = as_ptr(imgui_frag_shader);
-    fragment_data.size = sizeof(imgui_frag_shader);
-    if (!pipeline->add_shader_stage(fragment_data, VK_SHADER_STAGE_FRAGMENT_BIT))
+    if (!pipeline->add_shader_stage({ imgui_frag_shader, sizeof(imgui_frag_shader) }, VK_SHADER_STAGE_FRAGMENT_BIT))
         return false;
 
     pipeline->add_color_blend_attachment(graphics_pipeline::create_color_blend_attachment());
@@ -610,10 +604,11 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
     float scale[2];
     scale[0] = 2.f / io.DisplaySize.x;
     scale[1] = 2.f / io.DisplaySize.y;
+    vkCmdPushConstants(cmd_buf, _pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 0, sizeof(float) * 2, scale);
+    
     float translate[2];
     translate[0] = -1.f;
     translate[1] = -1.f;
-    vkCmdPushConstants(cmd_buf, _pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 0, sizeof(float) * 2, scale);
     vkCmdPushConstants(cmd_buf, _pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 2, sizeof(float) * 2, translate);
 
     auto vtx_offset = 0u;
@@ -662,7 +657,7 @@ bool gui::upload_fonts(texture::ptr texture) {
     if (!texture->create(dev, { width, height }, VK_FORMAT_R8G8B8A8_UNORM))
         return false;
 
-    auto upload_size = width * height * 4 * sizeof(char);
+    auto upload_size =  4 * width * height * sizeof(char);
     if (!texture->upload(pixels, upload_size))
         return false;
 

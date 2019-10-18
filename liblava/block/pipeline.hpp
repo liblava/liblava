@@ -156,6 +156,7 @@ struct graphics_pipeline : pipeline {
     void add_dynamic_state(VkDynamicState state);
 
     bool add_shader_stage(data const& data, VkShaderStageFlagBits stage);
+    bool add_shader_stage(name filename, VkShaderStageFlagBits stage);
     void add(shader_stage::ptr const& shader_stage) { shader_stages.push_back(shader_stage); }
 
     shader_stage::list const& get_shader_stages() const { return shader_stages; }
@@ -234,6 +235,7 @@ struct compute_pipeline : pipeline {
     void bind(VkCommandBuffer cmdBuffer) override;
 
     bool set_shader_stage(data const& data, VkShaderStageFlagBits stage);
+    bool set_shader_stage(name filename, VkShaderStageFlagBits stage);
     void set(shader_stage::ptr const& stage) { shader_stage = stage; }
     shader_stage::ptr const& get_shader_stage() const { return shader_stage; }
 

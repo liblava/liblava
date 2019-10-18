@@ -316,6 +316,11 @@ bool graphics_pipeline::add_shader_stage(data const& data, VkShaderStageFlagBits
 	return true;
 }
 
+bool graphics_pipeline::add_shader_stage(name filename, VkShaderStageFlagBits stage) {
+
+    return add_shader_stage(file_data(filename).get(), stage);
+}
+
 void graphics_pipeline::copy_to(graphics_pipeline* target) const {
 
 	target->set_layout(layout);
@@ -427,6 +432,12 @@ void compute_pipeline::bind(VkCommandBuffer cmd_buf) {
 
 bool compute_pipeline::set_shader_stage(data const& data, VkShaderStageFlagBits stage) {
 
+    if (!data.ptr) {
+
+        log()->error("compute_pipeline::add_shader_stage data ptr failed");
+        return false;
+    }
+
 	auto shader_stage = pipeline::shader_stage::create(dev, data, stage);
 	if (!shader_stage) {
 
@@ -436,6 +447,11 @@ bool compute_pipeline::set_shader_stage(data const& data, VkShaderStageFlagBits 
 
 	set(shader_stage);
 	return true;
+}
+
+bool compute_pipeline::set_shader_stage(name filename, VkShaderStageFlagBits stage) {
+
+    return set_shader_stage(file_data(filename).get(), stage);
 }
 
 bool compute_pipeline::create_internal() {

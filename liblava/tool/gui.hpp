@@ -21,13 +21,13 @@ struct gui : input_callback {
 
     struct icon_font {
 
-        data font_data = {};
+        data font_data;
         ui16 rangeBegin = 0;
         ui16 rangeEnd = 0;
     };
 
     void setup(GLFWwindow* window, data font_data, icon_font icon_font);
-    void setup(GLFWwindow* window) { setup(window, {}, {}); }
+    void setup(GLFWwindow* window) { setup(window, data(), icon_font()); }
 
     bool initialize(graphics_pipeline::ptr pipeline, index max_frames);
     bool upload_fonts(texture::ptr texture);

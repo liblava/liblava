@@ -30,6 +30,9 @@ inline data_ptr as_ptr(T* value) { return (data_ptr)value; }
 
 struct data {
 
+    data() = default;
+    data(void* ptr, size_t size) : ptr(as_ptr(ptr)), size(size) {}
+
     data_ptr ptr = nullptr;
 
     size_t size = 0;
@@ -50,7 +53,7 @@ inline size_t align(size_t size, size_t min = 0) {
 template <typename T>
 inline size_t align(size_t min = 0) { return align(sizeof(T), min); }
 
-inline void* alloc_data(size_t size, size_t alignment = 8) {
+inline void* alloc_data(size_t size, size_t alignment = sizeof(c8)) {
 #if _WIN32
     return _aligned_malloc(size, alignment);
 #else
