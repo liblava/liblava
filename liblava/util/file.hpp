@@ -1,11 +1,11 @@
-// file      : liblava/file.hpp
+// file      : liblava/util/file.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
 #pragma once
 
 #include <liblava/core/data.hpp>
-#include <liblava/utils/log.hpp>
+#include <liblava/util/log.hpp>
 
 #include <fstream>
 #include <filesystem>

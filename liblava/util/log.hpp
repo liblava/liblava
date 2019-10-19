@@ -1,4 +1,4 @@
-// file      : liblava/log.hpp
+// file      : liblava/util/log.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 

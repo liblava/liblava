@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <liblava/utils.hpp>
+#include <liblava/util.hpp>
 #include <liblava/core/math.hpp>
 
 #define VK_NO_PROTOTYPES

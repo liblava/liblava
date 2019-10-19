@@ -1,10 +1,10 @@
-// file      : liblava/telegram.hpp
+// file      : liblava/util/telegram.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
 #pragma once
 
-#include <liblava/utils/thread.hpp>
+#include <liblava/util/thread.hpp>
 
 #include <any>
 #include <cmath>

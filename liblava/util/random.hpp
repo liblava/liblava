@@ -1,4 +1,4 @@
-// file      : liblava/random.hpp
+// file      : liblava/util/random.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 

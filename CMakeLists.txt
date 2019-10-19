@@ -73,16 +73,16 @@ endif()
 
 add_library(lava::core ALIAS lava.core)
 
-message(">> lava::utils")
+message(">> lava::util")
 
-add_library(lava.utils STATIC
-        ${LIBLAVA_DIR}/utils/file.cpp
-        ${LIBLAVA_DIR}/utils/file.hpp
-        ${LIBLAVA_DIR}/utils/log.hpp
-        ${LIBLAVA_DIR}/utils/random.hpp
-        ${LIBLAVA_DIR}/utils/telegram.hpp
-        ${LIBLAVA_DIR}/utils/thread.hpp
-        ${LIBLAVA_DIR}/utils/utility.hpp
+add_library(lava.util STATIC
+        ${LIBLAVA_DIR}/util/file.cpp
+        ${LIBLAVA_DIR}/util/file.hpp
+        ${LIBLAVA_DIR}/util/log.hpp
+        ${LIBLAVA_DIR}/util/random.hpp
+        ${LIBLAVA_DIR}/util/telegram.hpp
+        ${LIBLAVA_DIR}/util/thread.hpp
+        ${LIBLAVA_DIR}/util/utility.hpp
         ${LIBLAVA_EXT_DIR}/tinyfiledialogs/tinyfiledialogs.c
         )
 
@@ -90,7 +90,7 @@ if(WIN32)
         set_source_files_properties(${LIBLAVA_EXT_DIR}/tinyfiledialogs/tinyfiledialogs.c PROPERTIES COMPILE_FLAGS " /W0 ")
 endif()
 
-target_include_directories(lava.utils PUBLIC
+target_include_directories(lava.util PUBLIC
         ${LIBLAVA_EXT_DIR}/spdlog/include
         ${LIBLAVA_EXT_DIR}/physfs/src
         ${LIBLAVA_EXT_DIR}/tinyfiledialogs
@@ -116,12 +116,12 @@ add_subdirectory(${LIBLAVA_EXT_DIR}/physfs physfs EXCLUDE_FROM_ALL)
 
 message("<<< physfs")
 
-target_link_libraries(lava.utils
+target_link_libraries(lava.util
         lava::core
         physfs-static
         )
 
-add_library(lava::utils ALIAS lava.utils)
+add_library(lava::util ALIAS lava.util)
 
 message(">> lava::base")
 
@@ -147,7 +147,7 @@ target_include_directories(lava.base PUBLIC
         )
 
 target_link_libraries(lava.base 
-        lava::utils
+        lava::util
         ${CMAKE_DL_LIBS}
         )
 

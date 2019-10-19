@@ -1,9 +1,9 @@
-// file      : liblava/utils/file.cpp
+// file      : liblava/util/file.cpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
-#include <liblava/utils/file.hpp>
-#include <liblava/utils/utility.hpp>
+#include <liblava/util/file.hpp>
+#include <liblava/util/utility.hpp>
 
 #include <physfs.h>
 #include <tinyfiledialogs.h>
