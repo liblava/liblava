@@ -7,11 +7,12 @@
 
 namespace lava {
 
-bool swapchain::create(device* device_, VkSurfaceKHR surface_, uv2 size_) {
+bool swapchain::create(device* device_, VkSurfaceKHR surface_, uv2 size_, bool v_sync_) {
 
     dev = device_;
     surface = surface_;
     size = size_;
+    v_sync = v_sync_;
 
     set_surface_format();
 
@@ -111,6 +112,9 @@ void swapchain::set_surface_format() {
 }
 
 VkPresentModeKHR swapchain::choose_present_mode(VkPresentModeKHRs const& present_modes) const {
+
+    if (v_sync)
+        return VK_PRESENT_MODE_FIFO_KHR;
 
     for (auto const& present_mode : present_modes)
         if (present_mode == VK_PRESENT_MODE_MAILBOX_KHR)

@@ -8,9 +8,9 @@
 
 namespace lava {
 
-bool render_target::create(device* device, VkSurfaceKHR surface, uv2 size) {
+bool render_target::create(device* device, VkSurfaceKHR surface, uv2 size, bool v_sync) {
 
-    if (!_swapchain.create(device, surface, size))
+    if (!_swapchain.create(device, surface, size, v_sync))
         return false;
 
     _swapchain_callback.on_created = [&]() {
@@ -58,7 +58,7 @@ void render_target::destroy() {
 
 } // lava
 
-lava::render_target::ptr lava::create_target(window* window, device* device) {
+lava::render_target::ptr lava::create_target(window* window, device* device, bool v_sync) {
 
     auto surface = window->create_surface();
     if (!surface)
@@ -72,7 +72,7 @@ lava::render_target::ptr lava::create_target(window* window, device* device) {
     window->get_framebuffer_size(width, height);
 
     auto target = std::make_shared<render_target>();
-    if (!target->create(device, surface, { width, height }))
+    if (!target->create(device, surface, { width, height }, v_sync))
         return nullptr;
 
     auto target_ptr = target.get();

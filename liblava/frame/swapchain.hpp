@@ -10,7 +10,7 @@ namespace lava {
 
 struct swapchain {
 
-    bool create(device* device, VkSurfaceKHR surface, uv2 size);
+    bool create(device* device, VkSurfaceKHR surface, uv2 size, bool v_sync = false);
 
     void destroy();
 
@@ -43,6 +43,8 @@ struct swapchain {
     void add_callback(callback* cb);
     void remove_callback(callback* cb);
 
+    bool has_v_sync() const { return v_sync; }
+
 private:
     void set_surface_format();
 
@@ -64,6 +66,8 @@ private:
 
     uv2 size;
     bool reload_request = false;
+
+    bool v_sync = false;
 
     callback::list callbacks;
 };
