@@ -28,7 +28,9 @@ struct render_pass : id_obj, target_callback {
     VkRenderPass get() const { return _render_pass; }
 
     ui32 get_subpass_count() const { return to_ui32(subpasses.size()); }
-    subpass* get_subpass(ui32 index = 0) { return subpasses.at(index).get(); }
+    bool has_subpass(index index = 0) const { return index < subpasses.size(); }
+
+    subpass* get_subpass(index index = 0) { return subpasses.at(index).get(); }
     subpass::list const& get_subpasses() const { return subpasses; }
 
     void add(attachment::ptr const& attachment) { attachments.push_back(attachment); }
@@ -37,6 +39,8 @@ struct render_pass : id_obj, target_callback {
 
     void set_clear_values(VkClearValues const& values) { clear_values = values; }
     void set_clear_color(v3 value = v3(0.086f, 0.086f, 0.094f));
+
+    void add(graphics_pipeline::ptr pipeline, index subpass = 0) { subpasses.at(subpass)->add(pipeline); }
 
 private:
     device* dev = nullptr;

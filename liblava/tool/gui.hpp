@@ -17,7 +17,8 @@ namespace lava {
 struct gui : input_callback {
 
     explicit gui() = default;
-    ~gui() { shutdown(); }
+    explicit gui(GLFWwindow* window) { setup(window); }
+    ~gui() { destroy(); }
 
     struct icon_font {
 
@@ -29,10 +30,15 @@ struct gui : input_callback {
     void setup(GLFWwindow* window, data font_data, icon_font icon_font);
     void setup(GLFWwindow* window) { setup(window, data(), icon_font()); }
 
-    bool initialize(graphics_pipeline::ptr pipeline, index max_frames);
+    bool create(graphics_pipeline::ptr pipeline, index max_frames);
+    bool create(device* device, index max_frames) {
+        
+        return create(graphics_pipeline::make(device), max_frames);
+    }
+
     bool upload_fonts(texture::ptr texture);
     
-    void shutdown();
+    void destroy();
 
     bool is_initialized() const { return initialized; }
     graphics_pipeline::ptr get_pipeline() { return pipeline; }

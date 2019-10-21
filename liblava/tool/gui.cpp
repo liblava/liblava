@@ -389,7 +389,7 @@ static ui32 imgui_frag_shader[] = {
     0x00010038
 };
 
-bool gui::initialize(graphics_pipeline::ptr pipeline_, index max_frames_) {
+bool gui::create(graphics_pipeline::ptr pipeline_, index max_frames_) {
 
     pipeline = std::move(pipeline_);
 
@@ -433,7 +433,7 @@ bool gui::initialize(graphics_pipeline::ptr pipeline_, index max_frames_) {
     pipeline->set_layout(_pipeline_layout);
     pipeline->set_auto_size(false);
 
-    descriptor_set = descriptor_set_layout->allocate_descriptor_set();
+    descriptor_set = descriptor_set_layout->allocate_set();
 
     pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
         
@@ -453,7 +453,7 @@ bool gui::initialize(graphics_pipeline::ptr pipeline_, index max_frames_) {
     return true;
 }
 
-void gui::shutdown() {
+void gui::destroy() {
 
     if (!initialized)
         return;
@@ -475,7 +475,7 @@ void gui::invalidate_device_objects() {
     vertex_buffers.clear();
     index_buffers.clear();
 
-    descriptor_set_layout->free_descriptor_set(descriptor_set);
+    descriptor_set_layout->free_set(descriptor_set);
     descriptor_set_layout->destroy();
     descriptor_set_layout = nullptr;
 

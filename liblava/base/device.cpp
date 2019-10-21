@@ -52,9 +52,9 @@ bool device::create(create_param const& param) {
 
     load_table();
 
-    graphics_queues.clear();
-    compute_queues.clear();
-    transfer_queues.clear();
+    _graphics_queues.clear();
+    _compute_queues.clear();
+    _transfer_queues.clear();
 
     index_map queue_family_map;
 
@@ -72,11 +72,11 @@ bool device::create(create_param const& param) {
             call().vkGetDeviceQueue(vk_device, queue_create_info_list[i].queueFamilyIndex, counter, &queue);
 
             if (param.queue_info_list[i].flags & VK_QUEUE_GRAPHICS_BIT)
-                graphics_queues.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+                _graphics_queues.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
             if (param.queue_info_list[i].flags & VK_QUEUE_COMPUTE_BIT)
-                compute_queues.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+                _compute_queues.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
             if (param.queue_info_list[i].flags & VK_QUEUE_TRANSFER_BIT)
-                transfer_queues.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+                _transfer_queues.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
         }
     }
 
@@ -88,9 +88,9 @@ void device::destroy() {
     if (!vk_device)
         return;
 
-    graphics_queues.clear();
-    compute_queues.clear();
-    transfer_queues.clear();
+    _graphics_queues.clear();
+    _compute_queues.clear();
+    _transfer_queues.clear();
 
     call().vkDestroyDescriptorPool(vk_device, descriptor_pool, memory::alloc());
     descriptor_pool = nullptr;

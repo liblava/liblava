@@ -107,7 +107,7 @@ LAVA_TEST(4, "clear color")
 
     auto build_cmd_bufs = [&]() {
 
-        if (!device->vkCreateCommandPool(device->get_graphics_queue().family, &cmd_pool))
+        if (!device->vkCreateCommandPool(device->graphics_queue().family, &cmd_pool))
             return false;
 
         if (!device->vkAllocateCommandBuffers(cmd_pool, frame_count, cmd_bufs.data()))
@@ -131,7 +131,7 @@ LAVA_TEST(4, "clear color")
         for (auto i = 0u; i < frame_count; ++i) {
 
             auto cmd_buf = cmd_bufs[i];
-            auto frame_image = render_target->get_backbuffer_image(i);
+            auto frame_image = render_target->get_image(i);
 
             if (failed(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
                 return false;
@@ -198,6 +198,7 @@ LAVA_TEST(4, "clear color")
     frame.add_run_end([&]() {
 
         clean_cmd_bufs();
+
         simple_renderer.destroy();
         render_target->destroy();
     });
@@ -240,7 +241,7 @@ LAVA_TEST(5, "color block")
 
     block block;
 
-    if (!block.create(device, frame_count, device->get_graphics_queue().family))
+    if (!block.create(device, frame_count, device->graphics_queue().family))
         return error::create_failed;
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
@@ -254,7 +255,7 @@ LAVA_TEST(5, "color block")
             .layerCount = 1,
         };
 
-        auto frame_image = render_target->get_backbuffer_image(block.get_current_frame());
+        auto frame_image = render_target->get_image(block.get_current_frame());
 
         insert_image_memory_barrier(device, cmd_buf, frame_image,
                                     VK_ACCESS_MEMORY_READ_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
@@ -303,6 +304,7 @@ LAVA_TEST(5, "color block")
     frame.add_run_end([&]() {
 
         block.destroy();
+
         simple_renderer.destroy();
         render_target->destroy();
     });
@@ -373,7 +375,7 @@ LAVA_TEST(7, "forward shading")
     auto render_pass = forward_shading.get_render_pass();
 
     block block;
-    if (!block.create(device, render_target->get_frame_count(), device->get_graphics_queue().family))
+    if (!block.create(device, render_target->get_frame_count(), device->graphics_queue().family))
         return false;
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
@@ -460,19 +462,17 @@ LAVA_TEST(8, "imgui demo")
 
     auto render_pass = forward_shading.get_render_pass();
 
-    gui gui;
-    gui.setup(window.get());
-    if (!gui.initialize(graphics_pipeline::make(device), frame_count))
+    gui gui(window.get());
+    if (!gui.create(graphics_pipeline::make(device), frame_count))
         return error::create_failed;
 
     {
         auto gui_pipeline = gui.get_pipeline();
 
-        gui_pipeline->set_render_pass(render_pass->get());
-        if (!gui_pipeline->create())
+        if (!gui_pipeline->create(render_pass->get()))
             return error::create_failed;
 
-        render_pass->get_subpass()->add(gui_pipeline);
+        render_pass->add(gui_pipeline);
     }
 
     auto fonts = texture::make();
@@ -488,9 +488,11 @@ LAVA_TEST(8, "imgui demo")
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
 
-        staging.stage(cmd_buf, block.get_current_frame());
+        auto current_frame = block.get_current_frame();
 
-        render_pass->process(cmd_buf, block.get_current_frame());
+        staging.stage(cmd_buf, current_frame);
+
+        render_pass->process(cmd_buf, current_frame);
     });
 
     gui.on_draw = [&]() {
@@ -547,8 +549,8 @@ LAVA_TEST(8, "imgui demo")
     frame.add_run_end([&]() {
 
         input.remove(&gui);
-        gui.shutdown();
 
+        gui.destroy();
         fonts->destroy();
 
         block.destroy();

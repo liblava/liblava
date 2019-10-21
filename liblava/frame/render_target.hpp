@@ -45,6 +45,8 @@ struct render_target {
         return result ? result->get() : nullptr;
     }
 
+    inline VkImage get_image(index index) { return get_backbuffer_image(index); }
+
     void add_callback(target_callback* callback) { target_callbacks.push_back(callback); }
     void remove_callback(target_callback* callback) { remove(target_callbacks, callback); }
 

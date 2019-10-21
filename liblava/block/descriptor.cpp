@@ -64,7 +64,7 @@ void descriptor::add_binding(index binding, VkDescriptorType descriptor_type, Vk
     add(item);
 }
 
-VkDescriptorSet descriptor::allocate_descriptor_set() {
+VkDescriptorSet descriptor::allocate_set() {
 
     VkDescriptorSet descriptor_set = nullptr;
 
@@ -82,7 +82,7 @@ VkDescriptorSet descriptor::allocate_descriptor_set() {
     return descriptor_set;
 }
 
-bool descriptor::free_descriptor_set(VkDescriptorSet descriptor_set) {
+bool descriptor::free_set(VkDescriptorSet descriptor_set) {
 
     std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
 
@@ -90,7 +90,7 @@ bool descriptor::free_descriptor_set(VkDescriptorSet descriptor_set) {
                                                     to_ui32(descriptor_sets.size()), descriptor_sets.data()));
 }
 
-VkDescriptorSets descriptor::create_descriptor_sets(ui32 size) {
+VkDescriptorSets descriptor::create_sets(ui32 size) {
 
     VkDescriptorSets result(size);
 
@@ -108,7 +108,7 @@ VkDescriptorSets descriptor::create_descriptor_sets(ui32 size) {
     return result;
 }
 
-bool descriptor::free_descriptor_sets(VkDescriptorSets const& descriptor_sets) {
+bool descriptor::free_sets(VkDescriptorSets const& descriptor_sets) {
 
     return check(dev->call().vkFreeDescriptorSets(dev->get(), dev->get_descriptor_pool(), 
                                                     to_ui32(descriptor_sets.size()), descriptor_sets.data()));

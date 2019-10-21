@@ -52,11 +52,11 @@ struct descriptor : id_obj {
 
     VkDescriptorSetLayout get() const { return layout; }
 
-    VkDescriptorSet allocate_descriptor_set();
-    bool free_descriptor_set(VkDescriptorSet descriptor_set);
+    VkDescriptorSet allocate_set();
+    bool free_set(VkDescriptorSet descriptor_set);
 
-    VkDescriptorSets create_descriptor_sets(ui32 size);
-    bool free_descriptor_sets(VkDescriptorSets const& descriptor_sets);
+    VkDescriptorSets create_sets(ui32 size);
+    bool free_sets(VkDescriptorSets const& descriptor_sets);
 
 private:
     device* dev = nullptr;

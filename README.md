@@ -37,7 +37,7 @@ All we need is a window, a device and a renderer.
 
 Vulkan is a low-level, verbose graphics API and such a program can take several hundred lines of code.
 
-The good news is that **liblava** will set up all for you.
+The good news is that **liblava** will set it up for you.
 
 ```c++
 #include <liblava/lava.h>
@@ -163,7 +163,7 @@ VkCommandBuffers cmd_bufs(frame_count);
 
 auto build_cmd_bufs = [&]() {
 
-    if (!device->vkCreateCommandPool(device->get_graphics_queue().family, &cmd_pool))
+    if (!device->vkCreateCommandPool(device->graphics_queue().family, &cmd_pool))
         return false;
 
     if (!device->vkAllocateCommandBuffers(cmd_pool, frame_count, cmd_bufs.data()))
@@ -187,7 +187,7 @@ auto build_cmd_bufs = [&]() {
     for (auto i = 0u; i < frame_count; i++) {
 
         auto cmd_buf = cmd_bufs[i];
-        auto frame_image = render_target->get_backbuffer_image(i);
+        auto frame_image = render_target->get_image(i);
 
         if (failed(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
             return false;
@@ -257,6 +257,7 @@ frame.add_run([&]() {
 frame.add_run_end([&]() {
 
     clean_cmd_bufs();
+    
     simple_renderer.destroy();
     render_target->destroy();
 });
@@ -281,14 +282,14 @@ That's a static example with command buffer reusage.
 
 Vulkan supports a more dynamic and common usage by resetting the command pool before recording commands. 
 
-It's time for `lava::block`...
+It's time for... `lava::block`
 
 #### 5. color block
 
 ```c++
 block block;
 
-if (!block.create(device, frame_count, device->get_graphics_queue().family))
+if (!block.create(device, frame_count, device->graphics_queue().family))
     return error::create_failed;
 
 block.add_command([&](VkCommandBuffer cmd_buf) {
@@ -302,7 +303,7 @@ block.add_command([&](VkCommandBuffer cmd_buf) {
         .layerCount = 1,
     };
 
-    auto frame_image = render_target->get_backbuffer_image(block.get_current_frame());
+    auto frame_image = render_target->get_image(block.get_current_frame());
 
     insert_image_memory_barrier(device, cmd_buf, frame_image,
                                 VK_ACCESS_MEMORY_READ_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,

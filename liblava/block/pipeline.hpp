@@ -17,8 +17,11 @@ struct pipeline_layout : id_obj {
 
     static ptr make() { return std::make_shared<pipeline_layout>(); }
 
-    void add(descriptor::ptr const& layout) { descriptors.push_back(layout); }
+    void add(descriptor::ptr const& descriptor) { descriptors.push_back(descriptor); }
     void add(VkPushConstantRange const& range) { push_constant_ranges.push_back(range); }
+    
+    void add_layout(descriptor::ptr const& layout) { add(layout); }
+    void add_range(VkPushConstantRange const& range) { add(range); }
 
     bool create(device* device);
     void destroy();
@@ -133,8 +136,17 @@ struct graphics_pipeline : pipeline {
     void bind(VkCommandBuffer cmd_buf) override;
     void set_viewport_and_scissor(VkCommandBuffer cmd_buf, uv2 size);
 
-    void set_render_pass(VkRenderPass value) { render_pass = value; }
+    void set_render_pass(VkRenderPass pass) { render_pass = pass; }
+    void set(VkRenderPass pass) { set_render_pass(pass); }
+
     VkRenderPass get_render_pass() const { return render_pass; }
+
+    bool create(VkRenderPass pass) {
+        
+        set(pass);
+        
+        return pipeline::create();
+    }
 
     void set_vertex_input_binding(VkVertexInputBindingDescription const& description);
     void set_vertex_input_bindings(VkVertexInputBindingDescriptions const& descriptions);

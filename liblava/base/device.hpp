@@ -63,13 +63,23 @@ struct device : device_table, no_copy_no_move {
         index family = 0;
     };
 
-    queue::ref get_graphics_queue(ui32 index = 0) const { return get_graphics_queues().at(index); }
-    queue::ref get_compute_queue(ui32 index = 0) const { return get_compute_queues().at(index); }
-    queue::ref get_transfer_queue(ui32 index = 0) const { return get_transfer_queues().at(index); }
+    queue::ref get_graphics_queue(index index = 0) const { return get_graphics_queues().at(index); }
+    queue::ref graphics_queue(index index = 0) const { return get_graphics_queue(index); }
 
-    queue::list const& get_graphics_queues() const { return graphics_queues; }
-    queue::list const& get_compute_queues() const { return compute_queues; }
-    queue::list const& get_transfer_queues() const { return transfer_queues; }
+    queue::ref get_compute_queue(index index = 0) const { return get_compute_queues().at(index); }
+    queue::ref compute_queue(index index = 0) const { return get_compute_queue(index); }
+
+    queue::ref get_transfer_queue(index index = 0) const { return get_transfer_queues().at(index); }
+    queue::ref transfer_queue(index index = 0) const { return get_transfer_queue(index); }
+
+    queue::list const& get_graphics_queues() const { return _graphics_queues; }
+    queue::list const& graphics_queues() const { return get_graphics_queues(); }
+
+    queue::list const& get_compute_queues() const { return _compute_queues; }
+    queue::list const& compute_queues() const { return get_compute_queues(); }
+
+    queue::list const& get_transfer_queues() const { return _transfer_queues; }
+    queue::list const& transfer_queues() const { return get_transfer_queues(); }
 
     VkDevice get() const { return vk_device; }
     VolkDeviceTable const& call() const { return table; }
@@ -98,9 +108,9 @@ private:
 
     VkDescriptorPool descriptor_pool = nullptr;
 
-    queue::list graphics_queues;
-    queue::list compute_queues;
-    queue::list transfer_queues;
+    queue::list _graphics_queues;
+    queue::list _compute_queues;
+    queue::list _transfer_queues;
 
     allocator::ptr _allocator;
 };
