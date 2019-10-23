@@ -56,8 +56,14 @@ struct mesh : id_obj {
     bool create(device* device, bool mapped = false, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
     void destroy();
 
-    void bind(VkCommandBuffer cmd_buffer) const;
-    void draw(VkCommandBuffer cmd_buffer) const;
+    void bind(VkCommandBuffer cmd_buf) const;
+    void draw(VkCommandBuffer cmd_buf) const;
+
+    void bind_draw(VkCommandBuffer cmd_buf) const {
+
+        bind(cmd_buf);
+        draw(cmd_buf);
+    }
 
     device* get_device() { return dev; }
 

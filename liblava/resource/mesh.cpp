@@ -98,26 +98,26 @@ bool mesh::reload() {
     return create(device, mapped, memory_usage);
 }
 
-void mesh::bind(VkCommandBuffer cmd_buffer) const {
+void mesh::bind(VkCommandBuffer cmd_buf) const {
 
     if (vertex_buffer && vertex_buffer->is_valid()) {
 
         std::array<VkDeviceSize, 1> const buffer_offsets = { 0 };
         std::array<VkBuffer, 1> const buffers = { vertex_buffer->get() };
 
-        vkCmdBindVertexBuffers(cmd_buffer, 0, to_ui32(buffers.size()), buffers.data(), buffer_offsets.data());
+        vkCmdBindVertexBuffers(cmd_buf, 0, to_ui32(buffers.size()), buffers.data(), buffer_offsets.data());
     }
 
     if (index_buffer && index_buffer->is_valid())
-        vkCmdBindIndexBuffer(cmd_buffer, index_buffer->get(), 0, VK_INDEX_TYPE_UINT32);
+        vkCmdBindIndexBuffer(cmd_buf, index_buffer->get(), 0, VK_INDEX_TYPE_UINT32);
 }
 
-void mesh::draw(VkCommandBuffer cmd_buffer) const {
+void mesh::draw(VkCommandBuffer cmd_buf) const {
 
     if (!data.indices.empty())
-        vkCmdDrawIndexed(cmd_buffer, to_ui32(data.indices.size()), 1, 0, 0, 0);
+        vkCmdDrawIndexed(cmd_buf, to_ui32(data.indices.size()), 1, 0, 0, 0);
     else
-        vkCmdDraw(cmd_buffer, to_ui32(data.vertices.size()), 1, 0, 0);
+        vkCmdDraw(cmd_buf, to_ui32(data.vertices.size()), 1, 0, 0);
 }
 
 } // lava
