@@ -23,6 +23,8 @@ message("=======================================================================
 message(" https://git.io/liblava                                  lava-block.com ")
 message("========================================================================")
 
+message("> module")
+
 if(CMAKE_COMPILER_IS_GNUCXX)
         set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS ON)
 endif()
@@ -34,8 +36,6 @@ endif()
 set(LIBLAVA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava)
 set(LIBLAVA_EXT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ext)
 set(LIBLAVA_TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
-
-# add_subdirectory(ext)
 
 message(">> lava::core")
 
@@ -298,7 +298,7 @@ target_link_libraries(lava.tool
 
 add_library(lava::tool ALIAS lava.tool)
 
-message(">> tests")
+message("> tests")
 
 add_executable(lava 
         ${LIBLAVA_TESTS_DIR}/driver.cpp
