@@ -119,7 +119,7 @@ LAVA_TEST(4, "clear color")
             .flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT,
         };
 
-        VkClearColorValue clear_color = { random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f), 0.f };
+        VkClearColorValue clear_color = { lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f), 0.f };
 
         VkImageSubresourceRange image_range
         {
@@ -246,7 +246,7 @@ LAVA_TEST(5, "color block")
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
 
-        VkClearColorValue clear_color = { random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f), 0.f };
+        VkClearColorValue clear_color = { lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f), 0.f };
 
         VkImageSubresourceRange image_range
         {
@@ -380,7 +380,7 @@ LAVA_TEST(7, "forward shading")
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
 
-        render_pass->set_clear_color({ random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f) });
+        render_pass->set_clear_color({ lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f) });
         render_pass->process(cmd_buf, block.get_current_frame());
     });
 
