@@ -94,7 +94,12 @@ private:
     string res_path;
 };
 
-BETTER_ENUM(file_type, type, none = 0, fs, f_stream)
+enum class file_type : type {
+
+    none = 0,
+    fs,
+    f_stream
+};
 
 constexpr i64 const file_error = -1;
 

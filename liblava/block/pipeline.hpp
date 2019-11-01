@@ -118,13 +118,18 @@ private:
     bool auto_bind = false;
 };
 
-BETTER_ENUM(graphics_pipeline_size_type, type, input = 0, absolute, relative)
-
 struct graphics_pipeline : pipeline {
 
     using ptr = std::shared_ptr<graphics_pipeline>;
     using map = std::map<id, ptr>;
     using list = std::vector<ptr>;
+
+    enum class size_type : type {
+
+        input = 0,
+        absolute,
+        relative
+    };
 
     static ptr make(device* device, VkPipelineCache pipeline_cache = nullptr) {
 
@@ -183,8 +188,8 @@ struct graphics_pipeline : pipeline {
     VkRect2D get_scissor() const { return scissor; }
     void set_scissor(VkRect2D value) { scissor = value; }
 
-    graphics_pipeline_size_type get_size_type() const { return size_type; }
-    void set_size_type(graphics_pipeline_size_type value) { size_type = value; }
+    size_type get_size_type() const { return _size_type; }
+    void set_size_type(size_type value) { _size_type = value; }
 
     void copy_to(graphics_pipeline* target) const;
     void copy_from(ptr const& source) { source->copy_to(this); }
@@ -221,7 +226,7 @@ private:
 
     shader_stage::list shader_stages;
 
-    graphics_pipeline_size_type size_type = graphics_pipeline_size_type::input;
+    size_type _size_type = size_type::input;
     VkViewport viewport;
     VkRect2D scissor;
 

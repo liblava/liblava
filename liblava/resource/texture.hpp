@@ -9,7 +9,13 @@
 
 namespace lava {
 
-BETTER_ENUM(texture_type, type, none = 0, tex_2d, array, cube_map)
+enum class texture_type : type {
+
+    none = 0,
+    tex_2d,
+    array,
+    cube_map
+};
 
 struct file_format {
 

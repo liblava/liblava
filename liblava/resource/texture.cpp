@@ -54,7 +54,7 @@ bool texture::create(device* device, uv2 size, VkFormat format, layer::list cons
     }
 
     VkSamplerAddressMode sampler_address_mode = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-    if (type._value == texture_type::array || type._value == texture_type::cube_map)
+    if (type == texture_type::array || type == texture_type::cube_map)
         sampler_address_mode = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
 
     VkSamplerCreateInfo sampler_info
@@ -86,15 +86,15 @@ bool texture::create(device* device, uv2 size, VkFormat format, layer::list cons
 
     _image = image::make(format);
 
-    if (type._value == texture_type::cube_map)
+    if (type == texture_type::cube_map)
         _image->set_flags(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
 
     auto view_type = VK_IMAGE_VIEW_TYPE_2D;
-    if (type._value == texture_type::array) {
+    if (type == texture_type::array) {
 
         view_type = VK_IMAGE_VIEW_TYPE_2D_ARRAY;
 
-    } else if (type._value == texture_type::cube_map) {
+    } else if (type == texture_type::cube_map) {
 
         view_type = VK_IMAGE_VIEW_TYPE_CUBE;
     }

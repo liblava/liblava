@@ -395,12 +395,12 @@ void graphics_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf, uv2 si
 	scissorParam.offset = { 0, 0 };
 	scissorParam.extent = { size.x, size.y };
 
-	if (size_type._value == graphics_pipeline_size_type::absolute) {
+	if (_size_type == size_type::absolute) {
 
 		viewportParam = viewport;
 		scissorParam = scissor;
 
-	} else if (size_type._value == graphics_pipeline_size_type::relative) {
+	} else if (_size_type == size_type::relative) {
 
 		viewportParam.x = viewport.x * size.x;
 		viewportParam.y = viewport.y * size.y;

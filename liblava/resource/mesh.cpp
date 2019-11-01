@@ -138,7 +138,7 @@ lava::mesh::ptr lava::load_mesh(device* device, name filename) {
         file_guard temp_file_remover;
         {
             file file(filename);
-            if (file.is_open() && file.get_type()._value == file_type::fs) {
+            if (file.is_open() && file.get_type() == file_type::fs) {
 
                 string temp_file;
                 temp_file = file_system::get_pref_dir();
@@ -267,7 +267,7 @@ lava::mesh::ptr lava::load_mesh(device* device, name filename) {
 
 lava::mesh::ptr lava::load_mesh(device* device, mesh_type type) {
 
-    switch (type._value) {
+    switch (type) {
 
     case mesh_type::cube: {
 
@@ -275,40 +275,40 @@ lava::mesh::ptr lava::load_mesh(device* device, mesh_type type) {
         cube->get_vertices() = {
 
             // front
-            { { 1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, 1.f } },
-            { { -1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, 1.f } },
+            { {  1.f,  1.f, 1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, 1.f } },
+            { { -1.f,  1.f, 1.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, 1.f } },
             { { -1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 0.f, 1.f } },
-            { { 1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f, 1.f } },
+            { {  1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f, 1.f } },
 
             // back
-            { { 1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, -1.f } },
-            { { -1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, -1.f } },
+            { {  1.f,  1.f, -1.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, -1.f } },
+            { { -1.f,  1.f, -1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, -1.f } },
             { { -1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f, -1.f } },
-            { { 1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 0.f, -1.f } },
+            { {  1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 0.f, -1.f } },
 
             // left
-            { { -1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { -1.f, 0.f, 0.f } },
-            { { -1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { -1.f, 0.f, 0.f } },
+            { { -1.f,  1.f,  1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { -1.f, 0.f, 0.f } },
+            { { -1.f,  1.f, -1.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { -1.f, 0.f, 0.f } },
             { { -1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f }, { 0.f, 0.f }, { -1.f, 0.f, 0.f } },
-            { { -1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { -1.f, 0.f, 0.f } },
+            { { -1.f, -1.f,  1.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { -1.f, 0.f, 0.f } },
 
             // right
-            { { 1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 1.f, 0.f, 0.f } },
-            { { 1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 1.f, 0.f, 0.f } },
+            { { 1.f,  1.f,  1.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 1.f, 0.f, 0.f } },
+            { { 1.f, -1.f,  1.f }, { 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 1.f, 0.f, 0.f } },
             { { 1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 1.f, 0.f, 0.f } },
-            { { 1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 1.f, 0.f, 0.f } },
+            { { 1.f,  1.f, -1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 1.f, 0.f, 0.f } },
 
             // bottom
-            { { 1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 1.f, 0.f } },
-            { { -1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 1.f, 0.f } },
+            { {  1.f, 1.f,  1.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 1.f, 0.f } },
+            { { -1.f, 1.f,  1.f }, { 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 1.f, 0.f } },
             { { -1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 1.f, 0.f } },
-            { { 1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 1.f, 0.f } },
+            { {  1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 1.f, 0.f } },
 
             // top
-            { { 1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, -1.f, 0.f } },
-            { { -1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, -1.f, 0.f } },
+            { {  1.f, -1.f,  1.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, -1.f, 0.f } },
+            { { -1.f, -1.f,  1.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, -1.f, 0.f } },
             { { -1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, -1.f, 0.f } },
-            { { 1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, -1.f, 0.f } },
+            { {  1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, -1.f, 0.f } },
         };
 
         cube->get_indices() = { 0, 1, 2,
@@ -335,9 +335,9 @@ lava::mesh::ptr lava::load_mesh(device* device, mesh_type type) {
 
         auto triangle = mesh::make();
 
-        triangle->get_vertices().push_back({ { 1.f, 1.f, 0.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, 1.f } });
-        triangle->get_vertices().push_back({ { -1.f, 1.f, 0.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, 1.f } });
-        triangle->get_vertices().push_back({ { 0.f, -1.f, 0.f }, { 1.f, 1.f, 1.f }, { 0.5f, 0.f }, { 0.f, 0.f, 1.f } });
+        triangle->get_vertices().push_back({ {  1.f,  1.f, 0.f }, { 1.f, 1.f, 1.f }, { 1.f,  1.f }, { 0.f, 0.f, 1.f } });
+        triangle->get_vertices().push_back({ { -1.f,  1.f, 0.f }, { 1.f, 1.f, 1.f }, { 0.f,  1.f }, { 0.f, 0.f, 1.f } });
+        triangle->get_vertices().push_back({ {  0.f, -1.f, 0.f }, { 1.f, 1.f, 1.f }, { 0.5f, 0.f }, { 0.f, 0.f, 1.f } });
 
         if (!triangle->create(device))
             return nullptr;
@@ -351,10 +351,10 @@ lava::mesh::ptr lava::load_mesh(device* device, mesh_type type) {
 
         quad->get_vertices() = 
         {
-            { { 1.f, 1.f, 0.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, 1.f } },
-            { { -1.f, 1.f, 0.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, 1.f } },
+            { {  1.f,  1.f, 0.f }, { 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, 1.f } },
+            { { -1.f,  1.f, 0.f }, { 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, 1.f } },
             { { -1.f, -1.f, 0.f }, { 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 0.f, 1.f } },
-            { { 1.f, -1.f, 0.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f, 1.f } },
+            { {  1.f, -1.f, 0.f }, { 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f, 1.f } },
         };
 
         quad->get_indices() = { 0, 1, 2, 2, 3, 0 };

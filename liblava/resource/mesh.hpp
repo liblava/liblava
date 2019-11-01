@@ -100,7 +100,13 @@ private:
 
 mesh::ptr load_mesh(device* device, name filename);
 
-BETTER_ENUM(mesh_type, type, none = 0, cube, triangle, quad)
+enum class mesh_type : type {
+
+    none = 0,
+    cube,
+    triangle,
+    quad
+};
 
 mesh::ptr load_mesh(device* device, mesh_type type);
 

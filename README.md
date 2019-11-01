@@ -395,7 +395,6 @@ $ make
 
 * [argh](https://github.com/adishavit/argh) / 3-clause BSD
 * [assimp](https://github.com/assimp/assimp) / modified 3-clause BSD
-* [better-enums](https://github.com/aantron/better-enums) / 2-clause BSD
 * [bitmap](https://github.com/ArashPartow/bitmap) / MIT
 * [glfw](https://github.com/glfw/glfw) / zlib
 * [gli](https://github.com/g-truc/gli) / MIT

@@ -4,9 +4,6 @@
 [submodule "ext/assimp"]
 	path = ext/assimp
 	url = https://github.com/assimp/assimp.git
-[submodule "ext/better-enums"]
-	path = ext/better-enums
-	url = https://github.com/aantron/better-enums.git
 [submodule "ext/bitmap"]
 	path = ext/bitmap
 	url = https://github.com/ArashPartow/bitmap.git

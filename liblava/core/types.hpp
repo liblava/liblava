@@ -15,8 +15,6 @@
 
 #include <functional>
 
-#include <enum.h>
-
 namespace lava {
 
 using int8 = std::int8_t;

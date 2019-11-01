@@ -47,7 +47,6 @@ add_library(lava.core INTERFACE)
 
 target_include_directories(lava.core INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}
-        ${LIBLAVA_EXT_DIR}/better-enums
         ${LIBLAVA_EXT_DIR}/glm
         )
 
