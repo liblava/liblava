@@ -105,7 +105,7 @@ window.assign(&input);
 
 input.key.listeners.add([&](key_event::ref event) {
 
-    if (event.key == key::escape && event.action == action::press)
+    if (event.pressed(key::escape))
         frame.shut_down();
 });
 
@@ -140,7 +140,7 @@ window.assign(&input);
 
 input.key.listeners.add([&](key_event::ref event) {
 
-    if (event.key == key::escape && event.action == action::press)
+    if (event.pressed(key::escape))
         frame.shut_down();
 });
 

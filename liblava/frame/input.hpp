@@ -107,6 +107,10 @@ struct key_event {
     input_mod mods;
 
     i32 scancode = 0;
+
+    bool pressed(input_key key_) const { return action == action::press && key == key_; }
+    bool released(input_key key_) const { return action == action::release && key == key_; }
+    bool repeated(input_key key_) const { return action == action::repeat && key == key_; }
 };
 
 struct scroll_offset {
