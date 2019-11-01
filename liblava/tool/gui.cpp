@@ -1,5 +1,5 @@
 // file      : liblava/tool/gui.cpp
-// copyright : Copyright (c) 2018-present, Lava Block O�
+// copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/tool/gui.hpp>

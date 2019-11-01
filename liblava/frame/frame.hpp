@@ -32,7 +32,7 @@ enum error {
     aborted         = -3,
 };
 
-time now();
+milliseconds now();
 
 struct frame : no_copy_no_move {
 
@@ -60,7 +60,7 @@ struct frame : no_copy_no_move {
 
     bool remove(id::ref id);
 
-    time get_running_time() const { return now() - start_time; }
+    milliseconds get_running_time() const { return now() - start_time; }
 
     argh::parser& get_cmd_line() { return cmd_line; }
 
@@ -90,7 +90,7 @@ private:
 
     bool running = false;
     bool wait_for_events = false;
-    time start_time = 0.0;
+    milliseconds start_time;
 
     using run_func_map = std::map<id, run_func>;
     run_func_map run_map;
@@ -99,9 +99,10 @@ private:
     run_end_func_map run_end_map;
 };
 
-void handle_events(bool wait_for_events = false);
+void handle_events(bool wait = false);
 
-void handle_events(time timeout);
+void handle_events(milliseconds timeout);
+void handle_events(seconds timeout);
 
 void post_empty_event();
 

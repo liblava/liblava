@@ -23,10 +23,10 @@ LAVA_TEST(2, "run loop")
 
     frame.add_run([&]() {
 
-        sleep(1.0);
+        sleep(seconds(1));
         count++;
 
-        log()->debug("{} - running {} sec", count, frame.get_running_time());
+        log()->debug("{} - running {} sec", count, to_sec(frame.get_running_time()));
 
         if (count == 3)
             frame.shut_down();
@@ -333,7 +333,7 @@ LAVA_TEST(6, "gamepad listener")
 
     frame.add_run([&]() {
 
-        sleep(1.0);
+        sleep(seconds(1));
 
         return true;
     });

@@ -65,8 +65,6 @@ using size_t = std::size_t;
 using uchar = unsigned char;
 using r32 = float;
 using r64 = double;
-
-using time = r64;
 using real = r64;
 
 using type = ui32;

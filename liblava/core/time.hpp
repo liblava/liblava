@@ -12,82 +12,44 @@
 
 namespace lava {
 
-inline time ms_in_seconds(ui32 ms) { return ms / 1000.f; }
+using seconds = std::chrono::seconds;
+using milliseconds = std::chrono::milliseconds;
 
-inline ui32 seconds_in_ms(time sec) { return to_ui32(sec * 1000.f); }
+using clock = std::chrono::high_resolution_clock;
+using time_point = clock::time_point;
+using duration = clock::duration;
 
-struct time_info {
-
-    ui32 hours = 0;
-    ui32 minutes = 0;
-    ui32 seconds = 0;
-    ui32 ms = 0;
-};
-
-inline time to_time(ui32 hours = 0, ui32 minutes = 0, ui32 seconds = 0, ui32 ms = 0) {
-
-    return hours * 3600 + minutes * 60 + seconds + ms / 1000.;
-}
-
-inline time to_time(time_info info) {
-
-    return to_time(info.hours, info.minutes, info.seconds, info.ms);
-}
-
-inline time_info to_time(time time) {
-
-    time_info info;
-    info.hours = to_ui32(time / 3600);
-    auto temp = time - info.hours * 3600;
-    info.minutes = to_ui32(temp / 60);
-    temp = temp - info.minutes * 60;
-    info.seconds = to_ui32(temp);
-    temp = temp - info.seconds;
-    info.ms = to_ui32(temp * 1000);
-    return info;
-}
-
-using time_point = std::chrono::high_resolution_clock::time_point;
-using duration = std::chrono::high_resolution_clock::duration;
-
-inline float to_float_seconds(duration d) {
-
-    return std::chrono::duration_cast<std::chrono::duration<float>>(d).count();
-}
+inline r64 to_sec(milliseconds ms) { return ms.count() / 1000.0; }
+inline milliseconds to_ms(r64 sec) { return milliseconds(to_i32(sec * 1000.0)); }
 
 struct timer {
 
-    timer() : time_point(clock::now()) {}
+    timer() : start_time(clock::now()) {}
 
-    void reset() { time_point = clock::now(); }
+    void reset() { start_time = clock::now(); }
 
-    time elapsed() const {
+    milliseconds elapsed() const {
 
-        return std::chrono::duration_cast<second>(clock::now() - time_point).count();
+        return std::chrono::duration_cast<std::chrono::milliseconds>(clock::now() - start_time);
     }
 
 private:
-    using clock = std::chrono::high_resolution_clock;
-    using second = std::chrono::duration<time, std::ratio<1>>;
-
-    std::chrono::time_point<clock> time_point;
+    time_point start_time;
 };
 
 struct run_time {
 
-    time seconds = 0.;
-    time clock = 0.016;
+    milliseconds current;
+    milliseconds clock{ 16 };
 
-    time system = 0.;
-    time delta = 0.;
+    milliseconds system;
+    milliseconds delta;
 
     bool use_fix_delta = false;
-    time fix_delta = 0.02;
+    milliseconds fix_delta{ 20 };
 
     r32 speed = 1.f;
     bool paused = false;
-
-    time get_speed_delta() const { return delta * speed; }
 };
 
 #pragma warning(push)

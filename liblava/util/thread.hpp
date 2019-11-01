@@ -14,9 +14,14 @@
 
 namespace lava {
 
-inline void sleep(time seconds) {
+inline void sleep(milliseconds time) {
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(seconds_in_ms(seconds)));
+    std::this_thread::sleep_for(time);
+}
+
+inline void sleep(seconds time) {
+
+    std::this_thread::sleep_for(time);
 }
 
 struct thread_pool {

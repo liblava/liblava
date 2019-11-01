@@ -1,5 +1,5 @@
 // file      : liblava/tool/gui.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ
+// copyright : Copyright (c) 2018-present, Lava Block OÃœ
 // license   : MIT; see accompanying LICENSE file
 
 #pragma once
@@ -85,7 +85,7 @@ private:
     GLFWwindow* window = nullptr;
 
     bool mouse_just_pressed[5] = { false, false, false, false, false };
-    time current_time = 0.0;
+    r64 current_time = 0.0;
 
     std::vector<GLFWcursor*> mouse_cursors;
 
