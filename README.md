@@ -404,7 +404,6 @@ $ make
 * [selene](https://github.com/kmhofmann/selene) / MIT
 * [spdlog](https://github.com/gabime/spdlog) / MIT
 * [stb](https://github.com/nothings/stb) / MIT
-* [tinyfiledialogs](https://github.com/native-toolkit/tinyfiledialogs) / zlib
 * [tinyobjloader](https://github.com/syoyo/tinyobjloader) / MIT
 * [volk](https://github.com/zeux/volk) / MIT
 * [Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers) / Apache 2.0

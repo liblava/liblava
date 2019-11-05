@@ -82,17 +82,11 @@ add_library(lava.util STATIC
         ${LIBLAVA_DIR}/util/telegram.hpp
         ${LIBLAVA_DIR}/util/thread.hpp
         ${LIBLAVA_DIR}/util/utility.hpp
-        ${LIBLAVA_EXT_DIR}/tinyfiledialogs/tinyfiledialogs.c
         )
-
-if(WIN32)
-        set_source_files_properties(${LIBLAVA_EXT_DIR}/tinyfiledialogs/tinyfiledialogs.c PROPERTIES COMPILE_FLAGS " /W0 ")
-endif()
 
 target_include_directories(lava.util PUBLIC
         ${LIBLAVA_EXT_DIR}/spdlog/include
         ${LIBLAVA_EXT_DIR}/physfs/src
-        ${LIBLAVA_EXT_DIR}/tinyfiledialogs
         ${LIBLAVA_EXT_DIR}/json/single_include
         )
 

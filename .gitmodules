@@ -29,9 +29,6 @@
 [submodule "ext/stb"]
 	path = ext/stb
 	url = https://github.com/nothings/stb.git
-[submodule "ext/tinyfiledialogs"]
-	path = ext/tinyfiledialogs
-	url = https://github.com/native-toolkit/tinyfiledialogs.git
 [submodule "ext/tinyobjloader"]
 	path = ext/tinyobjloader
 	url = https://github.com/syoyo/tinyobjloader.git

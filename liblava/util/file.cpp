@@ -6,7 +6,6 @@
 #include <liblava/util/utility.hpp>
 
 #include <physfs.h>
-#include <tinyfiledialogs.h>
 
 bool lava::read_file(std::vector<char>& out, name filename) {
 
@@ -372,66 +371,4 @@ bool lava::load_file_data(string_ref filename, scope_data& data) {
     }
 
     return true;
-}
-
-lava::string_list lava::open_file_dialog(file_dialog const& dialog, bool multiFile) {
-
-    auto dialog_result = tinyfd_openFileDialog(dialog.title, dialog.default_path_and_file,
-                                                to_i32(dialog.filter_pattern.size()), dialog.filter_pattern.data(),
-                                                dialog.single_filter_description, multiFile ? 1 : 0);
-
-    if (!dialog_result)
-        return {};
-
-    string_list result;
-
-    if (multiFile) {
-
-        string s = dialog_result;
-        string delimiter = "|";
-
-        size_t pos = 0;
-        string token;
-
-        auto count = std::count(s.begin(), s.end(), '|');
-        result.resize(to_ui32(count) + 1);
-
-        if (count > 0) {
-
-            auto index = 0u;
-            while ((pos = s.find(delimiter)) != string::npos) {
-
-                token = s.substr(0, pos);
-                result.at(index) = token;
-                s.erase(0, pos + delimiter.length());
-                ++index;
-            }
-
-            result.at(index) = s;
-
-        } else {
-
-            result.at(0) = dialog_result;
-        }
-
-    } else {
-
-        result.resize(1);
-        result.at(0) = dialog_result;
-    }
-
-    return result;
-}
-
-lava::string lava::save_file_dialog(file_dialog const& dialog) {
-
-    return tinyfd_saveFileDialog(dialog.title, dialog.default_path_and_file,
-                                    to_i32(dialog.filter_pattern.size()),
-                                    dialog.filter_pattern.data(),
-                                    dialog.single_filter_description);
-}
-
-lava::string lava::select_folder_dialog(name title, name default_path) {
-
-    return tinyfd_selectFolderDialog(title, default_path);
 }

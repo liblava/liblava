@@ -149,20 +149,6 @@ private:
     scope_data _data;
 };
 
-struct file_dialog {
-
-    name title = "";
-    name default_path_and_file = "";
-    names filter_pattern = {};
-    name single_filter_description = nullptr;
-};
-
-string_list open_file_dialog(file_dialog const& dialog = {}, bool multi_file = false);
-
-string save_file_dialog(file_dialog const& dialog = {});
-
-string select_folder_dialog(name title = "", name default_path = "");
-
 struct config_file_callback {
 
     using list = std::vector<config_file_callback*>;
