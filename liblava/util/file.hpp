@@ -35,7 +35,7 @@ bool remove_existing_path(string& target, string_ref path);
 
 struct file_guard : no_copy_no_move {
 
-    explicit file_guard(name filename = nullptr) : filename(filename) {}
+    explicit file_guard(name filename = "") : filename(filename) {}
     explicit file_guard(string filename) : filename(filename) {}
 
     ~file_guard() {
@@ -44,7 +44,7 @@ struct file_guard : no_copy_no_move {
             fs::remove(filename);
     }
 
-    string filename = nullptr;
+    string filename;
     bool remove = true;
 };
 

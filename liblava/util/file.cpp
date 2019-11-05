@@ -132,6 +132,10 @@ bool file_system::initialize(name argv_0, name org_, name app_, name ext_) {
 
         PHYSFS_setSaneConfig(org_, app_, ext_, 0, 0);
         initialized = true;
+
+        org = org_;
+        app = app_;
+        ext = ext_;
     }
 
     return initialized;
