@@ -34,7 +34,11 @@ struct pipeline_layout : id_obj {
 
     using offset_list = std::vector<ui32>;
 
-    void bind_descriptor_set(VkCommandBuffer cmdBuffer, VkDescriptorSet descriptorSet, offset_list offsets = {});
+    void bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets = {});
+    void bind(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets = {}) {
+
+        bind_descriptor_set(cmd_buf, descriptor_set, offsets);
+    }
 
 private:
     device* dev = nullptr;
@@ -115,7 +119,7 @@ protected:
 
 private:
     bool active = true;
-    bool auto_bind = false;
+    bool auto_bind = true;
 };
 
 struct graphics_pipeline : pipeline {
@@ -159,7 +163,7 @@ struct graphics_pipeline : pipeline {
     void set_vertex_input_attribute(VkVertexInputAttributeDescription const& attribute);
     void set_vertex_input_attributes(VkVertexInputAttributeDescriptions const& attributes);
 
-    void set_depth_test_and_write(bool test_enable, bool write_enable);
+    void set_depth_test_and_write(bool test_enable = true, bool write_enable = true);
     void set_depth_compare_op(VkCompareOp compare_op);
 
     void set_rasterization_cull_mode(VkCullModeFlags cull_mode);
@@ -173,7 +177,11 @@ struct graphics_pipeline : pipeline {
     void add_dynamic_state(VkDynamicState state);
 
     bool add_shader_stage(data const& data, VkShaderStageFlagBits stage);
+    bool add_shader(data const& data, VkShaderStageFlagBits stage) { return add_shader_stage(data, stage); }
+
     bool add_shader_stage(name filename, VkShaderStageFlagBits stage);
+    bool add_shader(name filename, VkShaderStageFlagBits stage) { return add_shader_stage(filename, stage); }
+    
     void add(shader_stage::ptr const& shader_stage) { shader_stages.push_back(shader_stage); }
 
     shader_stage::list const& get_shader_stages() const { return shader_stages; }

@@ -176,8 +176,6 @@ add_library(lava::block ALIAS lava.block)
 
 message(">> lava::resource")
 
-option(LIBLAVA_ASSIMP "build assimp library" ON)
-
 add_library(lava.resource STATIC
         ${LIBLAVA_DIR}/resource/buffer.cpp
         ${LIBLAVA_DIR}/resource/buffer.hpp
@@ -191,35 +189,14 @@ add_library(lava.resource STATIC
         ${LIBLAVA_DIR}/resource/texture.hpp
         )
 
-if(LIBLAVA_ASSIMP)
-        set(LIBLAVA_ASSIMP_INC ${LIBLAVA_EXT_DIR}/assimp/include)
-        set(LIBLAVA_ASSIMP_LIB assimp)
-        target_compile_definitions(lava.resource PRIVATE LIBLAVA_ASSIMP=1)
-else()
-        set(LIBLAVA_ASSIMP_INC "")
-        set(LIBLAVA_ASSIMP_LIB "")
-endif()
-
 target_include_directories(lava.resource PUBLIC
         ${LIBLAVA_EXT_DIR}/stb
         ${LIBLAVA_EXT_DIR}/gli
         ${LIBLAVA_EXT_DIR}/tinyobjloader
         ${LIBLAVA_EXT_DIR}/bitmap
         ${LIBLAVA_EXT_DIR}/selene
-        ${LIBLAVA_ASSIMP_INC}
         )
 
-message(">>> assimp")
-
-if(LIBLAVA_ASSIMP)
-        set(BUILD_SHARED_LIBS OFF)
-        set(ASSIMP_BUILD_TESTS OFF)
-        set(INJECT_DEBUG_POSTFIX OFF)
-        set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
-        add_subdirectory(${LIBLAVA_EXT_DIR}/assimp assimp EXCLUDE_FROM_ALL)
-endif()
-
-message("<<< assimp")
 message(">>> selene")
 
 add_subdirectory(${LIBLAVA_EXT_DIR}/selene selene EXCLUDE_FROM_ALL)
@@ -228,7 +205,6 @@ message("<<< selene")
 
 target_link_libraries(lava.resource
         lava::base
-        ${LIBLAVA_ASSIMP_LIB}
         )
 
 add_library(lava::resource ALIAS lava.resource)

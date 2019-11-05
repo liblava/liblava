@@ -111,6 +111,8 @@ struct key_event {
     bool pressed(input_key key_) const { return action == action::press && key == key_; }
     bool released(input_key key_) const { return action == action::release && key == key_; }
     bool repeated(input_key key_) const { return action == action::repeat && key == key_; }
+
+    bool active() const { return action == action::press || action == action::repeat; }
 };
 
 struct scroll_offset {
@@ -171,6 +173,9 @@ struct mouse_button_event {
     
     input_action action;
     input_mod mods;
+
+    bool pressed(mouse_button button_) const { return action == action::press && button == button_; }
+    bool released(mouse_button button_) const { return action == action::release && button == button_; }
 };
 
 struct mouse_active_event {

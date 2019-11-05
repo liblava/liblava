@@ -1,9 +1,6 @@
 [submodule "ext/argh"]
 	path = ext/argh
 	url = https://github.com/adishavit/argh.git
-[submodule "ext/assimp"]
-	path = ext/assimp
-	url = https://github.com/assimp/assimp.git
 [submodule "ext/bitmap"]
 	path = ext/bitmap
 	url = https://github.com/ArashPartow/bitmap.git

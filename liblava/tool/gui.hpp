@@ -35,6 +35,13 @@ struct gui : input_callback {
         
         return create(graphics_pipeline::make(device), max_frames);
     }
+    bool create(device* device, index max_frames, VkRenderPass pass) {
+
+        if (!create(device, max_frames))
+            return false;
+
+        return pipeline->create(pass);
+    }
 
     bool upload_fonts(texture::ptr texture);
     
@@ -45,6 +52,8 @@ struct gui : input_callback {
 
     using draw_func = std::function<void()>;
     draw_func on_draw;
+
+    bool want_capture_mouse() const;
 
     void set_active(bool value = true) { active = value; }
     bool is_active() const { return active; }
@@ -75,12 +84,11 @@ private:
     index frame = 0;
     index max_frames = 4;
 
-    buffer::list vertex_buffers = {};
-    buffer::list index_buffers = {};
+    buffer::list vertex_buffers ;
+    buffer::list index_buffers;
 
     descriptor::ptr descriptor_set_layout;
     VkDescriptorSet descriptor_set = nullptr;
-    bool updated_descriptor = false;
 
     GLFWwindow* window = nullptr;
 

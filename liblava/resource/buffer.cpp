@@ -44,7 +44,7 @@ VkAccessFlags buffer::usage_to_possible_access(VkBufferUsageFlags usage) {
     return flags;
 }
 
-bool buffer::create(device* device, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped, VmaMemoryUsage memoryUsage) {
+bool buffer::create(device* device, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped, VmaMemoryUsage memory_usage) {
 
     dev = device;
 
@@ -62,7 +62,7 @@ bool buffer::create(device* device, void const* data, size_t size, VkBufferUsage
     VmaAllocationCreateInfo alloc_info
     {
         .flags = alloc_flags,
-        .usage = memoryUsage,
+        .usage = memory_usage,
     };
 
     if (failed(vmaCreateBuffer(dev->alloc(), &buffer_info, &alloc_info, &vk_buffer, &allocation, &allocation_info))) {

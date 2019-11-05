@@ -378,18 +378,18 @@ bool gui::create(graphics_pipeline::ptr pipeline_, index max_frames_) {
     pipeline->set_vertex_input_binding({ 0, sizeof(ImDrawVert), VK_VERTEX_INPUT_RATE_VERTEX });
     pipeline->set_vertex_input_attributes({
 
-            { 0, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(ImDrawVert, pos)) },
-            { 1, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(ImDrawVert, uv)) },
+            { 0, 0, VK_FORMAT_R32G32_SFLOAT,  to_ui32(offsetof(ImDrawVert, pos)) },
+            { 1, 0, VK_FORMAT_R32G32_SFLOAT,  to_ui32(offsetof(ImDrawVert, uv)) },
             { 2, 0, VK_FORMAT_R8G8B8A8_UNORM, to_ui32(offsetof(ImDrawVert, col)) },
     });
 
-    if (!pipeline->add_shader_stage({ imgui_vert_shader, sizeof(imgui_vert_shader) }, VK_SHADER_STAGE_VERTEX_BIT))
+    if (!pipeline->add_shader({ imgui_vert_shader, sizeof(imgui_vert_shader) }, VK_SHADER_STAGE_VERTEX_BIT))
         return false;
 
-    if (!pipeline->add_shader_stage({ imgui_frag_shader, sizeof(imgui_frag_shader) }, VK_SHADER_STAGE_FRAGMENT_BIT))
+    if (!pipeline->add_shader({ imgui_frag_shader, sizeof(imgui_frag_shader) }, VK_SHADER_STAGE_FRAGMENT_BIT))
         return false;
 
-    pipeline->add_color_blend_attachment(graphics_pipeline::create_color_blend_attachment());
+    pipeline->add_color_blend_attachment();
 
     descriptor_set_layout = descriptor::make();
     descriptor_set_layout->add_binding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
@@ -406,7 +406,7 @@ bool gui::create(graphics_pipeline::ptr pipeline_, index max_frames_) {
     pipeline->set_layout(_pipeline_layout);
     pipeline->set_auto_size(false);
 
-    descriptor_set = descriptor_set_layout->allocate_set();
+    descriptor_set = descriptor_set_layout->allocate();
 
     pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
         
@@ -443,12 +443,17 @@ void gui::destroy() {
     initialized = false;
 }
 
+bool gui::want_capture_mouse() const {
+
+    return ImGui::GetIO().WantCaptureMouse;
+}
+
 void gui::invalidate_device_objects() {
 
     vertex_buffers.clear();
     index_buffers.clear();
 
-    descriptor_set_layout->free_set(descriptor_set);
+    descriptor_set_layout->free(descriptor_set);
     descriptor_set_layout->destroy();
     descriptor_set_layout = nullptr;
 
@@ -461,32 +466,6 @@ void gui::invalidate_device_objects() {
 void gui::render(VkCommandBuffer cmd_buf) {
 
     ImGui::Render();
-
-    auto& io = ImGui::GetIO();
-    if (!updated_descriptor) {
-
-        auto tex = static_cast<texture*>(io.Fonts->TexID);
-
-        std::array<VkDescriptorImageInfo, 1> const desc_image_infos = { tex->get_descriptor() };
-
-        VkWriteDescriptorSet write_desc;
-        write_desc.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-        write_desc.pNext = nullptr;
-        write_desc.dstSet = descriptor_set;
-        write_desc.dstBinding = 0;
-        write_desc.dstArrayElement = 0;
-        write_desc.descriptorCount = to_ui32(desc_image_infos.size());
-        write_desc.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-        write_desc.pImageInfo = desc_image_infos.data();
-        write_desc.pBufferInfo = nullptr;
-        write_desc.pTexelBufferView = nullptr;
-
-        std::array<VkWriteDescriptorSet, 1> const write_desc_sets = { write_desc };
-
-        vkUpdateDescriptorSets(dev->get(), to_ui32(write_desc_sets.size()), write_desc_sets.data(), 0, nullptr);
-
-        updated_descriptor = true;
-    }
 
     render_draw_lists(cmd_buf);
 
@@ -537,31 +516,32 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
         idx_dst += cmd_list->IdxBuffer.Size;
     }
 
-    VkMappedMemoryRange vertex_range;
-    vertex_range.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
-    vertex_range.pNext = nullptr;
-    vertex_range.memory = vertex_buffers[frame]->get_device_memory();
-    vertex_range.offset = 0;
-    vertex_range.size = VK_WHOLE_SIZE;
+    VkMappedMemoryRange vertex_range
+    {
+        .sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE,
+        .memory = vertex_buffers[frame]->get_device_memory(),
+        .offset = 0,
+        .size = VK_WHOLE_SIZE,
+    };
 
-    VkMappedMemoryRange index_range;
-    index_range.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
-    index_range.pNext = nullptr;
-    index_range.memory = index_buffers[frame]->get_device_memory();
-    index_range.offset = 0;
-    index_range.size = VK_WHOLE_SIZE;
+    VkMappedMemoryRange index_range
+    {
+        .sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE,
+        .memory = index_buffers[frame]->get_device_memory(),
+        .offset = 0,
+        .size = VK_WHOLE_SIZE,
+    };
 
     std::array<VkMappedMemoryRange, 2> const ranges = { vertex_range, index_range };
     check(dev->call().vkFlushMappedMemoryRanges(dev->get(), to_ui32(ranges.size()), ranges.data()));
 
-    pipeline->bind(cmd_buf);
-    _pipeline_layout->bind_descriptor_set(cmd_buf, descriptor_set);
+    _pipeline_layout->bind(cmd_buf, descriptor_set);
 
     std::array<VkDeviceSize, 1> const vertex_offset = { 0 };
     std::array<VkBuffer, 1> const buffers = { vertex_buffers[frame]->get() };
-    vkCmdBindVertexBuffers(cmd_buf, 0, to_ui32(buffers.size()), buffers.data(), vertex_offset.data());
+    dev->call().vkCmdBindVertexBuffers(cmd_buf, 0, to_ui32(buffers.size()), buffers.data(), vertex_offset.data());
 
-    vkCmdBindIndexBuffer(cmd_buf, index_buffers[frame]->get(), 0, VK_INDEX_TYPE_UINT16);
+    dev->call().vkCmdBindIndexBuffer(cmd_buf, index_buffers[frame]->get(), 0, VK_INDEX_TYPE_UINT16);
 
     VkViewport viewport;
     viewport.x = 0;
@@ -572,17 +552,17 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
     viewport.maxDepth = 1.f;
 
     std::array<VkViewport, 1> const viewports = { viewport };
-    vkCmdSetViewport(cmd_buf, 0, to_ui32(viewports.size()), viewports.data());
+    dev->call().vkCmdSetViewport(cmd_buf, 0, to_ui32(viewports.size()), viewports.data());
 
     float scale[2];
     scale[0] = 2.f / io.DisplaySize.x;
     scale[1] = 2.f / io.DisplaySize.y;
-    vkCmdPushConstants(cmd_buf, _pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 0, sizeof(float) * 2, scale);
+    dev->call().vkCmdPushConstants(cmd_buf, _pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 0, sizeof(float) * 2, scale);
     
     float translate[2];
     translate[0] = -1.f;
     translate[1] = -1.f;
-    vkCmdPushConstants(cmd_buf, _pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 2, sizeof(float) * 2, translate);
+    dev->call().vkCmdPushConstants(cmd_buf, _pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 2, sizeof(float) * 2, translate);
 
     auto vtx_offset = 0u;
     auto idx_offset = 0u;
@@ -607,9 +587,9 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
                                    (ui32)(cmd->ClipRect.w - cmd->ClipRect.y + 1) };
 
                 std::array<VkRect2D, 1> const scissors = { scissor };
-                vkCmdSetScissor(cmd_buf, 0, to_ui32(scissors.size()), scissors.data());
+                dev->call().vkCmdSetScissor(cmd_buf, 0, to_ui32(scissors.size()), scissors.data());
 
-                vkCmdDrawIndexed(cmd_buf, cmd->ElemCount, 1, idx_offset, vtx_offset, 0);
+                dev->call().vkCmdDrawIndexed(cmd_buf, cmd->ElemCount, 1, idx_offset, vtx_offset, 0);
             }
 
             idx_offset += cmd->ElemCount;
@@ -621,21 +601,30 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
 
 bool gui::upload_fonts(texture::ptr texture) {
 
-    auto& io = ImGui::GetIO();
-
     uchar* pixels = nullptr;
-    i32 width, height = 0;
-    io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
+    auto width = 0;
+    auto height = 0;
+    ImGui::GetIO().Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
     if (!texture->create(dev, { width, height }, VK_FORMAT_R8G8B8A8_UNORM))
         return false;
 
-    auto upload_size =  4 * width * height * sizeof(char);
+    auto upload_size =  width * height * sizeof(char) * 4;
     if (!texture->upload(pixels, upload_size))
         return false;
 
-    io.Fonts->TexID = texture.get();
-    updated_descriptor = false;
+    VkWriteDescriptorSet write_desc
+    {
+        .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+        .dstSet = descriptor_set,
+        .dstBinding = 0,
+        .descriptorCount = 1,
+        .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+        .pImageInfo = &texture->get_info(),
+    };
+
+    dev->vkUpdateDescriptorSets({ write_desc });
+
     return true;
 }
 

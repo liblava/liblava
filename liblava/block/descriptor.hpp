@@ -53,10 +53,16 @@ struct descriptor : id_obj {
     VkDescriptorSetLayout get() const { return layout; }
 
     VkDescriptorSet allocate_set();
-    bool free_set(VkDescriptorSet descriptor_set);
+    VkDescriptorSet allocate() { return allocate_set(); }
 
-    VkDescriptorSets create_sets(ui32 size);
+    bool free_set(VkDescriptorSet descriptor_set);
+    bool free(VkDescriptorSet descriptor_set) { return free_set(descriptor_set); }
+
+    VkDescriptorSets allocate_sets(ui32 size);
+    VkDescriptorSets allocate(ui32 size) { return allocate_sets(size); }
+
     bool free_sets(VkDescriptorSets const& descriptor_sets);
+    bool free(VkDescriptorSets const& descriptor_sets) { return free_sets(descriptor_sets); }
 
 private:
     device* dev = nullptr;

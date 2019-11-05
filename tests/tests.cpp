@@ -463,17 +463,10 @@ LAVA_TEST(8, "imgui demo")
     auto render_pass = forward_shading.get_render_pass();
 
     gui gui(window.get());
-    if (!gui.create(graphics_pipeline::make(device), frame_count))
+    if (!gui.create(device, frame_count, render_pass->get()))
         return error::create_failed;
 
-    {
-        auto gui_pipeline = gui.get_pipeline();
-
-        if (!gui_pipeline->create(render_pass->get()))
-            return error::create_failed;
-
-        render_pass->add(gui_pipeline);
-    }
+    render_pass->add(gui.get_pipeline());
 
     auto fonts = texture::make();
     if (!gui.upload_fonts(fonts))
@@ -503,6 +496,9 @@ LAVA_TEST(8, "imgui demo")
     input.add(&gui);
 
     input.key.listeners.add([&](key_event::ref event) {
+
+        if (gui.want_capture_mouse())
+            return;
 
         if (event.pressed(key::tab))
             gui.toggle();

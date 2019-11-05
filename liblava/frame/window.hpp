@@ -57,6 +57,7 @@ struct window {
 
     void set_mouse_position(r64 x, r64 y);
     void get_mouse_position(r64& x, r64& y) const;
+    mouse_position get_mouse_position() const;
 
     void hide_mouse_cursor();
     void show_mouse_cursor();

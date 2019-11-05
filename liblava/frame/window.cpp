@@ -215,6 +215,14 @@ void window::set_mouse_position(r64 x, r64 y) { glfwSetCursorPos(handle, x, y); 
 
 void window::get_mouse_position(r64& x, r64& y) const { glfwGetCursorPos(handle, &x, &y); }
 
+mouse_position window::get_mouse_position() const {
+
+    mouse_position result;
+    get_mouse_position(result.x, result.y);
+
+    return result;
+}
+
 void window::hide_mouse_cursor() { glfwSetInputMode(handle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN); }
 
 void window::show_mouse_cursor() { glfwSetInputMode(handle, GLFW_CURSOR, GLFW_CURSOR_NORMAL); }

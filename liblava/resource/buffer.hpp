@@ -22,7 +22,14 @@ struct buffer : id_obj {
     static ptr make() { return std::make_shared<buffer>(); }
 
     bool create(device* device, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped = false, 
-                                VmaMemoryUsage memoryUsage = VMA_MEMORY_USAGE_GPU_ONLY);
+                                VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY);
+
+    bool create_mapped(device* device, void const* data, size_t size, VkBufferUsageFlags usage,
+                                VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU) {
+
+        return create(device, data, size, usage, true, memory_usage);
+    }
+
     void destroy();
 
     device* get_device() { return dev; }
@@ -31,6 +38,7 @@ struct buffer : id_obj {
 
     VkBuffer get() const { return vk_buffer; }
     VkDescriptorBufferInfo const& get_descriptor() const { return descriptor; }
+    VkDescriptorBufferInfo const& get_info() const { return get_descriptor(); }
 
     size_t get_size() const { return allocation_info.size; }
     void* get_mapped_data() const { return allocation_info.pMappedData; }

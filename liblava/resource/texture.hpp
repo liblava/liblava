@@ -57,7 +57,9 @@ struct texture : id_obj {
     bool stage(VkCommandBuffer cmd_buffer);
     void destroy_upload_buffer();
 
-    VkDescriptorImageInfo get_descriptor() const { return descriptor; }
+    VkDescriptorImageInfo const& get_descriptor() const { return descriptor; }
+    VkDescriptorImageInfo const& get_info() const { return get_descriptor(); }
+
     image::ptr get_image() { return _image; }
 
     uv2 get_size() const { return _image ? _image->get_size() : uv2(); }

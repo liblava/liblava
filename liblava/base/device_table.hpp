@@ -192,6 +192,49 @@ struct device_table {
         table.vkDestroySampler(vk_device, sampler, pAllocator);
     }
 
+    void vkUpdateDescriptorSets(uint32_t descriptorWriteCount, const VkWriteDescriptorSet* pDescriptorWrites, 
+                                uint32_t descriptorCopyCount = 0, const VkCopyDescriptorSet* pDescriptorCopies = nullptr) {
+
+        table.vkUpdateDescriptorSets(vk_device, descriptorWriteCount, pDescriptorWrites, descriptorCopyCount, pDescriptorCopies);
+    }
+
+    template<std::size_t SIZE>
+    void vkUpdateDescriptorSets(std::array<VkWriteDescriptorSet, SIZE> const& descriptor_writes) {
+
+        vkUpdateDescriptorSets(to_i32(descriptor_writes.size()), descriptor_writes.data());
+    }
+
+    template<std::size_t SIZE>
+    void vkUpdateDescriptorSets(std::array<VkCopyDescriptorSet, SIZE> const& descriptor_copies) {
+
+        vkUpdateDescriptorSets(0, nullptr, to_i32(descriptor_copies.size()), descriptor_copies.data());
+    }
+
+    template<std::size_t WRITE_SIZE, std::size_t COPY_SIZE>
+    void vkUpdateDescriptorSets(std::array<VkWriteDescriptorSet, WRITE_SIZE> const& descriptor_writes,
+                                std::array<VkCopyDescriptorSet, COPY_SIZE> const& descriptor_copies) {
+
+        vkUpdateDescriptorSets(to_i32(descriptor_writes.size()), descriptor_writes.data(),
+                               to_i32(descriptor_copies.size()), descriptor_copies.data());
+    }
+
+    void vkUpdateDescriptorSets(std::initializer_list<VkWriteDescriptorSet> descriptor_writes) {
+
+        vkUpdateDescriptorSets(to_i32(descriptor_writes.size()), descriptor_writes.begin());
+    }
+
+    void vkUpdateDescriptorSets(std::initializer_list<VkCopyDescriptorSet> descriptor_copies) {
+
+        vkUpdateDescriptorSets(0, nullptr, to_i32(descriptor_copies.size()), descriptor_copies.begin());
+    }
+
+    void vkUpdateDescriptorSets(std::initializer_list<VkWriteDescriptorSet> descriptor_writes,
+                                std::initializer_list<VkCopyDescriptorSet> descriptor_copies) {
+
+        vkUpdateDescriptorSets(to_i32(descriptor_writes.size()), descriptor_writes.begin(), 
+                               to_i32(descriptor_copies.size()), descriptor_copies.begin());
+    }
+
     VkDevice vk_device = nullptr;
     VolkDeviceTable table = {};
 };

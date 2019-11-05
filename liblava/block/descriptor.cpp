@@ -90,7 +90,7 @@ bool descriptor::free_set(VkDescriptorSet descriptor_set) {
                                                     to_ui32(descriptor_sets.size()), descriptor_sets.data()));
 }
 
-VkDescriptorSets descriptor::create_sets(ui32 size) {
+VkDescriptorSets descriptor::allocate_sets(ui32 size) {
 
     VkDescriptorSets result(size);
 

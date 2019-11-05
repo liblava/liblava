@@ -4,17 +4,6 @@
 
 #include <liblava/resource/mesh.hpp>
 
-#ifndef LIBLAVA_ASSIMP
-#define LIBLAVA_ASSIMP 0
-#endif
-
-#if LIBLAVA_ASSIMP
-#include <assimp/Importer.hpp>
-#include <assimp/cimport.h>
-#include <assimp/postprocess.h>
-#include <assimp/scene.h>
-#endif
-
 #ifndef LIBLAVA_TINYOBJLOADER
 #define LIBLAVA_TINYOBJLOADER 1
 #endif
@@ -171,8 +160,8 @@ lava::mesh::ptr lava::load_mesh(device* device, name filename) {
                     vertex vertex;
 
                     vertex.position = v3(attrib.vertices[3 * index.vertex_index],
-                                        attrib.vertices[3 * index.vertex_index + 1],
-                                        attrib.vertices[3 * index.vertex_index + 2]);
+                                         attrib.vertices[3 * index.vertex_index + 1],
+                                         attrib.vertices[3 * index.vertex_index + 2]);
 
                     vertex.color = v3(1.f, 1.f, 1.f);
 
@@ -180,8 +169,8 @@ lava::mesh::ptr lava::load_mesh(device* device, name filename) {
                         vertex.uv = v2(attrib.texcoords[2 * index.texcoord_index], 1.f - attrib.texcoords[2 * index.texcoord_index + 1]);
 
                     vertex.normal = attrib.normals.empty() ? v3(0.f) : v3(attrib.normals[3 * index.normal_index], 
-                                                                            attrib.normals[3 * index.normal_index + 1], 
-                                                                            attrib.normals[3 * index.normal_index + 2]);
+                                                                          attrib.normals[3 * index.normal_index + 1], 
+                                                                          attrib.normals[3 * index.normal_index + 2]);
 
                     mesh->get_vertices().push_back(vertex);
                     mesh->get_indices().push_back(mesh->get_indices_count());
@@ -199,70 +188,7 @@ lava::mesh::ptr lava::load_mesh(device* device, name filename) {
     }
 #endif
 
-#if LIBLAVA_ASSIMP
-    Assimp::Importer importer;
-
-    file file(filename);
-    scope_data temp_data(file.get_size(), false);
-
-    if (file.is_open()) {
-
-        if (!temp_data.allocate())
-            return nullptr;
-
-        if (is_file_error(file.read(temp_data.ptr)))
-            return nullptr;
-    }
-
-    static ui32 const assimp_flags = aiProcess_FlipWindingOrder | aiProcess_Triangulate | aiProcess_PreTransformVertices | aiProcess_GenNormals;
-
-    aiScene const* scene = nullptr;
-    if (file.is_open())
-        scene = importer.ReadFileFromMemory(temp_data.ptr, temp_data.size, assimp_flags);
-    else
-        scene = importer.ReadFile(filename, assimp_flags);
-
-    if (!scene)
-        return nullptr;
-
-    auto mesh = mesh::make();
-
-    for (auto m = 0u; m < scene->mNumMeshes; ++m) {
-
-        for (auto v = 0u; v < scene->mMeshes[m]->mNumVertices; ++v) {
-
-            vertex vertex;
-
-            vertex.position = glm::make_vec3(&scene->mMeshes[m]->mVertices[v].x);
-            vertex.color = (scene->mMeshes[m]->HasVertexColors(0)) ? glm::make_vec3(&scene->mMeshes[m]->mColors[0][v].r) : v3(1.f);
-            vertex.uv = (scene->mMeshes[m]->HasTextureCoords(0)) ? glm::make_vec2(&scene->mMeshes[m]->mTextureCoords[0][v].x) : v2(0.f);
-            vertex.normal = scene->mMeshes[m]->mNormals ? glm::make_vec3(&scene->mMeshes[m]->mNormals[v].x) : v3(0.f);
-
-            vertex.position.y *= -1.0f;
-
-            mesh->get_vertices().push_back(vertex);
-        }
-
-        auto index_base = mesh->get_indices_count();
-        for (auto f = 0u; f < scene->mMeshes[m]->mNumFaces; ++f) {
-
-            for (auto i = 0u; i < 3; ++i) {
-
-                mesh->get_indices().push_back(scene->mMeshes[m]->mFaces[f].mIndices[i] + index_base);
-            }
-        }
-    }
-
-    if (mesh->empty())
-        return nullptr;
-
-    if (!mesh->create(device))
-        return nullptr;
-
-    return mesh;
-#else
     return nullptr;
-#endif
 }
 
 lava::mesh::ptr lava::load_mesh(device* device, mesh_type type) {
