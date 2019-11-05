@@ -246,6 +246,8 @@ add_library(lava::frame ALIAS lava.frame)
 message(">> lava::tool")
 
 add_library(lava.tool STATIC
+        ${LIBLAVA_DIR}/tool/camera.cpp
+        ${LIBLAVA_DIR}/tool/camera.hpp 
         ${LIBLAVA_DIR}/tool/forward_shading.cpp
         ${LIBLAVA_DIR}/tool/forward_shading.hpp
         ${LIBLAVA_DIR}/tool/gui.cpp
