@@ -23,7 +23,7 @@
 * gui and test driver
 * and much more...
 
-Download latest **<a href="https://github.com/liblava/liblava/releases">preview 2 / v0.4.2</a>**  (Sep 18, 2019) and **<a href="https://github.com/liblava/liblava-demo/releases">demo projects</a>**
+Download latest **<a href="https://github.com/liblava/liblava-demo/releases">preview 3 demo / v0.4.3</a>**  (Nov 6, 2019)
 
 ## modules
 
