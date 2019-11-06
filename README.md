@@ -4,26 +4,26 @@
 
 **liblava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education**. (<a href="https://git.io/liblava-demo">demo</a>) (<a href="https://git.io/liblava-template">template</a>)
 
-    + C++20
-    + Modular (7 modules)
-    + Cross Platform (Windows | Linux | soon: macOS)
+**C++20** • **Modular** (7 modules) • **Cross Platform** (Windows | Linux | *soon: macOS*)
 
 ![version](https://img.shields.io/badge/version-0.4.3-blue) [![LoC](https://tokei.rs/b1/github/liblava/liblava?category=code)](https://github.com/liblava/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/thelavablock)
 
-## features
+#### features
 
 * written in modern C++
-* latest Vulkan API support
+* latest Vulkan support
 * run loop abstraction
 * window and input handling
 * render target and renderer
 * command buffer modeling
-* load texture and mesh
+* texture and mesh loading
 * file system and logging
 * gui and test driver
 * and much more...
 
-Download latest **<a href="https://github.com/liblava/liblava-demo/releases">preview 3 demo / v0.4.3</a>**  (Nov 6, 2019)
+##### Download latest **<a href="https://github.com/liblava/liblava-demo/releases">preview 3 demo / v0.4.3</a>**  (Nov 6, 2019)
+
+<a href="https://github.com/liblava/liblava-demo/releases">![spawn](res/demo.png)</a>
 
 ## modules
 
