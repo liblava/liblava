@@ -620,7 +620,7 @@ bool gui::upload_fonts(texture::ptr texture) {
         .dstBinding = 0,
         .descriptorCount = 1,
         .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-        .pImageInfo = &texture->get_info(),
+        .pImageInfo = texture->get_info(),
     };
 
     dev->vkUpdateDescriptorSets({ write_desc });

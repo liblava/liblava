@@ -37,8 +37,8 @@ struct buffer : id_obj {
     bool is_valid() const { return vk_buffer != nullptr; }
 
     VkBuffer get() const { return vk_buffer; }
-    VkDescriptorBufferInfo const& get_descriptor() const { return descriptor; }
-    VkDescriptorBufferInfo const& get_info() const { return get_descriptor(); }
+    VkDescriptorBufferInfo const* get_descriptor() const { return &descriptor; }
+    VkDescriptorBufferInfo const* get_info() const { return get_descriptor(); }
 
     size_t get_size() const { return allocation_info.size; }
     void* get_mapped_data() const { return allocation_info.pMappedData; }

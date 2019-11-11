@@ -8,7 +8,7 @@
 
 namespace lava {
 
-struct swapchain {
+struct swapchain : id_obj {
 
     bool create(device* device, VkSurfaceKHR surface, uv2 size, bool v_sync = false);
 

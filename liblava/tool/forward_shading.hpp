@@ -9,7 +9,7 @@
 
 namespace lava {
 
-struct forward_shading {
+struct forward_shading : id_obj {
 
     explicit forward_shading() = default;
     ~forward_shading() { destroy(); }

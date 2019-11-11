@@ -89,12 +89,16 @@ void camera::update_view(milliseconds delta_, mouse_position mouse_pos) {
 
     view = rot_m * trans_m;
 
-    memcpy(as_ptr(data->get_mapped_data()) + sizeof(mat4), &view, sizeof(mat4));
+    if (is_valid())
+        memcpy(as_ptr(data->get_mapped_data()) + sizeof(mat4), &view, sizeof(mat4));
 }
 
 void camera::update_projection() {
 
     projection = glm::perspective(glm::radians(fov), aspect_ratio, z_near, z_far);
+
+    if (is_valid())
+        memcpy(as_ptr(data->get_mapped_data()), &projection, sizeof(mat4));
 }
 
 void camera::upload() {

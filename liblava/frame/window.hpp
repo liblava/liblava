@@ -14,7 +14,7 @@ struct GLFWwindow;
 
 namespace lava {
 
-struct window {
+struct window : id_obj {
 
     struct state {
 
@@ -34,13 +34,11 @@ struct window {
     using map = std::map<id, ptr>;
 
     window() = default;
-    explicit window(id::ref id) : _id(id) {}
     explicit window(name title) : title(title) {}
 
     bool create(name save_name = "0", state* state = nullptr);
     void destroy();
 
-    id::ref get_id() const { return _id; }
     state get_state() const;
 
     void set_title(name text);
@@ -132,8 +130,6 @@ struct window {
 
 private:
     void handle_message();
-
-    id _id;
 
     GLFWwindow* handle = nullptr;
     input* _input = nullptr;

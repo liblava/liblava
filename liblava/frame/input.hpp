@@ -213,7 +213,7 @@ struct input_events : T::list {
     id_listeners<T> listeners;
 };
 
-struct input {
+struct input : id_obj {
 
     input_events<key_event> key;
     input_events<scroll_event> scroll;

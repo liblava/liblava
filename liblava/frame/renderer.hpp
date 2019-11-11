@@ -10,7 +10,7 @@
 
 namespace lava {
 
-struct renderer {
+struct renderer : id_obj {
 
     bool create(swapchain* target);
     void destroy();

@@ -9,7 +9,7 @@
 
 namespace lava {
 
-struct render_target {
+struct render_target : id_obj {
 
     using ptr = std::shared_ptr<render_target>;
 

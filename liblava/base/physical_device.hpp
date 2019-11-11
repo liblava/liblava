@@ -8,7 +8,7 @@
 
 namespace lava {
 
-struct physical_device {
+struct physical_device : id_obj {
 
     using list = std::vector<physical_device>;
 
@@ -25,8 +25,8 @@ struct physical_device {
     VkPhysicalDeviceFeatures const& get_features() const { return features; }
     VkPhysicalDeviceMemoryProperties const& get_memory_properties() const { return memory_properties; }
 
-    VkQueueFamilyPropertiesList const& getQueueFamilyProperties() const { return queue_family_properties; }
-    VkExtensionPropertiesList const& getExtensionProperties() const { return extension_properties; }
+    VkQueueFamilyPropertiesList const& get_queue_family_properties() const { return queue_family_properties; }
+    VkExtensionPropertiesList const& get_extension_properties() const { return extension_properties; }
 
     VkPhysicalDevice get() const { return vk_device; }
 
