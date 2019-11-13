@@ -20,7 +20,7 @@ struct subpass : id_obj {
 
     void add(graphics_pipeline::ptr const& pipeline) { pipelines.push_back(pipeline); }
 
-    void addFirst(graphics_pipeline::ptr const& pipeline) { pipelines.insert(pipelines.begin(), pipeline); }
+    void add_front(graphics_pipeline::ptr const& pipeline) { pipelines.insert(pipelines.begin(), pipeline); }
 
     void remove(graphics_pipeline::ptr pipeline);
 

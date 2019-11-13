@@ -13,6 +13,10 @@ namespace lava {
 
 struct frame_config {
 
+    explicit frame_config() = default;
+    explicit frame_config(name app, argh::parser) 
+                         : app(app), cmd_line(cmd_line) {}
+
     argh::parser cmd_line;
 
     name org = _liblava_;
@@ -34,13 +38,13 @@ enum error {
 
 milliseconds now();
 
-struct frame : no_copy_no_move {
+struct frame : no_copy_no_move, interface {
 
     using ptr = std::shared_ptr<frame>;
 
     explicit frame(argh::parser cmd_line);
     explicit frame(frame_config config);
-    ~frame();
+    ~frame() override;
 
     bool ready() const;
 
@@ -62,7 +66,9 @@ struct frame : no_copy_no_move {
 
     milliseconds get_running_time() const { return now() - start_time; }
 
-    argh::parser& get_cmd_line() { return cmd_line; }
+    argh::parser const& get_cmd_line() const { return config.cmd_line; }
+    frame_config get_config() const { return config; }
+    name get_name() const { return config.app; }
 
     bool waiting_for_events() const { return wait_for_events; }
     void set_wait_for_events(bool value = true) { wait_for_events = value; }
@@ -79,14 +85,14 @@ struct frame : no_copy_no_move {
     device_manager manager;
 
 private:
-    bool setup(frame_config config = {});
+    bool setup(frame_config config);
     void teardown();
 
     bool run_step();
 
     void trigger_run_end();
 
-    argh::parser cmd_line;
+    frame_config config;
 
     bool running = false;
     bool wait_for_events = false;

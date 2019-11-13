@@ -1,4 +1,4 @@
-// file      : liblava/tool/forward_shading.hpp
+// file      : liblava/app/forward_shading.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 

@@ -1,4 +1,4 @@
-// file      : liblava/tool/camera.hpp
+// file      : liblava/app/camera.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 

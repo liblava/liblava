@@ -41,6 +41,7 @@ struct render_pass : id_obj, target_callback {
     void set_clear_color(v3 value = v3(0.086f, 0.086f, 0.094f));
 
     void add(graphics_pipeline::ptr pipeline, index subpass = 0) { subpasses.at(subpass)->add(pipeline); }
+    void add_front(graphics_pipeline::ptr pipeline, index subpass = 0) { subpasses.at(subpass)->add_front(pipeline); }
 
 private:
     device* dev = nullptr;

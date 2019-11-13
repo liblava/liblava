@@ -1,8 +1,8 @@
-// file      : liblava/tool/gui.cpp
+// file      : liblava/app/gui.cpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
-#include <liblava/tool/gui.hpp>
+#include <liblava/app/gui.hpp>
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_INCLUDE_VULKAN
@@ -202,18 +202,24 @@ void gui::setup(GLFWwindow* window_, data font_data, icon_font icon_font) {
 
         if (is_active())
             handle_key_event(to_i32(event.key), event.scancode, to_i32(event.action), to_i32(event.mods));
+
+        return want_capture_mouse();
     };
 
     on_scroll_event = [&](scroll_event const& event) {
 
         if (is_active())
             handle_scroll_event(event.offset.x, event.offset.y);
+
+        return want_capture_mouse();
     };
 
     on_mouse_button_event = [&](mouse_button_event const& event) {
 
         if (is_active())
             handle_mouse_button_event(to_i32(event.button), to_i32(event.action), to_i32(event.mods));
+
+        return want_capture_mouse();
     };
 }
 

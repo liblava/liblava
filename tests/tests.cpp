@@ -54,6 +54,8 @@ LAVA_TEST(3, "window input")
 
         if (event.pressed(key::escape))
             frame.shut_down();
+
+        return false;
     });
 
     frame.add_run([&]() {
@@ -86,6 +88,8 @@ LAVA_TEST(4, "clear color")
 
         if (event.pressed(key::escape))
             frame.shut_down();
+
+        return false;
     });
 
     auto device = frame.create_device();
@@ -223,6 +227,8 @@ LAVA_TEST(5, "color block")
 
         if (event.pressed(key::escape))
             frame.shut_down();
+
+        return false;
     });
 
     auto device = frame.create_device();
@@ -312,36 +318,7 @@ LAVA_TEST(5, "color block")
     return frame.run() ? 0 : error::aborted;
 }
 
-LAVA_TEST(6, "gamepad listener")
-{
-    frame frame(argh);
-    if (!frame.ready())
-        return error::not_ready;
-
-    gamepad_manager::add_listener([&](gamepad pad, bool active) {
-
-        auto id = to_ui32(pad.get_id());
-
-        if (active)
-            log()->info("gamepad {} - active ({})", id, pad.get_name());
-        else
-            log()->info("gamepad {} - inactive", id);
-    });
-
-    for (auto& pad : gamepads())
-        log()->info("gamepad {} - active ({})", to_ui32(pad.get_id()), pad.get_name());
-
-    frame.add_run([&]() {
-
-        sleep(seconds(1));
-
-        return true;
-    });
-
-    return frame.run() ? 0 : error::aborted;
-}
-
-LAVA_TEST(7, "forward shading")
+LAVA_TEST(6, "forward shading")
 {
     frame frame(argh);
     if (!frame.ready())
@@ -358,6 +335,8 @@ LAVA_TEST(7, "forward shading")
 
         if (event.pressed(key::escape))
             frame.shut_down();
+
+        return false;
     });
 
     auto device = frame.create_device();
@@ -431,130 +410,49 @@ LAVA_TEST(7, "forward shading")
     return frame.run() ? 0 : error::aborted;
 }
 
-#include <imgui.h>
-
-LAVA_TEST(8, "imgui demo")
+LAVA_TEST(7, "gamepad")
 {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
 
-    window window;
-    if (!window.create())
-        return error::create_failed;
+    gamepad_manager::add_listener([&](gamepad pad, bool active) {
 
-    input input;
-    window.assign(&input);
+        auto id = to_ui32(pad.get_id());
 
-    auto device = frame.create_device();
-    if (!device)
-        return error::create_failed;
+        if (active)
+            log()->info("gamepad {} - active ({})", id, pad.get_name());
+        else
+            log()->info("gamepad {} - inactive", id);
 
-    auto render_target = create_target(&window, device);
-    if (!render_target)
-        return error::create_failed;
-
-    auto frame_count = render_target->get_frame_count();
-
-    forward_shading forward_shading;
-    if (!forward_shading.create(render_target))
-        return error::create_failed;
-
-    auto render_pass = forward_shading.get_render_pass();
-
-    gui gui(window.get());
-    if (!gui.create(device, frame_count, render_pass->get()))
-        return error::create_failed;
-
-    render_pass->add(gui.get_pipeline());
-
-    auto fonts = texture::make();
-    if (!gui.upload_fonts(fonts))
-        return error::create_failed;
-
-    staging staging;
-    staging.add(fonts);
-
-    block block;
-    if (!block.create(device, frame_count, device->get_graphics_queue().family))
         return false;
-
-    block.add_command([&](VkCommandBuffer cmd_buf) {
-
-        auto current_frame = block.get_current_frame();
-
-        staging.stage(cmd_buf, current_frame);
-
-        render_pass->process(cmd_buf, current_frame);
     });
 
-    gui.on_draw = [&]() {
+    for (auto& pad : gamepads())
+        log()->info("gamepad {} - active ({})", to_ui32(pad.get_id()), pad.get_name());
+
+    frame.add_run([&]() {
+
+        sleep(seconds(1));
+
+        return true;
+    });
+
+    return frame.run() ? 0 : error::aborted;
+}
+
+#include <imgui.h>
+
+LAVA_TEST(8, "imgui demo")
+{
+    app app(argh);
+    if (!app.setup())
+        return error::not_ready;
+
+    app.gui.on_draw = [&]() {
 
         ImGui::ShowDemoWindow();
     };
 
-    input.add(&gui);
-
-    input.key.listeners.add([&](key_event::ref event) {
-
-        if (gui.want_capture_mouse())
-            return;
-
-        if (event.pressed(key::tab))
-            gui.toggle();
-
-        if (event.pressed(key::escape))
-            frame.shut_down();
-    });
-
-    renderer simple_renderer;
-    if (!simple_renderer.create(render_target->get_swapchain()))
-        return error::create_failed;
-
-    frame.add_run([&]() {
-
-        input.handle_events();
-
-        if (window.has_close_request())
-            return frame.shut_down();
-
-        if (window.has_resize_request())
-            return window.handle_resize();
-
-        if (window.iconified()) {
-
-            frame.set_wait_for_events(true);
-            return true;
-
-        } else {
-
-            if (frame.waiting_for_events())
-                frame.set_wait_for_events(false);
-        }
-
-        auto frame_index = simple_renderer.begin_frame();
-        if (!frame_index)
-            return true;
-
-        if (!block.process(*frame_index))
-            return false;
-
-        return simple_renderer.end_frame(block.get_buffers());
-    });
-
-    frame.add_run_end([&]() {
-
-        input.remove(&gui);
-
-        gui.destroy();
-        fonts->destroy();
-
-        block.destroy();
-        forward_shading.destroy();
-
-        simple_renderer.destroy();
-        render_target->destroy();
-    });
-
-    return frame.run() ? 0 : error::aborted;
+    return app.run() ? 0 : error::aborted;
 }

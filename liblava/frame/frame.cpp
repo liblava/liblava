@@ -76,12 +76,12 @@ frame::~frame() { teardown(); }
 
 bool frame::ready() const { return _initialized; }
 
-bool frame::setup(frame_config config) {
+bool frame::setup(frame_config config_) {
 
     if (_initialized)
         return false;
 
-    cmd_line = config.cmd_line;
+    config = config_;
 
 #if LIBLAVA_DEBUG
     config.log.debug = true;
@@ -90,6 +90,8 @@ bool frame::setup(frame_config config) {
 #endif
 
     hide_console(config.app);
+
+    auto cmd_line = config.cmd_line;
 
     if (cmd_line[{ "-d", "--debug" }])
         config.debug.validation = true;

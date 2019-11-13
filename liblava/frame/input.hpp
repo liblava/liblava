@@ -96,7 +96,7 @@ using input_mod = mod;
 struct key_event {
 
     using ref = key_event const&;
-    using func = std::function<void(ref)>;
+    using func = std::function<bool(ref)>;
     using listeners = std::map<id, func>;
     using list = std::vector<key_event>;
 
@@ -124,7 +124,7 @@ struct scroll_offset {
 struct scroll_event {
 
     using ref = scroll_event const&;
-    using func = std::function<void(ref)>;
+    using func = std::function<bool(ref)>;
     using listeners = std::map<id, func>;
     using list = std::vector<scroll_event>;
 
@@ -142,7 +142,7 @@ struct mouse_position {
 struct mouse_move_event {
 
     using ref = mouse_move_event const&;
-    using func = std::function<void(ref)>;
+    using func = std::function<bool(ref)>;
     using listeners = std::map<id, func>;
     using list = std::vector<mouse_move_event>;
 
@@ -163,7 +163,7 @@ enum class mouse_button : type {
 struct mouse_button_event {
 
     using ref = mouse_button_event const&;
-    using func = std::function<void(ref)>;
+    using func = std::function<bool(ref)>;
     using listeners = std::map<id, func>;
     using list = std::vector<mouse_button_event>;
 
@@ -181,7 +181,7 @@ struct mouse_button_event {
 struct mouse_active_event {
 
     using ref = mouse_active_event const&;
-    using func = std::function<void(ref)>;
+    using func = std::function<bool(ref)>;
     using listeners = std::map<id, func>;
     using list = std::vector<mouse_active_event>;
 
@@ -195,7 +195,7 @@ struct input_callback {
     using list = std::vector<input_callback*>;
 
     template <typename T>
-    using func = std::function<void(typename T::ref)>;
+    using func = std::function<bool(typename T::ref)>;
 
     key_event::func on_key_event;
     scroll_event::func on_scroll_event;
@@ -310,7 +310,7 @@ struct gamepad_manager {
         return manager;
     }
 
-    using listener_func = std::function<void(gamepad, bool)>;
+    using listener_func = std::function<bool(gamepad, bool)>;
 
     id add(listener_func listener);
 

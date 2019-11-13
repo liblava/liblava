@@ -1,8 +1,8 @@
-// file      : liblava/tool/camera.cpp
+// file      : liblava/app/camera.cpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
-#include <liblava/tool/camera.hpp>
+#include <liblava/app/camera.hpp>
 
 namespace lava {
 

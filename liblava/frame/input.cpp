@@ -15,8 +15,19 @@ void _handle_events(input_events<T>& events, input_callback::func<T> input_callb
 
     for (auto& event : events) {
 
-        for (auto& listener : events.listeners.get_list())
-            listener.second(event);
+        auto handled = false;
+
+        for (auto& listener : events.listeners.get_list()) {
+
+            if (listener.second(event)) {
+
+                handled = true;
+                break;
+            }
+        }
+
+        if (handled)
+            continue;
 
         if (input_callback)
             input_callback(event);
@@ -31,35 +42,50 @@ void input::handle_events() {
 
         for (auto& callback : callbacks)
             if (callback->on_key_event)
-                callback->on_key_event(event);
+                if (callback->on_key_event(event))
+                    return true;
+
+        return false;
     });
 
     _handle_events<scroll_event>(scroll, [&](auto& event) {
 
         for (auto& callback : callbacks)
             if (callback->on_scroll_event)
-                callback->on_scroll_event(event);
+                if (callback->on_scroll_event(event))
+                    return true;
+
+        return false;
     });
 
     _handle_events<mouse_move_event>(mouse_move, [&](auto& event) {
 
         for (auto& callback : callbacks)
             if (callback->on_mouse_move_event)
-                callback->on_mouse_move_event(event);
+                if (callback->on_mouse_move_event(event))
+                    return true;
+
+        return false;
     });
 
     _handle_events<mouse_button_event>(mouse_button, [&](auto& event) {
 
         for (auto& callback : callbacks)
             if (callback->on_mouse_button_event)
-                callback->on_mouse_button_event(event);
+                if (callback->on_mouse_button_event(event))
+                    return true;
+
+        return false;
     });
 
     _handle_events<mouse_active_event>(mouse_active, [&](auto& event) {
 
         for (auto& callback : callbacks)
             if (callback->on_mouse_active_event)
-                callback->on_mouse_active_event(event);
+                if (callback->on_mouse_active_event(event))
+                    return true;
+
+        return false;
     });
 }
 
@@ -89,7 +115,8 @@ gamepad_manager::gamepad_manager() {
     glfwSetJoystickCallback([](int jid, int e) {
 
         for (auto& event : get().map)
-            event.second(gamepad(gamepad_id(jid)), e == GLFW_CONNECTED);
+            if (event.second(gamepad(gamepad_id(jid)), e == GLFW_CONNECTED))
+                break;
     });
 }
 

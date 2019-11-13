@@ -15,7 +15,7 @@ struct vertex {
     using list = std::vector<vertex>;
 
     v3 position;
-    v3 color;
+    v4 color;
     v2 uv;
     v3 normal;
 

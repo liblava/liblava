@@ -243,31 +243,33 @@ target_link_libraries(lava.frame
 
 add_library(lava::frame ALIAS lava.frame)
 
-message(">> lava::tool")
+message(">> lava::app")
 
-add_library(lava.tool STATIC
-        ${LIBLAVA_DIR}/tool/camera.cpp
-        ${LIBLAVA_DIR}/tool/camera.hpp 
-        ${LIBLAVA_DIR}/tool/forward_shading.cpp
-        ${LIBLAVA_DIR}/tool/forward_shading.hpp
-        ${LIBLAVA_DIR}/tool/gui.cpp
-        ${LIBLAVA_DIR}/tool/gui.hpp
+add_library(lava.app STATIC
+        ${LIBLAVA_DIR}/app/app.cpp
+        ${LIBLAVA_DIR}/app/app.hpp 
+        ${LIBLAVA_DIR}/app/camera.cpp
+        ${LIBLAVA_DIR}/app/camera.hpp 
+        ${LIBLAVA_DIR}/app/forward_shading.cpp
+        ${LIBLAVA_DIR}/app/forward_shading.hpp
+        ${LIBLAVA_DIR}/app/gui.cpp
+        ${LIBLAVA_DIR}/app/gui.hpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_draw.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_widgets.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_demo.cpp
         )
 
-target_include_directories(lava.tool PUBLIC
+target_include_directories(lava.app PUBLIC
         ${LIBLAVA_EXT_DIR}/imgui
         )
 
-target_link_libraries(lava.tool 
+target_link_libraries(lava.app 
         lava::frame
         lava::block
         )
 
-add_library(lava::tool ALIAS lava.tool)
+add_library(lava::app ALIAS lava.app)
 
 message("> tests")
 
@@ -277,6 +279,6 @@ add_executable(lava
         ${LIBLAVA_TESTS_DIR}/tests.cpp
         )
 
-target_link_libraries(lava lava::tool)
+target_link_libraries(lava lava::app)
 
 message("========================================================================")
