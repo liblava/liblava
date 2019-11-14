@@ -1,6 +1,6 @@
 <a href="https://lava-block.com"><img align="left" src="https://github.com/liblava.png" width="200"></a>
 
-**liblava is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/">Vulkan API</a>**
+**liblava is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/">Vulkan® API</a>**
 
 **liblava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education**. [ <a href="https://git.io/liblava-demo">demo</a>  | <a href="https://git.io/liblava-template">template</a> | <a href="https://git.io/liblava-engine">engine</a> ]
 
@@ -429,5 +429,6 @@ $ make
 liblava is licensed under [MIT License](LICENSE.md) which allows you to use the software for any purpose you might like, including commercial and for-profit use. However, this library includes several third-party Open-Source libraries, which are licensed under their own respective Open-Source licenses. These licenses allow static linking with closed source software. All copies of liblava must include a copy of the MIT License terms and the copyright notice.
 
 ##### Copyright (c) 2018-present, <a href="https://lava-block.com">Lava Block OÜ</a>
+##### Vulkan and the Vulkan logo are trademarks of the [Khronos Group Inc.](http://www.khronos.org)
 
 <a href="https://lava-block.com"><img src="https://github.com/liblava.png" width="50"></a>
