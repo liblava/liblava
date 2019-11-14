@@ -100,8 +100,8 @@ LAVA_TEST(4, "clear color")
     if (!render_target)
         return error::create_failed;
 
-    renderer simple_renderer;
-    if (!simple_renderer.create(render_target->get_swapchain()))
+    renderer plotter;
+    if (!plotter.create(render_target->get_swapchain()))
         return error::create_failed;
 
     auto frame_count = render_target->get_frame_count();
@@ -117,15 +117,15 @@ LAVA_TEST(4, "clear color")
         if (!device->vkAllocateCommandBuffers(cmd_pool, frame_count, cmd_bufs.data()))
             return false;
 
-        VkCommandBufferBeginInfo begin_info
+        VkCommandBufferBeginInfo const begin_info
         {
             .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
             .flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT,
         };
 
-        VkClearColorValue clear_color = { lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f), 0.f };
+        VkClearColorValue const clear_color = { lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f), 0.f };
 
-        VkImageSubresourceRange image_range
+        VkImageSubresourceRange const image_range
         {
             .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
             .levelCount = 1,
@@ -192,18 +192,18 @@ LAVA_TEST(4, "clear color")
                 frame.set_wait_for_events(false);
         }
 
-        auto frame_index = simple_renderer.begin_frame();
+        auto frame_index = plotter.begin_frame();
         if (!frame_index)
             return true;
 
-        return simple_renderer.end_frame({ cmd_bufs[*frame_index] });
+        return plotter.end_frame({ cmd_bufs[*frame_index] });
     });
 
     frame.add_run_end([&]() {
 
         clean_cmd_bufs();
 
-        simple_renderer.destroy();
+        plotter.destroy();
         render_target->destroy();
     });
 
@@ -239,8 +239,8 @@ LAVA_TEST(5, "color block")
     if (!render_target)
         return error::create_failed;
 
-    renderer simple_renderer;
-    if (!simple_renderer.create(render_target->get_swapchain()))
+    renderer plotter;
+    if (!plotter.create(render_target->get_swapchain()))
         return error::create_failed;
 
     auto frame_count = render_target->get_frame_count();
@@ -252,9 +252,9 @@ LAVA_TEST(5, "color block")
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
 
-        VkClearColorValue clear_color = { lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f), 0.f };
+        VkClearColorValue const clear_color = { lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f), 0.f };
 
-        VkImageSubresourceRange image_range
+        VkImageSubresourceRange const image_range
         {
             .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
             .levelCount = 1,
@@ -297,21 +297,21 @@ LAVA_TEST(5, "color block")
                 frame.set_wait_for_events(false);
         }
 
-        auto frame_index = simple_renderer.begin_frame();
+        auto frame_index = plotter.begin_frame();
         if (!frame_index)
             return true;
 
         if (!block.process(*frame_index))
             return false;
 
-        return simple_renderer.end_frame(block.get_buffers());
+        return plotter.end_frame(block.get_buffers());
     });
 
     frame.add_run_end([&]() {
 
         block.destroy();
 
-        simple_renderer.destroy();
+        plotter.destroy();
         render_target->destroy();
     });
 
@@ -363,8 +363,8 @@ LAVA_TEST(6, "forward shading")
         render_pass->process(cmd_buf, block.get_current_frame());
     });
 
-    renderer simple_renderer;
-    if (!simple_renderer.create(render_target->get_swapchain()))
+    renderer plotter;
+    if (!plotter.create(render_target->get_swapchain()))
         return error::create_failed;
 
     frame.add_run([&]() {
@@ -388,14 +388,14 @@ LAVA_TEST(6, "forward shading")
                 frame.set_wait_for_events(false);
         }
 
-        auto frame_index = simple_renderer.begin_frame();
+        auto frame_index = plotter.begin_frame();
         if (!frame_index)
             return true;
 
         if (!block.process(*frame_index))
             return false;
 
-        return simple_renderer.end_frame(block.get_buffers());
+        return plotter.end_frame(block.get_buffers());
     });
 
     frame.add_run_end([&]() {
@@ -403,7 +403,7 @@ LAVA_TEST(6, "forward shading")
         block.destroy();
         forward_shading.destroy();
         
-        simple_renderer.destroy();
+        plotter.destroy();
         render_target->destroy();
     });
 
@@ -449,7 +449,7 @@ LAVA_TEST(8, "imgui demo")
     if (!app.setup())
         return error::not_ready;
 
-    app.gui.on_draw = [&]() {
+    app.gui.on_draw = []() {
 
         ImGui::ShowDemoWindow();
     };

@@ -16,13 +16,13 @@ using data_cptr = char const*;
 struct data_provider {
 
     using alloc_func = std::function<data_ptr(size_t, size_t)>;
-    alloc_func alloc;
+    alloc_func on_alloc;
 
     using free_func = std::function<void()>;
-    free_func free;
+    free_func on_free;
 
     using realloc_func = std::function<data_ptr(data_ptr, size_t, size_t)>;
-    realloc_func realloc;
+    realloc_func on_realloc;
 };
 
 template <typename T>

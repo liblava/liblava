@@ -10,6 +10,7 @@ namespace lava {
 
 // fwd
 struct physical_device;
+using physical_device_cptr = physical_device const*;
 
 struct device : device_table, no_copy_no_move {
 
@@ -18,7 +19,7 @@ struct device : device_table, no_copy_no_move {
 
     struct create_param {
 
-        const physical_device* _physical_device = nullptr;
+        physical_device_cptr physical_device = nullptr;
 
         struct queue_info {
 
@@ -72,13 +73,13 @@ struct device : device_table, no_copy_no_move {
     queue::ref get_transfer_queue(index index = 0) const { return get_transfer_queues().at(index); }
     queue::ref transfer_queue(index index = 0) const { return get_transfer_queue(index); }
 
-    queue::list const& get_graphics_queues() const { return _graphics_queues; }
+    queue::list const& get_graphics_queues() const { return graphics_queue_list; }
     queue::list const& graphics_queues() const { return get_graphics_queues(); }
 
-    queue::list const& get_compute_queues() const { return _compute_queues; }
+    queue::list const& get_compute_queues() const { return compute_queue_list; }
     queue::list const& compute_queues() const { return get_compute_queues(); }
 
-    queue::list const& get_transfer_queues() const { return _transfer_queues; }
+    queue::list const& get_transfer_queues() const { return transfer_queue_list; }
     queue::list const& transfer_queues() const { return get_transfer_queues(); }
 
     VkDevice get() const { return vk_device; }
@@ -88,7 +89,7 @@ struct device : device_table, no_copy_no_move {
 
     VkDescriptorPool get_descriptor_pool() const { return descriptor_pool; }
 
-    physical_device const* get_physical_device() const { return _physical_device; }
+    physical_device_cptr get_physical_device() const { return physical_device; }
     VkPhysicalDevice get_vk_physical_device() const;
 
     VkPhysicalDeviceFeatures const& get_features() const;
@@ -96,23 +97,23 @@ struct device : device_table, no_copy_no_move {
 
     bool is_surface_supported(VkSurfaceKHR surface) const;
 
-    void set_allocator(allocator::ptr value) { _allocator = value; }
-    allocator::ptr get_allocator() { return _allocator; }
+    void set_allocator(allocator::ptr value) { mem_allocator = value; }
+    allocator::ptr get_allocator() { return mem_allocator; }
 
-    VmaAllocator alloc() const { return _allocator != nullptr ? _allocator->get() : nullptr; }
+    VmaAllocator alloc() const { return mem_allocator != nullptr ? mem_allocator->get() : nullptr; }
 
 private:
     bool create_descriptor_pool();
 
-    physical_device const* _physical_device = nullptr;
+    physical_device_cptr physical_device = nullptr;
 
     VkDescriptorPool descriptor_pool = nullptr;
 
-    queue::list _graphics_queues;
-    queue::list _compute_queues;
-    queue::list _transfer_queues;
+    device::queue::list graphics_queue_list;
+    device::queue::list compute_queue_list;
+    device::queue::list transfer_queue_list;
 
-    allocator::ptr _allocator;
+    allocator::ptr mem_allocator;
 };
 
 struct device_manager {
@@ -131,6 +132,8 @@ private:
     device::list list;
 };
 
-VkShaderModule create_shader_module(device* device, data const& data);
+using device_ptr = device*;
+
+VkShaderModule create_shader_module(device_ptr device, data const& data);
 
 } // lava

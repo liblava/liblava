@@ -8,12 +8,12 @@
 
 namespace lava {
 
-bool render_target::create(device* device, VkSurfaceKHR surface, uv2 size, bool v_sync) {
+bool render_target::create(device_ptr device, VkSurfaceKHR surface, uv2 size, bool v_sync) {
 
-    if (!_swapchain.create(device, surface, size, v_sync))
+    if (!target.create(device, surface, size, v_sync))
         return false;
 
-    _swapchain_callback.on_created = [&]() {
+    swapchain_callback.on_created = [&]() {
 
         if (on_create_attachments) {
 
@@ -31,7 +31,7 @@ bool render_target::create(device* device, VkSurfaceKHR surface, uv2 size, bool 
         return true;
     };
 
-    _swapchain_callback.on_destroyed = [&]() {
+    swapchain_callback.on_destroyed = [&]() {
 
         if (on_swapchain_stop)
             on_swapchain_stop();
@@ -43,7 +43,7 @@ bool render_target::create(device* device, VkSurfaceKHR surface, uv2 size, bool 
             on_destroy_attachments();
     };
 
-    _swapchain.add_callback(&_swapchain_callback);
+    target.add_callback(&swapchain_callback);
 
     return true;
 }
@@ -52,13 +52,13 @@ void render_target::destroy() {
 
     target_callbacks.clear();
 
-    _swapchain.remove_callback(&_swapchain_callback);
-    _swapchain.destroy();
+    target.remove_callback(&swapchain_callback);
+    target.destroy();
 }
 
 } // lava
 
-lava::render_target::ptr lava::create_target(window* window, device* device, bool v_sync) {
+lava::render_target::ptr lava::create_target(window* window, device_ptr device, bool v_sync) {
 
     auto surface = window->create_surface();
     if (!surface)

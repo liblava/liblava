@@ -18,15 +18,15 @@ struct image : id_obj {
     using list = std::vector<ptr>;
 
     static ptr make(VkFormat format, VkImage vk_image = nullptr);
-    static ptr make(VkFormat format, device* device, uv2 size, VkImage vk_image = nullptr);
+    static ptr make(VkFormat format, device_ptr device, uv2 size, VkImage vk_image = nullptr);
 
     explicit image(VkFormat format, VkImage vk_image = nullptr);
 
-    bool create(device* device, uv2 size, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY, bool mip_levels_generation = false);
+    bool create(device_ptr device, uv2 size, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY, bool mip_levels_generation = false);
     void destroy(bool only_view = false);
     void destroy_view() { destroy(true); }
 
-    device* get_device() { return dev; }
+    device_ptr get_device() { return device; }
 
     VkFormat get_format() const { return info.format; }
     uv2 get_size() const { return { info.extent.width, info.extent.height }; }
@@ -53,7 +53,7 @@ struct image : id_obj {
     void set_view_type(VkImageViewType type) { view_info.viewType = type; }
 
 private:
-    device* dev = nullptr;
+    device_ptr device = nullptr;
 
     VkImage vk_image = nullptr;
     VkImageCreateInfo info;

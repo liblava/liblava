@@ -59,7 +59,7 @@ bool physical_device::get_queue_family(index& index, VkQueueFlags flags) const {
 device::create_param physical_device::create_default_device_param() const {
 
     device::create_param create_param;
-    create_param._physical_device = this;
+    create_param.physical_device = this;
     create_param.set_default_queues();
 
     return create_param;

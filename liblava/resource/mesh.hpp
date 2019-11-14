@@ -53,7 +53,7 @@ struct mesh : id_obj {
 
     ~mesh() { destroy(); }
 
-    bool create(device* device, bool mapped = false, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
+    bool create(device_ptr device, bool mapped = false, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
     void destroy();
 
     void bind(VkCommandBuffer cmd_buf) const;
@@ -65,7 +65,7 @@ struct mesh : id_obj {
         draw(cmd_buf);
     }
 
-    device* get_device() { return dev; }
+    device_ptr get_device() { return device; }
 
     bool empty() const { return data.vertices.empty(); }
 
@@ -87,7 +87,7 @@ struct mesh : id_obj {
     buffer::ptr get_index_buffer() { return index_buffer; }
 
 private:
-    device* dev = nullptr;
+    device_ptr device = nullptr;
 
     mesh_data data;
 
@@ -98,7 +98,7 @@ private:
     VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
 };
 
-mesh::ptr load_mesh(device* device, name filename);
+mesh::ptr load_mesh(device_ptr device, name filename);
 
 enum class mesh_type : type {
 
@@ -108,7 +108,7 @@ enum class mesh_type : type {
     quad
 };
 
-mesh::ptr load_mesh(device* device, mesh_type type);
+mesh::ptr load_mesh(device_ptr device, mesh_type type);
 
 struct mesh_meta {
 

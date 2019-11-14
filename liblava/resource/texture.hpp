@@ -50,7 +50,7 @@ struct texture : id_obj {
 
     static ptr make() { return std::make_shared<texture>(); }
 
-    bool create(device* device, uv2 size, VkFormat format, layer::list const& layers = {}, texture_type type = texture_type::tex_2d);
+    bool create(device_ptr, uv2 size, VkFormat format, layer::list const& layers = {}, texture_type type = texture_type::tex_2d);
     void destroy();
 
     bool upload(void const* data, size_t data_size);
@@ -60,15 +60,15 @@ struct texture : id_obj {
     VkDescriptorImageInfo const* get_descriptor() const { return &descriptor; }
     VkDescriptorImageInfo const* get_info() const { return get_descriptor(); }
 
-    image::ptr get_image() { return _image; }
+    image::ptr get_image() { return tex; }
 
-    uv2 get_size() const { return _image ? _image->get_size() : uv2(); }
+    uv2 get_size() const { return tex ? tex->get_size() : uv2(); }
     texture_type get_type() const { return type; }
 
-    VkFormat get_format() const { return _image ? _image->get_format() : VK_FORMAT_UNDEFINED; }
+    VkFormat get_format() const { return tex ? tex->get_format() : VK_FORMAT_UNDEFINED; }
 
 private:
-    image::ptr _image;
+    image::ptr tex;
 
     texture_type type = texture_type::none;
     layer::list layers;
@@ -79,14 +79,14 @@ private:
     buffer::ptr upload_buffer;
 };
 
-texture::ptr load_texture(device* device, file_format filename, texture_type type = texture_type::tex_2d);
+texture::ptr load_texture(device_ptr device, file_format filename, texture_type type = texture_type::tex_2d);
 
-inline texture::ptr load_texture(device* device, string filename, VkFormat format = VK_FORMAT_R8G8B8A8_UNORM, texture_type type = texture_type::tex_2d) {
+inline texture::ptr load_texture(device_ptr device, string filename, VkFormat format = VK_FORMAT_R8G8B8A8_UNORM, texture_type type = texture_type::tex_2d) {
 
     return load_texture(device, { filename, format }, type);
 }
 
-texture::ptr create_default_texture(device* device, uv2 size = { 512, 512});
+texture::ptr create_default_texture(device_ptr device, uv2 size = { 512, 512});
 
 struct staging {
 

@@ -162,13 +162,13 @@ private:
 
 struct id_obj : interface {
 
-    id_obj() : _id(ids::next()) {}
-    ~id_obj() { ids::free(_id); }
+    id_obj() : obj_id(ids::next()) {}
+    ~id_obj() { ids::free(obj_id); }
 
-    id::ref get_id() const { return _id; }
+    id::ref get_id() const { return obj_id; }
 
 private:
-    id _id;
+    id obj_id;
 };
 
 template <typename T, typename Meta>

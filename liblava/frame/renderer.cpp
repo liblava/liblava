@@ -11,9 +11,9 @@ namespace lava {
 bool renderer::create(swapchain* target_) {
 
     target = target_;
-    dev = target->get_device();
+    device = target->get_device();
 
-    queue = dev->get_graphics_queue();
+    queue = device->get_graphics_queue();
     queued_frames = target->get_backbuffer_count();
 
     fences.resize(queued_frames);
@@ -23,26 +23,26 @@ bool renderer::create(swapchain* target_) {
     for (auto i = 0u; i < queued_frames; ++i) {
 
         {
-            VkFenceCreateInfo create_info
+            VkFenceCreateInfo const create_info
             {
                 .sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO,
                 .flags = VK_FENCE_CREATE_SIGNALED_BIT,
             };
 
-            if (!dev->vkCreateFence(&create_info, &fences[i]))
+            if (!device->vkCreateFence(&create_info, &fences[i]))
                 return false;
         }
 
         {
-            VkSemaphoreCreateInfo create_info
+            VkSemaphoreCreateInfo const create_info
             {
                 .sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO,
             };
 
-            if (!dev->vkCreateSemaphore(&create_info, &image_acquired_semaphores[i]))
+            if (!device->vkCreateSemaphore(&create_info, &image_acquired_semaphores[i]))
                 return false;
 
-            if (!dev->vkCreateSemaphore(&create_info, &render_complete_semaphores[i]))
+            if (!device->vkCreateSemaphore(&create_info, &render_complete_semaphores[i]))
                 return false;
         }
     }
@@ -57,9 +57,9 @@ void renderer::destroy() {
 
     for (auto i = 0u; i < queued_frames; ++i) {
 
-        dev->vkDestroyFence(fences[i]);
-        dev->vkDestroySemaphore(image_acquired_semaphores[i]);
-        dev->vkDestroySemaphore(render_complete_semaphores[i]);
+        device->vkDestroyFence(fences[i]);
+        device->vkDestroySemaphore(image_acquired_semaphores[i]);
+        device->vkDestroySemaphore(render_complete_semaphores[i]);
     }
 
     fences.clear();
@@ -78,7 +78,7 @@ std::optional<index> renderer::begin_frame() {
 
     for (;;) {
 
-        auto result = dev->vkWaitForFences(to_ui32(wait_fences.size()), wait_fences.data(), VK_TRUE, 100);
+        auto result = device->vkWaitForFences(to_ui32(wait_fences.size()), wait_fences.data(), VK_TRUE, 100);
         if (result)
             break;
 
@@ -97,7 +97,7 @@ std::optional<index> renderer::begin_frame() {
 
     auto current_semaphore = image_acquired_semaphores[current_sync];
 
-    auto result = dev->vkAcquireNextImageKHR(target->get(), UINT64_MAX, current_semaphore, nullptr, &frame_index);
+    auto result = device->vkAcquireNextImageKHR(target->get(), UINT64_MAX, current_semaphore, nullptr, &frame_index);
     if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
 
         target->request_reload();
@@ -107,7 +107,7 @@ std::optional<index> renderer::begin_frame() {
     if (!result)
         return {};
 
-    if (!dev->vkResetFences(to_ui32(wait_fences.size()), wait_fences.data()))
+    if (!device->vkResetFences(to_ui32(wait_fences.size()), wait_fences.data()))
         return {};
 
     return get_frame();
@@ -122,7 +122,7 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
 
     VkPipelineStageFlags const wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 
-    VkSubmitInfo submit_info
+    VkSubmitInfo const submit_info
     {
         .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
         .waitSemaphoreCount = to_ui32(wait_semaphores.size()),
@@ -137,13 +137,13 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
     std::array<VkSubmitInfo, 1> const submit_infos = { submit_info };
     VkFence current_fence = fences[current_sync];
 
-    if (!dev->vkQueueSubmit(queue.vk_queue, to_ui32(submit_infos.size()), submit_infos.data(), current_fence))
+    if (!device->vkQueueSubmit(queue.vk_queue, to_ui32(submit_infos.size()), submit_infos.data(), current_fence))
         return false;
 
     std::array<VkSwapchainKHR, 1> const swapchains = { target->get() };
     std::array<ui32, 1> const indices = { frame_index };
 
-    VkPresentInfoKHR present_info
+    VkPresentInfoKHR const present_info
     {
         .sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,
         .waitSemaphoreCount = to_ui32(sync_present_semaphores.size()),
@@ -153,7 +153,7 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
         .pImageIndices = indices.data(),
     };
 
-    if (!dev->vkQueuePresentKHR(queue.vk_queue, &present_info))
+    if (!device->vkQueuePresentKHR(queue.vk_queue, &present_info))
         return false;
 
     current_sync = (current_sync + 1) % queued_frames;

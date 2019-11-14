@@ -6,7 +6,7 @@
 
 namespace lava {
 
-bool camera::create(device* device) {
+bool camera::create(device_ptr device) {
 
     update_projection();
 
@@ -110,10 +110,10 @@ bool camera::handle(key_event::ref event) {
    
     switch (event.key) 
     {
-        case input_key::w: { up = event.active(); break; }
-        case input_key::s: { down = event.active(); break; }
-        case input_key::a: { left = event.active(); break; }
-        case input_key::d: { right = event.active(); break; }
+        case key::w: { up = event.active(); break; }
+        case key::s: { down = event.active(); break; }
+        case key::a: { left = event.active(); break; }
+        case key::d: { right = event.active(); break; }
         default:
             return false;
     }

@@ -18,8 +18,8 @@ struct command : id_obj {
     using func = std::function<void(VkCommandBuffer)>;
     func on_func;
 
-    bool create(device* device, index frame_count, VkCommandPools command_pools);
-    void destroy(device* device, VkCommandPools command_pools);
+    bool create(device_ptr device, index frame_count, VkCommandPools command_pools);
+    void destroy(device_ptr device, VkCommandPools command_pools);
 };
 
 struct block : id_obj {
@@ -32,7 +32,7 @@ struct block : id_obj {
 
     ~block() { destroy(); }
 
-    bool create(device* device, index frame_count, index queue_family);
+    bool create(device_ptr device, index frame_count, index queue_family);
     void destroy();
 
     auto get_frame_count() const { return to_index(command_pools.size()); }
@@ -62,10 +62,10 @@ struct block : id_obj {
     auto const& get_commands() const { return commands; }
     auto const& get_cmd_order() const { return cmd_order; }
 
-    auto get_device() { return dev; }
+    auto get_device() { return device; }
 
 private:
-    device* dev = nullptr;
+    device_ptr device = nullptr;
 
     index current_frame = 0;
     VkCommandPools command_pools = {};

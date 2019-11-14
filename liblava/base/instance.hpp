@@ -18,7 +18,7 @@ struct instance : no_copy_no_move {
         bool check() const;
     };
 
-    struct debug {
+    struct debug_config {
 
         bool validation = false;
         bool assistent = false;
@@ -34,7 +34,7 @@ struct instance : no_copy_no_move {
         return instance;
     }
 
-    bool create(create_param& param, debug& debug, name appName = nullptr);
+    bool create(create_param& param, debug_config& debug, name appName = nullptr);
     void destroy();
 
     static VkLayerPropertiesList enumerate_layer_properties();
@@ -49,17 +49,22 @@ struct instance : no_copy_no_move {
     static internal_version get_version();
 
 private:
-    explicit instance();
+    explicit instance() = default;
     ~instance();
 
     bool enumerate_physical_devices();
+
+    void print_info() const;
+
+    bool create_validation_report();
+    void destroy_validation_report();
 
     VkInstance vk_instance = nullptr;
 
     physical_device::list physical_devices;
 
-    struct impl;
-    std::unique_ptr<impl> _impl;
+    debug_config debug;
+    VkDebugUtilsMessengerEXT debug_messanger = nullptr;
 };
 
 } // lava

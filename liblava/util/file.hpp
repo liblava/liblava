@@ -141,12 +141,12 @@ bool load_file_data(string_ref filename, scope_data& data);
 
 struct file_data {
 
-    explicit file_data(string_ref filename) { load_file_data(filename, _data); }
+    explicit file_data(string_ref filename) { load_file_data(filename, scope_data); }
 
-    data const& get() const { return _data; }
+    data const& get() const { return scope_data; }
 
 private:
-    scope_data _data;
+    lava::scope_data scope_data;
 };
 
 struct config_file_callback {

@@ -16,12 +16,12 @@ struct render_thread {
 
     bool create(swapchain* swapchain) {
 
-        _renderer.on_destroy = [&]() { stop(); };
+        plotter.on_destroy = [&]() { stop(); };
 
-        return _renderer.create(swapchain);
+        return plotter.create(swapchain);
     }
 
-    void destroy() { _renderer.destroy(); }
+    void destroy() { plotter.destroy(); }
 
     void start() { thread = std::thread(&render_thread::render, this); }
 
@@ -37,7 +37,7 @@ struct render_thread {
     using render_func = std::function<VkCommandBuffers(ui32)>;
     render_func on_render;
 
-    renderer* get_renderer() { return &_renderer; }
+    renderer* get_renderer() { return &plotter; }
     bool is_running() const { return running; }
 
 private:
@@ -47,24 +47,24 @@ private:
 
         while (running) {
 
-            if (!_renderer.active)
+            if (!plotter.active)
                 continue;
 
             if (!on_render)
                 continue;
 
-            auto frame_index = _renderer.begin_frame();
+            auto frame_index = plotter.begin_frame();
             if (!frame_index)
                 continue;
 
-            _renderer.end_frame(on_render(*frame_index));
+            plotter.end_frame(on_render(*frame_index));
         }
     }
 
     std::thread thread;
     bool running = false;
 
-    renderer _renderer;
+    renderer plotter;
 };
 
 } // lava

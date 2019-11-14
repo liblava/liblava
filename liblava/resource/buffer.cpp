@@ -44,9 +44,9 @@ VkAccessFlags buffer::usage_to_possible_access(VkBufferUsageFlags usage) {
     return flags;
 }
 
-bool buffer::create(device* device, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped, VmaMemoryUsage memory_usage) {
+bool buffer::create(device_ptr device_, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped, VmaMemoryUsage memory_usage) {
 
-    dev = device;
+    device = device_;
 
     VkBufferCreateInfo buffer_info
     {
@@ -65,7 +65,7 @@ bool buffer::create(device* device, void const* data, size_t size, VkBufferUsage
         .usage = memory_usage,
     };
 
-    if (failed(vmaCreateBuffer(dev->alloc(), &buffer_info, &alloc_info, &vk_buffer, &allocation, &allocation_info))) {
+    if (failed(vmaCreateBuffer(device->alloc(), &buffer_info, &alloc_info, &vk_buffer, &allocation, &allocation_info))) {
 
         log()->error("buffer::create vmaCreateBuffer failed");
         return false;
@@ -74,7 +74,7 @@ bool buffer::create(device* device, void const* data, size_t size, VkBufferUsage
     if (!mapped) {
 
         data_ptr map = nullptr;
-        if (failed(vmaMapMemory(dev->alloc(), allocation, (void**)(&map)))) {
+        if (failed(vmaMapMemory(device->alloc(), allocation, (void**)(&map)))) {
 
             log()->error("buffer::create vmaMapMemory failed");
             return false;
@@ -82,7 +82,7 @@ bool buffer::create(device* device, void const* data, size_t size, VkBufferUsage
 
         memcpy(map, data, size);
 
-        vmaUnmapMemory(dev->alloc(), allocation);
+        vmaUnmapMemory(device->alloc(), allocation);
 
     } else if (data) {
 
@@ -98,21 +98,26 @@ bool buffer::create(device* device, void const* data, size_t size, VkBufferUsage
     return true;
 }
 
+bool buffer::create_mapped(device_ptr device_, void const* data, size_t size, VkBufferUsageFlags usage, VmaMemoryUsage memory_usage) {
+
+    return create(device_, data, size, usage, true, memory_usage);
+}
+
 void buffer::destroy() {
 
     if (!vk_buffer)
         return;
 
-    vmaDestroyBuffer(dev->alloc(), vk_buffer, allocation);
+    vmaDestroyBuffer(device->alloc(), vk_buffer, allocation);
     vk_buffer = nullptr;
     allocation = nullptr;
 
-    dev = nullptr;
+    device = nullptr;
 }
 
 void buffer::flush(VkDeviceSize offset, VkDeviceSize size) {
 
-    vmaFlushAllocation(dev->alloc(), allocation, offset, size);
+    vmaFlushAllocation(device->alloc(), allocation, offset, size);
 }
 
 } // lava

@@ -15,17 +15,17 @@ struct render_pass : id_obj, target_callback {
     using ptr = std::shared_ptr<render_pass>;
     using list = std::vector<ptr>;
 
-    static ptr make(device* device) { return std::make_shared<render_pass>(device); }
+    static ptr make(device_ptr device) { return std::make_shared<render_pass>(device); }
 
-    explicit render_pass(device* device);
+    explicit render_pass(device_ptr device);
 
     bool create(VkAttachmentsRef target_attachments, rect area);
     void destroy();
 
     void process(VkCommandBuffer cmd_buf, index frame);
 
-    device* get_device() { return dev; }
-    VkRenderPass get() const { return _render_pass; }
+    device_ptr get_device() { return device; }
+    VkRenderPass get() const { return vk_render_pass; }
 
     ui32 get_subpass_count() const { return to_ui32(subpasses.size()); }
     bool has_subpass(index index = 0) const { return index < subpasses.size(); }
@@ -44,9 +44,9 @@ struct render_pass : id_obj, target_callback {
     void add_front(graphics_pipeline::ptr pipeline, index subpass = 0) { subpasses.at(subpass)->add_front(pipeline); }
 
 private:
-    device* dev = nullptr;
+    device_ptr device = nullptr;
 
-    VkRenderPass _render_pass = nullptr;
+    VkRenderPass vk_render_pass = nullptr;
     VkFramebuffers framebuffers = {};
 
     attachment::list attachments;

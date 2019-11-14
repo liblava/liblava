@@ -40,9 +40,9 @@ void mesh::add_data(mesh_data const& value) {
         data.indices.push_back(index_base + index);
 }
 
-bool mesh::create(device* device, bool mapped_, VmaMemoryUsage memory_usage_) {
+bool mesh::create(device_ptr device_, bool mapped_, VmaMemoryUsage memory_usage_) {
 
-    dev = device;
+    device = device_;
     mapped = mapped_;
     memory_usage = memory_usage_;
 
@@ -76,15 +76,15 @@ void mesh::destroy() {
     vertex_buffer = nullptr;
     index_buffer = nullptr;
 
-    dev = nullptr;
+    device = nullptr;
 }
 
 bool mesh::reload() {
 
-    auto device = dev;
+    auto dev = device;
     destroy();
 
-    return create(device, mapped, memory_usage);
+    return create(dev, mapped, memory_usage);
 }
 
 void mesh::bind(VkCommandBuffer cmd_buf) const {
@@ -111,7 +111,7 @@ void mesh::draw(VkCommandBuffer cmd_buf) const {
 
 } // lava
 
-lava::mesh::ptr lava::load_mesh(device* device, name filename) {
+lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
 
 #if LIBLAVA_TINYOBJLOADER
     if (has_extension(filename, "OBJ")) {
@@ -191,7 +191,7 @@ lava::mesh::ptr lava::load_mesh(device* device, name filename) {
     return nullptr;
 }
 
-lava::mesh::ptr lava::load_mesh(device* device, mesh_type type) {
+lava::mesh::ptr lava::load_mesh(device_ptr device, mesh_type type) {
 
     switch (type) {
 

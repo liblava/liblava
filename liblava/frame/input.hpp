@@ -72,14 +72,10 @@ enum class key : i32 {
     last = menu,
 };
 
-using input_key = key;
-
 enum class action : type {
 
     release = 0, press, repeat
 };
-
-using input_action = action;
 
 enum class mod : c8 {
 
@@ -91,8 +87,6 @@ enum class mod : c8 {
     num_lock    = 0x20,
 };
 
-using input_mod = mod;
-
 struct key_event {
 
     using ref = key_event const&;
@@ -102,15 +96,15 @@ struct key_event {
 
     id sender;
 
-    input_key key;
-    input_action action;
-    input_mod mods;
+    lava::key key;
+    lava::action action;
+    lava::mod mod;
 
     i32 scancode = 0;
 
-    bool pressed(input_key key_) const { return action == action::press && key == key_; }
-    bool released(input_key key_) const { return action == action::release && key == key_; }
-    bool repeated(input_key key_) const { return action == action::repeat && key == key_; }
+    bool pressed(lava::key key_) const { return action == action::press && key == key_; }
+    bool released(lava::key key_) const { return action == action::release && key == key_; }
+    bool repeated(lava::key key_) const { return action == action::repeat && key == key_; }
 
     bool active() const { return action == action::press || action == action::repeat; }
 };
@@ -171,8 +165,8 @@ struct mouse_button_event {
 
     mouse_button button;
     
-    input_action action;
-    input_mod mods;
+    lava::action action;
+    lava::mod mod;
 
     bool pressed(mouse_button button_) const { return action == action::press && button == button_; }
     bool released(mouse_button button_) const { return action == action::release && button == button_; }
@@ -227,11 +221,11 @@ struct input : id_obj {
     void add(input_callback* callback) { callbacks.push_back(callback); }
     void remove(input_callback* callback) { lava::remove(callbacks, callback); }
 
-    mouse_position get_mouse_position() const { return _mouse_position; }
-    void set_mouse_position(mouse_position const& position) { _mouse_position = position; }
+    mouse_position get_mouse_position() const { return current_position; }
+    void set_mouse_position(mouse_position const& position) { current_position = position; }
 
 private:
-    mouse_position _mouse_position;
+    mouse_position current_position;
 
     input_callback::list callbacks;
 };
@@ -282,8 +276,8 @@ struct gamepad {
     bool ready() const;
     void update();
 
-    bool pressed(gamepad_button button) const { return _state.buttons[to_ui32(button)]; }
-    r32 value(gamepad_axis axis) const { return _state.axes[to_ui32(axis)]; }
+    bool pressed(gamepad_button button) const { return state.buttons[to_ui32(button)]; }
+    r32 value(gamepad_axis axis) const { return state.axes[to_ui32(axis)]; }
 
     gamepad_id get_id() const { return id; }
     name get_name() const;
@@ -297,7 +291,7 @@ private:
         r32 axes[6];
     };
 
-    state _state;
+    gamepad::state state;
 };
 
 gamepad::list gamepads();

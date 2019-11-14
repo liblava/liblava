@@ -19,20 +19,20 @@ struct descriptor : id_obj {
 
         explicit binding();
 
-        VkDescriptorSetLayoutBinding get() const { return _binding; }
+        VkDescriptorSetLayoutBinding get() const { return vk_binding; }
 
-        void set(index index) { _binding.binding = index; }
+        void set(index index) { vk_binding.binding = index; }
 
-        void set_type(VkDescriptorType descriptor_type) { _binding.descriptorType = descriptor_type; }
+        void set_type(VkDescriptorType descriptor_type) { vk_binding.descriptorType = descriptor_type; }
 
-        void set_count(ui32 descriptor_count) { _binding.descriptorCount = descriptor_count; }
+        void set_count(ui32 descriptor_count) { vk_binding.descriptorCount = descriptor_count; }
 
-        void set_stage_flags(VkShaderStageFlags stage_flags) { _binding.stageFlags = stage_flags; }
+        void set_stage_flags(VkShaderStageFlags stage_flags) { vk_binding.stageFlags = stage_flags; }
 
-        void set_samplers(VkSampler const* immutable_samplers) { _binding.pImmutableSamplers = immutable_samplers; }
+        void set_samplers(VkSampler const* immutable_samplers) { vk_binding.pImmutableSamplers = immutable_samplers; }
 
     private:
-        VkDescriptorSetLayoutBinding _binding;
+        VkDescriptorSetLayoutBinding vk_binding;
     };
 
     using ptr = std::shared_ptr<descriptor>;
@@ -44,7 +44,7 @@ struct descriptor : id_obj {
 
     void add(binding::ptr const& binding) { bindings.push_back(binding); }
 
-    bool create(device* device);
+    bool create(device_ptr device);
     void destroy();
 
     ui32 get_binding_count() const { return to_ui32(bindings.size()); }
@@ -65,7 +65,7 @@ struct descriptor : id_obj {
     bool free(VkDescriptorSets const& descriptor_sets) { return free_sets(descriptor_sets); }
 
 private:
-    device* dev = nullptr;
+    device_ptr device = nullptr;
 
     VkDescriptorSetLayout layout = nullptr;
     binding::list bindings;

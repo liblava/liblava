@@ -24,7 +24,7 @@ struct frame_config {
     name ext = _zip_;
 
     log_config log;
-    instance::debug debug;
+    instance::debug_config debug;
 
     bool data_folder = false;
 };
@@ -73,7 +73,7 @@ struct frame : no_copy_no_move, interface {
     bool waiting_for_events() const { return wait_for_events; }
     void set_wait_for_events(bool value = true) { wait_for_events = value; }
 
-    device* create_device() {
+    device_ptr create_device() {
 
         auto device = manager.create();
         if (!device)

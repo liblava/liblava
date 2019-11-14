@@ -107,7 +107,7 @@ bool gamepad::ready() const {
 
 void gamepad::update() {
 
-    glfwGetGamepadState(to_i32(id), (GLFWgamepadstate*)&_state);
+    glfwGetGamepadState(to_i32(id), (GLFWgamepadstate*)&state);
 }
 
 gamepad_manager::gamepad_manager() {

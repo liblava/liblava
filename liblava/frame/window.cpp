@@ -88,7 +88,7 @@ bool window::create(name save_name_, state* state) {
 
 void window::destroy() {
 
-    _input = nullptr;
+    input = nullptr;
 
     glfwDestroyWindow(handle);
     handle = nullptr;
@@ -151,7 +151,7 @@ void window::handle_message() {
         if (!window)
             return;
 
-        window->_input->key.add({ window->get_id(), lava::key(key), lava::action(action), lava::mod(mods), scancode });
+        window->input->key.add({ window->get_id(), lava::key(key), lava::action(action), lava::mod(mods), scancode });
     });
 
     glfwSetScrollCallback(handle, [](GLFWwindow* handle, r64 x_offset, r64 y_offset) {
@@ -160,8 +160,8 @@ void window::handle_message() {
         if (!window)
             return;
 
-        if (window->_input)
-            window->_input->scroll.add({ window->get_id(), x_offset, y_offset });
+        if (window->input)
+            window->input->scroll.add({ window->get_id(), x_offset, y_offset });
     });
 
     glfwSetMouseButtonCallback(handle, [](GLFWwindow* handle, i32 button, i32 action, i32 mods) {
@@ -170,8 +170,8 @@ void window::handle_message() {
         if (!window)
             return;
 
-        if (window->_input)
-            window->_input->mouse_button.add({ window->get_id(), mouse_button(button), lava::action(action), lava::mod(mods) });
+        if (window->input)
+            window->input->mouse_button.add({ window->get_id(), mouse_button(button), lava::action(action), lava::mod(mods) });
     });
 
     glfwSetCursorPosCallback(handle, [](GLFWwindow* handle, r64 x_position, r64 y_position) {
@@ -180,8 +180,8 @@ void window::handle_message() {
         if (!window)
             return;
 
-        if (window->_input)
-            window->_input->mouse_move.add({ window->get_id(), { x_position, y_position } });
+        if (window->input)
+            window->input->mouse_move.add({ window->get_id(), { x_position, y_position } });
     });
 
     glfwSetCursorEnterCallback(handle, [](GLFWwindow* handle, i32 entered) {
@@ -190,8 +190,8 @@ void window::handle_message() {
         if (!window)
             return;
 
-        if (window->_input)
-            window->_input->mouse_active.add({ window->get_id(), entered > 0 });
+        if (window->input)
+            window->input->mouse_active.add({ window->get_id(), entered > 0 });
     });
 }
 

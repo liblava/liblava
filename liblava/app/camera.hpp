@@ -14,7 +14,7 @@ struct camera : id_obj {
     using map = std::map<id, camera>;
     using list = std::vector<camera*>;
 
-    bool create(device* device);
+    bool create(device_ptr device);
     void destroy();
 
     void update_projection();

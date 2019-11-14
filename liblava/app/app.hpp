@@ -32,14 +32,23 @@ struct app : frame {
     lava::staging staging;
     lava::block block;
 
-    lava::renderer renderer;
-    lava::device* device = nullptr;
+    lava::renderer plotter;
+    device_ptr device = nullptr;
 
     lava::render_target::ptr render_target;
 
+    lava::run_time run_time;
+
+    using update_func = std::function<bool(milliseconds)>;
+    update_func on_update;
+
 private:
+    void handle_input();
+    void handle_window();
+    void handle_update();
+    void handle_render();
+
     texture::ptr fonts;
-    milliseconds last_time;
 };
 
 } // lava

@@ -23,7 +23,7 @@ struct pipeline_layout : id_obj {
     void add_layout(descriptor::ptr const& layout) { add(layout); }
     void add_range(VkPushConstantRange const& range) { add(range); }
 
-    bool create(device* device);
+    bool create(device_ptr device);
     void destroy();
 
     VkPipelineLayout get() const { return layout; }
@@ -41,7 +41,7 @@ struct pipeline_layout : id_obj {
     }
 
 private:
-    device* dev = nullptr;
+    device_ptr device = nullptr;
 
     VkPipelineLayout layout = nullptr;
 
@@ -59,7 +59,7 @@ struct pipeline : id_obj {
     using process_func = std::function<void(VkCommandBuffer)>;
     process_func on_process;
 
-    explicit pipeline(device* device, VkPipelineCache pipeline_cache = nullptr);
+    explicit pipeline(device_ptr device, VkPipelineCache pipeline_cache = nullptr);
     ~pipeline() override;
 
     bool create();
@@ -75,10 +75,10 @@ struct pipeline : id_obj {
     void set_auto_bind(bool value = true) { auto_bind = value; }
     bool is_auto_bind() const { return auto_bind; }
 
-    bool is_ready() const { return _pipeline != nullptr; }
+    bool ready() const { return vk_pipeline != nullptr; }
 
-    VkPipeline get() const { return _pipeline; }
-    device* get_device() { return dev; }
+    VkPipeline get() const { return vk_pipeline; }
+    device_ptr get_device() { return device; }
 
     pipeline_layout::ptr get_layout() const { return layout; }
     void set_layout(pipeline_layout::ptr const& value) { layout = value; }
@@ -92,17 +92,17 @@ struct pipeline : id_obj {
         ~shader_stage();
 
         static shader_stage::ptr create(VkShaderStageFlagBits stage);
-        static shader_stage::ptr create(device* device, data const& data, VkShaderStageFlagBits stage);
+        static shader_stage::ptr create(device_ptr device, data const& data, VkShaderStageFlagBits stage);
 
         void set_stage(VkShaderStageFlagBits stage) { create_info.stage = stage; }
 
-        bool create(device* device, data const& data);
+        bool create(device_ptr device, data const& data);
         void destroy();
 
         VkPipelineShaderStageCreateInfo const& get_create_info() const { return create_info; }
 
     private:
-        device* dev = nullptr;
+        device_ptr device = nullptr;
 
         VkPipelineShaderStageCreateInfo create_info;
     };
@@ -111,8 +111,8 @@ protected:
     virtual bool create_internal() = 0;
     virtual void destroy_internal() = 0;
 
-    device* dev = nullptr;
-    VkPipeline _pipeline = nullptr;
+    device_ptr device = nullptr;
+    VkPipeline vk_pipeline = nullptr;
 
     VkPipelineCache pipeline_cache = nullptr;
     pipeline_layout::ptr layout;
@@ -135,12 +135,12 @@ struct graphics_pipeline : pipeline {
         relative
     };
 
-    static ptr make(device* device, VkPipelineCache pipeline_cache = nullptr) {
+    static ptr make(device_ptr device, VkPipelineCache pipeline_cache = nullptr) {
 
         return std::make_shared<graphics_pipeline>(device, pipeline_cache);
     }
 
-    explicit graphics_pipeline(device* device, VkPipelineCache pipeline_cache);
+    explicit graphics_pipeline(device_ptr device, VkPipelineCache pipeline_cache);
 
     void bind(VkCommandBuffer cmd_buf) override;
     void set_viewport_and_scissor(VkCommandBuffer cmd_buf, uv2 size);
@@ -196,8 +196,8 @@ struct graphics_pipeline : pipeline {
     VkRect2D get_scissor() const { return scissor; }
     void set_scissor(VkRect2D value) { scissor = value; }
 
-    size_type get_size_type() const { return _size_type; }
-    void set_size_type(size_type value) { _size_type = value; }
+    size_type get_size_type() const { return size_type; }
+    void set_size_type(size_type value) { size_type = value; }
 
     void copy_to(graphics_pipeline* target) const;
     void copy_from(ptr const& source) { source->copy_to(this); }
@@ -234,7 +234,7 @@ private:
 
     shader_stage::list shader_stages;
 
-    size_type _size_type = size_type::input;
+    graphics_pipeline::size_type size_type = size_type::input;
     VkViewport viewport;
     VkRect2D scissor;
 
@@ -252,7 +252,7 @@ struct compute_pipeline : pipeline {
 
     using pipeline::pipeline;
 
-    static ptr make(device* device, VkPipelineCache pipeline_cache = nullptr) {
+    static ptr make(device_ptr device, VkPipelineCache pipeline_cache = nullptr) {
 
         return std::make_shared<compute_pipeline>(device, pipeline_cache);
     }

@@ -10,8 +10,8 @@ namespace lava {
 
 bool device::create(create_param const& param) {
 
-    _physical_device = param._physical_device;
-    if (!_physical_device)
+    physical_device = param.physical_device;
+    if (!physical_device)
         return false;
 
     std::vector<VkDeviceQueueCreateInfo> queue_create_info_list(param.queue_info_list.size());
@@ -21,7 +21,7 @@ bool device::create(create_param const& param) {
         queue_create_info_list[i].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 
         ui32 index = 0;
-        if (!_physical_device->get_queue_family(index, param.queue_info_list[i].flags)) {
+        if (!physical_device->get_queue_family(index, param.queue_info_list[i].flags)) {
 
             log()->error("device::create physical_device::get_queue_family failed");
             return false;
@@ -41,10 +41,10 @@ bool device::create(create_param const& param) {
         .ppEnabledLayerNames = nullptr,
         .enabledExtensionCount = to_ui32(param.extensions.size()),
         .ppEnabledExtensionNames = param.extensions.data(),
-        .pEnabledFeatures = &_physical_device->get_features(),
+        .pEnabledFeatures = &physical_device->get_features(),
     };
 
-    if (failed(vkCreateDevice(_physical_device->get(), &create_info, memory::alloc(), &vk_device))) {
+    if (failed(vkCreateDevice(physical_device->get(), &create_info, memory::alloc(), &vk_device))) {
 
         log()->error("device::create vkCreateDevice failed");
         return false;
@@ -52,9 +52,9 @@ bool device::create(create_param const& param) {
 
     load_table();
 
-    _graphics_queues.clear();
-    _compute_queues.clear();
-    _transfer_queues.clear();
+    graphics_queue_list.clear();
+    compute_queue_list.clear();
+    transfer_queue_list.clear();
 
     index_map queue_family_map;
 
@@ -72,11 +72,11 @@ bool device::create(create_param const& param) {
             call().vkGetDeviceQueue(vk_device, queue_create_info_list[i].queueFamilyIndex, counter, &queue);
 
             if (param.queue_info_list[i].flags & VK_QUEUE_GRAPHICS_BIT)
-                _graphics_queues.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+                graphics_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
             if (param.queue_info_list[i].flags & VK_QUEUE_COMPUTE_BIT)
-                _compute_queues.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+                compute_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
             if (param.queue_info_list[i].flags & VK_QUEUE_TRANSFER_BIT)
-                _transfer_queues.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+                transfer_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
         }
     }
 
@@ -88,14 +88,14 @@ void device::destroy() {
     if (!vk_device)
         return;
 
-    _graphics_queues.clear();
-    _compute_queues.clear();
-    _transfer_queues.clear();
+    graphics_queue_list.clear();
+    compute_queue_list.clear();
+    transfer_queue_list.clear();
 
     call().vkDestroyDescriptorPool(vk_device, descriptor_pool, memory::alloc());
     descriptor_pool = nullptr;
 
-    _allocator = nullptr;
+    mem_allocator = nullptr;
 
     call().vkDestroyDevice(vk_device, memory::alloc());
     vk_device = nullptr;
@@ -123,7 +123,7 @@ bool device::create_descriptor_pool() {
         { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, size },
     };
 
-    VkDescriptorPoolCreateInfo pool_info
+    VkDescriptorPoolCreateInfo const pool_info
     {
         .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
         .flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT,
@@ -137,17 +137,17 @@ bool device::create_descriptor_pool() {
 
 bool device::is_surface_supported(VkSurfaceKHR surface) const {
 
-    return _physical_device->is_surface_supported(get_graphics_queue().family, surface);
+    return physical_device->is_surface_supported(get_graphics_queue().family, surface);
 }
 
 VkPhysicalDevice device::get_vk_physical_device() const {
 
-    return _physical_device->get();
+    return physical_device->get();
 }
 
-VkPhysicalDeviceFeatures const& device::get_features() const { return _physical_device->get_features(); }
+VkPhysicalDeviceFeatures const& device::get_features() const { return physical_device->get_features(); }
 
-VkPhysicalDeviceProperties const& device::get_properties() const { return _physical_device->get_properties(); }
+VkPhysicalDeviceProperties const& device::get_properties() const { return physical_device->get_properties(); }
 
 device::ptr device_manager::create() {
 
@@ -195,7 +195,7 @@ void device_manager::clear() {
 
 } // lava
 
-VkShaderModule lava::create_shader_module(device* device, data const& data) {
+VkShaderModule lava::create_shader_module(device_ptr device, data const& data) {
 
     VkShaderModuleCreateInfo shader_module_create_info
     {

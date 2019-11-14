@@ -46,4 +46,6 @@ private:
     VkExtensionPropertiesList extension_properties;
 };
 
+using physical_device_ptr = physical_device;
+
 } // lava

@@ -37,7 +37,7 @@
 
 namespace lava {
 
-bool texture::create(device* device, uv2 size, VkFormat format, layer::list const& layers_, texture_type type_) {
+bool texture::create(device_ptr device, uv2 size, VkFormat format, layer::list const& layers_, texture_type type_) {
 
     layers = layers_;
     type = type_;
@@ -84,10 +84,10 @@ bool texture::create(device* device, uv2 size, VkFormat format, layer::list cons
         return false;
     }
 
-    _image = image::make(format);
+    tex = image::make(format);
 
     if (type == texture_type::cube_map)
-        _image->set_flags(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
+        tex->set_flags(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
 
     auto view_type = VK_IMAGE_VIEW_TYPE_2D;
     if (type == texture_type::array) {
@@ -99,19 +99,19 @@ bool texture::create(device* device, uv2 size, VkFormat format, layer::list cons
         view_type = VK_IMAGE_VIEW_TYPE_CUBE;
     }
 
-    _image->set_tiling(VK_IMAGE_TILING_LINEAR);
-    _image->set_level_count(to_ui32(layers.front().levels.size()));
-    _image->set_layer_count(to_ui32(layers.size()));
-    _image->set_view_type(view_type);
+    tex->set_tiling(VK_IMAGE_TILING_LINEAR);
+    tex->set_level_count(to_ui32(layers.front().levels.size()));
+    tex->set_layer_count(to_ui32(layers.size()));
+    tex->set_view_type(view_type);
 
-    if (!_image->create(device, size, VMA_MEMORY_USAGE_GPU_ONLY)) {
+    if (!tex->create(device, size, VMA_MEMORY_USAGE_GPU_ONLY)) {
 
         log()->error("texture create failed");
         return false;
     }
 
     descriptor.sampler = sampler;
-    descriptor.imageView = _image->get_view();
+    descriptor.imageView = tex->get_view();
     descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
     return true;
@@ -121,22 +121,19 @@ void texture::destroy() {
 
     destroy_upload_buffer();
 
-    device* device = nullptr;
-    if (_image)
-        device = _image->get_device();
-
     if (sampler) {
 
-        if (device)
-            device->vkDestroySampler(sampler);
+        if (tex)
+            if (auto device = tex->get_device())
+                device->vkDestroySampler(sampler);
 
         sampler = nullptr;
     }
 
-    if (_image) {
+    if (tex) {
 
-        _image->destroy();
-        _image = nullptr;
+        tex->destroy();
+        tex = nullptr;
     }
 }
 
@@ -149,7 +146,7 @@ bool texture::upload(void const* data, size_t data_size) {
 
     upload_buffer = buffer::make();
 
-    return upload_buffer->create(_image->get_device(), data, data_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, false, VMA_MEMORY_USAGE_CPU_TO_GPU);
+    return upload_buffer->create(tex->get_device(), data, data_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, false, VMA_MEMORY_USAGE_CPU_TO_GPU);
 }
 
 bool texture::stage(VkCommandBuffer cmd_buffer) {
@@ -169,10 +166,10 @@ bool texture::stage(VkCommandBuffer cmd_buffer) {
         .layerCount = to_ui32(layers.size()),
     };
 
-    auto device = _image->get_device();
+    auto device = tex->get_device();
 
-    set_image_layout(device, cmd_buffer, _image->get(), VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range,
-                                                        VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
+    set_image_layout(device, cmd_buffer, tex->get(), VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range,
+                                                     VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
 
     std::vector<VkBufferImageCopy> regions;
 
@@ -222,7 +219,7 @@ bool texture::stage(VkCommandBuffer cmd_buffer) {
             .layerCount = to_ui32(layers.size()),
         };
 
-        auto size = _image->get_size();
+        auto size = tex->get_size();
 
         VkBufferImageCopy region
         {
@@ -237,12 +234,12 @@ bool texture::stage(VkCommandBuffer cmd_buffer) {
         regions.push_back(region);
     }
 
-    device->call().vkCmdCopyBufferToImage(cmd_buffer, upload_buffer->get(), _image->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 
-                                                                to_ui32(regions.size()), regions.data());
+    device->call().vkCmdCopyBufferToImage(cmd_buffer, upload_buffer->get(), tex->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                                                                        to_ui32(regions.size()), regions.data());
 
-    set_image_layout(device, cmd_buffer, _image->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                                                        VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, subresource_range,
-                                                        VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+    set_image_layout(device, cmd_buffer, tex->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                                     VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, subresource_range,
+                                                     VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
 
     return true;
 }
@@ -286,7 +283,7 @@ bool staging::stage(VkCommandBuffer cmd_buf, index frame) {
 
 } // lava
 
-lava::texture::ptr lava::load_texture(device* device, file_format filename, texture_type type) {
+lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, texture_type type) {
 
     auto supported =    (filename.format == VK_FORMAT_R8G8B8A8_UNORM) ||
                         (device->get_features().textureCompressionBC && (filename.format == VK_FORMAT_BC3_UNORM_BLOCK)) ||
@@ -455,7 +452,7 @@ lava::texture::ptr lava::load_texture(device* device, file_format filename, text
     return texture;
 }
 
-lava::texture::ptr lava::create_default_texture(device* device, uv2 size) {
+lava::texture::ptr lava::create_default_texture(device_ptr device, uv2 size) {
 
     auto result = texture::make();
 

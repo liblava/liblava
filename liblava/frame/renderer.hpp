@@ -34,7 +34,7 @@ struct renderer : id_obj {
     bool active = true;
 
 private:
-    device* dev = nullptr;
+    device_ptr device = nullptr;
     device::queue queue;
 
     swapchain* target = nullptr;

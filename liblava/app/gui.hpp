@@ -31,11 +31,11 @@ struct gui : input_callback {
     void setup(GLFWwindow* window) { setup(window, data(), icon_font()); }
 
     bool create(graphics_pipeline::ptr pipeline, index max_frames);
-    bool create(device* device, index max_frames) {
+    bool create(device_ptr device, index max_frames) {
         
         return create(graphics_pipeline::make(device), max_frames);
     }
-    bool create(device* device, index max_frames, VkRenderPass pass) {
+    bool create(device_ptr device, index max_frames, VkRenderPass pass) {
 
         if (!create(device, max_frames))
             return false;
@@ -74,11 +74,11 @@ private:
     void new_frame();
     void render(VkCommandBuffer cmd_buf);
 
-    device* dev = nullptr;
+    device_ptr device = nullptr;
     bool initialized = false;
 
     graphics_pipeline::ptr pipeline;
-    pipeline_layout::ptr _pipeline_layout;
+    lava::pipeline_layout::ptr pipeline_layout;
 
     size_t buffer_memory_alignment = 256;
     index frame = 0;

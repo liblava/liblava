@@ -119,7 +119,7 @@ struct window : id_obj {
     using resize_func = std::function<bool(ui32, ui32)>;
     resize_func on_resize;
 
-    void assign(input* callback) { _input = callback; }
+    void assign(input* callback) { input = callback; }
 
     void set_debug_title(bool value = true) { debug_title = value; }
     bool has_debug_title() const { return debug_title; }
@@ -132,7 +132,7 @@ private:
     void handle_message();
 
     GLFWwindow* handle = nullptr;
-    input* _input = nullptr;
+    lava::input* input = nullptr;
 
     string title = _lava_;
     string save_name;

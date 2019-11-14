@@ -39,11 +39,11 @@ private:
 
 struct run_time {
 
-    milliseconds current;
+    milliseconds current{ 0 };
     milliseconds clock{ 16 };
 
-    milliseconds system;
-    milliseconds delta;
+    milliseconds system{ 0 };
+    milliseconds delta{ 0 };
 
     bool use_fix_delta = false;
     milliseconds fix_delta{ 20 };

@@ -6,7 +6,7 @@
 
 namespace lava {
 
-render_pass::render_pass(device* device) : dev(device) {
+render_pass::render_pass(device_ptr device_) : device(device_) {
 
     on_created = [&](VkAttachmentsRef target_attachments, rect area) { return on_target_created(target_attachments, area); };
     on_destroyed = [&]() { on_target_destroyed(); };
@@ -29,7 +29,7 @@ bool render_pass::create(VkAttachmentsRef target_attachments, rect area) {
 	for (auto& dependency : dependencies)
         subpass_dependencies.push_back(dependency->get_dependency());
 
-    VkRenderPassCreateInfo create_info
+    VkRenderPassCreateInfo const create_info
     {
         .sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO,
         .attachmentCount = to_ui32(attachment_descriptions.size()),
@@ -40,7 +40,7 @@ bool render_pass::create(VkAttachmentsRef target_attachments, rect area) {
         .pDependencies = subpass_dependencies.data(),
     };
 
-	if (!check(dev->call().vkCreateRenderPass(dev->get(), &create_info, memory::alloc(), &_render_pass))) {
+	if (!check(device->call().vkCreateRenderPass(device->get(), &create_info, memory::alloc(), &vk_render_pass))) {
 
 		log()->error("render_pass::create vkCreateRenderPass failed");
 		return false;
@@ -61,13 +61,13 @@ void render_pass::destroy() {
 
 	on_target_destroyed();
 
-	if (_render_pass) {
+	if (vk_render_pass) {
 
-		dev->call().vkDestroyRenderPass(dev->get(), _render_pass, memory::alloc());
-        _render_pass = nullptr;
+		device->call().vkDestroyRenderPass(device->get(), vk_render_pass, memory::alloc());
+        vk_render_pass = nullptr;
 	}
 
-	dev = nullptr;
+	device = nullptr;
 }
 
 void render_pass::begin(VkCommandBuffer cmd_buf, index frame) {
@@ -75,22 +75,22 @@ void render_pass::begin(VkCommandBuffer cmd_buf, index frame) {
     auto origin = area.get_origin();
     auto size = area.get_size();
 
-    VkRenderPassBeginInfo info
+    VkRenderPassBeginInfo const info
     {
         .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
-        .renderPass = _render_pass,
+        .renderPass = vk_render_pass,
         .framebuffer = framebuffers[frame],
         .renderArea = { { origin.x, origin.y }, { size.x, size.y } },
         .clearValueCount = to_ui32(clear_values.size()),
         .pClearValues = clear_values.data(),
     };
 
-	dev->call().vkCmdBeginRenderPass(cmd_buf, &info, VK_SUBPASS_CONTENTS_INLINE);
+	device->call().vkCmdBeginRenderPass(cmd_buf, &info, VK_SUBPASS_CONTENTS_INLINE);
 }
 
 void render_pass::end(VkCommandBuffer cmd_buf) {
 
-	dev->call().vkCmdEndRenderPass(cmd_buf);
+	device->call().vkCmdEndRenderPass(cmd_buf);
 }
 
 void render_pass::process(VkCommandBuffer cmd_buf, index frame) {
@@ -102,7 +102,7 @@ void render_pass::process(VkCommandBuffer cmd_buf, index frame) {
 	for (auto& subpass : subpasses) {
 
 		if (count > 0)
-			dev->call().vkCmdNextSubpass(cmd_buf, VK_SUBPASS_CONTENTS_INLINE);
+			device->call().vkCmdNextSubpass(cmd_buf, VK_SUBPASS_CONTENTS_INLINE);
 
 		if (!subpass->is_active())
 			continue;
@@ -138,10 +138,10 @@ bool render_pass::on_target_created(VkAttachmentsRef target_attachments, rect ar
 
 	for (auto& attachment : target_attachments) {
 
-		VkFramebufferCreateInfo create_info
+		VkFramebufferCreateInfo const create_info
         {
             .sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO,
-            .renderPass = _render_pass,
+            .renderPass = vk_render_pass,
             .attachmentCount = to_ui32(attachment.size()),
             .pAttachments = attachment.data(),
             .width = size.x,
@@ -149,7 +149,7 @@ bool render_pass::on_target_created(VkAttachmentsRef target_attachments, rect ar
             .layers = 1,
         };
 
-		if (failed(dev->call().vkCreateFramebuffer(dev->get(), &create_info, memory::alloc(), &framebuffers[count]))) {
+		if (failed(device->call().vkCreateFramebuffer(device->get(), &create_info, memory::alloc(), &framebuffers[count]))) {
 
 			log()->error("RenderPass::on_target_created vkCreateFramebuffer failed");
 			return false;
@@ -168,7 +168,7 @@ void render_pass::on_target_destroyed() {
 		if (!framebuffer)
 			continue;
 
-		dev->call().vkDestroyFramebuffer(dev->get(), framebuffer, memory::alloc());
+		device->call().vkDestroyFramebuffer(device->get(), framebuffer, memory::alloc());
 		framebuffer = nullptr;
 	}
 

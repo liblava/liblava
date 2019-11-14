@@ -51,7 +51,7 @@ image::image(VkFormat format, VkImage vk_image) : vk_image(vk_image) {
 
 image::ptr image::make(VkFormat format, VkImage vk_image) { return std::make_shared<image>(format, vk_image);  }
 
-image::ptr image::make(VkFormat format, device* device, uv2 size, VkImage vk_image) {
+image::ptr image::make(VkFormat format, device_ptr device, uv2 size, VkImage vk_image) {
 
     auto result = make(format, vk_image);
 
@@ -61,9 +61,9 @@ image::ptr image::make(VkFormat format, device* device, uv2 size, VkImage vk_ima
     return result;
 }
 
-bool image::create(device* device, uv2 size, VmaMemoryUsage memory_usage, bool mip_levels_generation) {
+bool image::create(device_ptr device_, uv2 size, VmaMemoryUsage memory_usage, bool mip_levels_generation) {
 
-    dev = device;
+    device = device_;
 
     info.extent = { size.x, size.y, 1 };
 
@@ -74,7 +74,7 @@ bool image::create(device* device, uv2 size, VmaMemoryUsage memory_usage, bool m
             .usage = memory_usage,
         };
 
-        if (failed(vmaCreateImage(dev->alloc(), &info, &create_info, &vk_image, &allocation, nullptr))) {
+        if (failed(vmaCreateImage(device->alloc(), &info, &create_info, &vk_image, &allocation, nullptr))) {
 
             log()->error("image::create vmaCreateImage failed");
             return false;
@@ -91,7 +91,7 @@ void image::destroy(bool only_view) {
 
     if (view) {
 
-        dev->vkDestroyImageView(view);
+        device->vkDestroyImageView(view);
         view = nullptr;
     }
 
@@ -100,12 +100,12 @@ void image::destroy(bool only_view) {
 
     if (vk_image) {
 
-        vmaDestroyImage(dev->alloc(), vk_image, allocation);
+        vmaDestroyImage(device->alloc(), vk_image, allocation);
         vk_image = nullptr;
         allocation = nullptr;
     }
 
-    dev = nullptr;
+    device = nullptr;
 }
 
 } // lava

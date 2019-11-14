@@ -11,51 +11,34 @@
 
 namespace lava {
 
-struct instance::impl {
-
-    explicit impl(instance* instance_) : _instance(instance_) {}
-
-    instance* _instance = nullptr;
-    instance::debug debug;
-
-    void print_info() const;
-
-    bool create_validation_report();
-    void destroy_validation_report();
-
-    VkDebugUtilsMessengerEXT debug_messanger = nullptr;
-};
-
-instance::instance() : _impl(std::make_unique<impl>(this)) {}
-
 instance::~instance() {
 
     destroy();
 }
 
-bool instance::create(create_param& param, debug& debug, name appName) {
+bool instance::create(create_param& param, debug_config& debug_, name appName) {
 
-    _impl->debug = debug;
+    debug = debug_;
 
-    if (_impl->debug.validation) {
+    if (debug.validation) {
 
         if (!exists(param.layer_to_enable, VK_LAYER_LUNARG_STANDARD_VALIDATION_NAME))
             param.layer_to_enable.push_back(VK_LAYER_LUNARG_STANDARD_VALIDATION_NAME);
     }
 
-    if (_impl->debug.render_doc) {
+    if (debug.render_doc) {
 
         if (!exists(param.layer_to_enable, VK_LAYER_RENDERDOC_CAPTURE_NAME))
             param.layer_to_enable.push_back(VK_LAYER_RENDERDOC_CAPTURE_NAME);
     }
 
-    if (_impl->debug.assistent) {
+    if (debug.assistent) {
 
         if (!exists(param.layer_to_enable, VK_LAYER_LUNARG_ASSISTENT_LAYER_NAME))
             param.layer_to_enable.push_back(VK_LAYER_LUNARG_ASSISTENT_LAYER_NAME);
     }
 
-    if (_impl->debug.utils) {
+    if (debug.utils) {
 
         if (!exists(param.extension_to_enable, VK_EXT_DEBUG_UTILS_EXTENSION_NAME))
             param.extension_to_enable.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
@@ -97,11 +80,11 @@ bool instance::create(create_param& param, debug& debug, name appName) {
     if (!enumerate_physical_devices())
         return false;
 
-    if (_impl->debug.info)
-        _impl->print_info();
+    if (debug.info)
+        print_info();
 
-    if (_impl->debug.utils)
-        if (!_impl->create_validation_report())
+    if (debug.utils)
+        if (!create_validation_report())
             return false;
 
     return true;
@@ -114,8 +97,8 @@ void instance::destroy() {
 
     physical_devices.clear();
 
-    if (_impl->debug.utils)
-        _impl->destroy_validation_report();
+    if (debug.utils)
+        destroy_validation_report();
 
     vkDestroyInstance(vk_instance, memory::alloc());
     vk_instance = nullptr;
@@ -168,7 +151,7 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL validation_callback(VkDebugUtilsMessageSev
     return VK_FALSE;
 }
 
-bool instance::impl::create_validation_report() {
+bool instance::create_validation_report() {
 
     VkDebugUtilsMessengerCreateInfoEXT create_info
     {
@@ -181,20 +164,20 @@ bool instance::impl::create_validation_report() {
     if (debug.verbose)
         create_info.messageSeverity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
 
-    return check(vkCreateDebugUtilsMessengerEXT(_instance->vk_instance, &create_info, memory::alloc(), &debug_messanger));
+    return check(vkCreateDebugUtilsMessengerEXT(vk_instance, &create_info, memory::alloc(), &debug_messanger));
 }
 
-void instance::impl::destroy_validation_report() {
+void instance::destroy_validation_report() {
 
     if (!debug_messanger)
         return;
 
-    vkDestroyDebugUtilsMessengerEXT(_instance->vk_instance, debug_messanger, memory::alloc());
+    vkDestroyDebugUtilsMessengerEXT(vk_instance, debug_messanger, memory::alloc());
 
     debug_messanger = nullptr;
 }
 
-void instance::impl::print_info() const {
+void instance::print_info() const {
 
     auto global_extensions = instance::enumerate_extension_properties();
     log()->info("found {} global extensions", global_extensions.size());
@@ -218,10 +201,10 @@ void instance::impl::print_info() const {
         }
     }
 
-    log()->info("Found {} physical devices", _instance->physical_devices.size());
+    log()->info("Found {} physical devices", physical_devices.size());
 
     auto device_index = 0u;
-    for (auto& physical_device : _instance->physical_devices) {
+    for (auto& physical_device : physical_devices) {
 
         auto& properties = physical_device.get_properties();
 

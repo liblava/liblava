@@ -10,7 +10,7 @@ namespace lava {
 
 struct swapchain : id_obj {
 
-    bool create(device* device, VkSurfaceKHR surface, uv2 size, bool v_sync = false);
+    bool create(device_ptr device, VkSurfaceKHR surface, uv2 size, bool v_sync = false);
 
     void destroy();
 
@@ -19,7 +19,7 @@ struct swapchain : id_obj {
     void request_reload() { reload_request = true; }
     bool must_reload() const { return reload_request; }
 
-    device* get_device() { return dev; }
+    device_ptr get_device() { return device; }
 
     uv2 get_size() const { return size; }
     VkFormat get_format() const { return format.format; }
@@ -55,7 +55,7 @@ private:
     void destroy_internal();
     void destroy_backbuffer_views();
 
-    device* dev = nullptr;
+    device_ptr device = nullptr;
 
     VkSurfaceKHR surface = nullptr;
     VkSurfaceFormatKHR format = {};

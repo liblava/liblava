@@ -362,7 +362,7 @@ VkImageMemoryBarrier lava::image_memory_barrier(VkImage image, VkImageLayout old
     };
 }
 
-void lava::set_image_layout(device* device, VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout, VkImageLayout new_image_layout,
+void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout, VkImageLayout new_image_layout,
                             VkImageSubresourceRange subresource_range, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
 
     auto barrier = image_memory_barrier(image, old_image_layout, new_image_layout);
@@ -432,7 +432,7 @@ void lava::set_image_layout(device* device, VkCommandBuffer cmd_buffer, VkImage 
     device->call().vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 }
 
-void lava::set_image_layout(device* device, VkCommandBuffer cmd_buffer, VkImage image, VkImageAspectFlags aspect_mask, VkImageLayout old_image_layout,
+void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageAspectFlags aspect_mask, VkImageLayout old_image_layout,
                                             VkImageLayout new_image_layout, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
 
     VkImageSubresourceRange subresource_range
@@ -447,7 +447,7 @@ void lava::set_image_layout(device* device, VkCommandBuffer cmd_buffer, VkImage 
     set_image_layout(device, cmd_buffer, image, old_image_layout, new_image_layout, subresource_range, src_stage_mask, dst_stage_mask);
 }
 
-void lava::insert_image_memory_barrier(lava::device* device, VkCommandBuffer cmd_buffer, VkImage image, VkAccessFlags src_access_mask, VkAccessFlags dst_access_mask,
+void lava::insert_image_memory_barrier(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkAccessFlags src_access_mask, VkAccessFlags dst_access_mask,
                                         VkImageLayout old_image_layout, VkImageLayout new_image_layout, 
                                         VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask, VkImageSubresourceRange subresource_range) {
 

@@ -6,11 +6,14 @@
 
 namespace lava {
 
-app::app(argh::parser cmd_line) : frame(cmd_line), window(get_config().app) {}
+app::app(argh::parser cmd_line) 
+    : frame(cmd_line), window(get_config().app) {}
 
-app::app(frame_config config) : frame(config), window(config.app) {}
+app::app(frame_config config) 
+    : frame(config), window(config.app) {}
 
-app::app(name config_app, argh::parser argh) : frame(frame_config(config_app, argh)), window(config_app) {}
+app::app(name config_app, argh::parser argh) 
+    : frame(frame_config(config_app, argh)), window(config_app) {}
 
 bool app::setup() {
 
@@ -62,6 +65,33 @@ bool app::setup() {
         forward_shading.get_render_pass()->process(cmd_buf, current_frame);
     });
 
+    if (!plotter.create(render_target->get_swapchain()))
+        return false;
+
+    handle_input();
+    handle_window();
+    handle_update();
+    handle_render();
+
+    add_run_end([&]() {
+
+        camera.destroy();
+
+        gui.destroy();
+        fonts->destroy();
+
+        block.destroy();
+        forward_shading.destroy();
+
+        plotter.destroy();
+        render_target->destroy();
+    });
+
+    return true;
+}
+
+void app::handle_input() {
+
     input.add(&gui);
 
     input.key.listeners.add([&](key_event::ref event) {
@@ -97,15 +127,23 @@ bool app::setup() {
         return camera.handle(event);
     });
 
-    if (!renderer.create(render_target->get_swapchain()))
-        return false;
-
-    last_time = now();
-
     add_run([&]() {
 
         input.handle_events();
         input.set_mouse_position(window.get_mouse_position());
+
+        return true;
+    });
+
+    add_run_end([&]() {
+
+        input.remove(&gui);
+    });
+}
+
+void app::handle_window() {
+
+    add_run([&]() {
 
         if (window.has_close_request())
             return shut_down();
@@ -118,48 +156,56 @@ bool app::setup() {
             return window.handle_resize();
         }
 
-        if (window.iconified()) {
+        return true;
+    });
+}
 
-            set_wait_for_events(true);
-            return true;
+void app::handle_update() {
 
-        } else {
+    run_time.system = now();
 
-            if (waiting_for_events())
-                set_wait_for_events(false);
+    add_run([&]() {
+
+        auto delta = milliseconds(0);
+        auto time = now();
+
+        if (run_time.system != time) {
+
+            delta = time - run_time.system;
+            run_time.system = time;
         }
 
-        auto delta = now() - last_time;
-        camera.update_view(delta, input.get_mouse_position());
-        last_time = now();
+        if (run_time.use_fix_delta)
+            delta = run_time.fix_delta;
 
-        auto frame_index = renderer.begin_frame();
+        run_time.delta = delta;
+        run_time.current += delta;
+
+        camera.update_view(delta, input.get_mouse_position());
+
+        return on_update ? on_update(delta) : true;
+    });
+}
+
+void app::handle_render() {
+
+    add_run([&]() {
+
+        if (window.iconified()) {
+
+            sleep(milliseconds(1));
+            return true;
+        }
+
+        auto frame_index = plotter.begin_frame();
         if (!frame_index)
             return true;
 
         if (!block.process(*frame_index))
             return false;
 
-        return renderer.end_frame(block.get_buffers());
+        return plotter.end_frame(block.get_buffers());
     });
-
-    add_run_end([&]() {
-
-        camera.destroy();
-
-        input.remove(&gui);
-        gui.destroy();
-
-        fonts->destroy();
-
-        block.destroy();
-        forward_shading.destroy();
-
-        renderer.destroy();
-        render_target->destroy();
-    });
-
-    return true;
 }
 
 } // lava

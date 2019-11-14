@@ -8,11 +8,11 @@ namespace lava {
 
 descriptor::binding::binding() {
 
-    _binding.binding = 0;
-    _binding.descriptorType = VK_DESCRIPTOR_TYPE_MAX_ENUM;
-    _binding.descriptorCount = 0;
-    _binding.stageFlags = VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
-    _binding.pImmutableSamplers = nullptr;
+    vk_binding.binding = 0;
+    vk_binding.descriptorType = VK_DESCRIPTOR_TYPE_MAX_ENUM;
+    vk_binding.descriptorCount = 0;
+    vk_binding.stageFlags = VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
+    vk_binding.pImmutableSamplers = nullptr;
 }
 
 descriptor::binding::ptr descriptor::binding::make(index index) {
@@ -24,9 +24,9 @@ descriptor::binding::ptr descriptor::binding::make(index index) {
     return binding;
 }
 
-bool descriptor::create(device* device) {
+bool descriptor::create(device_ptr device_) {
 
-    dev = device;
+    device = device_;
 
     VkDescriptorSetLayoutBindings layoutBindings;
 
@@ -40,7 +40,7 @@ bool descriptor::create(device* device) {
         .pBindings = layoutBindings.data(),
     };
     
-    return check(dev->call().vkCreateDescriptorSetLayout(dev->get(), &create_info, memory::alloc(), &layout));
+    return check(device->call().vkCreateDescriptorSetLayout(device->get(), &create_info, memory::alloc(), &layout));
 }
 
 void descriptor::destroy() {
@@ -48,7 +48,7 @@ void descriptor::destroy() {
     if (!layout)
         return;
 
-    dev->call().vkDestroyDescriptorSetLayout(dev->get(), layout, memory::alloc());
+    device->call().vkDestroyDescriptorSetLayout(device->get(), layout, memory::alloc());
     layout = nullptr;
 
     // keep device for descriptors
@@ -68,15 +68,15 @@ VkDescriptorSet descriptor::allocate_set() {
 
     VkDescriptorSet descriptor_set = nullptr;
 
-    VkDescriptorSetAllocateInfo alloc_info
+    VkDescriptorSetAllocateInfo const alloc_info
     {
         .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
-        .descriptorPool = dev->get_descriptor_pool(),
+        .descriptorPool = device->get_descriptor_pool(),
         .descriptorSetCount = 1,
         .pSetLayouts = &layout,
     };
 
-    if (failed(dev->call().vkAllocateDescriptorSets(dev->get(), &alloc_info, &descriptor_set)))
+    if (failed(device->call().vkAllocateDescriptorSets(device->get(), &alloc_info, &descriptor_set)))
         return nullptr;
 
     return descriptor_set;
@@ -86,7 +86,7 @@ bool descriptor::free_set(VkDescriptorSet descriptor_set) {
 
     std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
 
-    return check(dev->call().vkFreeDescriptorSets(dev->get(), dev->get_descriptor_pool(), 
+    return check(device->call().vkFreeDescriptorSets(device->get(), device->get_descriptor_pool(), 
                                                     to_ui32(descriptor_sets.size()), descriptor_sets.data()));
 }
 
@@ -94,15 +94,15 @@ VkDescriptorSets descriptor::allocate_sets(ui32 size) {
 
     VkDescriptorSets result(size);
 
-    VkDescriptorSetAllocateInfo alloc_info
+    VkDescriptorSetAllocateInfo const alloc_info
     {
         .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
-        .descriptorPool = dev->get_descriptor_pool(),
+        .descriptorPool = device->get_descriptor_pool(),
         .descriptorSetCount = size,
         .pSetLayouts = &layout,
     };
 
-    if (failed(dev->call().vkAllocateDescriptorSets(dev->get(), &alloc_info, result.data())))
+    if (failed(device->call().vkAllocateDescriptorSets(device->get(), &alloc_info, result.data())))
         return {};
 
     return result;
@@ -110,7 +110,7 @@ VkDescriptorSets descriptor::allocate_sets(ui32 size) {
 
 bool descriptor::free_sets(VkDescriptorSets const& descriptor_sets) {
 
-    return check(dev->call().vkFreeDescriptorSets(dev->get(), dev->get_descriptor_pool(), 
+    return check(device->call().vkFreeDescriptorSets(device->get(), device->get_descriptor_pool(), 
                                                     to_ui32(descriptor_sets.size()), descriptor_sets.data()));
 }
 

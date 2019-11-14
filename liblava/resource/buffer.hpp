@@ -21,18 +21,15 @@ struct buffer : id_obj {
 
     static ptr make() { return std::make_shared<buffer>(); }
 
-    bool create(device* device, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped = false, 
-                                VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY);
+    bool create(device_ptr device, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped = false,
+                                   VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY);
 
-    bool create_mapped(device* device, void const* data, size_t size, VkBufferUsageFlags usage,
-                                VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU) {
-
-        return create(device, data, size, usage, true, memory_usage);
-    }
+    bool create_mapped(device_ptr device, void const* data, size_t size, VkBufferUsageFlags usage,
+                                          VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
 
     void destroy();
 
-    device* get_device() { return dev; }
+    device_ptr get_device() { return device; }
 
     bool is_valid() const { return vk_buffer != nullptr; }
 
@@ -47,7 +44,7 @@ struct buffer : id_obj {
     void flush(VkDeviceSize offset = 0, VkDeviceSize size = VK_WHOLE_SIZE);
 
 private:
-    device* dev = nullptr;
+    device_ptr device = nullptr;
 
     VkBuffer vk_buffer = nullptr;
     VmaAllocation allocation = nullptr;

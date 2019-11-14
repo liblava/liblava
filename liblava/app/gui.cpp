@@ -201,7 +201,7 @@ void gui::setup(GLFWwindow* window_, data font_data, icon_font icon_font) {
     on_key_event = [&](key_event const& event) {
 
         if (is_active())
-            handle_key_event(to_i32(event.key), event.scancode, to_i32(event.action), to_i32(event.mods));
+            handle_key_event(to_i32(event.key), event.scancode, to_i32(event.action), to_i32(event.mod));
 
         return want_capture_mouse();
     };
@@ -217,7 +217,7 @@ void gui::setup(GLFWwindow* window_, data font_data, icon_font icon_font) {
     on_mouse_button_event = [&](mouse_button_event const& event) {
 
         if (is_active())
-            handle_mouse_button_event(to_i32(event.button), to_i32(event.action), to_i32(event.mods));
+            handle_mouse_button_event(to_i32(event.button), to_i32(event.action), to_i32(event.mod));
 
         return want_capture_mouse();
     };
@@ -372,7 +372,7 @@ bool gui::create(graphics_pipeline::ptr pipeline_, index max_frames_) {
 
     pipeline = std::move(pipeline_);
 
-    dev = pipeline->get_device();
+    device = pipeline->get_device();
     max_frames = max_frames_;
 
     for (auto i = 0u; i < max_frames; ++i) {
@@ -383,7 +383,6 @@ bool gui::create(graphics_pipeline::ptr pipeline_, index max_frames_) {
 
     pipeline->set_vertex_input_binding({ 0, sizeof(ImDrawVert), VK_VERTEX_INPUT_RATE_VERTEX });
     pipeline->set_vertex_input_attributes({
-
             { 0, 0, VK_FORMAT_R32G32_SFLOAT,  to_ui32(offsetof(ImDrawVert, pos)) },
             { 1, 0, VK_FORMAT_R32G32_SFLOAT,  to_ui32(offsetof(ImDrawVert, uv)) },
             { 2, 0, VK_FORMAT_R8G8B8A8_UNORM, to_ui32(offsetof(ImDrawVert, col)) },
@@ -399,17 +398,17 @@ bool gui::create(graphics_pipeline::ptr pipeline_, index max_frames_) {
 
     descriptor_set_layout = descriptor::make();
     descriptor_set_layout->add_binding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
-    if (!descriptor_set_layout->create(dev))
+    if (!descriptor_set_layout->create(device))
         return false;
 
-    _pipeline_layout = pipeline_layout::make();
-    _pipeline_layout->add(descriptor_set_layout);
-    _pipeline_layout->add({ VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(r32) * 4 });
+    pipeline_layout = pipeline_layout::make();
+    pipeline_layout->add(descriptor_set_layout);
+    pipeline_layout->add({ VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(r32) * 4 });
 
-    if (!_pipeline_layout->create(dev))
+    if (!pipeline_layout->create(device))
         return false;
 
-    pipeline->set_layout(_pipeline_layout);
+    pipeline->set_layout(pipeline_layout);
     pipeline->set_auto_size(false);
 
     descriptor_set = descriptor_set_layout->allocate();
@@ -465,8 +464,8 @@ void gui::invalidate_device_objects() {
 
     pipeline = nullptr;
 
-    _pipeline_layout->destroy();
-    _pipeline_layout = nullptr;
+    pipeline_layout->destroy();
+    pipeline_layout = nullptr;
 }
 
 void gui::render(VkCommandBuffer cmd_buf) {
@@ -492,7 +491,7 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
         if (vertex_buffers[frame]->is_valid())
             vertex_buffers[frame]->destroy();
 
-        if (!vertex_buffers[frame]->create(dev, nullptr, ((vertex_size - 1) / buffer_memory_alignment + 1) * buffer_memory_alignment,
+        if (!vertex_buffers[frame]->create(device, nullptr, ((vertex_size - 1) / buffer_memory_alignment + 1) * buffer_memory_alignment,
                                             VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, true, VMA_MEMORY_USAGE_CPU_TO_GPU))
             return;
     }
@@ -503,7 +502,7 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
         if (index_buffers[frame]->is_valid())
             index_buffers[frame]->destroy();
 
-        if (!index_buffers[frame]->create(dev, nullptr, ((index_size - 1) / buffer_memory_alignment + 1) * buffer_memory_alignment,
+        if (!index_buffers[frame]->create(device, nullptr, ((index_size - 1) / buffer_memory_alignment + 1) * buffer_memory_alignment,
                                             VK_BUFFER_USAGE_INDEX_BUFFER_BIT, true, VMA_MEMORY_USAGE_CPU_TO_GPU))
             return;
     }
@@ -522,7 +521,7 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
         idx_dst += cmd_list->IdxBuffer.Size;
     }
 
-    VkMappedMemoryRange vertex_range
+    VkMappedMemoryRange const vertex_range
     {
         .sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE,
         .memory = vertex_buffers[frame]->get_device_memory(),
@@ -530,7 +529,7 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
         .size = VK_WHOLE_SIZE,
     };
 
-    VkMappedMemoryRange index_range
+    VkMappedMemoryRange const index_range
     {
         .sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE,
         .memory = index_buffers[frame]->get_device_memory(),
@@ -539,15 +538,15 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
     };
 
     std::array<VkMappedMemoryRange, 2> const ranges = { vertex_range, index_range };
-    check(dev->call().vkFlushMappedMemoryRanges(dev->get(), to_ui32(ranges.size()), ranges.data()));
+    check(device->call().vkFlushMappedMemoryRanges(device->get(), to_ui32(ranges.size()), ranges.data()));
 
-    _pipeline_layout->bind(cmd_buf, descriptor_set);
+    pipeline_layout->bind(cmd_buf, descriptor_set);
 
     std::array<VkDeviceSize, 1> const vertex_offset = { 0 };
     std::array<VkBuffer, 1> const buffers = { vertex_buffers[frame]->get() };
-    dev->call().vkCmdBindVertexBuffers(cmd_buf, 0, to_ui32(buffers.size()), buffers.data(), vertex_offset.data());
+    device->call().vkCmdBindVertexBuffers(cmd_buf, 0, to_ui32(buffers.size()), buffers.data(), vertex_offset.data());
 
-    dev->call().vkCmdBindIndexBuffer(cmd_buf, index_buffers[frame]->get(), 0, VK_INDEX_TYPE_UINT16);
+    device->call().vkCmdBindIndexBuffer(cmd_buf, index_buffers[frame]->get(), 0, VK_INDEX_TYPE_UINT16);
 
     VkViewport viewport;
     viewport.x = 0;
@@ -558,17 +557,17 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
     viewport.maxDepth = 1.f;
 
     std::array<VkViewport, 1> const viewports = { viewport };
-    dev->call().vkCmdSetViewport(cmd_buf, 0, to_ui32(viewports.size()), viewports.data());
+    device->call().vkCmdSetViewport(cmd_buf, 0, to_ui32(viewports.size()), viewports.data());
 
     float scale[2];
     scale[0] = 2.f / io.DisplaySize.x;
     scale[1] = 2.f / io.DisplaySize.y;
-    dev->call().vkCmdPushConstants(cmd_buf, _pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 0, sizeof(float) * 2, scale);
+    device->call().vkCmdPushConstants(cmd_buf, pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 0, sizeof(float) * 2, scale);
     
     float translate[2];
     translate[0] = -1.f;
     translate[1] = -1.f;
-    dev->call().vkCmdPushConstants(cmd_buf, _pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 2, sizeof(float) * 2, translate);
+    device->call().vkCmdPushConstants(cmd_buf, pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 2, sizeof(float) * 2, translate);
 
     auto vtx_offset = 0u;
     auto idx_offset = 0u;
@@ -593,9 +592,9 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
                                    (ui32)(cmd->ClipRect.w - cmd->ClipRect.y + 1) };
 
                 std::array<VkRect2D, 1> const scissors = { scissor };
-                dev->call().vkCmdSetScissor(cmd_buf, 0, to_ui32(scissors.size()), scissors.data());
+                device->call().vkCmdSetScissor(cmd_buf, 0, to_ui32(scissors.size()), scissors.data());
 
-                dev->call().vkCmdDrawIndexed(cmd_buf, cmd->ElemCount, 1, idx_offset, vtx_offset, 0);
+                device->call().vkCmdDrawIndexed(cmd_buf, cmd->ElemCount, 1, idx_offset, vtx_offset, 0);
             }
 
             idx_offset += cmd->ElemCount;
@@ -608,18 +607,19 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
 bool gui::upload_fonts(texture::ptr texture) {
 
     uchar* pixels = nullptr;
+
     auto width = 0;
     auto height = 0;
     ImGui::GetIO().Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
-    if (!texture->create(dev, { width, height }, VK_FORMAT_R8G8B8A8_UNORM))
+    if (!texture->create(device, { width, height }, VK_FORMAT_R8G8B8A8_UNORM))
         return false;
 
     auto upload_size =  width * height * sizeof(char) * 4;
     if (!texture->upload(pixels, upload_size))
         return false;
 
-    VkWriteDescriptorSet write_desc
+    VkWriteDescriptorSet const write_desc
     {
         .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
         .dstSet = descriptor_set,
@@ -629,7 +629,7 @@ bool gui::upload_fonts(texture::ptr texture) {
         .pImageInfo = texture->get_info(),
     };
 
-    dev->vkUpdateDescriptorSets({ write_desc });
+    device->vkUpdateDescriptorSets({ write_desc });
 
     return true;
 }

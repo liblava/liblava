@@ -7,9 +7,9 @@
 
 namespace lava {
 
-bool swapchain::create(device* device_, VkSurfaceKHR surface_, uv2 size_, bool v_sync_) {
+bool swapchain::create(device_ptr device_, VkSurfaceKHR surface_, uv2 size_, bool v_sync_) {
 
-    dev = device_;
+    device = device_;
     surface = surface_;
     size = size_;
     v_sync = v_sync_;
@@ -21,7 +21,7 @@ bool swapchain::create(device* device_, VkSurfaceKHR surface_, uv2 size_, bool v
 
 void swapchain::destroy() {
 
-    dev->wait_for_idle();
+    device->wait_for_idle();
 
     destroy_backbuffer_views();
     destroy_internal();
@@ -32,7 +32,7 @@ void swapchain::destroy() {
 
 bool swapchain::resize(uv2 new_size) {
 
-    dev->wait_for_idle();
+    device->wait_for_idle();
 
     if (!backbuffers.empty()) {
 
@@ -66,10 +66,10 @@ bool swapchain::resize(uv2 new_size) {
 void swapchain::set_surface_format() {
 
     auto count = 0u;
-    check(vkGetPhysicalDeviceSurfaceFormatsKHR(dev->get_vk_physical_device(), surface, &count, nullptr));
+    check(vkGetPhysicalDeviceSurfaceFormatsKHR(device->get_vk_physical_device(), surface, &count, nullptr));
 
     std::vector<VkSurfaceFormatKHR> formats(count);
-    check(vkGetPhysicalDeviceSurfaceFormatsKHR(dev->get_vk_physical_device(), surface, &count, formats.data()));
+    check(vkGetPhysicalDeviceSurfaceFormatsKHR(device->get_vk_physical_device(), surface, &count, formats.data()));
 
     if (count == 1) {
 
@@ -85,9 +85,10 @@ void swapchain::set_surface_format() {
 
     } else {
 
-        VkFormat requestSurfaceImageFormat[] = { VK_FORMAT_B8G8R8A8_UNORM, VK_FORMAT_R8G8B8A8_UNORM, VK_FORMAT_B8G8R8_UNORM, VK_FORMAT_R8G8B8_UNORM };
+        VkFormat const requestSurfaceImageFormat[] = { VK_FORMAT_B8G8R8A8_UNORM, VK_FORMAT_R8G8B8A8_UNORM, 
+                                                        VK_FORMAT_B8G8R8_UNORM, VK_FORMAT_R8G8B8_UNORM };
 
-        VkColorSpaceKHR requestSurfaceColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
+        VkColorSpaceKHR const requestSurfaceColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
 
         auto requestedFound = false;
         for (auto& i : requestSurfaceImageFormat) {
@@ -126,14 +127,14 @@ VkPresentModeKHR swapchain::choose_present_mode(VkPresentModeKHRs const& present
 bool swapchain::create_internal() {
 
     auto present_mode_count = 0u;
-    if (vkGetPhysicalDeviceSurfacePresentModesKHR(dev->get_vk_physical_device(), surface, &present_mode_count, nullptr) != VK_SUCCESS || present_mode_count == 0) {
+    if (vkGetPhysicalDeviceSurfacePresentModesKHR(device->get_vk_physical_device(), surface, &present_mode_count, nullptr) != VK_SUCCESS || present_mode_count == 0) {
 
         log()->error("swapchain::create_internal vkGetPhysicalDeviceSurfacePresentModesKHR(1) failed");
         return false;
     }
 
     VkPresentModeKHRs present_modes(present_mode_count);
-    if (vkGetPhysicalDeviceSurfacePresentModesKHR(dev->get_vk_physical_device(), surface, &present_mode_count, present_modes.data()) != VK_SUCCESS) {
+    if (vkGetPhysicalDeviceSurfacePresentModesKHR(device->get_vk_physical_device(), surface, &present_mode_count, present_modes.data()) != VK_SUCCESS) {
 
         log()->error("swapchain::create_internal vkGetPhysicalDeviceSurfacePresentModesKHR(2) failed");
         return false;
@@ -163,7 +164,7 @@ bool swapchain::create_internal() {
     };
 
     VkSurfaceCapabilitiesKHR cap{};
-    check(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(dev->get_vk_physical_device(), surface, &cap));
+    check(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device->get_vk_physical_device(), surface, &cap));
 
     if (cap.maxImageCount > 0)
         info.minImageCount = (cap.minImageCount + 2 < cap.maxImageCount) ? (cap.minImageCount + 2) : cap.maxImageCount;
@@ -185,15 +186,15 @@ bool swapchain::create_internal() {
 
     info.preTransform = cap.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR ? VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR : cap.currentTransform;
 
-    if (!dev->vkCreateSwapchainKHR(&info,  &vk_swapchain))
+    if (!device->vkCreateSwapchainKHR(&info,  &vk_swapchain))
         return false;
 
     auto backbuffer_count = 0u;
-    if (!dev->vkGetSwapchainImagesKHR(vk_swapchain, &backbuffer_count, nullptr))
+    if (!device->vkGetSwapchainImagesKHR(vk_swapchain, &backbuffer_count, nullptr))
         return false;
 
     VkImages images(backbuffer_count);
-    if (!dev->vkGetSwapchainImagesKHR(vk_swapchain, &backbuffer_count, images.data()))
+    if (!device->vkGetSwapchainImagesKHR(vk_swapchain, &backbuffer_count, images.data()))
         return false;
 
     for (auto& image : images) {
@@ -205,7 +206,7 @@ bool swapchain::create_internal() {
             return false;
         }
 
-        if (!backbuffer->create(dev, size)) {
+        if (!backbuffer->create(device, size)) {
 
             log()->error("swapchain::create_internal backBuffer create failed");
             return false;
@@ -215,7 +216,7 @@ bool swapchain::create_internal() {
     }
 
     if (old_swapchain)
-        dev->vkDestroySwapchainKHR(old_swapchain);
+        device->vkDestroySwapchainKHR(old_swapchain);
 
     return true;
 }
@@ -225,7 +226,7 @@ void swapchain::destroy_internal() {
     if (!vk_swapchain)
         return;
 
-    dev->vkDestroySwapchainKHR(vk_swapchain);
+    device->vkDestroySwapchainKHR(vk_swapchain);
     vk_swapchain = nullptr;
 }
 

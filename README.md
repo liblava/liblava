@@ -143,8 +143,8 @@ auto render_target = create_target(&window, device);
 if (!render_target)
     return error::create_failed;
 
-renderer simple_renderer;
-if (!simple_renderer.create(render_target->get_swapchain()))
+renderer plotter;
+if (!plotter.create(render_target->get_swapchain()))
     return error::create_failed;
 
 auto frame_count = render_target->get_frame_count();
@@ -160,15 +160,15 @@ auto build_cmd_bufs = [&]() {
     if (!device->vkAllocateCommandBuffers(cmd_pool, frame_count, cmd_bufs.data()))
         return false;
 
-    VkCommandBufferBeginInfo begin_info
+    VkCommandBufferBeginInfo const begin_info
     {
         .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
         .flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT,
     };
 
-    VkClearColorValue clear_color = { random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f), 0.f };
+    VkClearColorValue const clear_color = { random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f), 0.f };
 
-    VkImageSubresourceRange image_range
+    VkImageSubresourceRange const image_range
     {
         .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
         .levelCount = 1,
@@ -238,18 +238,18 @@ frame.add_run([&]() {
             frame.set_wait_for_events(false);
     }
 
-    auto frame_index = simple_renderer.begin_frame();
+    auto frame_index = plotter.begin_frame();
     if (!frame_index)
         return true;
 
-    return simple_renderer.end_frame({ cmd_bufs[*frame_index] });
+    return plotter.end_frame({ cmd_bufs[*frame_index] });
 });
 
 frame.add_run_end([&]() {
 
     clean_cmd_bufs();
 
-    simple_renderer.destroy();
+    plotter.destroy();
     render_target->destroy();
 });
 
@@ -281,9 +281,9 @@ if (!block.create(device, frame_count, device->graphics_queue().family))
 
 block.add_command([&](VkCommandBuffer cmd_buf) {
 
-    VkClearColorValue clear_color = { random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f), 0.f };
+    VkClearColorValue const clear_color = { random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f), 0.f };
 
-    VkImageSubresourceRange image_range
+    VkImageSubresourceRange const image_range
     {
         .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
         .levelCount = 1,
@@ -319,7 +319,7 @@ Now all we need to do is to process the block in the run loop...
 if (!block.process(*frame_index))
     return false;
 
-return simple_renderer.end_frame(block.get_buffers());
+return plotter.end_frame(block.get_buffers());
 ```
 
 ... and call the renderer with recorded command buffers.
@@ -345,7 +345,7 @@ int main(int argc, char* argv[]) {
     if (!app.setup())
         return error::not_ready;
 
-    app.gui.on_draw = [&]() {
+    app.gui.on_draw = []() {
 
         ImGui::ShowDemoWindow();
     };
