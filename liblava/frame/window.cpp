@@ -22,7 +22,7 @@ bool window::create(name save_name_, state* state) {
 
     string default_title = title;
     if (debug_title)
-        default_title = fmt::format("%s [%s]", title.c_str(), save_name.c_str());
+        default_title = fmt::format("%s [%s]", str(title), str(save_name));
 
     if (state) {
 
@@ -30,7 +30,7 @@ bool window::create(name save_name_, state* state) {
 
         if (state->fullscreen) {
 
-            handle = glfwCreateWindow(mode->width, mode->height, default_title.c_str(), primary, nullptr);
+            handle = glfwCreateWindow(mode->width, mode->height, str(default_title), primary, nullptr);
             if (!handle) {
 
                 log()->error("Window::create glfwCreateWindow(1) failed");
@@ -39,7 +39,7 @@ bool window::create(name save_name_, state* state) {
 
         } else {
 
-            handle = glfwCreateWindow(state->width, state->height, default_title.c_str(), nullptr, nullptr);
+            handle = glfwCreateWindow(state->width, state->height, str(default_title), nullptr, nullptr);
             if (!handle) {
 
                 log()->error("window::create glfwCreateWindow(2) failed");
@@ -60,7 +60,7 @@ bool window::create(name save_name_, state* state) {
 
         if (!windowed) {
 
-            handle = glfwCreateWindow(mode->width, mode->height, default_title.c_str(), primary, nullptr);
+            handle = glfwCreateWindow(mode->width, mode->height, str(default_title), primary, nullptr);
             if (!handle) {
 
                 log()->error("window::create glfwCreateWindow(3) failed");
@@ -69,7 +69,7 @@ bool window::create(name save_name_, state* state) {
 
         } else {
 
-            handle = glfwCreateWindow(mode->width / 2, mode->height / 2, default_title.c_str(), nullptr, nullptr);
+            handle = glfwCreateWindow(mode->width / 2, mode->height / 2, str(default_title), nullptr, nullptr);
             if (!handle) {
 
                 log()->error("window::create glfwCreateWindow(4) failed");
@@ -118,16 +118,16 @@ void window::set_title(name text) {
         return;
 
     if (debug_title)
-        glfwSetWindowTitle(handle, fmt::format("%s [%s]", title.c_str(), save_name.c_str()).c_str());
+        glfwSetWindowTitle(handle, str(fmt::format("%s [%s]", str(title), str(save_name))));
     else
-        glfwSetWindowTitle(handle, title.c_str());
+        glfwSetWindowTitle(handle, str(title));
 }
 
 bool window::switch_mode() {
 
     destroy();
 
-    return create(save_name.c_str());
+    return create(str(save_name));
 }
 
 void window::handle_message() {

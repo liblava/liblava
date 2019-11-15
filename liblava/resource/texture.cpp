@@ -292,16 +292,16 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
     if (!supported)
         return nullptr;
 
-    auto use_gli = has_extension(filename.path.c_str(), { "DDS", "KTX", "KMG" });
+    auto use_gli = has_extension(str(filename.path), { "DDS", "KTX", "KMG" });
     auto use_stbi = false;
 
     if (!use_gli)
-        use_stbi = has_extension(filename.path.c_str(), { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
+        use_stbi = has_extension(str(filename.path), { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
 
     if (!use_gli && !use_stbi)
         return nullptr;
 
-    file file(filename.path.c_str());
+    file file(str(filename.path));
     scope_data temp_data(file.get_size(), false);
 
     if (file.is_open()) {
@@ -431,7 +431,7 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
         if (file.is_open())
             data = stbi_load_from_memory((stbi_uc const*)temp_data.ptr, to_i32(temp_data.size), &tex_width, &tex_height, &tex_channels, STBI_rgb_alpha);
         else
-            data = stbi_load(filename.path.c_str(), &tex_width, &tex_height, &tex_channels, STBI_rgb_alpha);
+            data = stbi_load(str(filename.path), &tex_width, &tex_height, &tex_channels, STBI_rgb_alpha);
 
         if (!data)
             return nullptr;

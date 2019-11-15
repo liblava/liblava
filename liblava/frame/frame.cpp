@@ -37,19 +37,19 @@ void log_command_line(argh::parser& cmd_line) {
     if (!cmd_line.pos_args().empty()) {
 
         for (auto& pos_arg : cmd_line.pos_args())
-            lava::log()->info("cmd line (pos) {}", pos_arg.c_str());
+            lava::log()->info("cmd line (pos) {}", lava::str(pos_arg));
     }
 
     if (!cmd_line.flags().empty()) {
 
         for (auto& flag : cmd_line.flags())
-            lava::log()->info("cmd line (flag) {}", flag.c_str());
+            lava::log()->info("cmd line (flag) {}", lava::str(flag));
     }
 
     if (!cmd_line.params().empty()) {
 
         for (auto& param : cmd_line.params())
-            lava::log()->info("cmd line (para) {} = {}", param.first.c_str(), param.second.c_str());
+            lava::log()->info("cmd line (para) {} = {}", lava::str(param.first), lava::str(param.second));
     }
 }
 
@@ -116,7 +116,7 @@ bool frame::setup(frame_config config_) {
 
     setup_log(config.log);
 
-    log()->info(">>> {} / {} - {} {}", to_string(_version).c_str(), to_string(_internal_version).c_str(), _build_date, _build_time);
+    log()->info(">>> {} / {} - {} {}", str(to_string(_version)), str(to_string(_internal_version)), _build_date, _build_time);
 
     log_command_line(cmd_line);
 
@@ -132,7 +132,7 @@ bool frame::setup(frame_config config_) {
 
     if (glfwInit() != GLFW_TRUE) {
 
-        log()->error("glfw init failed");
+        log()->error("init glfw failed");
         return false;
     }
 
@@ -148,11 +148,11 @@ bool frame::setup(frame_config config_) {
     auto result = volkInitialize();
     if (failed(result)) {
 
-        log()->error("volk init failed");
+        log()->error("init volk failed");
         return false;
     }
 
-    log()->info("vulkan {}", to_string(instance::get_version()).c_str());
+    log()->info("vulkan {}", str(to_string(instance::get_version())));
 
     instance::create_param param;
 
@@ -163,15 +163,15 @@ bool frame::setup(frame_config config_) {
 
     if (!instance::singleton().create(param, config.debug, config.app)) {
 
-        log()->error("instance create failed");
+        log()->error("create instance failed");
         return false;
     }
 
-    log()->debug("physfs {}", to_string(file_system::get_version()).c_str());
+    log()->debug("physfs {}", str(to_string(file_system::get_version())));
 
-    if (!file_system::get().initialize(cmd_line[0].c_str(), config.org, config.app, config.ext)) {
+    if (!file_system::get().initialize(str(cmd_line[0]), config.org, config.app, config.ext)) {
 
-        log()->error("file system init failed");
+        log()->error("init file system failed");
         return false;
     }
 
@@ -208,10 +208,10 @@ void frame::teardown() {
     _initialized = false;
 }
 
-bool frame::run() {
+frame::result frame::run() {
 
     if (running)
-        return false;
+        return error::running;
 
     running = true;
     start_time = now();
@@ -219,17 +219,23 @@ bool frame::run() {
     while (running) {
 
         if (!run_step())
-            return false;
+            break;
     }
 
     manager.wait_idle();
 
     trigger_run_end();
 
-    running = false;
+    auto result = 0;
+    if (running) {
+
+        result = error::aborted;
+        running = false;
+    }
+
     start_time = {};
 
-    return true;
+    return result;
 }
 
 bool frame::run_step() {

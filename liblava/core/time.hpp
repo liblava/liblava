@@ -64,7 +64,7 @@ inline string time_stamp(const typename CLOCK_TYPE::time_point& time_point, stri
     const std::tm tm = *std::localtime(std::addressof(t));
 
     std::ostringstream stm;
-    stm << std::put_time(std::addressof(tm), format.c_str()) << '.' << std::setfill('0') << std::setw(3) << ms.count();
+    stm << std::put_time(std::addressof(tm), str(format)) << '.' << std::setfill('0') << std::setw(3) << ms.count();
     return stm.str();
 }
 

@@ -6,7 +6,7 @@
 
 **C++20** • **Modular** • **Cross Platform** ( Windows | Linux | macOS<sup>*soon*</sup> )
 
-![version](https://img.shields.io/badge/version-0.4.4-blue) [![LoC](https://tokei.rs/b1/github/liblava/liblava?category=code)](https://github.com/liblava/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/thelavablock)
+![version](https://img.shields.io/badge/version-0.4.4-blue) [![LoC](https://tokei.rs/b1/github/liblava/liblava?category=code)](https://github.com/liblava/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/thelavablock)
 
 #### features
 
@@ -73,7 +73,7 @@ frame.add_run([&]() {
     return true;
 });
 
-return frame.run() ? 0 : error::aborted;
+return frame.run();
 ```
 
 The last line performs a loop with a **run** we added before. If *count* reaches 3 the **loop** will exit.
@@ -110,7 +110,7 @@ frame.add_run([&]() {
     return true;
 });
 
-return frame.run() ? 0 : error::aborted;
+return frame.run();
 ```
 
 *Straightforward* - with this knowledge in hand let's write **"hello frame"** now...
@@ -253,7 +253,7 @@ frame.add_run_end([&]() {
     render_target->destroy();
 });
 
-return frame.run() ? 0 : error::aborted;
+return frame.run();
 ```
 
 ##### Welcome on **Planet Vulkan**. That's a lot to render a colored window.
@@ -350,7 +350,7 @@ int main(int argc, char* argv[]) {
         ImGui::ShowDemoWindow();
     };
 
-    return app.run() ? 0 : error::aborted;
+    return app.run();
 }
 ```
 

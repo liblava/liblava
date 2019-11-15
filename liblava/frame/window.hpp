@@ -42,9 +42,9 @@ struct window : id_obj {
     state get_state() const;
 
     void set_title(name text);
-    name get_title() const { return title.c_str(); }
+    name get_title() const { return str(title); }
 
-    name get_save_name() const { return save_name.c_str(); }
+    name get_save_name() const { return str(save_name); }
 
     void set_position(i32 x, i32 y);
     void get_position(i32& x, i32& y) const;
@@ -124,7 +124,7 @@ struct window : id_obj {
     void set_debug_title(bool value = true) { debug_title = value; }
     bool has_debug_title() const { return debug_title; }
 
-    void update_title() { set_title(title.c_str()); }
+    void update_title() { set_title(str(title)); }
 
     VkSurfaceKHR create_surface();
 

@@ -112,7 +112,7 @@ string file_system::get_res_dir() {
     return fs::path(const_res_dir).lexically_normal().string();
 }
 
-bool file_system::mount(string_ref path) { return PHYSFS_mount(path.c_str(), nullptr, 1) != 0; }
+bool file_system::mount(string_ref path) { return PHYSFS_mount(str(path), nullptr, 1) != 0; }
 
 bool file_system::mount(name base_dir_path) { return mount(get_base_dir_str() + base_dir_path); }
 
@@ -161,14 +161,14 @@ void file_system::mount_res() {
     res_path = "res/";
 #endif
 
-    if (fs::exists(get_res_dir().c_str()))
-        if (file_system::mount(res_path.c_str()))
-            log()->debug("mounted {}", get_res_dir().c_str());
+    if (fs::exists(str(get_res_dir())))
+        if (file_system::mount(str(res_path)))
+            log()->debug("mounted {}", str(get_res_dir()));
 
     string archive_file = "res.zip";
     if (fs::exists({ archive_file }))
-        if (file_system::mount(archive_file.c_str()))
-            log()->debug("mounted {}", archive_file.c_str());
+        if (file_system::mount(str(archive_file)))
+            log()->debug("mounted {}", str(archive_file));
 }
 
 bool file_system::create_data_folder() {
@@ -320,7 +320,7 @@ bool config_file::load() {
     scope_data data;
     if (!load_file_data(path, data)) {
 
-        log()->error("couldn't load config file {}", path.c_str());
+        log()->error("couldn't load config file {}", str(path));
         return false;
     }
 
@@ -334,10 +334,10 @@ bool config_file::load() {
 
 bool config_file::save() {
 
-    file file(path.c_str(), true);
+    file file(str(path), true);
     if (!file.is_open()) {
 
-        log()->error("couldn't save config file {}", path.c_str());
+        log()->error("couldn't save config file {}", str(path));
         return false;
     }
 
@@ -357,7 +357,7 @@ bool config_file::save() {
 
 bool lava::load_file_data(string_ref filename, scope_data& data) {
 
-    file file(filename.c_str());
+    file file(str(filename));
     if (!file.is_open()) {
 
         log()->error("couldn't open file {} for reading", filename);

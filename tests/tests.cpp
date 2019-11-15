@@ -34,7 +34,7 @@ LAVA_TEST(2, "run loop")
         return true;
     });
 
-    return frame.run() ? 0 : error::aborted;
+    return frame.run();
 }
 
 LAVA_TEST(3, "window input")
@@ -68,7 +68,7 @@ LAVA_TEST(3, "window input")
         return true;
     });
 
-    return frame.run() ? 0 : error::aborted;
+    return frame.run();
 }
 
 LAVA_TEST(4, "clear color")
@@ -207,7 +207,7 @@ LAVA_TEST(4, "clear color")
         render_target->destroy();
     });
 
-    return frame.run() ? 0 : error::aborted;
+    return frame.run();
 }
 
 LAVA_TEST(5, "color block")
@@ -315,7 +315,7 @@ LAVA_TEST(5, "color block")
         render_target->destroy();
     });
 
-    return frame.run() ? 0 : error::aborted;
+    return frame.run();
 }
 
 LAVA_TEST(6, "forward shading")
@@ -407,7 +407,7 @@ LAVA_TEST(6, "forward shading")
         render_target->destroy();
     });
 
-    return frame.run() ? 0 : error::aborted;
+    return frame.run();
 }
 
 LAVA_TEST(7, "gamepad")
@@ -438,7 +438,7 @@ LAVA_TEST(7, "gamepad")
         return true;
     });
 
-    return frame.run() ? 0 : error::aborted;
+    return frame.run();
 }
 
 #include <imgui.h>
@@ -454,5 +454,5 @@ LAVA_TEST(8, "imgui demo")
         ImGui::ShowDemoWindow();
     };
 
-    return app.run() ? 0 : error::aborted;
+    return app.run();
 }

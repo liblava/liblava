@@ -25,7 +25,7 @@ int run(int argc, char** argv) {
     if (cmd_line.pos_args().size() > 1) {
 
         char* end_ptr = nullptr;
-        auto selected = std::strtol(cmd_line.pos_args().at(1).c_str(), &end_ptr, 10);
+        auto selected = std::strtol(str(cmd_line.pos_args().at(1)), &end_ptr, 10);
         if (*end_ptr != '\0') {
 
             std::cerr << "wrong arguments" << std::endl;

@@ -140,7 +140,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
                 if (is_file_error(file.read(temp_data.ptr)))
                     return nullptr;
 
-                if (!write_file(temp_file.c_str(), temp_data.ptr, temp_data.size))
+                if (!write_file(str(temp_file), temp_data.ptr, temp_data.size))
                     return nullptr;
 
                 target_file = temp_file;
@@ -149,7 +149,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
             }
         }
 
-        if (tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, target_file.c_str())) {
+        if (tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, str(target_file))) {
 
             auto mesh = mesh::make();
 

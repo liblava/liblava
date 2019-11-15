@@ -19,7 +19,7 @@ inline logger log(name name = _lava_) { return spdlog::get(name); }
 
 inline string to_string(string_ref id, string_ref name) {
 
-    return fmt::format("{} | {}", id.c_str(), name.c_str());
+    return fmt::format("{} | {}", str(id), str(name));
 }
 
 inline string to_string(internal_version const& version) {
@@ -47,9 +47,9 @@ inline string to_string(version const& version) {
         stage_str += fmt::format(" {}", version.rev);
 
     if (version.release == 0)
-        return fmt::format("{} {}", version.year, stage_str.c_str());
+        return fmt::format("{} {}", version.year, str(stage_str));
     else
-        return fmt::format("{}.{} {}", version.year, version.release, stage_str.c_str());
+        return fmt::format("{}.{} {}", version.year, version.release, str(stage_str));
 }
 
 constexpr name _lava_log_file_ = "lava.log";

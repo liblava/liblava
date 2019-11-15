@@ -32,7 +32,7 @@ struct app : frame {
     lava::staging staging;
     lava::block block;
 
-    lava::renderer plotter;
+    renderer plotter;
     device_ptr device = nullptr;
 
     lava::render_target::ptr render_target;

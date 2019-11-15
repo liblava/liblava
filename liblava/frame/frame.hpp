@@ -34,6 +34,7 @@ enum error {
     not_ready       = -1,
     create_failed   = -2,
     aborted         = -3,
+    running         = -4,
 };
 
 milliseconds now();
@@ -48,7 +49,8 @@ struct frame : no_copy_no_move, interface {
 
     bool ready() const;
 
-    bool run();
+    using result = i32; // error < 0
+    result run();
 
     bool shut_down();
 
