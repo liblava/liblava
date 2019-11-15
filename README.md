@@ -26,9 +26,13 @@
 
 Let's write **Hello World** in Vulkan:
 
-##### *"a simple program that renders a colored window"*
+<a href="https://www.khronos.org/vulkan/"><img align="left" hspace="20" src="res/Vulkan_100px_Dec16.png"></a>
 
-All we need is a `window`, `device` and `renderer`. Vulkan is a low-level, verbose graphics API and such a program can take several hundred lines of code. The good news is that **liblava** will set it all up for you.
+**"a simple program that renders a colored window"**
+
+All we need is a `window`, `device` and `renderer`. Vulkan is a low-level, verbose graphics API and such a program can take several hundred lines of code.
+
+The good news is that **liblava** will set it all up for you.
 
 ```c++
 #include <liblava/lava.h>
