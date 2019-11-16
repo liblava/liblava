@@ -64,6 +64,14 @@ struct frame : no_copy_no_move, interface {
 
     id add_run_end(run_end_func_ref func);
 
+    using run_once_func = std::function<bool()>;
+    using run_once_func_ref = run_once_func const&;
+
+    void add_run_once(run_once_func_ref func) {
+
+        run_once_list.push_back(func);
+    }
+
     bool remove(id::ref id);
 
     milliseconds get_running_time() const { return now() - start_time; }
@@ -105,6 +113,9 @@ private:
 
     using run_end_func_map = std::map<id, run_end_func>;
     run_end_func_map run_end_map;
+
+    using run_once_func_list = std::vector<run_once_func>;
+    run_once_func_list run_once_list;
 };
 
 void handle_events(bool wait = false);

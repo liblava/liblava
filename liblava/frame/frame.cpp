@@ -242,6 +242,15 @@ bool frame::run_step() {
 
     handle_events(wait_for_events);
 
+    if (!run_once_list.empty()) {
+
+        for (auto& func : run_once_list)
+            if (!func())
+                return false;
+
+        run_once_list.clear();
+    }
+
     for (auto& func : run_map)
         if (!func.second())
             return false;

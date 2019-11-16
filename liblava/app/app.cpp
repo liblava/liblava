@@ -23,37 +23,20 @@ bool app::setup() {
     if (!window.create())
         return false;
 
-    window.assign(&input);
-
     device = create_device();
     if (!device)
         return false;
 
-    render_target = create_target(&window, device);
-    if (!render_target)
-        return false;
-
-    if (!forward_shading.create(render_target))
+    if (!create_target())
         return false;
 
     if (!camera.create(device))
         return false;
 
-    auto frame_count = render_target->get_frame_count();
-
-    gui.setup(window.get());
-    if (!gui.create(device, frame_count, forward_shading.get_render_pass()->get()))
+    if (!create_gui())
         return false;
 
-    forward_shading.get_render_pass()->add(gui.get_pipeline());
-
-    fonts = texture::make();
-    if (!gui.upload_fonts(fonts))
-        return false;
-
-    staging.add(fonts);
-
-    if (!block.create(device, frame_count, device->graphics_queue().family))
+    if (!block.create(device, render_target->get_frame_count(), device->graphics_queue().family))
         return false;
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
@@ -65,9 +48,6 @@ bool app::setup() {
         forward_shading.get_render_pass()->process(cmd_buf, current_frame);
     });
 
-    if (!plotter.create(render_target->get_swapchain()))
-        return false;
-
     handle_input();
     handle_window();
     handle_update();
@@ -77,17 +57,70 @@ bool app::setup() {
 
         camera.destroy();
 
-        gui.destroy();
-        fonts->destroy();
+        destroy_gui();
 
         block.destroy();
-        forward_shading.destroy();
 
-        plotter.destroy();
-        render_target->destroy();
+        destroy_target();
+    });
+
+    add_run_once([&]() {
+
+        return on_create ? on_create() : true;
     });
 
     return true;
+}
+
+bool app::create_gui() {
+
+    gui.setup(window.get());
+    if (!gui.create(device, render_target->get_frame_count(), forward_shading.get_render_pass()->get()))
+        return false;
+
+    forward_shading.get_render_pass()->add(gui.get_pipeline());
+
+    fonts = texture::make();
+    if (!gui.upload_fonts(fonts))
+        return false;
+
+    staging.add(fonts);
+
+    return true;
+}
+
+void app::destroy_gui() {
+
+    gui.destroy();
+    fonts->destroy();
+}
+
+bool app::create_target() {
+
+    render_target = lava::create_target(&window, device, v_sync);
+    if (!render_target)
+        return false;
+
+    if (!forward_shading.create(render_target))
+        return false;
+
+    if (!plotter.create(render_target->get_swapchain()))
+        return false;
+
+    window.assign(&input);
+
+    return on_create ? on_create() : true;
+}
+
+void app::destroy_target() {
+
+    if (on_destroy)
+        on_destroy();
+
+    plotter.destroy();
+
+    forward_shading.destroy();
+    render_target->destroy();
 }
 
 void app::handle_input() {
@@ -107,6 +140,12 @@ void app::handle_input() {
 
         if (event.pressed(key::escape))
             shut_down();
+
+        if (event.pressed(key::enter, mod::alt))
+            window.set_fullscreen(!window.fullscreen());
+
+        if (event.pressed(key::backspace, mod::alt))
+            toggle_v_sync = true;
 
         return camera.handle(event);
     });
@@ -147,6 +186,28 @@ void app::handle_window() {
 
         if (window.has_close_request())
             return shut_down();
+
+        if (window.has_switch_mode_request() || toggle_v_sync) {
+
+            device->wait_for_idle();
+
+            destroy_target();
+            destroy_gui();
+
+            if (window.has_switch_mode_request() && !window.switch_mode())
+                return false;
+
+            if (toggle_v_sync) {
+
+                v_sync = !v_sync;
+                toggle_v_sync = false;
+            }
+
+            if (!create_target())
+                return false;
+
+            return create_gui();
+        }
 
         if (window.has_resize_request()) {
 

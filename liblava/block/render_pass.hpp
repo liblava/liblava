@@ -42,6 +42,7 @@ struct render_pass : id_obj, target_callback {
 
     void add(graphics_pipeline::ptr pipeline, index subpass = 0) { subpasses.at(subpass)->add(pipeline); }
     void add_front(graphics_pipeline::ptr pipeline, index subpass = 0) { subpasses.at(subpass)->add_front(pipeline); }
+    void remove(graphics_pipeline::ptr pipeline, index subpass = 0) { subpasses.at(subpass)->remove(pipeline); }
 
 private:
     device_ptr device = nullptr;

@@ -107,6 +107,8 @@ struct key_event {
     bool repeated(lava::key key_) const { return action == action::repeat && key == key_; }
 
     bool active() const { return action == action::press || action == action::repeat; }
+
+    bool pressed(lava::key key_, lava::mod mod_) const { return pressed(key_) && mod == mod_; }
 };
 
 struct scroll_offset {

@@ -42,13 +42,28 @@ struct app : frame {
     using update_func = std::function<bool(milliseconds)>;
     update_func on_update;
 
+    using create_func = std::function<bool()>;
+    create_func on_create;
+
+    using destroy_func = std::function<void()>;
+    destroy_func on_destroy;
+
 private:
     void handle_input();
     void handle_window();
     void handle_update();
     void handle_render();
 
+    bool create_gui();
+    void destroy_gui();
+
+    bool create_target();
+    void destroy_target();
+
     texture::ptr fonts;
+
+    bool toggle_v_sync = false;
+    bool v_sync = false;
 };
 
 } // lava
