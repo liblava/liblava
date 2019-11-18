@@ -14,8 +14,8 @@ app::app(argh::parser cmd_line)
 app::app(frame_config config) 
     : frame(config), window(config.app) {}
 
-app::app(name config_app, argh::parser argh) 
-    : frame(frame_config(config_app, argh)), window(config_app) {}
+app::app(name config_app, argh::parser cmd_line, bool data_folder)
+    : frame(frame_config(config_app, cmd_line, data_folder)), window(config_app) {}
 
 bool app::setup() {
 

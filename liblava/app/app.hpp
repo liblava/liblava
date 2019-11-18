@@ -17,7 +17,7 @@ struct app : frame {
 
     explicit app(argh::parser argh);
     explicit app(frame_config config);   
-    explicit app(name config_app, argh::parser argh);
+    explicit app(name config_app, argh::parser cmd_line, bool data_folder = true);
 
     bool setup();
 

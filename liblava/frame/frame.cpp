@@ -61,15 +61,15 @@ static bool _initialized = false;
 
 frame::frame(argh::parser cmd_line) { 
 
-    frame_config config;
-    config.cmd_line = cmd_line;
+    frame_config config_;
+    config_.cmd_line = cmd_line;
 
-    setup(config);
+    setup(config_);
 }
 
-frame::frame(frame_config config) {
+frame::frame(frame_config config_) {
 
-    setup(config);
+    setup(config_);
 }
 
 frame::~frame() { teardown(); }

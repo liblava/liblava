@@ -14,8 +14,8 @@ namespace lava {
 struct frame_config {
 
     explicit frame_config() = default;
-    explicit frame_config(name app, argh::parser) 
-                         : app(app), cmd_line(cmd_line) {}
+    explicit frame_config(name app_, argh::parser cmd_line_, bool data_folder_ = false)
+                         : app(app_), cmd_line(cmd_line_), data_folder(data_folder_) {}
 
     argh::parser cmd_line;
 
