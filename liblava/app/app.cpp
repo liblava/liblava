@@ -149,7 +149,10 @@ void app::handle_input() {
         if (event.pressed(key::backspace, mod::alt))
             toggle_v_sync = true;
 
-        return camera.handle(event);
+        if (camera.is_active())
+            return camera.handle(event);
+
+        return false;
     });
 
     input.mouse_button.listeners.add([&](mouse_button_event::ref event) {
@@ -157,7 +160,10 @@ void app::handle_input() {
         if (gui.want_capture_mouse())
             return false;
 
-        return camera.handle(event, input.get_mouse_position());
+        if (camera.is_active())
+            return camera.handle(event, input.get_mouse_position());
+
+        return false;
     });
 
     input.scroll.listeners.add([&](scroll_event::ref event) {
@@ -165,7 +171,10 @@ void app::handle_input() {
         if (gui.want_capture_mouse())
             return false;
 
-        return camera.handle(event);
+        if (camera.is_active())
+            return camera.handle(event);
+
+        return false;
     });
 
     add_run([&]() {
@@ -243,8 +252,6 @@ void app::handle_update() {
 
         run_time.delta = delta;
         run_time.current += delta;
-
-        camera.update_view(delta, input.get_mouse_position());
 
         return on_update ? on_update(delta) : true;
     });

@@ -105,9 +105,9 @@ bool gamepad::ready() const {
     return glfwJoystickIsGamepad(to_i32(id));
 }
 
-void gamepad::update() {
+bool gamepad::update() {
 
-    glfwGetGamepadState(to_i32(id), (GLFWgamepadstate*)&state);
+    return glfwGetGamepadState(to_i32(id), (GLFWgamepadstate*)&state) == GLFW_TRUE;
 }
 
 gamepad_manager::gamepad_manager() {

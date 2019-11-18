@@ -9,6 +9,12 @@
 
 namespace lava {
 
+enum class camera_type : type
+{
+    first_person,
+    look_at,
+};
+
 struct camera : id_obj {
 
     using map = std::map<id, camera>;
@@ -19,6 +25,7 @@ struct camera : id_obj {
 
     void update_projection();
     void update_view(milliseconds delta, mouse_position mouse_pos);
+    void update_view(milliseconds delta, gamepad const& pad);
 
     bool handle(key_event::ref event);
     bool handle(mouse_button_event::ref event, mouse_position mouse_pos);
@@ -34,6 +41,7 @@ struct camera : id_obj {
 
     void set_active(bool value = true) { active = value; }
     bool is_active() const { return active; }
+    bool moving() const { return up || down || left || right; }
 
     v3 position = v3(0.f);
     v3 rotation = v3(0.f);
@@ -46,6 +54,11 @@ struct camera : id_obj {
     r32 z_near = 0.1f;
     r32 z_far = 256.f;
     r32 aspect_ratio = 1.77f;
+
+    camera_type type = camera_type::first_person;
+
+    bool lock_z = false;
+    bool lock_rotation = false;
 
 private:
     bool active = true;

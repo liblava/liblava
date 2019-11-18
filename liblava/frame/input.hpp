@@ -276,7 +276,7 @@ struct gamepad {
     explicit gamepad(gamepad_id id);
 
     bool ready() const;
-    void update();
+    bool update();
 
     bool pressed(gamepad_button button) const { return state.buttons[to_ui32(button)]; }
     r32 value(gamepad_axis axis) const { return state.axes[to_ui32(axis)]; }

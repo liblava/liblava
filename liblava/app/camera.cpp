@@ -33,7 +33,7 @@ void camera::update_view(milliseconds delta_, mouse_position mouse_pos) {
         auto dx = mouse_pos_x - mouse_pos.x;
         auto dy = mouse_pos_y - mouse_pos.y;
 
-        if (rotate) {
+        if (rotate && !lock_rotation) {
 
             auto speed = delta * rotation_speed;
             rotation += v3(dy * speed, -dx * speed, 0.f);
@@ -56,22 +56,32 @@ void camera::update_view(milliseconds delta_, mouse_position mouse_pos) {
         scroll_pos = 0.0;
     }
 
-    if (up || down || left || right) {
+    if (type == camera_type::first_person && moving()) {
 
         v3 front;
-        front.x = to_r32(-cos(glm::radians(rotation.x)) * sin(glm::radians(rotation.y)));
-        front.y = to_r32(sin(glm::radians(rotation.x)));
-        front.z = to_r32(cos(glm::radians(rotation.x)) * cos(glm::radians(rotation.y)));
+        front.x = -cos(glm::radians(rotation.x)) * sin(glm::radians(rotation.y));
+        front.y = sin(glm::radians(rotation.x));
+        front.z = cos(glm::radians(rotation.x)) * cos(glm::radians(rotation.y));
 
         front = glm::normalize(front);
 
         auto speed = to_r32(delta * movement_speed * 2.f);
 
-        if (up)
-            position -= (front * speed);
+        if (up) {
 
-        if (down)
-            position += (front * speed);
+            if (lock_z)
+                position -= glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * speed;
+            else
+                position -= (front * speed);
+        }
+
+        if (down) {
+
+            if (lock_z)
+                position += glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * speed;
+            else
+                position += (front * speed);
+        }
 
         if (left)
             position += glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f))) * speed;
@@ -80,17 +90,86 @@ void camera::update_view(milliseconds delta_, mouse_position mouse_pos) {
             position -= glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f))) * speed;
     }
 
-    auto trans_m = glm::translate(mat4(1.f), -position);
-
     auto rot_m = mat4(1.f);
     rot_m = glm::rotate(rot_m, glm::radians(rotation.x), v3(1.f, 0.f, 0.f));
     rot_m = glm::rotate(rot_m, glm::radians(rotation.y), v3(0.f, 1.f, 0.f));
     rot_m = glm::rotate(rot_m, glm::radians(rotation.z), v3(0.f, 0.f, 1.f));
 
-    view = rot_m * trans_m;
+    auto trans_m = glm::translate(mat4(1.f), -position);
+
+    if (type == camera_type::first_person)
+        view = rot_m * trans_m;
+    else
+        view = trans_m * rot_m;
 
     if (is_valid())
         memcpy(as_ptr(data->get_mapped_data()) + sizeof(mat4), &view, sizeof(mat4));
+}
+
+void camera::update_view(milliseconds delta_, gamepad const& pad) {
+
+    if (type != camera_type::first_person)
+        return;
+
+    auto delta = to_r32(to_sec(delta_));
+
+    const r32 dead_zone = 0.2f;
+    const r32 range = 1.f - dead_zone;
+
+    v3 front;
+    front.x = -cos(glm::radians(rotation.x)) * sin(glm::radians(rotation.y));
+    front.y = sin(glm::radians(rotation.x));
+    front.z = cos(glm::radians(rotation.x)) * cos(glm::radians(rotation.y));
+    front = glm::normalize(front);
+
+    auto movement_factor = delta * movement_speed * 2.f;
+    auto rotation_factor = delta * rotation_speed * 2.5f;
+
+    // move
+
+    {
+        auto axis_left_y = pad.value(gamepad_axis::left_y);
+        if (fabsf(axis_left_y) > dead_zone) {
+
+            auto pos = (fabsf(axis_left_y) - dead_zone) / range;
+            if (lock_z)
+                position -= glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * ((axis_left_y < 0.f) ? 1.f : -1.f) * movement_factor;
+            else
+                position -= front * pos * ((axis_left_y < 0.f) ? 1.f : -1.f) * movement_factor;
+        }
+    }
+
+    {
+        auto axis_left_x = pad.value(gamepad_axis::left_x);
+        if (fabsf(axis_left_x) > dead_zone) {
+
+            auto pos = (fabsf(axis_left_x) - dead_zone) / range;
+            position += glm::normalize(glm::cross(front, glm::vec3(0.f, 1.f, 0.f))) * pos * ((axis_left_x < 0.f) ? 1.f : -1.f) * movement_factor;
+        }
+    }
+
+    // rotate
+    
+    if (lock_rotation)
+        return;
+
+    {
+        auto axis_right_x = pad.value(gamepad_axis::right_x);
+        if (fabsf(axis_right_x) > dead_zone) {
+
+            auto pos = (fabsf(axis_right_x) - dead_zone) / range;
+            rotation.y += pos * ((axis_right_x < 0.f) ? -1.f : 1.f) * rotation_factor;
+        }
+    }
+
+    {
+        auto axis_right_y = pad.value(gamepad_axis::right_y);
+        if (fabsf(axis_right_y) > dead_zone) {
+
+            auto pos = (fabsf(axis_right_y) - dead_zone) / range;
+            rotation.x -= pos * ((axis_right_y < 0.f) ? -1.f : 1.f) * rotation_factor;
+        }
+    }
 }
 
 void camera::update_projection() {
