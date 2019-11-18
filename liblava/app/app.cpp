@@ -4,6 +4,8 @@
 
 #include <liblava/app/app.hpp>
 
+#include <imgui.h>
+
 namespace lava {
 
 app::app(argh::parser cmd_line) 
@@ -267,6 +269,22 @@ void app::handle_render() {
 
         return plotter.end_frame(block.get_buffers());
     });
+}
+
+void app::draw_about(bool separator) const {
+
+    if (separator)
+        ImGui::Separator();
+
+    ImGui::Text("%s %s", _liblava_, to_string(_version).c_str());
+
+    if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("alt + enter = fullscreen\nalt + backspace = vsync\ntab = gui");
+
+    if (v_sync_active())
+        ImGui::Text("%.f fps (vsync)", ImGui::GetIO().Framerate);
+    else
+        ImGui::Text("%.f fps", ImGui::GetIO().Framerate);
 }
 
 } // lava

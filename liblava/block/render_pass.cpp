@@ -127,6 +127,16 @@ void render_pass::set_clear_color(v3 value) {
     clear_values[1].depthStencil = { 1.f, 0 };
 }
 
+v3 render_pass::get_clear_color() const {
+    
+    return 
+    {
+        clear_values[0].color.float32[0],
+        clear_values[0].color.float32[1],
+        clear_values[0].color.float32[2],
+    };
+}
+
 bool render_pass::on_target_created(VkAttachmentsRef target_attachments, rect area_) {
 
 	area = area_;

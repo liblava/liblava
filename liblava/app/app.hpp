@@ -48,6 +48,10 @@ struct app : frame {
     using destroy_func = std::function<void()>;
     destroy_func on_destroy;
 
+    bool v_sync_active() const { return v_sync; }
+
+    void draw_about(bool separator = true) const;
+
 private:
     void handle_input();
     void handle_window();

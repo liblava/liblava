@@ -38,7 +38,10 @@ struct render_pass : id_obj, target_callback {
     void add(subpass::ptr const& subpass) { subpasses.push_back(subpass); }
 
     void set_clear_values(VkClearValues const& values) { clear_values = values; }
+    VkClearValues const& get_clear_values() const { return clear_values; }
+
     void set_clear_color(v3 value = v3(0.086f, 0.086f, 0.094f));
+    v3 get_clear_color() const;
 
     void add(graphics_pipeline::ptr pipeline, index subpass = 0) { subpasses.at(subpass)->add(pipeline); }
     void add_front(graphics_pipeline::ptr pipeline, index subpass = 0) { subpasses.at(subpass)->add_front(pipeline); }
