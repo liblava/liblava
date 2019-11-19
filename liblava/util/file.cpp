@@ -352,17 +352,17 @@ bool json_file::save() {
 
 } // lava
 
-bool lava::load_file_data(string_ref filename, scope_data& data) {
+bool lava::load_file_data(string_ref filename, data& target) {
 
     file file(str(filename));
     if (!file.is_open())
         return false;
 
-    data.set(to_size_t(file.get_size()));
-    if (!data.ptr)
+    target.set(to_size_t(file.get_size()));
+    if (!target.ptr)
         return false;
 
-    if (is_file_error(file.read(data.ptr))) {
+    if (is_file_error(file.read(target.ptr))) {
 
         log()->error("couldn't read file {}", filename);
         return false;

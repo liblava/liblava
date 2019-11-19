@@ -103,7 +103,7 @@ void gui::update_mouse_cursor() {
     }
 }
 
-void gui::setup(GLFWwindow* window_, data font_data, icon_font icon_font) {
+void gui::setup(GLFWwindow* window_, config config) {
 
     window = window_;
     current_time = 0.0;
@@ -148,28 +148,29 @@ void gui::setup(GLFWwindow* window_, data font_data, icon_font icon_font) {
     style.Colors[ImGuiCol_CheckMark] = ImVec4(1.f, 0.f, 0.f, 0.8f);
     style.Colors[ImGuiCol_WindowBg] = ImVec4(0.059f, 0.059f, 0.059f, 0.863f);
 
-    if (font_data.ptr) {
+    if (config.font_data.ptr) {
 
-        ImFontConfig config;
-        config.FontDataOwnedByAtlas = false;
+        ImFontConfig font_config;
+        font_config.FontDataOwnedByAtlas = false;
 
-        io.Fonts->AddFontFromMemoryTTF(font_data.ptr, to_i32(font_data.size), 22.f, &config);
+        io.Fonts->AddFontFromMemoryTTF(config.font_data.ptr, to_i32(config.font_data.size), config.font_size, &font_config);
 
     } else {
 
         io.Fonts->AddFontDefault();
     }
 
-    if (icon_font.font_data.ptr) {
+    if (config.icon.font_data.ptr) {
 
-        static const ImWchar icons_ranges[] = { icon_font.rangeBegin, icon_font.rangeEnd, 0 };
+        static const ImWchar icons_ranges[] = { config.icon.range_begin, config.icon.range_end, 0 };
 
         ImFontConfig icons_config;
         icons_config.MergeMode = true;
         icons_config.PixelSnapH = true;
         icons_config.FontDataOwnedByAtlas = false;
 
-        io.Fonts->AddFontFromMemoryTTF(icon_font.font_data.ptr, to_i32(icon_font.font_data.size), 22.f, &icons_config, icons_ranges);
+        io.Fonts->AddFontFromMemoryTTF(config.icon.font_data.ptr, to_i32(config.icon.font_data.size), 
+                                       config.icon.size, &icons_config, icons_ranges);
     }
 
     io.RenderDrawListsFn = nullptr;

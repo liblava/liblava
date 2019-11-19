@@ -123,7 +123,7 @@ bool app::setup() {
     if (!frame::ready())
         return false;
 
-    config.add(&config_callback);
+    config_file.add(&config_callback);
 
     config_callback.on_load = [&](json& j) {
 
@@ -134,13 +134,13 @@ bool app::setup() {
             run_time.speed = j[_speed_];
 
         if (j.count(_auto_save_))
-            auto_save = j[_auto_save_];
+            config.auto_save = j[_auto_save_];
 
         if (j.count(_save_interval_))
-            save_interval = seconds((j[_save_interval_]));
+            config.save_interval = seconds((j[_save_interval_]));
 
         if (j.count(_auto_load_))
-            auto_load = j[_auto_load_];
+            config.auto_load = j[_auto_load_];
 
         if (j.count(_fixed_delta_))
             run_time.use_fix_delta = j[_fixed_delta_];
@@ -152,23 +152,23 @@ bool app::setup() {
             gui.set_active(j[_gui_]);
 
         if (j.count(_vsync_))
-            vsync = j[_vsync_];
+            config.vsync = j[_vsync_];
     };
 
     config_callback.on_save = [&](json& j) {
 
         j[_paused_] = run_time.paused;
         j[_speed_] = run_time.speed;
-        j[_auto_save_] = auto_save;
-        j[_save_interval_] = save_interval.count();
-        j[_auto_load_] = auto_load;
+        j[_auto_save_] = config.auto_save;
+        j[_save_interval_] = config.save_interval.count();
+        j[_auto_load_] = config.auto_load;
         j[_fixed_delta_] = run_time.use_fix_delta;
         j[_delta_] = run_time.fix_delta.count();
         j[_gui_] = gui.is_active();
-        j[_vsync_] = vsync;
+        j[_vsync_] = config.vsync;
     };
 
-    config.load();
+    config_file.load();
 
     string save_name = "main";
     window::state window_state;
@@ -221,13 +221,13 @@ bool app::setup() {
 
         destroy_target();
 
-        if (save_window)
+        if (config.save_window)
             save_window_file(window);
 
         window.destroy();
 
-        config.save();
-        config.remove(&config_callback);
+        config_file.save();
+        config_file.remove(&config_callback);
     });
 
     add_run_once([&]() {
@@ -240,7 +240,7 @@ bool app::setup() {
 
 bool app::create_gui() {
 
-    gui.setup(window.get());
+    gui.setup(window.get(), gui_config);
     if (!gui.create(device, render_target->get_frame_count(), forward_shading.get_render_pass()->get()))
         return false;
 
@@ -263,7 +263,7 @@ void app::destroy_gui() {
 
 bool app::create_target() {
 
-    render_target = lava::create_target(&window, device, vsync);
+    render_target = lava::create_target(&window, device, config.vsync);
     if (!render_target)
         return false;
 
@@ -383,7 +383,7 @@ void app::handle_window() {
 
             if (toggle_vsync) {
 
-                vsync = !vsync;
+                config.vsync = !config.vsync;
                 toggle_vsync = false;
             }
 

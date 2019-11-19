@@ -138,7 +138,7 @@ private:
     mutable std::ofstream o_stream;
 };
 
-bool load_file_data(string_ref filename, scope_data& data);
+bool load_file_data(string_ref filename, data& target);
 
 struct file_data {
 

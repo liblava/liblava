@@ -14,6 +14,8 @@ struct GLFWcursor;
 
 namespace lava {
 
+constexpr const r32 default_font_size = 18.f;
+
 struct gui : input_callback {
 
     explicit gui() = default;
@@ -23,12 +25,23 @@ struct gui : input_callback {
     struct icon_font {
 
         data font_data;
-        ui16 rangeBegin = 0;
-        ui16 rangeEnd = 0;
+
+        ui16 range_begin = 0;
+        ui16 range_end = 0;
+
+        r32 size = default_font_size;
     };
 
-    void setup(GLFWwindow* window, data font_data, icon_font icon_font);
-    void setup(GLFWwindow* window) { setup(window, data(), icon_font()); }
+    struct config {
+
+        data font_data;
+        r32 font_size = default_font_size;
+
+        icon_font icon;
+    };
+
+    void setup(GLFWwindow* window, config config);
+    void setup(GLFWwindow* window) { setup(window, config()); }
 
     bool create(graphics_pipeline::ptr pipeline, index max_frames);
     bool create(device_ptr device, index max_frames) {

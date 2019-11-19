@@ -28,17 +28,6 @@ struct data_provider {
 template <typename T>
 inline data_ptr as_ptr(T* value) { return (data_ptr)value; }
 
-struct data {
-
-    data() = default;
-    data(void* ptr, size_t size) : ptr(as_ptr(ptr)), size(size) {}
-
-    data_ptr ptr = nullptr;
-
-    size_t size = 0;
-    size_t alignment = 0;
-};
-
 template <typename T>
 inline T align_up(T val, T align) { return (val + align - 1) / align * align; }
 
@@ -77,38 +66,10 @@ inline void* realloc_data(void* data, size_t size, size_t alignment) {
 #endif
 }
 
-inline size_t next_pow_2(size_t x) {
+struct data {
 
-    x--;
-    x |= x >> 1;
-    x |= x >> 2;
-    x |= x >> 4;
-    x |= x >> 8;
-    x |= x >> 16;
-    x++;
-    return x;
-}
-
-struct scope_data : data {
-
-    explicit scope_data(size_t length = 0, bool alloc = true) {
-
-        if (length)
-            set(length, alloc);
-    }
-
-    explicit scope_data(i64 length, bool alloc = true) : scope_data(to_size_t(length), alloc) {}
-    explicit scope_data(data const& data) {
-
-        ptr = data.ptr;
-        size = data.size;
-        alignment = data.alignment;
-    }
-
-    ~scope_data() {
-
-        free();
-    }
+    data() = default;
+    data(void* ptr, size_t size) : ptr(as_ptr(ptr)), size(size) {}
 
     void set(size_t length, bool alloc = true) {
 
@@ -133,7 +94,46 @@ struct scope_data : data {
         free_data(ptr);
         ptr = nullptr;
     }
+
+    data_ptr ptr = nullptr;
+
+    size_t size = 0;
+    size_t alignment = 0;
 };
+
+struct scope_data : data {
+
+    explicit scope_data(size_t length = 0, bool alloc = true) {
+
+        if (length)
+            set(length, alloc);
+    }
+
+    explicit scope_data(i64 length, bool alloc = true) : scope_data(to_size_t(length), alloc) {}
+    explicit scope_data(data const& data) {
+
+        ptr = data.ptr;
+        size = data.size;
+        alignment = data.alignment;
+    }
+
+    ~scope_data() {
+
+        free();
+    }
+};
+
+inline size_t next_pow_2(size_t x) {
+
+    x--;
+    x |= x >> 1;
+    x |= x >> 2;
+    x |= x >> 4;
+    x |= x >> 8;
+    x |= x >> 16;
+    x++;
+    return x;
+}
 
 #ifndef __GNUC__
 #define strndup(p, n) _strdup(p)
