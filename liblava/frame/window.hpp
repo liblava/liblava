@@ -36,7 +36,7 @@ struct window : id_obj {
     window() = default;
     explicit window(name title) : title(title) {}
 
-    bool create(name save_name = "0", state* state = nullptr);
+    bool create(name save_name = "0", state const* state = nullptr);
     void destroy();
 
     state get_state() const;

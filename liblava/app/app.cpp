@@ -8,21 +8,177 @@
 
 namespace lava {
 
-app::app(argh::parser cmd_line) 
-    : frame(cmd_line), window(get_config().app) {}
+app::app(frame_config config_) 
+    : frame(config_), window(config_.app) {}
 
-app::app(frame_config config) 
-    : frame(config), window(config.app) {}
+app::app(name config_app, argh::parser cmd_line)
+    : frame(frame_config(config_app, cmd_line, true)), window(config_app) {}
 
-app::app(name config_app, argh::parser cmd_line, bool data_folder)
-    : frame(frame_config(config_app, cmd_line, data_folder)), window(config_app) {}
+// window
+constexpr name _window_file_ = "data/window.json";
+constexpr name _x_ = "x";
+constexpr name _y_ = "y";
+constexpr name _width_ = "width";
+constexpr name _height_ = "height";
+constexpr name _fullscreen_ = "fullscreen";
+constexpr name _floating_ = "floating";
+constexpr name _resizable_ = "resizable";
+constexpr name _decorated_ = "decorated";
+constexpr name _maximized_ = "maximized";
+
+// config
+constexpr name _paused_ = "paused";
+constexpr name _speed_ = "speed";
+constexpr name _auto_save_ = "auto save";
+constexpr name _save_interval_ = "save interval";
+constexpr name _auto_load_ = "auto load";
+constexpr name _fixed_delta_ = "fixed delta";
+constexpr name _delta_ = "delta";
+constexpr name _gui_ = "gui";
+constexpr name _vsync_ = "vsync";
+
+void to_json(json& j, const window::state& w) {
+
+    j = json{ { _x_, w.x }, { _y_, w.y }, { _width_, w.width }, { _height_, w.height }, 
+              { _fullscreen_, w.fullscreen }, { _floating_, w.floating }, { _resizable_, w.resizable },
+              { _decorated_, w.decorated }, { _maximized_, w.maximized } };
+}
+
+void from_json(json const& j, window::state& w) {
+
+    if (j.count(_x_))
+        w.x = j.at(_x_).get<int>();
+    if (j.count(_y_))
+        w.y = j.at(_y_).get<int>();
+    if (j.count(_width_))
+        w.width = j.at(_width_).get<int>();
+    if (j.count(_height_))
+        w.height = j.at(_height_).get<int>();
+    if (j.count(_fullscreen_))
+        w.fullscreen = j.at(_fullscreen_).get<bool>();
+    if (j.count(_floating_))
+        w.floating = j.at(_floating_).get<bool>();
+    if (j.count(_resizable_))
+        w.resizable = j.at(_resizable_).get<bool>();
+    if (j.count(_decorated_))
+        w.decorated = j.at(_decorated_).get<bool>();
+    if (j.count(_maximized_))
+        w.maximized = j.at(_maximized_).get<bool>();
+}
+
+bool has_window_file() {
+
+    std::ifstream i(_window_file_);
+    return i.is_open();
+}
+
+bool load_window_file(window::state& state, string_ref index) {
+
+    std::ifstream i(_window_file_);
+    if (!i)
+        return false;
+
+    json j;
+    i >> j;
+
+    if (!j.count(index.c_str()))
+        return false;
+
+    log()->trace("load window: {}", j.dump().c_str());
+
+    state = j[index.c_str()];
+    return true;
+}
+
+void save_window_file(window const& window) {
+
+    window::state state = window.get_state();
+    auto index = window.get_save_name();
+
+    json j;
+
+    std::ifstream i(_window_file_);
+    if (i) {
+
+        i >> j;
+
+        json d;
+        d[index] = state;
+
+        j.merge_patch(d);
+    }
+    else {
+
+        j[index] = state;
+    }
+
+    log()->trace("save window: {}", j.dump().c_str());
+
+    std::ofstream o(_window_file_);
+    o << std::setw(4) << j << std::endl;
+}
 
 bool app::setup() {
 
     if (!frame::ready())
         return false;
 
-    if (!window.create())
+    config.add(&config_callback);
+
+    config_callback.on_load = [&](json& j) {
+
+        if (j.count(_paused_))
+            run_time.paused = j[_paused_];
+
+        if (j.count(_speed_))
+            run_time.speed = j[_speed_];
+
+        if (j.count(_auto_save_))
+            auto_save = j[_auto_save_];
+
+        if (j.count(_save_interval_))
+            save_interval = seconds((j[_save_interval_]));
+
+        if (j.count(_auto_load_))
+            auto_load = j[_auto_load_];
+
+        if (j.count(_fixed_delta_))
+            run_time.use_fix_delta = j[_fixed_delta_];
+
+        if (j.count(_delta_))
+            run_time.fix_delta = milliseconds(j[_delta_]);
+
+        if (j.count(_gui_))
+            gui.set_active(j[_gui_]);
+
+        if (j.count(_vsync_))
+            vsync = j[_vsync_];
+    };
+
+    config_callback.on_save = [&](json& j) {
+
+        j[_paused_] = run_time.paused;
+        j[_speed_] = run_time.speed;
+        j[_auto_save_] = auto_save;
+        j[_save_interval_] = save_interval.count();
+        j[_auto_load_] = auto_load;
+        j[_fixed_delta_] = run_time.use_fix_delta;
+        j[_delta_] = run_time.fix_delta.count();
+        j[_gui_] = gui.is_active();
+        j[_vsync_] = vsync;
+    };
+
+    config.load();
+
+    string save_name = "main";
+    window::state window_state;
+    auto has_window_state = false;
+
+    if (has_window_file())
+        if (load_window_file(window_state, save_name))
+            has_window_state = true;
+
+    if (!window.create(str(save_name), has_window_state ? &window_state : nullptr))
         return false;
 
     device = create_device();
@@ -64,6 +220,14 @@ bool app::setup() {
         block.destroy();
 
         destroy_target();
+
+        if (save_window)
+            save_window_file(window);
+
+        window.destroy();
+
+        config.save();
+        config.remove(&config_callback);
     });
 
     add_run_once([&]() {
@@ -99,7 +263,7 @@ void app::destroy_gui() {
 
 bool app::create_target() {
 
-    render_target = lava::create_target(&window, device, v_sync);
+    render_target = lava::create_target(&window, device, vsync);
     if (!render_target)
         return false;
 
@@ -141,13 +305,22 @@ void app::handle_input() {
             gui.toggle();
 
         if (event.pressed(key::escape))
-            shut_down();
+            return shut_down();
 
-        if (event.pressed(key::enter, mod::alt))
+        if (event.pressed(key::enter, mod::alt)) {
+
             window.set_fullscreen(!window.fullscreen());
+            return true;
+        }
 
-        if (event.pressed(key::backspace, mod::alt))
-            toggle_v_sync = true;
+        if (event.pressed(key::backspace, mod::alt)) {
+
+            toggle_vsync = true;
+            return true;
+        }
+
+        if (event.pressed(key::space))
+            run_time.paused = !run_time.paused;
 
         if (camera.is_active())
             return camera.handle(event);
@@ -198,7 +371,7 @@ void app::handle_window() {
         if (window.has_close_request())
             return shut_down();
 
-        if (window.has_switch_mode_request() || toggle_v_sync) {
+        if (window.has_switch_mode_request() || toggle_vsync) {
 
             device->wait_for_idle();
 
@@ -208,10 +381,10 @@ void app::handle_window() {
             if (window.has_switch_mode_request() && !window.switch_mode())
                 return false;
 
-            if (toggle_v_sync) {
+            if (toggle_vsync) {
 
-                v_sync = !v_sync;
-                toggle_v_sync = false;
+                vsync = !vsync;
+                toggle_vsync = false;
             }
 
             if (!create_target())
@@ -247,13 +420,18 @@ void app::handle_update() {
             run_time.system = time;
         }
 
-        if (run_time.use_fix_delta)
-            delta = run_time.fix_delta;
-
         run_time.delta = delta;
-        run_time.current += delta;
 
-        return on_update ? on_update(delta) : true;
+        if (!run_time.paused) {
+
+            if (run_time.use_fix_delta)
+                delta = run_time.fix_delta;
+
+            delta = to_ms(to_sec(delta) * run_time.speed);
+            run_time.current += delta;
+        }
+
+        return on_update ? on_update(run_time.paused ? milliseconds(0) : delta) : true;
     });
 }
 
@@ -286,12 +464,18 @@ void app::draw_about(bool separator) const {
     ImGui::Text("%s %s", _liblava_, to_string(_version).c_str());
 
     if (ImGui::IsItemHovered())
-        ImGui::SetTooltip("alt + enter = fullscreen\nalt + backspace = vsync\ntab = gui");
+        ImGui::SetTooltip("alt + enter = fullscreen\nalt + backspace = vsync\nspace = pause\ntab = gui");
 
-    if (v_sync_active())
+    if (vsync_active())
         ImGui::Text("%.f fps (vsync)", ImGui::GetIO().Framerate);
     else
         ImGui::Text("%.f fps", ImGui::GetIO().Framerate);
+
+    if (run_time.paused) {
+
+        ImGui::SameLine();
+        ImGui::TextUnformatted(_paused_);
+    }
 }
 
 } // lava

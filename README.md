@@ -28,7 +28,7 @@ Let's write **Hello World** in Vulkan:
 
 <a href="https://www.khronos.org/vulkan/"><img align="left" hspace="20" src="res/Vulkan_100px_Dec16.png"></a>
 
-**"a simple program that renders a colored window"**
+**"a simple program to render a colored window"**
 
 All we need is a `window`, `device` and `renderer`. Vulkan is a low-level, verbose graphics API and such a program can take several hundred lines of code.
 
@@ -345,7 +345,7 @@ Out of blocks, `lava::app` supports the awesome [Dear ImGui](https://github.com/
 ```c++
 int main(int argc, char* argv[]) {
 
-    app app( {argc, argv} );
+    app app("demo", { argc, argv });
     if (!app.setup())
         return error::not_ready;
 

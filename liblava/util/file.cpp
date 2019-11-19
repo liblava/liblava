@@ -309,20 +309,17 @@ i64 file::write(data_cptr data, ui64 size) {
     return file_error;
 }
 
-config_file::config_file(name path) : path(path) {}
+json_file::json_file(name path) : path(path) {}
 
-void config_file::add_callback(config_file_callback* callback) { callbacks.push_back(callback); }
+void json_file::add(file_callback* callback) { callbacks.push_back(callback); }
 
-void config_file::remove_callback(config_file_callback* callback) { remove(callbacks, callback); }
+void json_file::remove(file_callback* callback) { lava::remove(callbacks, callback); }
 
-bool config_file::load() {
+bool json_file::load() {
 
     scope_data data;
-    if (!load_file_data(path, data)) {
-
-        log()->error("couldn't load config file {}", str(path));
+    if (!load_file_data(path, data))
         return false;
-    }
 
     auto j = json::parse({ data.ptr, data.size });
 
@@ -332,12 +329,12 @@ bool config_file::load() {
     return true;
 }
 
-bool config_file::save() {
+bool json_file::save() {
 
     file file(str(path), true);
     if (!file.is_open()) {
 
-        log()->error("couldn't save config file {}", str(path));
+        log()->error("couldn't save file {}", str(path));
         return false;
     }
 
@@ -358,11 +355,8 @@ bool config_file::save() {
 bool lava::load_file_data(string_ref filename, scope_data& data) {
 
     file file(str(filename));
-    if (!file.is_open()) {
-
-        log()->error("couldn't open file {} for reading", filename);
+    if (!file.is_open())
         return false;
-    }
 
     data.set(to_size_t(file.get_size()));
     if (!data.ptr)

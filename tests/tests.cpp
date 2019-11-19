@@ -445,7 +445,7 @@ LAVA_TEST(7, "gamepad")
 
 LAVA_TEST(8, "imgui demo")
 {
-    app app(argh);
+    app app("demo", argh);
     if (!app.setup())
         return error::not_ready;
 

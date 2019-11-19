@@ -13,7 +13,7 @@
 
 namespace lava {
 
-bool window::create(name save_name_, state* state) {
+bool window::create(name save_name_, state const* state) {
 
     save_name = save_name_;
 

@@ -15,9 +15,8 @@ namespace lava {
 
 struct app : frame {
 
-    explicit app(argh::parser argh);
-    explicit app(frame_config config);   
-    explicit app(name config_app, argh::parser cmd_line, bool data_folder = true);
+    explicit app(frame_config config);
+    explicit app(name config_app, argh::parser cmd_line = {});
 
     bool setup();
 
@@ -48,9 +47,17 @@ struct app : frame {
     using destroy_func = std::function<void()>;
     destroy_func on_destroy;
 
-    bool v_sync_active() const { return v_sync; }
+    bool vsync_active() const { return vsync; }
 
     void draw_about(bool separator = true) const;
+
+    bool save_window = true;
+
+    bool auto_load = true;
+    bool auto_save = true;
+    seconds save_interval{300};
+
+    json_file config;
 
 private:
     void handle_input();
@@ -66,8 +73,10 @@ private:
 
     texture::ptr fonts;
 
-    bool toggle_v_sync = false;
-    bool v_sync = false;
+    bool toggle_vsync = false;
+    bool vsync = false;
+
+    file_callback config_callback;
 };
 
 } // lava

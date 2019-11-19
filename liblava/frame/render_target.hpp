@@ -13,7 +13,7 @@ struct render_target : id_obj {
 
     using ptr = std::shared_ptr<render_target>;
 
-    bool create(device_ptr device, VkSurfaceKHR surface, uv2 size, bool v_sync = false);
+    bool create(device_ptr device, VkSurfaceKHR surface, uv2 size, bool vsync = false);
     void destroy();
 
     uv2 get_size() const { return target.get_size(); }
@@ -69,7 +69,7 @@ private:
     target_callback::list target_callbacks;
 };
 
-render_target::ptr create_target(window* window, device_ptr device, bool v_sync = false);
+render_target::ptr create_target(window* window, device_ptr device, bool vsync = false);
 
 inline render_target::ptr create_target_v_sync(window* window, device_ptr device) {
     

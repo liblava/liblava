@@ -17,6 +17,9 @@ struct PHYSFS_File;
 
 namespace lava {
 
+constexpr name _zip_ = "zip";
+constexpr name _config_file_ = "data/config.json";
+
 using json = nlohmann::json;
 
 namespace fs = std::filesystem;
@@ -47,8 +50,6 @@ struct file_guard : no_copy_no_move {
     string filename;
     bool remove = true;
 };
-
-constexpr name _zip_ = "zip";
 
 struct file_system : no_copy_no_move {
 
@@ -149,28 +150,31 @@ private:
     lava::scope_data scope_data;
 };
 
-struct config_file_callback {
+struct file_callback {
 
-    using list = std::vector<config_file_callback*>;
+    using list = std::vector<file_callback*>;
 
     using func = std::function<void(json&)>;
     func on_load;
     func on_save;
 };
 
-struct config_file {
+struct json_file {
 
-    explicit config_file(name path);
+    explicit json_file(name path = _config_file_);
 
-    void add_callback(config_file_callback* callback);
-    void remove_callback(config_file_callback* callback);
+    void add(file_callback* callback);
+    void remove(file_callback* callback);
+
+    void set(name value) { path = value; }
+    name get() const { return str(path); }
 
     bool load();
     bool save();
 
 private:
     string path;
-    config_file_callback::list callbacks;
+    file_callback::list callbacks;
 };
 
 } // lava
