@@ -66,6 +66,8 @@ struct app : frame {
     json_file config_file;
 
 private:
+    void handle_config();
+
     void handle_input();
     void handle_window();
     void handle_update();
@@ -76,6 +78,8 @@ private:
 
     bool create_target();
     void destroy_target();
+
+    bool create_block();
 
     texture::ptr fonts;
 

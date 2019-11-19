@@ -81,12 +81,12 @@ bool load_window_file(window::state& state, string_ref index) {
     json j;
     i >> j;
 
-    if (!j.count(index.c_str()))
+    if (!j.count(str(index)))
         return false;
 
-    log()->trace("load window: {}", j.dump().c_str());
+    log()->trace("load window: {}", str(j.dump()));
 
-    state = j[index.c_str()];
+    state = j[str(index)];
     return true;
 }
 
@@ -112,16 +112,13 @@ void save_window_file(window const& window) {
         j[index] = state;
     }
 
-    log()->trace("save window: {}", j.dump().c_str());
+    log()->trace("save window: {}", str(j.dump()));
 
     std::ofstream o(_window_file_);
     o << std::setw(4) << j << std::endl;
 }
 
-bool app::setup() {
-
-    if (!frame::ready())
-        return false;
+void app::handle_config() {
 
     config_file.add(&config_callback);
 
@@ -169,16 +166,40 @@ bool app::setup() {
     };
 
     config_file.load();
+}
 
-    string save_name = "main";
+bool app::create_block() {
+
+    if (!block.create(device, render_target->get_frame_count(), device->graphics_queue().family))
+        return false;
+
+    block.add_command([&](VkCommandBuffer cmd_buf) {
+
+        auto current_frame = block.get_current_frame();
+
+        staging.stage(cmd_buf, current_frame);
+
+        forward_shading.get_render_pass()->process(cmd_buf, current_frame);
+    });
+
+    return true;
+}
+
+bool app::setup() {
+
+    if (!frame::ready())
+        return false;
+
+    handle_config();
+
     window::state window_state;
     auto has_window_state = false;
 
     if (has_window_file())
-        if (load_window_file(window_state, save_name))
+        if (load_window_file(window_state, _main_))
             has_window_state = true;
 
-    if (!window.create(str(save_name), has_window_state ? &window_state : nullptr))
+    if (!window.create(_main_, has_window_state ? &window_state : nullptr))
         return false;
 
     device = create_device();
@@ -194,17 +215,8 @@ bool app::setup() {
     if (!create_gui())
         return false;
 
-    if (!block.create(device, render_target->get_frame_count(), device->graphics_queue().family))
+    if (!create_block())
         return false;
-
-    block.add_command([&](VkCommandBuffer cmd_buf) {
-
-        auto current_frame = block.get_current_frame();
-
-        staging.stage(cmd_buf, current_frame);
-
-        forward_shading.get_render_pass()->process(cmd_buf, current_frame);
-    });
 
     handle_input();
     handle_window();
@@ -430,8 +442,10 @@ void app::handle_update() {
             delta = to_ms(to_sec(delta) * run_time.speed);
             run_time.current += delta;
         }
+        else
+            delta = milliseconds(0);
 
-        return on_update ? on_update(run_time.paused ? milliseconds(0) : delta) : true;
+        return on_update ? on_update(delta) : true;
     });
 }
 
