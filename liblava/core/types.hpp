@@ -64,6 +64,7 @@ using uchar = unsigned char;
 using r32 = float;
 using r64 = double;
 using real = r64;
+using delta = r32;
 
 using type = ui32;
 constexpr type const no_type = 0xffffffff;

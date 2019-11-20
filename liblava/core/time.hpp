@@ -19,8 +19,10 @@ using clock = std::chrono::high_resolution_clock;
 using time_point = clock::time_point;
 using duration = clock::duration;
 
-inline r64 to_sec(milliseconds ms) { return ms.count() / 1000.0; }
-inline milliseconds to_ms(r64 sec) { return milliseconds(to_i32(sec * 1000.0)); }
+inline delta to_dt(milliseconds ms) { return ms.count() / 1000.f; }
+inline r64 to_sec(milliseconds ms) { return ms.count() / 1000.; }
+inline milliseconds to_ms(delta dt) { return milliseconds(to_i32(dt * 1000.f)); }
+inline milliseconds to_ms(r64 sec) { return milliseconds(to_i32(sec * 1000.)); }
 
 struct timer {
 

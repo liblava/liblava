@@ -24,8 +24,8 @@ struct camera : id_obj {
     void destroy();
 
     void update_projection();
-    void update_view(milliseconds delta, mouse_position mouse_pos);
-    void update_view(milliseconds delta, gamepad const& pad);
+    void update_view(delta dt, mouse_position mouse_pos);
+    void update_view(delta dt, gamepad const& pad);
 
     bool handle(key_event::ref event);
     bool handle(mouse_button_event::ref event, mouse_position mouse_pos);

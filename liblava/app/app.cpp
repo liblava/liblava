@@ -445,7 +445,7 @@ void app::handle_update() {
         else
             delta = milliseconds(0);
 
-        return on_update ? on_update(delta) : true;
+        return on_update ? on_update(to_dt(delta)) : true;
     });
 }
 

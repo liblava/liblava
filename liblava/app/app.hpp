@@ -49,7 +49,7 @@ struct app : frame {
 
     lava::run_time run_time;
 
-    using update_func = std::function<bool(milliseconds)>;
+    using update_func = std::function<bool(delta)>;
     update_func on_update;
 
     using create_func = std::function<bool()>;

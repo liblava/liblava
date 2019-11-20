@@ -24,9 +24,7 @@ void camera::destroy() {
     data = nullptr;
 }
 
-void camera::update_view(milliseconds delta_, mouse_position mouse_pos) {
-
-    auto delta = to_sec(delta_);
+void camera::update_view(delta dt, mouse_position mouse_pos) {
 
     if (translate || rotate) {
 
@@ -35,13 +33,13 @@ void camera::update_view(milliseconds delta_, mouse_position mouse_pos) {
 
         if (rotate && !lock_rotation) {
 
-            auto speed = delta * rotation_speed;
+            auto speed = dt * rotation_speed;
             rotation += v3(dy * speed, -dx * speed, 0.f);
         }
 
         if (translate) {
 
-            auto speed = delta * movement_speed;
+            auto speed = dt * movement_speed;
             position -= v3(-dx * speed, -dy * speed, 0.f);
         }
 
@@ -51,7 +49,7 @@ void camera::update_view(milliseconds delta_, mouse_position mouse_pos) {
 
     if ((scroll_pos != 0.0)) {
 
-        auto speed = delta * zoom_speed;
+        auto speed = dt * zoom_speed;
         position -= v3(-0.f, 0.f, scroll_pos * speed);
         scroll_pos = 0.0;
     }
@@ -65,7 +63,7 @@ void camera::update_view(milliseconds delta_, mouse_position mouse_pos) {
 
         front = glm::normalize(front);
 
-        auto speed = to_r32(delta * movement_speed * 2.f);
+        auto speed = dt * movement_speed * 2.f;
 
         if (up) {
 
@@ -106,12 +104,10 @@ void camera::update_view(milliseconds delta_, mouse_position mouse_pos) {
         memcpy(as_ptr(data->get_mapped_data()) + sizeof(mat4), &view, sizeof(mat4));
 }
 
-void camera::update_view(milliseconds delta_, gamepad const& pad) {
+void camera::update_view(delta dt, gamepad const& pad) {
 
     if (type != camera_type::first_person)
         return;
-
-    auto delta = to_r32(to_sec(delta_));
 
     const r32 dead_zone = 0.2f;
     const r32 range = 1.f - dead_zone;
@@ -122,8 +118,8 @@ void camera::update_view(milliseconds delta_, gamepad const& pad) {
     front.z = cos(glm::radians(rotation.x)) * cos(glm::radians(rotation.y));
     front = glm::normalize(front);
 
-    auto movement_factor = delta * movement_speed * 2.f;
-    auto rotation_factor = delta * rotation_speed * 2.5f;
+    auto movement_factor = dt * movement_speed * 2.f;
+    auto rotation_factor = dt * rotation_speed * 2.5f;
 
     // move
 
