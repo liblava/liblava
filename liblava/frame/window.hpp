@@ -5,6 +5,8 @@
 #pragma once
 
 #include <liblava/frame/input.hpp>
+#include <liblava/core/data.hpp>
+#include <liblava/core/math.hpp>
 
 #define VK_NO_PROTOTYPES
 #include <vulkan/vulkan.h>
@@ -127,6 +129,8 @@ struct window : id_obj {
     void update_title() { set_title(str(title)); }
 
     VkSurfaceKHR create_surface();
+
+    void set_icon(data_ptr data, uv2 size);
 
 private:
     void handle_message();

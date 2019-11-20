@@ -202,6 +202,10 @@ bool app::setup() {
     if (!window.create(_main_, has_window_state ? &window_state : nullptr))
         return false;
 
+    scope_image icon("icon.png");
+    if (icon.ready)
+        window.set_icon(icon.data, icon.size);
+
     device = create_device();
     if (!device)
         return false;

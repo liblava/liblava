@@ -269,6 +269,16 @@ bool window::has_close_request() const { return glfwWindowShouldClose(handle) ==
 
 VkSurfaceKHR window::create_surface() { return lava::create_surface(handle); }
 
+void window::set_icon(data_ptr data, uv2 size) {
+
+    GLFWimage images[1];
+    images[0].width = size.x;
+    images[0].height = size.y;
+    images[0].pixels = (uc8*)data;
+
+    glfwSetWindowIcon(handle, 1, images);
+}
+
 } // lava
 
 VkSurfaceKHR lava::create_surface(GLFWwindow* window) {
