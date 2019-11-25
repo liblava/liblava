@@ -103,7 +103,7 @@ private:
     frame_stage_map staged;
 };
 
-using texture_registry = registry<texture, file_format>;
+using texture_registry = id_registry<texture, file_format>;
 
 struct scope_image {
 

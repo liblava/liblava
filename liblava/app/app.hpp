@@ -59,6 +59,7 @@ struct app : frame {
     destroy_func on_destroy;
 
     bool vsync_active() const { return config.vsync; }
+    ui32 get_frame_counter() const { return frame_counter; }
 
     void draw_about(bool separator = true) const;
 
@@ -84,6 +85,7 @@ private:
     texture::ptr fonts;
 
     bool toggle_vsync = false;
+    ui32 frame_counter = 0;
 
     file_callback config_callback;
 };

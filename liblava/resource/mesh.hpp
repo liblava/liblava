@@ -116,6 +116,6 @@ struct mesh_meta {
     mesh_type type = mesh_type::none;
 };
 
-using mesh_registry = registry<mesh, mesh_meta>;
+using mesh_registry = id_registry<mesh, mesh_meta>;
 
 } // lava

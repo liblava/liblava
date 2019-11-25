@@ -247,9 +247,10 @@ message(">> lava::app")
 
 add_library(lava.app STATIC
         ${LIBLAVA_DIR}/app/app.cpp
-        ${LIBLAVA_DIR}/app/app.hpp 
+        ${LIBLAVA_DIR}/app/app.hpp
         ${LIBLAVA_DIR}/app/camera.cpp
-        ${LIBLAVA_DIR}/app/camera.hpp 
+        ${LIBLAVA_DIR}/app/camera.hpp
+        ${LIBLAVA_DIR}/app/def.hpp
         ${LIBLAVA_DIR}/app/forward_shading.cpp
         ${LIBLAVA_DIR}/app/forward_shading.hpp
         ${LIBLAVA_DIR}/app/gui.cpp

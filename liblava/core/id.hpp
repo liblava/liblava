@@ -172,7 +172,7 @@ private:
 };
 
 template <typename T, typename Meta>
-struct registry {
+struct id_registry {
 
     using ptr = std::shared_ptr<T>;
     using map = std::map<id, ptr>;

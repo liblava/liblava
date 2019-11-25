@@ -17,7 +17,10 @@
 void hide_console(lava::name program) {
 
 #if !LIBLAVA_DEBUG && _WIN32
-    std::cout << "starting " << program;
+
+    auto version_str = fmt::format("{} {}", lava::_liblava_, lava::str(lava::to_string(lava::_version)));
+    std::cout << version_str.c_str() << std::endl;
+    std::cout << program << std::endl;
 
     const auto dot_count = 3;
     const auto sleep_ms = lava::to_i32(1.0 / dot_count * 1000.f);
@@ -29,6 +32,7 @@ void hide_console(lava::name program) {
     }
 
     FreeConsole();
+
 #endif
 }
 

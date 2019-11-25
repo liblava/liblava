@@ -3,6 +3,7 @@
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/app/app.hpp>
+#include <liblava/app/def.hpp>
 
 #include <imgui.h>
 
@@ -13,29 +14,6 @@ app::app(frame_config config_)
 
 app::app(name config_app, argh::parser cmd_line)
     : frame(frame_config(config_app, cmd_line, true)), window(config_app) {}
-
-// window
-constexpr name _window_file_ = "data/window.json";
-constexpr name _x_ = "x";
-constexpr name _y_ = "y";
-constexpr name _width_ = "width";
-constexpr name _height_ = "height";
-constexpr name _fullscreen_ = "fullscreen";
-constexpr name _floating_ = "floating";
-constexpr name _resizable_ = "resizable";
-constexpr name _decorated_ = "decorated";
-constexpr name _maximized_ = "maximized";
-
-// config
-constexpr name _paused_ = "paused";
-constexpr name _speed_ = "speed";
-constexpr name _auto_save_ = "auto save";
-constexpr name _save_interval_ = "save interval";
-constexpr name _auto_load_ = "auto load";
-constexpr name _fixed_delta_ = "fixed delta";
-constexpr name _delta_ = "delta";
-constexpr name _gui_ = "gui";
-constexpr name _vsync_ = "vsync";
 
 void to_json(json& j, const window::state& w) {
 
@@ -250,6 +228,8 @@ bool app::setup() {
 
         return on_create ? on_create() : true;
     });
+
+    frame_counter = 0;
 
     return true;
 }
@@ -466,6 +446,8 @@ void app::handle_render() {
         auto frame_index = plotter.begin_frame();
         if (!frame_index)
             return true;
+
+        frame_counter++;
 
         if (!block.process(*frame_index))
             return false;
