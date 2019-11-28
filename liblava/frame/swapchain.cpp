@@ -77,8 +77,8 @@ void swapchain::set_surface_format() {
 
             format.format = VK_FORMAT_B8G8R8A8_UNORM;
             format.colorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
-
-        } else {
+        }
+        else {
 
             format = formats[0];
         }
@@ -175,8 +175,8 @@ bool swapchain::create_internal() {
 
         info.imageExtent.width = size.x;
         info.imageExtent.height = size.y;
-
-    } else {
+    }
+    else {
 
         size.x = cap.currentExtent.width;
         size.y = cap.currentExtent.height;

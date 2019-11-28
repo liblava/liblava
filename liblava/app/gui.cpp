@@ -75,8 +75,8 @@ void gui::update_mouse_pos_and_buttons() {
         if (io.WantSetMousePos) {
 
             glfwSetCursorPos(window, (double)mouse_pos_backup.x, (double)mouse_pos_backup.y);
-
-        } else {
+        }
+        else {
 
             double mouse_x, mouse_y;
             glfwGetCursorPos(window, &mouse_x, &mouse_y);
@@ -95,8 +95,8 @@ void gui::update_mouse_cursor() {
     if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor) {
 
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-
-    } else {
+    }
+    else {
 
         glfwSetCursor(window, mouse_cursors[imgui_cursor] ? mouse_cursors[imgui_cursor] : mouse_cursors[ImGuiMouseCursor_Arrow]);
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -155,8 +155,8 @@ void gui::setup(GLFWwindow* window_, config config) {
         font_config.FontDataOwnedByAtlas = false;
 
         io.Fonts->AddFontFromMemoryTTF(config.font_data.ptr, to_i32(config.font_data.size), config.font_size, &font_config);
-
-    } else {
+    }
+    else {
 
         io.Fonts->AddFontDefault();
     }
@@ -582,8 +582,8 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
             if (cmd->UserCallback) {
 
                 cmd->UserCallback(cmd_list, cmd);
-
-            } else {
+            }
+            else {
 
                 VkRect2D scissor;
                 scissor.offset = {

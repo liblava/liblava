@@ -400,8 +400,8 @@ void graphics_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf, uv2 si
 
 		viewportParam = viewport;
 		scissorParam = scissor;
-
-	} else if (size_type == size_type::relative) {
+	}
+    else if (size_type == size_type::relative) {
 
 		viewportParam.x = viewport.x * size.x;
 		viewportParam.y = viewport.y * size.y;
@@ -412,8 +412,8 @@ void graphics_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf, uv2 si
 		scissorParam.offset.y = scissor.offset.y * size.y;
 		scissorParam.extent.width = scissor.extent.width * size.x;
 		scissorParam.extent.height = scissor.extent.height * size.y;
-
-	} else {
+	}
+    else {
 
 		viewport = viewportParam;
 		scissor = scissorParam;

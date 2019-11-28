@@ -203,16 +203,16 @@ bool file::open(name path_, bool write) {
     if (fs_file) {
 
         type = file_type::fs;
-
-    } else {
+    }
+    else {
 
         if (write) {
 
             o_stream = std::ofstream(path, std::ofstream::binary);
             if (o_stream.is_open())
                 type = file_type::f_stream;
-
-        } else {
+        }
+        else {
 
             i_stream = std::ifstream(path, std::ios::binary | std::ios::ate);
             if (i_stream.is_open())
@@ -228,8 +228,8 @@ void file::close() {
     if (type == file_type::fs) {
 
         PHYSFS_close(fs_file);
-
-    } else if (type == file_type::f_stream) {
+    }
+    else if (type == file_type::f_stream) {
 
         if (write_mode)
             o_stream.close();
@@ -243,8 +243,8 @@ bool file::is_open() const {
     if (type == file_type::fs) {
 
         return fs_file != nullptr;
-
-    } else if (type == file_type::f_stream) {
+    }
+    else if (type == file_type::f_stream) {
 
         if (write_mode)
             return o_stream.is_open();
@@ -260,8 +260,8 @@ i64 file::get_size() const {
     if (type == file_type::fs) {
 
         return PHYSFS_fileLength(fs_file);
-
-    } else if (type == file_type::f_stream) {
+    }
+    else if (type == file_type::f_stream) {
 
         if (write_mode)
             return to_i64(o_stream.tellp());
@@ -280,8 +280,8 @@ i64 file::read(data_ptr data, ui64 size) {
     if (type == file_type::fs) {
 
         return PHYSFS_readBytes(fs_file, data, size);
-
-    } else if (type == file_type::f_stream) {
+    }
+    else if (type == file_type::f_stream) {
 
         i_stream.seekg(0, std::ios::beg);
         i_stream.read(data, size);
@@ -299,8 +299,8 @@ i64 file::write(data_cptr data, ui64 size) {
     if (type == file_type::fs) {
 
         return PHYSFS_writeBytes(fs_file, data, size);
-
-    } else if (type == file_type::f_stream) {
+    }
+    else if (type == file_type::f_stream) {
 
         o_stream.write(data, size);
         return to_i64(size);

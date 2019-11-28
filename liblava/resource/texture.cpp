@@ -93,8 +93,8 @@ bool texture::create(device_ptr device, uv2 size, VkFormat format, layer::list c
     if (type == texture_type::array) {
 
         view_type = VK_IMAGE_VIEW_TYPE_2D_ARRAY;
-
-    } else if (type == texture_type::cube_map) {
+    }
+    else if (type == texture_type::cube_map) {
 
         view_type = VK_IMAGE_VIEW_TYPE_CUBE;
     }
@@ -208,8 +208,8 @@ bool texture::stage(VkCommandBuffer cmd_buffer) {
                 offset += layers[layer].levels[level].size;
             }
         }
-
-    } else {
+    }
+    else {
 
         VkImageSubresourceLayers subresource_layers
         {

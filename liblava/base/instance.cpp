@@ -111,6 +111,7 @@ bool instance::create_param::check() const {
 
         auto itr = std::find_if(layer_properties.begin(), layer_properties.end(), 
                             [&](VkLayerProperties const& extProp) {
+
                                 return strcmp(layer_name, extProp.layerName) == 0;
                             });
 
@@ -123,6 +124,7 @@ bool instance::create_param::check() const {
 
         auto itr = std::find_if(extensions_properties.begin(), extensions_properties.end(),
                             [&](VkExtensionProperties const& extProp) {
+
                                 return strcmp(ext_name, extProp.extensionName) == 0;
                             });
 
@@ -140,8 +142,8 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL validation_callback(VkDebugUtilsMessageSev
 
         log()->error("validation report: {}", callback_data->pMessage);
         assert(!"check validation error");
-
-    } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
+    }
+    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
         log()->warn("validation report: {}", callback_data->pMessage);
     else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
         log()->info("validation report: {}", callback_data->pMessage);

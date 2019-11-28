@@ -83,8 +83,8 @@ bool buffer::create(device_ptr device_, void const* data, size_t size, VkBufferU
         memcpy(map, data, size);
 
         vmaUnmapMemory(device->alloc(), allocation);
-
-    } else if (data) {
+    }
+    else if (data) {
 
         memcpy(allocation_info.pMappedData, data, size);
 

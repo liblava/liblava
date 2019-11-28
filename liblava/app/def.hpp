@@ -28,6 +28,7 @@ constexpr name _save_interval_ = "save interval";
 constexpr name _auto_load_ = "auto load";
 constexpr name _fixed_delta_ = "fixed delta";
 constexpr name _delta_ = "delta";
+constexpr name _dt_ = "dt";
 constexpr name _gui_ = "gui";
 constexpr name _vsync_ = "vsync";
 

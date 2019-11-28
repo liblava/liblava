@@ -36,8 +36,8 @@ bool window::create(name save_name_, state const* state) {
                 log()->error("Window::create glfwCreateWindow(1) failed");
                 return false;
             }
-
-        } else {
+        }
+        else {
 
             handle = glfwCreateWindow(state->width, state->height, str(default_title), nullptr, nullptr);
             if (!handle) {
@@ -66,8 +66,8 @@ bool window::create(name save_name_, state const* state) {
                 log()->error("window::create glfwCreateWindow(3) failed");
                 return false;
             }
-
-        } else {
+        }
+        else {
 
             handle = glfwCreateWindow(mode->width / 2, mode->height / 2, str(default_title), nullptr, nullptr);
             if (!handle) {
