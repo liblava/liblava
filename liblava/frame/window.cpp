@@ -55,8 +55,8 @@ bool window::create(name save_name_, state const* state) {
 
         if (state->maximized)
             maximize();
-
-    } else {
+    } 
+    else {
 
         if (!windowed) {
 

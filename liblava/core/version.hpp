@@ -28,9 +28,9 @@ enum class version_stage {
 
 struct version {
 
-    i32 year = 2019;
+    i32 year = 2020;
     i32 release = 0;
-    version_stage stage = version_stage::release;
+    version_stage stage = version_stage::preview;
     i32 rev = 0;
 };
 
