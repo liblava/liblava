@@ -185,8 +185,8 @@ LAVA_TEST(4, "clear color")
 
             frame.set_wait_for_events(true);
             return true;
-
-        } else {
+        }
+        else {
 
             if (frame.waiting_for_events())
                 frame.set_wait_for_events(false);
@@ -290,8 +290,8 @@ LAVA_TEST(5, "color block")
 
             frame.set_wait_for_events(true);
             return true;
-
-        } else {
+        }
+        else {
 
             if (frame.waiting_for_events())
                 frame.set_wait_for_events(false);
@@ -381,8 +381,8 @@ LAVA_TEST(6, "forward shading")
 
             frame.set_wait_for_events(true);
             return true;
-
-        } else {
+        }
+        else {
 
             if (frame.waiting_for_events())
                 frame.set_wait_for_events(false);
