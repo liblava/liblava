@@ -35,7 +35,7 @@ All we need is a `window`, `device` and `renderer`. Vulkan is a low-level, verbo
 The good news is that **liblava** will set it all up for you.
 
 ```c++
-#include <liblava/lava.h>
+#include <liblava/lava.hpp>
 
 using namespace lava;
 ```
