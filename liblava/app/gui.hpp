@@ -97,7 +97,7 @@ private:
     index frame = 0;
     index max_frames = 4;
 
-    buffer::list vertex_buffers ;
+    buffer::list vertex_buffers;
     buffer::list index_buffers;
 
     descriptor::ptr descriptor_set_layout;
