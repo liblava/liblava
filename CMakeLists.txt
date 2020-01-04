@@ -1,4 +1,4 @@
-# file      : CMakeLists.txt
+﻿# file      : CMakeLists.txt
 # copyright : Copyright (c) 2018-present, Lava Block OÜ
 # license   : MIT; see accompanying LICENSE file
 
@@ -272,14 +272,17 @@ target_link_libraries(lava.app
 
 add_library(lava::app ALIAS lava.app)
 
-message("> tests")
+option(LAVA_TESTS "Enable Tests" TRUE)
+if(LAVA_TESTS)
+        message("> tests")
 
-add_executable(lava 
-        ${LIBLAVA_TESTS_DIR}/driver.cpp
-        ${LIBLAVA_TESTS_DIR}/driver.hpp
-        ${LIBLAVA_TESTS_DIR}/tests.cpp
-        )
+        add_executable(lava 
+                ${LIBLAVA_TESTS_DIR}/driver.cpp
+                ${LIBLAVA_TESTS_DIR}/driver.hpp
+                ${LIBLAVA_TESTS_DIR}/tests.cpp
+                )
 
-target_link_libraries(lava lava::app)
+        target_link_libraries(lava lava::app)
+endif()
 
 message("========================================================================")
