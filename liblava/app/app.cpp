@@ -367,7 +367,7 @@ void app::handle_window() {
         if (window.has_close_request())
             return shut_down();
 
-        if (window.has_switch_mode_request() || toggle_vsync) {
+        if (window.has_switch_mode_request() || toggle_vsync || render_target->must_reload()) {
 
             device->wait_for_idle();
 

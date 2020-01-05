@@ -58,8 +58,7 @@ bool swapchain::resize(uv2 new_size) {
         if (!result)
             return false;
     }
-
-    reload_request = false;
+    
     return true;
 }
 
@@ -217,6 +216,8 @@ bool swapchain::create_internal() {
 
     if (old_swapchain)
         device->vkDestroySwapchainKHR(old_swapchain);
+
+    reload_request = false;
 
     return true;
 }

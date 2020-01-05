@@ -153,7 +153,14 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
         .pImageIndices = indices.data(),
     };
 
-    if (!device->vkQueuePresentKHR(queue.vk_queue, &present_info))
+    auto result = device->vkQueuePresentKHR(queue.vk_queue, &present_info);
+    if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
+
+        target->request_reload();
+        return true;
+    }
+
+    if (!result)
         return false;
 
     current_sync = (current_sync + 1) % queued_frames;
