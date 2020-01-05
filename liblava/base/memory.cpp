@@ -31,19 +31,19 @@
 
 namespace lava {
 
-static void* custom_cpu_allocation(void* user_data, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
+static void* VKAPI_PTR custom_cpu_allocation(void* user_data, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
 
     assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
     return alloc_data(size, alignment);
 }
 
-static void* custom_cpu_reallocation(void* user_data, void* original, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
+static void* VKAPI_PTR custom_cpu_reallocation(void* user_data, void* original, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
 
     assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
     return realloc_data(original, size, alignment);
 }
 
-static void custom_cpu_free(void* user_Data, void* memory) {
+static void VKAPI_PTR custom_cpu_free(void* user_Data, void* memory) {
 
     assert(user_Data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
     free_data(memory);
