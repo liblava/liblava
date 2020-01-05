@@ -86,12 +86,12 @@ struct target_callback {
 
 // limits
 
-static constexpr ui32 const Vk_Limit_DescriptorSets		= 4;
-static constexpr ui32 const Vk_Limit_Bindings			= 16;
-static constexpr ui32 const Vk_Limit_Attachments		= 8;
-static constexpr ui32 const Vk_Limit_VertexAttribs		= 16;
-static constexpr ui32 const Vk_Limit_VertexBuffers		= 4;
-static constexpr ui32 const Vk_Limit_PushConstant_Size	= 128;
-static constexpr ui32 const Vk_Limit_UBO_Size			= 16 * 1024;
+static constexpr ui32 const Vk_Limit_DescriptorSets     = 4;
+static constexpr ui32 const Vk_Limit_Bindings           = 16;
+static constexpr ui32 const Vk_Limit_Attachments        = 8;
+static constexpr ui32 const Vk_Limit_VertexAttribs      = 16;
+static constexpr ui32 const Vk_Limit_VertexBuffers      = 4;
+static constexpr ui32 const Vk_Limit_PushConstant_Size  = 128;
+static constexpr ui32 const Vk_Limit_UBO_Size           = 16 * 1024;
 
 } // lava

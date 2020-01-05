@@ -15,7 +15,7 @@ app::app(frame_config config_)
 app::app(name config_app, argh::parser cmd_line)
     : frame(frame_config(config_app, cmd_line, true)), window(config_app) {}
 
-void to_json(json& j, const window::state& w) {
+void to_json(json& j, window::state const& w) {
 
     j = json{ { _x_, w.x }, { _y_, w.y }, { _width_, w.width }, { _height_, w.height }, 
               { _fullscreen_, w.fullscreen }, { _floating_, w.floating }, { _resizable_, w.resizable },

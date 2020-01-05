@@ -16,7 +16,7 @@ instance::~instance() {
     destroy();
 }
 
-bool instance::create(create_param& param, debug_config& debug_, name appName) {
+bool instance::create(create_param& param, debug_config& debug_, name app_name) {
 
     debug = debug_;
 
@@ -53,7 +53,7 @@ bool instance::create(create_param& param, debug_config& debug_, name appName) {
     VkApplicationInfo application_info
     {
         .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
-        .pApplicationName = appName ? appName : _lava_,
+        .pApplicationName = app_name ? app_name : _lava_,
         .applicationVersion = VK_MAKE_VERSION(0, 1, 0),
         .pEngineName = _lava_,
     };

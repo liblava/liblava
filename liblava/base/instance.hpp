@@ -34,7 +34,7 @@ struct instance : no_copy_no_move {
         return instance;
     }
 
-    bool create(create_param& param, debug_config& debug, name appName = nullptr);
+    bool create(create_param& param, debug_config& debug, name app_name = nullptr);
     void destroy();
 
     static VkLayerPropertiesList enumerate_layer_properties();

@@ -1,8 +1,8 @@
-<a href="https://lava-block.com"><img align="left" src="https://github.com/liblava.png" width="200"></a>
+﻿<a href="https://lava-block.com"><img align="left" src="https://github.com/liblava.png" width="200"></a>
 
 **liblava is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/">Vulkan® API</a>**
 
-**liblava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education**. [ <a href="https://git.io/liblava-demo">demo</a>  | <a href="https://git.io/liblava-template">template</a> | <a href="https://git.io/liblava-engine">engine</a> ]
+**lava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education**. [ <a href="https://git.io/liblava-demo">demo</a>  | <a href="https://git.io/liblava-template">template</a> | <a href="https://git.io/liblava-engine">engine</a> ]
 
 **C++20** • **Modular** • **Cross Platform** ( Windows | Linux | macOS<sup>*soon*</sup> )
 
