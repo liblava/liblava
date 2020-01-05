@@ -97,7 +97,7 @@ std::optional<index> renderer::begin_frame() {
 
     auto current_semaphore = image_acquired_semaphores[current_sync];
 
-    auto result = device->vkAcquireNextImageKHR(target->get(), UINT64_MAX, current_semaphore, nullptr, &frame_index);
+    auto result = device->vkAcquireNextImageKHR(target->get(), UINT64_MAX, current_semaphore, 0, &frame_index);
     if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
 
         target->request_reload();

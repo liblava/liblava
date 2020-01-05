@@ -50,7 +50,7 @@ struct render_pass : id_obj, target_callback {
 private:
     device_ptr device = nullptr;
 
-    VkRenderPass vk_render_pass = nullptr;
+    VkRenderPass vk_render_pass = 0;
     VkFramebuffers framebuffers = {};
 
     attachment::list attachments;

@@ -74,7 +74,7 @@ private:
     texture_type type = texture_type::none;
     layer::list layers;
 
-    VkSampler sampler = nullptr;
+    VkSampler sampler = 0;
     VkDescriptorImageInfo descriptor = {};
 
     buffer::ptr upload_buffer;

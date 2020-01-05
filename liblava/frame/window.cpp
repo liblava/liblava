@@ -283,9 +283,9 @@ void window::set_icon(data_ptr data, uv2 size) {
 
 VkSurfaceKHR lava::create_surface(GLFWwindow* window) {
 
-    VkSurfaceKHR surface = nullptr;
+    VkSurfaceKHR surface = 0;
     if (failed(glfwCreateWindowSurface(instance::get(), window, memory::alloc(), &surface)))
-        return nullptr;
+        return 0;
 
     return surface;
 }

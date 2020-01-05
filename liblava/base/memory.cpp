@@ -55,9 +55,9 @@ memory::memory() {
         return;
 
     vk_callbacks.pUserData = LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA;
-    vk_callbacks.pfnAllocation = &custom_cpu_allocation;
-    vk_callbacks.pfnReallocation = &custom_cpu_reallocation;
-    vk_callbacks.pfnFree = &custom_cpu_free;
+    vk_callbacks.pfnAllocation = reinterpret_cast<PFN_vkAllocationFunction>(&custom_cpu_allocation);
+    vk_callbacks.pfnReallocation = reinterpret_cast<PFN_vkReallocationFunction>(&custom_cpu_reallocation);
+    vk_callbacks.pfnFree = reinterpret_cast<PFN_vkFreeFunction>(&custom_cpu_free);
 }
 
 type memory::find_type_with_properties(VkPhysicalDeviceMemoryProperties properties, ui32 type_bits, VkMemoryPropertyFlags required_properties) {

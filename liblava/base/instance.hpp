@@ -64,7 +64,7 @@ private:
     physical_device::list physical_devices;
 
     debug_config debug;
-    VkDebugUtilsMessengerEXT debug_messanger = nullptr;
+    VkDebugUtilsMessengerEXT debug_messanger = 0;
 };
 
 } // lava

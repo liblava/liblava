@@ -8,11 +8,11 @@ namespace lava {
 
 bool pipeline_layout::create(device_ptr device_) {
 
-	device = device_;
+    device = device_;
 
-	VkDescriptorSetLayouts layouts;
-	for (auto& layout : descriptors)
-		layouts.push_back(layout->get());
+    VkDescriptorSetLayouts layouts;
+    for (auto& layout : descriptors)
+        layouts.push_back(layout->get());
 
     VkPipelineLayoutCreateInfo const pipelineLayoutInfo
     {
@@ -22,24 +22,24 @@ bool pipeline_layout::create(device_ptr device_) {
         .pushConstantRangeCount = to_ui32(push_constant_ranges.size()),
         .pPushConstantRanges = push_constant_ranges.data(),
     };
-	
-	return check(device->call().vkCreatePipelineLayout(device->get(), &pipelineLayoutInfo, memory::alloc(), &layout));
+    
+    return check(device->call().vkCreatePipelineLayout(device->get(), &pipelineLayoutInfo, memory::alloc(), &layout));
 }
 
 void pipeline_layout::destroy() {
 
-	if (!layout)
-		return;
+    if (!layout)
+        return;
 
-	device->call().vkDestroyPipelineLayout(device->get(), layout, memory::alloc());
-	layout = nullptr;
+    device->call().vkDestroyPipelineLayout(device->get(), layout, memory::alloc());
+    layout = 0;
 }
 
 void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets) {
 
-	std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
+    std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
 
-	vkCmdBindDescriptorSets(cmd_buf, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0, 
+    vkCmdBindDescriptorSets(cmd_buf, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0, 
                             to_ui32(descriptor_sets.size()), descriptor_sets.data(), to_ui32(offsets.size()), offsets.data());
 }
 
@@ -47,77 +47,77 @@ pipeline::pipeline(device_ptr device_, VkPipelineCache pipeline_cache) : device(
 
 pipeline::~pipeline() {
 
-	pipeline_cache = nullptr;
-	layout = nullptr;
+    pipeline_cache = 0;
+    layout = nullptr;
 }
 
 bool pipeline::create() { return create_internal(); }
 
 void pipeline::destroy() {
 
-	destroy_internal();
+    destroy_internal();
 
-	if (vk_pipeline) {
+    if (vk_pipeline) {
 
-		device->call().vkDestroyPipeline(device->get(), vk_pipeline, memory::alloc());
-		vk_pipeline = nullptr;
-	}
+        device->call().vkDestroyPipeline(device->get(), vk_pipeline, memory::alloc());
+        vk_pipeline = 0;
+    }
 
-	layout = nullptr;
+    layout = nullptr;
 }
 
 pipeline::shader_stage::shader_stage() {
 
-	create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
     create_info.pNext = nullptr;
     create_info.flags = 0;
     create_info.stage = VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
-    create_info.module = nullptr;
+    create_info.module = 0;
     create_info.pName = _main_;
     create_info.pSpecializationInfo = nullptr;
 }
 
 pipeline::shader_stage::~shader_stage() {
 
-	destroy();
+    destroy();
 }
 
 pipeline::shader_stage::ptr pipeline::shader_stage::create(VkShaderStageFlagBits stage) {
 
-	auto shaderStage = std::make_shared<shader_stage>();
+    auto shaderStage = std::make_shared<shader_stage>();
 
-	shaderStage->set_stage(stage);
-	return shaderStage;
+    shaderStage->set_stage(stage);
+    return shaderStage;
 }
 
 pipeline::shader_stage::ptr pipeline::shader_stage::create(device_ptr device, data const& data, VkShaderStageFlagBits stage) {
 
-	auto shaderStage = create(stage);
+    auto shaderStage = create(stage);
 
-	if (!shaderStage->create(device, data))
-		return nullptr;
+    if (!shaderStage->create(device, data))
+        return nullptr;
 
-	return shaderStage;
+    return shaderStage;
 }
 
 bool pipeline::shader_stage::create(device_ptr device_, data const& data) {
 
-	device = device_;
+    device = device_;
 
     create_info.module = create_shader_module(device, data);
 
-    return create_info.module != nullptr;
+    return create_info.module != 0;
 }
 
 void pipeline::shader_stage::destroy() {
 
-	if (!create_info.module)
-		return;
+    if (!create_info.module)
+        return;
 
-	device->call().vkDestroyShaderModule(device->get(), create_info.module, memory::alloc());
+    device->call().vkDestroyShaderModule(device->get(), create_info.module, memory::alloc());
 
-    create_info.module = nullptr;
-	device = nullptr;
+    create_info.module = 0;
+    device = nullptr;
 }
 
 graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipeline_cache) : pipeline(device_, pipeline_cache) {
@@ -130,13 +130,13 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     vertex_input_state.vertexAttributeDescriptionCount = 0;
     vertex_input_state.pVertexAttributeDescriptions = nullptr;
 
-	input_assembly_state.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+    input_assembly_state.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
     input_assembly_state.pNext = nullptr;
     input_assembly_state.flags = 0;
     input_assembly_state.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     input_assembly_state.primitiveRestartEnable = VK_FALSE;
 
-	viewport_state.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+    viewport_state.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
     viewport_state.pNext = nullptr;
     viewport_state.flags = 0;
     viewport_state.viewportCount = 1;
@@ -144,7 +144,7 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     viewport_state.scissorCount = 1;
     viewport_state.pScissors = nullptr;
 
-	multisample_state.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+    multisample_state.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
     multisample_state.pNext = nullptr;
     multisample_state.flags = 0;
     multisample_state.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
@@ -154,7 +154,7 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     multisample_state.alphaToCoverageEnable = VK_FALSE;
     multisample_state.alphaToOneEnable = VK_FALSE;
 
-	depth_stencil_state.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+    depth_stencil_state.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
     depth_stencil_state.pNext = nullptr;
     depth_stencil_state.flags = 0;
     depth_stencil_state.depthTestEnable = VK_FALSE;
@@ -167,7 +167,7 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     depth_stencil_state.minDepthBounds = 0.f;
     depth_stencil_state.maxDepthBounds = 0.f;
 
-	rasterization_state.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+    rasterization_state.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
     rasterization_state.pNext = nullptr;
     rasterization_state.flags = 0;
     rasterization_state.depthClampEnable = VK_FALSE;
@@ -181,7 +181,7 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     rasterization_state.depthBiasSlopeFactor = 0.f;
     rasterization_state.lineWidth = 1.f;
 
-	color_blend_state.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+    color_blend_state.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
     color_blend_state.pNext = nullptr;
     color_blend_state.flags = 0;
     color_blend_state.logicOpEnable = VK_FALSE;
@@ -193,71 +193,71 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     color_blend_state.blendConstants[2] = 0.f;
     color_blend_state.blendConstants[3] = 0.f;
 
-	dynamic_state.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+    dynamic_state.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
     dynamic_state.pNext = nullptr;
     dynamic_state.flags = 0;
     dynamic_state.dynamicStateCount = 0;
     dynamic_state.pDynamicStates = nullptr;
 
-	set_dynamic_states({ VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR });
+    set_dynamic_states({ VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR });
 }
 
 void graphics_pipeline::set_vertex_input_binding(VkVertexInputBindingDescription const& description) {
 
-	VkVertexInputBindingDescriptions descriptions;
-	descriptions.push_back(description);
+    VkVertexInputBindingDescriptions descriptions;
+    descriptions.push_back(description);
 
-	set_vertex_input_bindings(descriptions);
+    set_vertex_input_bindings(descriptions);
 }
 
 void graphics_pipeline::set_vertex_input_bindings(VkVertexInputBindingDescriptions const& descriptions) {
 
-	vertex_input_bindings = descriptions;
+    vertex_input_bindings = descriptions;
 
-	vertex_input_state.vertexBindingDescriptionCount = to_ui32(vertex_input_bindings.size());
-	vertex_input_state.pVertexBindingDescriptions = vertex_input_bindings.data();
+    vertex_input_state.vertexBindingDescriptionCount = to_ui32(vertex_input_bindings.size());
+    vertex_input_state.pVertexBindingDescriptions = vertex_input_bindings.data();
 }
 
 void graphics_pipeline::set_vertex_input_attribute(VkVertexInputAttributeDescription const& attribute) {
 
-	VkVertexInputAttributeDescriptions attributes;
-	attributes.push_back(attribute);
+    VkVertexInputAttributeDescriptions attributes;
+    attributes.push_back(attribute);
 
-	set_vertex_input_attributes(attributes);
+    set_vertex_input_attributes(attributes);
 }
 
 void graphics_pipeline::set_vertex_input_attributes(VkVertexInputAttributeDescriptions const& attributes) {
 
-	vertex_input_attributes = attributes;
+    vertex_input_attributes = attributes;
 
-	vertex_input_state.vertexAttributeDescriptionCount = to_ui32(vertex_input_attributes.size());
-	vertex_input_state.pVertexAttributeDescriptions = vertex_input_attributes.data();
+    vertex_input_state.vertexAttributeDescriptionCount = to_ui32(vertex_input_attributes.size());
+    vertex_input_state.pVertexAttributeDescriptions = vertex_input_attributes.data();
 }
 
 void graphics_pipeline::set_depth_test_and_write(bool test_enable, bool write_enable) {
 
-	depth_stencil_state.depthTestEnable = test_enable ? VK_TRUE : VK_FALSE;
-	depth_stencil_state.depthWriteEnable = write_enable ? VK_TRUE : VK_FALSE;
+    depth_stencil_state.depthTestEnable = test_enable ? VK_TRUE : VK_FALSE;
+    depth_stencil_state.depthWriteEnable = write_enable ? VK_TRUE : VK_FALSE;
 }
 
 void graphics_pipeline::set_depth_compare_op(VkCompareOp compare_op) {
 
-	depth_stencil_state.depthCompareOp = compare_op;
+    depth_stencil_state.depthCompareOp = compare_op;
 }
 
 void graphics_pipeline::set_rasterization_cull_mode(VkCullModeFlags cull_mode) {
 
-	rasterization_state.cullMode = cull_mode;
+    rasterization_state.cullMode = cull_mode;
 }
 
 void graphics_pipeline::set_rasterization_front_face(VkFrontFace front_face) {
 
-	rasterization_state.frontFace = front_face;
+    rasterization_state.frontFace = front_face;
 }
 
 void graphics_pipeline::set_rasterization_polygon_mode(VkPolygonMode polygon_mode) {
 
-	rasterization_state.polygonMode = polygon_mode;
+    rasterization_state.polygonMode = polygon_mode;
 }
 
 VkPipelineColorBlendAttachmentState graphics_pipeline::create_color_blend_attachment() {
@@ -277,43 +277,43 @@ VkPipelineColorBlendAttachmentState graphics_pipeline::create_color_blend_attach
 
 void graphics_pipeline::add_color_blend_attachment(VkPipelineColorBlendAttachmentState const& attachment) {
 
-	color_blend_attachment_states.push_back(attachment);
+    color_blend_attachment_states.push_back(attachment);
 
-	color_blend_state.attachmentCount = to_ui32(color_blend_attachment_states.size());
-	color_blend_state.pAttachments = color_blend_attachment_states.data();
+    color_blend_state.attachmentCount = to_ui32(color_blend_attachment_states.size());
+    color_blend_state.pAttachments = color_blend_attachment_states.data();
 }
 
 void graphics_pipeline::set_dynamic_states(VkDynamicStates const& states) {
 
-	dynamic_states = states;
+    dynamic_states = states;
 
-	dynamic_state.dynamicStateCount = to_ui32(dynamic_states.size());
-	dynamic_state.pDynamicStates = dynamic_states.data();
+    dynamic_state.dynamicStateCount = to_ui32(dynamic_states.size());
+    dynamic_state.pDynamicStates = dynamic_states.data();
 }
 
 void graphics_pipeline::add_dynamic_state(VkDynamicState state) {
 
     dynamic_states.push_back(state);
-	set_dynamic_states(dynamic_states);
+    set_dynamic_states(dynamic_states);
 }
 
 bool graphics_pipeline::add_shader_stage(data const& data, VkShaderStageFlagBits stage) {
 
-	if (!data.ptr) {
+    if (!data.ptr) {
 
-		log()->error("graphics_pipeline::add_shader_stage data ptr failed");
-		return false;
-	}
+        log()->error("graphics_pipeline::add_shader_stage data ptr failed");
+        return false;
+    }
 
-	auto shader_stage = pipeline::shader_stage::create(device, data, stage);
-	if (!shader_stage) {
+    auto shader_stage = pipeline::shader_stage::create(device, data, stage);
+    if (!shader_stage) {
 
-		log()->error("graphics_pipeline::add_shader_stage shader_stage::create failed");
-		return false;
-	}
+        log()->error("graphics_pipeline::add_shader_stage shader_stage::create failed");
+        return false;
+    }
 
-	add(shader_stage);
-	return true;
+    add(shader_stage);
+    return true;
 }
 
 bool graphics_pipeline::add_shader_stage(name filename, VkShaderStageFlagBits stage) {
@@ -323,31 +323,31 @@ bool graphics_pipeline::add_shader_stage(name filename, VkShaderStageFlagBits st
 
 void graphics_pipeline::copy_to(graphics_pipeline* target) const {
 
-	target->set_layout(layout);
+    target->set_layout(layout);
 
-	target->shader_stages = shader_stages;
-	target->vertex_input_state = vertex_input_state;
-	target->vertex_input_bindings = vertex_input_bindings;
-	target->vertex_input_attributes = vertex_input_attributes;
-	target->input_assembly_state = input_assembly_state;
-	target->viewport_state = viewport_state;
-	target->multisample_state = multisample_state;
-	target->depth_stencil_state = depth_stencil_state;
-	target->rasterization_state = rasterization_state;
-	target->color_blend_state = color_blend_state;
-	target->color_blend_attachment_states = color_blend_attachment_states;
-	target->dynamic_state = dynamic_state;
-	target->dynamic_states = dynamic_states;
+    target->shader_stages = shader_stages;
+    target->vertex_input_state = vertex_input_state;
+    target->vertex_input_bindings = vertex_input_bindings;
+    target->vertex_input_attributes = vertex_input_attributes;
+    target->input_assembly_state = input_assembly_state;
+    target->viewport_state = viewport_state;
+    target->multisample_state = multisample_state;
+    target->depth_stencil_state = depth_stencil_state;
+    target->rasterization_state = rasterization_state;
+    target->color_blend_state = color_blend_state;
+    target->color_blend_attachment_states = color_blend_attachment_states;
+    target->dynamic_state = dynamic_state;
+    target->dynamic_states = dynamic_states;
 }
 
 bool graphics_pipeline::create_internal() {
 
-	VkPipelineShaderStageCreateInfos stages;
+    VkPipelineShaderStageCreateInfos stages;
 
-	for (auto& shader_stage : shader_stages)
-		stages.push_back(shader_stage->get_create_info());
+    for (auto& shader_stage : shader_stages)
+        stages.push_back(shader_stage->get_create_info());
 
-	VkGraphicsPipelineCreateInfo const create_info
+    VkGraphicsPipelineCreateInfo const create_info
     {
         .sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
         .stageCount = to_ui32(stages.size()),
@@ -364,13 +364,13 @@ bool graphics_pipeline::create_internal() {
         .layout = layout->get(),
         .renderPass = render_pass,
         .subpass = 0,
-        .basePipelineHandle = nullptr,
+        .basePipelineHandle = 0,
         .basePipelineIndex = -1,
     };
 
-	std::array<VkGraphicsPipelineCreateInfo, 1> const create_infos = { create_info };
+    std::array<VkGraphicsPipelineCreateInfo, 1> const create_infos = { create_info };
 
-	return check(device->call().vkCreateGraphicsPipelines(device->get(), pipeline_cache, 
+    return check(device->call().vkCreateGraphicsPipelines(device->get(), pipeline_cache, 
                                                           to_ui32(create_infos.size()), create_infos.data(), 
                                                           memory::alloc(), &vk_pipeline));
 }
@@ -379,56 +379,56 @@ void graphics_pipeline::destroy_internal() { shader_stages.clear(); }
 
 void graphics_pipeline::bind(VkCommandBuffer cmd_buf) {
 
-	vkCmdBindPipeline(cmd_buf, VK_PIPELINE_BIND_POINT_GRAPHICS, vk_pipeline);
+    vkCmdBindPipeline(cmd_buf, VK_PIPELINE_BIND_POINT_GRAPHICS, vk_pipeline);
 }
 
 void graphics_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf, uv2 size) {
 
-	VkViewport viewportParam;
-	viewportParam.x = 0.f;
-	viewportParam.y = 0.f;
-	viewportParam.width = to_r32(size.x);
-	viewportParam.height = to_r32(size.y);
-	viewportParam.minDepth = 0.f;
-	viewportParam.maxDepth = 1.f;
+    VkViewport viewportParam;
+    viewportParam.x = 0.f;
+    viewportParam.y = 0.f;
+    viewportParam.width = to_r32(size.x);
+    viewportParam.height = to_r32(size.y);
+    viewportParam.minDepth = 0.f;
+    viewportParam.maxDepth = 1.f;
 
-	VkRect2D scissorParam;
-	scissorParam.offset = { 0, 0 };
-	scissorParam.extent = { size.x, size.y };
+    VkRect2D scissorParam;
+    scissorParam.offset = { 0, 0 };
+    scissorParam.extent = { size.x, size.y };
 
-	if (size_type == size_type::absolute) {
+    if (size_type == size_type::absolute) {
 
-		viewportParam = viewport;
-		scissorParam = scissor;
-	}
+        viewportParam = viewport;
+        scissorParam = scissor;
+    }
     else if (size_type == size_type::relative) {
 
-		viewportParam.x = viewport.x * size.x;
-		viewportParam.y = viewport.y * size.y;
-		viewportParam.width = viewport.width * size.x;
-		viewportParam.height = viewport.height * size.y;
+        viewportParam.x = viewport.x * size.x;
+        viewportParam.y = viewport.y * size.y;
+        viewportParam.width = viewport.width * size.x;
+        viewportParam.height = viewport.height * size.y;
 
-		scissorParam.offset.x = scissor.offset.x * size.x;
-		scissorParam.offset.y = scissor.offset.y * size.y;
-		scissorParam.extent.width = scissor.extent.width * size.x;
-		scissorParam.extent.height = scissor.extent.height * size.y;
-	}
+        scissorParam.offset.x = scissor.offset.x * size.x;
+        scissorParam.offset.y = scissor.offset.y * size.y;
+        scissorParam.extent.width = scissor.extent.width * size.x;
+        scissorParam.extent.height = scissor.extent.height * size.y;
+    }
     else {
 
-		viewport = viewportParam;
-		scissor = scissorParam;
-	}
+        viewport = viewportParam;
+        scissor = scissorParam;
+    }
 
-	std::array<VkViewport, 1> const viewports = { viewportParam };
-	vkCmdSetViewport(cmd_buf, 0, to_ui32(viewports.size()), viewports.data());
+    std::array<VkViewport, 1> const viewports = { viewportParam };
+    vkCmdSetViewport(cmd_buf, 0, to_ui32(viewports.size()), viewports.data());
 
-	std::array<VkRect2D, 1> const scissors = { scissorParam };
-	vkCmdSetScissor(cmd_buf, 0, to_ui32(scissors.size()), scissors.data());
+    std::array<VkRect2D, 1> const scissors = { scissorParam };
+    vkCmdSetScissor(cmd_buf, 0, to_ui32(scissors.size()), scissors.data());
 }
 
 void compute_pipeline::bind(VkCommandBuffer cmd_buf) {
 
-	vkCmdBindPipeline(cmd_buf, VK_PIPELINE_BIND_POINT_COMPUTE, vk_pipeline);
+    vkCmdBindPipeline(cmd_buf, VK_PIPELINE_BIND_POINT_COMPUTE, vk_pipeline);
 }
 
 bool compute_pipeline::set_shader_stage(data const& data, VkShaderStageFlagBits stage) {
@@ -439,15 +439,15 @@ bool compute_pipeline::set_shader_stage(data const& data, VkShaderStageFlagBits 
         return false;
     }
 
-	auto shader_stage = pipeline::shader_stage::create(device, data, stage);
-	if (!shader_stage) {
+    auto shader_stage = pipeline::shader_stage::create(device, data, stage);
+    if (!shader_stage) {
 
-		log()->error("compute_pipeline::set_shader_stage shader_stage::create failed");
-		return false;
-	}
+        log()->error("compute_pipeline::set_shader_stage shader_stage::create failed");
+        return false;
+    }
 
-	set(shader_stage);
-	return true;
+    set(shader_stage);
+    return true;
 }
 
 bool compute_pipeline::set_shader_stage(name filename, VkShaderStageFlagBits stage) {
@@ -462,13 +462,13 @@ bool compute_pipeline::create_internal() {
         .sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
         .stage = shader_stage->get_create_info(),
         .layout = layout->get(),
-        .basePipelineHandle = nullptr,
+        .basePipelineHandle = 0,
         .basePipelineIndex = -1,
     };
 
-	std::array<VkComputePipelineCreateInfo, 1> const create_infos = { create_info };
+    std::array<VkComputePipelineCreateInfo, 1> const create_infos = { create_info };
 
-	return check(device->call().vkCreateComputePipelines(device->get(), pipeline_cache, to_ui32(create_infos.size()), 
+    return check(device->call().vkCreateComputePipelines(device->get(), pipeline_cache, to_ui32(create_infos.size()), 
                                                          create_infos.data(), memory::alloc(), &vk_pipeline));
 }
 
@@ -476,9 +476,9 @@ void compute_pipeline::destroy_internal() { shader_stage = nullptr; }
 
 void compute_pipeline::copy_to(compute_pipeline* target) const {
 
-	target->set_layout(layout);
+    target->set_layout(layout);
 
-	target->shader_stage = shader_stage;
+    target->shader_stage = shader_stage;
 }
 
 } // lava

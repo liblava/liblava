@@ -42,7 +42,7 @@ struct render_target : id_obj {
     inline VkImage get_backbuffer_image(index index) {
 
         auto result = get_backbuffer(index);
-        return result ? result->get() : nullptr;
+        return result ? result->get() : 0;
     }
 
     inline VkImage get_image(index index) { return get_backbuffer_image(index); }

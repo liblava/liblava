@@ -68,7 +68,7 @@ bool mesh::create(device_ptr device_, bool mapped_, VmaMemoryUsage memory_usage_
         }
     }
 
-	return true;
+    return true;
 }
 
 void mesh::destroy() {

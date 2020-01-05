@@ -101,7 +101,7 @@ private:
     buffer::list index_buffers;
 
     descriptor::ptr descriptor_set_layout;
-    VkDescriptorSet descriptor_set = nullptr;
+    VkDescriptorSet descriptor_set = 0;
 
     GLFWwindow* window = nullptr;
 

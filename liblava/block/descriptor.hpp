@@ -67,7 +67,7 @@ struct descriptor : id_obj {
 private:
     device_ptr device = nullptr;
 
-    VkDescriptorSetLayout layout = nullptr;
+    VkDescriptorSetLayout layout = 0;
     binding::list bindings;
 };
 

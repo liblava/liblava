@@ -49,7 +49,7 @@ void descriptor::destroy() {
         return;
 
     device->call().vkDestroyDescriptorSetLayout(device->get(), layout, memory::alloc());
-    layout = nullptr;
+    layout = 0;
 
     // keep device for descriptors
 }
@@ -66,7 +66,7 @@ void descriptor::add_binding(index binding, VkDescriptorType descriptor_type, Vk
 
 VkDescriptorSet descriptor::allocate_set() {
 
-    VkDescriptorSet descriptor_set = nullptr;
+    VkDescriptorSet descriptor_set = 0;
 
     VkDescriptorSetAllocateInfo const alloc_info
     {
@@ -77,7 +77,7 @@ VkDescriptorSet descriptor::allocate_set() {
     };
 
     if (failed(device->call().vkAllocateDescriptorSets(device->get(), &alloc_info, &descriptor_set)))
-        return nullptr;
+        return 0;
 
     return descriptor_set;
 }

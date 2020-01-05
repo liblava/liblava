@@ -127,7 +127,7 @@ void texture::destroy() {
             if (auto device = tex->get_device())
                 device->vkDestroySampler(sampler);
 
-        sampler = nullptr;
+        sampler = 0;
     }
 
     if (tex) {

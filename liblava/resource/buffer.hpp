@@ -31,13 +31,13 @@ struct buffer : id_obj {
 
     device_ptr get_device() { return device; }
 
-    bool is_valid() const { return vk_buffer != nullptr; }
+    bool is_valid() const { return vk_buffer != 0; }
 
     VkBuffer get() const { return vk_buffer; }
     VkDescriptorBufferInfo const* get_descriptor() const { return &descriptor; }
     VkDescriptorBufferInfo const* get_info() const { return get_descriptor(); }
 
-    size_t get_size() const { return allocation_info.size; }
+    VkDeviceSize get_size() const { return allocation_info.size; }
     void* get_mapped_data() const { return allocation_info.pMappedData; }
     VkDeviceMemory get_device_memory() const { return allocation_info.deviceMemory; }
 
@@ -46,7 +46,7 @@ struct buffer : id_obj {
 private:
     device_ptr device = nullptr;
 
-    VkBuffer vk_buffer = nullptr;
+    VkBuffer vk_buffer = 0;
     VmaAllocation allocation = nullptr;
 
     VmaAllocationInfo allocation_info = {};

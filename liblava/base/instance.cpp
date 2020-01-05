@@ -176,7 +176,7 @@ void instance::destroy_validation_report() {
 
     vkDestroyDebugUtilsMessengerEXT(vk_instance, debug_messanger, memory::alloc());
 
-    debug_messanger = nullptr;
+    debug_messanger = 0;
 }
 
 void instance::print_info() const {

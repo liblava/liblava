@@ -43,7 +43,7 @@ struct pipeline_layout : id_obj {
 private:
     device_ptr device = nullptr;
 
-    VkPipelineLayout layout = nullptr;
+    VkPipelineLayout layout = 0;
 
     descriptor::list descriptors;
     VkPushConstantRanges push_constant_ranges;
@@ -59,7 +59,7 @@ struct pipeline : id_obj {
     using process_func = std::function<void(VkCommandBuffer)>;
     process_func on_process;
 
-    explicit pipeline(device_ptr device, VkPipelineCache pipeline_cache = nullptr);
+    explicit pipeline(device_ptr device, VkPipelineCache pipeline_cache = 0);
     ~pipeline() override;
 
     bool create();
@@ -75,7 +75,7 @@ struct pipeline : id_obj {
     void set_auto_bind(bool value = true) { auto_bind = value; }
     bool is_auto_bind() const { return auto_bind; }
 
-    bool ready() const { return vk_pipeline != nullptr; }
+    bool ready() const { return vk_pipeline != 0; }
 
     VkPipeline get() const { return vk_pipeline; }
     device_ptr get_device() { return device; }
@@ -112,9 +112,9 @@ protected:
     virtual void destroy_internal() = 0;
 
     device_ptr device = nullptr;
-    VkPipeline vk_pipeline = nullptr;
+    VkPipeline vk_pipeline = 0;
 
-    VkPipelineCache pipeline_cache = nullptr;
+    VkPipelineCache pipeline_cache = 0;
     pipeline_layout::ptr layout;
 
 private:
@@ -135,7 +135,7 @@ struct graphics_pipeline : pipeline {
         relative
     };
 
-    static ptr make(device_ptr device, VkPipelineCache pipeline_cache = nullptr) {
+    static ptr make(device_ptr device, VkPipelineCache pipeline_cache = 0) {
 
         return std::make_shared<graphics_pipeline>(device, pipeline_cache);
     }
@@ -214,7 +214,7 @@ private:
     bool create_internal() override;
     void destroy_internal() override;
 
-    VkRenderPass render_pass = nullptr;
+    VkRenderPass render_pass = 0;
 
     VkPipelineVertexInputStateCreateInfo vertex_input_state;
     VkVertexInputBindingDescriptions vertex_input_bindings;
@@ -252,7 +252,7 @@ struct compute_pipeline : pipeline {
 
     using pipeline::pipeline;
 
-    static ptr make(device_ptr device, VkPipelineCache pipeline_cache = nullptr) {
+    static ptr make(device_ptr device, VkPipelineCache pipeline_cache = 0) {
 
         return std::make_shared<compute_pipeline>(device, pipeline_cache);
     }

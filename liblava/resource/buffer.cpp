@@ -109,7 +109,7 @@ void buffer::destroy() {
         return;
 
     vmaDestroyBuffer(device->alloc(), vk_buffer, allocation);
-    vk_buffer = nullptr;
+    vk_buffer = 0;
     allocation = nullptr;
 
     device = nullptr;

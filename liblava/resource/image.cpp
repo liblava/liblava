@@ -92,7 +92,7 @@ void image::destroy(bool only_view) {
     if (view) {
 
         device->vkDestroyImageView(view);
-        view = nullptr;
+        view = 0;
     }
 
     if (only_view)
@@ -101,7 +101,7 @@ void image::destroy(bool only_view) {
     if (vk_image) {
 
         vmaDestroyImage(device->alloc(), vk_image, allocation);
-        vk_image = nullptr;
+        vk_image = 0;
         allocation = nullptr;
     }
 

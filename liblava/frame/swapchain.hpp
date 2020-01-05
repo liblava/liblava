@@ -57,10 +57,10 @@ private:
 
     device_ptr device = nullptr;
 
-    VkSurfaceKHR surface = nullptr;
+    VkSurfaceKHR surface = 0;
     VkSurfaceFormatKHR format = {};
 
-    VkSwapchainKHR vk_swapchain = nullptr;
+    VkSwapchainKHR vk_swapchain = 0;
 
     image::list backbuffers;
 

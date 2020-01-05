@@ -93,7 +93,7 @@ void device::destroy() {
     transfer_queue_list.clear();
 
     call().vkDestroyDescriptorPool(vk_device, descriptor_pool, memory::alloc());
-    descriptor_pool = nullptr;
+    descriptor_pool = 0;
 
     mem_allocator = nullptr;
 
@@ -206,7 +206,7 @@ VkShaderModule lava::create_shader_module(device_ptr device, data const& data) {
 
     VkShaderModule result;
     if (!device->vkCreateShaderModule(&shader_module_create_info, memory::alloc(), &result))
-        return nullptr;
+        return 0;
 
     return result;
 }

@@ -27,7 +27,7 @@ void swapchain::destroy() {
     destroy_internal();
 
     vkDestroySurfaceKHR(instance::get(), surface, memory::alloc());
-    surface = nullptr;
+    surface = 0;
 }
 
 bool swapchain::resize(uv2 new_size) {
@@ -227,7 +227,7 @@ void swapchain::destroy_internal() {
         return;
 
     device->vkDestroySwapchainKHR(vk_swapchain);
-    vk_swapchain = nullptr;
+    vk_swapchain = 0;
 }
 
 void swapchain::destroy_backbuffer_views() {

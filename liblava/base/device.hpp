@@ -107,7 +107,7 @@ private:
 
     physical_device_cptr physical_device = nullptr;
 
-    VkDescriptorPool descriptor_pool = nullptr;
+    VkDescriptorPool descriptor_pool = 0;
 
     device::queue::list graphics_queue_list;
     device::queue::list compute_queue_list;
