@@ -2,9 +2,9 @@
 
 **liblava is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/">Vulkan® API</a>**
 
-**lava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education**. [ <a href="https://git.io/liblava-demo">demo</a>  | <a href="https://git.io/liblava-template">template</a> | <a href="https://git.io/liblava-engine">engine</a> ]
+**lava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education**. <a href="https://git.io/liblava-demo">demo</a>  / <a href="https://git.io/liblava-template">template</a> / <a href="https://git.io/liblava-engine">engine</a>
 
-**C++20** • **Modular** • **Cross Platform** ( Windows | Linux | macOS<sup>*soon*</sup> )
+**C++20** • **Modular** • **Cross Platform** ( Windows / Linux / macOS<sup>*soon*</sup> )
 
 ![version](https://img.shields.io/badge/version-0.4.5-blue) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/thelavablock)
 
@@ -16,17 +16,19 @@
 * mesh and texture loading from virtual file system
 * camera, gui, logging, test driver and much more...
 
-[![core](https://img.shields.io/badge/lava-core-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core) [![util](https://img.shields.io/badge/lava-util-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util) [![base](https://img.shields.io/badge/lava-base-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base) [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](https://git.io/liblava-engine)
-
 ##### Download latest **<a href="https://github.com/liblava/liblava-demo/releases">2019 demo / v0.4.4</a>**  (Dec 6, 2019)
 
 <a href="https://github.com/liblava/liblava-demo/releases">![demo](res/demo.png)</a>
+
+#### modules
+
+[![core](https://img.shields.io/badge/lava-core-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core) [![util](https://img.shields.io/badge/lava-util-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util) [![base](https://img.shields.io/badge/lava-base-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base) [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](https://git.io/liblava-engine)
 
 ## hello frame
 
 Let's write **Hello World** in Vulkan:
 
-<a href="https://www.khronos.org/vulkan/"><img align="left" hspace="20" src="res/Vulkan_100px_Dec16.png"></a>
+<a href="https://www.khronos.org/vulkan/"><img align="right" hspace="20" src="res/Vulkan_100px_Dec16.png"></a>
 
 **"a simple program to render a colored window"**
 
