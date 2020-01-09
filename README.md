@@ -394,7 +394,7 @@ The **driver** starts per default the last test (*= without command line argumen
 ## requirements
 
 * **C++20** compatible compiler
-* CMake **3.12+**
+* CMake **3.15+**
 * [Vulkan SDK](https://vulkan.lunarg.com)
 
 ## build

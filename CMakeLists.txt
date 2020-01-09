@@ -2,7 +2,7 @@
 # copyright : Copyright (c) 2018-present, Lava Block OÜ
 # license   : MIT; see accompanying LICENSE file
 
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.15)
 
 project(liblava VERSION 0.4.5 LANGUAGES C CXX)
 
