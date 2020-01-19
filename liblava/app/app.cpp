@@ -180,9 +180,7 @@ bool app::setup() {
     if (!window.create(_main_, has_window_state ? &window_state : nullptr))
         return false;
 
-    scope_image icon("icon.png");
-    if (icon.ready)
-        window.set_icon(icon.data, icon.size);
+    set_window_icon();
 
     device = create_device();
     if (!device)
@@ -374,8 +372,13 @@ void app::handle_window() {
             destroy_target();
             destroy_gui();
 
-            if (window.has_switch_mode_request() && !window.switch_mode())
-                return false;
+            if (window.has_switch_mode_request()) {
+
+                if (!window.switch_mode())
+                    return false;
+
+                set_window_icon();
+            }
 
             if (toggle_vsync) {
 
@@ -476,6 +479,13 @@ void app::draw_about(bool separator) const {
         ImGui::SameLine();
         ImGui::TextUnformatted(_paused_);
     }
+}
+
+void app::set_window_icon() {
+
+    scope_image icon("icon.png");
+    if (icon.ready)
+        window.set_icon(icon.data, icon.size);
 }
 
 } // lava
