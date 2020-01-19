@@ -15,37 +15,37 @@ bool forward_shading::create(render_target::ptr target_) {
     if (!get_supported_depth_format(target->get_device()->get_vk_physical_device(), &depth_format))
         return false;
 
-    pass = render_pass::make(target->get_device());
+    pass = make_render_pass(target->get_device());
     {
-        auto color_attachment = attachment::make(target->get_format());
+        auto color_attachment = make_attachment(target->get_format());
         color_attachment->set_op(VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE);
         color_attachment->set_stencil_op(VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE);
         color_attachment->set_layouts(VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
         pass->add(color_attachment);
 
-        auto depth_attachment = attachment::make(depth_format);
+        auto depth_attachment = make_attachment(depth_format);
         depth_attachment->set_op(VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE);
         depth_attachment->set_stencil_op(VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE);
         depth_attachment->set_layouts(VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
         pass->add(depth_attachment);
 
-        auto subpass = subpass::make(VK_PIPELINE_BIND_POINT_GRAPHICS);
+        auto subpass = make_subpass(VK_PIPELINE_BIND_POINT_GRAPHICS);
         subpass->set_color_attachment(0, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
         subpass->set_depth_stencil_attachment(1, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
         pass->add(subpass);
 
-        auto first_subpass_dependency = subpass_dependency::make(VK_SUBPASS_EXTERNAL, 0);
+        auto first_subpass_dependency = make_subpass_dependency(VK_SUBPASS_EXTERNAL, 0);
         first_subpass_dependency->set_stage_mask(VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT);
         first_subpass_dependency->set_access_mask(VK_ACCESS_MEMORY_READ_BIT, VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT);
         pass->add(first_subpass_dependency);
 
-        auto second_subpass_dependency = subpass_dependency::make(0, VK_SUBPASS_EXTERNAL);
+        auto second_subpass_dependency = make_subpass_dependency(0, VK_SUBPASS_EXTERNAL);
         second_subpass_dependency->set_stage_mask(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT);
         second_subpass_dependency->set_access_mask(VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, VK_ACCESS_MEMORY_READ_BIT);
         pass->add(second_subpass_dependency);
     }
 
-    depth_stencil = image::make(depth_format);
+    depth_stencil = make_image(depth_format);
     if (!depth_stencil)
         return false;
 

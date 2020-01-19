@@ -13,12 +13,6 @@ struct attachment : id_obj {
     using ptr = std::shared_ptr<attachment>;
     using list = std::vector<ptr>;
 
-    static ptr make(VkFormat format = VK_FORMAT_UNDEFINED,
-                    VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
-
-        return std::make_shared<attachment>(format, samples);
-    }
-
     explicit attachment(VkFormat format = VK_FORMAT_UNDEFINED, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
 
         description.flags = 0;
@@ -67,5 +61,11 @@ struct attachment : id_obj {
 private:
     VkAttachmentDescription description;
 };
+
+inline attachment::ptr make_attachment(VkFormat format = VK_FORMAT_UNDEFINED,
+                                        VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
+
+    return std::make_shared<attachment>(format, samples);
+}
 
 } // lava

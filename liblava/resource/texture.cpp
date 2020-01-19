@@ -84,7 +84,7 @@ bool texture::create(device_ptr device, uv2 size, VkFormat format, layer::list c
         return false;
     }
 
-    tex = image::make(format);
+    tex = make_image(format);
 
     if (type == texture_type::cube_map)
         tex->set_flags(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
@@ -144,7 +144,7 @@ void texture::destroy_upload_buffer() {
 
 bool texture::upload(void const* data, size_t data_size) {
 
-    upload_buffer = buffer::make();
+    upload_buffer = make_buffer();
 
     return upload_buffer->create(tex->get_device(), data, data_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, false, VMA_MEMORY_USAGE_CPU_TO_GPU);
 }
@@ -346,7 +346,7 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
             return nullptr;
     }
 
-    auto texture = texture::make();
+    auto texture = make_texture();
 
     if (use_gli) {
 
@@ -488,7 +488,7 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
 
 lava::texture::ptr lava::create_default_texture(device_ptr device, uv2 size) {
 
-    auto result = texture::make();
+    auto result = make_texture();
 
     if (!result->create(device, size, VK_FORMAT_R8G8B8A8_UNORM))
         return nullptr;

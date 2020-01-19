@@ -198,7 +198,7 @@ bool swapchain::create_internal() {
 
     for (auto& image : images) {
 
-        auto backbuffer = image::make(format.format, image);
+        auto backbuffer = make_image(format.format, image);
         if (!backbuffer) {
 
             log()->error("swapchain::create_internal backbuffer make failed");

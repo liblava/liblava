@@ -46,7 +46,7 @@ struct gui : input_callback {
     bool create(graphics_pipeline::ptr pipeline, index max_frames);
     bool create(device_ptr device, index max_frames) {
         
-        return create(graphics_pipeline::make(device), max_frames);
+        return create(make_graphics_pipeline(device), max_frames);
     }
     bool create(device_ptr device, index max_frames, VkRenderPass pass) {
 

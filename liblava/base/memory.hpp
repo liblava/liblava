@@ -17,11 +17,6 @@ struct allocator {
 
     using ptr = std::shared_ptr<allocator>;
 
-    static ptr make(VkPhysicalDevice physical_device, VkDevice device) {
-
-        return std::make_shared<allocator>(physical_device, device);
-    }
-
     bool valid() const { return vma_allocator != nullptr; }
 
     VmaAllocator get() const { return vma_allocator; }
@@ -29,6 +24,11 @@ struct allocator {
 private:
     VmaAllocator vma_allocator = nullptr;
 };
+
+inline allocator::ptr make_allocator(VkPhysicalDevice physical_device, VkDevice device) {
+
+    return std::make_shared<allocator>(physical_device, device);
+}
 
 struct memory : no_copy_no_move {
 

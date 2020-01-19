@@ -13,7 +13,6 @@ struct subpass : id_obj {
     using ptr = std::shared_ptr<subpass>;
     using list = std::vector<ptr>;
 
-    static ptr make(VkPipelineBindPoint pipeline_bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS);
     void destroy();
 
     explicit subpass();
@@ -66,13 +65,12 @@ private:
     graphics_pipeline::list pipelines;
 };
 
+subpass::ptr make_subpass(VkPipelineBindPoint pipeline_bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS);
+
 struct subpass_dependency : id_obj {
 
     using ptr = std::shared_ptr<subpass_dependency>;
     using list = std::vector<ptr>;
-
-    static ptr make(ui32 src_subpass, ui32 dst_subpass,
-                    VkDependencyFlags dependency_flags = VK_DEPENDENCY_BY_REGION_BIT);
 
     explicit subpass_dependency();
 
@@ -110,5 +108,8 @@ struct subpass_dependency : id_obj {
 private:
     VkSubpassDependency dependency;
 };
+
+subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass, ui32 dst_subpass,
+                                    VkDependencyFlags dependency_flags = VK_DEPENDENCY_BY_REGION_BIT);
 
 } // lava

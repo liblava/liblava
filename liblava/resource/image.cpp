@@ -49,18 +49,6 @@ image::image(VkFormat format, VkImage vk_image) : vk_image(vk_image) {
     };
 }
 
-image::ptr image::make(VkFormat format, VkImage vk_image) { return std::make_shared<image>(format, vk_image);  }
-
-image::ptr image::make(VkFormat format, device_ptr device, uv2 size, VkImage vk_image) {
-
-    auto result = make(format, vk_image);
-
-    if (!result->create(device, size))
-        return nullptr;
-
-    return result;
-}
-
 bool image::create(device_ptr device_, uv2 size, VmaMemoryUsage memory_usage, bool mip_levels_generation) {
 
     device = device_;
@@ -106,6 +94,18 @@ void image::destroy(bool only_view) {
     }
 
     device = nullptr;
+}
+
+image::ptr make_image(VkFormat format, VkImage vk_image) { return std::make_shared<image>(format, vk_image); }
+
+image::ptr make_image(VkFormat format, device_ptr device, uv2 size, VkImage vk_image) {
+
+    auto result = make_image(format, vk_image);
+
+    if (!result->create(device, size))
+        return nullptr;
+
+    return result;
 }
 
 } // lava

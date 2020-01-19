@@ -240,7 +240,7 @@ bool app::create_gui() {
 
     forward_shading.get_render_pass()->add(gui.get_pipeline());
 
-    fonts = texture::make();
+    fonts = make_texture();
     if (!gui.upload_fonts(fonts))
         return false;
 

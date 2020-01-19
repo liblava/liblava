@@ -15,8 +15,6 @@ struct render_pass : id_obj, target_callback {
     using ptr = std::shared_ptr<render_pass>;
     using list = std::vector<ptr>;
 
-    static ptr make(device_ptr device) { return std::make_shared<render_pass>(device); }
-
     explicit render_pass(device_ptr device);
 
     bool create(VkAttachmentsRef target_attachments, rect area);
@@ -66,5 +64,7 @@ private:
     bool on_target_created(VkAttachmentsRef target_attachments, rect area);
     void on_target_destroyed();
 };
+
+inline render_pass::ptr make_render_pass(device_ptr device) { return std::make_shared<render_pass>(device); }
 
 } // lava

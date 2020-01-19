@@ -10,7 +10,7 @@ bool camera::create(device_ptr device) {
 
     update_projection();
 
-    data = buffer::make();
+    data = make_buffer();
 
     return data->create_mapped(device, &projection, size, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT);
 }

@@ -15,15 +15,6 @@ descriptor::binding::binding() {
     vk_binding.pImmutableSamplers = nullptr;
 }
 
-descriptor::binding::ptr descriptor::binding::make(index index) {
-
-    auto binding = std::make_shared<descriptor::binding>();
-
-    binding->set(index);
-    binding->set_count(1);
-    return binding;
-}
-
 bool descriptor::create(device_ptr device_) {
 
     device = device_;
@@ -56,7 +47,7 @@ void descriptor::destroy() {
 
 void descriptor::add_binding(index binding, VkDescriptorType descriptor_type, VkShaderStageFlags stage_flags) {
 
-    auto item = descriptor::binding::make(binding);
+    auto item = make_descriptor_binding(binding);
     
     item->set_type(descriptor_type);
     item->set_stage_flags(stage_flags);
@@ -112,6 +103,15 @@ bool descriptor::free_sets(VkDescriptorSets const& descriptor_sets) {
 
     return check(device->call().vkFreeDescriptorSets(device->get(), device->get_descriptor_pool(), 
                                                     to_ui32(descriptor_sets.size()), descriptor_sets.data()));
+}
+
+descriptor::binding::ptr make_descriptor_binding(index index) {
+
+    auto binding = std::make_shared<descriptor::binding>();
+
+    binding->set(index);
+    binding->set_count(1);
+    return binding;
 }
 
 } // lava

@@ -48,7 +48,7 @@ bool mesh::create(device_ptr device_, bool mapped_, VmaMemoryUsage memory_usage_
 
     if (!data.vertices.empty()) {
 
-        vertex_buffer = buffer::make();
+        vertex_buffer = make_buffer();
 
         if (!vertex_buffer->create(device, data.vertices.data(), sizeof(vertex) * data.vertices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, mapped, memory_usage)) {
 
@@ -59,7 +59,7 @@ bool mesh::create(device_ptr device_, bool mapped_, VmaMemoryUsage memory_usage_
 
     if (!data.indices.empty()) {
 
-        index_buffer = buffer::make();
+        index_buffer = make_buffer();
 
         if (!index_buffer->create(device, data.indices.data(), sizeof(ui32) * data.indices.size(), VK_BUFFER_USAGE_INDEX_BUFFER_BIT, mapped, memory_usage)) {
 
@@ -151,7 +151,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
 
         if (tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, str(target_file))) {
 
-            auto mesh = mesh::make();
+            auto mesh = make_mesh();
 
             for (auto const& shape : shapes) {
 
@@ -197,7 +197,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, mesh_type type) {
 
     case mesh_type::cube: {
 
-        auto cube = mesh::make();
+        auto cube = make_mesh();
         cube->get_vertices() = {
 
             // front
@@ -259,7 +259,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, mesh_type type) {
 
     case mesh_type::triangle: {
 
-        auto triangle = mesh::make();
+        auto triangle = make_mesh();
 
         triangle->get_vertices().push_back({ {  1.f,  1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f,  1.f }, { 0.f, 0.f, 1.f } });
         triangle->get_vertices().push_back({ { -1.f,  1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f,  1.f }, { 0.f, 0.f, 1.f } });
@@ -273,7 +273,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, mesh_type type) {
 
     case mesh_type::quad: {
 
-        auto quad = mesh::make();
+        auto quad = make_mesh();
 
         quad->get_vertices() = 
         {

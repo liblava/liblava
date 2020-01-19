@@ -48,8 +48,6 @@ struct texture : id_obj {
 
     ~texture() { destroy(); }
 
-    static ptr make() { return std::make_shared<texture>(); }
-
     bool create(device_ptr device, uv2 size, VkFormat format, 
                 layer::list const& layers = {}, texture_type type = texture_type::tex_2d);
     void destroy();
@@ -79,6 +77,8 @@ private:
 
     buffer::ptr upload_buffer;
 };
+
+inline texture::ptr make_texture() { return std::make_shared<texture>(); }
 
 texture::ptr load_texture(device_ptr device, file_format filename, texture_type type = texture_type::tex_2d);
 

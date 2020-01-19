@@ -49,8 +49,6 @@ struct mesh : id_obj {
     using map = std::map<id, ptr>;
     using list = std::vector<ptr>;
 
-    static ptr make() { return std::make_shared<mesh>(); }
-
     ~mesh() { destroy(); }
 
     bool create(device_ptr device, bool mapped = false, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
@@ -97,6 +95,8 @@ private:
     bool mapped = false;
     VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
 };
+
+inline mesh::ptr make_mesh() { return std::make_shared<mesh>(); }
 
 mesh::ptr load_mesh(device_ptr device, name filename);
 

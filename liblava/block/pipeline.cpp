@@ -82,24 +82,6 @@ pipeline::shader_stage::~shader_stage() {
     destroy();
 }
 
-pipeline::shader_stage::ptr pipeline::shader_stage::create(VkShaderStageFlagBits stage) {
-
-    auto shaderStage = std::make_shared<shader_stage>();
-
-    shaderStage->set_stage(stage);
-    return shaderStage;
-}
-
-pipeline::shader_stage::ptr pipeline::shader_stage::create(device_ptr device, data const& data, VkShaderStageFlagBits stage) {
-
-    auto shaderStage = create(stage);
-
-    if (!shaderStage->create(device, data))
-        return nullptr;
-
-    return shaderStage;
-}
-
 bool pipeline::shader_stage::create(device_ptr device_, data const& data) {
 
     device = device_;
@@ -118,6 +100,24 @@ void pipeline::shader_stage::destroy() {
 
     create_info.module = 0;
     device = nullptr;
+}
+
+pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits stage) {
+
+    auto shaderStage = std::make_shared<pipeline::shader_stage>();
+
+    shaderStage->set_stage(stage);
+    return shaderStage;
+}
+
+pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, data const& data, VkShaderStageFlagBits stage) {
+
+    auto shaderStage = make_pipeline_shader_stage(stage);
+
+    if (!shaderStage->create(device, data))
+        return nullptr;
+
+    return shaderStage;
 }
 
 graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipeline_cache) : pipeline(device_, pipeline_cache) {
@@ -305,7 +305,7 @@ bool graphics_pipeline::add_shader_stage(data const& data, VkShaderStageFlagBits
         return false;
     }
 
-    auto shader_stage = pipeline::shader_stage::create(device, data, stage);
+    auto shader_stage = create_pipeline_shader_stage(device, data, stage);
     if (!shader_stage) {
 
         log()->error("graphics_pipeline::add_shader_stage shader_stage::create failed");
@@ -439,7 +439,7 @@ bool compute_pipeline::set_shader_stage(data const& data, VkShaderStageFlagBits 
         return false;
     }
 
-    auto shader_stage = pipeline::shader_stage::create(device, data, stage);
+    auto shader_stage = create_pipeline_shader_stage(device, data, stage);
     if (!shader_stage) {
 
         log()->error("compute_pipeline::set_shader_stage shader_stage::create failed");

@@ -19,8 +19,6 @@ struct buffer : id_obj {
 
     ~buffer() { destroy(); }
 
-    static ptr make() { return std::make_shared<buffer>(); }
-
     bool create(device_ptr device, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped = false,
                                    VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY);
 
@@ -52,5 +50,7 @@ private:
     VmaAllocationInfo allocation_info = {};
     VkDescriptorBufferInfo descriptor = {};
 };
+
+inline buffer::ptr make_buffer() { return std::make_shared<buffer>(); }
 
 } // lava

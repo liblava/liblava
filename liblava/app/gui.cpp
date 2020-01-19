@@ -379,8 +379,8 @@ bool gui::create(graphics_pipeline::ptr pipeline_, index max_frames_) {
 
     for (auto i = 0u; i < max_frames; ++i) {
 
-        vertex_buffers.push_back(buffer::make());
-        index_buffers.push_back(buffer::make());
+        vertex_buffers.push_back(make_buffer());
+        index_buffers.push_back(make_buffer());
     }
 
     pipeline->set_vertex_input_binding({ 0, sizeof(ImDrawVert), VK_VERTEX_INPUT_RATE_VERTEX });
@@ -398,12 +398,12 @@ bool gui::create(graphics_pipeline::ptr pipeline_, index max_frames_) {
 
     pipeline->add_color_blend_attachment();
 
-    descriptor_set_layout = descriptor::make();
+    descriptor_set_layout = make_descriptor();
     descriptor_set_layout->add_binding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
     if (!descriptor_set_layout->create(device))
         return false;
 
-    pipeline_layout = pipeline_layout::make();
+    pipeline_layout = make_pipeline_layout();
     pipeline_layout->add(descriptor_set_layout);
     pipeline_layout->add({ VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(r32) * 4 });
 

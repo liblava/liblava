@@ -20,14 +20,6 @@ subpass::subpass() {
     description.pPreserveAttachments = nullptr;
 }
 
-subpass::ptr subpass::make(VkPipelineBindPoint pipeline_bind_point) {
-
-    auto result = std::make_shared<subpass>();
-
-    result->set(pipeline_bind_point);
-    return result;
-}
-
 void subpass::destroy() {
 
     clear_pipelines();
@@ -174,14 +166,12 @@ void subpass::process(VkCommandBuffer cmd_buf, uv2 size) {
     }
 }
 
-subpass_dependency::ptr subpass_dependency::make(ui32 src_subpass, ui32 dst_subpass, VkDependencyFlags dependency_flags) {
+subpass::ptr make_subpass(VkPipelineBindPoint pipeline_bind_point) {
 
-    auto dependency = std::make_shared<subpass_dependency>();
+    auto result = std::make_shared<subpass>();
 
-    dependency->set_subpass(src_subpass, dst_subpass);
-    dependency->set_dependency_flags(dependency_flags);
-
-    return dependency;
+    result->set(pipeline_bind_point);
+    return result;
 }
 
 subpass_dependency::subpass_dependency() {
@@ -193,6 +183,16 @@ subpass_dependency::subpass_dependency() {
     dependency.srcAccessMask = VK_ACCESS_FLAG_BITS_MAX_ENUM;
     dependency.dstAccessMask = VK_ACCESS_FLAG_BITS_MAX_ENUM;
     dependency.dependencyFlags = VK_DEPENDENCY_FLAG_BITS_MAX_ENUM;
+}
+
+subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass, ui32 dst_subpass, VkDependencyFlags dependency_flags) {
+
+    auto dependency = std::make_shared<subpass_dependency>();
+
+    dependency->set_subpass(src_subpass, dst_subpass);
+    dependency->set_dependency_flags(dependency_flags);
+
+    return dependency;
 }
 
 } // lava

@@ -15,8 +15,6 @@ struct pipeline_layout : id_obj {
     using ptr = std::shared_ptr<pipeline_layout>;
     using list = std::vector<ptr>;
 
-    static ptr make() { return std::make_shared<pipeline_layout>(); }
-
     void add(descriptor::ptr const& descriptor) { descriptors.push_back(descriptor); }
     void add(VkPushConstantRange const& range) { push_constant_ranges.push_back(range); }
     
@@ -48,6 +46,8 @@ private:
     descriptor::list descriptors;
     VkPushConstantRanges push_constant_ranges;
 };
+
+inline pipeline_layout::ptr make_pipeline_layout() { return std::make_shared<pipeline_layout>(); }
 
 constexpr name _main_ = "main";
 
@@ -91,9 +91,6 @@ struct pipeline : id_obj {
         explicit shader_stage();
         ~shader_stage();
 
-        static shader_stage::ptr create(VkShaderStageFlagBits stage);
-        static shader_stage::ptr create(device_ptr device, data const& data, VkShaderStageFlagBits stage);
-
         void set_stage(VkShaderStageFlagBits stage) { create_info.stage = stage; }
 
         bool create(device_ptr device, data const& data);
@@ -122,6 +119,9 @@ private:
     bool auto_bind = true;
 };
 
+pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits stage);
+pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, data const& data, VkShaderStageFlagBits stage);
+
 struct graphics_pipeline : pipeline {
 
     using ptr = std::shared_ptr<graphics_pipeline>;
@@ -134,11 +134,6 @@ struct graphics_pipeline : pipeline {
         absolute,
         relative
     };
-
-    static ptr make(device_ptr device, VkPipelineCache pipeline_cache = 0) {
-
-        return std::make_shared<graphics_pipeline>(device, pipeline_cache);
-    }
 
     explicit graphics_pipeline(device_ptr device, VkPipelineCache pipeline_cache);
 
@@ -244,6 +239,11 @@ private:
     r32 line_width = 1.f;
 };
 
+inline graphics_pipeline::ptr make_graphics_pipeline(device_ptr device, VkPipelineCache pipeline_cache = 0) {
+
+    return std::make_shared<graphics_pipeline>(device, pipeline_cache);
+}
+
 struct compute_pipeline : pipeline {
 
     using ptr = std::shared_ptr<compute_pipeline>;
@@ -251,11 +251,6 @@ struct compute_pipeline : pipeline {
     using list = std::vector<ptr>;
 
     using pipeline::pipeline;
-
-    static ptr make(device_ptr device, VkPipelineCache pipeline_cache = 0) {
-
-        return std::make_shared<compute_pipeline>(device, pipeline_cache);
-    }
 
     void bind(VkCommandBuffer cmdBuffer) override;
 
@@ -273,5 +268,10 @@ private:
 
     shader_stage::ptr shader_stage;
 };
+
+inline compute_pipeline::ptr make_compute_pipeline(device_ptr device, VkPipelineCache pipeline_cache = 0) {
+
+    return std::make_shared<compute_pipeline>(device, pipeline_cache);
+}
 
 } // lava

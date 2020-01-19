@@ -28,8 +28,6 @@ struct block : id_obj {
     using map = std::map<id, block>;
     using list = std::vector<block*>;
 
-    static ptr make() { return std::make_shared<block>(); }
-
     ~block() { destroy(); }
 
     bool create(device_ptr device, index frame_count, index queue_family);
@@ -73,5 +71,7 @@ private:
     command::map commands;
     command::list cmd_order;
 };
+
+inline block::ptr make_block() { return std::make_shared<block>(); }
 
 } // lava

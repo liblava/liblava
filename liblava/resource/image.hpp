@@ -17,9 +17,6 @@ struct image : id_obj {
     using map = std::map<id, ptr>;
     using list = std::vector<ptr>;
 
-    static ptr make(VkFormat format, VkImage vk_image = 0);
-    static ptr make(VkFormat format, device_ptr device, uv2 size, VkImage vk_image = 0);
-
     explicit image(VkFormat format, VkImage vk_image = 0);
 
     bool create(device_ptr device, uv2 size, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY, bool mip_levels_generation = false);
@@ -65,5 +62,8 @@ private:
     VkImageViewCreateInfo view_info;
     VkImageSubresourceRange subresource_range;
 };
+
+image::ptr make_image(VkFormat format, VkImage vk_image = 0);
+image::ptr make_image(VkFormat format, device_ptr device, uv2 size, VkImage vk_image = 0);
 
 } // lava

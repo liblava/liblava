@@ -160,7 +160,7 @@ device::ptr device_manager::create() {
     if (!device)
         return nullptr;
 
-    auto allocator = allocator::make(physical_device.get(), device->get());
+    auto allocator = make_allocator(physical_device.get(), device->get());
     if (!allocator)
         return nullptr;
 

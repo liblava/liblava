@@ -15,8 +15,6 @@ struct descriptor : id_obj {
         using ptr = std::shared_ptr<binding>;
         using list = std::vector<ptr>;
 
-        static ptr make(index index);
-
         explicit binding();
 
         VkDescriptorSetLayoutBinding get() const { return vk_binding; }
@@ -37,8 +35,6 @@ struct descriptor : id_obj {
 
     using ptr = std::shared_ptr<descriptor>;
     using list = std::vector<ptr>;
-
-    static ptr make() { return std::make_shared<descriptor>(); }
 
     void add_binding(index binding, VkDescriptorType descriptor_type, VkShaderStageFlags stage_flags);
 
@@ -70,5 +66,8 @@ private:
     VkDescriptorSetLayout layout = 0;
     binding::list bindings;
 };
+
+inline descriptor::ptr make_descriptor() { return std::make_shared<descriptor>(); }
+descriptor::binding::ptr make_descriptor_binding(index index);
 
 } // lava
