@@ -73,6 +73,9 @@ struct device_table : id_obj {
     vk_result vkWaitForFences(uint32_t fenceCount, const VkFence* pFences, VkBool32 waitAll, uint64_t timeout) {
 
         auto result = table.vkWaitForFences(vk_device, fenceCount, pFences, waitAll, timeout);
+        if ((result == VK_TIMEOUT) && (timeout != UINT64_MAX))
+            return { false, result };
+
         return { check(result), result };
     }
 
