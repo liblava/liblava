@@ -27,7 +27,7 @@ void hide_console(lava::name program) {
 
     for (auto i = 0u; i < dot_count; ++i) {
 
-        lava::sleep(lava::milliseconds(sleep_ms));
+        lava::sleep(lava::ms(sleep_ms));
         std::cout << ".";
     }
 
@@ -57,7 +57,7 @@ void log_command_line(argh::parser& cmd_line) {
     }
 }
 
-lava::milliseconds lava::now() { return to_ms(glfwGetTime()); }
+lava::ms lava::now() { return to_ms(glfwGetTime()); }
 
 namespace lava {
 
@@ -325,7 +325,7 @@ void lava::handle_events(bool wait) {
         glfwPollEvents();
 }
 
-void lava::handle_events(milliseconds timeout) {
+void lava::handle_events(ms timeout) {
 
     glfwWaitEventsTimeout(to_sec(timeout));
 }

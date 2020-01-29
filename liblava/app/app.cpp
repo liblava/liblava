@@ -121,7 +121,7 @@ void app::handle_config() {
             run_time.use_fix_delta = j[_fixed_delta_];
 
         if (j.count(_delta_))
-            run_time.fix_delta = milliseconds(j[_delta_]);
+            run_time.fix_delta = ms(j[_delta_]);
 
         if (j.count(_gui_))
             gui.set_active(j[_gui_]);
@@ -410,7 +410,7 @@ void app::handle_update() {
 
     add_run([&]() {
 
-        auto delta = milliseconds(0);
+        auto delta = ms(0);
         auto time = now();
 
         if (run_time.system != time) {
@@ -430,7 +430,7 @@ void app::handle_update() {
             run_time.current += delta;
         }
         else
-            delta = milliseconds(0);
+            delta = ms(0);
 
         return on_update ? on_update(to_dt(delta)) : true;
     });
@@ -442,7 +442,7 @@ void app::handle_render() {
 
         if (window.iconified()) {
 
-            sleep(milliseconds(1));
+            sleep(ms(1));
             return true;
         }
 

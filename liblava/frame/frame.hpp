@@ -37,7 +37,7 @@ enum error {
     running         = -4,
 };
 
-milliseconds now();
+ms now();
 
 struct frame : no_copy_no_move, interface {
 
@@ -74,7 +74,7 @@ struct frame : no_copy_no_move, interface {
 
     bool remove(id::ref id);
 
-    milliseconds get_running_time() const { return now() - start_time; }
+    ms get_running_time() const { return now() - start_time; }
 
     argh::parser const& get_cmd_line() const { return config.cmd_line; }
     frame_config get_config() const { return config; }
@@ -106,7 +106,7 @@ private:
 
     bool running = false;
     bool wait_for_events = false;
-    milliseconds start_time;
+    ms start_time;
 
     using run_func_map = std::map<id, run_func>;
     run_func_map run_map;
@@ -120,7 +120,7 @@ private:
 
 void handle_events(bool wait = false);
 
-void handle_events(milliseconds timeout);
+void handle_events(ms timeout);
 void handle_events(seconds timeout);
 
 void post_empty_event();

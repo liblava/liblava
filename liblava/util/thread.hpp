@@ -14,7 +14,7 @@
 
 namespace lava {
 
-inline void sleep(milliseconds time) {
+inline void sleep(ms time) {
 
     std::this_thread::sleep_for(time);
 }

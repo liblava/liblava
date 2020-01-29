@@ -12,13 +12,15 @@
 
 namespace lava {
 
-constexpr milliseconds const telegram_min_delay{ 250 };
+constexpr ms const telegram_min_delay{ 250 };
+
+using any = std::any;
 
 struct telegram {
 
     using ref = telegram const&;
 
-    explicit telegram(id::ref sender, id::ref receiver, type msg, milliseconds dispatch_time = {}, std::any info = {})
+    explicit telegram(id::ref sender, id::ref receiver, type msg, ms dispatch_time = {}, any info = {})
                         : sender(sender), receiver(receiver), msg(msg), dispatch_time(dispatch_time), info(std::move(info)) {}
 
     bool operator==(ref rhs) const {
@@ -40,8 +42,8 @@ struct telegram {
 
     type msg = no_type;
 
-    milliseconds dispatch_time;
-    std::any info;
+    ms dispatch_time;
+    any info;
 };
 
 struct dispatcher {
@@ -50,17 +52,17 @@ struct dispatcher {
 
     void teardown() { pool.teardown(); }
 
-    void update(milliseconds current) {
+    void update(ms current) {
 
         current_time = current;
         dispatch_delayed_messages(current_time);
     }
 
-    void add_message(id::ref receiver, id::ref sender, type message, milliseconds delay = {}, std::any const& info = {}) {
+    void add_message(id::ref receiver, id::ref sender, type message, ms delay = {}, any const& info = {}) {
 
         telegram msg(sender, receiver, message, current_time, info);
 
-        if (delay == milliseconds{}) {
+        if (delay == ms{}) {
 
             discharge(msg); // now
             return;
@@ -82,16 +84,16 @@ private:
         });
     }
 
-    void dispatch_delayed_messages(milliseconds time) {
+    void dispatch_delayed_messages(ms time) {
 
-        while (!messages.empty() && (messages.begin()->dispatch_time < time) && (messages.begin()->dispatch_time > milliseconds{})) {
+        while (!messages.empty() && (messages.begin()->dispatch_time < time) && (messages.begin()->dispatch_time > ms{})) {
 
             discharge(*messages.begin());
             messages.erase(messages.begin());
         }
     }
 
-    milliseconds current_time;
+    ms current_time;
 
     thread_pool pool;
     std::set<telegram> messages;

@@ -14,6 +14,7 @@ namespace lava {
 
 using seconds = std::chrono::seconds;
 using milliseconds = std::chrono::milliseconds;
+using ms = milliseconds;
 
 using clock = std::chrono::high_resolution_clock;
 using time_point = clock::time_point;
@@ -21,8 +22,8 @@ using duration = clock::duration;
 
 inline delta to_dt(milliseconds ms) { return ms.count() / 1000.f; }
 inline r64 to_sec(milliseconds ms) { return ms.count() / 1000.; }
-inline milliseconds to_ms(delta dt) { return milliseconds(to_i32(dt * 1000.f)); }
-inline milliseconds to_ms(r64 sec) { return milliseconds(to_i32(sec * 1000.)); }
+inline ms to_ms(delta dt) { return ms(to_i32(dt * 1000.f)); }
+inline ms to_ms(r64 sec) { return ms(to_i32(sec * 1000.)); }
 
 struct timer {
 
@@ -30,9 +31,9 @@ struct timer {
 
     void reset() { start_time = clock::now(); }
 
-    milliseconds elapsed() const {
+    ms elapsed() const {
 
-        return std::chrono::duration_cast<std::chrono::milliseconds>(clock::now() - start_time);
+        return std::chrono::duration_cast<ms>(clock::now() - start_time);
     }
 
 private:
@@ -41,14 +42,14 @@ private:
 
 struct run_time {
 
-    milliseconds current{ 0 };
-    milliseconds clock{ 16 };
+    ms current{ 0 };
+    ms clock{ 16 };
 
-    milliseconds system{ 0 };
-    milliseconds delta{ 0 };
+    ms system{ 0 };
+    ms delta{ 0 };
 
     bool use_fix_delta = false;
-    milliseconds fix_delta{ 20 };
+    ms fix_delta{ 20 };
 
     r32 speed = 1.f;
     bool paused = false;
@@ -60,7 +61,7 @@ struct run_time {
 template <typename CLOCK_TYPE = std::chrono::system_clock>
 inline string time_stamp(const typename CLOCK_TYPE::time_point& time_point, string_ref format = "%Y-%m-%d %H-%M-%S") {
 
-    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(time_point.time_since_epoch()) % 1000;
+    auto ms = std::chrono::duration_cast<milliseconds>(time_point.time_since_epoch()) % 1000;
 
     const std::time_t t = CLOCK_TYPE::to_time_t(time_point);
     const std::tm tm = *std::localtime(std::addressof(t));
