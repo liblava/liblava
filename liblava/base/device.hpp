@@ -12,7 +12,7 @@ namespace lava {
 struct physical_device;
 using physical_device_cptr = physical_device const*;
 
-struct device : device_table, no_copy_no_move {
+struct device : device_table {
 
     using ptr = std::shared_ptr<device>;
     using list = std::vector<device::ptr>;

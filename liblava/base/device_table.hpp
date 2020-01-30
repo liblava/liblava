@@ -8,7 +8,7 @@
 
 namespace lava {
 
-struct device_table : id_obj {
+struct device_table : id_obj, no_copy_no_move {
 
     void load_table() {
 

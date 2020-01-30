@@ -39,7 +39,7 @@ enum error {
 
 ms now();
 
-struct frame : no_copy_no_move, interface {
+struct frame : interface, no_copy_no_move {
 
     using ptr = std::shared_ptr<frame>;
 
