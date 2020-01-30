@@ -106,24 +106,21 @@ void camera::update_view(delta dt, mouse_position mouse_pos) {
 
 void camera::update_view(delta dt, gamepad const& pad) {
 
-    if (type != camera_type::first_person)
-        return;
-
     const r32 dead_zone = 0.2f;
     const r32 range = 1.f - dead_zone;
 
-    v3 front;
-    front.x = -cos(glm::radians(rotation.x)) * sin(glm::radians(rotation.y));
-    front.y = sin(glm::radians(rotation.x));
-    front.z = cos(glm::radians(rotation.x)) * cos(glm::radians(rotation.y));
-    front = glm::normalize(front);
+    if (type == camera_type::first_person) {
 
-    auto movement_factor = dt * movement_speed * 2.f;
-    auto rotation_factor = dt * rotation_speed * 2.5f;
+        v3 front;
+        front.x = -cos(glm::radians(rotation.x)) * sin(glm::radians(rotation.y));
+        front.y = sin(glm::radians(rotation.x));
+        front.z = cos(glm::radians(rotation.x)) * cos(glm::radians(rotation.y));
+        front = glm::normalize(front);
 
-    // move
+        // move
 
-    {
+        auto movement_factor = dt * movement_speed * 2.f;
+
         auto axis_left_y = pad.value(gamepad_axis::left_y);
         if (fabsf(axis_left_y) > dead_zone) {
 
@@ -133,9 +130,7 @@ void camera::update_view(delta dt, gamepad const& pad) {
             else
                 position -= front * pos * ((axis_left_y < 0.f) ? 1.f : -1.f) * movement_factor;
         }
-    }
 
-    {
         auto axis_left_x = pad.value(gamepad_axis::left_x);
         if (fabsf(axis_left_x) > dead_zone) {
 
@@ -149,22 +144,20 @@ void camera::update_view(delta dt, gamepad const& pad) {
     if (lock_rotation)
         return;
 
-    {
-        auto axis_right_x = pad.value(gamepad_axis::right_x);
-        if (fabsf(axis_right_x) > dead_zone) {
+    auto rotation_factor = dt * rotation_speed * 2.5f;
 
-            auto pos = (fabsf(axis_right_x) - dead_zone) / range;
-            rotation.y += pos * ((axis_right_x < 0.f) ? -1.f : 1.f) * rotation_factor;
-        }
+    auto axis_right_x = pad.value(gamepad_axis::right_x);
+    if (fabsf(axis_right_x) > dead_zone) {
+
+        auto pos = (fabsf(axis_right_x) - dead_zone) / range;
+        rotation.y += pos * ((axis_right_x < 0.f) ? -1.f : 1.f) * rotation_factor;
     }
 
-    {
-        auto axis_right_y = pad.value(gamepad_axis::right_y);
-        if (fabsf(axis_right_y) > dead_zone) {
+    auto axis_right_y = pad.value(gamepad_axis::right_y);
+    if (fabsf(axis_right_y) > dead_zone) {
 
-            auto pos = (fabsf(axis_right_y) - dead_zone) / range;
-            rotation.x -= pos * ((axis_right_y < 0.f) ? -1.f : 1.f) * rotation_factor;
-        }
+        auto pos = (fabsf(axis_right_y) - dead_zone) / range;
+        rotation.x -= pos * ((axis_right_y < 0.f) ? -1.f : 1.f) * rotation_factor;
     }
 }
 
