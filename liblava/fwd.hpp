@@ -6,37 +6,15 @@
 
 namespace lava {
 
-    // liblava/core.h
-    struct data_provider;
-    struct data;
-    struct scope_data;
-    struct id;
-    struct ids;
-    struct rect;
-    struct time_info;
-    struct timer;
-    struct run_time;
-    struct internal_version;
-    struct version;
+    // liblava/app.hpp
+    struct app;
+    struct camera;
+    struct forward_shading;
+    struct gui;
 
-    // liblava/utils.h
-    struct file_guard;
-    struct file_system;
-    struct file;
-    struct file_data;
-    struct file_dialog;
-    struct log_config;
-    struct config_file_callback;
-    struct config_file;
-    struct irandom;
-    struct random_generator;
-    struct random;
-    struct pseudo_random_generator;
-    struct telegram;
-    struct dispatcher;
-    struct thread_pool;
-
-    // liblava/base.h
+    // liblava/base.hpp
+    struct target_callback;
+    struct vk_result;
     struct device_table;
     struct device_manager;
     struct device;
@@ -45,35 +23,78 @@ namespace lava {
     struct memory;
     struct physical_device;
 
-    // liblava/block.h
+    // liblava/block.hpp
+    struct attachment;
     struct command;
     struct block;
+    struct descriptor;
+    struct pipeline_layout;
+    struct pipeline;
+    struct graphics_pipeline;
+    struct compute_pipeline;
+    struct render_pass;
+    struct subpass;
+    struct subpass_dependency;
 
-    // liblava/resource.h
-    struct buffer;
-    struct image;
-    struct vertex;
-    struct mesh_data;
-    struct mesh;
-    struct texture_file_format;
-    struct texture;
+    // liblava/core.hpp
+    struct data_provider;
+    struct data;
+    struct scope_data;
+    struct id;
+    struct ids;
+    struct id_obj;
+    struct rect;
+    struct timer;
+    struct run_time;
+    struct no_copy_no_move;
+    struct interface;
+    struct internal_version;
+    struct version;
 
-    // liblava/frame.h
+    // liblava/frame.hpp
     struct frame_config;
     struct frame;
     struct key_event;
     struct scroll_offset;
     struct scroll_event;
-    struct mouse_button_event;
     struct mouse_position;
     struct mouse_move_event;
+    struct mouse_button_event;
     struct mouse_active_event;
     struct input_callback;
     struct input;
+    struct gamepad;
+    struct gamepad_manager;
     struct render_target;
     struct render_thread;
     struct renderer;
     struct swapchain;
     struct window;
+
+    // liblava/resource.hpp
+    struct buffer;
+    struct image;
+    struct vertex;
+    struct mesh_data;
+    struct mesh;
+    struct mesh_meta;
+    struct file_format;
+    struct texture;
+    struct staging;
+    struct scope_image;
+
+    // liblava/util.hpp
+    struct file_guard;
+    struct file_system;
+    struct file;
+    struct file_data;
+    struct file_callback;
+    struct json_file;
+    struct log_config;
+    struct random_generator;
+    struct pseudo_random_generator;
+    struct telegram;
+    struct dispatcher;
+    struct thread_pool;
 
 } // lava
