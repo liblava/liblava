@@ -44,8 +44,8 @@ struct app : frame {
     lava::block block;
 
     renderer plotter;
-    lava::forward_shading forward_shading;
-    lava::render_target::ptr render_target;
+    forward_shading shading;
+    render_target::ptr target;
 
     lava::run_time run_time;
 
@@ -71,8 +71,9 @@ private:
 
     void handle_input();
     void handle_window();
-    void handle_update();
-    void handle_render();
+
+    void update();
+    void render();
 
     bool create_gui();
     void destroy_gui();

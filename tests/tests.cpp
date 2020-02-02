@@ -347,11 +347,11 @@ LAVA_TEST(6, "forward shading")
     if (!render_target)
         return error::create_failed;
 
-    forward_shading forward_shading;
-    if (!forward_shading.create(render_target))
+    forward_shading shading;
+    if (!shading.create(render_target))
         return error::create_failed;
 
-    auto render_pass = forward_shading.get_render_pass();
+    auto render_pass = shading.get_pass();
 
     block block;
     if (!block.create(device, render_target->get_frame_count(), device->graphics_queue().family))
@@ -401,7 +401,7 @@ LAVA_TEST(6, "forward shading")
     frame.add_run_end([&]() {
 
         block.destroy();
-        forward_shading.destroy();
+        shading.destroy();
         
         plotter.destroy();
         render_target->destroy();

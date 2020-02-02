@@ -148,7 +148,7 @@ void app::handle_config() {
 
 bool app::create_block() {
 
-    if (!block.create(device, render_target->get_frame_count(), device->graphics_queue().family))
+    if (!block.create(device, target->get_frame_count(), device->graphics_queue().family))
         return false;
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
@@ -157,7 +157,7 @@ bool app::create_block() {
 
         staging.stage(cmd_buf, current_frame);
 
-        forward_shading.get_render_pass()->process(cmd_buf, current_frame);
+        shading.get_pass()->process(cmd_buf, current_frame);
     });
 
     return true;
@@ -200,8 +200,9 @@ bool app::setup() {
 
     handle_input();
     handle_window();
-    handle_update();
-    handle_render();
+    
+    update();
+    render();
 
     add_run_end([&]() {
 
@@ -235,10 +236,10 @@ bool app::setup() {
 bool app::create_gui() {
 
     gui.setup(window.get(), gui_config);
-    if (!gui.create(device, render_target->get_frame_count(), forward_shading.get_render_pass()->get()))
+    if (!gui.create(device, target->get_frame_count(), shading.get_vk_pass()))
         return false;
 
-    forward_shading.get_render_pass()->add(gui.get_pipeline());
+    shading.get_pass()->add(gui.get_pipeline());
 
     fonts = make_texture();
     if (!gui.upload_fonts(fonts))
@@ -257,14 +258,14 @@ void app::destroy_gui() {
 
 bool app::create_target() {
 
-    render_target = lava::create_target(&window, device, config.vsync);
-    if (!render_target)
+    target = lava::create_target(&window, device, config.vsync);
+    if (!target)
         return false;
 
-    if (!forward_shading.create(render_target))
+    if (!shading.create(target))
         return false;
 
-    if (!plotter.create(render_target->get_swapchain()))
+    if (!plotter.create(target->get_swapchain()))
         return false;
 
     window.assign(&input);
@@ -279,8 +280,8 @@ void app::destroy_target() {
 
     plotter.destroy();
 
-    forward_shading.destroy();
-    render_target->destroy();
+    shading.destroy();
+    target->destroy();
 }
 
 void app::handle_input() {
@@ -365,7 +366,7 @@ void app::handle_window() {
         if (window.has_close_request())
             return shut_down();
 
-        if (window.has_switch_mode_request() || toggle_vsync || render_target->must_reload()) {
+        if (window.has_switch_mode_request() || toggle_vsync || target->must_reload()) {
 
             device->wait_for_idle();
 
@@ -404,7 +405,7 @@ void app::handle_window() {
     });
 }
 
-void app::handle_update() {
+void app::update() {
 
     run_time.system = now();
 
@@ -436,7 +437,7 @@ void app::handle_update() {
     });
 }
 
-void app::handle_render() {
+void app::render() {
 
     add_run([&]() {
 

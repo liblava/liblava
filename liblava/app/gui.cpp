@@ -398,22 +398,22 @@ bool gui::create(graphics_pipeline::ptr pipeline_, index max_frames_) {
 
     pipeline->add_color_blend_attachment();
 
-    descriptor_set_layout = make_descriptor();
-    descriptor_set_layout->add_binding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
-    if (!descriptor_set_layout->create(device))
+    descriptor = make_descriptor();
+    descriptor->add_binding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
+    if (!descriptor->create(device))
         return false;
 
-    pipeline_layout = make_pipeline_layout();
-    pipeline_layout->add(descriptor_set_layout);
-    pipeline_layout->add({ VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(r32) * 4 });
+    layout = make_pipeline_layout();
+    layout->add(descriptor);
+    layout->add({ VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(r32) * 4 });
 
-    if (!pipeline_layout->create(device))
+    if (!layout->create(device))
         return false;
 
-    pipeline->set_layout(pipeline_layout);
+    pipeline->set_layout(layout);
     pipeline->set_auto_size(false);
 
-    descriptor_set = descriptor_set_layout->allocate();
+    descriptor_set = descriptor->allocate();
 
     pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
         
@@ -460,14 +460,14 @@ void gui::invalidate_device_objects() {
     vertex_buffers.clear();
     index_buffers.clear();
 
-    descriptor_set_layout->free(descriptor_set);
-    descriptor_set_layout->destroy();
-    descriptor_set_layout = nullptr;
+    descriptor->free(descriptor_set);
+    descriptor->destroy();
+    descriptor = nullptr;
 
     pipeline = nullptr;
 
-    pipeline_layout->destroy();
-    pipeline_layout = nullptr;
+    layout->destroy();
+    layout = nullptr;
 }
 
 void gui::render(VkCommandBuffer cmd_buf) {
@@ -542,7 +542,7 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
     std::array<VkMappedMemoryRange, 2> const ranges = { vertex_range, index_range };
     check(device->call().vkFlushMappedMemoryRanges(device->get(), to_ui32(ranges.size()), ranges.data()));
 
-    pipeline_layout->bind(cmd_buf, descriptor_set);
+    layout->bind(cmd_buf, descriptor_set);
 
     std::array<VkDeviceSize, 1> const vertex_offset = { 0 };
     std::array<VkBuffer, 1> const buffers = { vertex_buffers[frame]->get() };
@@ -564,12 +564,12 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
     float scale[2];
     scale[0] = 2.f / io.DisplaySize.x;
     scale[1] = 2.f / io.DisplaySize.y;
-    device->call().vkCmdPushConstants(cmd_buf, pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 0, sizeof(float) * 2, scale);
+    device->call().vkCmdPushConstants(cmd_buf, layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 0, sizeof(float) * 2, scale);
     
     float translate[2];
     translate[0] = -1.f;
     translate[1] = -1.f;
-    device->call().vkCmdPushConstants(cmd_buf, pipeline_layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 2, sizeof(float) * 2, translate);
+    device->call().vkCmdPushConstants(cmd_buf, layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 2, sizeof(float) * 2, translate);
 
     auto vtx_offset = 0u;
     auto idx_offset = 0u;

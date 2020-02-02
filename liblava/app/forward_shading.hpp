@@ -17,7 +17,9 @@ struct forward_shading : id_obj {
     bool create(render_target::ptr target);
     void destroy();
 
-    render_pass::ptr get_render_pass() const { return pass; }
+    render_pass::ptr get_pass() const { return pass; }
+    VkRenderPass get_vk_pass() const { return pass->get(); }
+
     image::ptr get_depth_stencil() const { return depth_stencil; }
 
 private:

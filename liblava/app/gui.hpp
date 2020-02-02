@@ -91,7 +91,7 @@ private:
     bool initialized = false;
 
     graphics_pipeline::ptr pipeline;
-    lava::pipeline_layout::ptr pipeline_layout;
+    pipeline_layout::ptr layout;
 
     size_t buffer_memory_alignment = 256;
     index frame = 0;
@@ -100,7 +100,7 @@ private:
     buffer::list vertex_buffers;
     buffer::list index_buffers;
 
-    descriptor::ptr descriptor_set_layout;
+    lava::descriptor::ptr descriptor;
     VkDescriptorSet descriptor_set = 0;
 
     GLFWwindow* window = nullptr;
