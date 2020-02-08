@@ -84,10 +84,10 @@ bool texture::create(device_ptr device, uv2 size, VkFormat format, layer::list c
         return false;
     }
 
-    tex = make_image(format);
+    img = make_image(format);
 
     if (type == texture_type::cube_map)
-        tex->set_flags(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
+        img->set_flags(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
 
     auto view_type = VK_IMAGE_VIEW_TYPE_2D;
     if (type == texture_type::array) {
@@ -99,19 +99,18 @@ bool texture::create(device_ptr device, uv2 size, VkFormat format, layer::list c
         view_type = VK_IMAGE_VIEW_TYPE_CUBE;
     }
 
-    tex->set_tiling(VK_IMAGE_TILING_LINEAR);
-    tex->set_level_count(to_ui32(layers.front().levels.size()));
-    tex->set_layer_count(to_ui32(layers.size()));
-    tex->set_view_type(view_type);
+    img->set_level_count(to_ui32(layers.front().levels.size()));
+    img->set_layer_count(to_ui32(layers.size()));
+    img->set_view_type(view_type);
 
-    if (!tex->create(device, size, VMA_MEMORY_USAGE_GPU_ONLY)) {
+    if (!img->create(device, size, VMA_MEMORY_USAGE_GPU_ONLY)) {
 
         log()->error("texture create failed");
         return false;
     }
 
     descriptor.sampler = sampler;
-    descriptor.imageView = tex->get_view();
+    descriptor.imageView = img->get_view();
     descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
     return true;
@@ -123,17 +122,17 @@ void texture::destroy() {
 
     if (sampler) {
 
-        if (tex)
-            if (auto device = tex->get_device())
+        if (img)
+            if (auto device = img->get_device())
                 device->vkDestroySampler(sampler);
 
         sampler = 0;
     }
 
-    if (tex) {
+    if (img) {
 
-        tex->destroy();
-        tex = nullptr;
+        img->destroy();
+        img = nullptr;
     }
 }
 
@@ -146,7 +145,7 @@ bool texture::upload(void const* data, size_t data_size) {
 
     upload_buffer = make_buffer();
 
-    return upload_buffer->create(tex->get_device(), data, data_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, false, VMA_MEMORY_USAGE_CPU_TO_GPU);
+    return upload_buffer->create(img->get_device(), data, data_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, false, VMA_MEMORY_USAGE_CPU_TO_GPU);
 }
 
 bool texture::stage(VkCommandBuffer cmd_buffer) {
@@ -166,9 +165,9 @@ bool texture::stage(VkCommandBuffer cmd_buffer) {
         .layerCount = to_ui32(layers.size()),
     };
 
-    auto device = tex->get_device();
+    auto device = img->get_device();
 
-    set_image_layout(device, cmd_buffer, tex->get(), VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range,
+    set_image_layout(device, cmd_buffer, img->get(), VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range,
                                                      VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
 
     std::vector<VkBufferImageCopy> regions;
@@ -219,7 +218,7 @@ bool texture::stage(VkCommandBuffer cmd_buffer) {
             .layerCount = to_ui32(layers.size()),
         };
 
-        auto size = tex->get_size();
+        auto size = img->get_size();
 
         VkBufferImageCopy region
         {
@@ -234,10 +233,10 @@ bool texture::stage(VkCommandBuffer cmd_buffer) {
         regions.push_back(region);
     }
 
-    device->call().vkCmdCopyBufferToImage(cmd_buffer, upload_buffer->get(), tex->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+    device->call().vkCmdCopyBufferToImage(cmd_buffer, upload_buffer->get(), img->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
                                                                                         to_ui32(regions.size()), regions.data());
 
-    set_image_layout(device, cmd_buffer, tex->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+    set_image_layout(device, cmd_buffer, img->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
                                                      VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, subresource_range,
                                                      VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
 

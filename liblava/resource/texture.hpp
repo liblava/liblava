@@ -59,15 +59,15 @@ struct texture : id_obj {
     VkDescriptorImageInfo const* get_descriptor() const { return &descriptor; }
     VkDescriptorImageInfo const* get_info() const { return get_descriptor(); }
 
-    image::ptr get_image() { return tex; }
+    image::ptr get_image() { return img; }
 
-    uv2 get_size() const { return tex ? tex->get_size() : uv2(); }
+    uv2 get_size() const { return img ? img->get_size() : uv2(); }
     texture_type get_type() const { return type; }
 
-    VkFormat get_format() const { return tex ? tex->get_format() : VK_FORMAT_UNDEFINED; }
+    VkFormat get_format() const { return img ? img->get_format() : VK_FORMAT_UNDEFINED; }
 
 private:
-    image::ptr tex;
+    image::ptr img;
 
     texture_type type = texture_type::none;
     layer::list layers;
