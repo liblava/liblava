@@ -301,14 +301,14 @@ bool graphics_pipeline::add_shader_stage(data const& data, VkShaderStageFlagBits
 
     if (!data.ptr) {
 
-        log()->error("graphics_pipeline::add_shader_stage data ptr failed");
+        log()->error("graphics pipeline shader stage data");
         return false;
     }
 
     auto shader_stage = create_pipeline_shader_stage(device, data, stage);
     if (!shader_stage) {
 
-        log()->error("graphics_pipeline::add_shader_stage shader_stage::create failed");
+        log()->error("create graphics pipeline shader stage");
         return false;
     }
 
@@ -435,14 +435,14 @@ bool compute_pipeline::set_shader_stage(data const& data, VkShaderStageFlagBits 
 
     if (!data.ptr) {
 
-        log()->error("compute_pipeline::add_shader_stage data ptr failed");
+        log()->error("compute pipeline shader stage data");
         return false;
     }
 
     auto shader_stage = create_pipeline_shader_stage(device, data, stage);
     if (!shader_stage) {
 
-        log()->error("compute_pipeline::set_shader_stage shader_stage::create failed");
+        log()->error("create compute pipeline shader stage");
         return false;
     }
 

@@ -41,19 +41,19 @@ void log_command_line(argh::parser& cmd_line) {
     if (!cmd_line.pos_args().empty()) {
 
         for (auto& pos_arg : cmd_line.pos_args())
-            lava::log()->info("cmd line (pos) {}", lava::str(pos_arg));
+            lava::log()->info("cmd {}", lava::str(pos_arg));
     }
 
     if (!cmd_line.flags().empty()) {
 
         for (auto& flag : cmd_line.flags())
-            lava::log()->info("cmd line (flag) {}", lava::str(flag));
+            lava::log()->info("cmd flag {}", lava::str(flag));
     }
 
     if (!cmd_line.params().empty()) {
 
         for (auto& param : cmd_line.params())
-            lava::log()->info("cmd line (para) {} = {}", lava::str(param.first), lava::str(param.second));
+            lava::log()->info("cmd para {} = {}", lava::str(param.first), lava::str(param.second));
     }
 }
 
@@ -136,13 +136,13 @@ bool frame::setup(frame_config config_) {
 
     if (glfwInit() != GLFW_TRUE) {
 
-        log()->error("init glfw failed");
+        log()->error("init glfw");
         return false;
     }
 
     if (glfwVulkanSupported() != GLFW_TRUE) {
 
-        log()->error("glfw vulkan not supported");
+        log()->error("vulkan not supported");
         return false;
     }
 
@@ -152,7 +152,7 @@ bool frame::setup(frame_config config_) {
     auto result = volkInitialize();
     if (failed(result)) {
 
-        log()->error("init volk failed");
+        log()->error("init volk");
         return false;
     }
 
@@ -167,7 +167,7 @@ bool frame::setup(frame_config config_) {
 
     if (!instance::singleton().create(param, config.debug, config.app)) {
 
-        log()->error("create instance failed");
+        log()->error("create instance");
         return false;
     }
 
@@ -175,7 +175,7 @@ bool frame::setup(frame_config config_) {
 
     if (!file_system::get().initialize(str(cmd_line[0]), config.org, config.app, config.ext)) {
 
-        log()->error("init file system failed");
+        log()->error("init file system");
         return false;
     }
 

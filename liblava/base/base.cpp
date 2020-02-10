@@ -11,11 +11,11 @@ bool lava::check(VkResult result) {
 
     if (result > 0) {
 
-        log()->critical("VkResult = {}", to_string(result));
+        log()->critical("VkResult {}", to_string(result));
         return false;
     }
 
-    log()->error("VkResult = {}", to_string(result));
+    log()->error("VkResult {}", to_string(result));
     return false;
 }
 

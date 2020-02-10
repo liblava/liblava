@@ -52,7 +52,7 @@ bool mesh::create(device_ptr device_, bool mapped_, VmaMemoryUsage memory_usage_
 
         if (!vertex_buffer->create(device, data.vertices.data(), sizeof(vertex) * data.vertices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, mapped, memory_usage)) {
 
-            log()->error("mesh::create vertexBuffer create failed");
+            log()->error("create mesh vertex buffer");
             return false;
         }
     }
@@ -63,7 +63,7 @@ bool mesh::create(device_ptr device_, bool mapped_, VmaMemoryUsage memory_usage_
 
         if (!index_buffer->create(device, data.indices.data(), sizeof(ui32) * data.indices.size(), VK_BUFFER_USAGE_INDEX_BUFFER_BIT, mapped, memory_usage)) {
 
-            log()->error("mesh::create indexBuffer create failed");
+            log()->error("create mesh index buffer");
             return false;
         }
     }

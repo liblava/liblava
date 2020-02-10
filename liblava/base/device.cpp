@@ -23,7 +23,7 @@ bool device::create(create_param const& param) {
         ui32 index = 0;
         if (!physical_device->get_queue_family(index, param.queue_info_list[i].flags)) {
 
-            log()->error("device::create physical_device::get_queue_family failed");
+            log()->error("create device queue family");
             return false;
         }
 
@@ -46,7 +46,7 @@ bool device::create(create_param const& param) {
 
     if (failed(vkCreateDevice(physical_device->get(), &create_info, memory::alloc(), &vk_device))) {
 
-        log()->error("device::create vkCreateDevice failed");
+        log()->error("create device");
         return false;
     }
 

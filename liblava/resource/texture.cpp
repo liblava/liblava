@@ -77,10 +77,9 @@ bool texture::create(device_ptr device, uv2 size, VkFormat format, layer::list c
         .unnormalizedCoordinates = VK_FALSE,
     };
 
-
     if (!device->vkCreateSampler(&sampler_info, &sampler)) {
 
-        log()->error("texture create vkCreateSampler failed");
+        log()->error("create texture sampler");
         return false;
     }
 
@@ -105,7 +104,7 @@ bool texture::create(device_ptr device, uv2 size, VkFormat format, layer::list c
 
     if (!img->create(device, size, VMA_MEMORY_USAGE_GPU_ONLY)) {
 
-        log()->error("texture create failed");
+        log()->error("create texture image");
         return false;
     }
 
@@ -152,7 +151,7 @@ bool texture::stage(VkCommandBuffer cmd_buffer) {
 
     if (!upload_buffer || !upload_buffer->is_valid()) {
 
-        log()->error("texture stage failed");
+        log()->error("stage texture");
         return false;
     }
 
@@ -355,7 +354,8 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
 
             case texture_type::tex_2d: {
 
-                gli::texture2d tex(file.is_open() ? gli::load(temp_data.ptr, temp_data.size) : gli::load(filename.path));
+                gli::texture2d tex(file.is_open() ? gli::load(temp_data.ptr, temp_data.size)
+                                                  : gli::load(filename.path));
                 assert(!tex.empty());
                 if (tex.empty())
                     return nullptr;
@@ -369,6 +369,7 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
                     texture::mip_level level;
                     level.extent = { tex[m].extent().x, tex[m].extent().y };
                     level.size = to_ui32(tex[m].size());
+
                     layer.levels.push_back(level);
                 }
 
@@ -386,7 +387,8 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
 
             case texture_type::array: {
 
-                gli::texture2d_array tex(file.is_open() ? gli::load(temp_data.ptr, temp_data.size) : gli::load(filename.path));
+                gli::texture2d_array tex(file.is_open() ? gli::load(temp_data.ptr, temp_data.size)
+                                                        : gli::load(filename.path));
                 assert(!tex.empty());
                 if (tex.empty())
                     return nullptr;
@@ -403,6 +405,7 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
                         texture::mip_level level;
                         level.extent = { tex[i][m].extent().x, tex[i][m].extent().y };
                         level.size = to_ui32(tex[i][m].size());
+
                         layer.levels.push_back(level);
                     }
 
@@ -421,7 +424,8 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
 
             case texture_type::cube_map: {
 
-                gli::texture_cube tex(file.is_open() ? gli::load(temp_data.ptr, temp_data.size) : gli::load(filename.path));
+                gli::texture_cube tex(file.is_open() ? gli::load(temp_data.ptr, temp_data.size) 
+                                                     : gli::load(filename.path));
                 assert(!tex.empty());
                 if (tex.empty())
                     return nullptr;
@@ -438,6 +442,7 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
                         texture::mip_level level;
                         level.extent = { tex[i][m].extent().x, tex[i][m].extent().y };
                         level.size = to_ui32(tex[i][m].size());
+
                         layer.levels.push_back(level);
                     }
 

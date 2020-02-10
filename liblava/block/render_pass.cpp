@@ -42,7 +42,7 @@ bool render_pass::create(VkAttachmentsRef target_attachments, rect area) {
 
     if (!check(device->call().vkCreateRenderPass(device->get(), &create_info, memory::alloc(), &vk_render_pass))) {
 
-        log()->error("render_pass::create vkCreateRenderPass failed");
+        log()->error("create render pass");
         return false;
     }
 
@@ -161,7 +161,7 @@ bool render_pass::on_target_created(VkAttachmentsRef target_attachments, rect ar
 
         if (failed(device->call().vkCreateFramebuffer(device->get(), &create_info, memory::alloc(), &framebuffers[count]))) {
 
-            log()->error("RenderPass::on_target_created vkCreateFramebuffer failed");
+            log()->error("create render pass target");
             return false;
         }
 

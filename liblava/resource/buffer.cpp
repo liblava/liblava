@@ -67,7 +67,7 @@ bool buffer::create(device_ptr device_, void const* data, size_t size, VkBufferU
 
     if (failed(vmaCreateBuffer(device->alloc(), &buffer_info, &alloc_info, &vk_buffer, &allocation, &allocation_info))) {
 
-        log()->error("buffer::create vmaCreateBuffer failed");
+        log()->error("create buffer");
         return false;
     }
 
@@ -76,7 +76,7 @@ bool buffer::create(device_ptr device_, void const* data, size_t size, VkBufferU
         data_ptr map = nullptr;
         if (failed(vmaMapMemory(device->alloc(), allocation, (void**)(&map)))) {
 
-            log()->error("buffer::create vmaMapMemory failed");
+            log()->error("map buffer memory");
             return false;
         }
 

@@ -128,14 +128,14 @@ bool swapchain::create_internal() {
     auto present_mode_count = 0u;
     if (vkGetPhysicalDeviceSurfacePresentModesKHR(device->get_vk_physical_device(), surface, &present_mode_count, nullptr) != VK_SUCCESS || present_mode_count == 0) {
 
-        log()->error("swapchain::create_internal vkGetPhysicalDeviceSurfacePresentModesKHR(1) failed");
+        log()->error("create swapchain present mode count");
         return false;
     }
 
     VkPresentModeKHRs present_modes(present_mode_count);
     if (vkGetPhysicalDeviceSurfacePresentModesKHR(device->get_vk_physical_device(), surface, &present_mode_count, present_modes.data()) != VK_SUCCESS) {
 
-        log()->error("swapchain::create_internal vkGetPhysicalDeviceSurfacePresentModesKHR(2) failed");
+        log()->error("create swapchain present mode");
         return false;
     }
 
@@ -201,13 +201,13 @@ bool swapchain::create_internal() {
         auto backbuffer = make_image(format.format, image);
         if (!backbuffer) {
 
-            log()->error("swapchain::create_internal backbuffer make failed");
+            log()->error("create swapchain backbuffer image");
             return false;
         }
 
         if (!backbuffer->create(device, size)) {
 
-            log()->error("swapchain::create_internal backBuffer create failed");
+            log()->error("create swapchain backBuffer");
             return false;
         }
 

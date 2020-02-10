@@ -33,7 +33,7 @@ bool window::create(name save_name_, state const* state) {
             handle = glfwCreateWindow(mode->width, mode->height, str(default_title), primary, nullptr);
             if (!handle) {
 
-                log()->error("Window::create glfwCreateWindow(1) failed");
+                log()->error("create fullscreen window (state)");
                 return false;
             }
         }
@@ -42,7 +42,7 @@ bool window::create(name save_name_, state const* state) {
             handle = glfwCreateWindow(state->width, state->height, str(default_title), nullptr, nullptr);
             if (!handle) {
 
-                log()->error("window::create glfwCreateWindow(2) failed");
+                log()->error("create window (state)");
                 return false;
             }
 
@@ -63,7 +63,7 @@ bool window::create(name save_name_, state const* state) {
             handle = glfwCreateWindow(mode->width, mode->height, str(default_title), primary, nullptr);
             if (!handle) {
 
-                log()->error("window::create glfwCreateWindow(3) failed");
+                log()->error("create fullscreen window");
                 return false;
             }
         }
@@ -72,7 +72,7 @@ bool window::create(name save_name_, state const* state) {
             handle = glfwCreateWindow(mode->width / 2, mode->height / 2, str(default_title), nullptr, nullptr);
             if (!handle) {
 
-                log()->error("window::create glfwCreateWindow(4) failed");
+                log()->error("create window");
                 return false;
             }
 

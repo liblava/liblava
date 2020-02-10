@@ -62,7 +62,7 @@ bool load_window_file(window::state& state, string_ref index) {
     if (!j.count(str(index)))
         return false;
 
-    log()->trace("load window: {}", str(j.dump()));
+    log()->trace("load window {}", str(j.dump()));
 
     state = j[str(index)];
     return true;
@@ -90,7 +90,7 @@ void save_window_file(window const& window) {
         j[index] = state;
     }
 
-    log()->trace("save window: {}", str(j.dump()));
+    log()->trace("save window {}", str(j.dump()));
 
     std::ofstream o(_window_file_);
     o << std::setw(4) << j << std::endl;

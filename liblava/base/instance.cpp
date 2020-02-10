@@ -46,7 +46,7 @@ bool instance::create(create_param& param, debug_config& debug_, name app_name) 
 
     if (!param.check()) {
 
-        log()->error("instance create param failed");
+        log()->error("create instance param");
         return false;
     }
 
@@ -182,20 +182,20 @@ void instance::destroy_validation_report() {
 void instance::print_info() const {
 
     auto global_extensions = instance::enumerate_extension_properties();
-    log()->info("found {} global extensions", global_extensions.size());
+    log()->info("{} global extensions", global_extensions.size());
     for (auto const& extension : global_extensions) {
 
         log()->info("- {:38} - {:3}", extension.extensionName, VK_VERSION_PATCH(extension.specVersion));
     }
 
     auto layer_properties = instance::enumerate_layer_properties();
-    log()->info("found {} instance layers:", layer_properties.size());
+    log()->info("{} instance layers:", layer_properties.size());
     for (auto const& layer : layer_properties) {
 
         log()->info("- {:40} - {:8} - {:2} - {}", layer.layerName, version_to_string(layer.specVersion), layer.implementationVersion, layer.description);
 
         auto extensions = instance::enumerate_extension_properties(layer.layerName);
-        log()->info("-- Found {} extensions", extensions.size());
+        log()->info("-- {} extensions", extensions.size());
 
         for (auto const& extension : extensions) {
 
@@ -203,7 +203,7 @@ void instance::print_info() const {
         }
     }
 
-    log()->info("Found {} physical devices", physical_devices.size());
+    log()->info("{} physical devices", physical_devices.size());
 
     auto device_index = 0u;
     for (auto& physical_device : physical_devices) {

@@ -163,12 +163,12 @@ void file_system::mount_res() {
 
     if (fs::exists(str(get_res_dir())))
         if (file_system::mount(str(res_path)))
-            log()->debug("mounted {}", str(get_res_dir()));
+            log()->debug("mount {}", str(get_res_dir()));
 
     string archive_file = "res.zip";
     if (fs::exists({ archive_file }))
         if (file_system::mount(str(archive_file)))
-            log()->debug("mounted {}", str(archive_file));
+            log()->debug("mount {}", str(archive_file));
 }
 
 bool file_system::create_data_folder() {
@@ -334,7 +334,7 @@ bool json_file::save() {
     file file(str(path), true);
     if (!file.is_open()) {
 
-        log()->error("couldn't save file {}", str(path));
+        log()->error("save file {}", str(path));
         return false;
     }
 
@@ -364,7 +364,7 @@ bool lava::load_file_data(string_ref filename, data& target) {
 
     if (is_file_error(file.read(target.ptr))) {
 
-        log()->error("couldn't read file {}", filename);
+        log()->error("read file {}", filename);
         return false;
     }
 

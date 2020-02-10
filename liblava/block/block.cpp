@@ -21,13 +21,13 @@ bool command::create(device_ptr device, index frame_count, VkCommandPools comman
         };
         if (failed(device->call().vkAllocateCommandBuffers(device->get(), &allocate_info, &buffers.at(i)))) {
 
-            log()->error("command::create vkAllocateCommandBuffers failed");
+            log()->error("create command buffers");
             return false;
         }
 
         if (failed(device->call().vkResetCommandPool(device->get(), command_pools.at(i), 0))) {
 
-            log()->error("command::create vkResetCommandPool failed");
+            log()->error("create command pool");
             return false;
         }
     }
@@ -58,7 +58,7 @@ bool block::create(lava::device_ptr device_, index frame_count, index queue_fami
         };
         if (failed(device->call().vkCreateCommandPool(device->get(), &create_info, memory::alloc(), &command_pools.at(i)))) {
 
-            log()->error("block::create vkCreateCommandPool failed");
+            log()->error("create block command pool");
             return false;
         }
     }
@@ -119,7 +119,7 @@ bool block::process(index frame) {
 
     if (failed(device->call().vkResetCommandPool(device->get(), command_pools.at(frame), 0))) {
 
-        log()->error("block::process vkResetCommandPool failed");
+        log()->error("block reset command pool");
         return false;
     }
 
