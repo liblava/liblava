@@ -3,6 +3,7 @@
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/app/gui.hpp>
+#include <liblava/app/def.hpp>
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_INCLUDE_VULKAN
@@ -198,7 +199,7 @@ void gui::setup(GLFWwindow* window_, config config) {
             ImGui::GetIO().AddInputCharacter(static_cast<unsigned short>(c));
     });
 
-    io.IniFilename = "data/gui.ini";
+    set_ini_file(config.ini_file_dir);
 
     on_key_event = [&](key_event const& event) {
 
@@ -453,6 +454,15 @@ void gui::destroy() {
 bool gui::want_capture_mouse() const {
 
     return ImGui::GetIO().WantCaptureMouse;
+}
+
+void gui::set_ini_file(fs::path dir) {
+    
+    dir.append(_gui_file_);
+
+    ini_file = dir.string();
+
+    ImGui::GetIO().IniFilename = str(ini_file);
 }
 
 void gui::invalidate_device_objects() {

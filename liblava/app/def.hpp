@@ -9,7 +9,7 @@
 namespace lava {
 
 // window
-constexpr name _window_file_ = "data/window.json";
+constexpr name _window_file_ = "window.json";
 constexpr name _x_ = "x";
 constexpr name _y_ = "y";
 constexpr name _width_ = "width";
@@ -20,6 +20,9 @@ constexpr name _resizable_ = "resizable";
 constexpr name _decorated_ = "decorated";
 constexpr name _maximized_ = "maximized";
 
+// gui
+constexpr name _gui_file_ = "gui.ini";
+
 // config
 constexpr name _paused_ = "paused";
 constexpr name _speed_ = "speed";
@@ -28,11 +31,7 @@ constexpr name _save_interval_ = "save interval";
 constexpr name _auto_load_ = "auto load";
 constexpr name _fixed_delta_ = "fixed delta";
 constexpr name _delta_ = "delta";
-constexpr name _dt_ = "dt";
 constexpr name _gui_ = "gui";
 constexpr name _vsync_ = "vsync";
-
-constexpr name _frame_ = "frame";
-constexpr name _current_ = "current";
 
 } // lava

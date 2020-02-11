@@ -38,6 +38,8 @@ struct gui : input_callback {
         r32 font_size = default_font_size;
 
         icon_font icon;
+
+        fs::path ini_file_dir;
     };
 
     void setup(GLFWwindow* window, config config);
@@ -72,6 +74,9 @@ struct gui : input_callback {
     bool is_active() const { return active; }
 
     void toggle() { active = !active; }
+
+    void set_ini_file(fs::path dir);
+    fs::path get_ini_file() const { return fs::path(ini_file); }
 
 private:
     void handle_key_event(i32 key, i32 scancode, i32 action, i32 mods);
@@ -109,6 +114,8 @@ private:
     r64 current_time = 0.0;
 
     std::vector<GLFWcursor*> mouse_cursors;
+
+    string ini_file;
 
     bool active = true;
 };

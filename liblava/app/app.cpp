@@ -13,7 +13,7 @@ app::app(frame_config config_)
     : frame(config_), window(config_.app) {}
 
 app::app(name config_app, argh::parser cmd_line)
-    : frame(frame_config(config_app, cmd_line, true)), window(config_app) {}
+    : frame(frame_config(config_app, cmd_line)), window(config_app) {}
 
 void to_json(json& j, window::state const& w) {
 
@@ -46,18 +46,16 @@ void from_json(json const& j, window::state& w) {
 
 bool has_window_file() {
 
-    std::ifstream i(_window_file_);
-    return i.is_open();
+    return file_system::exists(_window_file_);
 }
 
 bool load_window_file(window::state& state, string_ref index) {
 
-    std::ifstream i(_window_file_);
-    if (!i)
+    scope_data data;
+    if (!load_file_data(_window_file_, data))
         return false;
 
-    json j;
-    i >> j;
+    auto j = json::parse({ data.ptr, data.size });
 
     if (!j.count(str(index)))
         return false;
@@ -75,10 +73,10 @@ void save_window_file(window const& window) {
 
     json j;
 
-    std::ifstream i(_window_file_);
-    if (i) {
+    scope_data data;
+    if (load_file_data(_window_file_, data)) {
 
-        i >> j;
+        j = json::parse({ data.ptr, data.size });
 
         json d;
         d[index] = state;
@@ -90,10 +88,18 @@ void save_window_file(window const& window) {
         j[index] = state;
     }
 
-    log()->trace("save window {}", str(j.dump()));
+    file file(str(_window_file_), true);
+    if (!file.is_open()) {
 
-    std::ofstream o(_window_file_);
-    o << std::setw(4) << j << std::endl;
+        log()->error("save window {}", str(j.dump()));
+        return;
+    }
+
+    auto jString = j.dump(4);
+
+    file.write(jString.data(), jString.size());
+
+    log()->trace("save window {}", str(j.dump()));
 }
 
 void app::handle_config() {
@@ -234,6 +240,8 @@ bool app::setup() {
 }
 
 bool app::create_gui() {
+
+    gui_config.ini_file_dir = file_system::get_pref_dir();
 
     gui.setup(window.get(), gui_config);
     if (!gui.create(device, target->get_frame_count(), shading.get_vk_pass()))

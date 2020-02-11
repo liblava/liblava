@@ -188,9 +188,6 @@ bool frame::setup(frame_config config_) {
 
     file_system::get().mount_res();
 
-    if (config.data_folder)
-        file_system::get().create_data_folder();
-
     _initialized = true;
 
     log()->info("---");

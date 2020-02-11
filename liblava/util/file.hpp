@@ -18,7 +18,7 @@ struct PHYSFS_File;
 namespace lava {
 
 constexpr name _zip_ = "zip";
-constexpr name _config_file_ = "data/config.json";
+constexpr name _config_file_ = "config.json";
 
 using json = nlohmann::json;
 
