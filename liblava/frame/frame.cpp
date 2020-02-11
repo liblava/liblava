@@ -20,9 +20,8 @@ void hide_console(lava::name program) {
 
     auto version_str = fmt::format("{} {}", lava::_liblava_, lava::str(lava::to_string(lava::_version)));
     std::cout << version_str.c_str() << std::endl;
-    std::cout << program << std::endl;
 
-    const auto dot_count = 3;
+    const auto dot_count = 5;
     const auto sleep_ms = lava::to_i32(1.0 / dot_count * 1000.f);
 
     for (auto i = 0u; i < dot_count; ++i) {
