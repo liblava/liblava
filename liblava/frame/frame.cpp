@@ -87,6 +87,9 @@ bool frame::setup(frame_config config_) {
 
     config = config_;
 
+    if (config.app_info.app_name == nullptr)
+        config.app_info.app_name = config.app;
+
 #if LIBLAVA_DEBUG
     config.log.debug = true;
     config.debug.validation = true;
@@ -120,7 +123,11 @@ bool frame::setup(frame_config config_) {
 
     setup_log(config.log);
 
-    log()->info(">>> {} / {} - {} {}", str(to_string(_version)), str(to_string(_internal_version)), _build_date, _build_time);
+    log()->info(">>> {} / {} - {} / {} - {} {}", str(to_string(_version)), 
+                                                 str(to_string(_internal_version)), 
+                                                 config.app_info.app_name, 
+                                                 str(to_string(config.app_info.app_version)), 
+                                                 _build_date, _build_time);
 
     log_command_line(cmd_line);
 
@@ -165,7 +172,7 @@ bool frame::setup(frame_config config_) {
     for (auto i = 0u; i < glfw_extensions_count; ++i)
         param.extension_to_enable.push_back(glfw_extensions[i]);
 
-    if (!instance::singleton().create(param, config.debug, config.app)) {
+    if (!instance::singleton().create(param, config.debug, config.app_info)) {
 
         log()->error("create instance");
         return false;

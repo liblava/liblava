@@ -20,6 +20,8 @@ struct instance : no_copy_no_move {
 
     struct debug_config {
 
+        using ref = debug_config const&;
+
         bool validation = false;
         bool assistent = false;
         bool render_doc = false;
@@ -28,13 +30,30 @@ struct instance : no_copy_no_move {
         bool info = false;
     };
 
+    enum class api_version : type {
+
+        v1_0 = 0,
+        v1_1,
+        v1_2
+    };
+
+    struct app_info {
+
+        using ref = app_info const&;
+
+        name app_name = nullptr;
+        
+        internal_version app_version;
+        api_version req_api_version = api_version::v1_0;
+    };
+
     static instance& singleton() {
 
         static instance instance;
         return instance;
     }
 
-    bool create(create_param& param, debug_config& debug, name app_name = nullptr);
+    bool create(create_param& param, debug_config::ref debug, app_info::ref info);
     void destroy();
 
     static VkLayerPropertiesList enumerate_layer_properties();
@@ -47,6 +66,9 @@ struct instance : no_copy_no_move {
     static VkInstance get() { return singleton().vk_instance; }
 
     static internal_version get_version();
+
+    debug_config::ref get_debug_config() const { return debug; }
+    app_info::ref get_app_info() const { return info; }
 
 private:
     explicit instance() = default;
@@ -64,6 +86,8 @@ private:
     physical_device::list physical_devices;
 
     debug_config debug;
+    app_info info;
+
     VkDebugUtilsMessengerEXT debug_messanger = 0;
 };
 

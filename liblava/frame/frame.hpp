@@ -25,6 +25,7 @@ struct frame_config {
 
     log_config log;
     instance::debug_config debug;
+    instance::app_info app_info;
 
     bool data_folder = false;
 };

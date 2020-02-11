@@ -16,9 +16,10 @@ instance::~instance() {
     destroy();
 }
 
-bool instance::create(create_param& param, debug_config& debug_, name app_name) {
+bool instance::create(create_param& param, debug_config::ref debug_, app_info::ref info_) {
 
     debug = debug_;
+    info = info_;
 
     if (debug.validation) {
 
@@ -50,18 +51,31 @@ bool instance::create(create_param& param, debug_config& debug_, name app_name) 
         return false;
     }
 
+    ui32 app_version = VK_MAKE_VERSION(info.app_version.major,
+                                       info.app_version.minor,
+                                       info.app_version.patch);
+
     VkApplicationInfo application_info
     {
         .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
-        .pApplicationName = app_name ? app_name : _lava_,
-        .applicationVersion = VK_MAKE_VERSION(0, 1, 0),
-        .pEngineName = _lava_,
+        .pApplicationName = info.app_name ? info.app_name : _lava_,
+        .applicationVersion = app_version,
+        .pEngineName = _liblava_,
     };
 
-    application_info.engineVersion = VK_MAKE_VERSION(_internal_version.major, _internal_version.minor, _internal_version.patch);
+    application_info.engineVersion = VK_MAKE_VERSION(_internal_version.major, 
+                                                     _internal_version.minor, 
+                                                     _internal_version.patch);
+
     application_info.apiVersion = VK_API_VERSION_1_0;
 
-    VkInstanceCreateInfo instanceCreateInfo
+    switch (info.req_api_version) {
+
+        case api_version::v1_1: application_info.apiVersion = VK_API_VERSION_1_1; break;
+        case api_version::v1_2: application_info.apiVersion = VK_API_VERSION_1_2; break;
+    }
+
+    VkInstanceCreateInfo create_info
     {
         .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
         .pApplicationInfo = &application_info,
@@ -71,7 +85,7 @@ bool instance::create(create_param& param, debug_config& debug_, name app_name) 
         .ppEnabledExtensionNames = param.extension_to_enable.data(),
     };
 
-    auto result = vkCreateInstance(&instanceCreateInfo, memory::alloc(), &vk_instance);
+    auto result = vkCreateInstance(&create_info, memory::alloc(), &vk_instance);
     if (failed(result))
         return false;
 
