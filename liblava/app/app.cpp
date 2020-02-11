@@ -49,7 +49,7 @@ bool has_window_file() {
     return file_system::exists(_window_file_);
 }
 
-bool load_window_file(window::state& state, string_ref index) {
+bool load_window_file(window::state& state, name save_name) {
 
     scope_data data;
     if (!load_file_data(_window_file_, data))
@@ -57,12 +57,12 @@ bool load_window_file(window::state& state, string_ref index) {
 
     auto j = json::parse({ data.ptr, data.size });
 
-    if (!j.count(str(index)))
+    if (!j.count(save_name))
         return false;
 
     log()->trace("load window {}", str(j.dump()));
 
-    state = j[str(index)];
+    state = j[save_name];
     return true;
 }
 
@@ -100,6 +100,18 @@ void save_window_file(window const& window) {
     file.write(jString.data(), jString.size());
 
     log()->trace("save window {}", str(j.dump()));
+}
+
+window::state::optional load_window_state(name save_name = _default_) {
+
+    if (!has_window_file())
+        return {};
+
+    window::state window_state;
+    if (!load_window_file(window_state, save_name))
+        return {};
+
+    return window_state;
 }
 
 void app::handle_config() {
@@ -176,14 +188,7 @@ bool app::setup() {
 
     handle_config();
 
-    window::state window_state;
-    auto has_window_state = false;
-
-    if (has_window_file())
-        if (load_window_file(window_state, _main_))
-            has_window_state = true;
-
-    if (!window.create(_main_, has_window_state ? &window_state : nullptr))
+    if (!window.create(load_window_state(window.get_save_name())))
         return false;
 
     set_window_icon();
@@ -383,7 +388,14 @@ void app::handle_window() {
 
             if (window.has_switch_mode_request()) {
 
-                if (!window.switch_mode())
+                if (config.save_window)
+                    save_window_file(window);
+
+                auto window_state = load_window_state(window.get_save_name());
+                if (window_state)
+                    window_state->fullscreen = !window.fullscreen();
+
+                if (!window.switch_mode(window_state))
                     return false;
 
                 set_window_icon();

@@ -13,9 +13,7 @@
 
 namespace lava {
 
-bool window::create(name save_name_, state const* state) {
-
-    save_name = save_name_;
+bool window::create(state::optional state) {
 
     auto primary = glfwGetPrimaryMonitor();
     auto mode = glfwGetVideoMode(primary);
@@ -49,6 +47,11 @@ bool window::create(name save_name_, state const* state) {
             glfwSetWindowPos(handle, state->x, state->y);
         }
 
+        pos_x = state->x;
+        pos_y = state->y;
+        width = state->width;
+        height = state->height;
+
         set_floating(state->floating);
         set_resizable(state->resizable);
         set_decorated(state->decorated);
@@ -57,6 +60,11 @@ bool window::create(name save_name_, state const* state) {
             maximize();
     } 
     else {
+
+        pos_x = mode->width / 4;
+        pos_y = mode->height / 4;
+        width = mode->width / 2;
+        height = mode->height / 2;
 
         if (!windowed) {
 
@@ -69,14 +77,14 @@ bool window::create(name save_name_, state const* state) {
         }
         else {
 
-            handle = glfwCreateWindow(mode->width / 2, mode->height / 2, str(default_title), nullptr, nullptr);
+            handle = glfwCreateWindow(width, height, str(default_title), nullptr, nullptr);
             if (!handle) {
 
                 log()->error("create window");
                 return false;
             }
 
-            glfwSetWindowPos(handle, mode->width / 4, mode->height / 4);
+            glfwSetWindowPos(handle, pos_x, pos_y);
         }
     }
 
@@ -98,10 +106,20 @@ window::state window::get_state() const {
 
     window::state state;
 
-    get_position(state.x, state.y);
-    get_size(state.width, state.height);
-
     state.fullscreen = fullscreen();
+    if (state.fullscreen) {
+
+        state.x = pos_x;
+        state.y = pos_y;
+        state.width = width;
+        state.height = height;
+    }
+    else {
+
+        get_position(state.x, state.y);
+        get_size(state.width, state.height);
+    }
+    
     state.floating = floating();
     state.resizable = resizable();
     state.decorated = decorated();
@@ -123,11 +141,11 @@ void window::set_title(name text) {
         glfwSetWindowTitle(handle, str(title));
 }
 
-bool window::switch_mode() {
+bool window::switch_mode(state::optional state) {
 
     destroy();
 
-    return create(str(save_name));
+    return create(state);
 }
 
 void window::handle_message() {
@@ -140,8 +158,8 @@ void window::handle_message() {
         if (!window)
             return;
 
-        window->width = to_ui32(width);
-        window->height = to_ui32(height);
+        window->framebuffer_width = to_ui32(width);
+        window->framebuffer_height = to_ui32(height);
         window->resize_request = true;
     });
 
@@ -227,7 +245,8 @@ void window::hide_mouse_cursor() { glfwSetInputMode(handle, GLFW_CURSOR, GLFW_CU
 
 void window::show_mouse_cursor() { glfwSetInputMode(handle, GLFW_CURSOR, GLFW_CURSOR_NORMAL); }
 
-float window::get_aspect_ratio() const { return height != 0 ? to_r32(width) / to_r32(height) : 0.f; }
+float window::get_aspect_ratio() const { return framebuffer_height != 0 ? 
+                                                to_r32(framebuffer_width) / to_r32(framebuffer_height) : 0.f; }
 
 void window::show() { glfwShowWindow(handle); }
 

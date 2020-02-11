@@ -11,14 +11,20 @@
 #define VK_NO_PROTOTYPES
 #include <vulkan/vulkan.h>
 
+#include <optional>
+
 // fwd
 struct GLFWwindow;
 
 namespace lava {
 
+constexpr name _default_ = "default";
+
 struct window : id_obj {
 
     struct state {
+
+        using optional = std::optional<window::state>;
 
         i32 x = 0;
         i32 y = 0;
@@ -38,7 +44,7 @@ struct window : id_obj {
     window() = default;
     explicit window(name title) : title(title) {}
 
-    bool create(name save_name = "0", state const* state = nullptr);
+    bool create(state::optional state = {});
     void destroy();
 
     state get_state() const;
@@ -46,6 +52,7 @@ struct window : id_obj {
     void set_title(name text);
     name get_title() const { return str(title); }
 
+    void set_save_name(name save) { save_name = save; }
     name get_save_name() const { return str(save_name); }
 
     void set_position(i32 x, i32 y);
@@ -82,8 +89,6 @@ struct window : id_obj {
 
         if (windowed == active)
             switch_mode_request = true;
-
-        windowed = !active;
     }
     bool fullscreen() const { return !windowed; }
 
@@ -103,16 +108,18 @@ struct window : id_obj {
     bool has_close_request() const;
     bool has_switch_mode_request() const { return switch_mode_request; }
 
-    bool switch_mode();
+    bool switch_mode(state::optional state = {});
 
     GLFWwindow* get() const { return handle; }
 
     bool has_resize_request() const { return resize_request; }
     bool handle_resize() {
 
-        if (on_resize)
-            if (!on_resize(width, height))
+        if (on_resize) {
+
+            if (!on_resize(framebuffer_width, framebuffer_height))
                 return false;
+        }
 
         resize_request = false;
         return true;
@@ -139,13 +146,19 @@ private:
     lava::input* input = nullptr;
 
     string title = _lava_;
-    string save_name;
+    string save_name = _default_;
 
     bool windowed = true;
     bool switch_mode_request = false;
     bool debug_title = false;
 
     bool resize_request = false;
+ 
+    ui32 framebuffer_width = 0;
+    ui32 framebuffer_height = 0;
+
+    ui32 pos_x = 0;
+    ui32 pos_y = 0;
     ui32 width = 0;
     ui32 height = 0;
 };
