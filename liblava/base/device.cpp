@@ -149,18 +149,29 @@ VkPhysicalDeviceFeatures const& device::get_features() const { return physical_d
 
 VkPhysicalDeviceProperties const& device::get_properties() const { return physical_device->get_properties(); }
 
-device::ptr device_manager::create() {
+device::ptr device_manager::create(index pd) {
 
-    auto& physical_device = instance::get_first_physical_device();
+    auto physical_device = &instance::get_first_physical_device();
 
-    if (!physical_device.swapchain_supported())
+    if (pd > 0) {
+
+        if (pd >= instance::singleton().get_physical_devices().size()) {
+
+            log()->error("create device - no physical device {}", pd);
+            return nullptr;
+        }
+
+        physical_device = &instance::singleton().get_physical_devices().at(pd);
+    }
+
+    if (!physical_device->swapchain_supported())
         return nullptr;
 
-    auto device = create(physical_device.create_default_device_param());
+    auto device = create(physical_device->create_default_device_param());
     if (!device)
         return nullptr;
 
-    auto allocator = make_allocator(physical_device.get(), device->get());
+    auto allocator = make_allocator(physical_device->get(), device->get());
     if (!allocator)
         return nullptr;
 

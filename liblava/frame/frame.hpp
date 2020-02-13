@@ -82,9 +82,9 @@ struct frame : interface, no_copy_no_move {
     bool waiting_for_events() const { return wait_for_events; }
     void set_wait_for_events(bool value = true) { wait_for_events = value; }
 
-    device_ptr create_device() {
+    device_ptr create_device(index physical_device = 0) {
 
-        auto device = manager.create();
+        auto device = manager.create(physical_device);
         if (!device)
             return nullptr;
 

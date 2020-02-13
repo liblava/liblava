@@ -11,6 +11,7 @@ namespace lava {
 struct physical_device : id_obj {
 
     using list = std::vector<physical_device>;
+    using ref = physical_device const&;
 
     physical_device() = default;
 

@@ -146,6 +146,9 @@ void app::handle_config() {
 
         if (j.count(_v_sync_))
             config.v_sync = j[_v_sync_];
+
+        if (j.count(_physical_device_))
+            config.physical_device = j[_physical_device_];
     };
 
     config_callback.on_save = [&](json& j) {
@@ -159,6 +162,7 @@ void app::handle_config() {
         j[_delta_] = run_time.fix_delta.count();
         j[_gui_] = gui.activated();
         j[_v_sync_] = config.v_sync;
+        j[_physical_device_] = config.physical_device;
     };
 
     config_file.load();
@@ -188,12 +192,16 @@ bool app::setup() {
 
     handle_config();
 
+    auto& cmd_line = get_cmd_line();
+    cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
+    cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
+
     if (!window.create(load_window_state(window.get_save_name())))
         return false;
 
     set_window_icon();
 
-    device = create_device();
+    device = create_device(config.physical_device);
     if (!device)
         return false;
 

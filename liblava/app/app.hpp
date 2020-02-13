@@ -24,6 +24,7 @@ struct app : frame {
         seconds save_interval{ 300 };
 
         bool v_sync = false;
+        index physical_device = 0;
     };
 
     explicit app(frame_config config);

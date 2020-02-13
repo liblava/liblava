@@ -61,7 +61,7 @@ struct instance : no_copy_no_move {
 
     physical_device::list const& get_physical_devices() const { return physical_devices; }
 
-    static physical_device const& get_first_physical_device() { return singleton().physical_devices.front(); }
+    static physical_device::ref get_first_physical_device() { return singleton().physical_devices.front(); }
 
     static VkInstance get() { return singleton().vk_instance; }
 

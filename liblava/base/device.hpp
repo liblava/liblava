@@ -118,7 +118,7 @@ private:
 
 struct device_manager {
 
-    device::ptr create();
+    device::ptr create(index physical_device = 0);
 
     device::ptr create(device::create_param const& param);
 
