@@ -106,8 +106,7 @@ window::state window::get_state() const {
 
     window::state state;
 
-    state.fullscreen = fullscreen();
-    if (state.fullscreen) {
+    if (fullscreen() || iconified() || maximized()) {
 
         state.x = pos_x;
         state.y = pos_y;
@@ -120,6 +119,7 @@ window::state window::get_state() const {
         get_size(state.width, state.height);
     }
     
+    state.fullscreen = fullscreen();
     state.floating = floating();
     state.resizable = resizable();
     state.decorated = decorated();
@@ -152,15 +152,18 @@ void window::handle_message() {
 
     glfwSetWindowUserPointer(handle, this);
 
-    glfwSetFramebufferSizeCallback(handle, [](GLFWwindow* handle, i32 width, i32 height) {
+    glfwSetFramebufferSizeCallback(handle, [](GLFWwindow* handle, i32 w, i32 h) {
 
         auto window = get_window(handle);
         if (!window)
             return;
 
-        window->framebuffer_width = to_ui32(width);
-        window->framebuffer_height = to_ui32(height);
+        window->framebuffer_width = to_ui32(w);
+        window->framebuffer_height = to_ui32(h);
         window->resize_request_active = true;
+
+        if (!window->fullscreen() && !window->iconified() && !window->maximized())
+            window->update_state();
     });
 
     glfwSetKeyCallback(handle, [](GLFWwindow* handle, i32 key, i32 scancode, i32 action, i32 mods) {

@@ -125,6 +125,8 @@ struct window : id_obj {
         return true;
     }
 
+    void update_state() { get_position(pos_x, pos_y); get_size(width, height); }
+
     using resize_func = std::function<bool(ui32, ui32)>;
     resize_func on_resize;
 
@@ -157,8 +159,8 @@ private:
     ui32 framebuffer_width = 0;
     ui32 framebuffer_height = 0;
 
-    ui32 pos_x = 0;
-    ui32 pos_y = 0;
+    i32 pos_x = 0;
+    i32 pos_y = 0;
     ui32 width = 0;
     ui32 height = 0;
 };
