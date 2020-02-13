@@ -40,11 +40,11 @@ void mesh::add_data(mesh_data const& value) {
         data.indices.push_back(index_base + index);
 }
 
-bool mesh::create(device_ptr device_, bool mapped_, VmaMemoryUsage memory_usage_) {
+bool mesh::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 
-    device = device_;
-    mapped = mapped_;
-    memory_usage = memory_usage_;
+    device = d;
+    mapped = m;
+    memory_usage = mu;
 
     if (!data.vertices.empty()) {
 
@@ -89,7 +89,7 @@ bool mesh::reload() {
 
 void mesh::bind(VkCommandBuffer cmd_buf) const {
 
-    if (vertex_buffer && vertex_buffer->is_valid()) {
+    if (vertex_buffer && vertex_buffer->valid()) {
 
         std::array<VkDeviceSize, 1> const buffer_offsets = { 0 };
         std::array<VkBuffer, 1> const buffers = { vertex_buffer->get() };
@@ -97,7 +97,7 @@ void mesh::bind(VkCommandBuffer cmd_buf) const {
         vkCmdBindVertexBuffers(cmd_buf, 0, to_ui32(buffers.size()), buffers.data(), buffer_offsets.data());
     }
 
-    if (index_buffer && index_buffer->is_valid())
+    if (index_buffer && index_buffer->valid())
         vkCmdBindIndexBuffer(cmd_buf, index_buffer->get(), 0, VK_INDEX_TYPE_UINT32);
 }
 
@@ -114,7 +114,7 @@ void mesh::draw(VkCommandBuffer cmd_buf) const {
 lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
 
 #if LIBLAVA_TINYOBJLOADER
-    if (has_extension(filename, "OBJ")) {
+    if (extension(filename, "OBJ")) {
 
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
@@ -127,7 +127,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
         file_guard temp_file_remover;
         {
             file file(filename);
-            if (file.is_open() && file.get_type() == file_type::fs) {
+            if (file.opened() && file.get_type() == file_type::fs) {
 
                 string temp_file;
                 temp_file = file_system::get_pref_dir();
@@ -137,7 +137,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
                 if (!temp_data.ptr)
                     return nullptr;
 
-                if (is_file_error(file.read(temp_data.ptr)))
+                if (file_error(file.read(temp_data.ptr)))
                     return nullptr;
 
                 if (!write_file(str(temp_file), temp_data.ptr, temp_data.size))

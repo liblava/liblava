@@ -19,7 +19,7 @@ bool window::create(state::optional state) {
     auto mode = glfwGetVideoMode(primary);
 
     string default_title = title;
-    if (debug_title)
+    if (debug_title_active)
         default_title = fmt::format("%s [%s]", str(title), str(save_name));
 
     if (state) {
@@ -88,7 +88,7 @@ bool window::create(state::optional state) {
         }
     }
 
-    switch_mode_request = false;
+    switch_mode_request_active = false;
     handle_message();
 
     return true;
@@ -135,7 +135,7 @@ void window::set_title(name text) {
     if (!handle)
         return;
 
-    if (debug_title)
+    if (debug_title_active)
         glfwSetWindowTitle(handle, str(fmt::format("%s [%s]", str(title), str(save_name))));
     else
         glfwSetWindowTitle(handle, str(title));
@@ -160,7 +160,7 @@ void window::handle_message() {
 
         window->framebuffer_width = to_ui32(width);
         window->framebuffer_height = to_ui32(height);
-        window->resize_request = true;
+        window->resize_request_active = true;
     });
 
     glfwSetKeyCallback(handle, [](GLFWwindow* handle, i32 key, i32 scancode, i32 action, i32 mods) {
@@ -214,10 +214,10 @@ void window::handle_message() {
 }
 
 template <int attr>
-static int is_attribute_set(GLFWwindow* handle) { return glfwGetWindowAttrib(handle, attr); }
+static int attribute_set(GLFWwindow* handle) { return glfwGetWindowAttrib(handle, attr); }
 
 template <int attr>
-static bool is_bool_attribute_set(GLFWwindow* handle) { return is_attribute_set<attr>(handle) == 1; }
+static bool bool_attribute_set(GLFWwindow* handle) { return attribute_set<attr>(handle) == 1; }
 
 void window::set_position(i32 x, i32 y) { glfwSetWindowPos(handle, x, y); }
 
@@ -252,39 +252,39 @@ void window::show() { glfwShowWindow(handle); }
 
 void window::hide() { glfwHideWindow(handle); }
 
-bool window::visible() const { return is_bool_attribute_set<GLFW_VISIBLE>(handle); }
+bool window::visible() const { return bool_attribute_set<GLFW_VISIBLE>(handle); }
 
 void window::iconify() { glfwIconifyWindow(handle); }
 
-bool window::iconified() const { return is_bool_attribute_set<GLFW_ICONIFIED>(handle); }
+bool window::iconified() const { return bool_attribute_set<GLFW_ICONIFIED>(handle); }
 
 void window::restore() { glfwRestoreWindow(handle); }
 
 void window::maximize() { glfwMaximizeWindow(handle); }
 
-bool window::maximized() const { return is_bool_attribute_set<GLFW_MAXIMIZED>(handle); }
+bool window::maximized() const { return bool_attribute_set<GLFW_MAXIMIZED>(handle); }
 
 void window::focus() { glfwFocusWindow(handle); }
 
-bool window::focused() const { return is_bool_attribute_set<GLFW_FOCUSED>(handle); }
+bool window::focused() const { return bool_attribute_set<GLFW_FOCUSED>(handle); }
 
-bool window::hovered() const { return is_bool_attribute_set<GLFW_HOVERED>(handle); }
+bool window::hovered() const { return bool_attribute_set<GLFW_HOVERED>(handle); }
 
-bool window::resizable() const { return is_bool_attribute_set<GLFW_RESIZABLE>(handle); }
+bool window::resizable() const { return bool_attribute_set<GLFW_RESIZABLE>(handle); }
 
 void window::set_resizable(bool value) { glfwSetWindowAttrib(handle, GLFW_RESIZABLE, value); }
 
-bool window::decorated() const { return is_bool_attribute_set<GLFW_DECORATED>(handle); }
+bool window::decorated() const { return bool_attribute_set<GLFW_DECORATED>(handle); }
 
 void window::set_decorated(bool value) { glfwSetWindowAttrib(handle, GLFW_DECORATED, value); }
 
-bool window::floating() const { return is_bool_attribute_set<GLFW_FLOATING>(handle); }
+bool window::floating() const { return bool_attribute_set<GLFW_FLOATING>(handle); }
 
 void window::set_floating(bool value) { glfwSetWindowAttrib(handle, GLFW_FLOATING, value); }
 
 window* window::get_window(GLFWwindow* handle) { return static_cast<window*>(glfwGetWindowUserPointer(handle)); }
 
-bool window::has_close_request() const { return glfwWindowShouldClose(handle) == 1; }
+bool window::close_request() const { return glfwWindowShouldClose(handle) == 1; }
 
 VkSurfaceKHR window::create_surface() { return lava::create_surface(handle); }
 

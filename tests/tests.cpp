@@ -62,7 +62,7 @@ LAVA_TEST(3, "window input")
 
         input.handle_events();
 
-        if (window.has_close_request())
+        if (window.close_request())
             frame.shut_down();
 
         return true;
@@ -175,10 +175,10 @@ LAVA_TEST(4, "clear color")
 
         input.handle_events();
 
-        if (window.has_close_request())
+        if (window.close_request())
             return frame.shut_down();
 
-        if (window.has_resize_request())
+        if (window.resize_request())
             return window.handle_resize();
 
         if (window.iconified()) {
@@ -280,10 +280,10 @@ LAVA_TEST(5, "color block")
 
         input.handle_events();
 
-        if (window.has_close_request())
+        if (window.close_request())
             return frame.shut_down();
 
-        if (window.has_resize_request())
+        if (window.resize_request())
             return window.handle_resize();
 
         if (window.iconified()) {
@@ -371,10 +371,10 @@ LAVA_TEST(6, "forward shading")
 
         input.handle_events();
 
-        if (window.has_close_request())
+        if (window.close_request())
             return frame.shut_down();
 
-        if (window.has_resize_request())
+        if (window.resize_request())
             return window.handle_resize();
 
         if (window.iconified()) {
@@ -416,7 +416,7 @@ LAVA_TEST(7, "gamepad")
     if (!frame.ready())
         return error::not_ready;
 
-    gamepad_manager::add_listener([&](gamepad pad, bool active) {
+    gamepad_manager::instance().add([&](gamepad pad, bool active) {
 
         auto id = to_ui32(pad.get_id());
 

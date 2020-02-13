@@ -147,19 +147,19 @@ void subpass::process(VkCommandBuffer cmd_buf, uv2 size) {
 
     for (auto& pipeline : pipelines) {
 
-        if (!pipeline->is_active())
+        if (!pipeline->activated())
             continue;
 
         if (!pipeline->on_process)
             continue;
 
-        if (pipeline->is_auto_bind())
+        if (pipeline->auto_bind())
             pipeline->bind(cmd_buf);
 
-        if (pipeline->is_auto_size())
+        if (pipeline->auto_sizing())
             pipeline->set_viewport_and_scissor(cmd_buf, size);
 
-        if (pipeline->is_auto_line_width())
+        if (pipeline->auto_line_width())
             pipeline->set_line_width(cmd_buf);
 
         pipeline->on_process(cmd_buf);

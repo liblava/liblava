@@ -88,7 +88,7 @@ struct window : id_obj {
     void set_fullscreen(bool active) {
 
         if (windowed == active)
-            switch_mode_request = true;
+            switch_mode_request_active = true;
     }
     bool fullscreen() const { return !windowed; }
 
@@ -105,14 +105,14 @@ struct window : id_obj {
 
     static window* get_window(GLFWwindow* handle);
 
-    bool has_close_request() const;
-    bool has_switch_mode_request() const { return switch_mode_request; }
+    bool close_request() const;
+    bool switch_mode_request() const { return switch_mode_request_active; }
 
     bool switch_mode(state::optional state = {});
 
     GLFWwindow* get() const { return handle; }
 
-    bool has_resize_request() const { return resize_request; }
+    bool resize_request() const { return resize_request_active; }
     bool handle_resize() {
 
         if (on_resize) {
@@ -121,7 +121,7 @@ struct window : id_obj {
                 return false;
         }
 
-        resize_request = false;
+        resize_request_active = false;
         return true;
     }
 
@@ -130,8 +130,8 @@ struct window : id_obj {
 
     void assign(input* callback) { input = callback; }
 
-    void set_debug_title(bool value = true) { debug_title = value; }
-    bool has_debug_title() const { return debug_title; }
+    void set_debug_title(bool value = true) { debug_title_active = value; }
+    bool debug_title() const { return debug_title_active; }
 
     void update_title() { set_title(str(title)); }
 
@@ -149,10 +149,10 @@ private:
     string save_name = _default_;
 
     bool windowed = true;
-    bool switch_mode_request = false;
-    bool debug_title = false;
 
-    bool resize_request = false;
+    bool switch_mode_request_active = false;
+    bool debug_title_active = false;
+    bool resize_request_active = false;
  
     ui32 framebuffer_width = 0;
     ui32 framebuffer_height = 0;

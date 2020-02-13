@@ -114,7 +114,7 @@ gamepad_manager::gamepad_manager() {
    
     glfwSetJoystickCallback([](int jid, int e) {
 
-        for (auto& event : get().map)
+        for (auto& event : instance().map)
             if (event.second(gamepad(gamepad_id(jid)), e == GLFW_CONNECTED))
                 break;
     });

@@ -49,9 +49,9 @@ image::image(VkFormat format, VkImage vk_image) : vk_image(vk_image) {
     };
 }
 
-bool image::create(device_ptr device_, uv2 size, VmaMemoryUsage memory_usage, bool mip_levels_generation) {
+bool image::create(device_ptr d, uv2 size, VmaMemoryUsage memory_usage, bool mip_levels_generation) {
 
-    device = device_;
+    device = d;
 
     info.extent = { size.x, size.y, 1 };
 
@@ -75,7 +75,7 @@ bool image::create(device_ptr device_, uv2 size, VmaMemoryUsage memory_usage, bo
     return device->vkCreateImageView(&view_info, &view);
 }
 
-void image::destroy(bool only_view) {
+void image::destroy(bool view_only) {
 
     if (view) {
 
@@ -83,7 +83,7 @@ void image::destroy(bool only_view) {
         view = 0;
     }
 
-    if (only_view)
+    if (view_only)
         return;
 
     if (vk_image) {

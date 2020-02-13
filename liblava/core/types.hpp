@@ -87,7 +87,7 @@ using names_ref = names const&;
 constexpr name _lava_ = "lava";
 constexpr name _liblava_ = "liblava";
 
-inline name str(string const& value) { return value.c_str(); }
+inline name str(string_ref value) { return value.c_str(); }
 
 template <typename T>
 inline r32 to_r32(T value) { return static_cast<r32>(value); }

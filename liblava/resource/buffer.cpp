@@ -44,9 +44,9 @@ VkAccessFlags buffer::usage_to_possible_access(VkBufferUsageFlags usage) {
     return flags;
 }
 
-bool buffer::create(device_ptr device_, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped, VmaMemoryUsage memory_usage) {
+bool buffer::create(device_ptr d, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped, VmaMemoryUsage memory_usage) {
 
-    device = device_;
+    device = d;
 
     VkBufferCreateInfo buffer_info
     {
@@ -98,9 +98,9 @@ bool buffer::create(device_ptr device_, void const* data, size_t size, VkBufferU
     return true;
 }
 
-bool buffer::create_mapped(device_ptr device_, void const* data, size_t size, VkBufferUsageFlags usage, VmaMemoryUsage memory_usage) {
+bool buffer::create_mapped(device_ptr d, void const* data, size_t size, VkBufferUsageFlags usage, VmaMemoryUsage memory_usage) {
 
-    return create(device_, data, size, usage, true, memory_usage);
+    return create(d, data, size, usage, true, memory_usage);
 }
 
 void buffer::destroy() {

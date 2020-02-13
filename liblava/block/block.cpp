@@ -40,10 +40,10 @@ void command::destroy(device_ptr device, VkCommandPools command_pools) {
         device->call().vkFreeCommandBuffers(device->get(), command_pools.at(i), 1, &buffers.at(i));
 }
 
-bool block::create(lava::device_ptr device_, index frame_count, index queue_family) {
+bool block::create(lava::device_ptr d, index frame_count, index queue_family) {
 
-    device = device_;
-
+    device = d;
+    
     current_frame = 0;
 
     command_pools.resize(frame_count);

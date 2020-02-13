@@ -27,10 +27,10 @@ struct render_thread {
 
     void stop() {
 
-        if (!running)
+        if (!active)
             return;
 
-        running = false;
+        active = false;
         thread.join();
     }
 
@@ -38,14 +38,14 @@ struct render_thread {
     render_func on_render;
 
     renderer* get_renderer() { return &plotter; }
-    bool is_running() const { return running; }
+    bool running() const { return active; }
 
 private:
     void render() {
 
-        running = true;
+        active = true;
 
-        while (running) {
+        while (active) {
 
             if (!plotter.active)
                 continue;
@@ -62,7 +62,7 @@ private:
     }
 
     std::thread thread;
-    bool running = false;
+    bool active = false;
 
     renderer plotter;
 };

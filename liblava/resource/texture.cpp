@@ -37,10 +37,10 @@
 
 namespace lava {
 
-bool texture::create(device_ptr device, uv2 size, VkFormat format, layer::list const& layers_, texture_type type_) {
+bool texture::create(device_ptr device, uv2 size, VkFormat format, layer::list const& l, texture_type t) {
 
-    layers = layers_;
-    type = type_;
+    layers = l;
+    type = t;
 
     if (layers.empty()) {
 
@@ -149,7 +149,7 @@ bool texture::upload(void const* data, size_t data_size) {
 
 bool texture::stage(VkCommandBuffer cmd_buffer) {
 
-    if (!upload_buffer || !upload_buffer->is_valid()) {
+    if (!upload_buffer || !upload_buffer->valid()) {
 
         log()->error("stage texture");
         return false;
@@ -281,18 +281,18 @@ bool staging::stage(VkCommandBuffer cmd_buf, index frame) {
 
 scope_image::scope_image(string_ref filename) : image_file(str(filename)), file_data(image_file.get_size(), false) {
 
-    if (image_file.is_open()) {
+    if (image_file.opened()) {
 
         if (!file_data.allocate())
             return;
 
-        if (is_file_error(image_file.read(file_data.ptr)))
+        if (file_error(image_file.read(file_data.ptr)))
             return;
     }
 
     i32 tex_width, tex_height, tex_channels = 0;
 
-    if (image_file.is_open())
+    if (image_file.opened())
         data = as_ptr(stbi_load_from_memory((stbi_uc const*)file_data.ptr, to_i32(file_data.size), 
                                             &tex_width, &tex_height, &tex_channels, STBI_rgb_alpha));
     else
@@ -323,11 +323,11 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
     if (!supported)
         return nullptr;
 
-    auto use_gli = has_extension(str(filename.path), { "DDS", "KTX", "KMG" });
+    auto use_gli = extension(str(filename.path), { "DDS", "KTX", "KMG" });
     auto use_stbi = false;
 
     if (!use_gli)
-        use_stbi = has_extension(str(filename.path), { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
+        use_stbi = extension(str(filename.path), { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
 
     if (!use_gli && !use_stbi)
         return nullptr;
@@ -335,12 +335,12 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
     file file(str(filename.path));
     scope_data temp_data(file.get_size(), false);
 
-    if (file.is_open()) {
+    if (file.opened()) {
 
         if (!temp_data.allocate())
             return nullptr;
 
-        if (is_file_error(file.read(temp_data.ptr)))
+        if (file_error(file.read(temp_data.ptr)))
             return nullptr;
     }
 
@@ -354,8 +354,8 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
 
             case texture_type::tex_2d: {
 
-                gli::texture2d tex(file.is_open() ? gli::load(temp_data.ptr, temp_data.size)
-                                                  : gli::load(filename.path));
+                gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+                                                 : gli::load(filename.path));
                 assert(!tex.empty());
                 if (tex.empty())
                     return nullptr;
@@ -387,8 +387,8 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
 
             case texture_type::array: {
 
-                gli::texture2d_array tex(file.is_open() ? gli::load(temp_data.ptr, temp_data.size)
-                                                        : gli::load(filename.path));
+                gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+                                                       : gli::load(filename.path));
                 assert(!tex.empty());
                 if (tex.empty())
                     return nullptr;
@@ -424,8 +424,8 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
 
             case texture_type::cube_map: {
 
-                gli::texture_cube tex(file.is_open() ? gli::load(temp_data.ptr, temp_data.size) 
-                                                     : gli::load(filename.path));
+                gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size) 
+                                                    : gli::load(filename.path));
                 assert(!tex.empty());
                 if (tex.empty())
                     return nullptr;
@@ -465,7 +465,7 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
         i32 tex_width, tex_height, tex_channels = 0;
         stbi_uc* data = nullptr;
 
-        if (file.is_open())
+        if (file.opened())
             data = stbi_load_from_memory((stbi_uc const*)temp_data.ptr, to_i32(temp_data.size), 
                                          &tex_width, &tex_height, &tex_channels, STBI_rgb_alpha);
         else

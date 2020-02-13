@@ -28,9 +28,9 @@ bool read_file(std::vector<char>& out, name filename);
 
 bool write_file(name filename, char const* data, size_t data_size);
 
-bool has_extension(name file_name, name extension);
+bool extension(name file_name, name extension);
 
-bool has_extension(name filename, names extensions);
+bool extension(name filename, names extensions);
 
 string get_filename_from(string_ref path, bool with_extension = false);
 
@@ -81,7 +81,7 @@ struct file_system : no_copy_no_move {
     name get_app() const { return app; }
     name get_ext() const { return ext; }
 
-    bool is_initialized() const { return initialized; }
+    bool ready() const { return initialized; }
 
 private:
     file_system() = default;
@@ -102,9 +102,9 @@ enum class file_type : type {
     f_stream
 };
 
-constexpr i64 const file_error = -1;
+constexpr i64 const file_error_result = -1;
 
-inline bool is_file_error(i64 result) { return result == file_error; }
+inline bool file_error(i64 result) { return result == file_error_result; }
 
 struct file : no_copy_no_move {
 
@@ -114,7 +114,7 @@ struct file : no_copy_no_move {
     bool open(name path, bool write = false);
     void close();
 
-    bool is_open() const;
+    bool opened() const;
     i64 get_size() const;
 
     i64 read(data_ptr data) { return read(data, to_ui64(get_size())); }
@@ -122,7 +122,7 @@ struct file : no_copy_no_move {
 
     i64 write(data_cptr data, ui64 size);
 
-    bool is_write_mode() const { return write_mode; }
+    bool writable() const { return write_mode; }
     file_type get_type() const { return type; }
 
     name get_path() const { return path; }

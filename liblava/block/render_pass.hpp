@@ -26,7 +26,7 @@ struct render_pass : id_obj, target_callback {
     VkRenderPass get() const { return vk_render_pass; }
 
     ui32 get_subpass_count() const { return to_ui32(subpasses.size()); }
-    bool has_subpass(index index = 0) const { return index < subpasses.size(); }
+    bool exists_subpass(index index = 0) const { return index < subpasses.size(); }
 
     subpass* get_subpass(index index = 0) { return subpasses.at(index).get(); }
     subpass::list const& get_subpasses() const { return subpasses; }

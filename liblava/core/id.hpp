@@ -27,7 +27,7 @@ struct id {
     type value = undef;
     ui32 version = 0;
 
-    bool is_valid() const { return value != undef; }
+    bool valid() const { return value != undef; }
     string to_string(bool show_version = false) const {
 
         char result[32];
@@ -46,7 +46,7 @@ struct id {
 
     bool check(id::map& map) {
 
-        if (!is_valid())
+        if (!valid())
             return false;
 
         if (!map.count(*this))
@@ -86,7 +86,7 @@ struct ids {
     }
 
     void set_reuse(bool state) { reuse_ids = state; }
-    bool is_reusing() const { return reuse_ids; }
+    bool reusing() const { return reuse_ids; }
 
     type get_max() const { return next_id; }
     void set_max(type max) {
@@ -121,7 +121,7 @@ private:
 };
 
 template <typename T>
-inline id add_to_id_map(T const& object, std::map<id, T>& map) {
+inline id add_id_map(T const& object, std::map<id, T>& map) {
 
     auto next = ids::next();
     map.emplace(next, std::move(object));
@@ -129,7 +129,7 @@ inline id add_to_id_map(T const& object, std::map<id, T>& map) {
 }
 
 template <typename T>
-inline bool remove_from_id_map(id::ref object, std::map<id, T>& map) {
+inline bool remove_id_map(id::ref object, std::map<id, T>& map) {
 
     if (!map.count(object))
         return false;
@@ -145,12 +145,12 @@ struct id_listeners {
 
     id add(typename T::func const& listener) {
 
-        return add_to_id_map(listener, list);
+        return add_id_map(listener, list);
     }
 
     void remove(id& id) {
 
-        if (remove_from_id_map(id, list))
+        if (remove_id_map(id, list))
             id.invalidate();
     }
 

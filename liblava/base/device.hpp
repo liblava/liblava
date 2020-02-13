@@ -95,7 +95,7 @@ struct device : device_table {
     VkPhysicalDeviceFeatures const& get_features() const;
     VkPhysicalDeviceProperties const& get_properties() const;
 
-    bool is_surface_supported(VkSurfaceKHR surface) const;
+    bool surface_supported(VkSurfaceKHR surface) const;
 
     void set_allocator(allocator::ptr value) { mem_allocator = value; }
     allocator::ptr get_allocator() { return mem_allocator; }

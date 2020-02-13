@@ -8,9 +8,9 @@
 
 namespace lava {
 
-bool renderer::create(swapchain* target_) {
+bool renderer::create(swapchain* t) {
 
-    target = target_;
+    target = t;
     device = target->get_device();
 
     queue = device->get_graphics_queue();

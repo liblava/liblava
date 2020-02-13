@@ -79,12 +79,12 @@ frame::~frame() { teardown(); }
 
 bool frame::ready() const { return _initialized; }
 
-bool frame::setup(frame_config config_) {
+bool frame::setup(frame_config c) {
 
     if (_initialized)
         return false;
 
-    config = config_;
+    config = c;
 
     if (config.app_info.app_name == nullptr)
         config.app_info.app_name = config.app;

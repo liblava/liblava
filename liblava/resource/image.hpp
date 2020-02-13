@@ -20,7 +20,7 @@ struct image : id_obj {
     explicit image(VkFormat format, VkImage vk_image = 0);
 
     bool create(device_ptr device, uv2 size, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY, bool mip_levels_generation = false);
-    void destroy(bool only_view = false);
+    void destroy(bool view_only = false);
     void destroy_view() { destroy(true); }
 
     device_ptr get_device() { return device; }

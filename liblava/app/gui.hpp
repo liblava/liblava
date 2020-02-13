@@ -62,16 +62,16 @@ struct gui : input_callback {
     
     void destroy();
 
-    bool is_initialized() const { return initialized; }
+    bool ready() const { return initialized; }
     graphics_pipeline::ptr get_pipeline() { return pipeline; }
 
     using draw_func = std::function<void()>;
     draw_func on_draw;
 
-    bool want_capture_mouse() const;
+    bool capture_mouse() const;
 
     void set_active(bool value = true) { active = value; }
-    bool is_active() const { return active; }
+    bool activated() const { return active; }
 
     void toggle() { active = !active; }
 

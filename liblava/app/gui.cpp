@@ -104,9 +104,9 @@ void gui::update_mouse_cursor() {
     }
 }
 
-void gui::setup(GLFWwindow* window_, config config) {
+void gui::setup(GLFWwindow* w, config config) {
 
-    window = window_;
+    window = w;
     current_time = 0.0;
 
     IMGUI_CHECKVERSION();
@@ -203,26 +203,26 @@ void gui::setup(GLFWwindow* window_, config config) {
 
     on_key_event = [&](key_event const& event) {
 
-        if (is_active())
+        if (activated())
             handle_key_event(to_i32(event.key), event.scancode, to_i32(event.action), to_i32(event.mod));
 
-        return want_capture_mouse();
+        return capture_mouse();
     };
 
     on_scroll_event = [&](scroll_event const& event) {
 
-        if (is_active())
+        if (activated())
             handle_scroll_event(event.offset.x, event.offset.y);
 
-        return want_capture_mouse();
+        return capture_mouse();
     };
 
     on_mouse_button_event = [&](mouse_button_event const& event) {
 
-        if (is_active())
+        if (activated())
             handle_mouse_button_event(to_i32(event.button), to_i32(event.action), to_i32(event.mod));
 
-        return want_capture_mouse();
+        return capture_mouse();
     };
 }
 
@@ -371,12 +371,12 @@ static ui32 imgui_frag_shader[] = {
     0x00010038
 };
 
-bool gui::create(graphics_pipeline::ptr pipeline_, index max_frames_) {
+bool gui::create(graphics_pipeline::ptr p, index mf) {
 
-    pipeline = std::move(pipeline_);
+    pipeline = std::move(p);
 
     device = pipeline->get_device();
-    max_frames = max_frames_;
+    max_frames = mf;
 
     for (auto i = 0u; i < max_frames; ++i) {
 
@@ -418,7 +418,7 @@ bool gui::create(graphics_pipeline::ptr pipeline_, index max_frames_) {
 
     pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
         
-        if (!is_active() || !on_draw)
+        if (!activated() || !on_draw)
             return;
 
         new_frame();
@@ -451,7 +451,7 @@ void gui::destroy() {
     initialized = false;
 }
 
-bool gui::want_capture_mouse() const {
+bool gui::capture_mouse() const {
 
     return ImGui::GetIO().WantCaptureMouse;
 }
@@ -498,9 +498,9 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
     auto& io = ImGui::GetIO();
 
     auto vertex_size = draw_data->TotalVtxCount * sizeof(ImDrawVert);
-    if (!vertex_buffers[frame]->is_valid() || vertex_buffers[frame]->get_size() < vertex_size) {
+    if (!vertex_buffers[frame]->valid() || vertex_buffers[frame]->get_size() < vertex_size) {
 
-        if (vertex_buffers[frame]->is_valid())
+        if (vertex_buffers[frame]->valid())
             vertex_buffers[frame]->destroy();
 
         if (!vertex_buffers[frame]->create(device, nullptr, ((vertex_size - 1) / buffer_memory_alignment + 1) * buffer_memory_alignment,
@@ -509,9 +509,9 @@ void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
     }
 
     auto index_size = draw_data->TotalIdxCount * sizeof(ImDrawIdx);
-    if (!index_buffers[frame]->is_valid() || index_buffers[frame]->get_size() < index_size) {
+    if (!index_buffers[frame]->valid() || index_buffers[frame]->get_size() < index_size) {
 
-        if (index_buffers[frame]->is_valid())
+        if (index_buffers[frame]->valid())
             index_buffers[frame]->destroy();
 
         if (!index_buffers[frame]->create(device, nullptr, ((index_size - 1) / buffer_memory_alignment + 1) * buffer_memory_alignment,

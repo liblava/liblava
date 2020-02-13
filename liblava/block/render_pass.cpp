@@ -6,7 +6,7 @@
 
 namespace lava {
 
-render_pass::render_pass(device_ptr device_) : device(device_) {
+render_pass::render_pass(device_ptr d) : device(d) {
 
     on_created = [&](VkAttachmentsRef target_attachments, rect area) { return on_target_created(target_attachments, area); };
     on_destroyed = [&]() { on_target_destroyed(); };
@@ -104,7 +104,7 @@ void render_pass::process(VkCommandBuffer cmd_buf, index frame) {
         if (count > 0)
             device->call().vkCmdNextSubpass(cmd_buf, VK_SUBPASS_CONTENTS_INLINE);
 
-        if (!subpass->is_active())
+        if (!subpass->activated())
             continue;
 
         subpass->process(cmd_buf, area.get_size());
@@ -137,9 +137,9 @@ v3 render_pass::get_clear_color() const {
     };
 }
 
-bool render_pass::on_target_created(VkAttachmentsRef target_attachments, rect area_) {
+bool render_pass::on_target_created(VkAttachmentsRef target_attachments, rect a) {
 
-    area = area_;
+    area = a;
     framebuffers.resize(target_attachments.size());
 
     auto size = area.get_size();

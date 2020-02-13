@@ -32,6 +32,6 @@ constexpr name _auto_load_ = "auto load";
 constexpr name _fixed_delta_ = "fixed delta";
 constexpr name _delta_ = "delta";
 constexpr name _gui_ = "gui";
-constexpr name _vsync_ = "vsync";
+constexpr name _v_sync_ = "v-sync";
 
 } // lava

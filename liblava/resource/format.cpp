@@ -5,7 +5,7 @@
 #include <liblava/resource/format.hpp>
 #include <liblava/base/memory.hpp>
 
-bool lava::format_is_depth(VkFormat format) {
+bool lava::format_depth(VkFormat format) {
 
     switch (format) {
 
@@ -22,11 +22,11 @@ bool lava::format_is_depth(VkFormat format) {
     }
 }
 
-bool lava::format_is_stencil(VkFormat format) { return format == VK_FORMAT_S8_UINT; }
+bool lava::format_stencil(VkFormat format) { return format == VK_FORMAT_S8_UINT; }
 
-bool lava::format_is_depth_stencil(VkFormat format) { return format_is_depth(format) || format_is_stencil(format); }
+bool lava::format_depth_stencil(VkFormat format) { return format_depth(format) || format_stencil(format); }
 
-VkImageAspectFlags lava::format_to_aspect_mask(VkFormat format) {
+VkImageAspectFlags lava::format_aspect_mask(VkFormat format) {
 
     switch (format) {
 

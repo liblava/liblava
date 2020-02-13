@@ -29,7 +29,7 @@ struct buffer : id_obj {
 
     device_ptr get_device() { return device; }
 
-    bool is_valid() const { return vk_buffer != 0; }
+    bool valid() const { return vk_buffer != 0; }
 
     VkBuffer get() const { return vk_buffer; }
     VkDescriptorBufferInfo const* get_descriptor() const { return &descriptor; }

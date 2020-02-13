@@ -16,8 +16,8 @@ struct swapchain : id_obj {
 
     bool resize(uv2 new_size);
 
-    void request_reload() { reload_request = true; }
-    bool must_reload() const { return reload_request; }
+    void request_reload() { reload_request_active = true; }
+    bool reload_request() const { return reload_request_active; }
 
     device_ptr get_device() { return device; }
 
@@ -43,7 +43,7 @@ struct swapchain : id_obj {
     void add_callback(callback* cb);
     void remove_callback(callback* cb);
 
-    bool has_v_sync() const { return v_sync; }
+    bool v_sync() const { return v_sync_active; }
 
 private:
     void set_surface_format();
@@ -51,7 +51,6 @@ private:
     VkPresentModeKHR choose_present_mode(VkPresentModeKHRs const& present_modes) const;
 
     bool create_internal();
-
     void destroy_internal();
     void destroy_backbuffer_views();
 
@@ -59,15 +58,13 @@ private:
 
     VkSurfaceKHR surface = 0;
     VkSurfaceFormatKHR format = {};
-
     VkSwapchainKHR vk_swapchain = 0;
 
     image::list backbuffers;
 
     uv2 size;
-    bool reload_request = false;
-
-    bool v_sync = false;
+    bool reload_request_active = false;
+    bool v_sync_active = false;
 
     callback::list callbacks;
 };

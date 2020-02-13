@@ -68,12 +68,12 @@ struct pipeline : id_obj {
     virtual void bind(VkCommandBuffer cmd_buf) = 0;
 
     void set_active(bool value = true) { active = value; }
-    bool is_active() const { return active; }
+    bool activated() const { return active; }
 
     void toggle() { active = !active; }
 
-    void set_auto_bind(bool value = true) { auto_bind = value; }
-    bool is_auto_bind() const { return auto_bind; }
+    void set_auto_bind(bool value = true) { auto_bind_active = value; }
+    bool auto_bind() const { return auto_bind_active; }
 
     bool ready() const { return vk_pipeline != 0; }
 
@@ -116,7 +116,7 @@ protected:
 
 private:
     bool active = true;
-    bool auto_bind = true;
+    bool auto_bind_active = true;
 };
 
 pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits stage);
@@ -183,7 +183,7 @@ struct graphics_pipeline : pipeline {
     void clear_shader_stages() { shader_stages.clear(); }
 
     void set_auto_size(bool value = true) { auto_size = value; }
-    bool is_auto_size() const { return auto_size; }
+    bool auto_sizing() const { return auto_size; }
 
     VkViewport get_viewport() const { return viewport; }
     void set_viewport(VkViewport value) { viewport = value; }
@@ -200,8 +200,8 @@ struct graphics_pipeline : pipeline {
     void set_line_width(r32 value) { line_width = value; }
     r32 get_line_width() const { return line_width; }
 
-    bool is_auto_line_width() const { return auto_line_width; }
-    void set_auto_line_width(bool value = true) { auto_line_width = value; }
+    bool auto_line_width() const { return auto_line_width_active; }
+    void set_auto_line_width(bool value = true) { auto_line_width_active = value; }
 
     void set_line_width(VkCommandBuffer cmd_buf) { vkCmdSetLineWidth(cmd_buf, line_width); }
 
@@ -234,8 +234,7 @@ private:
     VkRect2D scissor;
 
     bool auto_size = true;
-
-    bool auto_line_width = false;
+    bool auto_line_width_active = false;
     r32 line_width = 1.f;
 };
 

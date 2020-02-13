@@ -23,11 +23,11 @@ struct app : frame {
         bool auto_save = true;
         seconds save_interval{ 300 };
 
-        bool vsync = false;
+        bool v_sync = false;
     };
 
     explicit app(frame_config config);
-    explicit app(name config_app, argh::parser cmd_line = {});
+    explicit app(name name, argh::parser cmd_line = {});
 
     bool setup();
 
@@ -58,7 +58,7 @@ struct app : frame {
     using destroy_func = std::function<void()>;
     destroy_func on_destroy;
 
-    bool vsync_active() const { return config.vsync; }
+    bool v_sync() const { return config.v_sync; }
     ui32 get_frame_counter() const { return frame_counter; }
 
     void draw_about(bool separator = true) const;
@@ -68,7 +68,6 @@ struct app : frame {
 
 private:
     void handle_config();
-
     void handle_input();
     void handle_window();
 
@@ -86,7 +85,7 @@ private:
 
     texture::ptr fonts;
 
-    bool toggle_vsync = false;
+    bool toggle_v_sync = false;
     ui32 frame_counter = 0;
 
     file_callback config_callback;

@@ -62,7 +62,7 @@ struct dispatcher {
 
         telegram msg(sender, receiver, message, current_time, info);
 
-        if (delay == ms{}) {
+        if (delay == ms{0}) {
 
             discharge(msg); // now
             return;

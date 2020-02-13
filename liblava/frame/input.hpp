@@ -102,13 +102,13 @@ struct key_event {
 
     i32 scancode = 0;
 
-    bool pressed(lava::key key_) const { return action == action::press && key == key_; }
-    bool released(lava::key key_) const { return action == action::release && key == key_; }
-    bool repeated(lava::key key_) const { return action == action::repeat && key == key_; }
+    bool pressed(lava::key k) const { return action == action::press && key == k; }
+    bool released(lava::key k) const { return action == action::release && key == k; }
+    bool repeated(lava::key k) const { return action == action::repeat && key == k; }
 
     bool active() const { return action == action::press || action == action::repeat; }
 
-    bool pressed(lava::key key_, lava::mod mod_) const { return pressed(key_) && mod == mod_; }
+    bool pressed(lava::key k, lava::mod m) const { return pressed(k) && mod == m; }
 };
 
 struct scroll_offset {
@@ -170,8 +170,8 @@ struct mouse_button_event {
     lava::action action;
     lava::mod mod;
 
-    bool pressed(mouse_button button_) const { return action == action::press && button == button_; }
-    bool released(mouse_button button_) const { return action == action::release && button == button_; }
+    bool pressed(mouse_button b) const { return action == action::press && button == b; }
+    bool released(mouse_button b) const { return action == action::release && button == b; }
 };
 
 struct mouse_active_event {
@@ -272,6 +272,7 @@ enum class gamepad_axis : type {
 struct gamepad {
 
     using list = std::vector<gamepad>;
+    using ref = gamepad const&;
 
     explicit gamepad(gamepad_id id);
 
@@ -300,7 +301,7 @@ gamepad::list gamepads();
 
 struct gamepad_manager {
 
-    static gamepad_manager& get() {
+    static gamepad_manager& instance() {
 
         static gamepad_manager manager;
         return manager;
@@ -309,11 +310,7 @@ struct gamepad_manager {
     using listener_func = std::function<bool(gamepad, bool)>;
 
     id add(listener_func listener);
-
     void remove(id::ref id);
-
-    static id add_listener(listener_func listener) { return get().add(listener); }
-    static void remove_listenerer(id::ref id) { get().remove(id); }
 
 private:
     explicit gamepad_manager();

@@ -50,7 +50,7 @@ struct subpass : id_obj {
     void set_preserve_attachments(index_list const& attachments);
 
     void set_active(bool value = true) { active = value; }
-    bool is_active() const { return active; }
+    bool activated() const { return active; }
 
 private:
     VkSubpassDescription description;

@@ -16,10 +16,10 @@ instance::~instance() {
     destroy();
 }
 
-bool instance::create(create_param& param, debug_config::ref debug_, app_info::ref info_) {
+bool instance::create(create_param& param, debug_config::ref d, app_info::ref i) {
 
-    debug = debug_;
-    info = info_;
+    debug = d;
+    info = i;
 
     if (debug.validation) {
 

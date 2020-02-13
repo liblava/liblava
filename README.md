@@ -110,7 +110,7 @@ frame.add_run([&]() {
 
     input.handle_events();
 
-    if (window.has_close_request())
+    if (window.close_request())
         frame.shut_down();
 
     return true;
@@ -227,10 +227,10 @@ frame.add_run([&]() {
 
     input.handle_events();
 
-    if (window.has_close_request())
+    if (window.close_request())
         return frame.shut_down();
 
-    if (window.has_resize_request())
+    if (window.resize_request())
         return window.handle_resize();
 
     if (window.iconified()) {

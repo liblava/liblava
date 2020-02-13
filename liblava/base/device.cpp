@@ -135,9 +135,9 @@ bool device::create_descriptor_pool() {
     return check(call().vkCreateDescriptorPool(vk_device, &pool_info, memory::alloc(), &descriptor_pool));
 }
 
-bool device::is_surface_supported(VkSurfaceKHR surface) const {
+bool device::surface_supported(VkSurfaceKHR surface) const {
 
-    return physical_device->is_surface_supported(get_graphics_queue().family, surface);
+    return physical_device->surface_supported(get_graphics_queue().family, surface);
 }
 
 VkPhysicalDevice device::get_vk_physical_device() const {
@@ -153,7 +153,7 @@ device::ptr device_manager::create() {
 
     auto& physical_device = instance::get_first_physical_device();
 
-    if (!physical_device.is_swapchain_supported())
+    if (!physical_device.swapchain_supported())
         return nullptr;
 
     auto device = create(physical_device.create_default_device_param());

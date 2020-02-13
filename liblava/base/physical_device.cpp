@@ -6,9 +6,9 @@
 
 namespace lava {
 
-void physical_device::initialize(VkPhysicalDevice vk_device_) {
+void physical_device::initialize(VkPhysicalDevice d) {
 
-    vk_device = vk_device_;
+    vk_device = d;
 
     vkGetPhysicalDeviceProperties(vk_device, &properties);
     vkGetPhysicalDeviceFeatures(vk_device, &features);
@@ -31,7 +31,7 @@ void physical_device::initialize(VkPhysicalDevice vk_device_) {
     }
 }
 
-bool physical_device::is_supported(string_ref extension) const {
+bool physical_device::supported(string_ref extension) const {
 
     for (auto& extension_property : extension_properties) {
 
@@ -92,12 +92,12 @@ string physical_device::get_device_type_string() const {
     return result;
 }
 
-bool physical_device::is_swapchain_supported() const {
+bool physical_device::swapchain_supported() const {
 
-    return is_supported(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+    return supported(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 }
 
-bool physical_device::is_surface_supported(index queue_family, VkSurfaceKHR surface) const {
+bool physical_device::surface_supported(index queue_family, VkSurfaceKHR surface) const {
 
     VkBool32 res = VK_FALSE;
     if (failed(vkGetPhysicalDeviceSurfaceSupportKHR(vk_device, queue_family, surface, &res)))

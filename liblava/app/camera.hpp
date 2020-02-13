@@ -25,13 +25,13 @@ struct camera : id_obj {
 
     void update_projection();
     void update_view(delta dt, mouse_position mouse_pos);
-    void update_view(delta dt, gamepad const& pad);
+    void update_view(delta dt, gamepad::ref pad);
 
     bool handle(key_event::ref event);
     bool handle(mouse_button_event::ref event, mouse_position mouse_pos);
     bool handle(scroll_event::ref event);
     
-    bool is_valid() const { return data ? data->is_valid() : false; }
+    bool valid() const { return data ? data->valid() : false; }
     VkDescriptorBufferInfo const* get_info() const { return data ? data->get_info() : nullptr; }
 
     void upload();
@@ -40,7 +40,7 @@ struct camera : id_obj {
     void reset();
 
     void set_active(bool value = true) { active = value; }
-    bool is_active() const { return active; }
+    bool activated() const { return active; }
     bool moving() const { return up || down || left || right; }
 
     v3 position = v3(0.f);

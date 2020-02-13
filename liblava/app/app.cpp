@@ -9,11 +9,11 @@
 
 namespace lava {
 
-app::app(frame_config config_) 
-    : frame(config_), window(config_.app) {}
+app::app(frame_config config) 
+    : frame(config), window(config.app) {}
 
-app::app(name config_app, argh::parser cmd_line)
-    : frame(frame_config(config_app, cmd_line)), window(config_app) {}
+app::app(name name, argh::parser cmd_line)
+    : frame(frame_config(name, cmd_line)), window(name) {}
 
 void to_json(json& j, window::state const& w) {
 
@@ -44,7 +44,7 @@ void from_json(json const& j, window::state& w) {
         w.maximized = j.at(_maximized_).get<bool>();
 }
 
-bool has_window_file() {
+bool window_file() {
 
     return file_system::exists(_window_file_);
 }
@@ -89,7 +89,7 @@ void save_window_file(window const& window) {
     }
 
     file file(str(_window_file_), true);
-    if (!file.is_open()) {
+    if (!file.opened()) {
 
         log()->error("save window {}", str(j.dump()));
         return;
@@ -104,7 +104,7 @@ void save_window_file(window const& window) {
 
 window::state::optional load_window_state(name save_name = _default_) {
 
-    if (!has_window_file())
+    if (!window_file())
         return {};
 
     window::state window_state;
@@ -144,8 +144,8 @@ void app::handle_config() {
         if (j.count(_gui_))
             gui.set_active(j[_gui_]);
 
-        if (j.count(_vsync_))
-            config.vsync = j[_vsync_];
+        if (j.count(_v_sync_))
+            config.v_sync = j[_v_sync_];
     };
 
     config_callback.on_save = [&](json& j) {
@@ -157,8 +157,8 @@ void app::handle_config() {
         j[_auto_load_] = config.auto_load;
         j[_fixed_delta_] = run_time.use_fix_delta;
         j[_delta_] = run_time.fix_delta.count();
-        j[_gui_] = gui.is_active();
-        j[_vsync_] = config.vsync;
+        j[_gui_] = gui.activated();
+        j[_v_sync_] = config.v_sync;
     };
 
     config_file.load();
@@ -271,7 +271,7 @@ void app::destroy_gui() {
 
 bool app::create_target() {
 
-    target = lava::create_target(&window, device, config.vsync);
+    target = lava::create_target(&window, device, config.v_sync);
     if (!target)
         return false;
 
@@ -303,7 +303,7 @@ void app::handle_input() {
 
     input.key.listeners.add([&](key_event::ref event) {
 
-        if (gui.want_capture_mouse()) {
+        if (gui.capture_mouse()) {
 
             camera.stop();
             return false;
@@ -323,14 +323,14 @@ void app::handle_input() {
 
         if (event.pressed(key::backspace, mod::alt)) {
 
-            toggle_vsync = true;
+            toggle_v_sync = true;
             return true;
         }
 
         if (event.pressed(key::space))
             run_time.paused = !run_time.paused;
 
-        if (camera.is_active())
+        if (camera.activated())
             return camera.handle(event);
 
         return false;
@@ -338,10 +338,10 @@ void app::handle_input() {
 
     input.mouse_button.listeners.add([&](mouse_button_event::ref event) {
 
-        if (gui.want_capture_mouse())
+        if (gui.capture_mouse())
             return false;
 
-        if (camera.is_active())
+        if (camera.activated())
             return camera.handle(event, input.get_mouse_position());
 
         return false;
@@ -349,10 +349,10 @@ void app::handle_input() {
 
     input.scroll.listeners.add([&](scroll_event::ref event) {
 
-        if (gui.want_capture_mouse())
+        if (gui.capture_mouse())
             return false;
 
-        if (camera.is_active())
+        if (camera.activated())
             return camera.handle(event);
 
         return false;
@@ -376,17 +376,17 @@ void app::handle_window() {
 
     add_run([&]() {
 
-        if (window.has_close_request())
+        if (window.close_request())
             return shut_down();
 
-        if (window.has_switch_mode_request() || toggle_vsync || target->must_reload()) {
+        if (window.switch_mode_request() || toggle_v_sync || target->reload_request()) {
 
             device->wait_for_idle();
 
             destroy_target();
             destroy_gui();
 
-            if (window.has_switch_mode_request()) {
+            if (window.switch_mode_request()) {
 
                 if (config.save_window)
                     save_window_file(window);
@@ -401,10 +401,10 @@ void app::handle_window() {
                 set_window_icon();
             }
 
-            if (toggle_vsync) {
+            if (toggle_v_sync) {
 
-                config.vsync = !config.vsync;
-                toggle_vsync = false;
+                config.v_sync = !config.v_sync;
+                toggle_v_sync = false;
             }
 
             if (!create_target())
@@ -413,7 +413,7 @@ void app::handle_window() {
             return create_gui();
         }
 
-        if (window.has_resize_request()) {
+        if (window.resize_request()) {
 
             camera.aspect_ratio = window.get_aspect_ratio();
             camera.update_projection();
@@ -488,10 +488,10 @@ void app::draw_about(bool separator) const {
     ImGui::Text("%s %s", _liblava_, to_string(_version).c_str());
 
     if (ImGui::IsItemHovered())
-        ImGui::SetTooltip("alt + enter = fullscreen\nalt + backspace = vsync\nspace = pause\ntab = gui");
+        ImGui::SetTooltip("alt + enter = fullscreen\nalt + backspace = v-sync\nspace = pause\ntab = gui");
 
-    if (vsync_active())
-        ImGui::Text("%.f fps (vsync)", ImGui::GetIO().Framerate);
+    if (v_sync())
+        ImGui::Text("%.f fps (v-sync)", ImGui::GetIO().Framerate);
     else
         ImGui::Text("%.f fps", ImGui::GetIO().Framerate);
 

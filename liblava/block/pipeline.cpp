@@ -6,9 +6,9 @@
 
 namespace lava {
 
-bool pipeline_layout::create(device_ptr device_) {
+bool pipeline_layout::create(device_ptr d) {
 
-    device = device_;
+    device = d;
 
     VkDescriptorSetLayouts layouts;
     for (auto& layout : descriptors)
@@ -82,9 +82,9 @@ pipeline::shader_stage::~shader_stage() {
     destroy();
 }
 
-bool pipeline::shader_stage::create(device_ptr device_, data const& data) {
+bool pipeline::shader_stage::create(device_ptr d, data const& data) {
 
-    device = device_;
+    device = d;
 
     create_info.module = create_shader_module(device, data);
 

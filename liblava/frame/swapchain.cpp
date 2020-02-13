@@ -7,12 +7,12 @@
 
 namespace lava {
 
-bool swapchain::create(device_ptr device_, VkSurfaceKHR surface_, uv2 size_, bool v_sync_) {
+bool swapchain::create(device_ptr d, VkSurfaceKHR s, uv2 sz, bool v) {
 
-    device = device_;
-    surface = surface_;
-    size = size_;
-    v_sync = v_sync_;
+    device = d;
+    surface = s;
+    size = sz;
+    v_sync_active = v;
 
     set_surface_format();
 
@@ -113,7 +113,7 @@ void swapchain::set_surface_format() {
 
 VkPresentModeKHR swapchain::choose_present_mode(VkPresentModeKHRs const& present_modes) const {
 
-    if (v_sync)
+    if (v_sync())
         return VK_PRESENT_MODE_FIFO_KHR;
 
     for (auto const& present_mode : present_modes)
@@ -217,7 +217,7 @@ bool swapchain::create_internal() {
     if (old_swapchain)
         device->vkDestroySwapchainKHR(old_swapchain);
 
-    reload_request = false;
+    reload_request_active = false;
 
     return true;
 }

@@ -42,7 +42,7 @@ bool lava::write_file(name filename, char const* data, size_t data_size) {
     return true;
 }
 
-bool lava::has_extension(name file_name, name extension) {
+bool lava::extension(name file_name, name extension) {
 
     string fn = file_name;
     string ext = extension;
@@ -55,10 +55,10 @@ bool lava::has_extension(name file_name, name extension) {
     return to_check == ext;
 }
 
-bool lava::has_extension(name filename, names extensions) {
+bool lava::extension(name filename, names extensions) {
 
-    for (auto& extension : extensions)
-        if (has_extension(filename, extension))
+    for (auto& ex : extensions)
+        if (extension(filename, ex))
             return true;
 
     return false;
@@ -120,7 +120,7 @@ bool file_system::exists(name file) { return PHYSFS_exists(file) != 0; }
 
 name file_system::get_real_dir(name file) { return PHYSFS_getRealDir(file); }
 
-bool file_system::initialize(name argv_0, name org_, name app_, name ext_) {
+bool file_system::initialize(name argv_0, name o, name a, name e) {
 
     assert(!initialized); // only once
     if (initialized)
@@ -130,12 +130,12 @@ bool file_system::initialize(name argv_0, name org_, name app_, name ext_) {
 
         PHYSFS_init(argv_0);
 
-        PHYSFS_setSaneConfig(org_, app_, ext_, 0, 0);
+        PHYSFS_setSaneConfig(o, a, e, 0, 0);
         initialized = true;
 
-        org = org_;
-        app = app_;
-        ext = ext_;
+        org = o;
+        app = a;
+        ext = e;
     }
 
     return initialized;
@@ -183,16 +183,16 @@ bool file_system::create_data_folder() {
     return fs::exists(data_path);
 }
 
-file::file(name path_, bool write) { open(path_, write); }
+file::file(name p, bool write) { open(p, write); }
 
 file::~file() { close(); }
 
-bool file::open(name path_, bool write) {
+bool file::open(name p, bool write) {
 
-    if (!path_)
+    if (!p)
         return false;
 
-    path = path_;
+    path = p;
     write_mode = write;
 
     if (write_mode)
@@ -220,7 +220,7 @@ bool file::open(name path_, bool write) {
         }
     }
 
-    return is_open();
+    return opened();
 }
 
 void file::close() {
@@ -238,7 +238,7 @@ void file::close() {
     }
 }
 
-bool file::is_open() const {
+bool file::opened() const {
 
     if (type == file_type::fs) {
 
@@ -269,13 +269,13 @@ i64 file::get_size() const {
             return to_i64(i_stream.tellg());
     }
 
-    return file_error;
+    return file_error_result;
 }
 
 i64 file::read(data_ptr data, ui64 size) {
 
     if (write_mode)
-        return file_error;
+        return file_error_result;
 
     if (type == file_type::fs) {
 
@@ -288,13 +288,13 @@ i64 file::read(data_ptr data, ui64 size) {
         return to_i64(size);
     }
 
-    return file_error;
+    return file_error_result;
 }
 
 i64 file::write(data_cptr data, ui64 size) {
 
     if (!write_mode)
-        return file_error;
+        return file_error_result;
 
     if (type == file_type::fs) {
 
@@ -306,7 +306,7 @@ i64 file::write(data_cptr data, ui64 size) {
         return to_i64(size);
     }
 
-    return file_error;
+    return file_error_result;
 }
 
 json_file::json_file(name path) : path(path) {}
@@ -332,7 +332,7 @@ bool json_file::load() {
 bool json_file::save() {
 
     file file(str(path), true);
-    if (!file.is_open()) {
+    if (!file.opened()) {
 
         log()->error("save file {}", str(path));
         return false;
@@ -355,14 +355,14 @@ bool json_file::save() {
 bool lava::load_file_data(string_ref filename, data& target) {
 
     file file(str(filename));
-    if (!file.is_open())
+    if (!file.opened())
         return false;
 
     target.set(to_size_t(file.get_size()));
     if (!target.ptr)
         return false;
 
-    if (is_file_error(file.read(target.ptr))) {
+    if (file_error(file.read(target.ptr))) {
 
         log()->error("read file {}", filename);
         return false;

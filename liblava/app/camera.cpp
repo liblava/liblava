@@ -100,11 +100,11 @@ void camera::update_view(delta dt, mouse_position mouse_pos) {
     else
         view = trans_m * rot_m;
 
-    if (is_valid())
+    if (valid())
         memcpy(as_ptr(data->get_mapped_data()) + sizeof(mat4), &view, sizeof(mat4));
 }
 
-void camera::update_view(delta dt, gamepad const& pad) {
+void camera::update_view(delta dt, gamepad::ref pad) {
 
     const r32 dead_zone = 0.2f;
     const r32 range = 1.f - dead_zone;
@@ -165,7 +165,7 @@ void camera::update_projection() {
 
     projection = glm::perspective(glm::radians(fov), aspect_ratio, z_near, z_far);
 
-    if (is_valid())
+    if (valid())
         memcpy(as_ptr(data->get_mapped_data()), &projection, sizeof(mat4));
 }
 

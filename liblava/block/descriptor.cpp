@@ -15,9 +15,9 @@ descriptor::binding::binding() {
     vk_binding.pImmutableSamplers = nullptr;
 }
 
-bool descriptor::create(device_ptr device_) {
+bool descriptor::create(device_ptr d) {
 
-    device = device_;
+    device = d;
 
     VkDescriptorSetLayoutBindings layoutBindings;
 
