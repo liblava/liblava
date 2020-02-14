@@ -206,7 +206,7 @@ void gui::setup(GLFWwindow* w, config config) {
         if (activated())
             handle_key_event(to_i32(event.key), event.scancode, to_i32(event.action), to_i32(event.mod));
 
-        return capture_mouse();
+        return capture_keyboard();
     };
 
     on_scroll_event = [&](scroll_event const& event) {
@@ -454,6 +454,11 @@ void gui::destroy() {
 bool gui::capture_mouse() const {
 
     return ImGui::GetIO().WantCaptureMouse;
+}
+
+bool gui::capture_keyboard() const {
+
+    return ImGui::GetIO().WantCaptureKeyboard;
 }
 
 void gui::set_ini_file(fs::path dir) {
