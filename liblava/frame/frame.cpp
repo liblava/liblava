@@ -167,7 +167,7 @@ bool frame::setup(frame_config c) {
     auto glfw_extensions_count = 0u;
     auto glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
     for (auto i = 0u; i < glfw_extensions_count; ++i)
-        config.param.extension_to_enable.push_back(glfw_extensions[i]);
+        config.param.extensions.push_back(glfw_extensions[i]);
 
     if (!instance::singleton().create(config.param, config.debug, config.app_info)) {
 

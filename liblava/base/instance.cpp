@@ -23,26 +23,26 @@ bool instance::create(create_param& param, debug_config::ref d, app_info::ref i)
 
     if (debug.validation) {
 
-        if (!exists(param.layer_to_enable, VK_LAYER_LUNARG_STANDARD_VALIDATION_NAME))
-            param.layer_to_enable.push_back(VK_LAYER_LUNARG_STANDARD_VALIDATION_NAME);
+        if (!exists(param.layers, VK_LAYER_LUNARG_STANDARD_VALIDATION_NAME))
+            param.layers.push_back(VK_LAYER_LUNARG_STANDARD_VALIDATION_NAME);
     }
 
     if (debug.render_doc) {
 
-        if (!exists(param.layer_to_enable, VK_LAYER_RENDERDOC_CAPTURE_NAME))
-            param.layer_to_enable.push_back(VK_LAYER_RENDERDOC_CAPTURE_NAME);
+        if (!exists(param.layers, VK_LAYER_RENDERDOC_CAPTURE_NAME))
+            param.layers.push_back(VK_LAYER_RENDERDOC_CAPTURE_NAME);
     }
 
     if (debug.assistent) {
 
-        if (!exists(param.layer_to_enable, VK_LAYER_LUNARG_ASSISTENT_LAYER_NAME))
-            param.layer_to_enable.push_back(VK_LAYER_LUNARG_ASSISTENT_LAYER_NAME);
+        if (!exists(param.layers, VK_LAYER_LUNARG_ASSISTENT_LAYER_NAME))
+            param.layers.push_back(VK_LAYER_LUNARG_ASSISTENT_LAYER_NAME);
     }
 
     if (debug.utils) {
 
-        if (!exists(param.extension_to_enable, VK_EXT_DEBUG_UTILS_EXTENSION_NAME))
-            param.extension_to_enable.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+        if (!exists(param.extensions, VK_EXT_DEBUG_UTILS_EXTENSION_NAME))
+            param.extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
     }
 
     if (!param.check()) {
@@ -79,10 +79,10 @@ bool instance::create(create_param& param, debug_config::ref d, app_info::ref i)
     {
         .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
         .pApplicationInfo = &application_info,
-        .enabledLayerCount = to_ui32(param.layer_to_enable.size()),
-        .ppEnabledLayerNames = param.layer_to_enable.data(),
-        .enabledExtensionCount = to_ui32(param.extension_to_enable.size()),
-        .ppEnabledExtensionNames = param.extension_to_enable.data(),
+        .enabledLayerCount = to_ui32(param.layers.size()),
+        .ppEnabledLayerNames = param.layers.data(),
+        .enabledExtensionCount = to_ui32(param.extensions.size()),
+        .ppEnabledExtensionNames = param.extensions.data(),
     };
 
     auto result = vkCreateInstance(&create_info, memory::alloc(), &vk_instance);
@@ -121,7 +121,7 @@ void instance::destroy() {
 bool instance::create_param::check() const {
 
     auto layer_properties = enumerate_layer_properties();
-    for (auto const& layer_name : layer_to_enable) {
+    for (auto const& layer_name : layers) {
 
         auto itr = std::find_if(layer_properties.begin(), layer_properties.end(), 
                             [&](VkLayerProperties const& extProp) {
@@ -134,7 +134,7 @@ bool instance::create_param::check() const {
     }
 
     auto extensions_properties = enumerate_extension_properties();
-    for (auto const& ext_name : extension_to_enable) {
+    for (auto const& ext_name : extensions) {
 
         auto itr = std::find_if(extensions_properties.begin(), extensions_properties.end(),
                             [&](VkExtensionProperties const& extProp) {

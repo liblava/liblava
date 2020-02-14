@@ -19,6 +19,8 @@ struct device : device_table {
 
     struct create_param {
 
+        using ref = create_param const&;
+
         physical_device_cptr physical_device = nullptr;
 
         struct queue_info {
@@ -52,7 +54,7 @@ struct device : device_table {
 
     ~device() { destroy(); }
 
-    bool create(create_param const& param);
+    bool create(create_param::ref param);
     void destroy();
 
     struct queue {
@@ -120,7 +122,7 @@ struct device_manager {
 
     device::ptr create(index physical_device = 0);
 
-    device::ptr create(device::create_param const& param);
+    device::ptr create(device::create_param::ref param);
 
     device::list const& get_all() const { return list; }
 

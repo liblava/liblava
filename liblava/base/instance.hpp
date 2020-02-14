@@ -12,8 +12,8 @@ struct instance : no_copy_no_move {
 
     struct create_param {
 
-        names layer_to_enable{};
-        names extension_to_enable{};
+        names layers{};
+        names extensions{};
 
         bool check() const;
     };

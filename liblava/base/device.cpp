@@ -8,7 +8,7 @@
 
 namespace lava {
 
-bool device::create(create_param const& param) {
+bool device::create(create_param::ref param) {
 
     physical_device = param.physical_device;
     if (!physical_device)
@@ -170,7 +170,7 @@ device::ptr device_manager::create(index pd) {
     return create(physical_device->create_default_device_param());
 }
 
-device::ptr device_manager::create(device::create_param const& param) {
+device::ptr device_manager::create(device::create_param::ref param) {
 
     auto result = std::make_shared<device>();
     if (!result->create(param))

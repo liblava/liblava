@@ -27,9 +27,9 @@ struct frame_config {
 
     log_config log;
 
-    instance::debug_config debug;
     instance::app_info app_info;
     instance::create_param param;
+    instance::debug_config debug;
 };
 
 enum error {
