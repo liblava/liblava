@@ -167,17 +167,7 @@ device::ptr device_manager::create(index pd) {
     if (!physical_device->swapchain_supported())
         return nullptr;
 
-    auto device = create(physical_device->create_default_device_param());
-    if (!device)
-        return nullptr;
-
-    auto allocator = make_allocator(physical_device->get(), device->get());
-    if (!allocator)
-        return nullptr;
-
-    device->set_allocator(allocator);
-
-    return device;
+    return create(physical_device->create_default_device_param());
 }
 
 device::ptr device_manager::create(device::create_param const& param) {
@@ -185,6 +175,12 @@ device::ptr device_manager::create(device::create_param const& param) {
     auto result = std::make_shared<device>();
     if (!result->create(param))
         return nullptr;
+
+    auto allocator = make_allocator(result->get_vk_physical_device(), result->get());
+    if (!allocator)
+        return nullptr;
+
+    result->set_allocator(allocator);
 
     list.push_back(result);
     return result;
