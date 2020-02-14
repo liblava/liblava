@@ -2,23 +2,23 @@
 
 **liblava is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/">Vulkan</a>® API**
 
-**lava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education**. <a href="https://git.io/liblava-demo">demo</a>  / <a href="https://git.io/liblava-template">template</a> / <a href="https://git.io/liblava-engine">engine</a>
+**lava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education** • <a href="https://git.io/liblava-demo">demo</a>  / <a href="https://git.io/liblava-template">template</a> / <a href="https://git.io/liblava-engine">engine</a>
 
-**C++20** • **Modular** • **Cross Platform** ( Windows / Linux / macOS<sup>*soon*</sup> )
+**C++20** • **Modular** • **Cross Platform** ( Windows / Linux )
 
-![version](https://img.shields.io/badge/version-0.4.5-blue) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![Donate](https://img.shields.io/badge/donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
+[![Version](https://img.shields.io/badge/version-0.4.5-blue)](https://git.io/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![Donate](https://img.shields.io/badge/donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
 
 #### features
 
-* written in modern C++ with latest Vulkan support
-* run loop abstraction for window and input handling
-* render target, renderer and command buffer model
-* mesh and texture loading from virtual file system
-* camera, gui, logging, test driver and much more...
+* written in **modern C++** with latest **Vulkan** support
+* **run loop** abstraction for **window** and **input handling**
+* plain **renderer** and **command buffer model**
+* **texture** and **mesh** **loading** from **virtual file system**
+* **camera**, **gui**, **logging**, **test driver** and much more...
 
 ##### Download latest **<a href="https://github.com/liblava/liblava-demo/releases">2019 demo / v0.4.4</a>**  (Dec 6, 2019)
 
-<a href="https://github.com/liblava/liblava-demo/releases">![demo](res/demo.png)</a>
+<a href="https://github.com/liblava/liblava-demo/#readme">![demo](res/demo.png)</a>
 
 #### modules
 
@@ -26,15 +26,15 @@
 
 ## hello frame
 
-Let's write **Hello World** in Vulkan:
+Let's write **Hello World** in Vulkan...
 
 <a href="https://www.khronos.org/vulkan/"><img align="right" hspace="20" src="res/Vulkan_100px_Dec16.png"></a>
 
-**"a simple program to render a colored window"**
+**"a simple app that renders a colored window"**
 
 All we need is a `window`, `device` and `renderer`. Vulkan is a low-level, verbose graphics API and such a program can take several hundred lines of code.
 
-The good news is that **liblava** will set it all up for you.
+The good news is that **liblava** will help you!
 
 ```c++
 #include <liblava/lava.hpp>
@@ -264,14 +264,14 @@ return frame.run();
 
 ##### Welcome on **Planet Vulkan**. That's a lot to render a colored window.
 
-Phew,... take a closer look at the `build_cmd_bufs` function:
+Phew! Take a closer look at the `build_cmd_bufs` function:
 
-1. We create a command pool and command buffers for each frame of the render target.
-2. We set each command buffer to clear the frame image with some random color.
+1. We create a command pool and command buffers for each frame of the render target
+2. We set each command buffer to clear the frame image with some random color
 
 Watch out the *VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT* flag that specifies the reusage of command buffers.
 
-The `clean_cmd_bufs` function frees all buffers and destroys the command pool. In case of swap chain restoration we simply recreate command buffers with a new random color. This happens for example on window resize.
+`clean_cmd_bufs` frees all buffers and destroys the command pool. In case of swap chain restoration we simply recreate command buffers with a new random color. This happens for example on window resize.
 
 After all, this is a very static example. Vulkan supports a more *dynamic* and common usage by resetting a command pool before recording new commands.
 
@@ -317,9 +317,9 @@ block.add_command([&](VkCommandBuffer cmd_buf) {
 
 ##### Nice, this is much more simpler than before:
 
-We create a `lava::block` and add a **command** that clears the current frame image.
+We create a `lava::block` and add one **command** that clears the current frame image.
 
-Now all we need to do is to process the block in the run loop...
+All we need to do is to process the block in the run loop...
 
 ```c++
 if (!block.process(*frame_index))
@@ -328,9 +328,9 @@ if (!block.process(*frame_index))
 return plotter.end_frame(block.get_buffers());
 ```
 
-... and call the renderer with recorded command buffers.
+... and call the renderer with our recorded command buffers.
 
-Don't forget to clean it up at run end:
+Don't forget to clean it up:
 
 ```c++
 block.destroy();
@@ -361,8 +361,6 @@ int main(int argc, char* argv[]) {
 ```
 
 ##### What's next? - Check <a href="https://git.io/liblava-demo">demonstration projects</a> and clone a <a href="https://git.io/liblava-template">starter template</a>
-
-<a href="https://github.com/liblava/liblava-demo/">![demo](res/demo.png)</a>
 
 ## tests
 
