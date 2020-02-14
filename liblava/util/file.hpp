@@ -53,7 +53,7 @@ struct file_guard : no_copy_no_move {
 
 struct file_system : no_copy_no_move {
 
-    static file_system& get() {
+    static file_system& instance() {
 
         static file_system fs;
         return fs;

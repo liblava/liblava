@@ -101,12 +101,12 @@ name file_system::get_base_dir() { return PHYSFS_getBaseDir(); }
 
 string file_system::get_base_dir_str() { return string(get_base_dir()); }
 
-name file_system::get_pref_dir() { return PHYSFS_getPrefDir(get().org, get().app); }
+name file_system::get_pref_dir() { return PHYSFS_getPrefDir(instance().org, instance().app); }
 
 string file_system::get_res_dir() {
 
     string res_dir = get_base_dir();
-    res_dir += get().res_path;
+    res_dir += instance().res_path;
     string_ref const_res_dir = res_dir;
 
     return fs::path(const_res_dir).lexically_normal().string();

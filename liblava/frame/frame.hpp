@@ -13,6 +13,8 @@ namespace lava {
 
 struct frame_config {
 
+    using ref = frame_config const&;
+
     explicit frame_config() = default;
     explicit frame_config(name a, argh::parser cl)
                          : app(a), cmd_line(cl) {}
@@ -24,8 +26,10 @@ struct frame_config {
     name ext = _zip_;
 
     log_config log;
+
     instance::debug_config debug;
     instance::app_info app_info;
+    instance::create_param param;
 };
 
 enum error {
@@ -76,7 +80,7 @@ struct frame : interface, no_copy_no_move {
     ms get_running_time() const { return now() - start_time; }
 
     argh::parser const& get_cmd_line() const { return config.cmd_line; }
-    frame_config get_config() const { return config; }
+    frame_config::ref get_config() const { return config; }
     name get_name() const { return config.app; }
 
     bool waiting_for_events() const { return wait_for_events; }

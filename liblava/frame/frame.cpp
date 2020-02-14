@@ -60,28 +60,28 @@ lava::ms lava::now() { return to_ms(glfwGetTime()); }
 
 namespace lava {
 
-static bool _initialized = false;
+static bool frame_initialized = false;
 
 frame::frame(argh::parser cmd_line) { 
 
-    frame_config config_;
-    config_.cmd_line = cmd_line;
+    frame_config c;
+    c.cmd_line = cmd_line;
 
-    setup(config_);
+    setup(c);
 }
 
-frame::frame(frame_config config_) {
+frame::frame(frame_config c) {
 
-    setup(config_);
+    setup(c);
 }
 
 frame::~frame() { teardown(); }
 
-bool frame::ready() const { return _initialized; }
+bool frame::ready() const { return frame_initialized; }
 
 bool frame::setup(frame_config c) {
 
-    if (_initialized)
+    if (frame_initialized)
         return false;
 
     config = c;
@@ -164,14 +164,12 @@ bool frame::setup(frame_config c) {
 
     log()->info("vulkan {}", str(to_string(instance::get_version())));
 
-    instance::create_param param;
-
     auto glfw_extensions_count = 0u;
     auto glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
     for (auto i = 0u; i < glfw_extensions_count; ++i)
-        param.extension_to_enable.push_back(glfw_extensions[i]);
+        config.param.extension_to_enable.push_back(glfw_extensions[i]);
 
-    if (!instance::singleton().create(param, config.debug, config.app_info)) {
+    if (!instance::singleton().create(config.param, config.debug, config.app_info)) {
 
         log()->error("create instance");
         return false;
@@ -179,15 +177,15 @@ bool frame::setup(frame_config c) {
 
     log()->debug("physfs {}", str(to_string(file_system::get_version())));
 
-    if (!file_system::get().initialize(str(cmd_line[0]), config.org, config.app, config.ext)) {
+    if (!file_system::instance().initialize(str(cmd_line[0]), config.org, config.app, config.ext)) {
 
         log()->error("init file system");
         return false;
     }
 
-    file_system::get().mount_res();
+    file_system::instance().mount_res();
 
-    _initialized = true;
+    frame_initialized = true;
 
     log()->info("---");
 
@@ -196,7 +194,7 @@ bool frame::setup(frame_config c) {
 
 void frame::teardown() {
 
-    if (!_initialized)
+    if (!frame_initialized)
         return;
 
     manager.clear();
@@ -210,9 +208,9 @@ void frame::teardown() {
     log()->flush();
     spdlog::drop_all();
 
-    file_system::get().terminate();
+    file_system::instance().terminate();
 
-    _initialized = false;
+    frame_initialized = false;
 }
 
 frame::result frame::run() {
