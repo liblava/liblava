@@ -69,6 +69,7 @@ struct gui : input_callback {
     draw_func on_draw;
 
     bool capture_mouse() const;
+    bool capture_keyboard() const;
 
     void set_active(bool value = true) { active = value; }
     bool activated() const { return active; }

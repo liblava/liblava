@@ -311,7 +311,7 @@ void app::handle_input() {
 
     input.key.listeners.add([&](key_event::ref event) {
 
-        if (gui.capture_mouse()) {
+        if (gui.capture_keyboard()) {
 
             camera.stop();
             return false;
