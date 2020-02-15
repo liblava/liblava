@@ -26,6 +26,8 @@ struct window : id_obj {
 
         using optional = std::optional<window::state>;
 
+        explicit state() {}
+
         i32 x = 0;
         i32 y = 0;
         ui32 width = 0;
