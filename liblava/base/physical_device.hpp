@@ -15,7 +15,7 @@ struct physical_device : id_obj {
 
     physical_device() = default;
 
-    void initialize(VkPhysicalDevice vk_device);
+    void initialize(VkPhysicalDevice vk_physical_device);
 
     bool supported(string_ref extension) const;
     bool get_queue_family(index& index, VkQueueFlags flags) const;
@@ -29,7 +29,7 @@ struct physical_device : id_obj {
     VkQueueFamilyPropertiesList const& get_queue_family_properties() const { return queue_family_properties; }
     VkExtensionPropertiesList const& get_extension_properties() const { return extension_properties; }
 
-    VkPhysicalDevice get() const { return vk_device; }
+    VkPhysicalDevice get() const { return vk_physical_device; }
 
     string get_device_type_string() const;
 
@@ -37,7 +37,7 @@ struct physical_device : id_obj {
     bool surface_supported(index queue_family, VkSurfaceKHR surface) const;
 
 private:
-    VkPhysicalDevice vk_device = nullptr;
+    VkPhysicalDevice vk_physical_device = nullptr;
 
     VkPhysicalDeviceProperties properties = {};
     VkPhysicalDeviceFeatures features = {};

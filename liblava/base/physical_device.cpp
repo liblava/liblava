@@ -6,28 +6,28 @@
 
 namespace lava {
 
-void physical_device::initialize(VkPhysicalDevice d) {
+void physical_device::initialize(VkPhysicalDevice pd) {
 
-    vk_device = d;
+    vk_physical_device = pd;
 
-    vkGetPhysicalDeviceProperties(vk_device, &properties);
-    vkGetPhysicalDeviceFeatures(vk_device, &features);
-    vkGetPhysicalDeviceMemoryProperties(vk_device, &memory_properties);
+    vkGetPhysicalDeviceProperties(vk_physical_device, &properties);
+    vkGetPhysicalDeviceFeatures(vk_physical_device, &features);
+    vkGetPhysicalDeviceMemoryProperties(vk_physical_device, &memory_properties);
 
     auto queue_family_count = 0u;
-    vkGetPhysicalDeviceQueueFamilyProperties(vk_device, &queue_family_count, nullptr);
+    vkGetPhysicalDeviceQueueFamilyProperties(vk_physical_device, &queue_family_count, nullptr);
     if (queue_family_count > 0) {
 
         queue_family_properties.resize(queue_family_count);
-        vkGetPhysicalDeviceQueueFamilyProperties(vk_device, &queue_family_count, queue_family_properties.data());
+        vkGetPhysicalDeviceQueueFamilyProperties(vk_physical_device, &queue_family_count, queue_family_properties.data());
     }
 
     auto extension_count = 0u;
-    vkEnumerateDeviceExtensionProperties(vk_device, nullptr, &extension_count, nullptr);
+    vkEnumerateDeviceExtensionProperties(vk_physical_device, nullptr, &extension_count, nullptr);
     if (extension_count > 0) {
 
         extension_properties.resize(extension_count);
-        vkEnumerateDeviceExtensionProperties(vk_device, nullptr, &extension_count, extension_properties.data());
+        vkEnumerateDeviceExtensionProperties(vk_physical_device, nullptr, &extension_count, extension_properties.data());
     }
 }
 
@@ -100,7 +100,7 @@ bool physical_device::swapchain_supported() const {
 bool physical_device::surface_supported(index queue_family, VkSurfaceKHR surface) const {
 
     VkBool32 res = VK_FALSE;
-    if (failed(vkGetPhysicalDeviceSurfaceSupportKHR(vk_device, queue_family, surface, &res)))
+    if (failed(vkGetPhysicalDeviceSurfaceSupportKHR(vk_physical_device, queue_family, surface, &res)))
         return false;
 
     return res == VK_TRUE;

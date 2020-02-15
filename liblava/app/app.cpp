@@ -201,9 +201,12 @@ bool app::setup() {
 
     set_window_icon();
 
-    device = create_device(config.physical_device);
-    if (!device)
-        return false;
+    if (!device) {
+
+        device = create_device(config.physical_device);
+        if (!device)
+            return false;
+    }
 
     if (!create_target())
         return false;

@@ -130,6 +130,9 @@ struct device_manager {
 
     void clear();
 
+    using create_param_func = std::function<void(device::create_param&)>;
+    create_param_func on_create_param;
+
 private:
     device::list list;
 };

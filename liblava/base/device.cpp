@@ -167,7 +167,11 @@ device::ptr device_manager::create(index pd) {
     if (!physical_device->swapchain_supported())
         return nullptr;
 
-    return create(physical_device->create_default_device_param());
+    auto param = physical_device->create_default_device_param();
+    if (on_create_param)
+        on_create_param(param);
+
+    return create(param);
 }
 
 device::ptr device_manager::create(device::create_param::ref param) {
