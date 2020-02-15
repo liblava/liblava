@@ -6,7 +6,7 @@
 
 namespace lava {
 
-bool command::create(device_ptr device, index frame_count, VkCommandPools command_pools) {
+bool command::create(device_ptr device, index frame_count, VkCommandPools cmd_pools) {
 
     buffers.resize(frame_count);
 
@@ -15,7 +15,7 @@ bool command::create(device_ptr device, index frame_count, VkCommandPools comman
         VkCommandBufferAllocateInfo const allocate_info
         {
             .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO,
-            .commandPool = command_pools.at(i),
+            .commandPool = cmd_pools.at(i),
             .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
             .commandBufferCount = 1,
         };
@@ -24,20 +24,14 @@ bool command::create(device_ptr device, index frame_count, VkCommandPools comman
             log()->error("create command buffers");
             return false;
         }
-
-        if (failed(device->call().vkResetCommandPool(device->get(), command_pools.at(i), 0))) {
-
-            log()->error("create command pool");
-            return false;
-        }
     }
 
     return true;
 }
-void command::destroy(device_ptr device, VkCommandPools command_pools) {
+void command::destroy(device_ptr device, VkCommandPools cmd_pools) {
 
     for (auto i = 0u; i < buffers.size(); ++i)
-        device->call().vkFreeCommandBuffers(device->get(), command_pools.at(i), 1, &buffers.at(i));
+        device->call().vkFreeCommandBuffers(device->get(), cmd_pools.at(i), 1, &buffers.at(i));
 }
 
 bool block::create(lava::device_ptr d, index frame_count, index queue_family) {
@@ -46,7 +40,7 @@ bool block::create(lava::device_ptr d, index frame_count, index queue_family) {
     
     current_frame = 0;
 
-    command_pools.resize(frame_count);
+    cmd_pools.resize(frame_count);
 
     for (auto i = 0u; i < frame_count; ++i) {
 
@@ -56,7 +50,7 @@ bool block::create(lava::device_ptr d, index frame_count, index queue_family) {
             .flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
             .queueFamilyIndex = queue_family,
         };
-        if (failed(device->call().vkCreateCommandPool(device->get(), &create_info, memory::alloc(), &command_pools.at(i)))) {
+        if (failed(device->call().vkCreateCommandPool(device->get(), &create_info, memory::alloc(), &cmd_pools.at(i)))) {
 
             log()->error("create block command pool");
             return false;
@@ -64,7 +58,7 @@ bool block::create(lava::device_ptr d, index frame_count, index queue_family) {
     }
 
     for (auto& command : commands)
-        if (!command.second.create(device, frame_count, command_pools))
+        if (!command.second.create(device, frame_count, cmd_pools))
             return false;
 
     return true;
@@ -73,12 +67,12 @@ bool block::create(lava::device_ptr d, index frame_count, index queue_family) {
 void block::destroy() {
 
     for (auto& command : commands)
-        command.second.destroy(device, command_pools);
+        command.second.destroy(device, cmd_pools);
 
-    for (auto i = 0u; i < command_pools.size(); ++i)
-        device->call().vkDestroyCommandPool(device->get(), command_pools.at(i), memory::alloc());
+    for (auto i = 0u; i < cmd_pools.size(); ++i)
+        device->call().vkDestroyCommandPool(device->get(), cmd_pools.at(i), memory::alloc());
 
-    command_pools.clear();
+    cmd_pools.clear();
     cmd_order.clear();
     commands.clear();
 }
@@ -88,8 +82,8 @@ id block::add_cmd(command::func func) {
     command cmd;
     cmd.on_func = func;
 
-    if (device && !command_pools.empty())
-        if (!cmd.create(device, get_frame_count(), command_pools))
+    if (device && !cmd_pools.empty())
+        if (!cmd.create(device, get_frame_count(), cmd_pools))
             return undef_id;
 
     auto result = cmd.get_id();
@@ -106,7 +100,7 @@ void block::remove_cmd(id::ref cmd) {
         return;
 
     auto& command = commands.at(cmd);
-    command.destroy(device, command_pools);
+    command.destroy(device, cmd_pools);
 
     remove(cmd_order, &command);
 
@@ -117,7 +111,7 @@ bool block::process(index frame) {
 
     current_frame = frame;
 
-    if (failed(device->call().vkResetCommandPool(device->get(), command_pools.at(frame), 0))) {
+    if (failed(device->call().vkResetCommandPool(device->get(), cmd_pools.at(frame), 0))) {
 
         log()->error("block reset command pool");
         return false;

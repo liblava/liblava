@@ -33,7 +33,7 @@ struct block : id_obj {
     bool create(device_ptr device, index frame_count, index queue_family);
     void destroy();
 
-    auto get_frame_count() const { return to_index(command_pools.size()); }
+    auto get_frame_count() const { return to_index(cmd_pools.size()); }
 
     id add_cmd(command::func func);
     id add_command(command::func func) { return add_cmd(func); }
@@ -66,7 +66,7 @@ private:
     device_ptr device = nullptr;
 
     index current_frame = 0;
-    VkCommandPools command_pools = {};
+    VkCommandPools cmd_pools = {};
 
     command::map commands;
     command::list cmd_order;
