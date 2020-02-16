@@ -77,10 +77,11 @@ void block::destroy() {
     commands.clear();
 }
 
-id block::add_cmd(command::func func) {
+id block::add_cmd(command::func func, bool active) {
 
     command cmd;
     cmd.on_func = func;
+    cmd.active = active;
 
     if (device && !cmd_pools.empty())
         if (!cmd.create(device, get_frame_count(), cmd_pools))
@@ -119,6 +120,9 @@ bool block::process(index frame) {
 
     for (auto& command : cmd_order) {
 
+        if (!command->active)
+            continue;
+
         auto& cmd_buf = command->buffers.at(frame);
 
         VkCommandBufferBeginInfo const begin_info
@@ -136,6 +140,23 @@ bool block::process(index frame) {
             return false;
     }
 
+    return true;
+}
+
+bool block::activated(id::ref command) {
+
+    if (!commands.count(command))
+        return false;
+
+    return commands.at(command).active;
+}
+
+bool block::set_active(id::ref command, bool active) {
+
+    if (!commands.count(command))
+        return false;
+
+    commands.at(command).active = active;
     return true;
 }
 

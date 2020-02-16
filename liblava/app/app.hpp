@@ -67,6 +67,11 @@ struct app : frame {
     config config;
     json_file config_file;
 
+    using process_func = std::function<void(VkCommandBuffer, index)>;
+    process_func on_process;
+
+    id::ref block_cmd() const { return block_command; }
+
 private:
     void handle_config();
     void handle_input();
@@ -90,6 +95,8 @@ private:
     ui32 frame_counter = 0;
 
     file_callback config_callback;
+
+    id block_command;
 };
 
 } // lava

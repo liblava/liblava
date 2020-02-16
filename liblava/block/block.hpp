@@ -18,6 +18,8 @@ struct command : id_obj {
     using func = std::function<void(VkCommandBuffer)>;
     func on_func;
 
+    bool active = true;
+
     bool create(device_ptr device, index frame_count, VkCommandPools command_pools);
     void destroy(device_ptr device, VkCommandPools command_pools);
 };
@@ -35,8 +37,8 @@ struct block : id_obj {
 
     auto get_frame_count() const { return to_index(cmd_pools.size()); }
 
-    id add_cmd(command::func func);
-    id add_command(command::func func) { return add_cmd(func); }
+    id add_cmd(command::func func, bool active = true);
+    id add_command(command::func func, bool active = true) { return add_cmd(func, active); }
 
     void remove_cmd(id::ref cmd);
     void remove_command(id::ref cmd) { remove_cmd(cmd); }
@@ -52,13 +54,17 @@ struct block : id_obj {
         VkCommandBuffers result;
 
         for (auto& cmd : cmd_order)
-            result.push_back(cmd->buffers.at(current_frame));
+            if (cmd->active)
+                result.push_back(cmd->buffers.at(current_frame));
 
         return result;
     }
 
     auto const& get_commands() const { return commands; }
     auto const& get_cmd_order() const { return cmd_order; }
+
+    bool activated(id::ref command);
+    bool set_active(id::ref command, bool active = true);
 
     auto get_device() { return device; }
 

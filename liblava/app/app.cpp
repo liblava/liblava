@@ -173,11 +173,14 @@ bool app::create_block() {
     if (!block.create(device, target->get_frame_count(), device->graphics_queue().family))
         return false;
 
-    block.add_command([&](VkCommandBuffer cmd_buf) {
+    block_command = block.add_cmd([&](VkCommandBuffer cmd_buf) {
 
         auto current_frame = block.get_current_frame();
 
         staging.stage(cmd_buf, current_frame);
+
+        if (on_process)
+            on_process(cmd_buf, current_frame);
 
         shading.get_pass()->process(cmd_buf, current_frame);
     });
