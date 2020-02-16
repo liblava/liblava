@@ -145,6 +145,9 @@ struct graphics_pipeline : pipeline {
 
     VkRenderPass get_render_pass() const { return render_pass; }
 
+    index get_subpass() const { return subpass; }
+    void set_subpass(index value) { subpass = value; }
+
     bool create(VkRenderPass pass) {
         
         set(pass);
@@ -210,6 +213,7 @@ private:
     void destroy_internal() override;
 
     VkRenderPass render_pass = 0;
+    index subpass = 0;
 
     VkPipelineVertexInputStateCreateInfo vertex_input_state;
     VkVertexInputBindingDescriptions vertex_input_bindings;

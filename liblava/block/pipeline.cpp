@@ -363,7 +363,7 @@ bool graphics_pipeline::create_internal() {
         .pDynamicState = &dynamic_state,
         .layout = layout->get(),
         .renderPass = render_pass,
-        .subpass = 0,
+        .subpass = to_ui32(subpass),
         .basePipelineHandle = 0,
         .basePipelineIndex = -1,
     };
