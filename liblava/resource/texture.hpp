@@ -96,6 +96,10 @@ struct staging {
 
     bool stage(VkCommandBuffer cmd_buf, index frame);
 
+    void clear() { todo.clear(); staged.clear(); }
+
+    bool busy() const { return !todo.empty() || !staged.empty(); }
+
 private:
     texture::list todo;
 
