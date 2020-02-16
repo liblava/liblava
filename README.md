@@ -233,17 +233,6 @@ frame.add_run([&]() {
     if (window.resize_request())
         return window.handle_resize();
 
-    if (window.iconified()) {
-
-        frame.set_wait_for_events(true);
-        return true;
-    }
-    else {
-
-        if (frame.waiting_for_events())
-            frame.set_wait_for_events(false);
-    }
-
     auto frame_index = plotter.begin_frame();
     if (!frame_index)
         return true;
