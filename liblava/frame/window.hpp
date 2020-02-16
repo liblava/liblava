@@ -20,6 +20,17 @@ namespace lava {
 
 constexpr name _default_ = "default";
 
+constexpr name _window_file_ = "window.json";
+constexpr name _x_ = "x";
+constexpr name _y_ = "y";
+constexpr name _width_ = "width";
+constexpr name _height_ = "height";
+constexpr name _fullscreen_ = "fullscreen";
+constexpr name _floating_ = "floating";
+constexpr name _resizable_ = "resizable";
+constexpr name _decorated_ = "decorated";
+constexpr name _maximized_ = "maximized";
+
 struct window : id_obj {
 
     struct state {
@@ -42,6 +53,7 @@ struct window : id_obj {
     using ptr = std::shared_ptr<window>;
     using event = std::function<void(ptr)>;
     using map = std::map<id, ptr>;
+    using ref = window const&;
 
     window() = default;
     explicit window(name title) : title(title) {}
@@ -166,6 +178,12 @@ private:
     ui32 width = 0;
     ui32 height = 0;
 };
+
+bool window_file();
+window::state::optional load_window_state(name save_name = _default_);
+
+bool load_window_file(window::state& state, name save_name);
+void save_window_file(window::ref window);
 
 VkSurfaceKHR create_surface(GLFWwindow* window);
 

@@ -15,6 +15,7 @@ struct GLFWcursor;
 namespace lava {
 
 constexpr const r32 default_font_size = 18.f;
+constexpr name _gui_file_ = "gui.ini";
 
 struct gui : input_callback {
 
