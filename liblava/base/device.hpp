@@ -44,6 +44,8 @@ struct device : device_table {
         queue_info::list queue_info_list;
 
         names extensions;
+        VkPhysicalDeviceFeatures features{};
+        void const* next = nullptr; // pNext
 
         void set_default_queues() {
 
@@ -114,6 +116,8 @@ private:
     device::queue::list graphics_queue_list;
     device::queue::list compute_queue_list;
     device::queue::list transfer_queue_list;
+
+    VkPhysicalDeviceFeatures features;
 
     allocator::ptr mem_allocator;
 };
