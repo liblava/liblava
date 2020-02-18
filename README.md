@@ -2,13 +2,13 @@
 
 **liblava is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/">Vulkan</a>® API**
 
-**lava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education** • <a href="https://git.io/liblava-demo">demo</a>  / <a href="https://git.io/liblava-template">template</a> / <a href="https://git.io/liblava-engine">engine</a>
+**lava** is a lean framework that provides **essentials** for low-level graphics and is specially well suited for **prototyping**, **tooling** and **education** • <a href="https://git.io/liblava-demo">demo</a>  • <a href="https://git.io/liblava-template">template</a> • <a href="https://git.io/liblava-engine">engine</a>
 
 **C++20** • **Modular** • **Cross Platform** ( Windows / Linux )
 
-[![Version](https://img.shields.io/badge/version-0.4.5-blue)](https://git.io/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![Donate](https://img.shields.io/badge/donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
+[![Version](https://img.shields.io/badge/Version-0.4.5-blue)](https://git.io/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
 
-#### features
+#### Features
 
 * written in **modern C++** with latest **Vulkan** support
 * **run loop** abstraction for **window** and **input handling**
@@ -16,11 +16,11 @@
 * **texture** and **mesh** **loading** from **virtual file system**
 * **camera**, **gui**, **logging**, **test driver** and much more...
 
-##### Download latest **<a href="https://github.com/liblava/liblava-demo/releases">2019 demo / v0.4.4</a>**  (Dec 6, 2019)
+##### Download latest **<a href="https://github.com/liblava/liblava-demo/releases">2019 demo / v0.4.4</a>** (Dec 6, 2019)
 
 <a href="https://github.com/liblava/liblava-demo/#readme">![demo](res/demo.png)</a>
 
-#### modules
+#### Modules
 
 [![core](https://img.shields.io/badge/lava-core-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core) [![util](https://img.shields.io/badge/lava-util-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util) [![base](https://img.shields.io/badge/lava-base-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base) [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](https://git.io/liblava-engine)
 
@@ -34,7 +34,7 @@ Let's write **Hello World** in Vulkan...
 
 All we need is a `window`, `device` and `renderer`. Vulkan is a low-level, verbose graphics API and such a program can take several hundred lines of code.
 
-The good news is that **liblava** will help you!
+The good news is that **liblava** will help you...
 
 ```c++
 #include <liblava/lava.hpp>
@@ -82,7 +82,7 @@ frame.add_run([&]() {
 return frame.run();
 ```
 
-The last line performs a loop with a **run** we added before. If *count* reaches 3 the **loop** will exit.
+The last line performs a loop with the **run** we added before. If *count* reaches 3 that **loop** will exit.
 
 #### 3. window input
 
@@ -251,12 +251,12 @@ frame.add_run_end([&]() {
 return frame.run();
 ```
 
-##### Welcome on **Planet Vulkan**. That's a lot to render a colored window.
+##### Welcome on **Planet Vulkan**. That's a lot to display a colored window.
 
 Phew! Take a closer look at the `build_cmd_bufs` function:
 
 1. We create a command pool and command buffers for each frame of the render target
-2. We set each command buffer to clear the frame image with some random color
+2. And set each command buffer to clear the frame image with some random color
 
 Watch out the *VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT* flag that specifies the reusage of command buffers.
 
@@ -304,7 +304,7 @@ block.add_command([&](VkCommandBuffer cmd_buf) {
 });
 ```
 
-##### Nice, this is much more simpler than before:
+##### Nice, this is much more simpler than before.
 
 We create a `lava::block` and add one **command** that clears the current frame image.
 
@@ -376,7 +376,7 @@ $ lava -t
 $ lava 2
 ```
 
-The **driver** starts per default the last test (*= without command line arguments*)
+The **driver** starts the last test without command line arguments.
 
 ## requirements
 
