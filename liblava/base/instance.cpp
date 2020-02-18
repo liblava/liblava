@@ -94,9 +94,6 @@ bool instance::create(create_param& param, debug_config::ref d, app_info::ref i)
     if (!enumerate_physical_devices())
         return false;
 
-    if (debug.info)
-        print_info();
-
     if (debug.utils)
         if (!create_validation_report())
             return false;
@@ -180,54 +177,17 @@ bool instance::create_validation_report() {
     if (debug.verbose)
         create_info.messageSeverity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
 
-    return check(vkCreateDebugUtilsMessengerEXT(vk_instance, &create_info, memory::alloc(), &debug_messanger));
+    return check(vkCreateDebugUtilsMessengerEXT(vk_instance, &create_info, memory::alloc(), &debug_messenger));
 }
 
 void instance::destroy_validation_report() {
 
-    if (!debug_messanger)
+    if (!debug_messenger)
         return;
 
-    vkDestroyDebugUtilsMessengerEXT(vk_instance, debug_messanger, memory::alloc());
+    vkDestroyDebugUtilsMessengerEXT(vk_instance, debug_messenger, memory::alloc());
 
-    debug_messanger = 0;
-}
-
-void instance::print_info() const {
-
-    auto global_extensions = instance::enumerate_extension_properties();
-    log()->info("{} global extensions", global_extensions.size());
-    for (auto const& extension : global_extensions) {
-
-        log()->info("- {:38} - {:3}", extension.extensionName, VK_VERSION_PATCH(extension.specVersion));
-    }
-
-    auto layer_properties = instance::enumerate_layer_properties();
-    log()->info("{} instance layers:", layer_properties.size());
-    for (auto const& layer : layer_properties) {
-
-        log()->info("- {:40} - {:8} - {:2} - {}", layer.layerName, version_to_string(layer.specVersion), layer.implementationVersion, layer.description);
-
-        auto extensions = instance::enumerate_extension_properties(layer.layerName);
-        log()->info("-- {} extensions", extensions.size());
-
-        for (auto const& extension : extensions) {
-
-            log()->info("--- {:38} - {:6}", extension.extensionName, version_to_string(extension.specVersion));
-        }
-    }
-
-    log()->info("{} physical devices", physical_devices.size());
-
-    auto device_index = 0u;
-    for (auto& physical_device : physical_devices) {
-
-        auto& properties = physical_device.get_properties();
-
-        log()->info("- {}. {} - {}", device_index++, properties.deviceName, physical_device.get_device_type_string());
-        log()->info("-- apiVersion: {} - driverVersion: {}", version_to_string(properties.apiVersion), version_to_string(properties.driverVersion));
-        log()->info("-- vendorID: {} - deviceID: {}", properties.vendorID, properties.deviceID);
-    }
+    debug_messenger = 0;
 }
 
 VkLayerPropertiesList instance::enumerate_layer_properties() {

@@ -76,8 +76,6 @@ private:
 
     bool enumerate_physical_devices();
 
-    void print_info() const;
-
     bool create_validation_report();
     void destroy_validation_report();
 
@@ -88,7 +86,7 @@ private:
     debug_config debug;
     app_info info;
 
-    VkDebugUtilsMessengerEXT debug_messanger = 0;
+    VkDebugUtilsMessengerEXT debug_messenger = 0;
 };
 
 } // lava
