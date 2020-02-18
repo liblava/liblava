@@ -23,11 +23,9 @@ struct instance : no_copy_no_move {
         using ref = debug_config const&;
 
         bool validation = false;
-        bool assistent = false;
         bool render_doc = false;
         bool verbose = false;
         bool utils = false;
-        bool info = false;
     };
 
     enum class api_version : type {

@@ -102,9 +102,6 @@ bool frame::setup(frame_config c) {
     if (cmd_line[{ "-d", "--debug" }])
         config.debug.validation = true;
 
-    if (cmd_line[{ "-a", "--assist" }])
-        config.debug.assistent = true;
-
     if (cmd_line[{ "-r", "--renderdoc" }])
         config.debug.render_doc = true;
 
@@ -113,9 +110,6 @@ bool frame::setup(frame_config c) {
 
     if (cmd_line[{ "-u", "--utils" }])
         config.debug.utils = true;
-
-    if (cmd_line[{ "-i", "--info" }])
-        config.debug.info = true;
 
     if (auto log_level = -1; cmd_line({ "-l", "--log" }) >> log_level)
         config.log.level = log_level;

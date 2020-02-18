@@ -5,8 +5,7 @@
 #include <liblava/base/instance.hpp>
 #include <liblava/base/memory.hpp>
 
-#define VK_LAYER_LUNARG_STANDARD_VALIDATION_NAME "VK_LAYER_LUNARG_standard_validation"
-#define VK_LAYER_LUNARG_ASSISTENT_LAYER_NAME "VK_LAYER_LUNARG_assistant_layer"
+#define VK_LAYER_KHRONOS_VALIDATION_NAME "VK_LAYER_KHRONOS_validation"
 #define VK_LAYER_RENDERDOC_CAPTURE_NAME "VK_LAYER_RENDERDOC_Capture"
 
 namespace lava {
@@ -23,20 +22,14 @@ bool instance::create(create_param& param, debug_config::ref d, app_info::ref i)
 
     if (debug.validation) {
 
-        if (!exists(param.layers, VK_LAYER_LUNARG_STANDARD_VALIDATION_NAME))
-            param.layers.push_back(VK_LAYER_LUNARG_STANDARD_VALIDATION_NAME);
+        if (!exists(param.layers, VK_LAYER_KHRONOS_VALIDATION_NAME))
+            param.layers.push_back(VK_LAYER_KHRONOS_VALIDATION_NAME);
     }
 
     if (debug.render_doc) {
 
         if (!exists(param.layers, VK_LAYER_RENDERDOC_CAPTURE_NAME))
             param.layers.push_back(VK_LAYER_RENDERDOC_CAPTURE_NAME);
-    }
-
-    if (debug.assistent) {
-
-        if (!exists(param.layers, VK_LAYER_LUNARG_ASSISTENT_LAYER_NAME))
-            param.layers.push_back(VK_LAYER_LUNARG_ASSISTENT_LAYER_NAME);
     }
 
     if (debug.utils) {
