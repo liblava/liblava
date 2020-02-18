@@ -15,8 +15,8 @@ namespace lava {
 
 bool window::create(state::optional state) {
 
-    auto primary = glfwGetPrimaryMonitor();
-    auto mode = glfwGetVideoMode(primary);
+    auto monitor = glfwGetPrimaryMonitor();
+    auto mode = glfwGetVideoMode(monitor);
 
     string default_title = title;
     if (debug_title_active)
@@ -26,9 +26,21 @@ bool window::create(state::optional state) {
 
         windowed = !state->fullscreen;
 
+        if (state->monitor != 0) {
+
+            auto monitor_count = 0;
+            auto monitors = glfwGetMonitors(&monitor_count);
+
+            if (state->monitor < monitor_count) {
+
+                monitor = monitors[state->monitor];
+                mode = glfwGetVideoMode(monitor);
+            }
+        }
+
         if (state->fullscreen) {
 
-            handle = glfwCreateWindow(mode->width, mode->height, str(default_title), primary, nullptr);
+            handle = glfwCreateWindow(mode->width, mode->height, str(default_title), monitor, nullptr);
             if (!handle) {
 
                 log()->error("create fullscreen window (state)");
@@ -68,7 +80,7 @@ bool window::create(state::optional state) {
 
         if (!windowed) {
 
-            handle = glfwCreateWindow(mode->width, mode->height, str(default_title), primary, nullptr);
+            handle = glfwCreateWindow(mode->width, mode->height, str(default_title), monitor, nullptr);
             if (!handle) {
 
                 log()->error("create fullscreen window");
@@ -124,6 +136,8 @@ window::state window::get_state() const {
     state.resizable = resizable();
     state.decorated = decorated();
     state.maximized = maximized();
+
+    state.monitor = get_monitor();
 
     return state;
 }
@@ -301,11 +315,62 @@ void window::set_icon(data_ptr data, uv2 size) {
     glfwSetWindowIcon(handle, 1, images);
 }
 
+index window::get_monitor() const {
+
+    auto window_x = 0;
+    auto window_y = 0;
+    glfwGetWindowPos(handle, &window_x, &window_y);
+
+    auto window_width = 0;
+    auto window_height = 0;
+    glfwGetWindowSize(handle, &window_width, &window_height);
+
+    auto monitor_count = 0;
+    auto monitors = glfwGetMonitors(&monitor_count);
+
+    index result = 0;
+
+    auto overlap = 0;
+    auto best_overlap = 0;
+
+    for (auto i = 0u; i < monitor_count; ++i) {
+
+        auto monitor_x = 0;
+        auto monitor_y = 0;
+        glfwGetMonitorPos(monitors[i], &monitor_x, &monitor_y);
+
+        auto mode = glfwGetVideoMode(monitors[i]);
+        auto monitor_width = mode->width;
+        auto monitor_height = mode->height;
+
+        overlap = std::max(0, std::min(window_x + window_width, monitor_x + monitor_width) - 
+                              std::max(window_x, monitor_x)) *
+                  std::max(0, std::min(window_y + window_height, monitor_y + monitor_height) - 
+                              std::max(window_y, monitor_y));
+
+        if (best_overlap < overlap) {
+
+            best_overlap = overlap;
+            result = i;
+        }
+    }
+
+    return result;
+}
+
+void window::center() {
+
+    auto monitor = glfwGetPrimaryMonitor();
+    auto mode = glfwGetVideoMode(monitor);
+
+    glfwSetWindowPos(handle, (mode->width - width) / 2, (mode->height - height) / 2);
+}
+
 void to_json(json& j, window::state const& w) {
 
     j = json{ { _x_, w.x }, { _y_, w.y }, { _width_, w.width }, { _height_, w.height },
               { _fullscreen_, w.fullscreen }, { _floating_, w.floating }, { _resizable_, w.resizable },
-              { _decorated_, w.decorated }, { _maximized_, w.maximized } };
+              { _decorated_, w.decorated }, { _maximized_, w.maximized }, { _monitor_, w.monitor } };
 }
 
 void from_json(json const& j, window::state& w) {
@@ -328,6 +393,8 @@ void from_json(json const& j, window::state& w) {
         w.decorated = j.at(_decorated_).get<bool>();
     if (j.count(_maximized_))
         w.maximized = j.at(_maximized_).get<bool>();
+    if (j.count(_monitor_))
+        w.monitor = j.at(_monitor_).get<int>();
 }
 
 } // lava

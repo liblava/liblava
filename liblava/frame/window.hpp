@@ -30,6 +30,7 @@ constexpr name _floating_ = "floating";
 constexpr name _resizable_ = "resizable";
 constexpr name _decorated_ = "decorated";
 constexpr name _maximized_ = "maximized";
+constexpr name _monitor_ = "monitor";
 
 struct window : id_obj {
 
@@ -48,6 +49,7 @@ struct window : id_obj {
         bool resizable = true;
         bool decorated = true;
         bool maximized = false;
+        index monitor = 0;
     };
 
     using ptr = std::shared_ptr<window>;
@@ -154,6 +156,10 @@ struct window : id_obj {
     VkSurfaceKHR create_surface();
 
     void set_icon(data_ptr data, uv2 size);
+
+    index get_monitor() const;
+
+    void center();
 
 private:
     void handle_message();
