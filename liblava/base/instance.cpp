@@ -38,7 +38,7 @@ bool instance::create(create_param& param, debug_config::ref d, app_info::ref i)
             param.extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
     }
 
-    if (!param.check()) {
+    if (!check(param)) {
 
         log()->error("create instance param");
         return false;
@@ -106,37 +106,6 @@ void instance::destroy() {
 
     vkDestroyInstance(vk_instance, memory::alloc());
     vk_instance = nullptr;
-}
-
-bool instance::create_param::check() const {
-
-    auto layer_properties = enumerate_layer_properties();
-    for (auto const& layer_name : layers) {
-
-        auto itr = std::find_if(layer_properties.begin(), layer_properties.end(), 
-                            [&](VkLayerProperties const& extProp) {
-
-                                return strcmp(layer_name, extProp.layerName) == 0;
-                            });
-
-        if (itr == layer_properties.end())
-            return false;
-    }
-
-    auto extensions_properties = enumerate_extension_properties();
-    for (auto const& ext_name : extensions) {
-
-        auto itr = std::find_if(extensions_properties.begin(), extensions_properties.end(),
-                            [&](VkExtensionProperties const& extProp) {
-
-                                return strcmp(ext_name, extProp.extensionName) == 0;
-                            });
-
-        if (itr == extensions_properties.end())
-            return false;
-    }
-
-    return true;
 }
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL validation_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
@@ -253,3 +222,34 @@ internal_version instance::get_version() {
 }
 
 } // lava
+
+bool lava::check(instance::create_param::ref param) {
+
+    auto layer_properties = instance::enumerate_layer_properties();
+    for (auto const& layer_name : param.layers) {
+
+        auto itr = std::find_if(layer_properties.begin(), layer_properties.end(),
+                            [&](VkLayerProperties const& extProp) {
+
+                                return strcmp(layer_name, extProp.layerName) == 0;
+                            });
+
+        if (itr == layer_properties.end())
+            return false;
+    }
+
+    auto extensions_properties = instance::enumerate_extension_properties();
+    for (auto const& ext_name : param.extensions) {
+
+        auto itr = std::find_if(extensions_properties.begin(), extensions_properties.end(),
+                            [&](VkExtensionProperties const& extProp) {
+
+                                return strcmp(ext_name, extProp.extensionName) == 0;
+                            });
+
+        if (itr == extensions_properties.end())
+            return false;
+    }
+
+    return true;
+}

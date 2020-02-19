@@ -12,10 +12,10 @@ struct instance : no_copy_no_move {
 
     struct create_param {
 
+        using ref = create_param const&;
+
         names layers{};
         names extensions{};
-
-        bool check() const;
     };
 
     struct debug_config {
@@ -86,5 +86,7 @@ private:
 
     VkDebugUtilsMessengerEXT debug_messenger = 0;
 };
+
+bool check(instance::create_param::ref param);
 
 } // lava
