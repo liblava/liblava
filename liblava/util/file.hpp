@@ -70,6 +70,7 @@ struct file_system : no_copy_no_move {
     static bool mount(name base_dir_path);
     static bool exists(name file);
     static name get_real_dir(name file);
+    static string_list enumerate_files(name path);
 
     bool initialize(name argv_0, name org, name app, name ext);
     void terminate();

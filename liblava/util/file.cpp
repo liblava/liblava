@@ -120,6 +120,19 @@ bool file_system::exists(name file) { return PHYSFS_exists(file) != 0; }
 
 name file_system::get_real_dir(name file) { return PHYSFS_getRealDir(file); }
 
+string_list file_system::enumerate_files(name path) {
+
+    string_list result;
+
+    auto rc = PHYSFS_enumerateFiles(path);
+    for (auto i = rc; *i != nullptr; ++i)
+        result.push_back(*i);
+
+    PHYSFS_freeList(rc);
+
+    return result;
+}
+
 bool file_system::initialize(name argv_0, name o, name a, name e) {
 
     assert(!initialized); // only once
