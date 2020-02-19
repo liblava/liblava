@@ -122,4 +122,23 @@ private:
     bool active = true;
 };
 
+constexpr name _gui_font_path_ = "font/gui/";
+constexpr name _gui_font_icon_path_ = "font/icon/";
+
+struct font {
+
+    using ref = font const&;
+
+    string file;
+    r32 size = 21.f;
+
+    string icon_file;
+    r32 icon_size = 21.f;
+
+    ui16 icon_range_begin = 0;
+    ui16 icon_range_end = 0;
+};
+
+void setup_font(gui::config& config, font::ref font);
+
 } // lava

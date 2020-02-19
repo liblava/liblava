@@ -652,3 +652,24 @@ bool gui::upload_fonts(texture::ptr texture) {
 }
 
 } // lava
+
+void lava::setup_font(gui::config& config, font::ref font) {
+
+    if (load_file_data(str(font.file), config.font_data)) {
+
+        config.font_size = font.size;
+
+        log()->debug("load {}", str(font.file));
+    }
+
+    if (load_file_data(str(font.icon_file), config.icon.font_data)) {
+
+        config.icon.size = font.icon_size;
+
+        config.icon.font_data = config.icon.font_data;
+        config.icon.range_begin = font.icon_range_begin;
+        config.icon.range_end = font.icon_range_end;
+
+        log()->debug("load {}", str(font.icon_file));
+    }
+}
