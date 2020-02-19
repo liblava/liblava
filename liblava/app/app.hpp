@@ -25,6 +25,8 @@ struct app : frame {
 
         bool v_sync = false;
         index physical_device = 0;
+
+        lava::font font;
     };
 
     explicit app(frame_config config);

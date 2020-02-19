@@ -161,6 +161,15 @@ bool app::setup() {
 
 bool app::create_gui() {
 
+    if (config.font.file.empty()) {
+
+        auto font_files = file_system::enumerate_files(_gui_font_path_);
+        if (!font_files.empty())
+            config.font.file = fmt::format("{}{}", _gui_font_path_, str(font_files.front()));
+    }
+
+    setup_font(gui_config, config.font);
+
     gui_config.ini_file_dir = file_system::get_pref_dir();
 
     gui.setup(window.get(), gui_config);
