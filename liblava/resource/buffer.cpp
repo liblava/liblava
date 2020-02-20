@@ -74,8 +74,8 @@ bool buffer::create(device_ptr d, void const* data, size_t size, VkBufferUsageFl
     if (!mapped) {
         if (data) {
             data_ptr map = nullptr;
-            if(failed(vmaMapMemory(device->alloc(), allocation, (void**)(&map))))
-            {
+            if (failed(vmaMapMemory(device->alloc(), allocation, (void**)(&map)))) {
+                
                 log()->error("map buffer memory");
                 return false;
             }
