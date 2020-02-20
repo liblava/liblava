@@ -26,13 +26,15 @@
 
 ## hello frame
 
-Let's write **Hello World** in Vulkan...
+<a href="https://www.khronos.org/vulkan/"><img align="right" hspace="20" src="res/Vulkan_170px_Dec16.png" width="400"></a>
 
-<a href="https://www.khronos.org/vulkan/"><img align="right" hspace="20" src="res/Vulkan_100px_Dec16.png"></a>
+Let's write **Hello World** in Vulkan...
 
 **"a simple app that renders a colored window"**
 
-All we need is a `window`, `device` and `renderer`. Vulkan is a low-level, verbose graphics API and such a program can take several hundred lines of code.
+All we need is a `window`, `device` and `renderer`. 
+
+**Vulkan** is a low-level, verbose graphics API and such a program can take several hundred lines of code. 
 
 The good news is that **liblava** will help you...
 
