@@ -6,7 +6,7 @@
 
 **C++20** • **Modular** • **Windows** • **Linux**
 
-[![Version](https://img.shields.io/badge/Version-0.5.0-blue)](https://git.io/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
+[![Version](https://img.shields.io/badge/Version-0.5.1-blue)](https://git.io/liblava) [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
 
 #### Features
 
@@ -18,7 +18,7 @@
 
 ##### Download latest **<a href="https://github.com/liblava/liblava-demo/releases">demo</a>** (Feb. 20, 2020)
 
-<a href="https://github.com/liblava/liblava-demo/#readme"><img src="res/demo.png" width="900"></a>
+<a href="https://github.com/liblava/liblava-demo/#readme"><img src="res/demo.png"></a>
 
 #### Modules
 

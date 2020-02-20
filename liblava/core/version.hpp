@@ -31,7 +31,7 @@ struct version {
     i32 year = 2020;
     i32 release = 0;
     version_stage stage = version_stage::preview;
-    i32 rev = 0;
+    i32 rev = 2;
 };
 
 constexpr version const _version = {};
