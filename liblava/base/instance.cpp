@@ -41,6 +41,13 @@ bool instance::create(create_param& param, debug_config::ref d, app_info::ref i)
     if (!check(param)) {
 
         log()->error("create instance param");
+
+        for (auto& extension : param.extensions)
+            log()->debug("extension: {}", extension);
+
+        for (auto& layer : param.layers)
+            log()->debug("layer: {}", layer);
+
         return false;
     }
 
@@ -111,17 +118,31 @@ void instance::destroy() {
 static VKAPI_ATTR VkBool32 VKAPI_CALL validation_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
         VkDebugUtilsMessageTypeFlagsEXT message_type, const VkDebugUtilsMessengerCallbackDataEXT* callback_data, void* user_data) {
 
+    auto message_header = fmt::format("validation: {} ({})", callback_data->pMessageIdName, 
+                                                             callback_data->messageIdNumber);
+
     if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
 
-        log()->error("validation report: {}", callback_data->pMessage);
+        log()->error(str(message_header));
+        log()->error(callback_data->pMessage);
+
         assert(!"check validation error");
     }
-    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
-        log()->warn("validation report: {}", callback_data->pMessage);
-    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
-        log()->info("validation report: {}", callback_data->pMessage);
-    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT)
-        log()->trace("validation report: {}", callback_data->pMessage);
+    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
+
+        log()->warn(str(message_header));
+        log()->warn(callback_data->pMessage);
+    }   
+    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
+
+        log()->info(str(message_header));
+        log()->info(callback_data->pMessage);
+    }   
+    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT) {
+
+        log()->trace(str(message_header));
+        log()->trace(callback_data->pMessage);
+    }
 
     return VK_FALSE;
 }
