@@ -67,13 +67,13 @@ inline void setup_log(log_config config = {}) {
 
     if (config.debug) {
 
-        spdlog::set_level((config.level < 0) ? spdlog::level::debug : (spdlog::level::level_enum)config.level);
-        spdlog::stdout_color_mt(config.logger);
+        auto log = spdlog::stdout_color_mt(config.logger);
+        log->set_level((config.level < 0) ? spdlog::level::debug : (spdlog::level::level_enum)config.level);
     }
     else {
 
-        spdlog::set_level((config.level < 0) ? spdlog::level::warn : (spdlog::level::level_enum)config.level);
-        spdlog::basic_logger_mt(config.logger, config.file);
+        auto log = spdlog::basic_logger_mt(config.logger, config.file);
+        log->set_level((config.level < 0) ? spdlog::level::warn : (spdlog::level::level_enum)config.level);
     }
 }
 
