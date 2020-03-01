@@ -462,14 +462,14 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
     }
     else { // use_stbi
 
-        i32 tex_width, tex_height, tex_channels = 0;
+        i32 tex_width = 0, tex_height = 0;
         stbi_uc* data = nullptr;
 
         if (file.opened())
             data = stbi_load_from_memory((stbi_uc const*)temp_data.ptr, to_i32(temp_data.size), 
-                                         &tex_width, &tex_height, &tex_channels, STBI_rgb_alpha);
+                                         &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
         else
-            data = stbi_load(str(filename.path), &tex_width, &tex_height, &tex_channels, STBI_rgb_alpha);
+            data = stbi_load(str(filename.path), &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
 
         if (!data)
             return nullptr;
@@ -478,6 +478,7 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
         if (!texture->create(device, size, VK_FORMAT_R8G8B8A8_UNORM))
             return nullptr;
 
+        const i32 tex_channels = 4;
         auto uploadSize = tex_width * tex_height * tex_channels * sizeof(char);
         auto result = texture->upload(data, uploadSize);
 
