@@ -41,6 +41,7 @@ using VkAttachmentReferences = std::vector<VkAttachmentReference>;
 using VkClearValues = std::vector<VkClearValue>;
 
 using VkPipelineShaderStageCreateInfos = std::vector<VkPipelineShaderStageCreateInfo>;
+using VkSpecializationMapEntries = std::vector<VkSpecializationMapEntry>;
 
 using VkVertexInputBindingDescriptions = std::vector<VkVertexInputBindingDescription>;
 using VkVertexInputAttributeDescriptions = std::vector<VkVertexInputAttributeDescription>;

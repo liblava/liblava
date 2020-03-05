@@ -93,7 +93,9 @@ struct pipeline : id_obj {
 
         void set_stage(VkShaderStageFlagBits stage) { create_info.stage = stage; }
 
-        bool create(device_ptr device, data const& data);
+        void add_specialization_entry(VkSpecializationMapEntry const& specialization);
+
+        bool create(device_ptr device, data const& shader_data, data const& specialization_data = data());
         void destroy();
 
         VkPipelineShaderStageCreateInfo const& get_create_info() const { return create_info; }
@@ -102,6 +104,10 @@ struct pipeline : id_obj {
         device_ptr device = nullptr;
 
         VkPipelineShaderStageCreateInfo create_info;
+        VkSpecializationInfo specialization_info;
+
+        VkSpecializationMapEntries specialization_entries;
+        data specialization_data_copy;
     };
 
 protected:

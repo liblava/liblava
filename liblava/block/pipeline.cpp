@@ -74,7 +74,12 @@ pipeline::shader_stage::shader_stage() {
     create_info.stage = VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
     create_info.module = 0;
     create_info.pName = _main_;
-    create_info.pSpecializationInfo = nullptr;
+    create_info.pSpecializationInfo = &specialization_info;
+
+    specialization_info.mapEntryCount = 0;
+    specialization_info.pMapEntries = nullptr;
+    specialization_info.dataSize = 0;
+    specialization_info.pData = nullptr;
 }
 
 pipeline::shader_stage::~shader_stage() {
@@ -82,11 +87,27 @@ pipeline::shader_stage::~shader_stage() {
     destroy();
 }
 
-bool pipeline::shader_stage::create(device_ptr d, data const& data) {
+void pipeline::shader_stage::add_specialization_entry(VkSpecializationMapEntry const& specialization) {
+
+    specialization_entries.push_back(specialization);
+    specialization_info.mapEntryCount = to_ui32(specialization_entries.size());
+    specialization_info.pMapEntries = specialization_entries.data();
+}
+
+bool pipeline::shader_stage::create(device_ptr d, data const& shader_data, data const& specialization_data) {
 
     device = d;
 
-    create_info.module = create_shader_module(device, data);
+    if (specialization_data.size > 0) {
+        specialization_data_copy.free();
+        specialization_data_copy.set(specialization_data.size);
+        memcpy(specialization_data_copy.ptr, specialization_data.ptr, specialization_data.size);
+
+        specialization_info.dataSize = specialization_data_copy.size;
+        specialization_info.pData = specialization_data_copy.ptr;
+    }
+
+    create_info.module = create_shader_module(device, shader_data);
 
     return create_info.module != 0;
 }
