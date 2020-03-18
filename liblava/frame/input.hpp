@@ -59,7 +59,7 @@ enum class key : i32 {
     kp_0            = 320,
     kp_1, kp_2, kp_3, kp_4, kp_5, kp_6, kp_7, kp_8, kp_9,
 
-    kp_decimal, kp_divide, kp_multiply, kp_substract,
+    kp_decimal, kp_divide, kp_multiply, kp_subtract,
     kp_add, kp_enter, kp_equal,
 
     left_shift      = 340,
