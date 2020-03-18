@@ -26,6 +26,7 @@
 [submodule "ext/spdlog"]
 	path = ext/spdlog
 	url = https://github.com/gabime/spdlog.git
+	branch = v1.x
 [submodule "ext/stb"]
 	path = ext/stb
 	url = https://github.com/nothings/stb.git
