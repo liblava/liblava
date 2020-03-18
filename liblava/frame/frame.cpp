@@ -125,7 +125,7 @@ bool frame::setup(frame_config c) {
     log_command_line(cmd_line);
 
     if (config.log.level >= 0)
-        log()->info("log {}", spdlog::level::to_str((spdlog::level::level_enum)config.log.level));
+        log()->info("log {}", spdlog::level::to_string_view((spdlog::level::level_enum)config.log.level));
 
     glfwSetErrorCallback([](i32 error, name description) {
 
