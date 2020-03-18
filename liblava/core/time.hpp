@@ -20,7 +20,7 @@ using clock = std::chrono::high_resolution_clock;
 using time_point = clock::time_point;
 using duration = clock::duration;
 
-inline delta to_dt(milliseconds ms) { return ms.count() / 1000.f; }
+inline delta to_delta(milliseconds ms) { return ms.count() / 1000.f; }
 inline r64 to_sec(milliseconds ms) { return ms.count() / 1000.; }
 inline ms to_ms(delta dt) { return ms(to_i32(dt * 1000.f)); }
 inline ms to_ms(r64 sec) { return ms(to_i32(sec * 1000.)); }

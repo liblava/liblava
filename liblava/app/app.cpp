@@ -355,29 +355,29 @@ void app::update() {
 
     add_run([&]() {
 
-        auto delta = ms(0);
+        auto dt = ms(0);
         auto time = now();
 
         if (run_time.system != time) {
 
-            delta = time - run_time.system;
+            dt = time - run_time.system;
             run_time.system = time;
         }
 
-        run_time.delta = delta;
+        run_time.delta = dt;
 
         if (!run_time.paused) {
 
             if (run_time.use_fix_delta)
-                delta = run_time.fix_delta;
+                dt = run_time.fix_delta;
 
-            delta = to_ms(to_sec(delta) * run_time.speed);
-            run_time.current += delta;
+            dt = to_ms(to_sec(dt) * run_time.speed);
+            run_time.current += dt;
         }
         else
-            delta = ms(0);
+            dt = ms(0);
 
-        return on_update ? on_update(to_dt(delta)) : true;
+        return on_update ? on_update(to_delta(dt)) : true;
     });
 }
 
