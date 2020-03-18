@@ -23,7 +23,7 @@ struct render_thread {
 
     void destroy() { plotter.destroy(); }
 
-    void start() { thread = std::thread(&render_thread::render, this); }
+    void start() { thread = std::thread(&render_thread::render_loop, this); }
 
     void stop() {
 
@@ -40,8 +40,17 @@ struct render_thread {
     renderer* get_renderer() { return &plotter; }
     bool running() const { return active; }
 
+    bool render() {
+
+        auto frame_index = plotter.begin_frame();
+        if (!frame_index)
+            return false;
+
+        return plotter.end_frame(on_render(*frame_index));
+    }
+
 private:
-    void render() {
+    void render_loop() {
 
         active = true;
 
@@ -53,11 +62,7 @@ private:
             if (!on_render)
                 continue;
 
-            auto frame_index = plotter.begin_frame();
-            if (!frame_index)
-                continue;
-
-            plotter.end_frame(on_render(*frame_index));
+            render();
         }
     }
 
