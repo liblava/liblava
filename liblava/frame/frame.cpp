@@ -306,7 +306,7 @@ bool frame::remove(id::ref id) {
 
 void frame::trigger_run_end() {
 
-    for (auto& func : run_end_map)
+    for (auto& func : reverse(run_end_map))
         func.second();
 }
 
