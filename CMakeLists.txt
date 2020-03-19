@@ -287,20 +287,6 @@ if(LAVA_TESTS)
                 )
 endif()
 
-set(CONFIG_PATH lib/cmake/lava)
-
-include(CMakePackageConfigHelpers)
-
-write_basic_package_version_file(
-        "${CMAKE_CURRENT_BINARY_DIR}/lava/LavaConfigVersion.cmake"
-        COMPATIBILITY AnyNewerVersion
-        )
-
-configure_package_config_file(
-        cmake/LavaConfig.cmake.in "${CMAKE_CURRENT_BINARY_DIR}/lava/LavaConfig.cmake"
-        INSTALL_DESTINATION ${CONFIG_PATH}
-        )
-
 install(TARGETS
         lava.core
         lava.util
@@ -345,6 +331,21 @@ install(DIRECTORY
         FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h" PATTERN "*.inl"
         )
 
+set(CONFIG_PATH lib/cmake/lava)
+
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LavaConfigVersion.cmake"
+        COMPATIBILITY AnyNewerVersion
+        )
+
+configure_package_config_file(
+        cmake/LavaConfig.cmake.in
+        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LavaConfig.cmake"
+        INSTALL_DESTINATION ${CONFIG_PATH}
+        )
+
 install(EXPORT LavaTargets
         DESTINATION ${CONFIG_PATH}
         FILE LavaTargets.cmake
@@ -354,8 +355,8 @@ install(EXPORT LavaTargets
 
 install(
         FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/lava/LavaConfigVersion.cmake"
-        "${CMAKE_CURRENT_BINARY_DIR}/lava/LavaConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LavaConfigVersion.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LavaConfig.cmake"
         DESTINATION ${CONFIG_PATH}
         )
 
