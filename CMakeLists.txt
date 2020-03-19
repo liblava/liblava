@@ -301,7 +301,6 @@ install(TARGETS
         EXPORT LavaTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
-        CONFIGURATIONS Debug Release
         INCLUDES DESTINATION include include/liblava/ext
         )
 
@@ -328,7 +327,7 @@ install(DIRECTORY
         ${LIBLAVA_EXT_DIR}/argh/
         ${LIBLAVA_EXT_DIR}/imgui/
         DESTINATION include/liblava/ext
-        FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h" PATTERN "*.inl"
+        FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN "*.inl"
         )
 
 set(CONFIG_PATH lib/cmake/lava)
@@ -349,7 +348,6 @@ configure_package_config_file(
 install(EXPORT LavaTargets
         DESTINATION ${CONFIG_PATH}
         FILE LavaTargets.cmake
-        CONFIGURATIONS Debug Release
         EXPORT_LINK_INTERFACE_LIBRARIES
         )
 
