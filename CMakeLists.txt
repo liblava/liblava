@@ -43,7 +43,17 @@ if(CMAKE_COMPILER_IS_GNUCXX)
         find_package(Threads)
 endif()
 
-add_library(lava.core INTERFACE)
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp "")
+
+add_library(lava.core STATIC
+        ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp
+        ${LIBLAVA_DIR}/core/data.hpp
+        ${LIBLAVA_DIR}/core/id.hpp
+        ${LIBLAVA_DIR}/core/math.hpp
+        ${LIBLAVA_DIR}/core/time.hpp
+        ${LIBLAVA_DIR}/core/types.hpp
+        ${LIBLAVA_DIR}/core/version.hpp
+        )
 
 target_include_directories(lava.core INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
@@ -61,6 +71,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
                 )
 endif()
 
+set_property(TARGET lava.core PROPERTY EXPORT_NAME core)
 add_library(lava::core ALIAS lava.core)
 
 message(">> lava::util")
@@ -111,6 +122,7 @@ target_link_libraries(lava.util
         spdlog
         )
 
+set_property(TARGET lava.util PROPERTY EXPORT_NAME util)
 add_library(lava::util ALIAS lava.util)
 
 message(">> lava::base")
@@ -141,6 +153,7 @@ target_link_libraries(lava.base
         ${CMAKE_DL_LIBS}
         )
 
+set_property(TARGET lava.base PROPERTY EXPORT_NAME base)
 add_library(lava::base ALIAS lava.base)
 
 message(">> lava::resource")
@@ -176,6 +189,7 @@ target_link_libraries(lava.resource
         lava::base
         )
 
+set_property(TARGET lava.resource PROPERTY EXPORT_NAME resource)
 add_library(lava::resource ALIAS lava.resource)
 
 message(">> lava::frame")
@@ -216,6 +230,7 @@ target_link_libraries(lava.frame
         ${GLFW_LIBRARIES}
         )
 
+set_property(TARGET lava.frame PROPERTY EXPORT_NAME frame)
 add_library(lava::frame ALIAS lava.frame)
 
 message(">> lava::block")
@@ -238,6 +253,7 @@ target_link_libraries(lava.block
         lava::base
         )
 
+set_property(TARGET lava.block PROPERTY EXPORT_NAME block)
 add_library(lava::block ALIAS lava.block)
 
 message(">> lava::app")
@@ -267,6 +283,7 @@ target_link_libraries(lava.app
         lava::block
         )
 
+set_property(TARGET lava.app PROPERTY EXPORT_NAME app)
 add_library(lava::app ALIAS lava.app)
 
 option(LAVA_TESTS "Enable Tests" TRUE)
@@ -347,6 +364,7 @@ configure_package_config_file(
 
 install(EXPORT LavaTargets
         DESTINATION ${CONFIG_PATH}
+        NAMESPACE lava::
         FILE LavaTargets.cmake
         EXPORT_LINK_INTERFACE_LIBRARIES
         )
