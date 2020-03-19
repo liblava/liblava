@@ -38,5 +38,7 @@ script:
   - echo ${CXX}
   - ${CXX} --version
   - ${CXX} -v
+  - INSTALL_DIR="${TRAVIS_BUILD_DIR}/install"
   - mkdir -p build && cd build
-  - cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=Release .. && make -j4
+  - cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} .. && make -j4
+  - make install

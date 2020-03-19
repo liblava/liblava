@@ -40,23 +40,14 @@ set(LIBLAVA_TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 message(">> lava::core")
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-        find_package (Threads)
+        find_package(Threads)
 endif()
 
 add_library(lava.core INTERFACE)
 
 target_include_directories(lava.core INTERFACE
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${LIBLAVA_EXT_DIR}/glm
-        )
-
-target_sources(lava.core INTERFACE
-        ${LIBLAVA_DIR}/core/data.hpp
-        ${LIBLAVA_DIR}/core/id.hpp
-        ${LIBLAVA_DIR}/core/math.hpp
-        ${LIBLAVA_DIR}/core/time.hpp
-        ${LIBLAVA_DIR}/core/types.hpp
-        ${LIBLAVA_DIR}/core/version.hpp
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/glm>
         )
 
 target_compile_features(lava.core INTERFACE 
@@ -85,9 +76,8 @@ add_library(lava.util STATIC
         )
 
 target_include_directories(lava.util PUBLIC
-        ${LIBLAVA_EXT_DIR}/spdlog/include
-        ${LIBLAVA_EXT_DIR}/physfs/src
-        ${LIBLAVA_EXT_DIR}/json/single_include
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/physfs/src>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/json/single_include>
         )
 
 message(">>> physfs")
@@ -109,9 +99,16 @@ add_subdirectory(${LIBLAVA_EXT_DIR}/physfs physfs EXCLUDE_FROM_ALL)
 
 message("<<< physfs")
 
+message(">>> spdlog")
+
+add_subdirectory(${LIBLAVA_EXT_DIR}/spdlog spdlog EXCLUDE_FROM_ALL)
+
+message("<<< spdlog")
+
 target_link_libraries(lava.util
         lava::core
         physfs-static
+        spdlog
         )
 
 add_library(lava::util ALIAS lava.util)
@@ -134,9 +131,9 @@ add_library(lava.base STATIC
         )
 
 target_include_directories(lava.base PUBLIC
-        ${LIBLAVA_EXT_DIR}/Vulkan-Headers/include
-        ${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/src
-        ${LIBLAVA_EXT_DIR}/volk
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/Vulkan-Headers/include>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/src>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/volk>
         )
 
 target_link_libraries(lava.base 
@@ -162,11 +159,11 @@ add_library(lava.resource STATIC
         )
 
 target_include_directories(lava.resource PUBLIC
-        ${LIBLAVA_EXT_DIR}/stb
-        ${LIBLAVA_EXT_DIR}/gli
-        ${LIBLAVA_EXT_DIR}/tinyobjloader
-        ${LIBLAVA_EXT_DIR}/bitmap
-        ${LIBLAVA_EXT_DIR}/selene
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/stb>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/gli>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/tinyobjloader>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/bitmap>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/selene>
         )
 
 message(">>> selene")
@@ -200,8 +197,8 @@ add_library(lava.frame STATIC
         )
 
 target_include_directories(lava.frame PUBLIC
-        ${LIBLAVA_EXT_DIR}/glfw/include
-        ${LIBLAVA_EXT_DIR}/argh
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/glfw/include>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/argh>
         )
 
 message(">>> glfw")
@@ -262,7 +259,7 @@ add_library(lava.app STATIC
         )
 
 target_include_directories(lava.app PUBLIC
-        ${LIBLAVA_EXT_DIR}/imgui
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/imgui>
         )
 
 target_link_libraries(lava.app 
@@ -283,6 +280,83 @@ if(LAVA_TESTS)
                 )
 
         target_link_libraries(lava lava::app)
+
+        install(TARGETS
+                lava
+                RUNTIME DESTINATION bin
+                )
 endif()
+
+set(CONFIG_PATH lib/cmake/lava)
+
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/lava/LavaConfigVersion.cmake"
+        COMPATIBILITY AnyNewerVersion
+        )
+
+configure_package_config_file(
+        cmake/LavaConfig.cmake.in "${CMAKE_CURRENT_BINARY_DIR}/lava/LavaConfig.cmake"
+        INSTALL_DESTINATION ${CONFIG_PATH}
+        )
+
+install(TARGETS
+        lava.core
+        lava.util
+        lava.base
+        lava.resource
+        lava.frame
+        lava.block
+        lava.app
+        spdlog
+        physfs-static
+        glfw
+        EXPORT LavaTargets
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        CONFIGURATIONS Debug Release
+        INCLUDES DESTINATION include include/liblava/ext
+        )
+
+install(DIRECTORY
+        ${LIBLAVA_DIR}
+        DESTINATION include
+        FILES_MATCHING PATTERN "*.hpp"
+        )
+
+install(DIRECTORY
+        ${LIBLAVA_EXT_DIR}/glm/glm
+        #${LIBLAVA_EXT_DIR}/physfs/src/
+        ${LIBLAVA_EXT_DIR}/json/single_include/
+        ${LIBLAVA_EXT_DIR}/spdlog/include/
+        ${LIBLAVA_EXT_DIR}/Vulkan-Headers/include/
+        ${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/src/
+        ${LIBLAVA_EXT_DIR}/volk/
+        #${LIBLAVA_EXT_DIR}/stb/
+        #${LIBLAVA_EXT_DIR}/gli/gli
+        #${LIBLAVA_EXT_DIR}/tinyobjloader/
+        #${LIBLAVA_EXT_DIR}/bitmap/
+        #${LIBLAVA_EXT_DIR}/selene/selene
+        #${LIBLAVA_EXT_DIR}/glfw/include/
+        ${LIBLAVA_EXT_DIR}/argh/
+        ${LIBLAVA_EXT_DIR}/imgui/
+        DESTINATION include/liblava/ext
+        FILES_MATCHING PATTERN "*.hpp" PATTERN "*.h" PATTERN "*.inl"
+        )
+
+install(EXPORT LavaTargets
+        DESTINATION ${CONFIG_PATH}
+        FILE LavaTargets.cmake
+        CONFIGURATIONS Debug Release
+        EXPORT_LINK_INTERFACE_LIBRARIES
+        )
+
+install(
+        FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/lava/LavaConfigVersion.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/lava/LavaConfig.cmake"
+        DESTINATION ${CONFIG_PATH}
+        )
 
 message("========================================================================")
