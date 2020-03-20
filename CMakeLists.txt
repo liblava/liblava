@@ -352,13 +352,13 @@ set(CONFIG_PATH lib/cmake/lava)
 include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
-        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LavaConfigVersion.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/lava-config-version.cmake"
         COMPATIBILITY AnyNewerVersion
         )
 
 configure_package_config_file(
         cmake/LavaConfig.cmake.in
-        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LavaConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/lava-config.cmake"
         INSTALL_DESTINATION ${CONFIG_PATH}
         )
 
@@ -371,8 +371,8 @@ install(EXPORT LavaTargets
 
 install(
         FILES
-        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LavaConfigVersion.cmake"
-        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/LavaConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/lava-config-version.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/lava-config.cmake"
         DESTINATION ${CONFIG_PATH}
         )
 
