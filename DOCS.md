@@ -2,7 +2,7 @@
 
 # liblava docs [![Version](https://img.shields.io/badge/Version-0.5.1-blue)](https://git.io/liblava)
 
-**[Features](#features)** • **[Tutorial](#tutorial)** • **[Modules](#modules)** • **[Guide](#guide)** • **[Tests](#tests)** • **[Build](#build)** • **[Install](#install)**
+[Features](#features) • **[Tutorial](#tutorial)** • [Modules](#modules) • **[Guide](#guide)** • [Tests](#tests) • **[Build](#build)** • [Install](#install)
 
 ## Features
 
@@ -395,9 +395,9 @@ make
 
 ## Install
 
-You can use **liblava** as *git submodule* in your project. An example for this can be find in the [starter template](https://git.io/liblava-template).
+You can use **liblava** as a *git submodule* in your project. For example like [starter template](https://git.io/liblava-template).
 
-Alternatively, it is also possible to compile and install it as specific version for multiple projects: 
+Alternatively, you can compile and install a specific version for multiple projects: 
 
 ```bash
 mkdir build
@@ -409,7 +409,7 @@ cmake --build . --target install
 
 #### Project setup
 
-Find that installation in your *CMakeLists.txt*:
+First, find the package in your *CMakeLists.txt*:
 
 ```cmake
 find_package(lava 0.5.1 REQUIRED)
@@ -420,7 +420,7 @@ add_executable(test main.cpp)
 target_link_libraries(test lava::app)
 ```
 
-And build your project by specifying *lava_DIR* path:
+And then build your project with defining install path *lava_DIR*:
 
 ```bash
 mkdir build

@@ -4,13 +4,13 @@
 
 **lava** is a lean framework that provides **essentials** for **low-level graphics**<br /> and is specially well suited for **prototyping**, **tooling** and **education**
 
-**C++20** • **Modular** • **Windows** • **Linux** • <a href="https://git.io/liblava-demo">demo</a>  • <a href="https://git.io/liblava-template">template</a>
+**C++20** • **Modular** • **Windows** • **Linux** • **<a href="https://git.io/liblava-demo">demo</a>**  • <a href="https://git.io/liblava-template">template</a>
 
 [![Version](https://img.shields.io/badge/Version-0.5.1-blue)](https://git.io/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
 
 <br />
 
-#### Features
+#### [Features](DOCS.md/#features)
 
 * written in **modern C++** with latest **Vulkan** support
 * **[run loop](DOCS.md/#run-loop)** **abstraction** for **[window](DOCS.md/#window)** and **[input](DOCS.md/#input) handling**
@@ -18,11 +18,11 @@
 * **[texture](DOCS.md/#texture)** and **[mesh](DOCS.md/#mesh)** **loading** from **virtual [file system](DOCS.md/#file-system)**
 * **[camera](DOCS.md/#camera)**, **[gui](DOCS.md/#gui)**, **[logging](DOCS.md/#logging)**, **test driver** and much more...
 
-#### Docs
+### Docs
 
-**[Features](DOCS.md/#features)** • **[Tutorial](DOCS.md/#tutorial)** • **[Modules](DOCS.md/#modules)** • **[Guide](DOCS.md/#guide)** • **[Tests](DOCS.md/#tests)** • **[Build](DOCS.md/#build)** • **[Install](DOCS.md/#install)**
+ **[Tutorial](DOCS.md/#tutorial)** • **[Guide](DOCS.md/#guide)** • [Tests](DOCS.md/#tests) • [Build](DOCS.md/#build) • [Install](DOCS.md/#install)
 
-##### Modules
+##### [Modules](DOCS.md/#modules)
 
 [![core](https://img.shields.io/badge/lava-core-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core) [![util](https://img.shields.io/badge/lava-util-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util) [![base](https://img.shields.io/badge/lava-base-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base) [![resource](https://img.shields.io/badge/lava-resource-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](https://git.io/liblava-engine)
 
