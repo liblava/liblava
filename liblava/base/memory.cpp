@@ -3,6 +3,7 @@
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/base/memory.hpp>
+#include <liblava/base/instance.hpp>
 
 #ifdef _WIN32
 #pragma warning(push, 4)
@@ -126,6 +127,7 @@ allocator::allocator(VkPhysicalDevice physical_device, VkDevice device) {
         .device = device,
         .pAllocationCallbacks = memory::alloc(),
         .pVulkanFunctions = &vulkan_function,
+        .instance = instance::get(),
     };
 
     check(vmaCreateAllocator(&allocator_info, &vma_allocator));

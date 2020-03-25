@@ -24,7 +24,7 @@ bool window::create(state::optional state) {
 
     if (state) {
 
-        windowed = !state->fullscreen;
+        fullscreen_active = state->fullscreen;
 
         if (state->monitor != 0) {
 
@@ -78,7 +78,7 @@ bool window::create(state::optional state) {
         width = mode->width / 2;
         height = mode->height / 2;
 
-        if (!windowed) {
+        if (fullscreen_active) {
 
             handle = glfwCreateWindow(mode->width, mode->height, str(default_title), monitor, nullptr);
             if (!handle) {

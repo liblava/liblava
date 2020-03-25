@@ -103,10 +103,10 @@ struct window : id_obj {
 
     void set_fullscreen(bool active) {
 
-        if (windowed == active)
+        if (fullscreen_active == active)
             switch_mode_request_active = true;
     }
-    bool fullscreen() const { return !windowed; }
+    bool fullscreen() const { return fullscreen_active; }
 
     bool hovered() const;
 
@@ -131,11 +131,9 @@ struct window : id_obj {
     bool resize_request() const { return resize_request_active; }
     bool handle_resize() {
 
-        if (on_resize) {
-
+        if (on_resize)
             if (!on_resize(framebuffer_width, framebuffer_height))
                 return false;
-        }
 
         resize_request_active = false;
         return true;
@@ -170,10 +168,10 @@ private:
     string title = _lava_;
     string save_name = _default_;
 
-    bool windowed = true;
+    bool fullscreen_active = false;
+    bool debug_title_active = false;
 
     bool switch_mode_request_active = false;
-    bool debug_title_active = false;
     bool resize_request_active = false;
  
     ui32 framebuffer_width = 0;
@@ -186,9 +184,11 @@ private:
 };
 
 bool window_file();
+
 window::state::optional load_window_state(name save_name = _default_);
 
 bool load_window_file(window::state& state, name save_name);
+
 void save_window_file(window::ref window);
 
 VkSurfaceKHR create_surface(GLFWwindow* window);

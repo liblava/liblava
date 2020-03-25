@@ -2,7 +2,7 @@
 
 **liblava is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
 
-**lava** is a lean framework that provides **essentials** for **low-level graphics**<br /> and is specially well suited for **prototyping**, **tooling** and **education**
+**lava** • lean framework that provides **essentials** for **low-level graphics**<br /> and is specially well suited for **prototyping**, **tooling** and **education**
 
 **C++20** • **Modular** • **Windows** • **Linux** • **<a href="https://git.io/liblava-demo">demo</a>**  • <a href="https://git.io/liblava-template">template</a>
 

@@ -68,6 +68,7 @@ private:
 };
 
 inline descriptor::ptr make_descriptor() { return std::make_shared<descriptor>(); }
+
 descriptor::binding::ptr make_descriptor_binding(index index);
 
 } // lava
