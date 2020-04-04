@@ -18,6 +18,7 @@ struct app : frame {
     struct config {
 
         bool save_window = true;
+        bool handle_key_events = true;
 
         bool auto_load = true;
         bool auto_save = true;

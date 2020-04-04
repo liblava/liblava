@@ -233,26 +233,29 @@ void app::handle_input() {
             return false;
         }
 
-        if (event.pressed(key::tab))
-            gui.toggle();
+        if (config.handle_key_events) {
 
-        if (event.pressed(key::escape))
-            return shut_down();
+            if (event.pressed(key::tab))
+                gui.toggle();
 
-        if (event.pressed(key::enter, mod::alt)) {
+            if (event.pressed(key::escape))
+                return shut_down();
 
-            window.set_fullscreen(!window.fullscreen());
-            return true;
+            if (event.pressed(key::enter, mod::alt)) {
+
+                window.set_fullscreen(!window.fullscreen());
+                return true;
+            }
+
+            if (event.pressed(key::backspace, mod::alt)) {
+
+                toggle_v_sync = true;
+                return true;
+            }
+
+            if (event.pressed(key::space))
+                run_time.paused = !run_time.paused;
         }
-
-        if (event.pressed(key::backspace, mod::alt)) {
-
-            toggle_v_sync = true;
-            return true;
-        }
-
-        if (event.pressed(key::space))
-            run_time.paused = !run_time.paused;
 
         if (camera.activated())
             return camera.handle(event);
