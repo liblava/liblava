@@ -41,6 +41,9 @@ struct buffer : id_obj {
 
     void flush(VkDeviceSize offset = 0, VkDeviceSize size = VK_WHOLE_SIZE);
 
+    VmaAllocation const& get_allocation() const { return allocation; }
+    VmaAllocationInfo const& get_allocation_info() const { return allocation_info; }
+
 private:
     device_ptr device = nullptr;
 
