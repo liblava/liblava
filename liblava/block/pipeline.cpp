@@ -35,12 +35,11 @@ void pipeline_layout::destroy() {
     layout = 0;
 }
 
-void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets) {
+void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets, VkPipelineBindPoint bind_point) {
 
     std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
 
-    vkCmdBindDescriptorSets(cmd_buf, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0, 
-                            to_ui32(descriptor_sets.size()), descriptor_sets.data(), to_ui32(offsets.size()), offsets.data());
+    vkCmdBindDescriptorSets(cmd_buf, bind_point, layout, 0, to_ui32(descriptor_sets.size()), descriptor_sets.data(), to_ui32(offsets.size()), offsets.data());
 }
 
 pipeline::pipeline(device_ptr device_, VkPipelineCache pipeline_cache) : device(device_), pipeline_cache(pipeline_cache) {}
@@ -480,7 +479,7 @@ bool compute_pipeline::create_internal() {
 
     VkComputePipelineCreateInfo const create_info
     {
-        .sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO,
+        .sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO,
         .stage = shader_stage->get_create_info(),
         .layout = layout->get(),
         .basePipelineHandle = 0,

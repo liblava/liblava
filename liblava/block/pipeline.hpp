@@ -32,10 +32,10 @@ struct pipeline_layout : id_obj {
 
     using offset_list = std::vector<ui32>;
 
-    void bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets = {});
-    void bind(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets = {}) {
+    void bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets = {}, VkPipelineBindPoint bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS);
+    void bind(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets = {}, VkPipelineBindPoint bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS) {
 
-        bind_descriptor_set(cmd_buf, descriptor_set, offsets);
+        bind_descriptor_set(cmd_buf, descriptor_set, offsets, bind_point);
     }
 
 private:
