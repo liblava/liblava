@@ -62,7 +62,7 @@ target_link_libraries(lava.core INTERFACE
         Threads::Threads
         )
 
-if(${CMAKE_CXX_COMPILER_ID} MATCHES "^(GNU|Clang)$")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         target_link_libraries(lava.core INTERFACE 
                 stdc++fs
                 )
