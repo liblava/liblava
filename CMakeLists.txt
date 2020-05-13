@@ -25,10 +25,6 @@ message("=======================================================================
 
 message("> module")
 
-if(CMAKE_COMPILER_IS_GNUCXX)
-        set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS ON)
-endif()
-
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
         set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
 endif()
@@ -39,9 +35,7 @@ set(LIBLAVA_TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
 message(">> lava::core")
 
-if(CMAKE_COMPILER_IS_GNUCXX)
-        find_package(Threads)
-endif()
+find_package(Threads REQUIRED)
 
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp "")
 
@@ -64,10 +58,13 @@ target_compile_features(lava.core INTERFACE
         cxx_std_20
         )
 
-if(CMAKE_COMPILER_IS_GNUCXX)
+target_link_libraries(lava.core INTERFACE
+        Threads::Threads
+        )
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         target_link_libraries(lava.core INTERFACE 
-                stdc++fs 
-                ${CMAKE_THREAD_LIBS_INIT}
+                stdc++fs
                 )
 endif()
 
