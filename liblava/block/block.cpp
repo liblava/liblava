@@ -47,7 +47,7 @@ bool block::create(lava::device_ptr d, index frame_count, index queue_family) {
         VkCommandPoolCreateInfo const create_info 
         {
             .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
-            .flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
+            .flags = 0,
             .queueFamilyIndex = queue_family,
         };
         if (failed(device->call().vkCreateCommandPool(device->get(), &create_info, memory::alloc(), &cmd_pools.at(i)))) {
