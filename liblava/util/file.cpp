@@ -178,6 +178,12 @@ void file_system::mount_res() {
         if (file_system::mount(str(res_path)))
             log()->debug("mount {}", str(get_res_dir()));
 
+    auto cwd_res_dir = fs::current_path().append("res/").lexically_normal().string();
+
+    if (fs::exists(cwd_res_dir) && (cwd_res_dir != get_res_dir()))
+        if (file_system::mount(cwd_res_dir))
+            log()->debug("mount {}", str(cwd_res_dir));
+
     string archive_file = "res.zip";
     if (fs::exists({ archive_file }))
         if (file_system::mount(str(archive_file)))
