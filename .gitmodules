@@ -16,9 +16,6 @@
 [submodule "ext/json"]
 	path = ext/json
 	url = https://github.com/nlohmann/json.git
-[submodule "ext/physfs"]
-	path = ext/physfs
-	url = https://github.com/criptych/physfs.git
 [submodule "ext/selene"]
 	path = ext/selene
 	url = https://github.com/kmhofmann/selene.git
@@ -45,3 +42,6 @@
 [submodule "ext/imgui"]
 	path = ext/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "ext/physfs"]
+	path = ext/physfs
+	url = https://github.com/Didstopia/physfs.git
