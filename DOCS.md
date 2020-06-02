@@ -89,7 +89,9 @@ window.assign(&input);
 input.key.listeners.add([&](key_event::ref event) {
 
     if (event.pressed(key::escape))
-        frame.shut_down();
+        return frame.shut_down();
+    
+    return false;
 });
 
 frame.add_run([&]() {
@@ -124,7 +126,9 @@ window.assign(&input);
 input.key.listeners.add([&](key_event::ref event) {
 
     if (event.pressed(key::escape))
-        frame.shut_down();
+        return frame.shut_down();
+
+    return false;
 });
 
 auto device = frame.create_device();

@@ -53,7 +53,7 @@ LAVA_TEST(3, "window input")
     input.key.listeners.add([&](key_event::ref event) {
 
         if (event.pressed(key::escape))
-            frame.shut_down();
+            return frame.shut_down();
 
         return false;
     });
@@ -87,7 +87,7 @@ LAVA_TEST(4, "clear color")
     input.key.listeners.add([&](key_event::ref event) {
 
         if (event.pressed(key::escape))
-            frame.shut_down();
+            return frame.shut_down();
 
         return false;
     });
@@ -215,7 +215,7 @@ LAVA_TEST(5, "color block")
     input.key.listeners.add([&](key_event::ref event) {
 
         if (event.pressed(key::escape))
-            frame.shut_down();
+            return frame.shut_down();
 
         return false;
     });
@@ -312,7 +312,7 @@ LAVA_TEST(6, "forward shading")
     input.key.listeners.add([&](key_event::ref event) {
 
         if (event.pressed(key::escape))
-            frame.shut_down();
+            return frame.shut_down();
 
         return false;
     });
