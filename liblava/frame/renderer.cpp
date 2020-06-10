@@ -108,7 +108,15 @@ std::optional<index> renderer::begin_frame() {
 
     // because frames might not come in sequential order the it might still be locked
     if(fences_in_use[frame_index] != nullptr){
-    	device->vkWaitForFences(1, &fences_in_use[frame_index], VK_TRUE, UINT64_MAX);
+    	auto result = device->vkWaitForFences(1, &fences_in_use[frame_index], VK_TRUE, UINT64_MAX);
+
+    	if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
+			target->request_reload();
+			return {};
+		}
+
+		if (!result)
+			return {};
     }
     fences_in_use[frame_index] = fences[current_sync];
 
