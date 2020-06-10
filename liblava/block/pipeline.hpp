@@ -142,14 +142,14 @@ struct graphics_pipeline : pipeline {
     };
 
     struct create_info{
-		VkPipelineVertexInputStateCreateInfo vertex_input_state;
+        VkPipelineVertexInputStateCreateInfo vertex_input_state;
 
-		VkPipelineInputAssemblyStateCreateInfo input_assembly_state;
-		VkPipelineViewportStateCreateInfo viewport_state;
-		VkPipelineMultisampleStateCreateInfo multisample_state;
-		VkPipelineDepthStencilStateCreateInfo depth_stencil_state;
-		VkPipelineRasterizationStateCreateInfo rasterization_state;
-	};
+        VkPipelineInputAssemblyStateCreateInfo input_assembly_state;
+        VkPipelineViewportStateCreateInfo viewport_state;
+        VkPipelineMultisampleStateCreateInfo multisample_state;
+        VkPipelineDepthStencilStateCreateInfo depth_stencil_state;
+        VkPipelineRasterizationStateCreateInfo rasterization_state;
+    };
 
     explicit graphics_pipeline(device_ptr device, VkPipelineCache pipeline_cache);
 
@@ -224,8 +224,8 @@ struct graphics_pipeline : pipeline {
 
     void set_line_width(VkCommandBuffer cmd_buf) { vkCmdSetLineWidth(cmd_buf, line_width); }
 
-	using create_func = std::function<bool(create_info&)>;
-	create_func on_create;
+    using create_func = std::function<bool(create_info&)>;
+    create_func on_create;
 
 private:
     bool create_internal() override;
@@ -240,8 +240,8 @@ private:
     VkVertexInputAttributeDescriptions vertex_input_attributes;
 
     VkPipelineColorBlendAttachmentStates color_blend_attachment_states;
-	VkPipelineColorBlendStateCreateInfo color_blend_state;
-	VkPipelineDynamicStateCreateInfo dynamic_state;
+    VkPipelineColorBlendStateCreateInfo color_blend_state;
+    VkPipelineDynamicStateCreateInfo dynamic_state;
 
     VkDynamicStates dynamic_states;
 
