@@ -141,6 +141,16 @@ struct graphics_pipeline : pipeline {
         relative
     };
 
+    struct create_info{
+		VkPipelineVertexInputStateCreateInfo vertex_input_state;
+
+		VkPipelineInputAssemblyStateCreateInfo input_assembly_state;
+		VkPipelineViewportStateCreateInfo viewport_state;
+		VkPipelineMultisampleStateCreateInfo multisample_state;
+		VkPipelineDepthStencilStateCreateInfo depth_stencil_state;
+		VkPipelineRasterizationStateCreateInfo rasterization_state;
+	};
+
     explicit graphics_pipeline(device_ptr device, VkPipelineCache pipeline_cache);
 
     void bind(VkCommandBuffer cmd_buf) override;
@@ -214,6 +224,9 @@ struct graphics_pipeline : pipeline {
 
     void set_line_width(VkCommandBuffer cmd_buf) { vkCmdSetLineWidth(cmd_buf, line_width); }
 
+	using create_func = std::function<bool(create_info&)>;
+	create_func on_create;
+
 private:
     bool create_internal() override;
     void destroy_internal() override;
@@ -221,20 +234,15 @@ private:
     VkRenderPass render_pass = 0;
     index subpass = 0;
 
-    VkPipelineVertexInputStateCreateInfo vertex_input_state;
+    create_info info;
+
     VkVertexInputBindingDescriptions vertex_input_bindings;
     VkVertexInputAttributeDescriptions vertex_input_attributes;
 
-    VkPipelineInputAssemblyStateCreateInfo input_assembly_state;
-    VkPipelineViewportStateCreateInfo viewport_state;
-    VkPipelineMultisampleStateCreateInfo multisample_state;
-    VkPipelineDepthStencilStateCreateInfo depth_stencil_state;
-    VkPipelineRasterizationStateCreateInfo rasterization_state;
-
-    VkPipelineColorBlendStateCreateInfo color_blend_state;
     VkPipelineColorBlendAttachmentStates color_blend_attachment_states;
+	VkPipelineColorBlendStateCreateInfo color_blend_state;
+	VkPipelineDynamicStateCreateInfo dynamic_state;
 
-    VkPipelineDynamicStateCreateInfo dynamic_state;
     VkDynamicStates dynamic_states;
 
     shader_stage::list shader_stages;
