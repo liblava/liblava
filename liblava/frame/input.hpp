@@ -22,14 +22,14 @@ enum class key : i32 {
     period          = 46, /* . */
     slash           = 47, /* / */
 
-    _0              = 48, 
+    _0              = 48,
     _1, _2, _3, _4, _5, _6, _7, _8, _9,
 
     semicolon       = 59, /* ; */
     equal           = 61, /* = */
 
     a               = 65,
-    b, c, d, e, f, g, h, i, j, k, l, m, n, 
+    b, c, d, e, f, g, h, i, j, k, l, m, n,
     o, p, q, r, s, t, u, v, w, x, y, z,
 
     left_bracket    = 91, /* [ */
@@ -46,14 +46,14 @@ enum class key : i32 {
     enter, tab, backspace, insert, del, /* delete */
 
     right, left, down, up,
-    
+
     page_up, page_down, home, end,
 
     caps_lock       = 280,
     scroll_lock, num_lock, print_screen, pause,
 
     f1              = 290,
-    f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, 
+    f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14,
     f15, f16, f17, f18, f19, f20, f21, f22, f23, f24, f25,
 
     kp_0            = 320,
@@ -150,7 +150,7 @@ struct mouse_move_event {
 enum class mouse_button : type {
 
     _1 = 0, _2, _3, _4, _5, _6, _7, _8,
-    
+
     last = _8,
 
     left = _1, right = _2, middle = _3,
@@ -166,12 +166,23 @@ struct mouse_button_event {
     id sender;
 
     mouse_button button;
-    
+
     lava::action action;
     lava::mod mod;
 
     bool pressed(mouse_button b) const { return action == action::press && button == b; }
     bool released(mouse_button b) const { return action == action::release && button == b; }
+};
+
+struct path_drop_event{
+    using ref = path_drop_event const&;
+    using func = std::function<bool(ref)>;
+    using listeners = std::map<id, func>;
+    using list = std::vector<path_drop_event>;
+
+    id sender;
+
+    std::vector<std::string> files;
 };
 
 struct mouse_active_event {
@@ -199,6 +210,7 @@ struct input_callback {
     mouse_move_event::func on_mouse_move_event;
     mouse_button_event::func on_mouse_button_event;
     mouse_active_event::func on_mouse_active_event;
+    path_drop_event::func on_path_drop_event;
 };
 
 template <typename T>
@@ -215,8 +227,9 @@ struct input : id_obj {
     input_events<scroll_event> scroll;
 
     input_events<mouse_move_event> mouse_move;
-    input_events<mouse_button_event> mouse_button;    
+    input_events<mouse_button_event> mouse_button;
     input_events<mouse_active_event> mouse_active;
+    input_events<path_drop_event> path_drop;
 
     void handle_events();
 
@@ -234,7 +247,7 @@ private:
 
 enum class gamepad_id : ui32 {
 
-    _1 = 0, _2, _3, _4, _5, _6, _7, _8, _9, 
+    _1 = 0, _2, _3, _4, _5, _6, _7, _8, _9,
     _10, _11, _12, _13, _14, _15, _16,
 
     last = _16,
@@ -243,17 +256,17 @@ enum class gamepad_id : ui32 {
 enum class gamepad_button : type {
 
     a = 0, b, x, y,
-    
+
     left_bumper, right_bumper,
-    
+
     back, start, guide,
-    
+
     left_thumb, right_thumb,
-    
+
     dpad_up, dpad_right, dpad_down, dpad_left,
 
     last = dpad_left,
-    
+
     cross = a,  circle = b,
     square = x, triangle = y,
 };
@@ -261,9 +274,9 @@ enum class gamepad_button : type {
 enum class gamepad_axis : type {
 
     left_x = 0, left_y,
-    
+
     right_x, right_y,
-    
+
     left_trigger, right_trigger,
 
     last = right_trigger,
