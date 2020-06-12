@@ -87,6 +87,16 @@ void input::handle_events() {
 
         return false;
     });
+
+    _handle_events<path_drop_event>(path_drop, [&](auto& event) {
+
+        for (auto& callback : callbacks)
+            if (callback->on_path_drop_event)
+                if (callback->on_path_drop_event(event))
+                    return true;
+
+        return false;
+    });
 }
 
 gamepad::gamepad(gamepad_id id) : id(id) {

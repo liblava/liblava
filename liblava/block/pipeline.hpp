@@ -142,6 +142,7 @@ struct graphics_pipeline : pipeline {
     };
 
     struct create_info{
+
         VkPipelineVertexInputStateCreateInfo vertex_input_state;
 
         VkPipelineInputAssemblyStateCreateInfo input_assembly_state;
