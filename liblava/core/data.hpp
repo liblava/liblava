@@ -29,7 +29,7 @@ template <typename T>
 inline data_ptr as_ptr(T* value) { return (data_ptr)value; }
 
 template <typename T>
-inline T align_up(T val, T align) { return (val + align - 1) / align * align; }
+inline T align_up(T val, T align) { return (val + align - T(1)) / align * align; }
 
 inline size_t align(size_t size, size_t min = 0) {
 
