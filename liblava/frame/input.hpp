@@ -174,7 +174,8 @@ struct mouse_button_event {
     bool released(mouse_button b) const { return action == action::release && button == b; }
 };
 
-struct path_drop_event{
+struct path_drop_event {
+
     using ref = path_drop_event const&;
     using func = std::function<bool(ref)>;
     using listeners = std::map<id, func>;
@@ -182,7 +183,7 @@ struct path_drop_event{
 
     id sender;
 
-    std::vector<std::string> files;
+    string_list files;
 };
 
 struct mouse_active_event {

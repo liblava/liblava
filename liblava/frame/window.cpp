@@ -229,13 +229,14 @@ void window::handle_message() {
             window->input->mouse_active.add({ window->get_id(), entered > 0 });
     });
 
-    glfwSetDropCallback(handle, [](GLFWwindow* handle, i32 amt, const char** paths){
+    glfwSetDropCallback(handle, [](GLFWwindow* handle, i32 amt, const char** paths) {
+
         auto window = get_window(handle);
-        if(!window)
+        if (!window)
             return;
 
-        if(window->input)
-            window->input->path_drop.add({window->get_id(), {paths, paths+amt}});
+        if (window->input)
+            window->input->path_drop.add({ window->get_id(), { paths, paths + amt } });
     });
 }
 
