@@ -1,6 +1,6 @@
 ﻿<a href="https://lava-block.com"><img align="left" src="https://github.com/liblava.png" width="100"></a>
 
-# liblava docs [![Version](https://img.shields.io/badge/Version-0.5.2-blue)](https://git.io/liblava)
+# liblava docs [![Version](https://img.shields.io/badge/Version-0.5.3-blue)](https://git.io/liblava)
 
 [Features](#features) • **[Tutorial](#tutorial)** • [Modules](#modules) • **[Guide](#guide)** • [Tests](#tests) • **[Build](#build)** • [Install](#install)
 
@@ -432,7 +432,7 @@ cmake --build . --target install
 First, find the package in your *CMakeLists.txt*:
 
 ```cmake
-find_package(lava 0.5.2 REQUIRED)
+find_package(lava 0.5.3 REQUIRED)
 
 ...
 
