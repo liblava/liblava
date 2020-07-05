@@ -107,10 +107,12 @@ std::optional<index> renderer::begin_frame() {
     }
 
     // because frames might not come in sequential order current frame might still be locked
-    if(fences_in_use[frame_index] != nullptr && fences_in_use[frame_index] != fences[current_sync]){
+    if ((fences_in_use[frame_index] != nullptr) && (fences_in_use[frame_index] != fences[current_sync])) {
+
         auto result = device->vkWaitForFences(1, &fences_in_use[frame_index], VK_TRUE, UINT64_MAX);
 
         if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
+
             target->request_reload();
             return {};
         }
@@ -118,6 +120,7 @@ std::optional<index> renderer::begin_frame() {
         if (!result)
             return {};
     }
+
     fences_in_use[frame_index] = fences[current_sync];
 
     if (!result)

@@ -116,13 +116,11 @@ VkPresentModeKHR swapchain::choose_present_mode(VkPresentModeKHRs const& present
     if (v_sync())
         return VK_PRESENT_MODE_FIFO_KHR;
 
-    if(std::find(present_modes.begin(), present_modes.end(), VK_PRESENT_MODE_MAILBOX_KHR) != present_modes.end()){
+    if (std::find(present_modes.begin(), present_modes.end(), VK_PRESENT_MODE_MAILBOX_KHR) != present_modes.end())
         return VK_PRESENT_MODE_MAILBOX_KHR;
-    }
 
-    if(std::find(present_modes.begin(), present_modes.end(), VK_PRESENT_MODE_IMMEDIATE_KHR) != present_modes.end()){
+    if (std::find(present_modes.begin(), present_modes.end(), VK_PRESENT_MODE_IMMEDIATE_KHR) != present_modes.end())
         return VK_PRESENT_MODE_IMMEDIATE_KHR;
-    }
 
     return VK_PRESENT_MODE_FIFO_KHR;
 }
