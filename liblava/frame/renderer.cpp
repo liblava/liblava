@@ -17,6 +17,7 @@ bool renderer::create(swapchain* t) {
     queued_frames = target->get_backbuffer_count();
 
     fences.resize(queued_frames);
+    fences_in_use.resize(queued_frames, nullptr);
     image_acquired_semaphores.resize(queued_frames);
     render_complete_semaphores.resize(queued_frames);
 
@@ -63,6 +64,7 @@ void renderer::destroy() {
     }
 
     fences.clear();
+    fences_in_use.clear();
     image_acquired_semaphores.clear();
     render_complete_semaphores.clear();
 
@@ -103,6 +105,23 @@ std::optional<index> renderer::begin_frame() {
         target->request_reload();
         return {};
     }
+
+    // because frames might not come in sequential order current frame might still be locked
+    if ((fences_in_use[frame_index] != nullptr) && (fences_in_use[frame_index] != fences[current_sync])) {
+
+        auto result = device->vkWaitForFences(1, &fences_in_use[frame_index], VK_TRUE, UINT64_MAX);
+
+        if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
+
+            target->request_reload();
+            return {};
+        }
+
+        if (!result)
+            return {};
+    }
+
+    fences_in_use[frame_index] = fences[current_sync];
 
     if (!result)
         return {};

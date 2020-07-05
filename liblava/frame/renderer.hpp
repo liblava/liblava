@@ -44,6 +44,7 @@ private:
 
     ui32 current_sync = 0;
     VkFences fences = {};
+    VkFences fences_in_use = {};
     VkSemaphores image_acquired_semaphores = {};
     VkSemaphores render_complete_semaphores = {};
 };
