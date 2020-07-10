@@ -103,7 +103,7 @@ struct window : id_obj {
 
     void set_fullscreen(bool active) {
 
-        if (fullscreen_active == active)
+        if (fullscreen_active != active)
             switch_mode_request_active = true;
     }
     bool fullscreen() const { return fullscreen_active; }
