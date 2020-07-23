@@ -4,29 +4,36 @@
 
 #pragma once
 
-#include <liblava/frame/render_target.hpp>
 #include <liblava/block/render_pass.hpp>
+#include <liblava/frame/render_target.hpp>
 
 namespace lava {
 
-struct forward_shading : id_obj {
+    struct forward_shading : id_obj {
+        explicit forward_shading() = default;
+        ~forward_shading() {
+            destroy();
+        }
 
-    explicit forward_shading() = default;
-    ~forward_shading() { destroy(); }
+        bool create(render_target::ptr target);
+        void destroy();
 
-    bool create(render_target::ptr target);
-    void destroy();
+        render_pass::ptr get_pass() const {
+            return pass;
+        }
+        VkRenderPass get_vk_pass() const {
+            return pass->get();
+        }
 
-    render_pass::ptr get_pass() const { return pass; }
-    VkRenderPass get_vk_pass() const { return pass->get(); }
+        image::ptr get_depth_stencil() const {
+            return depth_stencil;
+        }
 
-    image::ptr get_depth_stencil() const { return depth_stencil; }
+    private:
+        render_target::ptr target;
 
-private:
-    render_target::ptr target;
+        render_pass::ptr pass;
+        image::ptr depth_stencil;
+    };
 
-    render_pass::ptr pass;
-    image::ptr depth_stencil;
-};
-
-} // lava
+} // namespace lava

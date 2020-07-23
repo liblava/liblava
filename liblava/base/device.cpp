@@ -8,211 +8,194 @@
 
 namespace lava {
 
-bool device::create(create_param::ref param) {
+    bool device::create(create_param::ref param) {
+        physical_device = param.physical_device;
+        if (!physical_device)
+            return false;
 
-    physical_device = param.physical_device;
-    if (!physical_device)
-        return false;
+        std::vector<VkDeviceQueueCreateInfo> queue_create_info_list(param.queue_info_list.size());
 
-    std::vector<VkDeviceQueueCreateInfo> queue_create_info_list(param.queue_info_list.size());
+        for (size_t i = 0, e = param.queue_info_list.size(); i != e; ++i) {
+            queue_create_info_list[i].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 
-    for (size_t i = 0, e = param.queue_info_list.size(); i != e; ++i) {
+            ui32 index = 0;
+            if (!physical_device->get_queue_family(index, param.queue_info_list[i].flags)) {
+                log()->error("create device queue family");
+                return false;
+            }
 
-        queue_create_info_list[i].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+            queue_create_info_list[i].queueFamilyIndex = index;
+            queue_create_info_list[i].queueCount = param.queue_info_list[i].count();
+            queue_create_info_list[i].pQueuePriorities = param.queue_info_list[i].priorities.data();
+        }
 
-        ui32 index = 0;
-        if (!physical_device->get_queue_family(index, param.queue_info_list[i].flags)) {
+        VkDeviceCreateInfo create_info{
+            .sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
+            .pNext = param.next,
+            .queueCreateInfoCount = to_ui32(queue_create_info_list.size()),
+            .pQueueCreateInfos = queue_create_info_list.data(),
+            .enabledLayerCount = 0,
+            .ppEnabledLayerNames = nullptr,
+            .enabledExtensionCount = to_ui32(param.extensions.size()),
+            .ppEnabledExtensionNames = param.extensions.data(),
+            .pEnabledFeatures = &param.features,
+        };
 
-            log()->error("create device queue family");
+        if (failed(vkCreateDevice(physical_device->get(), &create_info, memory::alloc(), &vk_device))) {
+            log()->error("create device");
             return false;
         }
 
-        queue_create_info_list[i].queueFamilyIndex = index;
-        queue_create_info_list[i].queueCount = param.queue_info_list[i].count();
-        queue_create_info_list[i].pQueuePriorities = param.queue_info_list[i].priorities.data();
-    }
+        features = param.features;
 
-    VkDeviceCreateInfo create_info
-    {
-        .sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO,
-        .pNext = param.next,
-        .queueCreateInfoCount = to_ui32(queue_create_info_list.size()),
-        .pQueueCreateInfos = queue_create_info_list.data(),
-        .enabledLayerCount = 0,
-        .ppEnabledLayerNames = nullptr,
-        .enabledExtensionCount = to_ui32(param.extensions.size()),
-        .ppEnabledExtensionNames = param.extensions.data(),
-        .pEnabledFeatures = &param.features,
-    };
+        load_table();
 
-    if (failed(vkCreateDevice(physical_device->get(), &create_info, memory::alloc(), &vk_device))) {
+        graphics_queue_list.clear();
+        compute_queue_list.clear();
+        transfer_queue_list.clear();
 
-        log()->error("create device");
-        return false;
-    }
+        index_map queue_family_map;
 
-    features = param.features;
+        for (size_t i = 0, ei = queue_create_info_list.size(); i != ei; ++i) {
+            if (!queue_family_map.count(queue_create_info_list[i].queueFamilyIndex))
+                queue_family_map.emplace(queue_create_info_list[i].queueFamilyIndex, 0);
 
-    load_table();
+            for (size_t j = 0, ej = queue_create_info_list[i].queueCount; j != ej; ++j) {
+                auto counter = queue_family_map[queue_create_info_list[i].queueFamilyIndex];
+                queue_family_map[queue_create_info_list[i].queueFamilyIndex]++;
 
-    graphics_queue_list.clear();
-    compute_queue_list.clear();
-    transfer_queue_list.clear();
+                VkQueue queue = nullptr;
+                call().vkGetDeviceQueue(vk_device, queue_create_info_list[i].queueFamilyIndex, counter, &queue);
 
-    index_map queue_family_map;
-
-    for (size_t i = 0, ei = queue_create_info_list.size(); i != ei; ++i) {
-
-        if (!queue_family_map.count(queue_create_info_list[i].queueFamilyIndex))
-            queue_family_map.emplace(queue_create_info_list[i].queueFamilyIndex, 0);
-
-        for (size_t j = 0, ej = queue_create_info_list[i].queueCount; j != ej; ++j) {
-
-            auto counter = queue_family_map[queue_create_info_list[i].queueFamilyIndex];
-            queue_family_map[queue_create_info_list[i].queueFamilyIndex]++;
-
-            VkQueue queue = nullptr;
-            call().vkGetDeviceQueue(vk_device, queue_create_info_list[i].queueFamilyIndex, counter, &queue);
-
-            if (param.queue_info_list[i].flags & VK_QUEUE_GRAPHICS_BIT)
-                graphics_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
-            if (param.queue_info_list[i].flags & VK_QUEUE_COMPUTE_BIT)
-                compute_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
-            if (param.queue_info_list[i].flags & VK_QUEUE_TRANSFER_BIT)
-                transfer_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+                if (param.queue_info_list[i].flags & VK_QUEUE_GRAPHICS_BIT)
+                    graphics_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+                if (param.queue_info_list[i].flags & VK_QUEUE_COMPUTE_BIT)
+                    compute_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+                if (param.queue_info_list[i].flags & VK_QUEUE_TRANSFER_BIT)
+                    transfer_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+            }
         }
+
+        return create_descriptor_pool();
     }
 
-    return create_descriptor_pool();
-}
+    void device::destroy() {
+        if (!vk_device)
+            return;
 
-void device::destroy() {
+        graphics_queue_list.clear();
+        compute_queue_list.clear();
+        transfer_queue_list.clear();
 
-    if (!vk_device)
-        return;
+        call().vkDestroyDescriptorPool(vk_device, descriptor_pool, memory::alloc());
+        descriptor_pool = 0;
 
-    graphics_queue_list.clear();
-    compute_queue_list.clear();
-    transfer_queue_list.clear();
+        mem_allocator = nullptr;
 
-    call().vkDestroyDescriptorPool(vk_device, descriptor_pool, memory::alloc());
-    descriptor_pool = 0;
+        call().vkDestroyDevice(vk_device, memory::alloc());
+        vk_device = nullptr;
 
-    mem_allocator = nullptr;
+        table = {};
+    }
 
-    call().vkDestroyDevice(vk_device, memory::alloc());
-    vk_device = nullptr;
+    bool device::create_descriptor_pool() {
+        auto const count = 11u;
+        auto const size = 1000u;
 
-    table = {};
-}
+        VkDescriptorPoolSize const pool_size[count] = {
+            { VK_DESCRIPTOR_TYPE_SAMPLER, size },
+            { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, size },
+            { VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, size },
+            { VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, size },
+            { VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, size },
+            { VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, size },
+            { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, size },
+            { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, size },
+            { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, size },
+            { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, size },
+            { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, size },
+        };
 
-bool device::create_descriptor_pool() {
+        VkDescriptorPoolCreateInfo const pool_info{
+            .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
+            .flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT,
+            .maxSets = size * count,
+            .poolSizeCount = count,
+            .pPoolSizes = pool_size,
+        };
 
-    auto const count = 11u;
-    auto const size = 1000u;
+        return check(call().vkCreateDescriptorPool(vk_device, &pool_info, memory::alloc(), &descriptor_pool));
+    }
 
-    VkDescriptorPoolSize const pool_size[count] = 
-    {
-        { VK_DESCRIPTOR_TYPE_SAMPLER, size },
-        { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, size },
-        { VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, size },
-        { VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, size },
-        { VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, size },
-        { VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, size },
-        { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, size },
-        { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, size },
-        { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, size },
-        { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, size },
-        { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, size },
-    };
+    bool device::surface_supported(VkSurfaceKHR surface) const {
+        return physical_device->surface_supported(get_graphics_queue().family, surface);
+    }
 
-    VkDescriptorPoolCreateInfo const pool_info
-    {
-        .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
-        .flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT,
-        .maxSets = size * count,
-        .poolSizeCount = count,
-        .pPoolSizes = pool_size,
-    };
+    VkPhysicalDevice device::get_vk_physical_device() const {
+        return physical_device->get();
+    }
 
-    return check(call().vkCreateDescriptorPool(vk_device, &pool_info, memory::alloc(), &descriptor_pool));
-}
+    VkPhysicalDeviceFeatures const& device::get_features() const {
+        return features;
+    }
 
-bool device::surface_supported(VkSurfaceKHR surface) const {
+    VkPhysicalDeviceProperties const& device::get_properties() const {
+        return physical_device->get_properties();
+    }
 
-    return physical_device->surface_supported(get_graphics_queue().family, surface);
-}
+    device::ptr device_manager::create(index pd) {
+        auto physical_device = &instance::get_first_physical_device();
 
-VkPhysicalDevice device::get_vk_physical_device() const {
+        if (pd > 0) {
+            if (pd >= instance::singleton().get_physical_devices().size()) {
+                log()->error("create device - no physical device {}", pd);
+                return nullptr;
+            }
 
-    return physical_device->get();
-}
+            physical_device = &instance::singleton().get_physical_devices().at(pd);
+        }
 
-VkPhysicalDeviceFeatures const& device::get_features() const { return features; }
-
-VkPhysicalDeviceProperties const& device::get_properties() const { return physical_device->get_properties(); }
-
-device::ptr device_manager::create(index pd) {
-
-    auto physical_device = &instance::get_first_physical_device();
-
-    if (pd > 0) {
-
-        if (pd >= instance::singleton().get_physical_devices().size()) {
-
-            log()->error("create device - no physical device {}", pd);
+        if (!physical_device->swapchain_supported())
             return nullptr;
-        }
 
-        physical_device = &instance::singleton().get_physical_devices().at(pd);
+        auto param = physical_device->create_default_device_param();
+        if (on_create_param)
+            on_create_param(param);
+
+        return create(param);
     }
 
-    if (!physical_device->swapchain_supported())
-        return nullptr;
+    device::ptr device_manager::create(device::create_param::ref param) {
+        auto result = std::make_shared<device>();
+        if (!result->create(param))
+            return nullptr;
 
-    auto param = physical_device->create_default_device_param();
-    if (on_create_param)
-        on_create_param(param);
+        auto allocator = make_allocator(result->get_vk_physical_device(), result->get());
+        if (!allocator)
+            return nullptr;
 
-    return create(param);
-}
+        result->set_allocator(allocator);
 
-device::ptr device_manager::create(device::create_param::ref param) {
+        list.push_back(result);
+        return result;
+    }
 
-    auto result = std::make_shared<device>();
-    if (!result->create(param))
-        return nullptr;
+    void device_manager::wait_idle() {
+        for (auto& device : list)
+            device->wait_for_idle();
+    }
 
-    auto allocator = make_allocator(result->get_vk_physical_device(), result->get());
-    if (!allocator)
-        return nullptr;
+    void device_manager::clear() {
+        for (auto& device : list)
+            device->destroy();
 
-    result->set_allocator(allocator);
+        list.clear();
+    }
 
-    list.push_back(result);
-    return result;
-}
-
-void device_manager::wait_idle() {
-
-    for (auto& device : list)
-        device->wait_for_idle();
-}
-
-void device_manager::clear() {
-
-    for (auto& device : list)
-        device->destroy();
-
-    list.clear();
-}
-
-} // lava
+} // namespace lava
 
 VkShaderModule lava::create_shader_module(device_ptr device, data const& data) {
-
-    VkShaderModuleCreateInfo shader_module_create_info
-    {
+    VkShaderModuleCreateInfo shader_module_create_info{
         .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
         .codeSize = data.size,
         .pCode = reinterpret_cast<ui32*>(data.ptr),

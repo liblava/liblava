@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include <liblava/core.hpp>
-#include <liblava/util.hpp>
+#include <liblava/app.hpp>
 #include <liblava/base.hpp>
 #include <liblava/block.hpp>
-#include <liblava/resource.hpp>
+#include <liblava/core.hpp>
 #include <liblava/frame.hpp>
-#include <liblava/app.hpp>
+#include <liblava/resource.hpp>
+#include <liblava/util.hpp>

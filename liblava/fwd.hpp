@@ -97,4 +97,4 @@ namespace lava {
     struct dispatcher;
     struct thread_pool;
 
-} // lava
+} // namespace lava

@@ -8,35 +8,33 @@
 
 namespace lava {
 
-struct internal_version {
+    struct internal_version {
+        i32 major = LIBLAVA_VERSION_MAJOR;
+        i32 minor = LIBLAVA_VERSION_MINOR;
+        i32 patch = LIBLAVA_VERSION_PATCH;
+    };
 
-    i32 major = LIBLAVA_VERSION_MAJOR;
-    i32 minor = LIBLAVA_VERSION_MINOR;
-    i32 patch = LIBLAVA_VERSION_PATCH;
-};
+    constexpr internal_version const _internal_version = {};
 
-constexpr internal_version const _internal_version = {};
+    enum class version_stage {
 
-enum class version_stage {
+        preview,
+        alpha,
+        beta,
+        rc,
+        release
+    };
 
-    preview,
-    alpha,
-    beta,
-    rc,
-    release
-};
+    struct version {
+        i32 year = 2020;
+        i32 release = 0;
+        version_stage stage = version_stage::preview;
+        i32 rev = 2;
+    };
 
-struct version {
+    constexpr version const _version = {};
 
-    i32 year = 2020;
-    i32 release = 0;
-    version_stage stage = version_stage::preview;
-    i32 rev = 2;
-};
+    constexpr name _build_date = LIBLAVA_BUILD_DATE;
+    constexpr name _build_time = LIBLAVA_BUILD_TIME;
 
-constexpr version const _version = {};
-
-constexpr name _build_date = LIBLAVA_BUILD_DATE;
-constexpr name _build_time = LIBLAVA_BUILD_TIME;
-
-} // lava
+} // namespace lava

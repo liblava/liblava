@@ -27,55 +27,53 @@ LAVA_TEST(1, "first test")
 
 namespace lava {
 
-enum test_result {
+    enum test_result {
 
-    no_tests        = -100,
-    not_found       = -101,
-    wrong_arguments = -102
-};
+        no_tests = -100,
+        not_found = -101,
+        wrong_arguments = -102
+    };
 
-struct test {
+    struct test {
+        using map = std::map<index, test*>;
+        using func = std::function<i32(argh::parser)>;
 
-    using map = std::map<index, test*>;
-    using func = std::function<i32(argh::parser)>;
+        explicit test(ui32 id, name descr, func func);
 
-    explicit test(ui32 id, name descr, func func);
+        index id = 0;
+        string descr;
+        func on_func;
+    };
 
-    index id = 0;
-    string descr;
-    func on_func;
-};
+    struct driver {
+        static driver& instance() {
+            static driver singleton;
+            return singleton;
+        }
 
-struct driver {
+        void add_test(test* test) {
+            tests.emplace(test->id, test);
+        }
 
-    static driver& instance() {
+        test::map const& get() const {
+            return tests;
+        }
 
-        static driver singleton;
-        return singleton;
-    }
+    private:
+        driver() = default;
 
-    void add_test(test* test) {
+        test::map tests;
+    };
 
-        tests.emplace(test->id, test);
-    }
-
-    test::map const& get() const { return tests; }
-
-private:
-    driver() = default;
-
-    test::map tests;
-};
-
-} // lava
+} // namespace lava
 
 #define OBJ test_
 #define FUNC _test
 
-#define STR_(n,m) n##m
-#define STR(n,m) STR_(n,m)
+#define STR_(n, m) n##m
+#define STR(n, m) STR_(n, m)
 
 #define LAVA_TEST(ID, NAME) \
-i32 STR(FUNC,ID)(argh::parser argh); \
-lava::test STR(OBJ,ID)(ID, NAME, ::STR(FUNC,ID)); \
-i32 STR(FUNC,ID)(argh::parser argh)
+    i32 STR(FUNC, ID)(argh::parser argh); \
+    lava::test STR(OBJ, ID)(ID, NAME, ::STR(FUNC, ID)); \
+    i32 STR(FUNC, ID)(argh::parser argh)

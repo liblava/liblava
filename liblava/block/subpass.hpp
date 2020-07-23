@@ -8,108 +8,132 @@
 
 namespace lava {
 
-struct subpass : id_obj {
+    struct subpass : id_obj {
+        using ptr = std::shared_ptr<subpass>;
+        using list = std::vector<ptr>;
 
-    using ptr = std::shared_ptr<subpass>;
-    using list = std::vector<ptr>;
+        void destroy();
 
-    void destroy();
+        explicit subpass();
 
-    explicit subpass();
+        void add(graphics_pipeline::ptr const& pipeline) {
+            pipelines.push_back(pipeline);
+        }
 
-    void add(graphics_pipeline::ptr const& pipeline) { pipelines.push_back(pipeline); }
+        void add_front(graphics_pipeline::ptr const& pipeline) {
+            pipelines.insert(pipelines.begin(), pipeline);
+        }
 
-    void add_front(graphics_pipeline::ptr const& pipeline) { pipelines.insert(pipelines.begin(), pipeline); }
+        void remove(graphics_pipeline::ptr pipeline);
 
-    void remove(graphics_pipeline::ptr pipeline);
+        void clear_pipelines();
 
-    void clear_pipelines();
+        void process(VkCommandBuffer cmd_buf, uv2 size);
+        ;
 
-    void process(VkCommandBuffer cmd_buf, uv2 size);;
+        VkSubpassDescription get_description() const {
+            return description;
+        }
 
-    VkSubpassDescription get_description() const { return description; }
+        void set(VkPipelineBindPoint pipeline_bind_point) {
+            description.pipelineBindPoint = pipeline_bind_point;
+        }
 
-    void set(VkPipelineBindPoint pipeline_bind_point) { description.pipelineBindPoint = pipeline_bind_point; }
+        void set_color_attachment(index attachment, VkImageLayout layout);
+        void set_color_attachment(VkAttachmentReference attachment);
+        void set_color_attachments(VkAttachmentReferences const& attachments);
 
-    void set_color_attachment(index attachment, VkImageLayout layout);
-    void set_color_attachment(VkAttachmentReference attachment);
-    void set_color_attachments(VkAttachmentReferences const& attachments);
+        void set_depth_stencil_attachment(index attachment, VkImageLayout layout);
+        void set_depth_stencil_attachment(VkAttachmentReference attachment);
 
-    void set_depth_stencil_attachment(index attachment, VkImageLayout layout);
-    void set_depth_stencil_attachment(VkAttachmentReference attachment);
+        void set_input_attachment(index attachment, VkImageLayout layout);
+        void set_input_attachment(VkAttachmentReference attachment);
+        void set_input_attachments(VkAttachmentReferences const& attachments);
 
-    void set_input_attachment(index attachment, VkImageLayout layout);
-    void set_input_attachment(VkAttachmentReference attachment);
-    void set_input_attachments(VkAttachmentReferences const& attachments);
+        void set_resolve_attachment(index attachment, VkImageLayout layout);
+        void set_resolve_attachment(VkAttachmentReference attachment);
+        void set_resolve_attachments(VkAttachmentReferences const& attachments);
 
-    void set_resolve_attachment(index attachment, VkImageLayout layout);
-    void set_resolve_attachment(VkAttachmentReference attachment);
-    void set_resolve_attachments(VkAttachmentReferences const& attachments);
+        void add_preserve_attachment(index attachment);
+        void set_preserve_attachments(index_list const& attachments);
 
-    void add_preserve_attachment(index attachment);
-    void set_preserve_attachments(index_list const& attachments);
+        void set_active(bool value = true) {
+            active = value;
+        }
+        bool activated() const {
+            return active;
+        }
 
-    void set_active(bool value = true) { active = value; }
-    bool activated() const { return active; }
+    private:
+        VkSubpassDescription description;
+        bool active = true;
 
-private:
-    VkSubpassDescription description;
-    bool active = true;
+        VkAttachmentReferences color_attachments;
+        VkAttachmentReference depth_stencil_attachment;
+        VkAttachmentReferences input_attachments;
+        VkAttachmentReferences resolve_attachments;
+        index_list preserve_attachments;
 
-    VkAttachmentReferences color_attachments;
-    VkAttachmentReference depth_stencil_attachment;
-    VkAttachmentReferences input_attachments;
-    VkAttachmentReferences resolve_attachments;
-    index_list preserve_attachments;
+        graphics_pipeline::list pipelines;
+    };
 
-    graphics_pipeline::list pipelines;
-};
+    subpass::ptr make_subpass(VkPipelineBindPoint pipeline_bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS);
 
-subpass::ptr make_subpass(VkPipelineBindPoint pipeline_bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS);
+    struct subpass_dependency : id_obj {
+        using ptr = std::shared_ptr<subpass_dependency>;
+        using list = std::vector<ptr>;
 
-struct subpass_dependency : id_obj {
+        explicit subpass_dependency();
 
-    using ptr = std::shared_ptr<subpass_dependency>;
-    using list = std::vector<ptr>;
+        VkSubpassDependency get_dependency() const {
+            return dependency;
+        }
 
-    explicit subpass_dependency();
+        void set_subpass(ui32 src, ui32 dst) {
+            set_src_subpass(src);
+            set_dst_subpass(dst);
+        }
 
-    VkSubpassDependency get_dependency() const { return dependency; }
+        void set_src_subpass(ui32 src) {
+            dependency.srcSubpass = src;
+        }
+        void set_dst_subpass(ui32 dst) {
+            dependency.dstSubpass = dst;
+        }
 
-    void set_subpass(ui32 src, ui32 dst) {
-        
-        set_src_subpass(src);
-        set_dst_subpass(dst);
-    }
-    
-    void set_src_subpass(ui32 src) { dependency.srcSubpass = src; }
-    void set_dst_subpass(ui32 dst) { dependency.dstSubpass = dst; }
+        void set_stage_mask(VkPipelineStageFlags src, VkPipelineStageFlags dst) {
+            set_src_stage_mask(src);
+            set_dst_stage_mask(dst);
+        }
 
-    void set_stage_mask(VkPipelineStageFlags src, VkPipelineStageFlags dst) {
-        
-        set_src_stage_mask(src);
-        set_dst_stage_mask(dst);
-    }
+        void set_src_stage_mask(VkPipelineStageFlags mask) {
+            dependency.srcStageMask = mask;
+        }
+        void set_dst_stage_mask(VkPipelineStageFlags mask) {
+            dependency.dstStageMask = mask;
+        }
 
-    void set_src_stage_mask(VkPipelineStageFlags mask) { dependency.srcStageMask = mask; }
-    void set_dst_stage_mask(VkPipelineStageFlags mask) { dependency.dstStageMask = mask; }
+        void set_access_mask(VkAccessFlags src, VkAccessFlags dst) {
+            set_src_access_mask(src);
+            set_dst_access_mask(dst);
+        }
 
-    void set_access_mask(VkAccessFlags src, VkAccessFlags dst) {
+        void set_src_access_mask(VkAccessFlags mask) {
+            dependency.srcAccessMask = mask;
+        }
+        void set_dst_access_mask(VkAccessFlags mask) {
+            dependency.dstAccessMask = mask;
+        }
 
-        set_src_access_mask(src);
-        set_dst_access_mask(dst);
-    }
+        void set_dependency_flags(VkDependencyFlags flags) {
+            dependency.dependencyFlags = flags;
+        }
 
-    void set_src_access_mask(VkAccessFlags mask) { dependency.srcAccessMask = mask; }
-    void set_dst_access_mask(VkAccessFlags mask) { dependency.dstAccessMask = mask; }
+    private:
+        VkSubpassDependency dependency;
+    };
 
-    void set_dependency_flags(VkDependencyFlags flags) { dependency.dependencyFlags = flags; }
+    subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass, ui32 dst_subpass,
+                                                    VkDependencyFlags dependency_flags = VK_DEPENDENCY_BY_REGION_BIT);
 
-private:
-    VkSubpassDependency dependency;
-};
-
-subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass, ui32 dst_subpass,
-                                    VkDependencyFlags dependency_flags = VK_DEPENDENCY_BY_REGION_BIT);
-
-} // lava
+} // namespace lava

@@ -5,48 +5,47 @@
 #pragma once
 
 #include <liblava/frame/swapchain.hpp>
-
 #include <optional>
 
 namespace lava {
 
-struct renderer : id_obj {
+    struct renderer : id_obj {
+        bool create(swapchain* target);
+        void destroy();
 
-    bool create(swapchain* target);
-    void destroy();
+        std::optional<index> begin_frame();
+        bool end_frame(VkCommandBuffers const& cmd_buffers);
 
-    std::optional<index> begin_frame();
-    bool end_frame(VkCommandBuffers const& cmd_buffers);
+        bool frame(VkCommandBuffers const& cmd_buffers) {
+            if (!begin_frame())
+                return false;
 
-    bool frame(VkCommandBuffers const& cmd_buffers) {
+            return end_frame(cmd_buffers);
+        }
 
-        if (!begin_frame())
-            return false;
+        index get_frame() const {
+            return frame_index;
+        }
 
-        return end_frame(cmd_buffers);
-    }
+        using destroy_func = std::function<void()>;
+        destroy_func on_destroy;
 
-    index get_frame() const { return frame_index; }
+        bool active = true;
 
-    using destroy_func = std::function<void()>;
-    destroy_func on_destroy;
+    private:
+        device_ptr device = nullptr;
+        device::queue queue;
 
-    bool active = true;
+        swapchain* target = nullptr;
 
-private:
-    device_ptr device = nullptr;
-    device::queue queue;
+        index frame_index = 0;
+        ui32 queued_frames = 2;
 
-    swapchain* target = nullptr;
+        ui32 current_sync = 0;
+        VkFences fences = {};
+        VkFences fences_in_use = {};
+        VkSemaphores image_acquired_semaphores = {};
+        VkSemaphores render_complete_semaphores = {};
+    };
 
-    index frame_index = 0;
-    ui32 queued_frames = 2;
-
-    ui32 current_sync = 0;
-    VkFences fences = {};
-    VkFences fences_in_use = {};
-    VkSemaphores image_acquired_semaphores = {};
-    VkSemaphores render_complete_semaphores = {};
-};
-
-} // lava
+} // namespace lava

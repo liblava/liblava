@@ -6,15 +6,13 @@
 
 using namespace lava;
 
-LAVA_TEST(1, "frame init")
-{
+LAVA_TEST(1, "frame init") {
     frame frame(argh);
 
     return frame.ready() ? 0 : error::not_ready;
 }
 
-LAVA_TEST(2, "run loop")
-{
+LAVA_TEST(2, "run loop") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
@@ -22,7 +20,6 @@ LAVA_TEST(2, "run loop")
     auto count = 0;
 
     frame.add_run([&]() {
-
         sleep(seconds(1));
         count++;
 
@@ -37,8 +34,7 @@ LAVA_TEST(2, "run loop")
     return frame.run();
 }
 
-LAVA_TEST(3, "window input")
-{
+LAVA_TEST(3, "window input") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
@@ -51,7 +47,6 @@ LAVA_TEST(3, "window input")
     window.assign(&input);
 
     input.key.listeners.add([&](key_event::ref event) {
-
         if (event.pressed(key::escape))
             return frame.shut_down();
 
@@ -59,7 +54,6 @@ LAVA_TEST(3, "window input")
     });
 
     frame.add_run([&]() {
-
         input.handle_events();
 
         if (window.close_request())
@@ -71,8 +65,7 @@ LAVA_TEST(3, "window input")
     return frame.run();
 }
 
-LAVA_TEST(4, "clear color")
-{
+LAVA_TEST(4, "clear color") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
@@ -85,7 +78,6 @@ LAVA_TEST(4, "clear color")
     window.assign(&input);
 
     input.key.listeners.add([&](key_event::ref event) {
-
         if (event.pressed(key::escape))
             return frame.shut_down();
 
@@ -110,30 +102,26 @@ LAVA_TEST(4, "clear color")
     VkCommandBuffers cmd_bufs(frame_count);
 
     auto build_cmd_bufs = [&]() {
-
         if (!device->vkCreateCommandPool(device->graphics_queue().family, &cmd_pool))
             return false;
 
         if (!device->vkAllocateCommandBuffers(cmd_pool, frame_count, cmd_bufs.data()))
             return false;
 
-        VkCommandBufferBeginInfo const begin_info
-        {
+        VkCommandBufferBeginInfo const begin_info{
             .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
             .flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT,
         };
 
         VkClearColorValue const clear_color = { lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f), 0.f };
 
-        VkImageSubresourceRange const image_range
-        {
+        VkImageSubresourceRange const image_range{
             .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
             .levelCount = 1,
             .layerCount = 1,
         };
 
         for (auto i = 0u; i < frame_count; ++i) {
-
             auto cmd_buf = cmd_bufs[i];
             auto frame_image = render_target->get_image(i);
 
@@ -160,7 +148,6 @@ LAVA_TEST(4, "clear color")
     };
 
     auto clean_cmd_bufs = [&]() {
-
         device->vkFreeCommandBuffers(cmd_pool, frame_count, cmd_bufs.data());
         device->vkDestroyCommandPool(cmd_pool);
     };
@@ -172,7 +159,6 @@ LAVA_TEST(4, "clear color")
     render_target->on_swapchain_stop = clean_cmd_bufs;
 
     frame.add_run([&]() {
-
         input.handle_events();
 
         if (window.close_request())
@@ -189,7 +175,6 @@ LAVA_TEST(4, "clear color")
     });
 
     frame.add_run_end([&]() {
-
         clean_cmd_bufs();
 
         plotter.destroy();
@@ -199,8 +184,7 @@ LAVA_TEST(4, "clear color")
     return frame.run();
 }
 
-LAVA_TEST(5, "color block")
-{
+LAVA_TEST(5, "color block") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
@@ -213,7 +197,6 @@ LAVA_TEST(5, "color block")
     window.assign(&input);
 
     input.key.listeners.add([&](key_event::ref event) {
-
         if (event.pressed(key::escape))
             return frame.shut_down();
 
@@ -240,11 +223,9 @@ LAVA_TEST(5, "color block")
         return error::create_failed;
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
-
         VkClearColorValue const clear_color = { lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f), 0.f };
 
-        VkImageSubresourceRange const image_range
-        {
+        VkImageSubresourceRange const image_range{
             .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
             .levelCount = 1,
             .layerCount = 1,
@@ -266,7 +247,6 @@ LAVA_TEST(5, "color block")
     });
 
     frame.add_run([&]() {
-
         input.handle_events();
 
         if (window.close_request())
@@ -286,7 +266,6 @@ LAVA_TEST(5, "color block")
     });
 
     frame.add_run_end([&]() {
-
         block.destroy();
 
         plotter.destroy();
@@ -296,8 +275,7 @@ LAVA_TEST(5, "color block")
     return frame.run();
 }
 
-LAVA_TEST(6, "forward shading")
-{
+LAVA_TEST(6, "forward shading") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
@@ -310,7 +288,6 @@ LAVA_TEST(6, "forward shading")
     window.assign(&input);
 
     input.key.listeners.add([&](key_event::ref event) {
-
         if (event.pressed(key::escape))
             return frame.shut_down();
 
@@ -336,7 +313,6 @@ LAVA_TEST(6, "forward shading")
         return false;
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
-
         render_pass->set_clear_color({ lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f) });
         render_pass->process(cmd_buf, block.get_current_frame());
     });
@@ -346,7 +322,6 @@ LAVA_TEST(6, "forward shading")
         return error::create_failed;
 
     frame.add_run([&]() {
-
         input.handle_events();
 
         if (window.close_request())
@@ -356,12 +331,9 @@ LAVA_TEST(6, "forward shading")
             return window.handle_resize();
 
         if (window.iconified()) {
-
             frame.set_wait_for_events(true);
             return true;
-        }
-        else {
-
+        } else {
             if (frame.waiting_for_events())
                 frame.set_wait_for_events(false);
         }
@@ -377,10 +349,9 @@ LAVA_TEST(6, "forward shading")
     });
 
     frame.add_run_end([&]() {
-
         block.destroy();
         shading.destroy();
-        
+
         plotter.destroy();
         render_target->destroy();
     });
@@ -388,14 +359,12 @@ LAVA_TEST(6, "forward shading")
     return frame.run();
 }
 
-LAVA_TEST(7, "gamepad")
-{
+LAVA_TEST(7, "gamepad") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
 
     gamepad_manager::instance().add([&](gamepad pad, bool active) {
-
         auto id = to_ui32(pad.get_id());
 
         if (active)
@@ -410,7 +379,6 @@ LAVA_TEST(7, "gamepad")
         log()->info("gamepad {} - active ({})", to_ui32(pad.get_id()), pad.get_name());
 
     frame.add_run([&]() {
-
         sleep(seconds(1));
 
         return true;
@@ -421,14 +389,12 @@ LAVA_TEST(7, "gamepad")
 
 #include <imgui.h>
 
-LAVA_TEST(8, "imgui demo")
-{
+LAVA_TEST(8, "imgui demo") {
     app app("demo", argh);
     if (!app.setup())
         return error::not_ready;
 
     app.gui.on_draw = []() {
-
         ImGui::ShowDemoWindow();
     };
 

@@ -4,61 +4,67 @@
 
 #pragma once
 
-#include <liblava/base/base.hpp>
+// clang-format off
 
+#include <liblava/base/base.hpp>
 #include <vk_mem_alloc.h>
+
+// clang-format on
 
 namespace lava {
 
-struct allocator {
+    struct allocator {
+        explicit allocator(VkPhysicalDevice physical_device, VkDevice device);
+        ~allocator();
 
-    explicit allocator(VkPhysicalDevice physical_device, VkDevice device);
-    ~allocator();
+        using ptr = std::shared_ptr<allocator>;
 
-    using ptr = std::shared_ptr<allocator>;
+        bool valid() const {
+            return vma_allocator != nullptr;
+        }
 
-    bool valid() const { return vma_allocator != nullptr; }
+        VmaAllocator get() const {
+            return vma_allocator;
+        }
 
-    VmaAllocator get() const { return vma_allocator; }
+    private:
+        VmaAllocator vma_allocator = nullptr;
+    };
 
-private:
-    VmaAllocator vma_allocator = nullptr;
-};
-
-inline allocator::ptr make_allocator(VkPhysicalDevice physical_device, VkDevice device) {
-
-    return std::make_shared<allocator>(physical_device, device);
-}
-
-struct memory : no_copy_no_move {
-
-    static memory& get() {
-
-        static memory memory;
-        return memory;
+    inline allocator::ptr make_allocator(VkPhysicalDevice physical_device, VkDevice device) {
+        return std::make_shared<allocator>(physical_device, device);
     }
 
-    static VkAllocationCallbacks* alloc() {
+    struct memory : no_copy_no_move {
+        static memory& get() {
+            static memory memory;
+            return memory;
+        }
 
-        if (get().use_custom_cpu_callbacks)
-            return &get().vk_callbacks;
+        static VkAllocationCallbacks* alloc() {
+            if (get().use_custom_cpu_callbacks)
+                return &get().vk_callbacks;
 
-        return nullptr;
-    }
+            return nullptr;
+        }
 
-    static type find_type_with_properties(VkPhysicalDeviceMemoryProperties properties, ui32 type_bits,
-                                            VkMemoryPropertyFlags required_properties);
+        static type find_type_with_properties(VkPhysicalDeviceMemoryProperties properties, ui32 type_bits,
+                                              VkMemoryPropertyFlags required_properties);
 
-    static type find_type(VkPhysicalDevice gpu, VkMemoryPropertyFlags properties, ui32 type_bits);
+        static type find_type(VkPhysicalDevice gpu, VkMemoryPropertyFlags properties, ui32 type_bits);
 
-    void set_callbacks(VkAllocationCallbacks const& callbacks) { vk_callbacks = callbacks; }
-    void set_use_custom_cpu_callbacks(bool value) { use_custom_cpu_callbacks = value; }
+        void set_callbacks(VkAllocationCallbacks const& callbacks) {
+            vk_callbacks = callbacks;
+        }
+        void set_use_custom_cpu_callbacks(bool value) {
+            use_custom_cpu_callbacks = value;
+        }
 
-private:
-    memory();
+    private:
+        memory();
 
-    bool use_custom_cpu_callbacks = true;
-    VkAllocationCallbacks vk_callbacks = {};
-};
+        bool use_custom_cpu_callbacks = true;
+        VkAllocationCallbacks vk_callbacks = {};
+    };
 
-} // lava
+} // namespace lava

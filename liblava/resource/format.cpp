@@ -2,65 +2,63 @@
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
-#include <liblava/resource/format.hpp>
 #include <liblava/base/memory.hpp>
+#include <liblava/resource/format.hpp>
 
 bool lava::format_depth(VkFormat format) {
-
     switch (format) {
+    case VK_FORMAT_D16_UNORM:
+    case VK_FORMAT_D16_UNORM_S8_UINT:
+    case VK_FORMAT_D24_UNORM_S8_UINT:
+    case VK_FORMAT_D32_SFLOAT:
+    case VK_FORMAT_X8_D24_UNORM_PACK32:
+    case VK_FORMAT_D32_SFLOAT_S8_UINT:
+        return true;
 
-        case VK_FORMAT_D16_UNORM:
-        case VK_FORMAT_D16_UNORM_S8_UINT:
-        case VK_FORMAT_D24_UNORM_S8_UINT:
-        case VK_FORMAT_D32_SFLOAT:
-        case VK_FORMAT_X8_D24_UNORM_PACK32:
-        case VK_FORMAT_D32_SFLOAT_S8_UINT:
-            return true;
-
-        default:
-            return false;
+    default:
+        return false;
     }
 }
 
-bool lava::format_stencil(VkFormat format) { return format == VK_FORMAT_S8_UINT; }
+bool lava::format_stencil(VkFormat format) {
+    return format == VK_FORMAT_S8_UINT;
+}
 
-bool lava::format_depth_stencil(VkFormat format) { return format_depth(format) || format_stencil(format); }
+bool lava::format_depth_stencil(VkFormat format) {
+    return format_depth(format) || format_stencil(format);
+}
 
 VkImageAspectFlags lava::format_aspect_mask(VkFormat format) {
-
     switch (format) {
+    case VK_FORMAT_UNDEFINED:
+        return 0;
 
-        case VK_FORMAT_UNDEFINED:
-            return 0;
+    case VK_FORMAT_S8_UINT:
+        return VK_IMAGE_ASPECT_STENCIL_BIT;
 
-        case VK_FORMAT_S8_UINT:
-            return VK_IMAGE_ASPECT_STENCIL_BIT;
+    case VK_FORMAT_D16_UNORM_S8_UINT:
+    case VK_FORMAT_D24_UNORM_S8_UINT:
+    case VK_FORMAT_D32_SFLOAT_S8_UINT:
+        return VK_IMAGE_ASPECT_STENCIL_BIT | VK_IMAGE_ASPECT_DEPTH_BIT;
 
-        case VK_FORMAT_D16_UNORM_S8_UINT:
-        case VK_FORMAT_D24_UNORM_S8_UINT:
-        case VK_FORMAT_D32_SFLOAT_S8_UINT:
-            return VK_IMAGE_ASPECT_STENCIL_BIT | VK_IMAGE_ASPECT_DEPTH_BIT;
+    case VK_FORMAT_D16_UNORM:
+    case VK_FORMAT_D32_SFLOAT:
+    case VK_FORMAT_X8_D24_UNORM_PACK32:
+        return VK_IMAGE_ASPECT_DEPTH_BIT;
 
-        case VK_FORMAT_D16_UNORM:
-        case VK_FORMAT_D32_SFLOAT:
-        case VK_FORMAT_X8_D24_UNORM_PACK32:
-            return VK_IMAGE_ASPECT_DEPTH_BIT;
-
-        default:
-            return VK_IMAGE_ASPECT_COLOR_BIT;
+    default:
+        return VK_IMAGE_ASPECT_COLOR_BIT;
     }
 }
 
 void lava::format_block_dim(VkFormat format, ui32& width, ui32& height) {
-
-#define fmt(x, w, h)    \
+#define fmt(x, w, h) \
     case VK_FORMAT_##x: \
-        width = w;      \
-        height = h;     \
+        width = w; \
+        height = h; \
         break
 
     switch (format) {
-
         fmt(ETC2_R8G8B8A8_UNORM_BLOCK, 4, 4);
         fmt(ETC2_R8G8B8A8_SRGB_BLOCK, 4, 4);
         fmt(ETC2_R8G8B8A1_UNORM_BLOCK, 4, 4);
@@ -110,17 +108,16 @@ void lava::format_block_dim(VkFormat format, ui32& width, ui32& height) {
         fmt(ASTC_12x10_UNORM_BLOCK, 12, 10);
         fmt(ASTC_12x12_UNORM_BLOCK, 12, 12);
 
-        default:
-            width = 1;
-            height = 1;
-            break;
+    default:
+        width = 1;
+        height = 1;
+        break;
     }
 
 #undef fmt
 }
 
 void lava::format_align_dim(VkFormat format, ui32& width, ui32& height) {
-
     ui32 align_width, align_height;
     format_block_dim(format, align_width, align_height);
     width = ((width + align_width - 1) / align_width) * align_width;
@@ -128,7 +125,6 @@ void lava::format_align_dim(VkFormat format, ui32& width, ui32& height) {
 }
 
 void lava::format_num_blocks(VkFormat format, ui32& width, ui32& height) {
-
     ui32 align_width, align_height;
     format_block_dim(format, align_width, align_height);
     width = (width + align_width - 1) / align_width;
@@ -136,13 +132,11 @@ void lava::format_num_blocks(VkFormat format, ui32& width, ui32& height) {
 }
 
 lava::ui32 lava::format_block_size(VkFormat format) {
-
-#define fmt(x, bpp)     \
+#define fmt(x, bpp) \
     case VK_FORMAT_##x: \
         return bpp
 
     switch (format) {
-
         fmt(R4G4_UNORM_PACK8, 1);
         fmt(R4G4B4A4_UNORM_PACK16, 2);
         fmt(B4G4R4A4_UNORM_PACK16, 2);
@@ -319,24 +313,21 @@ lava::ui32 lava::format_block_size(VkFormat format) {
         fmt(ASTC_12x10_UNORM_BLOCK, 16);
         fmt(ASTC_12x12_UNORM_BLOCK, 16);
 
-        default:
-            assert(0 && "Unknown format.");
-            return 0;
+    default:
+        assert(0 && "Unknown format.");
+        return 0;
     }
 #undef fmt
 }
 
 bool lava::get_supported_depth_format(VkPhysicalDevice physical_device, VkFormat* depth_format) {
-
     VkFormats depth_formats = { VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D32_SFLOAT, VK_FORMAT_D24_UNORM_S8_UINT, VK_FORMAT_D16_UNORM_S8_UINT, VK_FORMAT_D16_UNORM };
 
     for (auto& format : depth_formats) {
-
         VkFormatProperties format_props;
         vkGetPhysicalDeviceFormatProperties(physical_device, format, &format_props);
 
         if (format_props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) {
-
             *depth_format = format;
             return true;
         }
@@ -346,7 +337,6 @@ bool lava::get_supported_depth_format(VkPhysicalDevice physical_device, VkFormat
 }
 
 VkImageMemoryBarrier lava::image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout) {
-
     return {
 
         .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
@@ -364,79 +354,74 @@ VkImageMemoryBarrier lava::image_memory_barrier(VkImage image, VkImageLayout old
 
 void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout, VkImageLayout new_image_layout,
                             VkImageSubresourceRange subresource_range, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
-
     auto barrier = image_memory_barrier(image, old_image_layout, new_image_layout);
     barrier.subresourceRange = subresource_range;
 
     switch (old_image_layout) {
+    case VK_IMAGE_LAYOUT_UNDEFINED:
+        barrier.srcAccessMask = 0;
+        break;
 
-        case VK_IMAGE_LAYOUT_UNDEFINED:
-            barrier.srcAccessMask = 0;
-            break;
+    case VK_IMAGE_LAYOUT_PREINITIALIZED:
+        barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
+        break;
 
-        case VK_IMAGE_LAYOUT_PREINITIALIZED:
-            barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
-            break;
+    case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
+        barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+        break;
 
-        case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-            barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-            break;
+    case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
+        barrier.srcAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+        break;
 
-        case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-            barrier.srcAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-            break;
+    case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+        barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+        break;
 
-        case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-            barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-            break;
+    case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+        barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        break;
 
-        case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-            barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-            break;
-
-        case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-            barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
-            break;
-        default:
-            break;
+    case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
+        barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
+        break;
+    default:
+        break;
     }
 
     switch (new_image_layout) {
+    case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+        barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+        break;
 
-        case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-            barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-            break;
+    case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+        barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
+        break;
 
-        case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-            barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-            break;
+    case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
+        barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+        break;
 
-        case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-            barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-            break;
+    case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
+        barrier.dstAccessMask = barrier.dstAccessMask | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+        break;
 
-        case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-            barrier.dstAccessMask = barrier.dstAccessMask | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-            break;
+    case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
+        if (barrier.srcAccessMask == 0)
+            barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
 
-        case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-            if (barrier.srcAccessMask == 0)
-                barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
-
-            barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-            break;
-        default:
-            break;
+        barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+        break;
+    default:
+        break;
     }
 
     device->call().vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 }
 
 void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageAspectFlags aspect_mask, VkImageLayout old_image_layout,
-                                            VkImageLayout new_image_layout, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
-
-    VkImageSubresourceRange subresource_range
-    {
+                            VkImageLayout new_image_layout, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
+    VkImageSubresourceRange subresource_range{
         .aspectMask = aspect_mask,
         .baseMipLevel = 0,
         .levelCount = 1,
@@ -448,9 +433,8 @@ void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkIma
 }
 
 void lava::insert_image_memory_barrier(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkAccessFlags src_access_mask, VkAccessFlags dst_access_mask,
-                                        VkImageLayout old_image_layout, VkImageLayout new_image_layout, 
-                                        VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask, VkImageSubresourceRange subresource_range) {
-
+                                       VkImageLayout old_image_layout, VkImageLayout new_image_layout,
+                                       VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask, VkImageSubresourceRange subresource_range) {
     auto barrier = image_memory_barrier(image, old_image_layout, new_image_layout);
 
     barrier.srcAccessMask = src_access_mask;

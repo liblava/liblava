@@ -6,112 +6,100 @@
 
 namespace lava {
 
-descriptor::binding::binding() {
+    descriptor::binding::binding() {
+        vk_binding.binding = 0;
+        vk_binding.descriptorType = VK_DESCRIPTOR_TYPE_MAX_ENUM;
+        vk_binding.descriptorCount = 0;
+        vk_binding.stageFlags = VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
+        vk_binding.pImmutableSamplers = nullptr;
+    }
 
-    vk_binding.binding = 0;
-    vk_binding.descriptorType = VK_DESCRIPTOR_TYPE_MAX_ENUM;
-    vk_binding.descriptorCount = 0;
-    vk_binding.stageFlags = VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
-    vk_binding.pImmutableSamplers = nullptr;
-}
+    bool descriptor::create(device_ptr d) {
+        device = d;
 
-bool descriptor::create(device_ptr d) {
+        VkDescriptorSetLayoutBindings layoutBindings;
 
-    device = d;
+        for (auto& binding : bindings)
+            layoutBindings.push_back(binding->get());
 
-    VkDescriptorSetLayoutBindings layoutBindings;
+        VkDescriptorSetLayoutCreateInfo create_info{
+            .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
+            .bindingCount = to_ui32(layoutBindings.size()),
+            .pBindings = layoutBindings.data(),
+        };
 
-    for (auto& binding : bindings)
-        layoutBindings.push_back(binding->get());
+        return check(device->call().vkCreateDescriptorSetLayout(device->get(), &create_info, memory::alloc(), &layout));
+    }
 
-    VkDescriptorSetLayoutCreateInfo create_info
-    {
-        .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
-        .bindingCount = to_ui32(layoutBindings.size()),
-        .pBindings = layoutBindings.data(),
-    };
-    
-    return check(device->call().vkCreateDescriptorSetLayout(device->get(), &create_info, memory::alloc(), &layout));
-}
+    void descriptor::destroy() {
+        if (!layout)
+            return;
 
-void descriptor::destroy() {
+        device->call().vkDestroyDescriptorSetLayout(device->get(), layout, memory::alloc());
+        layout = 0;
 
-    if (!layout)
-        return;
+        // keep device for descriptors
+    }
 
-    device->call().vkDestroyDescriptorSetLayout(device->get(), layout, memory::alloc());
-    layout = 0;
+    void descriptor::add_binding(index binding, VkDescriptorType descriptor_type, VkShaderStageFlags stage_flags) {
+        auto item = make_descriptor_binding(binding);
 
-    // keep device for descriptors
-}
+        item->set_type(descriptor_type);
+        item->set_stage_flags(stage_flags);
 
-void descriptor::add_binding(index binding, VkDescriptorType descriptor_type, VkShaderStageFlags stage_flags) {
+        add(item);
+    }
 
-    auto item = make_descriptor_binding(binding);
-    
-    item->set_type(descriptor_type);
-    item->set_stage_flags(stage_flags);
+    VkDescriptorSet descriptor::allocate_set() {
+        VkDescriptorSet descriptor_set = 0;
 
-    add(item);
-}
+        VkDescriptorSetAllocateInfo const alloc_info{
+            .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
+            .descriptorPool = device->get_descriptor_pool(),
+            .descriptorSetCount = 1,
+            .pSetLayouts = &layout,
+        };
 
-VkDescriptorSet descriptor::allocate_set() {
+        if (failed(device->call().vkAllocateDescriptorSets(device->get(), &alloc_info, &descriptor_set)))
+            return 0;
 
-    VkDescriptorSet descriptor_set = 0;
+        return descriptor_set;
+    }
 
-    VkDescriptorSetAllocateInfo const alloc_info
-    {
-        .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
-        .descriptorPool = device->get_descriptor_pool(),
-        .descriptorSetCount = 1,
-        .pSetLayouts = &layout,
-    };
+    bool descriptor::free_set(VkDescriptorSet descriptor_set) {
+        std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
 
-    if (failed(device->call().vkAllocateDescriptorSets(device->get(), &alloc_info, &descriptor_set)))
-        return 0;
+        return check(device->call().vkFreeDescriptorSets(device->get(), device->get_descriptor_pool(),
+                                                         to_ui32(descriptor_sets.size()), descriptor_sets.data()));
+    }
 
-    return descriptor_set;
-}
+    VkDescriptorSets descriptor::allocate_sets(ui32 size) {
+        VkDescriptorSets result(size);
 
-bool descriptor::free_set(VkDescriptorSet descriptor_set) {
+        VkDescriptorSetAllocateInfo const alloc_info{
+            .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
+            .descriptorPool = device->get_descriptor_pool(),
+            .descriptorSetCount = size,
+            .pSetLayouts = &layout,
+        };
 
-    std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
+        if (failed(device->call().vkAllocateDescriptorSets(device->get(), &alloc_info, result.data())))
+            return {};
 
-    return check(device->call().vkFreeDescriptorSets(device->get(), device->get_descriptor_pool(), 
-                                                    to_ui32(descriptor_sets.size()), descriptor_sets.data()));
-}
+        return result;
+    }
 
-VkDescriptorSets descriptor::allocate_sets(ui32 size) {
+    bool descriptor::free_sets(VkDescriptorSets const& descriptor_sets) {
+        return check(device->call().vkFreeDescriptorSets(device->get(), device->get_descriptor_pool(),
+                                                         to_ui32(descriptor_sets.size()), descriptor_sets.data()));
+    }
 
-    VkDescriptorSets result(size);
+    descriptor::binding::ptr make_descriptor_binding(index index) {
+        auto binding = std::make_shared<descriptor::binding>();
 
-    VkDescriptorSetAllocateInfo const alloc_info
-    {
-        .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
-        .descriptorPool = device->get_descriptor_pool(),
-        .descriptorSetCount = size,
-        .pSetLayouts = &layout,
-    };
+        binding->set(index);
+        binding->set_count(1);
+        return binding;
+    }
 
-    if (failed(device->call().vkAllocateDescriptorSets(device->get(), &alloc_info, result.data())))
-        return {};
-
-    return result;
-}
-
-bool descriptor::free_sets(VkDescriptorSets const& descriptor_sets) {
-
-    return check(device->call().vkFreeDescriptorSets(device->get(), device->get_descriptor_pool(), 
-                                                    to_ui32(descriptor_sets.size()), descriptor_sets.data()));
-}
-
-descriptor::binding::ptr make_descriptor_binding(index index) {
-
-    auto binding = std::make_shared<descriptor::binding>();
-
-    binding->set(index);
-    binding->set_count(1);
-    return binding;
-}
-
-} // lava
+} // namespace lava

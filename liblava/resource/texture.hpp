@@ -9,120 +9,136 @@
 
 namespace lava {
 
-enum class texture_type : type {
+    enum class texture_type : type {
 
-    none = 0,
-    tex_2d,
-    array,
-    cube_map
-};
-
-struct file_format {
-
-    using list = std::vector<file_format>;
-
-    string path;
-    VkFormat format = VK_FORMAT_R8G8B8A8_UNORM;
-};
-
-struct texture : id_obj {
-
-    using ptr = std::shared_ptr<texture>;
-    using map = std::map<id, ptr>;
-    using list = std::vector<ptr>;
-
-    struct mip_level {
-
-        using list = std::vector<mip_level>;
-
-        uv2 extent;
-        ui32 size = 0;
+        none = 0,
+        tex_2d,
+        array,
+        cube_map
     };
 
-    struct layer {
+    struct file_format {
+        using list = std::vector<file_format>;
 
-        using list = std::vector<layer>;
-
-        mip_level::list levels;
+        string path;
+        VkFormat format = VK_FORMAT_R8G8B8A8_UNORM;
     };
 
-    ~texture() { destroy(); }
+    struct texture : id_obj {
+        using ptr = std::shared_ptr<texture>;
+        using map = std::map<id, ptr>;
+        using list = std::vector<ptr>;
 
-    bool create(device_ptr device, uv2 size, VkFormat format, 
-                layer::list const& layers = {}, texture_type type = texture_type::tex_2d);
-    void destroy();
+        struct mip_level {
+            using list = std::vector<mip_level>;
 
-    bool upload(void const* data, size_t data_size);
-    bool stage(VkCommandBuffer cmd_buffer);
-    void destroy_upload_buffer();
+            uv2 extent;
+            ui32 size = 0;
+        };
 
-    VkDescriptorImageInfo const* get_descriptor() const { return &descriptor; }
-    VkDescriptorImageInfo const* get_info() const { return get_descriptor(); }
+        struct layer {
+            using list = std::vector<layer>;
 
-    image::ptr get_image() { return img; }
+            mip_level::list levels;
+        };
 
-    uv2 get_size() const { return img ? img->get_size() : uv2(); }
-    texture_type get_type() const { return type; }
+        ~texture() {
+            destroy();
+        }
 
-    VkFormat get_format() const { return img ? img->get_format() : VK_FORMAT_UNDEFINED; }
+        bool create(device_ptr device, uv2 size, VkFormat format,
+                    layer::list const& layers = {}, texture_type type = texture_type::tex_2d);
+        void destroy();
 
-private:
-    image::ptr img;
+        bool upload(void const* data, size_t data_size);
+        bool stage(VkCommandBuffer cmd_buffer);
+        void destroy_upload_buffer();
 
-    texture_type type = texture_type::none;
-    layer::list layers;
+        VkDescriptorImageInfo const* get_descriptor() const {
+            return &descriptor;
+        }
+        VkDescriptorImageInfo const* get_info() const {
+            return get_descriptor();
+        }
 
-    VkSampler sampler = 0;
-    VkDescriptorImageInfo descriptor = {};
+        image::ptr get_image() {
+            return img;
+        }
 
-    buffer::ptr upload_buffer;
-};
+        uv2 get_size() const {
+            return img ? img->get_size() : uv2();
+        }
+        texture_type get_type() const {
+            return type;
+        }
 
-inline texture::ptr make_texture() { return std::make_shared<texture>(); }
+        VkFormat get_format() const {
+            return img ? img->get_format() : VK_FORMAT_UNDEFINED;
+        }
 
-texture::ptr load_texture(device_ptr device, file_format filename, texture_type type = texture_type::tex_2d);
+    private:
+        image::ptr img;
 
-inline texture::ptr load_texture(device_ptr device, string_ref filename, 
-                                 VkFormat format = VK_FORMAT_R8G8B8A8_UNORM, texture_type type = texture_type::tex_2d) {
+        texture_type type = texture_type::none;
+        layer::list layers;
 
-    return load_texture(device, { filename, format }, type);
-}
+        VkSampler sampler = 0;
+        VkDescriptorImageInfo descriptor = {};
 
-texture::ptr create_default_texture(device_ptr device, uv2 size = { 512, 512});
+        buffer::ptr upload_buffer;
+    };
 
-struct staging {
+    inline texture::ptr make_texture() {
+        return std::make_shared<texture>();
+    }
 
-    void add(texture::ptr texture) { todo.push_back(texture); }
+    texture::ptr load_texture(device_ptr device, file_format filename, texture_type type = texture_type::tex_2d);
 
-    bool stage(VkCommandBuffer cmd_buf, index frame);
+    inline texture::ptr load_texture(device_ptr device, string_ref filename,
+                                     VkFormat format = VK_FORMAT_R8G8B8A8_UNORM, texture_type type = texture_type::tex_2d) {
+        return load_texture(device, { filename, format }, type);
+    }
 
-    void clear() { todo.clear(); staged.clear(); }
+    texture::ptr create_default_texture(device_ptr device, uv2 size = { 512, 512 });
 
-    bool busy() const { return !todo.empty() || !staged.empty(); }
+    struct staging {
+        void add(texture::ptr texture) {
+            todo.push_back(texture);
+        }
 
-private:
-    texture::list todo;
+        bool stage(VkCommandBuffer cmd_buf, index frame);
 
-    using frame_stage_map = std::map<index, texture::list>;
-    frame_stage_map staged;
-};
+        void clear() {
+            todo.clear();
+            staged.clear();
+        }
 
-using texture_registry = id_registry<texture, file_format>;
+        bool busy() const {
+            return !todo.empty() || !staged.empty();
+        }
 
-struct scope_image {
+    private:
+        texture::list todo;
 
-    explicit scope_image(string_ref filename);
-    ~scope_image();
+        using frame_stage_map = std::map<index, texture::list>;
+        frame_stage_map staged;
+    };
 
-    bool ready = false;
+    using texture_registry = id_registry<texture, file_format>;
 
-    data_ptr data = nullptr;
-    uv2 size = uv2(0, 0);
-    ui32 channels = 0;
+    struct scope_image {
+        explicit scope_image(string_ref filename);
+        ~scope_image();
 
-private:
-    file image_file;
-    scope_data file_data;
-};
+        bool ready = false;
 
-} // lava
+        data_ptr data = nullptr;
+        uv2 size = uv2(0, 0);
+        ui32 channels = 0;
+
+    private:
+        file image_file;
+        scope_data file_data;
+    };
+
+} // namespace lava

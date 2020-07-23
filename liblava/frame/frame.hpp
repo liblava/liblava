@@ -4,128 +4,135 @@
 
 #pragma once
 
-#include <liblava/base/instance.hpp>
-#include <liblava/base/device.hpp>
-
 #include <argh.h>
+#include <liblava/base/device.hpp>
+#include <liblava/base/instance.hpp>
 
 namespace lava {
 
-struct frame_config {
+    struct frame_config {
+        using ref = frame_config const&;
 
-    using ref = frame_config const&;
+        explicit frame_config() = default;
+        explicit frame_config(name a, argh::parser cl)
+        : app(a), cmd_line(cl) {}
 
-    explicit frame_config() = default;
-    explicit frame_config(name a, argh::parser cl)
-                         : app(a), cmd_line(cl) {}
+        argh::parser cmd_line;
 
-    argh::parser cmd_line;
+        name org = _liblava_;
+        name app = _lava_;
+        name ext = _zip_;
 
-    name org = _liblava_;
-    name app = _lava_;
-    name ext = _zip_;
+        log_config log;
 
-    log_config log;
+        instance::app_info app_info;
+        instance::create_param param;
+        instance::debug_config debug;
+    };
 
-    instance::app_info app_info;
-    instance::create_param param;
-    instance::debug_config debug;
-};
+    enum error {
 
-enum error {
+        not_ready = -1,
+        create_failed = -2,
+        aborted = -3,
+        running = -4,
+    };
 
-    not_ready       = -1,
-    create_failed   = -2,
-    aborted         = -3,
-    running         = -4,
-};
+    ms now();
 
-ms now();
+    struct frame : interface, no_copy_no_move {
+        using ptr = std::shared_ptr<frame>;
 
-struct frame : interface, no_copy_no_move {
+        explicit frame(argh::parser cmd_line);
+        explicit frame(frame_config config);
+        ~frame() override;
 
-    using ptr = std::shared_ptr<frame>;
+        bool ready() const;
 
-    explicit frame(argh::parser cmd_line);
-    explicit frame(frame_config config);
-    ~frame() override;
+        using result = i32; // error < 0
+        result run();
 
-    bool ready() const;
+        bool shut_down();
 
-    using result = i32; // error < 0
-    result run();
+        using run_func = std::function<bool()>;
+        using run_func_ref = run_func const&;
 
-    bool shut_down();
+        id add_run(run_func_ref func);
 
-    using run_func = std::function<bool()>;
-    using run_func_ref = run_func const&;
+        using run_end_func = std::function<void()>;
+        using run_end_func_ref = run_end_func const&;
 
-    id add_run(run_func_ref func);
-   
-    using run_end_func = std::function<void()>;
-    using run_end_func_ref = run_end_func const&;
+        id add_run_end(run_end_func_ref func);
 
-    id add_run_end(run_end_func_ref func);
+        using run_once_func = std::function<bool()>;
+        using run_once_func_ref = run_once_func const&;
 
-    using run_once_func = std::function<bool()>;
-    using run_once_func_ref = run_once_func const&;
+        void add_run_once(run_once_func_ref func) {
+            run_once_list.push_back(func);
+        }
 
-    void add_run_once(run_once_func_ref func) {
+        bool remove(id::ref id);
 
-        run_once_list.push_back(func);
-    }
+        ms get_running_time() const {
+            return now() - start_time;
+        }
 
-    bool remove(id::ref id);
+        argh::parser const& get_cmd_line() const {
+            return config.cmd_line;
+        }
+        frame_config::ref get_config() const {
+            return config;
+        }
+        name get_name() const {
+            return config.app;
+        }
 
-    ms get_running_time() const { return now() - start_time; }
+        bool waiting_for_events() const {
+            return wait_for_events;
+        }
+        void set_wait_for_events(bool value = true) {
+            wait_for_events = value;
+        }
 
-    argh::parser const& get_cmd_line() const { return config.cmd_line; }
-    frame_config::ref get_config() const { return config; }
-    name get_name() const { return config.app; }
+        device_ptr create_device(index physical_device = 0) {
+            auto device = manager.create(physical_device);
+            if (!device)
+                return nullptr;
 
-    bool waiting_for_events() const { return wait_for_events; }
-    void set_wait_for_events(bool value = true) { wait_for_events = value; }
+            return device.get();
+        }
 
-    device_ptr create_device(index physical_device = 0) {
+        device_manager manager;
 
-        auto device = manager.create(physical_device);
-        if (!device)
-            return nullptr;
+    private:
+        bool setup(frame_config config);
+        void teardown();
 
-        return device.get();
-    }
+        bool run_step();
 
-    device_manager manager;
+        void trigger_run_end();
 
-private:
-    bool setup(frame_config config);
-    void teardown();
+        frame_config config;
 
-    bool run_step();
+        bool running = false;
+        bool wait_for_events = false;
+        ms start_time;
 
-    void trigger_run_end();
+        using run_func_map = std::map<id, run_func>;
+        run_func_map run_map;
 
-    frame_config config;
+        using run_end_func_map = std::map<id, run_end_func>;
+        run_end_func_map run_end_map;
 
-    bool running = false;
-    bool wait_for_events = false;
-    ms start_time;
+        using run_once_func_list = std::vector<run_once_func>;
+        run_once_func_list run_once_list;
+    };
 
-    using run_func_map = std::map<id, run_func>;
-    run_func_map run_map;
+    void handle_events(bool wait = false);
 
-    using run_end_func_map = std::map<id, run_end_func>;
-    run_end_func_map run_end_map;
+    void handle_events(ms timeout);
+    void handle_events(seconds timeout);
 
-    using run_once_func_list = std::vector<run_once_func>;
-    run_once_func_list run_once_list;
-};
+    void post_empty_event();
 
-void handle_events(bool wait = false);
-
-void handle_events(ms timeout);
-void handle_events(seconds timeout);
-
-void post_empty_event();
-
-} // lava
+} // namespace lava

@@ -4,99 +4,90 @@
 
 #pragma once
 
-#include <liblava/core/id.hpp>
-#include <liblava/core/time.hpp>
-
 #include <condition_variable>
 #include <deque>
+#include <liblava/core/id.hpp>
+#include <liblava/core/time.hpp>
 #include <mutex>
 #include <thread>
 
 namespace lava {
 
-inline void sleep(ms time) {
-
-    std::this_thread::sleep_for(time);
-}
-
-inline void sleep(seconds time) {
-
-    std::this_thread::sleep_for(time);
-}
-
-struct thread_pool {
-
-    using task = std::function<void(id::ref)>; // thread id
-
-    void setup(ui32 count = 2) {
-
-        for (auto i = 0u; i < count; ++i)
-            workers.emplace_back(worker(*this));
+    inline void sleep(ms time) {
+        std::this_thread::sleep_for(time);
     }
 
-    void teardown() {
-
-        stop = true;
-        condition.notify_all();
-
-        for (auto& worker : workers)
-            worker.join();
-
-        workers.clear();
+    inline void sleep(seconds time) {
+        std::this_thread::sleep_for(time);
     }
 
-    template <typename F>
-    void enqueue(F f) {
+    struct thread_pool {
+        using task = std::function<void(id::ref)>; // thread id
 
-        {
-            std::unique_lock<std::mutex> lock(queueMutex);
-            tasks.push_back(task(f));
+        void setup(ui32 count = 2) {
+            for (auto i = 0u; i < count; ++i)
+                workers.emplace_back(worker(*this));
         }
-        condition.notify_one();
-    }
 
-private:
-    struct worker {
+        void teardown() {
+            stop = true;
+            condition.notify_all();
 
-        explicit worker(thread_pool& pool) : pool(pool) {}
+            for (auto& worker : workers)
+                worker.join();
 
-        void operator()() {
+            workers.clear();
+        }
 
-            auto thread_id = ids::next();
-
-            task task;
-            while (true) {
-
-                {
-                    std::unique_lock<std::mutex> lock(pool.queueMutex);
-
-                    while (!pool.stop && pool.tasks.empty())
-                        pool.condition.wait(lock);
-
-                    if (pool.stop)
-                        break;
-
-                    task = pool.tasks.front();
-                    pool.tasks.pop_front();
-                }
-
-                task(thread_id);
+        template<typename F>
+        void enqueue(F f) {
+            {
+                std::unique_lock<std::mutex> lock(queueMutex);
+                tasks.push_back(task(f));
             }
-
-            ids::free(thread_id);
+            condition.notify_one();
         }
 
     private:
-        thread_pool& pool;
+        struct worker {
+            explicit worker(thread_pool& pool)
+            : pool(pool) {}
+
+            void operator()() {
+                auto thread_id = ids::next();
+
+                task task;
+                while (true) {
+                    {
+                        std::unique_lock<std::mutex> lock(pool.queueMutex);
+
+                        while (!pool.stop && pool.tasks.empty())
+                            pool.condition.wait(lock);
+
+                        if (pool.stop)
+                            break;
+
+                        task = pool.tasks.front();
+                        pool.tasks.pop_front();
+                    }
+
+                    task(thread_id);
+                }
+
+                ids::free(thread_id);
+            }
+
+        private:
+            thread_pool& pool;
+        };
+
+        std::vector<std::thread> workers;
+        std::deque<task> tasks;
+
+        std::mutex queueMutex;
+        std::condition_variable condition;
+
+        bool stop = false;
     };
 
-    std::vector<std::thread> workers;
-    std::deque<task> tasks;
-
-    std::mutex queueMutex;
-    std::condition_variable condition;
-
-    bool stop = false;
-};
-
-} // lava
+} // namespace lava

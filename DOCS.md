@@ -36,7 +36,7 @@ Here are a few examples to get to know `lava`
 int main(int argc, char* argv[]) {
 
     lava::frame frame( {argc, argv} );
-
+    
     return frame.ready() ? 0 : error::not_ready;
 }
 ```
@@ -53,7 +53,6 @@ if (!frame.ready())
 auto count = 0;
 
 frame.add_run([&]() {
-
     sleep(seconds(1));
     count++;
 
@@ -87,7 +86,6 @@ lava::input input;
 window.assign(&input);
 
 input.key.listeners.add([&](key_event::ref event) {
-
     if (event.pressed(key::escape))
         return frame.shut_down();
     
@@ -95,7 +93,6 @@ input.key.listeners.add([&](key_event::ref event) {
 });
 
 frame.add_run([&]() {
-
     input.handle_events();
 
     if (window.close_request())
@@ -124,7 +121,6 @@ lava::input input;
 window.assign(&input);
 
 input.key.listeners.add([&](key_event::ref event) {
-
     if (event.pressed(key::escape))
         return frame.shut_down();
 
@@ -149,30 +145,26 @@ VkCommandPool cmd_pool;
 VkCommandBuffers cmd_bufs(frame_count);
 
 auto build_cmd_bufs = [&]() {
-
     if (!device->vkCreateCommandPool(device->graphics_queue().family, &cmd_pool))
         return false;
 
     if (!device->vkAllocateCommandBuffers(cmd_pool, frame_count, cmd_bufs.data()))
         return false;
 
-    VkCommandBufferBeginInfo const begin_info
-    {
+    VkCommandBufferBeginInfo const begin_info{
         .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
         .flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT,
     };
 
     VkClearColorValue const clear_color = { random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f), 0.f };
 
-    VkImageSubresourceRange const image_range
-    {
+    VkImageSubresourceRange const image_range{
         .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
         .levelCount = 1,
         .layerCount = 1,
     };
 
     for (auto i = 0u; i < frame_count; i++) {
-
         auto cmd_buf = cmd_bufs[i];
         auto frame_image = render_target->get_image(i);
 
@@ -202,7 +194,6 @@ auto build_cmd_bufs = [&]() {
 };
 
 auto clean_cmd_bufs = [&]() {
-
     device->vkFreeCommandBuffers(cmd_pool, frame_count, cmd_bufs.data());
     device->vkDestroyCommandPool(cmd_pool);
 };
@@ -214,7 +205,6 @@ render_target->on_swapchain_start = build_cmd_bufs;
 render_target->on_swapchain_stop = clean_cmd_bufs;
 
 frame.add_run([&]() {
-
     input.handle_events();
 
     if (window.close_request())
@@ -231,7 +221,6 @@ frame.add_run([&]() {
 });
 
 frame.add_run_end([&]() {
-
     clean_cmd_bufs();
 
     plotter.destroy();
@@ -265,11 +254,9 @@ if (!block.create(device, frame_count, device->graphics_queue().family))
     return error::create_failed;
 
 block.add_command([&](VkCommandBuffer cmd_buf) {
-
     VkClearColorValue const clear_color = { random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f), 0.f };
 
-    VkImageSubresourceRange const image_range
-    {
+    VkImageSubresourceRange const image_range{
         .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
         .levelCount = 1,
         .layerCount = 1,
@@ -331,7 +318,6 @@ int main(int argc, char* argv[]) {
         return error::not_ready;
 
     app.gui.on_draw = []() {
-
         ImGui::ShowDemoWindow();
     };
 

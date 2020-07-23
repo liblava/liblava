@@ -5,12 +5,10 @@
 #include <liblava/base/base.hpp>
 
 bool lava::check(VkResult result) {
-
     if (result == VK_SUCCESS)
         return true;
 
     if (result > 0) {
-
         log()->critical("VkResult {}", to_string(result));
         return false;
     }
@@ -20,11 +18,11 @@ bool lava::check(VkResult result) {
 }
 
 lava::string lava::to_string(VkResult result) {
-
-#define RETURN_STR(result_code) case result_code: return string(#result_code);
+#define RETURN_STR(result_code) \
+    case result_code: \
+        return string(#result_code);
 
     switch (result) {
-
         RETURN_STR(VK_SUCCESS)
         RETURN_STR(VK_NOT_READY)
         RETURN_STR(VK_TIMEOUT)
@@ -66,6 +64,5 @@ lava::string lava::to_string(VkResult result) {
 }
 
 lava::string lava::version_to_string(ui32 version) {
-
     return fmt::format("{}.{}.{}", VK_VERSION_MAJOR(version), VK_VERSION_MINOR(version), VK_VERSION_PATCH(version));
 }

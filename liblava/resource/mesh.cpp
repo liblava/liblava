@@ -5,117 +5,104 @@
 #include <liblava/resource/mesh.hpp>
 
 #ifndef LIBLAVA_TINYOBJLOADER
-#define LIBLAVA_TINYOBJLOADER 1
+#    define LIBLAVA_TINYOBJLOADER 1
 #endif
 
 #if LIBLAVA_TINYOBJLOADER
 
-#ifdef _WIN32
-#pragma warning(push, 4)
-#else
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-#endif
+#    ifdef _WIN32
+#        pragma warning(push, 4)
+#    else
+#        pragma GCC diagnostic push
+#        pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#    endif
 
-#define TINYOBJLOADER_IMPLEMENTATION
-#include <tiny_obj_loader.h>
+#    define TINYOBJLOADER_IMPLEMENTATION
+#    include <tiny_obj_loader.h>
 
-#ifdef _WIN32
-#pragma warning(pop)
-#else
-#pragma GCC diagnostic pop
-#endif
+#    ifdef _WIN32
+#        pragma warning(pop)
+#    else
+#        pragma GCC diagnostic pop
+#    endif
 
 #endif
 
 namespace lava {
 
-void mesh::add_data(mesh_data const& value) {
+    void mesh::add_data(mesh_data const& value) {
+        auto index_base = to_ui32(data.vertices.size());
 
-    auto index_base = to_ui32(data.vertices.size());
+        data.vertices.insert(data.vertices.end(), value.vertices.begin(), value.vertices.end());
 
-    data.vertices.insert(data.vertices.end(), value.vertices.begin(),value.vertices.end());
+        for (auto& index : value.indices)
+            data.indices.push_back(index_base + index);
+    }
 
-    for (auto& index : value.indices)
-        data.indices.push_back(index_base + index);
-}
+    bool mesh::create(device_ptr d, bool m, VmaMemoryUsage mu) {
+        device = d;
+        mapped = m;
+        memory_usage = mu;
 
-bool mesh::create(device_ptr d, bool m, VmaMemoryUsage mu) {
+        if (!data.vertices.empty()) {
+            vertex_buffer = make_buffer();
 
-    device = d;
-    mapped = m;
-    memory_usage = mu;
-
-    if (!data.vertices.empty()) {
-
-        vertex_buffer = make_buffer();
-
-        if (!vertex_buffer->create(device, data.vertices.data(), sizeof(vertex) * data.vertices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, mapped, memory_usage)) {
-
-            log()->error("create mesh vertex buffer");
-            return false;
+            if (!vertex_buffer->create(device, data.vertices.data(), sizeof(vertex) * data.vertices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, mapped, memory_usage)) {
+                log()->error("create mesh vertex buffer");
+                return false;
+            }
         }
-    }
 
-    if (!data.indices.empty()) {
+        if (!data.indices.empty()) {
+            index_buffer = make_buffer();
 
-        index_buffer = make_buffer();
-
-        if (!index_buffer->create(device, data.indices.data(), sizeof(ui32) * data.indices.size(), VK_BUFFER_USAGE_INDEX_BUFFER_BIT, mapped, memory_usage)) {
-
-            log()->error("create mesh index buffer");
-            return false;
+            if (!index_buffer->create(device, data.indices.data(), sizeof(ui32) * data.indices.size(), VK_BUFFER_USAGE_INDEX_BUFFER_BIT, mapped, memory_usage)) {
+                log()->error("create mesh index buffer");
+                return false;
+            }
         }
+
+        return true;
     }
 
-    return true;
-}
+    void mesh::destroy() {
+        vertex_buffer = nullptr;
+        index_buffer = nullptr;
 
-void mesh::destroy() {
-
-    vertex_buffer = nullptr;
-    index_buffer = nullptr;
-
-    device = nullptr;
-}
-
-bool mesh::reload() {
-
-    auto dev = device;
-    destroy();
-
-    return create(dev, mapped, memory_usage);
-}
-
-void mesh::bind(VkCommandBuffer cmd_buf) const {
-
-    if (vertex_buffer && vertex_buffer->valid()) {
-
-        std::array<VkDeviceSize, 1> const buffer_offsets = { 0 };
-        std::array<VkBuffer, 1> const buffers = { vertex_buffer->get() };
-
-        vkCmdBindVertexBuffers(cmd_buf, 0, to_ui32(buffers.size()), buffers.data(), buffer_offsets.data());
+        device = nullptr;
     }
 
-    if (index_buffer && index_buffer->valid())
-        vkCmdBindIndexBuffer(cmd_buf, index_buffer->get(), 0, VK_INDEX_TYPE_UINT32);
-}
+    bool mesh::reload() {
+        auto dev = device;
+        destroy();
 
-void mesh::draw(VkCommandBuffer cmd_buf) const {
+        return create(dev, mapped, memory_usage);
+    }
 
-    if (!data.indices.empty())
-        vkCmdDrawIndexed(cmd_buf, to_ui32(data.indices.size()), 1, 0, 0, 0);
-    else
-        vkCmdDraw(cmd_buf, to_ui32(data.vertices.size()), 1, 0, 0);
-}
+    void mesh::bind(VkCommandBuffer cmd_buf) const {
+        if (vertex_buffer && vertex_buffer->valid()) {
+            std::array<VkDeviceSize, 1> const buffer_offsets = { 0 };
+            std::array<VkBuffer, 1> const buffers = { vertex_buffer->get() };
 
-} // lava
+            vkCmdBindVertexBuffers(cmd_buf, 0, to_ui32(buffers.size()), buffers.data(), buffer_offsets.data());
+        }
+
+        if (index_buffer && index_buffer->valid())
+            vkCmdBindIndexBuffer(cmd_buf, index_buffer->get(), 0, VK_INDEX_TYPE_UINT32);
+    }
+
+    void mesh::draw(VkCommandBuffer cmd_buf) const {
+        if (!data.indices.empty())
+            vkCmdDrawIndexed(cmd_buf, to_ui32(data.indices.size()), 1, 0, 0, 0);
+        else
+            vkCmdDraw(cmd_buf, to_ui32(data.vertices.size()), 1, 0, 0);
+    }
+
+} // namespace lava
 
 lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
-
 #if LIBLAVA_TINYOBJLOADER
     if (extension(filename, "OBJ")) {
-
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
         std::vector<tinyobj::material_t> materials;
@@ -128,7 +115,6 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
         {
             file file(filename);
             if (file.opened() && file.get_type() == file_type::fs) {
-
                 string temp_file;
                 temp_file = file_system::get_pref_dir();
                 temp_file += get_filename_from(target_file, true);
@@ -150,13 +136,10 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
         }
 
         if (tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, str(target_file))) {
-
             auto mesh = make_mesh();
 
             for (auto const& shape : shapes) {
-
                 for (auto const& index : shape.mesh.indices) {
-
                     vertex vertex;
 
                     vertex.position = v3(attrib.vertices[3 * index.vertex_index],
@@ -168,9 +151,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
                     if (!attrib.texcoords.empty())
                         vertex.uv = v2(attrib.texcoords[2 * index.texcoord_index], 1.f - attrib.texcoords[2 * index.texcoord_index + 1]);
 
-                    vertex.normal = attrib.normals.empty() ? v3(0.f) : v3(attrib.normals[3 * index.normal_index], 
-                                                                          attrib.normals[3 * index.normal_index + 1], 
-                                                                          attrib.normals[3 * index.normal_index + 2]);
+                    vertex.normal = attrib.normals.empty() ? v3(0.f) : v3(attrib.normals[3 * index.normal_index], attrib.normals[3 * index.normal_index + 1], attrib.normals[3 * index.normal_index + 2]);
 
                     mesh->get_vertices().push_back(vertex);
                     mesh->get_indices().push_back(mesh->get_indices_count());
@@ -192,63 +173,85 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
 }
 
 lava::mesh::ptr lava::load_mesh(device_ptr device, mesh_type type) {
-
     switch (type) {
-
     case mesh_type::cube: {
-
         auto cube = make_mesh();
         cube->get_vertices() = {
 
             // front
-            { {  1.f,  1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, 1.f } },
-            { { -1.f,  1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, 1.f } },
+            { { 1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, 1.f } },
+            { { -1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, 1.f } },
             { { -1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 0.f, 1.f } },
-            { {  1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f, 1.f } },
+            { { 1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f, 1.f } },
 
             // back
-            { {  1.f,  1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, -1.f } },
-            { { -1.f,  1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, -1.f } },
+            { { 1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, -1.f } },
+            { { -1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, -1.f } },
             { { -1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f, -1.f } },
-            { {  1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 0.f, -1.f } },
+            { { 1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 0.f, -1.f } },
 
             // left
-            { { -1.f,  1.f,  1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { -1.f, 0.f, 0.f } },
-            { { -1.f,  1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { -1.f, 0.f, 0.f } },
+            { { -1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { -1.f, 0.f, 0.f } },
+            { { -1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { -1.f, 0.f, 0.f } },
             { { -1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f }, { -1.f, 0.f, 0.f } },
-            { { -1.f, -1.f,  1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { -1.f, 0.f, 0.f } },
+            { { -1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { -1.f, 0.f, 0.f } },
 
             // right
-            { { 1.f,  1.f,  1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 1.f, 0.f, 0.f } },
-            { { 1.f, -1.f,  1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 1.f, 0.f, 0.f } },
+            { { 1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 1.f, 0.f, 0.f } },
+            { { 1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 1.f, 0.f, 0.f } },
             { { 1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 1.f, 0.f, 0.f } },
-            { { 1.f,  1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 1.f, 0.f, 0.f } },
+            { { 1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 1.f, 0.f, 0.f } },
 
             // bottom
-            { {  1.f, 1.f,  1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 1.f, 0.f } },
-            { { -1.f, 1.f,  1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 1.f, 0.f } },
+            { { 1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 1.f, 0.f } },
+            { { -1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 1.f, 0.f } },
             { { -1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 1.f, 0.f } },
-            { {  1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 1.f, 0.f } },
+            { { 1.f, 1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 1.f, 0.f } },
 
             // top
-            { {  1.f, -1.f,  1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, -1.f, 0.f } },
-            { { -1.f, -1.f,  1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, -1.f, 0.f } },
+            { { 1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, -1.f, 0.f } },
+            { { -1.f, -1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, -1.f, 0.f } },
             { { -1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, -1.f, 0.f } },
-            { {  1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, -1.f, 0.f } },
+            { { 1.f, -1.f, -1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, -1.f, 0.f } },
         };
 
-        cube->get_indices() = { 0, 1, 2,
-                                2, 3, 0,
-                                4, 7, 6,
-                                6, 5, 4,
-                                8, 9, 10,
-                                10, 11, 8,
-                                12, 13, 14,
-                                14, 15, 12,
-                                16, 19, 18,
-                                18, 17, 16,
-                                20, 21, 22,
-                                22, 23, 20,
+        cube->get_indices() = {
+            0,
+            1,
+            2,
+            2,
+            3,
+            0,
+            4,
+            7,
+            6,
+            6,
+            5,
+            4,
+            8,
+            9,
+            10,
+            10,
+            11,
+            8,
+            12,
+            13,
+            14,
+            14,
+            15,
+            12,
+            16,
+            19,
+            18,
+            18,
+            17,
+            16,
+            20,
+            21,
+            22,
+            22,
+            23,
+            20,
         };
 
         if (!cube->create(device))
@@ -258,12 +261,11 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, mesh_type type) {
     }
 
     case mesh_type::triangle: {
-
         auto triangle = make_mesh();
 
-        triangle->get_vertices().push_back({ {  1.f,  1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f,  1.f }, { 0.f, 0.f, 1.f } });
-        triangle->get_vertices().push_back({ { -1.f,  1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f,  1.f }, { 0.f, 0.f, 1.f } });
-        triangle->get_vertices().push_back({ {  0.f, -1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.5f, 0.f }, { 0.f, 0.f, 1.f } });
+        triangle->get_vertices().push_back({ { 1.f, 1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, 1.f } });
+        triangle->get_vertices().push_back({ { -1.f, 1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, 1.f } });
+        triangle->get_vertices().push_back({ { 0.f, -1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.5f, 0.f }, { 0.f, 0.f, 1.f } });
 
         if (!triangle->create(device))
             return nullptr;
@@ -272,15 +274,13 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, mesh_type type) {
     }
 
     case mesh_type::quad: {
-
         auto quad = make_mesh();
 
-        quad->get_vertices() = 
-        {
-            { {  1.f,  1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, 1.f } },
-            { { -1.f,  1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, 1.f } },
+        quad->get_vertices() = {
+            { { 1.f, 1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, 1.f } },
+            { { -1.f, 1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, 1.f } },
             { { -1.f, -1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 0.f }, { 0.f, 0.f, 1.f } },
-            { {  1.f, -1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f, 1.f } },
+            { { 1.f, -1.f, 0.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 0.f }, { 0.f, 0.f, 1.f } },
         };
 
         quad->get_indices() = { 0, 1, 2, 2, 3, 0 };

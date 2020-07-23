@@ -5,11 +5,11 @@
 #pragma once
 
 #if defined(NDEBUG)
-#define LIBLAVA_DEBUG 0
+#    define LIBLAVA_DEBUG 0
 #endif
 
 #ifndef LIBLAVA_DEBUG
-#define LIBLAVA_DEBUG 1
+#    define LIBLAVA_DEBUG 1
 #endif
 
 #define LIBLAVA_BUILD_DATE __DATE__
