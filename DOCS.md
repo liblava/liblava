@@ -35,7 +35,7 @@ Here are a few examples to get to know `lava`
 ```c++
 int main(int argc, char* argv[]) {
 
-    frame frame( {argc, argv} );
+    lava::frame frame( {argc, argv} );
 
     return frame.ready() ? 0 : error::not_ready;
 }
@@ -46,7 +46,7 @@ This is how to initialize `lava frame` with command line arguments.
 #### 2. run loop
 
 ```c++
-frame frame(argh);
+lava::frame frame(argh);
 if (!frame.ready())
     return error::not_ready;
 
@@ -75,15 +75,15 @@ The last line performs a loop with the **run** we added before. If *count* reach
 Here is another example that shows how to create a `lava window` and handle `lava input`
 
 ```c++
-frame frame(argh);
+lava::frame frame(argh);
 if (!frame.ready())
     return error::not_ready;
 
-window window;
+lava::window window;
 if (!window.create())
     return error::create_failed;
 
-input input;
+lava::input input;
 window.assign(&input);
 
 input.key.listeners.add([&](key_event::ref event) {
@@ -112,15 +112,15 @@ Straightforward - with this knowledge in hand let's write **Hello World** now...
 #### 4. clear color
 
 ```c++
-frame frame(argh);
+lava::frame frame(argh);
 if (!frame.ready())
     return error::not_ready;
 
-window window;
+lava::window window;
 if (!window.create())
     return error::create_failed;
 
-input input;
+lava::input input;
 window.assign(&input);
 
 input.key.listeners.add([&](key_event::ref event) {
@@ -139,7 +139,7 @@ auto render_target = create_target(&window, device);
 if (!render_target)
     return error::create_failed;
 
-renderer plotter;
+lava::renderer plotter;
 if (!plotter.create(render_target->get_swapchain()))
     return error::create_failed;
 
@@ -259,7 +259,7 @@ Ok, it's time for... `lava block`
 #### 5. color block
 
 ```c++
-block block;
+lava::block block;
 
 if (!block.create(device, frame_count, device->graphics_queue().family))
     return error::create_failed;
