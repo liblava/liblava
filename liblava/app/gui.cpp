@@ -148,6 +148,7 @@ namespace lava {
 
             ImFontConfig icons_config;
             icons_config.MergeMode = true;
+            icons_config.GlyphMinAdvanceX = config.icon.size;
             icons_config.PixelSnapH = true;
             icons_config.FontDataOwnedByAtlas = false;
 
