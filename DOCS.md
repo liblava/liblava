@@ -313,7 +313,7 @@ Out of blocks, `lava app` supports the awesome [Dear ImGui](https://github.com/o
 ```c++
 int main(int argc, char* argv[]) {
 
-    app app("demo", { argc, argv });
+    lava::app app("demo", { argc, argv });
     if (!app.setup())
         return error::not_ready;
 
