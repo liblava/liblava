@@ -364,8 +364,8 @@ LAVA_TEST(7, "gamepad") {
     if (!frame.ready())
         return error::not_ready;
 
-    gamepad_manager::instance().add([&](gamepad pad, bool active) {
-        auto id = to_ui32(pad.get_id());
+    gamepad_manager::add([&](gamepad pad, bool active) {
+        auto id = pad.get_id();
 
         if (active)
             log()->info("gamepad {} - active ({})", id, pad.get_name());
@@ -376,7 +376,7 @@ LAVA_TEST(7, "gamepad") {
     });
 
     for (auto& pad : gamepads())
-        log()->info("gamepad {} - active ({})", to_ui32(pad.get_id()), pad.get_name());
+        log()->info("gamepad {} - active ({})", pad.get_id(), pad.get_name());
 
     frame.add_run([&]() {
         sleep(seconds(1));

@@ -96,7 +96,6 @@ namespace lava {
 
     name gamepad::get_name() const {
         return glfwGetGamepadName(to_i32(id));
-        ;
     }
 
     bool gamepad::ready() const {
@@ -118,16 +117,16 @@ namespace lava {
     id gamepad_manager::add(listener_func event) {
         auto id = ids::next();
 
-        map.emplace(id, event);
+        instance().map.emplace(id, event);
 
         return id;
     }
 
     void gamepad_manager::remove(id::ref id) {
-        if (!map.count(id))
+        if (!instance().map.count(id))
             return;
 
-        map.erase(id);
+        instance().map.erase(id);
 
         ids::free(id);
     }

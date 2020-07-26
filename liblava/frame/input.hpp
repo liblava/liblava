@@ -432,13 +432,19 @@ namespace lava {
         bool pressed(gamepad_button button) const {
             return state.buttons[to_ui32(button)];
         }
+
         r32 value(gamepad_axis axis) const {
             return state.axes[to_ui32(axis)];
         }
 
-        gamepad_id get_id() const {
+        gamepad_id get_pad_id() const {
             return id;
         }
+
+        ui32 get_id() const {
+            return to_ui32(get_pad_id());
+        }
+
         name get_name() const;
 
     private:
@@ -455,18 +461,19 @@ namespace lava {
     gamepad::list gamepads();
 
     struct gamepad_manager {
+        using listener_func = std::function<bool(gamepad, bool)>;
+
+        static id add(listener_func listener);
+
+        static void remove(id::ref id);
+
+    private:
+        explicit gamepad_manager();
+
         static gamepad_manager& instance() {
             static gamepad_manager manager;
             return manager;
         }
-
-        using listener_func = std::function<bool(gamepad, bool)>;
-
-        id add(listener_func listener);
-        void remove(id::ref id);
-
-    private:
-        explicit gamepad_manager();
 
         using listener_map = std::map<id, listener_func>;
         listener_map map;
