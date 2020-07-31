@@ -26,7 +26,6 @@ namespace lava {
         };
 
         enum class api_version : type {
-
             v1_0 = 0,
             v1_1,
             v1_2

@@ -10,7 +10,6 @@
 namespace lava {
 
     enum class texture_type : type {
-
         none = 0,
         tex_2d,
         array,

@@ -122,7 +122,6 @@ namespace lava {
     mesh::ptr load_mesh(device_ptr device, name filename);
 
     enum class mesh_type : type {
-
         none = 0,
         cube,
         triangle,

@@ -31,7 +31,6 @@ namespace lava {
     };
 
     enum error {
-
         not_ready = -1,
         create_failed = -2,
         aborted = -3,

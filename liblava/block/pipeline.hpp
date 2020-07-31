@@ -170,7 +170,6 @@ namespace lava {
         using list = std::vector<ptr>;
 
         enum class size_type : type {
-
             input = 0,
             absolute,
             relative

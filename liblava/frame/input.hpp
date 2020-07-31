@@ -10,7 +10,6 @@
 namespace lava {
 
     enum class key : i32 {
-
         unknown = -1,
 
         /* printable keys */
@@ -157,14 +156,12 @@ namespace lava {
     };
 
     enum class action : type {
-
         release = 0,
         press,
         repeat
     };
 
     enum class mod : c8 {
-
         shift = 0x01,
         control = 0x02,
         alt = 0x04,
@@ -239,7 +236,6 @@ namespace lava {
     };
 
     enum class mouse_button : type {
-
         _1 = 0,
         _2,
         _3,
@@ -355,7 +351,6 @@ namespace lava {
     };
 
     enum class gamepad_id : ui32 {
-
         _1 = 0,
         _2,
         _3,
@@ -377,7 +372,6 @@ namespace lava {
     };
 
     enum class gamepad_button : type {
-
         a = 0,
         b,
         x,
@@ -407,7 +401,6 @@ namespace lava {
     };
 
     enum class gamepad_axis : type {
-
         left_x = 0,
         left_y,
 

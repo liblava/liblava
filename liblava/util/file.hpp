@@ -101,7 +101,6 @@ namespace lava {
     };
 
     enum class file_type : type {
-
         none = 0,
         fs,
         f_stream

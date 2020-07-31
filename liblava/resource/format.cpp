@@ -338,7 +338,6 @@ bool lava::get_supported_depth_format(VkPhysicalDevice physical_device, VkFormat
 
 VkImageMemoryBarrier lava::image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout) {
     return {
-
         .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
         .pNext = nullptr,
         .srcAccessMask = 0,

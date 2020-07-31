@@ -17,7 +17,6 @@ namespace lava {
     constexpr internal_version const _internal_version = {};
 
     enum class version_stage {
-
         preview,
         alpha,
         beta,

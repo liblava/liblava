@@ -28,7 +28,6 @@ LAVA_TEST(1, "first test")
 namespace lava {
 
     enum test_result {
-
         no_tests = -100,
         not_found = -101,
         wrong_arguments = -102
