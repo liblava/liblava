@@ -127,6 +127,8 @@ message(">> lava::base")
 add_library(lava.base STATIC
         ${LIBLAVA_DIR}/base/base.cpp
         ${LIBLAVA_DIR}/base/base.hpp
+        ${LIBLAVA_DIR}/base/debug_utils.cpp
+        ${LIBLAVA_DIR}/base/debug_utils.hpp
         ${LIBLAVA_DIR}/base/device_table.hpp
         ${LIBLAVA_DIR}/base/device.cpp
         ${LIBLAVA_DIR}/base/device.hpp
