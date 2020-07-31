@@ -412,7 +412,6 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
         }
         }
     } else { // use_stbi
-
         i32 tex_width = 0, tex_height = 0;
         stbi_uc* data = nullptr;
 

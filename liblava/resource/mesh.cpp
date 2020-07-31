@@ -177,7 +177,6 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, mesh_type type) {
     case mesh_type::cube: {
         auto cube = make_mesh();
         cube->get_vertices() = {
-
             // front
             { { 1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 1.f, 1.f }, { 0.f, 0.f, 1.f } },
             { { -1.f, 1.f, 1.f }, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 1.f }, { 0.f, 0.f, 1.f } },
