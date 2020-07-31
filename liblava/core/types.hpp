@@ -64,6 +64,9 @@ namespace lava {
     using real = r64;
     using delta = r32;
 
+    using void_ptr = void*;
+    using void_cptr = void const*;
+
     using type = ui32;
     constexpr type const no_type = 0xffffffff;
     constexpr type const undef = 0;

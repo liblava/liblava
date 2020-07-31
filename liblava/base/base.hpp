@@ -17,6 +17,7 @@
 
 namespace lava {
 
+    using VkObjectHandle = ui64;
     using VkFormats = std::vector<VkFormat>;
 
     using VkImages = std::vector<VkImage>;
