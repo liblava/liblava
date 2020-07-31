@@ -20,4 +20,9 @@ namespace lava {
     constexpr name _v_sync_ = "v-sync";
     constexpr name _physical_device_ = "physical device";
 
+    // debug utils
+    constexpr name _lava_block_ = "lava block";
+    constexpr name _lava_gui_ = "lava gui";
+    constexpr name _lava_texture_stage_ = "lava texture stage";
+
 } // namespace lava

@@ -5,6 +5,7 @@
 #include <imgui.h>
 #include <liblava/app/app.hpp>
 #include <liblava/app/def.hpp>
+#include <liblava/base/debug_utils.hpp>
 
 namespace lava {
 
@@ -70,14 +71,20 @@ namespace lava {
             return false;
 
         block_command = block.add_cmd([&](VkCommandBuffer cmd_buf) {
+            begin_label(cmd_buf, _lava_block_, { default_color, 1.f });
+
             auto current_frame = block.get_current_frame();
 
+            begin_label(cmd_buf, _lava_texture_stage_, { 0.f, 0.13f, 0.4f, 1.f });
             staging.stage(cmd_buf, current_frame);
+            end_label(cmd_buf);
 
             if (on_process)
                 on_process(cmd_buf, current_frame);
 
             shading.get_pass()->process(cmd_buf, current_frame);
+
+            end_label(cmd_buf);
         });
 
         return true;

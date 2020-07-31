@@ -4,6 +4,7 @@
 
 #include <liblava/app/def.hpp>
 #include <liblava/app/gui.hpp>
+#include <liblava/base/debug_utils.hpp>
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_INCLUDE_VULKAN
@@ -398,7 +399,11 @@ namespace lava {
             if (on_draw)
                 on_draw();
 
+            begin_label(cmd_buf, _lava_gui_, { 0.9f, 0.75f, 0.f, 1.f });
+
             render(cmd_buf);
+
+            end_label(cmd_buf);
         };
 
         initialized = true;
