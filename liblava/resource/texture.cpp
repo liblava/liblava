@@ -133,7 +133,7 @@ namespace lava {
         return upload_buffer->create(img->get_device(), data, data_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, false, VMA_MEMORY_USAGE_CPU_TO_GPU);
     }
 
-    bool texture::stage(VkCommandBuffer cmd_buffer) {
+    bool texture::stage(VkCommandBuffer cmd_buf) {
         if (!upload_buffer || !upload_buffer->valid()) {
             log()->error("stage texture");
             return false;
@@ -149,7 +149,7 @@ namespace lava {
 
         auto device = img->get_device();
 
-        set_image_layout(device, cmd_buffer, img->get(), VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range,
+        set_image_layout(device, cmd_buf, img->get(), VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range,
                          VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
 
         std::vector<VkBufferImageCopy> regions;
@@ -205,10 +205,10 @@ namespace lava {
             regions.push_back(region);
         }
 
-        device->call().vkCmdCopyBufferToImage(cmd_buffer, upload_buffer->get(), img->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+        device->call().vkCmdCopyBufferToImage(cmd_buf, upload_buffer->get(), img->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
                                               to_ui32(regions.size()), regions.data());
 
-        set_image_layout(device, cmd_buffer, img->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+        set_image_layout(device, cmd_buf, img->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
                          VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, subresource_range,
                          VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
 
