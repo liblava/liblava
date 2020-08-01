@@ -397,11 +397,9 @@ namespace lava {
             if (on_draw)
                 on_draw();
 
-            begin_label(cmd_buf, _lava_gui_, { 0.9f, 0.75f, 0.f, 1.f });
+            scoped_label label(cmd_buf, _lava_gui_, { 0.9f, 0.75f, 0.f, 1.f });
 
             render(cmd_buf);
-
-            end_label(cmd_buf);
         };
 
         initialized = true;

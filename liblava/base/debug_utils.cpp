@@ -4,7 +4,7 @@
 
 #include <liblava/base/debug_utils.hpp>
 
-#if LIBLAVA_DEBUG
+#if LIBLAVA_DEBUG_UTILS
 #    include <liblava/base/instance.hpp>
 
 void lava::begin_label(VkCommandBuffer cmd_buf, name label, v4 color) {
@@ -123,4 +123,4 @@ void lava::set_object_tag(VkDevice device, VkObjectType type, VkObjectHandle han
     vkSetDebugUtilsObjectTagEXT(device, &info);
 }
 
-#endif // LIBLAVA_DEBUG
+#endif // LIBLAVA_DEBUG_UTILS
