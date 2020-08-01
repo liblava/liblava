@@ -5,6 +5,7 @@
 #pragma once
 
 #include <liblava/core/data.hpp>
+#include <liblava/core/def.hpp>
 #include <liblava/core/id.hpp>
 #include <liblava/core/math.hpp>
 #include <liblava/core/time.hpp>

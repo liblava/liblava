@@ -42,6 +42,7 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp "")
 add_library(lava.core STATIC
         ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp
         ${LIBLAVA_DIR}/core/data.hpp
+        ${LIBLAVA_DIR}/core/def.hpp
         ${LIBLAVA_DIR}/core/id.hpp
         ${LIBLAVA_DIR}/core/math.hpp
         ${LIBLAVA_DIR}/core/time.hpp
