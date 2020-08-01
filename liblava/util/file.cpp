@@ -318,7 +318,7 @@ namespace lava {
         if (!load_file_data(path, data))
             return false;
 
-        auto j = json::parse({ data.ptr, data.size });
+        auto j = json::parse(data.ptr, data.ptr + data.size);
 
         for (auto callback : callbacks)
             callback->on_load(j);

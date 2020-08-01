@@ -447,7 +447,7 @@ bool lava::load_window_file(window::state& state, name save_name) {
     if (!load_file_data(_window_file_, data))
         return false;
 
-    auto j = json::parse({ data.ptr, data.size });
+    auto j = json::parse(data.ptr, data.ptr + data.size);
 
     if (!j.count(save_name))
         return false;
@@ -466,7 +466,7 @@ void lava::save_window_file(window::ref window) {
 
     scope_data data;
     if (load_file_data(_window_file_, data)) {
-        j = json::parse({ data.ptr, data.size });
+        j = json::parse(data.ptr, data.ptr + data.size);
 
         json d;
         d[index] = state;
