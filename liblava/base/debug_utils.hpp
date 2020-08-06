@@ -7,6 +7,7 @@
 #include <liblava/base/base.hpp>
 #include <liblava/core/def.hpp>
 
+/// only active in debug - enable for release profiling
 #ifndef LIBLAVA_DEBUG_UTILS
 #    define LIBLAVA_DEBUG_UTILS LIBLAVA_DEBUG
 #endif
@@ -37,7 +38,7 @@ namespace lava {
     inline void set_object_tag(VkDevice device, VkObjectType type, VkObjectHandle handle, ui64 name, void_cptr tag, size_t size) {}
 #endif
 
-    // T can be VkCommandBuffer or VkQueue
+    /// T can be VkCommandBuffer or VkQueue
     template<typename T>
     struct scoped_label {
         scoped_label(T scope, name label, v4 color = v4(0.f))
