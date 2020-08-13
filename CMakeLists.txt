@@ -181,6 +181,10 @@ target_include_directories(lava.resource PUBLIC
 
 message(">>> selene")
 
+set(SELENE_USE_LIBJPEG OFF CACHE BOOL "" FORCE)
+set(SELENE_USE_LIBPNG OFF CACHE BOOL "" FORCE)
+set(SELENE_USE_LIBTIFF OFF CACHE BOOL "" FORCE)
+set(SELENE_USE_OPENCV OFF CACHE BOOL "" FORCE)
 add_subdirectory(${LIBLAVA_EXT_DIR}/selene selene EXCLUDE_FROM_ALL)
 
 message("<<< selene")
@@ -217,6 +221,7 @@ target_include_directories(lava.frame PUBLIC
 
 message(">>> glfw")
 
+set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -286,8 +291,8 @@ target_link_libraries(lava.app
 set_property(TARGET lava.app PROPERTY EXPORT_NAME app)
 add_library(lava::app ALIAS lava.app)
 
-option(LAVA_TESTS "Enable Tests" TRUE)
-if(LAVA_TESTS)
+option(LIBLAVA_TESTS "Enable Tests" TRUE)
+if(LIBLAVA_TESTS)
         message("> tests")
 
         add_executable(lava 
