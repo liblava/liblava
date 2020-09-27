@@ -15,7 +15,7 @@ namespace lava {
         queued_frames = target->get_backbuffer_count();
 
         fences.resize(queued_frames);
-        fences_in_use.resize(queued_frames, nullptr);
+        fences_in_use.resize(queued_frames, 0);
         image_acquired_semaphores.resize(queued_frames);
         render_complete_semaphores.resize(queued_frames);
 
@@ -96,7 +96,7 @@ namespace lava {
         }
 
         // because frames might not come in sequential order current frame might still be locked
-        if ((fences_in_use[frame_index] != nullptr) && (fences_in_use[frame_index] != fences[current_sync])) {
+        if ((fences_in_use[frame_index] != 0) && (fences_in_use[frame_index] != fences[current_sync])) {
             auto result = device->vkWaitForFences(1, &fences_in_use[frame_index], VK_TRUE, UINT64_MAX);
 
             if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
