@@ -211,6 +211,9 @@ namespace lava {
         if (!p)
             return false;
 
+        if (!p[0])
+            return false;
+
         path = p;
         write_mode = write;
 
