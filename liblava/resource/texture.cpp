@@ -313,17 +313,11 @@ namespace lava {
         return texture;
     }
 
-    texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFormat format, scope_data const& temp_data) {
-        gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
-                                               : gli::load(file.get_path()));
-        assert(!tex.empty());
-        if (tex.empty())
-            return nullptr;
-
-        auto layer_count = to_ui32(tex.layers());
-        auto mip_levels = to_ui32(tex.levels());
-
+    template<typename T>
+    texture::layer::list create_layer_list(T const& tex, ui32 layer_count) {
         texture::layer::list layers;
+
+        auto mip_levels = to_ui32(tex.levels());
 
         for (auto i = 0u; i < layer_count; ++i) {
             texture::layer layer;
@@ -338,6 +332,18 @@ namespace lava {
 
             layers.push_back(layer);
         }
+
+        return layers;
+    }
+
+    texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFormat format, scope_data const& temp_data) {
+        gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+                                               : gli::load(file.get_path()));
+        assert(!tex.empty());
+        if (tex.empty())
+            return nullptr;
+
+        auto layers = create_layer_list(tex, to_ui32(tex.layers()));
 
         auto texture = make_texture();
 
@@ -358,24 +364,7 @@ namespace lava {
         if (tex.empty())
             return nullptr;
 
-        auto layer_count = to_ui32(tex.faces());
-        auto mip_levels = to_ui32(tex.levels());
-
-        texture::layer::list layers;
-
-        for (auto i = 0u; i < layer_count; ++i) {
-            texture::layer layer;
-
-            for (auto m = 0u; m < mip_levels; ++m) {
-                texture::mip_level level;
-                level.extent = { tex[i][m].extent().x, tex[i][m].extent().y };
-                level.size = to_ui32(tex[i][m].size());
-
-                layer.levels.push_back(level);
-            }
-
-            layers.push_back(layer);
-        }
+        auto layers = create_layer_list(tex, to_ui32(tex.faces()));
 
         auto texture = make_texture();
 
