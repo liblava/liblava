@@ -76,6 +76,8 @@ namespace lava {
         explicit instance() = default;
         ~instance();
 
+        bool check_debug(create_param& param) const;
+
         bool enumerate_physical_devices();
 
         bool create_validation_report();

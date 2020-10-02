@@ -345,6 +345,8 @@ namespace lava {
         }
 
     private:
+        void handle_mouse_events();
+
         mouse_position current_position;
 
         input_callback::list callbacks;

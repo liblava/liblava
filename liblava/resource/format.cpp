@@ -351,12 +351,8 @@ VkImageMemoryBarrier lava::image_memory_barrier(VkImage image, VkImageLayout old
     };
 }
 
-void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout, VkImageLayout new_image_layout,
-                            VkImageSubresourceRange subresource_range, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
-    auto barrier = image_memory_barrier(image, old_image_layout, new_image_layout);
-    barrier.subresourceRange = subresource_range;
-
-    switch (old_image_layout) {
+void set_src_access_mask(VkImageMemoryBarrier& barrier, VkImageLayout image_layout) {
+    switch (image_layout) {
     case VK_IMAGE_LAYOUT_UNDEFINED:
         barrier.srcAccessMask = 0;
         break;
@@ -387,8 +383,10 @@ void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkIma
     default:
         break;
     }
+}
 
-    switch (new_image_layout) {
+void set_dst_access_mask(VkImageMemoryBarrier& barrier, VkImageLayout image_layout) {
+    switch (image_layout) {
     case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
         barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
         break;
@@ -414,6 +412,15 @@ void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkIma
     default:
         break;
     }
+}
+
+void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout, VkImageLayout new_image_layout,
+                            VkImageSubresourceRange subresource_range, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
+    auto barrier = image_memory_barrier(image, old_image_layout, new_image_layout);
+    barrier.subresourceRange = subresource_range;
+
+    set_src_access_mask(barrier, old_image_layout);
+    set_dst_access_mask(barrier, new_image_layout);
 
     device->call().vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 }

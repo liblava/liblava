@@ -109,22 +109,8 @@ namespace lava {
         return VK_PRESENT_MODE_FIFO_KHR;
     }
 
-    bool swapchain::create_internal() {
-        auto present_mode_count = 0u;
-        if (vkGetPhysicalDeviceSurfacePresentModesKHR(device->get_vk_physical_device(), surface, &present_mode_count, nullptr) != VK_SUCCESS || present_mode_count == 0) {
-            log()->error("create swapchain present mode count");
-            return false;
-        }
-
-        VkPresentModeKHRs present_modes(present_mode_count);
-        if (vkGetPhysicalDeviceSurfacePresentModesKHR(device->get_vk_physical_device(), surface, &present_mode_count, present_modes.data()) != VK_SUCCESS) {
-            log()->error("create swapchain present mode");
-            return false;
-        }
-
+    VkSwapchainCreateInfoKHR swapchain::create_info(VkPresentModeKHRs present_modes) {
         VkPresentModeKHR present_mode = choose_present_mode(present_modes);
-
-        VkSwapchainKHR old_swapchain = vk_swapchain;
 
         VkSwapchainCreateInfoKHR info{
             .sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
@@ -141,7 +127,7 @@ namespace lava {
             .compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
             .presentMode = present_mode,
             .clipped = VK_TRUE,
-            .oldSwapchain = old_swapchain,
+            .oldSwapchain = vk_swapchain,
         };
 
         VkSurfaceCapabilitiesKHR cap{};
@@ -164,6 +150,25 @@ namespace lava {
 
         info.preTransform = cap.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR ? VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR : cap.currentTransform;
 
+        return info;
+    }
+
+    bool swapchain::create_internal() {
+        auto present_mode_count = 0u;
+        if (vkGetPhysicalDeviceSurfacePresentModesKHR(device->get_vk_physical_device(), surface, &present_mode_count, nullptr) != VK_SUCCESS || present_mode_count == 0) {
+            log()->error("create swapchain present mode count");
+            return false;
+        }
+
+        VkPresentModeKHRs present_modes(present_mode_count);
+        if (vkGetPhysicalDeviceSurfacePresentModesKHR(device->get_vk_physical_device(), surface, &present_mode_count, present_modes.data()) != VK_SUCCESS) {
+            log()->error("create swapchain present mode");
+            return false;
+        }
+
+        VkSwapchainKHR old_swapchain = vk_swapchain;
+
+        auto info = create_info(present_modes);
         if (!device->vkCreateSwapchainKHR(&info, &vk_swapchain))
             return false;
 

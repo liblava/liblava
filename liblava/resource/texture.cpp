@@ -279,6 +279,147 @@ namespace lava {
             stbi_image_free(data);
     }
 
+    texture::ptr create_gli_texture_2d(device_ptr device, file const& file, VkFormat format, scope_data const& temp_data) {
+        gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+                                         : gli::load(file.get_path()));
+        assert(!tex.empty());
+        if (tex.empty())
+            return nullptr;
+
+        auto mip_levels = to_ui32(tex.levels());
+
+        texture::layer layer;
+
+        for (auto m = 0u; m < mip_levels; ++m) {
+            texture::mip_level level;
+            level.extent = { tex[m].extent().x, tex[m].extent().y };
+            level.size = to_ui32(tex[m].size());
+
+            layer.levels.push_back(level);
+        }
+
+        texture::layer::list layers;
+        layers.push_back(layer);
+
+        auto texture = make_texture();
+
+        uv2 size = { tex[0].extent().x, tex[0].extent().y };
+        if (!texture->create(device, size, format, layers, texture_type::tex_2d))
+            return nullptr;
+
+        if (!texture->upload(tex.data(), tex.size()))
+            return nullptr;
+
+        return texture;
+    }
+
+    texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFormat format, scope_data const& temp_data) {
+        gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+                                               : gli::load(file.get_path()));
+        assert(!tex.empty());
+        if (tex.empty())
+            return nullptr;
+
+        auto layer_count = to_ui32(tex.layers());
+        auto mip_levels = to_ui32(tex.levels());
+
+        texture::layer::list layers;
+
+        for (auto i = 0u; i < layer_count; ++i) {
+            texture::layer layer;
+
+            for (auto m = 0u; m < mip_levels; ++m) {
+                texture::mip_level level;
+                level.extent = { tex[i][m].extent().x, tex[i][m].extent().y };
+                level.size = to_ui32(tex[i][m].size());
+
+                layer.levels.push_back(level);
+            }
+
+            layers.push_back(layer);
+        }
+
+        auto texture = make_texture();
+
+        uv2 size = { tex[0].extent().x, tex[0].extent().y };
+        if (!texture->create(device, size, format, layers, texture_type::array))
+            return nullptr;
+
+        if (!texture->upload(tex.data(), tex.size()))
+            return nullptr;
+
+        return texture;
+    }
+
+    texture::ptr create_gli_texture_cube_map(device_ptr device, file const& file, VkFormat format, scope_data const& temp_data) {
+        gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+                                            : gli::load(file.get_path()));
+        assert(!tex.empty());
+        if (tex.empty())
+            return nullptr;
+
+        auto layer_count = to_ui32(tex.faces());
+        auto mip_levels = to_ui32(tex.levels());
+
+        texture::layer::list layers;
+
+        for (auto i = 0u; i < layer_count; ++i) {
+            texture::layer layer;
+
+            for (auto m = 0u; m < mip_levels; ++m) {
+                texture::mip_level level;
+                level.extent = { tex[i][m].extent().x, tex[i][m].extent().y };
+                level.size = to_ui32(tex[i][m].size());
+
+                layer.levels.push_back(level);
+            }
+
+            layers.push_back(layer);
+        }
+
+        auto texture = make_texture();
+
+        uv2 size = { tex[0].extent().x, tex[0].extent().y };
+        if (!texture->create(device, size, format, layers, texture_type::cube_map))
+            return nullptr;
+
+        if (!texture->upload(tex.data(), tex.size()))
+            return nullptr;
+
+        return texture;
+    }
+
+    texture::ptr create_stbi_texture(device_ptr device, file const& file, scope_data const& temp_data) {
+        i32 tex_width = 0, tex_height = 0;
+        stbi_uc* data = nullptr;
+
+        if (file.opened())
+            data = stbi_load_from_memory((stbi_uc const*) temp_data.ptr, to_i32(temp_data.size),
+                                         &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
+        else
+            data = stbi_load(str(file.get_path()), &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
+
+        if (!data)
+            return nullptr;
+
+        auto texture = make_texture();
+
+        uv2 size = { tex_width, tex_height };
+        if (!texture->create(device, size, VK_FORMAT_R8G8B8A8_UNORM))
+            return nullptr;
+
+        const i32 tex_channels = 4;
+        auto uploadSize = tex_width * tex_height * tex_channels * sizeof(char);
+        auto result = texture->upload(data, uploadSize);
+
+        stbi_image_free(data);
+
+        if (!result)
+            return nullptr;
+
+        return texture;
+    }
+
 } // namespace lava
 
 lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, texture_type type) {
@@ -306,139 +447,27 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
             return nullptr;
     }
 
-    auto texture = make_texture();
-
     if (use_gli) {
         texture::layer::list layers;
 
         switch (type) {
         case texture_type::tex_2d: {
-            gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
-                                             : gli::load(filename.path));
-            assert(!tex.empty());
-            if (tex.empty())
-                return nullptr;
-
-            auto mip_levels = to_ui32(tex.levels());
-
-            texture::layer layer;
-
-            for (auto m = 0u; m < mip_levels; ++m) {
-                texture::mip_level level;
-                level.extent = { tex[m].extent().x, tex[m].extent().y };
-                level.size = to_ui32(tex[m].size());
-
-                layer.levels.push_back(level);
-            }
-
-            layers.push_back(layer);
-
-            uv2 size = { tex[0].extent().x, tex[0].extent().y };
-            if (!texture->create(device, size, filename.format, layers, type))
-                return nullptr;
-
-            if (!texture->upload(tex.data(), tex.size()))
-                return nullptr;
-
-            break;
+            return create_gli_texture_2d(device, file, filename.format, temp_data);
         }
 
         case texture_type::array: {
-            gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
-                                                   : gli::load(filename.path));
-            assert(!tex.empty());
-            if (tex.empty())
-                return nullptr;
-
-            auto layer_count = to_ui32(tex.layers());
-            auto mip_levels = to_ui32(tex.levels());
-
-            for (auto i = 0u; i < layer_count; ++i) {
-                texture::layer layer;
-
-                for (auto m = 0u; m < mip_levels; ++m) {
-                    texture::mip_level level;
-                    level.extent = { tex[i][m].extent().x, tex[i][m].extent().y };
-                    level.size = to_ui32(tex[i][m].size());
-
-                    layer.levels.push_back(level);
-                }
-
-                layers.push_back(layer);
-            }
-
-            uv2 size = { tex[0].extent().x, tex[0].extent().y };
-            if (!texture->create(device, size, filename.format, layers, type))
-                return nullptr;
-
-            if (!texture->upload(tex.data(), tex.size()))
-                return nullptr;
-
-            break;
+            return create_gli_texture_array(device, file, filename.format, temp_data);
         }
 
         case texture_type::cube_map: {
-            gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
-                                                : gli::load(filename.path));
-            assert(!tex.empty());
-            if (tex.empty())
-                return nullptr;
-
-            auto layer_count = to_ui32(tex.faces());
-            auto mip_levels = to_ui32(tex.levels());
-
-            for (auto i = 0u; i < layer_count; ++i) {
-                texture::layer layer;
-
-                for (auto m = 0u; m < mip_levels; ++m) {
-                    texture::mip_level level;
-                    level.extent = { tex[i][m].extent().x, tex[i][m].extent().y };
-                    level.size = to_ui32(tex[i][m].size());
-
-                    layer.levels.push_back(level);
-                }
-
-                layers.push_back(layer);
-            }
-
-            uv2 size = { tex[0].extent().x, tex[0].extent().y };
-            if (!texture->create(device, size, filename.format, layers, type))
-                return nullptr;
-
-            if (!texture->upload(tex.data(), tex.size()))
-                return nullptr;
-
-            break;
+            return create_gli_texture_cube_map(device, file, filename.format, temp_data);
         }
         }
-    } else { // use_stbi
-        i32 tex_width = 0, tex_height = 0;
-        stbi_uc* data = nullptr;
-
-        if (file.opened())
-            data = stbi_load_from_memory((stbi_uc const*) temp_data.ptr, to_i32(temp_data.size),
-                                         &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
-        else
-            data = stbi_load(str(filename.path), &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
-
-        if (!data)
-            return nullptr;
-
-        uv2 size = { tex_width, tex_height };
-        if (!texture->create(device, size, VK_FORMAT_R8G8B8A8_UNORM))
-            return nullptr;
-
-        const i32 tex_channels = 4;
-        auto uploadSize = tex_width * tex_height * tex_channels * sizeof(char);
-        auto result = texture->upload(data, uploadSize);
-
-        stbi_image_free(data);
-
-        if (!result)
-            return nullptr;
+    } else {
+        return create_stbi_texture(device, file, temp_data);
     }
 
-    return texture;
+    return nullptr;
 }
 
 lava::texture::ptr lava::create_default_texture(device_ptr device, uv2 size) {

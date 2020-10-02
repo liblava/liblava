@@ -22,6 +22,37 @@ namespace lava {
         data = nullptr;
     }
 
+    void camera::move_first_person(delta dt) {
+        v3 front;
+        front.x = -cos(glm::radians(rotation.x)) * sin(glm::radians(rotation.y));
+        front.y = sin(glm::radians(rotation.x));
+        front.z = cos(glm::radians(rotation.x)) * cos(glm::radians(rotation.y));
+
+        front = glm::normalize(front);
+
+        auto speed = dt * movement_speed * 2.f;
+
+        if (up) {
+            if (lock_z)
+                position -= glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * speed;
+            else
+                position -= (front * speed);
+        }
+
+        if (down) {
+            if (lock_z)
+                position += glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * speed;
+            else
+                position += (front * speed);
+        }
+
+        if (left)
+            position += glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f))) * speed;
+
+        if (right)
+            position -= glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f))) * speed;
+    }
+
     void camera::update_view(delta dt, mouse_position mouse_pos) {
         if (translate || rotate) {
             auto dx = mouse_pos_x - mouse_pos.x;
@@ -48,34 +79,7 @@ namespace lava {
         }
 
         if (type == camera_type::first_person && moving()) {
-            v3 front;
-            front.x = -cos(glm::radians(rotation.x)) * sin(glm::radians(rotation.y));
-            front.y = sin(glm::radians(rotation.x));
-            front.z = cos(glm::radians(rotation.x)) * cos(glm::radians(rotation.y));
-
-            front = glm::normalize(front);
-
-            auto speed = dt * movement_speed * 2.f;
-
-            if (up) {
-                if (lock_z)
-                    position -= glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * speed;
-                else
-                    position -= (front * speed);
-            }
-
-            if (down) {
-                if (lock_z)
-                    position += glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * speed;
-                else
-                    position += (front * speed);
-            }
-
-            if (left)
-                position += glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f))) * speed;
-
-            if (right)
-                position -= glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f))) * speed;
+            move_first_person(dt);
         }
 
         auto rot_m = mat4(1.f);

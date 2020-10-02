@@ -65,6 +65,7 @@ namespace lava {
         void set_surface_format();
 
         VkPresentModeKHR choose_present_mode(VkPresentModeKHRs const& present_modes) const;
+        VkSwapchainCreateInfoKHR create_info(VkPresentModeKHRs present_modes);
 
         bool create_internal();
         void destroy_internal();

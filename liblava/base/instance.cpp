@@ -14,10 +14,7 @@ namespace lava {
         destroy();
     }
 
-    bool instance::create(create_param& param, debug_config::ref d, app_info::ref i) {
-        debug = d;
-        info = i;
-
+    bool instance::check_debug(create_param& param) const {
         if (debug.validation) {
             if (!exists(param.layers, VK_LAYER_KHRONOS_VALIDATION_NAME))
                 param.layers.push_back(VK_LAYER_KHRONOS_VALIDATION_NAME);
@@ -44,6 +41,16 @@ namespace lava {
 
             return false;
         }
+
+        return true;
+    }
+
+    bool instance::create(create_param& param, debug_config::ref d, app_info::ref i) {
+        debug = d;
+        info = i;
+
+        if (!check_debug(param))
+            return false;
 
         ui32 app_version = VK_MAKE_VERSION(info.app_version.major,
                                            info.app_version.minor,

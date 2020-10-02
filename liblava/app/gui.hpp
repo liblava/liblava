@@ -11,6 +11,7 @@
 // fwd
 struct GLFWwindow;
 struct GLFWcursor;
+struct ImDrawData;
 
 namespace lava {
 
@@ -98,6 +99,7 @@ namespace lava {
         void handle_mouse_button_event(i32 button, i32 action, i32 mods);
         void handle_scroll_event(r64 x_offset, r64 y_offset);
 
+        void prepare_draw_lists(ImDrawData* draw_data);
         void render_draw_lists(VkCommandBuffer cmd_buf);
         void invalidate_device_objects();
 

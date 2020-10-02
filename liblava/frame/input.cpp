@@ -32,25 +32,7 @@ namespace lava {
         events.clear();
     }
 
-    void input::handle_events() {
-        _handle_events<key_event>(key, [&](auto& event) {
-            for (auto& callback : callbacks)
-                if (callback->on_key_event)
-                    if (callback->on_key_event(event))
-                        return true;
-
-            return false;
-        });
-
-        _handle_events<scroll_event>(scroll, [&](auto& event) {
-            for (auto& callback : callbacks)
-                if (callback->on_scroll_event)
-                    if (callback->on_scroll_event(event))
-                        return true;
-
-            return false;
-        });
-
+    void input::handle_mouse_events() {
         _handle_events<mouse_move_event>(mouse_move, [&](auto& event) {
             for (auto& callback : callbacks)
                 if (callback->on_mouse_move_event)
@@ -77,6 +59,28 @@ namespace lava {
 
             return false;
         });
+    }
+
+    void input::handle_events() {
+        _handle_events<key_event>(key, [&](auto& event) {
+            for (auto& callback : callbacks)
+                if (callback->on_key_event)
+                    if (callback->on_key_event(event))
+                        return true;
+
+            return false;
+        });
+
+        _handle_events<scroll_event>(scroll, [&](auto& event) {
+            for (auto& callback : callbacks)
+                if (callback->on_scroll_event)
+                    if (callback->on_scroll_event(event))
+                        return true;
+
+            return false;
+        });
+
+        handle_mouse_events();
 
         _handle_events<path_drop_event>(path_drop, [&](auto& event) {
             for (auto& callback : callbacks)

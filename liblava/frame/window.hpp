@@ -182,6 +182,7 @@ namespace lava {
 
     private:
         void handle_message();
+        void handle_mouse_message();
 
         GLFWwindow* handle = nullptr;
         lava::input* input = nullptr;
