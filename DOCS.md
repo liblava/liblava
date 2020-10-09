@@ -335,6 +335,14 @@ int main(int argc, char* argv[]) {
 
 [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/camera.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/forward_shading.hpp) [![gui](https://img.shields.io/badge/lava-gui-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/gui.hpp)
 
+#### lava [asset](https://github.com/liblava/liblava/tree/master/liblava/asset) • lava [asset](https://github.com/liblava/liblava/tree/master/liblava/asset)
+
+[![mesh](https://img.shields.io/badge/lava-mesh-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/asset/mesh.hpp) [![mesh](https://img.shields.io/badge/lava-raw_image-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/asset/raw_image.hpp) [![texture](https://img.shields.io/badge/lava-texture-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/asset/texture.hpp)
+
+#### lava [resource](https://github.com/liblava/liblava/tree/master/liblava/resource) • lava [resource](https://github.com/liblava/liblava/tree/master/liblava/resource)
+
+[![mesh](https://img.shields.io/badge/lava-meshloader-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/asset/meshloader.hpp) [![mesh](https://img.shields.io/badge/lava-imageloader-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/asset/imageloader.hpp) [![texture](https://img.shields.io/badge/lava-textureloader-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/asset/textureloader.hpp)
+
 #### lava [frame](https://github.com/liblava/liblava/tree/master/liblava/frame) • lava [block](https://github.com/liblava/liblava/tree/master/liblava/block) 
 
 [![frame](https://img.shields.io/badge/lava-frame-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/frame.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/input.hpp) [![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/swapchain.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/window.hpp)
@@ -343,9 +351,7 @@ int main(int argc, char* argv[]) {
 
 #### lava [base](https://github.com/liblava/liblava/tree/master/liblava/base) • lava [resource](https://github.com/liblava/liblava/tree/master/liblava/resource)
 
-[![base](https://img.shields.io/badge/lava-base-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/base.hpp) [![device](https://img.shields.io/badge/lava-device-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/device.hpp) [![instance](https://img.shields.io/badge/lava-instance-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/instance.hpp) [![memory](https://img.shields.io/badge/lava-memory-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/memory.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/physical_device.hpp)
-
-[![buffer](https://img.shields.io/badge/lava-buffer-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/buffer.hpp) [![format](https://img.shields.io/badge/lava-format-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/format.hpp) [![image](https://img.shields.io/badge/lava-image-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/image.hpp) [![mesh](https://img.shields.io/badge/lava-mesh-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/mesh.hpp) [![texture](https://img.shields.io/badge/lava-texture-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/texture.hpp)
+[![base](https://img.shields.io/badge/lava-base-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/base.hpp) [![device](https://img.shields.io/badge/lava-device-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/device.hpp) [![instance](https://img.shields.io/badge/lava-instance-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/instance.hpp) [![memory](https://img.shields.io/badge/lava-memory-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/memory.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/physical_device.hpp) [![buffer](https://img.shields.io/badge/lava-buffer-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/buffer.hpp) [![format](https://img.shields.io/badge/lava-format-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/format.hpp) [![image](https://img.shields.io/badge/lava-image-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/image.hpp)
 
 #### lava [core](https://github.com/liblava/liblava/tree/master/liblava/core) • lava [util](https://github.com/liblava/liblava/tree/master/liblava/util)
 
@@ -398,6 +404,8 @@ cd build
 cmake ..
 make
 ```
+
+There's a CMake option ```LAVA_RESOURCE_LOADING``` (defaults to ON), so you can disable (```cmake -DLAVA_RESOURCE_LOADING=OFF SRC_DIR```) the build of the "resource" module and thus usage of the libraries bitmap, gli, stb, selene and tinyobj_loader. This makes the library a bit smaller and can prevent clashes with other external libraries in your project.
 
 ## Install
 

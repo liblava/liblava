@@ -22,6 +22,8 @@ namespace lava {
     struct allocator;
     struct memory;
     struct physical_device;
+    struct buffer;
+    struct image;
 
     // liblava/block.hpp
     struct attachment;
@@ -72,8 +74,6 @@ namespace lava {
     struct window;
 
     // liblava/resource.hpp
-    struct buffer;
-    struct image;
     struct vertex;
     struct mesh_data;
     struct mesh;
@@ -81,8 +81,7 @@ namespace lava {
     struct file_format;
     struct texture;
     struct staging;
-    struct scope_image;
-
+    
     // liblava/util.hpp
     struct file_guard;
     struct file_system;

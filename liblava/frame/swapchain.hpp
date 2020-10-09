@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <liblava/resource/image.hpp>
+#include <liblava/base/image.hpp>
 
 namespace lava {
 

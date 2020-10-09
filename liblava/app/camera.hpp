@@ -5,7 +5,7 @@
 #pragma once
 
 #include <liblava/frame/input.hpp>
-#include <liblava/resource/buffer.hpp>
+#include <liblava/base/buffer.hpp>
 
 namespace lava {
 

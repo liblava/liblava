@@ -1,8 +1,8 @@
-// file      : liblava/resource/buffer.cpp
+// file      : liblava/base/buffer.cpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
-#include <liblava/resource/buffer.hpp>
+#include <liblava/base/buffer.hpp>
 
 namespace lava {
 

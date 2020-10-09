@@ -1,4 +1,4 @@
-// file      : liblava/resource/mesh.hpp
+// file      : liblava/asset/mesh.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
@@ -6,7 +6,7 @@
 
 #include <liblava/core/data.hpp>
 #include <liblava/core/math.hpp>
-#include <liblava/resource/buffer.hpp>
+#include <liblava/base/buffer.hpp>
 
 namespace lava {
 
@@ -119,8 +119,6 @@ namespace lava {
         return std::make_shared<mesh>();
     }
 
-    mesh::ptr load_mesh(device_ptr device, name filename);
-
     enum class mesh_type : type {
         none = 0,
         cube,
@@ -128,7 +126,7 @@ namespace lava {
         quad
     };
 
-    mesh::ptr load_mesh(device_ptr device, mesh_type type);
+    mesh::ptr generate_mesh(device_ptr device, mesh_type type);
 
     struct mesh_meta {
         string filename; // empty -> type

@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <liblava/resource/buffer.hpp>
-#include <liblava/resource/format.hpp>
-#include <liblava/resource/image.hpp>
-#include <liblava/resource/mesh.hpp>
-#include <liblava/resource/texture.hpp>
+#include <liblava/resource/imageloader.hpp>
+#include <liblava/resource/meshloader.hpp>
+#include <liblava/resource/textureloader.hpp>

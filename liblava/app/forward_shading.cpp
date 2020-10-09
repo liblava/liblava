@@ -3,7 +3,7 @@
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/app/forward_shading.hpp>
-#include <liblava/resource/format.hpp>
+#include <liblava/base/format.hpp>
 
 namespace lava {
 

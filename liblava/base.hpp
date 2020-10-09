@@ -4,7 +4,9 @@
 
 #pragma once
 
-#include <liblava/base/base.hpp>
+#include <liblava/base/buffer.hpp>
+#include <liblava/base/format.hpp>
+#include <liblava/base/image.hpp>
 #include <liblava/base/debug_utils.hpp>
 #include <liblava/base/device.hpp>
 #include <liblava/base/device_table.hpp>

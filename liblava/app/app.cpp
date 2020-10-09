@@ -7,6 +7,8 @@
 #include <liblava/app/def.hpp>
 #include <liblava/base/debug_utils.hpp>
 
+extern const unsigned char app_icon[]; // to use the icon from app_icon.c
+
 namespace lava {
 
     app::app(frame_config config)
@@ -395,9 +397,7 @@ namespace lava {
     }
 
     void app::set_window_icon() {
-        scope_image icon("icon.png");
-        if (icon.ready)
-            window.set_icon(icon.data, icon.size);
+        window.set_icon((char *)&app_icon, {64, 64});
     }
 
 } // namespace lava

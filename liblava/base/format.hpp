@@ -1,11 +1,11 @@
-// file      : liblava/resource/format.hpp
+// file      : liblava/base/format.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
 #pragma once
 
 #include <liblava/base/device.hpp>
-#include <liblava/core/data.hpp>
+#include <liblava/core/types.hpp>
 
 namespace lava {
 

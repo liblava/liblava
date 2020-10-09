@@ -1,11 +1,11 @@
-// file      : liblava/resource/texture.hpp
+// file      : liblava/asset/texture.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
 #pragma once
 
-#include <liblava/resource/buffer.hpp>
-#include <liblava/resource/image.hpp>
+#include <liblava/base/buffer.hpp>
+#include <liblava/base/image.hpp>
 
 namespace lava {
 
@@ -91,15 +91,6 @@ namespace lava {
         return std::make_shared<texture>();
     }
 
-    texture::ptr load_texture(device_ptr device, file_format filename, texture_type type = texture_type::tex_2d);
-
-    inline texture::ptr load_texture(device_ptr device, string_ref filename,
-                                     VkFormat format = VK_FORMAT_R8G8B8A8_UNORM, texture_type type = texture_type::tex_2d) {
-        return load_texture(device, { filename, format }, type);
-    }
-
-    texture::ptr create_default_texture(device_ptr device, uv2 size = { 512, 512 });
-
     struct staging {
         void add(texture::ptr texture) {
             todo.push_back(texture);
@@ -124,20 +115,5 @@ namespace lava {
     };
 
     using texture_registry = id_registry<texture, file_format>;
-
-    struct scope_image {
-        explicit scope_image(string_ref filename);
-        ~scope_image();
-
-        bool ready = false;
-
-        data_ptr data = nullptr;
-        uv2 size = uv2(0, 0);
-        ui32 channels = 0;
-
-    private:
-        file image_file;
-        scope_data file_data;
-    };
 
 } // namespace lava

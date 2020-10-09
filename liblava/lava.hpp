@@ -9,5 +9,6 @@
 #include <liblava/block.hpp>
 #include <liblava/core.hpp>
 #include <liblava/frame.hpp>
+#include <liblava/asset.hpp>
 #include <liblava/resource.hpp>
 #include <liblava/util.hpp>

@@ -1,8 +1,8 @@
-// file      : liblava/resource/image.cpp
+// file      : liblava/base/image.cpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
-#include <liblava/resource/image.hpp>
+#include <liblava/base/image.hpp>
 
 namespace lava {
 

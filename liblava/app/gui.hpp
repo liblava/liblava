@@ -6,7 +6,7 @@
 
 #include <liblava/block/pipeline.hpp>
 #include <liblava/frame/input.hpp>
-#include <liblava/resource/texture.hpp>
+#include <liblava/asset/texture.hpp>
 
 // fwd
 struct GLFWwindow;

@@ -1,9 +1,9 @@
-// file      : liblava/resource/format.cpp
+// file      : liblava/base/format.cpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/base/memory.hpp>
-#include <liblava/resource/format.hpp>
+#include <liblava/base/format.hpp>
 
 bool lava::format_depth(VkFormat format) {
     switch (format) {
