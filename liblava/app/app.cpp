@@ -7,7 +7,7 @@
 #include <liblava/app/def.hpp>
 #include <liblava/base/debug_utils.hpp>
 
-extern const unsigned char app_icon[]; // to use the icon from app_icon.c
+extern "C" const unsigned char lava_app_icon[]; // to use the icon from app_icon.c
 
 namespace lava {
 
@@ -397,7 +397,7 @@ namespace lava {
     }
 
     void app::set_window_icon() {
-        window.set_icon((char *)&app_icon, {64, 64});
+        window.set_icon((char *)&lava_app_icon, {64, 64});
     }
 
 } // namespace lava
