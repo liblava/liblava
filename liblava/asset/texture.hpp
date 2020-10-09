@@ -16,13 +16,6 @@ namespace lava {
         cube_map
     };
 
-    struct file_format {
-        using list = std::vector<file_format>;
-
-        string path;
-        VkFormat format = VK_FORMAT_R8G8B8A8_UNORM;
-    };
-
     struct texture : id_obj {
         using ptr = std::shared_ptr<texture>;
         using map = std::map<id, ptr>;
@@ -114,6 +107,15 @@ namespace lava {
         frame_stage_map staged;
     };
 
+    // Note: Currently unused. Delete?
+    struct file_format {
+        using list = std::vector<file_format>;
+
+        string path;
+        VkFormat format = VK_FORMAT_R8G8B8A8_UNORM;
+    };
+
+    // Note: Currently unused. Delete?
     using texture_registry = id_registry<texture, file_format>;
 
 } // namespace lava

@@ -23,7 +23,7 @@ namespace lava {
                 return raw_image();
             }
         }
-        // use stb_image to load file or load image from fiel data
+        // use stb_image to load file directly or load image from compressed file data
         i32 width, height, channels = 0;
         unsigned char * rawData = nullptr;
         if (image_file.opened())

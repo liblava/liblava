@@ -25,4 +25,9 @@ namespace lava {
         return m_channels;
     }
 
+    bool raw_image::valid() const
+    {
+        return !m_pixels.empty() && m_size.x != 0 && m_size.y != 0 && m_channels != 0;
+    }
+
 } // namespace lava

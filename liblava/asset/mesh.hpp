@@ -128,11 +128,13 @@ namespace lava {
 
     mesh::ptr generate_mesh(device_ptr device, mesh_type type);
 
+    // Note: Currently unused. Delete?
     struct mesh_meta {
         string filename; // empty -> type
         mesh_type type = mesh_type::none;
     };
 
+    // Note: Currently unused. Delete?
     using mesh_registry = id_registry<mesh, mesh_meta>;
 
 } // namespace lava

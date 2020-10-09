@@ -1,4 +1,3 @@
-// file      : liblava/resource/meshloader.cpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
@@ -28,9 +27,9 @@
 
 #endif
 
-lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
+lava::mesh::ptr lava::load_mesh(device_ptr device, string_ref filename) {
 #if LIBLAVA_TINYOBJLOADER
-    if (extension(filename, "OBJ")) {
+    if (extension(str(filename), "OBJ")) {
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
         std::vector<tinyobj::material_t> materials;
@@ -41,7 +40,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
 
         file_guard temp_file_remover;
         {
-            file file(filename);
+            file file(str(filename));
             if (file.opened() && file.get_type() == file_type::fs) {
                 string temp_file;
                 temp_file = file_system::get_pref_dir();

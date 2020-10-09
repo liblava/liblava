@@ -1,4 +1,3 @@
-// file      : liblava/resource/textureloader.cpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
@@ -37,21 +36,24 @@
 namespace lava
 {
 
-texture::ptr load_texture(device_ptr device, file_format filename, texture_type type) {
-    auto supported = (filename.format == VK_FORMAT_R8G8B8A8_UNORM) || (device->get_features().textureCompressionBC && (filename.format == VK_FORMAT_BC3_UNORM_BLOCK)) || (device->get_features().textureCompressionASTC_LDR && (filename.format == VK_FORMAT_ASTC_8x8_UNORM_BLOCK)) || (device->get_features().textureCompressionETC2 && (filename.format == VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK));
+texture::ptr load_texture(device_ptr device, string_ref filename, VkFormat format, texture_type type) {
+    auto supported = (format == VK_FORMAT_R8G8B8A8_UNORM) || 
+        (device->get_features().textureCompressionBC && (format == VK_FORMAT_BC3_UNORM_BLOCK)) || 
+        (device->get_features().textureCompressionASTC_LDR && (format == VK_FORMAT_ASTC_8x8_UNORM_BLOCK)) || 
+        (device->get_features().textureCompressionETC2 && (format == VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK));
     if (!supported)
         return nullptr;
 
-    auto use_gli = extension(str(filename.path), { "DDS", "KTX", "KMG" });
+    auto use_gli = extension(str(filename), { "DDS", "KTX", "KMG" });
     auto use_stbi = false;
 
     if (!use_gli)
-        use_stbi = extension(str(filename.path), { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
+        use_stbi = extension(str(filename), { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
 
     if (!use_gli && !use_stbi)
         return nullptr;
 
-    file file(str(filename.path));
+    file file(str(filename));
     scope_data temp_data(file.get_size(), false);
 
     if (file.opened()) {
@@ -70,7 +72,7 @@ texture::ptr load_texture(device_ptr device, file_format filename, texture_type 
         switch (type) {
         case texture_type::tex_2d: {
             gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
-                                             : gli::load(filename.path));
+                                             : gli::load(filename));
             assert(!tex.empty());
             if (tex.empty())
                 return nullptr;
@@ -90,7 +92,7 @@ texture::ptr load_texture(device_ptr device, file_format filename, texture_type 
             layers.push_back(layer);
 
             uv2 size = { tex[0].extent().x, tex[0].extent().y };
-            if (!texture->create(device, size, filename.format, layers, type))
+            if (!texture->create(device, size, format, layers, type))
                 return nullptr;
 
             if (!texture->upload(tex.data(), tex.size()))
@@ -101,7 +103,7 @@ texture::ptr load_texture(device_ptr device, file_format filename, texture_type 
 
         case texture_type::array: {
             gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
-                                                   : gli::load(filename.path));
+                                                   : gli::load(filename));
             assert(!tex.empty());
             if (tex.empty())
                 return nullptr;
@@ -124,7 +126,7 @@ texture::ptr load_texture(device_ptr device, file_format filename, texture_type 
             }
 
             uv2 size = { tex[0].extent().x, tex[0].extent().y };
-            if (!texture->create(device, size, filename.format, layers, type))
+            if (!texture->create(device, size, format, layers, type))
                 return nullptr;
 
             if (!texture->upload(tex.data(), tex.size()))
@@ -135,7 +137,7 @@ texture::ptr load_texture(device_ptr device, file_format filename, texture_type 
 
         case texture_type::cube_map: {
             gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
-                                                : gli::load(filename.path));
+                                                : gli::load(filename));
             assert(!tex.empty());
             if (tex.empty())
                 return nullptr;
@@ -158,7 +160,7 @@ texture::ptr load_texture(device_ptr device, file_format filename, texture_type 
             }
 
             uv2 size = { tex[0].extent().x, tex[0].extent().y };
-            if (!texture->create(device, size, filename.format, layers, type))
+            if (!texture->create(device, size, format, layers, type))
                 return nullptr;
 
             if (!texture->upload(tex.data(), tex.size()))
@@ -175,7 +177,7 @@ texture::ptr load_texture(device_ptr device, file_format filename, texture_type 
             data = stbi_load_from_memory((stbi_uc const*) temp_data.ptr, to_i32(temp_data.size),
                                          &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
         else
-            data = stbi_load(str(filename.path), &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
+            data = stbi_load(str(filename), &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
 
         if (!data)
             return nullptr;
@@ -197,10 +199,10 @@ texture::ptr load_texture(device_ptr device, file_format filename, texture_type 
     return texture;
 }
 
-texture::ptr create_default_texture(device_ptr device, uv2 size) {
+texture::ptr create_default_texture(device_ptr device, uv2 size, VkFormat format) {
     auto result = make_texture();
 
-    if (!result->create(device, size, VK_FORMAT_R8G8B8A8_UNORM))
+    if (!result->create(device, size, format))
         return nullptr;
 
     bitmap_image image(size.x, size.y);
