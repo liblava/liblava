@@ -180,37 +180,58 @@ target_link_libraries(lava.asset
 set_property(TARGET lava.asset PROPERTY EXPORT_NAME asset)
 add_library(lava::asset ALIAS lava.asset)
 
-option(LAVA_RESOURCE_LOADING "Disable to not compile lava::resource and selene. Mesh, image and texture loading will not be available." ON)
+message(">> lava::resource")
 
-if(LAVA_RESOURCE_LOADING)
+option(LIBLAVA_OBJ_LOADING "Disable to disable obj file loading and remove the dependency on tinyobjloader." ON)
+option(LIBLAVA_IMAGE_LOADING "Disable to disable image / texture file loading and remove the dependency on bitmap, gli and stb." ON)
 
-        message(">> lava::resource")
+add_library(lava.resource STATIC
+        ${LIBLAVA_DIR}/resource/imageloader.cpp
+        ${LIBLAVA_DIR}/resource/imageloader.hpp
+        ${LIBLAVA_DIR}/resource/meshloader.cpp
+        ${LIBLAVA_DIR}/resource/meshloader.hpp
+        ${LIBLAVA_DIR}/resource/textureloader.cpp
+        ${LIBLAVA_DIR}/resource/textureloader.hpp
+)
 
-        add_library(lava.resource STATIC
-                ${LIBLAVA_DIR}/resource/imageloader.cpp
-                ${LIBLAVA_DIR}/resource/imageloader.hpp
-                ${LIBLAVA_DIR}/resource/meshloader.cpp
-                ${LIBLAVA_DIR}/resource/meshloader.hpp
-                ${LIBLAVA_DIR}/resource/textureloader.cpp
-                ${LIBLAVA_DIR}/resource/textureloader.hpp
+if(LIBLAVA_IMAGE_LOADING)
+        target_sources(lava.resource PRIVATE
+                ${LIBLAVA_DIR}/resource/stb_inc.cpp
+                ${LIBLAVA_DIR}/resource/stb_inc.hpp
         )
-
-        target_include_directories(lava.resource PUBLIC
-                $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/tinyobjloader>
+        target_include_directories(lava.resource PRIVATE
                 $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/bitmap>
                 $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/gli>
                 $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/stb>
                 $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/selene>
                 )
+        target_compile_definitions(lava.resource PRIVATE LIBLAVA_IMAGE_LOADING)
+else()
+        message("-- Building WITHOUT image / texture loading support (requested by user).")
+endif()
 
-        target_link_libraries(lava.resource
-                lava::base
-                lava::asset
+if(LIBLAVA_OBJ_LOADING)
+        target_sources(lava.resource PRIVATE
+                ${LIBLAVA_DIR}/resource/tinyobj_inc.cpp
+                ${LIBLAVA_DIR}/resource/tinyobj_inc.hpp
         )
+        target_include_directories(lava.resource PRIVATE
+                $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/tinyobjloader>
+        )
+        target_compile_definitions(lava.resource PRIVATE LIBLAVA_OBJ_LOADING)
+else()
+        message("-- Building WITHOUT obj loading support (requested by user).")
+endif()
 
-        set_property(TARGET lava.resource PROPERTY EXPORT_NAME resource)
-        add_library(lava::resource ALIAS lava.resource)
+target_link_libraries(lava.resource
+        lava::base
+        lava::asset
+)
 
+set_property(TARGET lava.resource PROPERTY EXPORT_NAME resource)
+add_library(lava::resource ALIAS lava.resource)
+
+if(LIBLAVA_IMAGE_LOADING)
         message(">>> selene")
 
         set(SELENE_USE_LIBJPEG OFF CACHE BOOL "" FORCE)
@@ -220,9 +241,6 @@ if(LAVA_RESOURCE_LOADING)
         add_subdirectory(${LIBLAVA_EXT_DIR}/selene selene EXCLUDE_FROM_ALL)
 
         message("<<< selene")
-
-else()
-        message("-- Building WITHOUT resource loading support (requested by user).")
 endif()
 
 message(">> lava::frame")
@@ -266,15 +284,10 @@ add_subdirectory(${LIBLAVA_EXT_DIR}/glfw glfw EXCLUDE_FROM_ALL)
 message("<<< glfw")
 
 target_link_libraries(lava.frame
+        lava::resource
         glfw
         ${GLFW_LIBRARIES}
         )
-
-if(LAVA_RESOURCE_LOADING)
-        target_link_libraries(lava.frame
-                lava::resource
-                )
-endif()
 
 set_property(TARGET lava.frame PROPERTY EXPORT_NAME frame)
 add_library(lava::frame ALIAS lava.frame)
@@ -352,25 +365,18 @@ if(LIBLAVA_TESTS)
                 )
 endif()
 
-set(LavaLibraries
+install(TARGETS
         lava.core
         lava.util
         lava.base
         lava.asset
+        lava.resource
         lava.frame
         lava.block
         lava.app
         spdlog
         physfs-static
         glfw
-        )
-
-if(LAVA_RESOURCE_LOADING)
-        list(APPEND LavaLibraries lava.resource)
-endif()
-
-install(TARGETS
-        ${LavaLibraries}
         EXPORT LavaTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib

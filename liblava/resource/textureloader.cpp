@@ -1,9 +1,11 @@
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
-#include <bitmap_image.hpp>
 #include <liblava/base/format.hpp>
 #include <liblava/asset/texture.hpp>
+
+#ifdef LIBLAVA_IMAGE_LOADING
+#include <bitmap_image.hpp>
 #include <selene/img/pixel/PixelTypeAliases.hpp>
 #include <selene/img/typed/ImageView.hpp>
 #include <selene/img_ops/ImageConversions.hpp>
@@ -30,13 +32,14 @@
 #    pragma GCC diagnostic pop
 #endif
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include "stb_inc.hpp"
+#endif
 
 namespace lava
 {
 
 texture::ptr load_texture(device_ptr device, string_ref filename, VkFormat format, texture_type type) {
+#ifdef LIBLAVA_IMAGE_LOADING
     auto supported = (format == VK_FORMAT_R8G8B8A8_UNORM) || 
         (device->get_features().textureCompressionBC && (format == VK_FORMAT_BC3_UNORM_BLOCK)) || 
         (device->get_features().textureCompressionASTC_LDR && (format == VK_FORMAT_ASTC_8x8_UNORM_BLOCK)) || 
@@ -195,14 +198,17 @@ texture::ptr load_texture(device_ptr device, string_ref filename, VkFormat forma
         if (!result)
             return nullptr;
     }
-
     return texture;
+#else
+    return nullptr;
+#endif
 }
 
 texture::ptr create_default_texture(device_ptr device, uv2 size, VkFormat format) {
-    auto result = make_texture();
+#ifdef LIBLAVA_IMAGE_LOADING
+    auto texture = make_texture();
 
-    if (!result->create(device, size, format))
+    if (!texture->create(device, size, format))
         return nullptr;
 
     bitmap_image image(size.x, size.y);
@@ -216,10 +222,13 @@ texture::ptr create_default_texture(device_ptr device, uv2 size, VkFormat format
 
     sln::Image<sln::PixelRGBA_8u> const img_rgba = sln::convert_image<sln::PixelFormat::RGBA>(img_rgb, std::uint8_t{ 192 });
 
-    if (!result->upload(img_rgba.data(), img_rgba.total_bytes()))
+    if (!texture->upload(img_rgba.data(), img_rgba.total_bytes()))
         return nullptr;
 
-    return result;
+    return texture;
+#else
+    return nullptr;
+#endif
 }
 
 }

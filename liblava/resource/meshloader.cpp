@@ -3,32 +3,12 @@
 
 #include <liblava/resource/meshloader.hpp>
 
-#ifndef LIBLAVA_TINYOBJLOADER
-#    define LIBLAVA_TINYOBJLOADER 1
-#endif
-
-#if LIBLAVA_TINYOBJLOADER
-
-#    ifdef _WIN32
-#        pragma warning(push, 4)
-#    else
-#        pragma GCC diagnostic push
-#        pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-#    endif
-
-#    define TINYOBJLOADER_IMPLEMENTATION
-#    include <tiny_obj_loader.h>
-
-#    ifdef _WIN32
-#        pragma warning(pop)
-#    else
-#        pragma GCC diagnostic pop
-#    endif
-
+#ifdef LIBLAVA_OBJ_LOADING
+#include "tinyobj_inc.hpp"
 #endif
 
 lava::mesh::ptr lava::load_mesh(device_ptr device, string_ref filename) {
-#if LIBLAVA_TINYOBJLOADER
+#if LIBLAVA_OBJ_LOADING
     if (extension(str(filename), "OBJ")) {
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
@@ -95,6 +75,5 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, string_ref filename) {
         }
     }
 #endif
-
     return nullptr;
 }

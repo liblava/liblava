@@ -4,15 +4,17 @@
 #include <liblava/resource/imageloader.hpp>
 #include <liblava/util/file.hpp>
 
-#include <cstring>
+#ifdef LIBLAVA_IMAGE_LOADING
+#include "stb_inc.hpp"
+#endif
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include <cstring>
 
 namespace lava {
 
     raw_image load_image(string_ref filepath)
     {
+#ifdef LIBLAVA_IMAGE_LOADING
         // read data from file
         file image_file(str(filepath));
         scope_data file_data(image_file.get_size());
@@ -46,6 +48,9 @@ namespace lava {
         // free stb_image resources
         stbi_image_free(rawData);
         return raw_image(data, { width, height }, channels);
+#else
+        return raw_image();
+#endif
     }
 
 }
