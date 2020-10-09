@@ -6,10 +6,11 @@
 
 #if LIBLAVA_DEBUG_UTILS
 #    include <liblava/base/instance.hpp>
+#    include <optional>
 
-void lava::begin_label(VkCommandBuffer cmd_buf, name label, v4 color) {
-    if (!instance::singleton().get_debug_config().utils)
-        return;
+std::optional<VkDebugUtilsLabelEXT> create_label_info(lava::name label, lava::v4 color) {
+    if (!lava::instance::singleton().get_debug_config().utils)
+        return {};
 
     VkDebugUtilsLabelEXT info{
         .sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT,
@@ -22,7 +23,15 @@ void lava::begin_label(VkCommandBuffer cmd_buf, name label, v4 color) {
         },
     };
 
-    vkCmdBeginDebugUtilsLabelEXT(cmd_buf, &info);
+    return info;
+}
+
+void lava::begin_label(VkCommandBuffer cmd_buf, name label, v4 color) {
+    auto info = create_label_info(label, color);
+    if (!info)
+        return;
+
+    vkCmdBeginDebugUtilsLabelEXT(cmd_buf, &*info);
 }
 
 void lava::end_label(VkCommandBuffer cmd_buf) {
@@ -33,39 +42,19 @@ void lava::end_label(VkCommandBuffer cmd_buf) {
 }
 
 void lava::insert_label(VkCommandBuffer cmd_buf, name label, v4 color) {
-    if (!instance::singleton().get_debug_config().utils)
+    auto info = create_label_info(label, color);
+    if (!info)
         return;
 
-    VkDebugUtilsLabelEXT info{
-        .sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT,
-        .pLabelName = label,
-        .color = {
-            color.r,
-            color.g,
-            color.b,
-            color.a,
-        },
-    };
-
-    vkCmdInsertDebugUtilsLabelEXT(cmd_buf, &info);
+    vkCmdInsertDebugUtilsLabelEXT(cmd_buf, &*info);
 }
 
 void lava::begin_label(VkQueue queue, name label, v4 color) {
-    if (!instance::singleton().get_debug_config().utils)
+    auto info = create_label_info(label, color);
+    if (!info)
         return;
 
-    VkDebugUtilsLabelEXT info{
-        .sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT,
-        .pLabelName = label,
-        .color = {
-            color.r,
-            color.g,
-            color.b,
-            color.a,
-        },
-    };
-
-    vkQueueBeginDebugUtilsLabelEXT(queue, &info);
+    vkQueueBeginDebugUtilsLabelEXT(queue, &*info);
 }
 
 void lava::end_label(VkQueue queue) {
@@ -76,21 +65,11 @@ void lava::end_label(VkQueue queue) {
 }
 
 void lava::insert_label(VkQueue queue, name label, v4 color) {
-    if (!instance::singleton().get_debug_config().utils)
+    auto info = create_label_info(label, color);
+    if (!info)
         return;
 
-    VkDebugUtilsLabelEXT info{
-        .sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT,
-        .pLabelName = label,
-        .color = {
-            color.r,
-            color.g,
-            color.b,
-            color.a,
-        },
-    };
-
-    vkQueueInsertDebugUtilsLabelEXT(queue, &info);
+    vkQueueInsertDebugUtilsLabelEXT(queue, &*info);
 }
 
 void lava::set_object_name(VkDevice device, VkObjectType type, VkObjectHandle handle, name object) {

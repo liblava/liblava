@@ -138,6 +138,35 @@ namespace lava {
         return create(state);
     }
 
+    void window::handle_mouse_message() {
+        glfwSetMouseButtonCallback(handle, [](GLFWwindow* handle, i32 button, i32 action, i32 mods) {
+            auto window = get_window(handle);
+            if (!window)
+                return;
+
+            if (window->input)
+                window->input->mouse_button.add({ window->get_id(), mouse_button(button), lava::action(action), lava::mod(mods) });
+        });
+
+        glfwSetCursorPosCallback(handle, [](GLFWwindow* handle, r64 x_position, r64 y_position) {
+            auto window = get_window(handle);
+            if (!window)
+                return;
+
+            if (window->input)
+                window->input->mouse_move.add({ window->get_id(), { x_position, y_position } });
+        });
+
+        glfwSetCursorEnterCallback(handle, [](GLFWwindow* handle, i32 entered) {
+            auto window = get_window(handle);
+            if (!window)
+                return;
+
+            if (window->input)
+                window->input->mouse_active.add({ window->get_id(), entered > 0 });
+        });
+    }
+
     void window::handle_message() {
         glfwSetWindowUserPointer(handle, this);
 
@@ -171,32 +200,7 @@ namespace lava {
                 window->input->scroll.add({ window->get_id(), x_offset, y_offset });
         });
 
-        glfwSetMouseButtonCallback(handle, [](GLFWwindow* handle, i32 button, i32 action, i32 mods) {
-            auto window = get_window(handle);
-            if (!window)
-                return;
-
-            if (window->input)
-                window->input->mouse_button.add({ window->get_id(), mouse_button(button), lava::action(action), lava::mod(mods) });
-        });
-
-        glfwSetCursorPosCallback(handle, [](GLFWwindow* handle, r64 x_position, r64 y_position) {
-            auto window = get_window(handle);
-            if (!window)
-                return;
-
-            if (window->input)
-                window->input->mouse_move.add({ window->get_id(), { x_position, y_position } });
-        });
-
-        glfwSetCursorEnterCallback(handle, [](GLFWwindow* handle, i32 entered) {
-            auto window = get_window(handle);
-            if (!window)
-                return;
-
-            if (window->input)
-                window->input->mouse_active.add({ window->get_id(), entered > 0 });
-        });
+        handle_mouse_message();
 
         glfwSetDropCallback(handle, [](GLFWwindow* handle, i32 amt, const char** paths) {
             auto window = get_window(handle);

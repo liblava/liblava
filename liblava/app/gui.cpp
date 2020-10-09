@@ -460,13 +460,7 @@ namespace lava {
         frame = (frame + 1) % max_frames;
     }
 
-    void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
-        auto draw_data = ImGui::GetDrawData();
-        if (draw_data->TotalVtxCount == 0)
-            return;
-
-        auto& io = ImGui::GetIO();
-
+    void gui::prepare_draw_lists(ImDrawData* draw_data) {
         auto vertex_size = draw_data->TotalVtxCount * sizeof(ImDrawVert);
         if (!vertex_buffers[frame]->valid() || vertex_buffers[frame]->get_size() < vertex_size) {
             if (vertex_buffers[frame]->valid())
@@ -516,6 +510,14 @@ namespace lava {
 
         std::array<VkMappedMemoryRange, 2> const ranges = { vertex_range, index_range };
         check(device->call().vkFlushMappedMemoryRanges(device->get(), to_ui32(ranges.size()), ranges.data()));
+    }
+
+    void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
+        auto draw_data = ImGui::GetDrawData();
+        if (draw_data->TotalVtxCount == 0)
+            return;
+
+        prepare_draw_lists(draw_data);
 
         layout->bind(cmd_buf, descriptor_set);
 
@@ -535,6 +537,8 @@ namespace lava {
 
         std::array<VkViewport, 1> const viewports = { viewport };
         device->call().vkCmdSetViewport(cmd_buf, 0, to_ui32(viewports.size()), viewports.data());
+
+        auto& io = ImGui::GetIO();
 
         float scale[2];
         scale[0] = 2.f / io.DisplaySize.x;

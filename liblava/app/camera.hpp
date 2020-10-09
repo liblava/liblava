@@ -69,6 +69,8 @@ namespace lava {
         bool lock_rotation = false;
 
     private:
+        void move_first_person(delta dt);
+
         bool active = true;
 
         bool up = false;
