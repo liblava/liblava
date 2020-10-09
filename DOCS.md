@@ -406,8 +406,8 @@ make
 ```
 
 CMake options:
-* ```LAVA_IMAGE_LOADING``` (defaults to ON): Set to off to disable functions to load images / textures and thus usage of the libraries bitmap, gli, stb and selene. This makes the library a bit smaller and can prevent clashes with other external libraries in your project.
-* ```LAVA_OBJ_LOADING``` (defaults to ON): Set to off to disable functions to load obj meshes and thus usage of the library tinyobjloader. This makes the library a bit smaller and can prevent clashes with other external libraries in your project.
+* ```LIBLAVA_IMAGE_LOADING``` (defaults to ON): Set to off to disable functions to load images / textures and thus usage of the libraries bitmap, gli, stb and selene. This makes the library a bit smaller and can prevent clashes with other external libraries in your project.
+* ```LIBLAVA_OBJ_LOADING``` (defaults to ON): Set to off to disable functions to load obj meshes and thus usage of the library tinyobjloader. This makes the library a bit smaller and can prevent clashes with other external libraries in your project.
 
 ## Install
 
