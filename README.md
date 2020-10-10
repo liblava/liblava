@@ -1,6 +1,6 @@
-﻿<a href="https://lava-block.com"><img align="left" src="https://github.com/liblava.png" width="240"></a>
+﻿<a href="https://lava-block.com"><img align="right" src="https://github.com/liblava.png" width="240"></a>
 
-**liblava is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
+**[liblava](https://git.io/liblava) is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
 
 **lava** • lean framework that provides **essentials** for **low-level graphics**<br />specially well suited for **prototyping**, **tooling** and **education**
 
@@ -20,17 +20,25 @@
 
 <a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="res/Vulkan_170px_Dec16.png" width="300"></a>
 
+<br />
+
 ### Docs
 
  **[Tutorial](DOCS.md/#tutorial)** • **[Guide](DOCS.md/#guide)** • [Tests](DOCS.md/#tests) • [Build](DOCS.md/#build) • [Install](DOCS.md/#install)
+
+<br />
 
 ##### [Modules](DOCS.md/#modules)
 
 [![core](https://img.shields.io/badge/lava-core-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core) [![util](https://img.shields.io/badge/lava-util-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util) [![file](https://img.shields.io/badge/lava-file-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/file) [![base](https://img.shields.io/badge/lava-base-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base) [![resource](https://img.shields.io/badge/lava-resource-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](https://git.io/liblava-engine)
 
+<br />
+
 ##### Download latest **<a href="https://github.com/liblava/liblava-demo/releases">demo</a>** (Feb. 20, 2020)
 
 <a href="https://github.com/liblava/liblava-demo/#readme"><img src="res/demo.png"></a>
+
+<br />
 
 [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava)
 
