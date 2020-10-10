@@ -5,6 +5,7 @@
 #pragma once
 
 #include <liblava/block/pipeline.hpp>
+#include <liblava/file.hpp>
 #include <liblava/frame/input.hpp>
 #include <liblava/resource/texture.hpp>
 

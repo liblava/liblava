@@ -100,7 +100,7 @@ namespace lava {
         bool toggle_v_sync = false;
         ui32 frame_counter = 0;
 
-        file_callback config_callback;
+        json_file::callback config_callback;
 
         id block_command;
     };

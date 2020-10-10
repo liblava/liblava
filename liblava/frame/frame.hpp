@@ -7,7 +7,7 @@
 #include <argh.h>
 #include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
-#include <liblava/file/file.hpp>
+#include <liblava/file.hpp>
 
 namespace lava {
 

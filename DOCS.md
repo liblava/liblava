@@ -353,7 +353,7 @@ int main(int argc, char* argv[]) {
 
 #### lava [file](https://github.com/liblava/liblava/tree/master/liblava/file)
 
-[![file](https://img.shields.io/badge/lava-file-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/file/file.hpp)
+[![file](https://img.shields.io/badge/lava-file-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/file/json_file.hpp)
 
 #### lava [util](https://github.com/liblava/liblava/tree/master/liblava/util)
 

@@ -3,6 +3,7 @@
 // license   : MIT; see accompanying LICENSE file
 
 #include <bitmap_image.hpp>
+#include <liblava/file/file_utils.hpp>
 #include <liblava/resource/format.hpp>
 #include <liblava/resource/texture.hpp>
 #include <selene/img/pixel/PixelTypeAliases.hpp>

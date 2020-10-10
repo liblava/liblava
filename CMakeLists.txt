@@ -103,6 +103,12 @@ message(">> lava::file")
 add_library(lava.file STATIC
         ${LIBLAVA_DIR}/file/file.cpp
         ${LIBLAVA_DIR}/file/file.hpp
+        ${LIBLAVA_DIR}/file/file_system.cpp
+        ${LIBLAVA_DIR}/file/file_system.hpp
+        ${LIBLAVA_DIR}/file/file_utils.cpp
+        ${LIBLAVA_DIR}/file/file_utils.hpp
+        ${LIBLAVA_DIR}/file/json_file.cpp
+        ${LIBLAVA_DIR}/file/json_file.hpp
         )
 
 target_include_directories(lava.file PUBLIC

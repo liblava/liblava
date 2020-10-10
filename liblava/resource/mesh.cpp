@@ -2,7 +2,7 @@
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
-#include <liblava/file/file.hpp>
+#include <liblava/file.hpp>
 #include <liblava/resource/mesh.hpp>
 
 #ifndef LIBLAVA_TINYOBJLOADER
@@ -112,7 +112,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
 
         string target_file = filename;
 
-        file_guard temp_file_remover;
+        file_remover temp_file_remover;
         {
             file file(filename);
             if (file.opened() && file.get_type() == file_type::fs) {

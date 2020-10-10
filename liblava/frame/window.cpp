@@ -4,7 +4,7 @@
 
 #include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
-#include <liblava/file/file.hpp>
+#include <liblava/file.hpp>
 #include <liblava/frame/window.hpp>
 
 #define GLFW_INCLUDE_NONE
