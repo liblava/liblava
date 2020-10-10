@@ -153,17 +153,10 @@ namespace lava {
 
     bool load_file_data(string_ref filename, data& target);
 
-    struct file_data {
+    struct file_data : scope_data {
         explicit file_data(string_ref filename) {
-            load_file_data(filename, scope_data);
+            load_file_data(filename, *this);
         }
-
-        data const& get() const {
-            return scope_data;
-        }
-
-    private:
-        lava::scope_data scope_data;
     };
 
     struct file_callback {

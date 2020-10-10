@@ -238,11 +238,6 @@ namespace lava {
             return add_shader_stage(data, stage);
         }
 
-        bool add_shader_stage(name filename, VkShaderStageFlagBits stage);
-        bool add_shader(name filename, VkShaderStageFlagBits stage) {
-            return add_shader_stage(filename, stage);
-        }
-
         void add(shader_stage::ptr const& shader_stage) {
             shader_stages.push_back(shader_stage);
         }
@@ -351,7 +346,6 @@ namespace lava {
         void bind(VkCommandBuffer cmdBuffer) override;
 
         bool set_shader_stage(data const& data, VkShaderStageFlagBits stage);
-        bool set_shader_stage(name filename, VkShaderStageFlagBits stage);
         void set(shader_stage::ptr const& stage) {
             shader_stage = stage;
         }

@@ -3,7 +3,6 @@
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/block/pipeline.hpp>
-#include <liblava/file/file.hpp>
 
 namespace lava {
 
@@ -309,10 +308,6 @@ namespace lava {
         return true;
     }
 
-    bool graphics_pipeline::add_shader_stage(name filename, VkShaderStageFlagBits stage) {
-        return add_shader_stage(file_data(filename).get(), stage);
-    }
-
     void graphics_pipeline::copy_to(graphics_pipeline* target) const {
         target->set_layout(layout);
 
@@ -429,10 +424,6 @@ namespace lava {
 
         set(shader_stage);
         return true;
-    }
-
-    bool compute_pipeline::set_shader_stage(name filename, VkShaderStageFlagBits stage) {
-        return set_shader_stage(file_data(filename).get(), stage);
     }
 
     bool compute_pipeline::create_internal() {

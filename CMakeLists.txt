@@ -270,7 +270,6 @@ add_library(lava.block STATIC
         )
 
 target_link_libraries(lava.block
-        lava::file
         lava::base
         )
 
