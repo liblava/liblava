@@ -1,8 +1,10 @@
-﻿<a href="https://lava-block.com"><img align="right" src="https://github.com/liblava.png" width="240"></a>
+﻿<a href="https://lava-block.com"><img align="right" src="https://github.com/liblava.png" width="220"></a>
 
 **[liblava](https://git.io/liblava) is a modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
 
 **lava** • lean framework that provides **essentials** for **low-level graphics**<br />specially well suited for **prototyping**, **tooling** and **education**
+
+<br />
 
 **C++20** • **Modular** • **Windows** • **Linux** • **<a href="https://git.io/liblava-demo">demo</a>**  • <a href="https://git.io/liblava-template">template</a>
 
@@ -18,9 +20,9 @@
 * **[texture](DOCS.md/#texture)** and **[mesh](DOCS.md/#mesh)** **loading** from **virtual [file system](DOCS.md/#file-system)**
 * **[camera](DOCS.md/#camera)**, **[gui](DOCS.md/#gui)**, **[logging](DOCS.md/#logging)**, **test driver** and much more...
 
-<a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="res/Vulkan_170px_Dec16.png" width="300"></a>
-
 <br />
+
+<a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="res/Vulkan_170px_Dec16.png" width="300"></a>
 
 ### Docs
 
@@ -66,6 +68,8 @@
 * [Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers) • Apache 2.0
 * [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) • MIT
 
+<br />
+
 ## Collaborate
 
 You can use the [issue tracker](https://github.com/liblava/liblava/issues) to report any bug or compatibility issue.
@@ -80,6 +84,8 @@ If you want to contribute, we suggest the following:
 2. Apply your changes to your fork
 3. Submit a [pull request](https://github.com/liblava/liblava/pulls) describing the changes you have made
 
+<br />
+
 ## License
 
 <a href="https://opensource.org" target="_blank"><img align="right" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png"></a>
@@ -88,7 +94,9 @@ If you want to contribute, we suggest the following:
 
 However, this library includes several third-party **Open Source** libraries, which are licensed under their own respective licenses. They all allow static linking with closed source software.
 
-All copies of **liblava** must include a copy of the MIT License terms and the copyright notice.
+**All copies of liblava must include a copy of the MIT License terms and the copyright notice.**
+
+<br />
 
 ##### Vulkan and the Vulkan logo are trademarks of the <a href="http://www.khronos.org" target="_blank">Khronos Group Inc.</a>
 ##### Copyright (c) 2018-present, <a href="https://lava-block.com">Lava Block OÜ</a>
