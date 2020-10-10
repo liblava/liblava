@@ -51,6 +51,14 @@ namespace lava {
     struct internal_version;
     struct version;
 
+    // liblava/file.hpp
+    struct file_guard;
+    struct file_system;
+    struct file;
+    struct file_data;
+    struct file_callback;
+    struct json_file;
+
     // liblava/frame.hpp
     struct frame_config;
     struct frame;
@@ -84,12 +92,6 @@ namespace lava {
     struct scope_image;
 
     // liblava/util.hpp
-    struct file_guard;
-    struct file_system;
-    struct file;
-    struct file_data;
-    struct file_callback;
-    struct json_file;
     struct log_config;
     struct random_generator;
     struct pseudo_random_generator;

@@ -2,6 +2,7 @@
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
+#include <liblava/file/file.hpp>
 #include <liblava/resource/mesh.hpp>
 
 #ifndef LIBLAVA_TINYOBJLOADER

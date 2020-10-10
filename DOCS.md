@@ -335,23 +335,33 @@ int main(int argc, char* argv[]) {
 
 [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/camera.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/forward_shading.hpp) [![gui](https://img.shields.io/badge/lava-gui-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/gui.hpp)
 
-#### lava [frame](https://github.com/liblava/liblava/tree/master/liblava/frame) • lava [block](https://github.com/liblava/liblava/tree/master/liblava/block) 
+#### lava [frame](https://github.com/liblava/liblava/tree/master/liblava/frame)
 
 [![frame](https://img.shields.io/badge/lava-frame-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/frame.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/input.hpp) [![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/swapchain.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/window.hpp)
 
+#### lava [block](https://github.com/liblava/liblava/tree/master/liblava/block) 
+
 [![attachment](https://img.shields.io/badge/lava-attachment-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/attachment.hpp) [![block](https://img.shields.io/badge/lava-block-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/block.hpp) [![descriptor](https://img.shields.io/badge/lava-descriptor-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/descriptor.hpp) [![pipeline](https://img.shields.io/badge/lava-pipeline-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/pipeline.hpp) [![render_pass](https://img.shields.io/badge/lava-render_pass-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/render_pass.hpp) [![subpass](https://img.shields.io/badge/lava-subpass-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/subpass.hpp) 
 
-#### lava [base](https://github.com/liblava/liblava/tree/master/liblava/base) • lava [resource](https://github.com/liblava/liblava/tree/master/liblava/resource)
-
-[![base](https://img.shields.io/badge/lava-base-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/base.hpp) [![device](https://img.shields.io/badge/lava-device-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/device.hpp) [![instance](https://img.shields.io/badge/lava-instance-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/instance.hpp) [![memory](https://img.shields.io/badge/lava-memory-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/memory.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/physical_device.hpp)
+#### lava [resource](https://github.com/liblava/liblava/tree/master/liblava/resource)
 
 [![buffer](https://img.shields.io/badge/lava-buffer-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/buffer.hpp) [![format](https://img.shields.io/badge/lava-format-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/format.hpp) [![image](https://img.shields.io/badge/lava-image-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/image.hpp) [![mesh](https://img.shields.io/badge/lava-mesh-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/mesh.hpp) [![texture](https://img.shields.io/badge/lava-texture-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/texture.hpp)
 
-#### lava [core](https://github.com/liblava/liblava/tree/master/liblava/core) • lava [util](https://github.com/liblava/liblava/tree/master/liblava/util)
+#### lava [base](https://github.com/liblava/liblava/tree/master/liblava/base)
+
+[![base](https://img.shields.io/badge/lava-base-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/base.hpp) [![device](https://img.shields.io/badge/lava-device-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/device.hpp) [![instance](https://img.shields.io/badge/lava-instance-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/instance.hpp) [![memory](https://img.shields.io/badge/lava-memory-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/memory.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-yellow.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/physical_device.hpp)
+
+#### lava [file](https://github.com/liblava/liblava/tree/master/liblava/file)
+
+[![file](https://img.shields.io/badge/lava-file-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/file/file.hpp)
+
+#### lava [util](https://github.com/liblava/liblava/tree/master/liblava/util)
+
+[![log](https://img.shields.io/badge/lava-log-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/log.hpp) [![random](https://img.shields.io/badge/lava-random-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/random.hpp) [![telegram](https://img.shields.io/badge/lava-telegram-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/telegram.hpp) [![thread](https://img.shields.io/badge/lava-thread-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/thread.hpp) [![utility](https://img.shields.io/badge/lava-utility-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/utility.hpp)
+
+#### lava [core](https://github.com/liblava/liblava/tree/master/liblava/core)
 
 [![data](https://img.shields.io/badge/lava-data-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/data.hpp) [![id](https://img.shields.io/badge/lava-id-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/id.hpp) [![math](https://img.shields.io/badge/lava-math-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/math.hpp) [![time](https://img.shields.io/badge/lava-time-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/time.hpp) [![types](https://img.shields.io/badge/lava-types-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/types.hpp) [![version](https://img.shields.io/badge/lava-version-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/version.hpp)
-
-[![file](https://img.shields.io/badge/lava-file-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/file.hpp) [![log](https://img.shields.io/badge/lava-log-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/log.hpp) [![random](https://img.shields.io/badge/lava-random-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/random.hpp) [![telegram](https://img.shields.io/badge/lava-telegram-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/telegram.hpp) [![thread](https://img.shields.io/badge/lava-thread-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/thread.hpp) [![utility](https://img.shields.io/badge/lava-utility-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/utility.hpp)
 
 ## Guide
 

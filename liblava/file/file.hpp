@@ -1,4 +1,4 @@
-// file      : liblava/util/file.hpp
+// file      : liblava/file/file.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 

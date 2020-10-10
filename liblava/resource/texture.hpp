@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <liblava/file/file.hpp>
 #include <liblava/resource/buffer.hpp>
 #include <liblava/resource/image.hpp>
 

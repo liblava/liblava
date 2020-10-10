@@ -3,6 +3,7 @@
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/block/pipeline.hpp>
+#include <liblava/file/file.hpp>
 
 namespace lava {
 

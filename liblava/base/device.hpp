@@ -5,6 +5,7 @@
 #pragma once
 
 #include <liblava/base/device_table.hpp>
+#include <liblava/core/data.hpp>
 
 namespace lava {
 

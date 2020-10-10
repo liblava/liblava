@@ -75,8 +75,7 @@ add_library(lava::core ALIAS lava.core)
 message(">> lava::util")
 
 add_library(lava.util STATIC
-        ${LIBLAVA_DIR}/util/file.cpp
-        ${LIBLAVA_DIR}/util/file.hpp
+        ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp
         ${LIBLAVA_DIR}/util/log.hpp
         ${LIBLAVA_DIR}/util/random.hpp
         ${LIBLAVA_DIR}/util/telegram.hpp
@@ -84,7 +83,29 @@ add_library(lava.util STATIC
         ${LIBLAVA_DIR}/util/utility.hpp
         )
 
-target_include_directories(lava.util PUBLIC
+
+message(">>> spdlog")
+
+add_subdirectory(${LIBLAVA_EXT_DIR}/spdlog spdlog EXCLUDE_FROM_ALL)
+
+message("<<< spdlog")
+
+target_link_libraries(lava.util INTERFACE
+        lava::core
+        spdlog
+        )
+
+set_property(TARGET lava.util PROPERTY EXPORT_NAME util)
+add_library(lava::util ALIAS lava.util)
+
+message(">> lava::file")
+
+add_library(lava.file STATIC
+        ${LIBLAVA_DIR}/file/file.cpp
+        ${LIBLAVA_DIR}/file/file.hpp
+        )
+
+target_include_directories(lava.file PUBLIC
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/physfs/src>
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/json/single_include>
         )
@@ -108,20 +129,13 @@ add_subdirectory(${LIBLAVA_EXT_DIR}/physfs physfs EXCLUDE_FROM_ALL)
 
 message("<<< physfs")
 
-message(">>> spdlog")
-
-add_subdirectory(${LIBLAVA_EXT_DIR}/spdlog spdlog EXCLUDE_FROM_ALL)
-
-message("<<< spdlog")
-
-target_link_libraries(lava.util
-        lava::core
+target_link_libraries(lava.file
+        lava::util
         physfs-static
-        spdlog
         )
 
-set_property(TARGET lava.util PROPERTY EXPORT_NAME util)
-add_library(lava::util ALIAS lava.util)
+set_property(TARGET lava.file PROPERTY EXPORT_NAME file)
+add_library(lava::file ALIAS lava.file)
 
 message(">> lava::base")
 
@@ -190,6 +204,7 @@ add_subdirectory(${LIBLAVA_EXT_DIR}/selene selene EXCLUDE_FROM_ALL)
 message("<<< selene")
 
 target_link_libraries(lava.resource
+        lava::file
         lava::base
         )
 
@@ -254,7 +269,8 @@ add_library(lava.block STATIC
         ${LIBLAVA_DIR}/block/subpass.hpp
         )
 
-target_link_libraries(lava.block 
+target_link_libraries(lava.block
+        lava::file
         lava::base
         )
 
@@ -312,6 +328,7 @@ endif()
 install(TARGETS
         lava.core
         lava.util
+        lava.file
         lava.base
         lava.resource
         lava.frame

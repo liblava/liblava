@@ -1,9 +1,9 @@
-// file      : liblava/util/file.cpp
+// file      : liblava/file/file.cpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ
 // license   : MIT; see accompanying LICENSE file
 
 #include <physfs.h>
-#include <liblava/util/file.hpp>
+#include <liblava/file/file.hpp>
 #include <liblava/util/utility.hpp>
 
 bool lava::read_file(std::vector<char>& out, name filename) {
