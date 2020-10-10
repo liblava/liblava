@@ -162,7 +162,7 @@ target_include_directories(lava.base PUBLIC
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/volk>
         )
 
-target_link_libraries(lava.base 
+target_link_libraries(lava.base
         lava::util
         ${CMAKE_DL_LIBS}
         )
@@ -204,8 +204,8 @@ add_subdirectory(${LIBLAVA_EXT_DIR}/selene selene EXCLUDE_FROM_ALL)
 message("<<< selene")
 
 target_link_libraries(lava.resource
-        lava::file
         lava::base
+        lava::file
         )
 
 set_property(TARGET lava.resource PROPERTY EXPORT_NAME resource)
@@ -298,9 +298,9 @@ target_include_directories(lava.app PUBLIC
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/imgui>
         )
 
-target_link_libraries(lava.app 
-        lava::frame
+target_link_libraries(lava.app
         lava::block
+        lava::frame
         )
 
 set_property(TARGET lava.app PROPERTY EXPORT_NAME app)
