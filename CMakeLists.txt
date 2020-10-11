@@ -191,7 +191,25 @@ add_library(lava.resource STATIC
         ${LIBLAVA_DIR}/resource/texture.hpp
         )
 
-target_include_directories(lava.resource PUBLIC
+target_link_libraries(lava.resource
+        lava::base
+        )
+
+set_property(TARGET lava.resource PROPERTY EXPORT_NAME resource)
+add_library(lava::resource ALIAS lava.resource)
+
+message(">> lava::asset")
+
+add_library(lava.asset STATIC
+        ${LIBLAVA_DIR}/asset/mesh_loader.cpp
+        ${LIBLAVA_DIR}/asset/mesh_loader.hpp
+        ${LIBLAVA_DIR}/asset/scope_image.cpp
+        ${LIBLAVA_DIR}/asset/scope_image.hpp
+        ${LIBLAVA_DIR}/asset/texture_loader.cpp
+        ${LIBLAVA_DIR}/asset/texture_loader.hpp
+        )
+
+target_include_directories(lava.asset PUBLIC
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/stb>
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/gli>
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/tinyobjloader>
@@ -209,13 +227,13 @@ add_subdirectory(${LIBLAVA_EXT_DIR}/selene selene EXCLUDE_FROM_ALL)
 
 message("<<< selene")
 
-target_link_libraries(lava.resource
-        lava::base
+target_link_libraries(lava.asset
         lava::file
+        lava::resource
         )
 
-set_property(TARGET lava.resource PROPERTY EXPORT_NAME resource)
-add_library(lava::resource ALIAS lava.resource)
+set_property(TARGET lava.asset PROPERTY EXPORT_NAME asset)
+add_library(lava::asset ALIAS lava.asset)
 
 message(">> lava::frame")
 
@@ -251,7 +269,8 @@ add_subdirectory(${LIBLAVA_EXT_DIR}/glfw glfw EXCLUDE_FROM_ALL)
 message("<<< glfw")
 
 target_link_libraries(lava.frame
-        lava::resource
+        lava::base
+        lava::file
         glfw
         ${GLFW_LIBRARIES}
         )
@@ -305,6 +324,7 @@ target_include_directories(lava.app PUBLIC
         )
 
 target_link_libraries(lava.app
+        lava::asset
         lava::block
         lava::frame
         )
@@ -336,6 +356,7 @@ install(TARGETS
         lava.file
         lava.base
         lava.resource
+        lava.asset
         lava.frame
         lava.block
         lava.app

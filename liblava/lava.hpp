@@ -5,6 +5,7 @@
 #pragma once
 
 #include <liblava/app.hpp>
+#include <liblava/asset.hpp>
 #include <liblava/base.hpp>
 #include <liblava/block.hpp>
 #include <liblava/core.hpp>

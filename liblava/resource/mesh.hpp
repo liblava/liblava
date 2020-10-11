@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <liblava/core/data.hpp>
-#include <liblava/core/math.hpp>
 #include <liblava/resource/buffer.hpp>
 
 namespace lava {

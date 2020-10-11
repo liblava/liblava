@@ -5,6 +5,7 @@
 #include <imgui.h>
 #include <liblava/app/app.hpp>
 #include <liblava/app/def.hpp>
+#include <liblava/asset/scope_image.hpp>
 #include <liblava/base/debug_utils.hpp>
 
 namespace lava {
