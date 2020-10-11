@@ -128,7 +128,7 @@ namespace lava {
         quad
     };
 
-    mesh::ptr load_mesh(device_ptr device, mesh_type type);
+    mesh::ptr create_mesh(device_ptr device, mesh_type type);
 
     struct mesh_meta {
         string filename; // empty -> type

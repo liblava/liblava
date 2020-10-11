@@ -24,7 +24,7 @@ namespace lava {
         static name get_base_dir();
         static string get_base_dir_str();
         static name get_pref_dir();
-        static string get_res_dir();
+        static string get_res_dir_str();
 
         static bool mount(string_ref path);
         static bool mount(name base_dir_path);

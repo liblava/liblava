@@ -27,7 +27,7 @@ namespace lava {
         return PHYSFS_getPrefDir(instance().org, instance().app);
     }
 
-    string file_system::get_res_dir() {
+    string file_system::get_res_dir_str() {
         string res_dir = get_base_dir();
         res_dir += instance().res_path;
         string_ref const_res_dir = res_dir;
@@ -100,13 +100,13 @@ namespace lava {
         res_path = "res/";
 #endif
 
-        if (fs::exists(str(get_res_dir())))
+        if (fs::exists(str(get_res_dir_str())))
             if (file_system::mount(str(res_path)))
-                log()->debug("mount {}", str(get_res_dir()));
+                log()->debug("mount {}", str(get_res_dir_str()));
 
         auto cwd_res_dir = fs::current_path().append("res/").lexically_normal().string();
 
-        if (fs::exists(cwd_res_dir) && (cwd_res_dir != get_res_dir()))
+        if (fs::exists(cwd_res_dir) && (cwd_res_dir != get_res_dir_str()))
             if (file_system::mount(cwd_res_dir))
                 log()->debug("mount {}", str(cwd_res_dir));
 

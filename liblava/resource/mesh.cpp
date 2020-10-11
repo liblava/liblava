@@ -173,7 +173,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
     return nullptr;
 }
 
-lava::mesh::ptr lava::load_mesh(device_ptr device, mesh_type type) {
+lava::mesh::ptr lava::create_mesh(device_ptr device, mesh_type type) {
     switch (type) {
     case mesh_type::cube: {
         auto cube = make_mesh();
