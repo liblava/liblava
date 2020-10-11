@@ -12,6 +12,9 @@ namespace lava {
     struct forward_shading;
     struct gui;
 
+    // liblava/asset.hpp
+    struct scope_image;
+
     // liblava/base.hpp
     struct target_callback;
     struct vk_result;
@@ -89,7 +92,6 @@ namespace lava {
     struct file_format;
     struct texture;
     struct staging;
-    struct scope_image;
 
     // liblava/util.hpp
     struct log_config;
