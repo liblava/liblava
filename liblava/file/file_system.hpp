@@ -9,8 +9,6 @@
 
 namespace lava {
 
-    constexpr name _zip_ = "zip";
-
     namespace fs = std::filesystem;
 
     struct file_system : no_copy_no_move {

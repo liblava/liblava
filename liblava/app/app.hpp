@@ -105,4 +105,12 @@ namespace lava {
         id block_command;
     };
 
+    bool window_file();
+
+    window::state::optional load_window_state(name save_name = _default_);
+
+    bool load_window_file(window::state& state, name save_name);
+
+    void save_window_file(window::ref window);
+
 } // namespace lava

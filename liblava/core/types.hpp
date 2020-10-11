@@ -87,6 +87,7 @@ namespace lava {
 
     constexpr name _lava_ = "lava";
     constexpr name _liblava_ = "liblava";
+    constexpr name _zip_ = "zip";
 
     inline name str(string_ref value) {
         return value.c_str();

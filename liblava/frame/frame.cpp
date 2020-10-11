@@ -161,15 +161,6 @@ namespace lava {
             return false;
         }
 
-        log()->debug("physfs {}", str(to_string(file_system::get_version())));
-
-        if (!file_system::instance().initialize(str(cmd_line[0]), config.org, config.app, config.ext)) {
-            log()->error("init file system");
-            return false;
-        }
-
-        file_system::instance().mount_res();
-
         frame_initialized = true;
 
         log()->info("---");
@@ -191,8 +182,6 @@ namespace lava {
 
         log()->flush();
         spdlog::drop_all();
-
-        file_system::instance().terminate();
 
         frame_initialized = false;
     }

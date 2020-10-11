@@ -270,7 +270,6 @@ message("<<< glfw")
 
 target_link_libraries(lava.frame
         lava::base
-        lava::file
         glfw
         ${GLFW_LIBRARIES}
         )
