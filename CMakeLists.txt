@@ -244,7 +244,6 @@ add_library(lava.frame STATIC
         ${LIBLAVA_DIR}/frame/input.hpp
         ${LIBLAVA_DIR}/frame/render_target.cpp
         ${LIBLAVA_DIR}/frame/render_target.hpp
-        ${LIBLAVA_DIR}/frame/render_thread.hpp
         ${LIBLAVA_DIR}/frame/renderer.cpp
         ${LIBLAVA_DIR}/frame/renderer.hpp
         ${LIBLAVA_DIR}/frame/swapchain.cpp
