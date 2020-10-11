@@ -99,7 +99,8 @@ namespace lava {
             if (!device)
                 return nullptr;
 
-            return device.get();
+            auto ptr = device.get();
+            return ptr;
         }
 
         device_manager manager;
