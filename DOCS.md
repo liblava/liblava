@@ -22,17 +22,13 @@ Let's write **Hello World** in Vulkan...
 
 **"a simple app that renders a colored window"**
 
-⇒ All we need is a `window`, `device` and `renderer`
+➜ All we need is a `window` + `device` and `renderer`
 
 <br />
 
 **Vulkan** is a low-level, verbose graphics API and such a program can take several hundred lines of code
 
-<br />
-
 The good news is that **liblava** will help you!
-
-<br />
 
 ```c++
 #include <liblava/lava.hpp>
@@ -41,7 +37,7 @@ using namespace lava;
 ```
 <br />
 
-⇓ Here are a few examples to get to know `lava`
+⬇ Here are a few examples to get to know `lava`
 
 <br />
 
@@ -125,9 +121,7 @@ return frame.run();
 
 <br />
 
-Straightforward ⇒ With this knowledge in hand let's write our **Hello World** now...
-
-<br />
+Straightforward ➜ With this knowledge in hand let's write our **Hello World** now...
 
 #### 4. clear color
 
@@ -253,8 +247,6 @@ frame.add_run_end([&]() {
 return frame.run();
 ```
 
-<br />
-
 ##### Welcome on **Planet Vulkan** - That's a lot to display a colored window!
 
 <br />
@@ -268,17 +260,21 @@ Phew! Take a closer look at the `build_cmd_bufs` function:
 
 The *VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT* flag specifies the reusage of command buffers
 
-`clean_cmd_bufs` frees all buffers and destroys the command pool - In case of swap chain restoration we simply recreate command buffers with a new random color - This happens for example on window resize
+`clean_cmd_bufs` frees all buffers and destroys the command pool
+
+In case of swap chain restoration we simply recreate command buffers with a new random color
+
+This happens for example on window resize
 
 <br />
 
-After all, this is a very static example ⇒ Vulkan supports a more *dynamic* and common usage by resetting a command pool before recording new commands
+After all, this is a very static example 
+
+➜ Vulkan supports a more *dynamic* and common usage by resetting a command pool before recording new commands
 
 <br />
 
 Ok, it's time for... `lava block`
-
-<br />
 
 #### 5. color block
 
@@ -316,8 +312,6 @@ block.add_command([&](VkCommandBuffer cmd_buf) {
 });
 ```
 
-<br />
-
 ##### Nice, this is much more simpler than before!
 
 <br />
@@ -326,7 +320,7 @@ We create a `lava block` and add just one **command** that clears the current fr
 
 <br />
 
-All we need to do now is to process the block in the run loop...
+All we need to do now is to process the block in the run loop:
 
 ```c++
 if (!block.process(*frame_index))
@@ -335,7 +329,7 @@ if (!block.process(*frame_index))
 return plotter.end_frame(block.get_buffers());
 ```
 
-... and call the renderer with our recorded command buffers
+And call the renderer with our recorded command buffers
 
 <br />
 
@@ -355,7 +349,7 @@ Check [Awesome Vulkan ecosystem](http://www.vinjn.com/awesome-vulkan/) for tutor
 
 #### 8. imgui demo
 
-Out of blocks `lava app` supports the awesome [Dear ImGui](https://github.com/ocornut/imgui) for **tooling** and **easy prototyping**:
+Out of blocks `lava app` supports [Dear ImGui](https://github.com/ocornut/imgui) for **tooling** and **easy prototyping**:
 
 ```c++
 int main(int argc, char* argv[]) {
@@ -374,7 +368,7 @@ int main(int argc, char* argv[]) {
 
 <br />
 
-##### What's next? ⇒ Check some <a href="https://git.io/liblava-demo">demos</a> and clone a <a href="https://git.io/liblava-template">starter template</a> to try it out!
+##### What's next? ➜ Check some <a href="https://git.io/liblava-demo">demos</a> and clone a <a href="https://git.io/liblava-template">starter template</a> to try it out!
 
 <a href="https://github.com/liblava/liblava-demo/#readme"><img src="res/demo.png"></a>
 
@@ -386,8 +380,6 @@ int main(int argc, char* argv[]) {
 
 [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/camera.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/forward_shading.hpp) [![gui](https://img.shields.io/badge/lava-gui-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/gui.hpp)
 
-<br />
-
 #### lava [block](https://github.com/liblava/liblava/tree/master/liblava/block)
 
 [![attachment](https://img.shields.io/badge/lava-attachment-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/attachment.hpp) [![block](https://img.shields.io/badge/lava-block-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/block.hpp) [![descriptor](https://img.shields.io/badge/lava-descriptor-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/descriptor.hpp) [![pipeline](https://img.shields.io/badge/lava-pipeline-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/pipeline.hpp) [![render_pass](https://img.shields.io/badge/lava-render_pass-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/render_pass.hpp) [![subpass](https://img.shields.io/badge/lava-subpass-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/subpass.hpp)
@@ -395,8 +387,6 @@ int main(int argc, char* argv[]) {
 #### lava [frame](https://github.com/liblava/liblava/tree/master/liblava/frame)
 
 [![frame](https://img.shields.io/badge/lava-frame-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/frame.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/input.hpp) [![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/swapchain.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/window.hpp)
-
-<br />
 
 #### lava [asset](https://github.com/liblava/liblava/tree/master/liblava/asset)
 
@@ -409,8 +399,6 @@ int main(int argc, char* argv[]) {
 #### lava [base](https://github.com/liblava/liblava/tree/master/liblava/base)
 
 [![base](https://img.shields.io/badge/lava-base-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/base.hpp) [![device](https://img.shields.io/badge/lava-device-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/device.hpp) [![instance](https://img.shields.io/badge/lava-instance-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/instance.hpp) [![memory](https://img.shields.io/badge/lava-memory-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/memory.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/physical_device.hpp)
-
-<br />
 
 #### lava [file](https://github.com/liblava/liblava/tree/master/liblava/file)
 
@@ -438,8 +426,6 @@ Run the **lava** executable to test the [Tutorial examples](tests/tests.cpp)
 
 Let it simply flow...
 
-<br />
-
 ##### List all tests:
 
 ```bash
@@ -455,15 +441,11 @@ lava -t
 7. gamepad
 8. [imgui demo](#8-imgui-demo)
 
-<br />
-
 ##### Run test 2 for example:
 
 ```bash
 lava 2
 ```
-
-<br />
 
 The **driver** starts the last test when you provide *no* command line arguments
 
@@ -488,7 +470,7 @@ make
 
 ## Install
 
-You can use **liblava** as a *git submodule* in your project ⇒ Like in the [starter template](https://git.io/liblava-template) and [demo](https://git.io/liblava-demo)
+You can use **liblava** as a *git submodule* in your project ➜ Like in the [starter template](https://git.io/liblava-template) and [demo](https://git.io/liblava-demo)
 
 <br />
 
@@ -501,8 +483,6 @@ cd build
 cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=../lava-install ..
 cmake --build . --target install
 ```
-
-<br />
 
 #### Project setup
 
@@ -519,7 +499,7 @@ target_link_libraries(test lava::app)
 
 <br />
 
-And then build your project with install path ⇒ *lava_DIR*
+And then build your project with install path ➜ *lava_DIR*
 
 ```bash
 mkdir build

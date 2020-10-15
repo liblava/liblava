@@ -1,4 +1,4 @@
-﻿<a href="https://lava-block.com"><img align="right" src="https://github.com/liblava.png" width="220"></a>
+﻿<a href="https://lava-block.com"><img align="right" src="https://github.com/liblava.png" width="200"></a>
 
 🌋 **[liblava](https://git.io/liblava) &nbsp; A modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
 
@@ -6,9 +6,9 @@
 
 <br />
 
-**C++20** &nbsp; **Modular** &nbsp; **Windows** &nbsp; **Linux** &nbsp; **<a href="https://git.io/liblava-demo">demo</a>**  &nbsp; <a href="https://git.io/liblava-template">template</a>
+**C++20** + **Modular** &nbsp; **Windows** + **Linux** &nbsp; **<a href="https://git.io/liblava-demo">demo</a>**  + <a href="https://git.io/liblava-template">template</a>
 
-[![Version](https://img.shields.io/badge/Version-0.5.4-blue)](https://git.io/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![CodeFactor](https://www.codefactor.io/repository/github/liblava/liblava/badge)](https://www.codefactor.io/repository/github/liblava/liblava) &nbsp; [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
+[![Version](https://img.shields.io/badge/Version-0.5.4-blue)](https://git.io/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![CodeFactor](https://www.codefactor.io/repository/github/liblava/liblava/badge)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
 
 <br />
 
@@ -36,15 +36,13 @@
 
 <br />
 
-##### ⇓ Download latest **<a href="https://github.com/liblava/liblava-demo/releases">demo</a>** (Feb. 20, 2020)
+##### ⬇ Download latest **<a href="https://github.com/liblava/liblava-demo/releases">demo</a>** (Feb. 20, 2020)
 
 <a href="https://github.com/liblava/liblava-demo/#readme"><img src="res/demo.png"></a>
 
 <br />
 
 [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava)
-
-<br />
 
 ## Requirements
 
@@ -56,29 +54,27 @@
 
 ## Third-Party
 
-* [argh](https://github.com/adishavit/argh) &nbsp; 3-clause BSD
-* [bitmap](https://github.com/ArashPartow/bitmap) &nbsp; MIT
-* [glfw](https://github.com/glfw/glfw) &nbsp; zlib
-* [gli](https://github.com/g-truc/gli) &nbsp; MIT
-* [glm](https://github.com/g-truc/glm) &nbsp; MIT
-* [imgui](https://github.com/ocornut/imgui) &nbsp; MIT
-* [json](https://github.com/nlohmann/json) &nbsp; MIT
-* [physfs](https://github.com/Didstopia/physfs) &nbsp; zlib
-* [selene](https://github.com/kmhofmann/selene) &nbsp; MIT
-* [spdlog](https://github.com/gabime/spdlog) &nbsp; MIT
-* [stb](https://github.com/nothings/stb) &nbsp; MIT
-* [tinyobjloader](https://github.com/syoyo/tinyobjloader) &nbsp; MIT
-* [volk](https://github.com/zeux/volk) &nbsp; MIT
-* [Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers) &nbsp; Apache 2.0
-* [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) &nbsp; MIT
+* [argh](https://github.com/adishavit/argh) &nbsp; *3-clause BSD*
+* [bitmap](https://github.com/ArashPartow/bitmap) &nbsp; *MIT*
+* [glfw](https://github.com/glfw/glfw) &nbsp; *zlib*
+* [gli](https://github.com/g-truc/gli) &nbsp; *MIT*
+* [glm](https://github.com/g-truc/glm) &nbsp; *MIT*
+* [imgui](https://github.com/ocornut/imgui) &nbsp; *MIT*
+* [json](https://github.com/nlohmann/json) &nbsp; *MIT*
+* [physfs](https://github.com/Didstopia/physfs) &nbsp; *zlib*
+* [selene](https://github.com/kmhofmann/selene) &nbsp; *MIT*
+* [spdlog](https://github.com/gabime/spdlog) &nbsp; *MIT*
+* [stb](https://github.com/nothings/stb) &nbsp; *MIT*
+* [tinyobjloader](https://github.com/syoyo/tinyobjloader) &nbsp; *MIT*
+* [volk](https://github.com/zeux/volk) &nbsp; *MIT*
+* [Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers) &nbsp; *Apache 2.0*
+* [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) &nbsp; *MIT*
 
 <br />
 
 ## Collaborate
 
 You can use the [issue tracker](https://github.com/liblava/liblava/issues) to report any bug or compatibility issue
-
-<br />
 
 :heart: Thanks to all **[contributors](https://github.com/liblava/liblava/graphs/contributors)** making **liblava** flow...
 
@@ -96,17 +92,15 @@ If you want to contribute, we suggest the following:
 
 ## License
 
-<a href="https://opensource.org" target="_blank"><img align="right" width="80" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png" style="margin:0px 0px 0px 20px"></a>
+<a href="https://opensource.org" target="_blank"><img align="right" width="90" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png" style="margin:0px 0px 0px 40px"></a>
 
 **liblava** is licensed under [MIT License](LICENSE.md) which allows you to use the software for any purpose you might like, including commercial and for-profit use!
 
 <br />
 
-However, this library includes several third-party **Open Source** libraries, which are licensed under their own respective licenses ⇒ They all allow static linking with closed source software
+However, this library includes several third-party **Open Source** libraries, which are licensed under their own respective licenses ➜ They all allow static linking with closed source software
 
 **All copies of liblava must include a copy of the MIT License terms and the copyright notice**
-
-<br />
 
 ##### Vulkan and the Vulkan logo are trademarks of the <a href="http://www.khronos.org" target="_blank">Khronos Group Inc.</a>
 ##### Copyright (c) 2018-present, <a href="https://lava-block.com">Lava Block OÜ</a>
