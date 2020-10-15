@@ -62,7 +62,7 @@ namespace lava {
             mouse_just_pressed[i] = false;
         }
 
-        ImVec2 const mouse_pos_backup = io.MousePos;
+        auto const mouse_pos_backup = io.MousePos;
         io.MousePos = ImVec2(-FLT_MAX, -FLT_MAX);
 
         if (glfwGetWindowAttrib(window, GLFW_FOCUSED)) {
@@ -81,7 +81,7 @@ namespace lava {
         if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange) || glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED)
             return;
 
-        ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
+        auto const imgui_cursor = ImGui::GetMouseCursor();
         if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor) {
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
         } else {
@@ -240,8 +240,8 @@ namespace lava {
         memset(io.NavInputs, 0, sizeof(io.NavInputs));
         if (io.ConfigFlags & ImGuiConfigFlags_NavEnableGamepad) {
             int axes_count = 0, buttons_count = 0;
-            float const* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axes_count);
-            unsigned char const* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttons_count);
+            auto const* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axes_count);
+            auto const* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttons_count);
 
             MAP_BUTTON(ImGuiNavInput_Activate, 0); // Cross / A
             MAP_BUTTON(ImGuiNavInput_Cancel, 1); // Circle / B

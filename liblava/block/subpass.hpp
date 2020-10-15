@@ -29,7 +29,6 @@ namespace lava {
         void clear_pipelines();
 
         void process(VkCommandBuffer cmd_buf, uv2 size);
-        ;
 
         VkSubpassDescription get_description() const {
             return description;

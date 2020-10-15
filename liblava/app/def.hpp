@@ -23,6 +23,6 @@ namespace lava {
     // debug utils
     constexpr name _lava_block_ = "lava block";
     constexpr name _lava_gui_ = "lava gui";
-    constexpr name _lava_texture_stage_ = "lava texture stage";
+    constexpr name _lava_texture_staging_ = "lava texture staging";
 
 } // namespace lava

@@ -154,7 +154,7 @@ namespace lava {
         if (!texture->create(device, size, VK_FORMAT_R8G8B8A8_UNORM))
             return nullptr;
 
-        const i32 tex_channels = 4;
+        auto const tex_channels = 4;
         auto uploadSize = tex_width * tex_height * tex_channels * sizeof(char);
         auto result = texture->upload(data, uploadSize);
 

@@ -99,8 +99,8 @@ namespace lava {
     }
 
     void camera::update_view(delta dt, gamepad::ref pad) {
-        const r32 dead_zone = 0.2f;
-        const r32 range = 1.f - dead_zone;
+        const auto dead_zone = 0.2f;
+        const auto range = 1.f - dead_zone;
 
         if (type == camera_type::first_person) {
             v3 front;
@@ -179,10 +179,10 @@ namespace lava {
             break;
         }
         default:
-            return false;
+            return input_ignore;
         }
 
-        return true;
+        return input_done;
     }
 
     bool camera::handle(mouse_button_event::ref event, mouse_position mouse_pos) {
@@ -193,16 +193,16 @@ namespace lava {
             mouse_pos_x = mouse_pos.x;
             mouse_pos_y = mouse_pos.y;
 
-            return true;
+            return input_done;
         }
 
-        return false;
+        return input_ignore;
     }
 
     bool camera::handle(scroll_event::ref event) {
         scroll_pos += event.offset.y;
 
-        return true;
+        return input_done;
     }
 
     void camera::stop() {

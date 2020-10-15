@@ -111,7 +111,7 @@ frame.add_run([&]() {
     input.handle_events();
 
     if (window.close_request())
-        frame.shut_down();
+        return frame.shut_down();
 
     return run_continue;
 });
@@ -472,9 +472,7 @@ make
 
 You can use **liblava** as a *git submodule* in your project ➜ Like in the [starter template](https://git.io/liblava-template) and [demo](https://git.io/liblava-demo)
 
-<br />
-
-### Conan Package Manager
+#### Conan Package Manager
 
 If you are familiar with [Conan](https://conan.io/) then you can build our [package recipe](https://github.com/liblava/conan-liblava)
 

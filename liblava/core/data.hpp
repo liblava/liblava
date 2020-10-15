@@ -136,11 +136,11 @@ namespace lava {
 #endif
 
     inline char* human_readable(size_t const sz) {
-        static ui32 const buffer_size = 32;
+        static auto const buffer_size = 32;
 
         char const prefixes[] = "KMGTPEZY";
         char buf[buffer_size];
-        i32 which = -1;
+        auto which = -1;
 
         auto result = to_r64(sz);
         while (result > 1024 && which < 7) {

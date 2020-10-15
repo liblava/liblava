@@ -18,7 +18,7 @@ namespace lava {
         for (size_t i = 0, e = param.queue_info_list.size(); i != e; ++i) {
             queue_create_info_list[i].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 
-            ui32 index = 0;
+            auto index = 0u;
             if (!physical_device->get_queue_family(index, param.queue_info_list[i].flags)) {
                 log()->error("create device queue family");
                 return false;

@@ -57,7 +57,7 @@ LAVA_TEST(3, "window input") {
         input.handle_events();
 
         if (window.close_request())
-            frame.shut_down();
+            return frame.shut_down();
 
         return run_continue;
     });
@@ -384,7 +384,7 @@ LAVA_TEST(7, "gamepad") {
         sleep(one_second);
 
         if (frame.get_running_time_sec() > 10.)
-            frame.shut_down();
+            return frame.shut_down();
 
         return run_continue;
     });

@@ -16,6 +16,7 @@ namespace lava {
     using ms = milliseconds;
 
     constexpr seconds const one_second = seconds(1);
+    constexpr ms const one_ms = ms(1);
 
     using clock = std::chrono::high_resolution_clock;
     using time_point = clock::time_point;
@@ -71,8 +72,8 @@ namespace lava {
     inline string time_stamp(const typename CLOCK_TYPE::time_point& time_point, string_ref format = "%Y-%m-%d %H-%M-%S") {
         auto ms = std::chrono::duration_cast<milliseconds>(time_point.time_since_epoch()) % 1000;
 
-        const std::time_t t = CLOCK_TYPE::to_time_t(time_point);
-        const std::tm tm = *std::localtime(std::addressof(t));
+        auto const t = CLOCK_TYPE::to_time_t(time_point);
+        auto const tm = *std::localtime(std::addressof(t));
 
         std::ostringstream stm;
         stm << std::put_time(std::addressof(tm), str(format)) << '.' << std::setfill('0') << std::setw(3) << ms.count();

@@ -17,9 +17,6 @@ struct GLFWwindow;
 
 namespace lava {
 
-    constexpr name _default_ = "default";
-
-    constexpr name _window_file_ = "window.json";
     constexpr name _x_ = "x";
     constexpr name _y_ = "y";
     constexpr name _width_ = "width";

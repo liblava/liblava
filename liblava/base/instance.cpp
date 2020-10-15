@@ -105,9 +105,9 @@ namespace lava {
 
     void instance::destroy() {
         if (!vk_instance)
-            return
+            return;
 
-                physical_devices.clear();
+        physical_devices.clear();
 
         if (debug.utils)
             destroy_validation_report();
