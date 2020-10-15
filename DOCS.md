@@ -66,15 +66,15 @@ if (!frame.ready())
 auto count = 0;
 
 frame.add_run([&]() {
-    sleep(seconds(1));
+    sleep(one_second);
     count++;
 
-    log()->debug("{} - running {} sec", count, to_sec(frame.get_running_time()));
+    log()->debug("{} - running {} sec", count, frame.get_running_time_sec());
 
     if (count == 3)
         frame.shut_down();
 
-    return true;
+    return run_continue;
 });
 
 return frame.run();
@@ -104,7 +104,7 @@ input.key.listeners.add([&](key_event::ref event) {
     if (event.pressed(key::escape))
         return frame.shut_down();
     
-    return false;
+    return input_ignore;
 });
 
 frame.add_run([&]() {
@@ -113,7 +113,7 @@ frame.add_run([&]() {
     if (window.close_request())
         frame.shut_down();
 
-    return true;
+    return run_continue;
 });
 
 return frame.run();
@@ -141,7 +141,7 @@ input.key.listeners.add([&](key_event::ref event) {
     if (event.pressed(key::escape))
         return frame.shut_down();
 
-    return false;
+    return input_ignore;
 });
 
 auto device = frame.create_device();
@@ -163,17 +163,17 @@ VkCommandBuffers cmd_bufs(frame_count);
 
 auto build_cmd_bufs = [&]() {
     if (!device->vkCreateCommandPool(device->graphics_queue().family, &cmd_pool))
-        return false;
+        return build_failed;
 
     if (!device->vkAllocateCommandBuffers(cmd_pool, frame_count, cmd_bufs.data()))
-        return false;
+        return build_failed;
 
     VkCommandBufferBeginInfo const begin_info{
         .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
         .flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT,
     };
 
-    VkClearColorValue const clear_color = { random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f), 0.f };
+    VkClearColorValue const clear_color = { random(1.f), random(1.f), random(1.f), 0.f };
 
     VkImageSubresourceRange const image_range{
         .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
@@ -186,7 +186,7 @@ auto build_cmd_bufs = [&]() {
         auto frame_image = render_target->get_image(i);
 
         if (failed(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
-            return false;
+            return build_failed;
 
         insert_image_memory_barrier(device, cmd_buf, frame_image,
                                     VK_ACCESS_MEMORY_READ_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
@@ -204,10 +204,10 @@ auto build_cmd_bufs = [&]() {
                                     image_range);
 
         if (failed(device->call().vkEndCommandBuffer(cmd_buf)))
-            return false;
+            return build_failed;
     }
 
-    return true;
+    return build_done;
 };
 
 auto clean_cmd_bufs = [&]() {
@@ -232,7 +232,7 @@ frame.add_run([&]() {
 
     auto frame_index = plotter.begin_frame();
     if (!frame_index)
-        return true;
+        return run_continue;
 
     return plotter.end_frame({ cmd_bufs[*frame_index] });
 });
@@ -285,7 +285,7 @@ if (!block.create(device, frame_count, device->graphics_queue().family))
     return error::create_failed;
 
 block.add_command([&](VkCommandBuffer cmd_buf) {
-    VkClearColorValue const clear_color = { random(0.f, 1.f), random(0.f, 1.f), random(0.f, 1.f), 0.f };
+    VkClearColorValue const clear_color = { random(1.f), random(1.f), random(1.f), 0.f };
 
     VkImageSubresourceRange const image_range{
         .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
@@ -324,7 +324,7 @@ All we need to do now is to process the block in the run loop:
 
 ```c++
 if (!block.process(*frame_index))
-    return false;
+    return run_abort;
 
 return plotter.end_frame(block.get_buffers());
 ```
@@ -471,6 +471,12 @@ make
 ## Install
 
 You can use **liblava** as a *git submodule* in your project ➜ Like in the [starter template](https://git.io/liblava-template) and [demo](https://git.io/liblava-demo)
+
+<br />
+
+### Conan Package Manager
+
+If you are familiar with [Conan](https://conan.io/) then you can build our [package recipe](https://github.com/liblava/conan-liblava)
 
 <br />
 

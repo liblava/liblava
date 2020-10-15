@@ -39,6 +39,9 @@ namespace lava {
 
     ms now();
 
+    constexpr bool const run_abort = false;
+    constexpr bool const run_continue = true;
+
     struct frame : interface, no_copy_no_move {
         using ptr = std::shared_ptr<frame>;
 
@@ -74,6 +77,10 @@ namespace lava {
 
         ms get_running_time() const {
             return now() - start_time;
+        }
+
+        r64 get_running_time_sec() const {
+            return to_sec(get_running_time());
         }
 
         argh::parser const& get_cmd_line() const {

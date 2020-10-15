@@ -78,6 +78,9 @@ namespace lava {
         }
     };
 
+    constexpr bool const build_failed = false;
+    constexpr bool const build_done = true;
+
     using VkAttachments = std::vector<VkImageViews>;
     using VkAttachmentsRef = VkAttachments const&;
 

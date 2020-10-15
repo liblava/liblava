@@ -319,6 +319,9 @@ namespace lava {
         id_listeners<T> listeners;
     };
 
+    constexpr bool const input_ignore = false;
+    constexpr bool const input_done = true;
+
     struct input : id_obj {
         input_events<key_event> key;
         input_events<scroll_event> scroll;

@@ -81,6 +81,6 @@ namespace lava {
         return (x + y - 1) / y;
     }
 
-    v3 const default_color = v3{ 0.8118f, 0.0627f, 0.1255f }; // #CF1020 : 207, 16, 32
+    constexpr v3 const default_color = v3{ 0.8118f, 0.0627f, 0.1255f }; // #CF1020 : 207, 16, 32
 
 } // namespace lava

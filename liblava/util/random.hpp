@@ -40,6 +40,11 @@ namespace lava {
         return random_generator::instance().get(low, high);
     }
 
+    template<typename T>
+    inline T random(T high) {
+        return random_generator::instance().get({}, high);
+    }
+
     struct pseudo_random_generator {
         explicit pseudo_random_generator(ui32 seed)
         : seed(seed) {}

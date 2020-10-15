@@ -20,15 +20,15 @@ LAVA_TEST(2, "run loop") {
     auto count = 0;
 
     frame.add_run([&]() {
-        sleep(seconds(1));
+        sleep(one_second);
         count++;
 
-        log()->debug("{} - running {} sec", count, to_sec(frame.get_running_time()));
+        log()->debug("{} - running {} sec", count, frame.get_running_time_sec());
 
         if (count == 3)
             frame.shut_down();
 
-        return true;
+        return run_continue;
     });
 
     return frame.run();
@@ -50,7 +50,7 @@ LAVA_TEST(3, "window input") {
         if (event.pressed(key::escape))
             return frame.shut_down();
 
-        return false;
+        return input_ignore;
     });
 
     frame.add_run([&]() {
@@ -59,7 +59,7 @@ LAVA_TEST(3, "window input") {
         if (window.close_request())
             frame.shut_down();
 
-        return true;
+        return run_continue;
     });
 
     return frame.run();
@@ -81,7 +81,7 @@ LAVA_TEST(4, "clear color") {
         if (event.pressed(key::escape))
             return frame.shut_down();
 
-        return false;
+        return input_ignore;
     });
 
     auto device = frame.create_device();
@@ -103,17 +103,17 @@ LAVA_TEST(4, "clear color") {
 
     auto build_cmd_bufs = [&]() {
         if (!device->vkCreateCommandPool(device->graphics_queue().family, &cmd_pool))
-            return false;
+            return build_failed;
 
         if (!device->vkAllocateCommandBuffers(cmd_pool, frame_count, cmd_bufs.data()))
-            return false;
+            return build_failed;
 
         VkCommandBufferBeginInfo const begin_info{
             .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
             .flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT,
         };
 
-        VkClearColorValue const clear_color = { lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f), 0.f };
+        VkClearColorValue const clear_color = { lava::random(1.f), lava::random(1.f), lava::random(1.f), 0.f };
 
         VkImageSubresourceRange const image_range{
             .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
@@ -126,7 +126,7 @@ LAVA_TEST(4, "clear color") {
             auto frame_image = render_target->get_image(i);
 
             if (failed(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
-                return false;
+                return build_failed;
 
             insert_image_memory_barrier(device, cmd_buf, frame_image,
                                         VK_ACCESS_MEMORY_READ_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
@@ -141,10 +141,10 @@ LAVA_TEST(4, "clear color") {
                                         VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, image_range);
 
             if (failed(device->call().vkEndCommandBuffer(cmd_buf)))
-                return false;
+                return build_failed;
         }
 
-        return true;
+        return build_done;
     };
 
     auto clean_cmd_bufs = [&]() {
@@ -169,7 +169,7 @@ LAVA_TEST(4, "clear color") {
 
         auto frame_index = plotter.begin_frame();
         if (!frame_index)
-            return true;
+            return run_continue;
 
         return plotter.end_frame({ cmd_bufs[*frame_index] });
     });
@@ -200,7 +200,7 @@ LAVA_TEST(5, "color block") {
         if (event.pressed(key::escape))
             return frame.shut_down();
 
-        return false;
+        return input_ignore;
     });
 
     auto device = frame.create_device();
@@ -223,7 +223,7 @@ LAVA_TEST(5, "color block") {
         return error::create_failed;
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
-        VkClearColorValue const clear_color = { lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f), 0.f };
+        VkClearColorValue const clear_color = { lava::random(1.f), lava::random(1.f), lava::random(1.f), 0.f };
 
         VkImageSubresourceRange const image_range{
             .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
@@ -257,10 +257,10 @@ LAVA_TEST(5, "color block") {
 
         auto frame_index = plotter.begin_frame();
         if (!frame_index)
-            return true;
+            return run_continue;
 
         if (!block.process(*frame_index))
-            return false;
+            return run_abort;
 
         return plotter.end_frame(block.get_buffers());
     });
@@ -291,7 +291,7 @@ LAVA_TEST(6, "forward shading") {
         if (event.pressed(key::escape))
             return frame.shut_down();
 
-        return false;
+        return input_ignore;
     });
 
     auto device = frame.create_device();
@@ -310,10 +310,10 @@ LAVA_TEST(6, "forward shading") {
 
     block block;
     if (!block.create(device, render_target->get_frame_count(), device->graphics_queue().family))
-        return false;
+        return error::create_failed;
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
-        render_pass->set_clear_color({ lava::random(0.f, 1.f), lava::random(0.f, 1.f), lava::random(0.f, 1.f) });
+        render_pass->set_clear_color({ lava::random(1.f), lava::random(1.f), lava::random(1.f) });
         render_pass->process(cmd_buf, block.get_current_frame());
     });
 
@@ -332,7 +332,7 @@ LAVA_TEST(6, "forward shading") {
 
         if (window.iconified()) {
             frame.set_wait_for_events(true);
-            return true;
+            return run_continue;
         } else {
             if (frame.waiting_for_events())
                 frame.set_wait_for_events(false);
@@ -340,10 +340,10 @@ LAVA_TEST(6, "forward shading") {
 
         auto frame_index = plotter.begin_frame();
         if (!frame_index)
-            return true;
+            return run_continue;
 
         if (!block.process(*frame_index))
-            return false;
+            return run_abort;
 
         return plotter.end_frame(block.get_buffers());
     });
@@ -372,16 +372,21 @@ LAVA_TEST(7, "gamepad") {
         else
             log()->info("gamepad {} - inactive", id);
 
-        return false;
+        return input_ignore;
     });
 
     for (auto& pad : gamepads())
         log()->info("gamepad {} - active ({})", pad.get_id(), pad.get_name());
 
-    frame.add_run([&]() {
-        sleep(seconds(1));
+    log()->info("Waiting some seconds for gamepads...");
 
-        return true;
+    frame.add_run([&]() {
+        sleep(one_second);
+
+        if (frame.get_running_time_sec() > 10.)
+            frame.shut_down();
+
+        return run_continue;
     });
 
     return frame.run();
