@@ -1,4 +1,4 @@
-﻿<a href="https://lava-block.com"><img align="right" src="https://github.com/liblava.png" width="200"></a>
+﻿<a href="https://lava-block.com"><img align="right" src="https://github.com/liblava.png" width="200" style="margin:0px 40px 0px 0px"></a>
 
 🌋 **[liblava](https://git.io/liblava) &nbsp; A modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
 
@@ -92,7 +92,7 @@ If you want to contribute, we suggest the following:
 
 ## License
 
-<a href="https://opensource.org" target="_blank"><img align="right" width="90" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png" style="margin:0px 0px 0px 40px"></a>
+<a href="https://opensource.org" target="_blank"><img align="right" width="90" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png" style="margin:0px 0px 0px 80px"></a>
 
 **liblava** is licensed under [MIT License](LICENSE.md) which allows you to use the software for any purpose you might like, including commercial and for-profit use!
 

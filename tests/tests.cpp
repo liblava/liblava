@@ -26,7 +26,7 @@ LAVA_TEST(2, "run loop") {
         log()->debug("{} - running {} sec", count, frame.get_running_time_sec());
 
         if (count == 3)
-            frame.shut_down();
+            return frame.shut_down();
 
         return run_continue;
     });
