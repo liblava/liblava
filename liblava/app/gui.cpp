@@ -157,7 +157,6 @@ namespace lava {
                                            config.icon.size, &icons_config, icons_ranges);
         }
 
-        io.RenderDrawListsFn = nullptr;
         io.SetClipboardTextFn = set_clipboard_text;
         io.GetClipboardTextFn = get_clipboard_text;
         io.ClipboardUserData = window;
@@ -165,7 +164,7 @@ namespace lava {
         io.ImeWindowHandle = (void*) glfwGetWin32Window(window);
 #endif // _WIN32
 
-        mouse_cursors.resize(ImGuiMouseCursor_Count_);
+        mouse_cursors.resize(ImGuiMouseCursor_COUNT);
         mouse_cursors[ImGuiMouseCursor_Arrow] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
         mouse_cursors[ImGuiMouseCursor_TextInput] = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
         mouse_cursors[ImGuiMouseCursor_ResizeAll] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
