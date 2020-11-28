@@ -69,6 +69,11 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
                 )
 endif()
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        target_compile_options(lava.core INTERFACE "-Wno-psabi")
+        target_link_options(lava.core INTERFACE "-latomic")
+endif()
+
 set_property(TARGET lava.core PROPERTY EXPORT_NAME core)
 add_library(lava::core ALIAS lava.core)
 
