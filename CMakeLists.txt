@@ -318,6 +318,7 @@ add_library(lava.app STATIC
         ${LIBLAVA_DIR}/app/gui.hpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_draw.cpp
+        ${LIBLAVA_EXT_DIR}/imgui/imgui_tables.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_widgets.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_demo.cpp
         )
