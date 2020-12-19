@@ -46,9 +46,12 @@ namespace lava {
         if ((version.rev > 1) && (version.stage != version_stage::release))
             stage_str += fmt::format(" {}", version.rev);
 
-        if (version.release == 0)
-            return fmt::format("{} {}", version.year, str(stage_str));
-        else
+        if (version.release == 0) {
+            if (stage_str.empty())
+                return fmt::format("{}", version.year);
+            else
+                return fmt::format("{} {}", version.year, str(stage_str));
+        } else
             return fmt::format("{}.{} {}", version.year, version.release, str(stage_str));
     }
 
