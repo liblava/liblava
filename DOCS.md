@@ -493,7 +493,7 @@ cmake --build . --target install
 First find the package in your *CMakeLists.txt*
 
 ```cmake
-find_package(lava 0.5.4 REQUIRED)
+find_package(lava 0.5.5 REQUIRED)
 
 ...
 

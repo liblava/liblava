@@ -36,7 +36,7 @@
 
 <br />
 
-##### ⬇ Download latest **<a href="https://github.com/liblava/liblava-demo/releases">demo</a>** (Feb. 20, 2020)
+##### ⬇ Download latest **<a href="https://github.com/liblava/liblava-demo/releases">demo</a>** (December 20, 2020)
 
 <a href="https://github.com/liblava/liblava-demo/#readme"><img src="res/demo.png"></a>
 
