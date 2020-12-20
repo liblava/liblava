@@ -15,6 +15,7 @@ namespace lava {
 
     struct allocator {
         explicit allocator(VkPhysicalDevice physical_device, VkDevice device);
+        explicit allocator(VmaAllocator allocator);
         ~allocator();
 
         using ptr = std::shared_ptr<allocator>;
