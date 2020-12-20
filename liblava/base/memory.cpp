@@ -126,6 +126,10 @@ namespace lava {
         check(vmaCreateAllocator(&allocator_info, &vma_allocator));
     }
 
+    allocator::allocator(VmaAllocator allocator) {
+        vma_allocator = allocator;
+    }
+
     allocator::~allocator() {
         if (!vma_allocator)
             return;
