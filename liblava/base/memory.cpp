@@ -110,6 +110,9 @@ namespace lava {
             .vkBindBufferMemory2KHR = vkBindBufferMemory2KHR,
             .vkBindImageMemory2KHR = vkBindImageMemory2KHR,
 #endif
+#if VMA_MEMORY_BUDGET
+            .vkGetPhysicalDeviceMemoryProperties2KHR = vkGetPhysicalDeviceMemoryProperties2KHR
+#endif
         };
 
         VmaAllocatorCreateInfo allocator_info{
