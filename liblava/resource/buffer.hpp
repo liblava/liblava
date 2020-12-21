@@ -45,6 +45,7 @@ namespace lava {
             return get_descriptor();
         }
 
+        VkDeviceAddress get_address() const;
         VkDeviceSize get_size() const {
             return allocation_info.size;
         }

@@ -105,6 +105,18 @@ namespace lava {
         device = nullptr;
     }
 
+    VkDeviceAddress buffer::get_address() const {
+        if (device->call().vkGetBufferDeviceAddressKHR) {
+            VkBufferDeviceAddressInfoKHR addr_info{
+                .sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO_KHR,
+                .buffer = vk_buffer
+            };
+            return device->call().vkGetBufferDeviceAddressKHR(device->get(), &addr_info);
+        } else {
+            return 0;
+        }
+    }
+
     void buffer::flush(VkDeviceSize offset, VkDeviceSize size) {
         vmaFlushAllocation(device->alloc(), allocation, offset, size);
     }
