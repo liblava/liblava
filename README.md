@@ -1,4 +1,4 @@
-﻿<a href="https://lava-block.com"><img align="left" src="https://github.com/liblava.png" width="200" style="margin:0px 40px 0px 0px"></a>
+﻿<a href="https://git.io/liblava"><img align="left" src="https://github.com/liblava.png" width="200" style="margin:0px 40px 0px 0px"></a>
 
 🌋 **[liblava](https://git.io/liblava) &nbsp; A modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
 
@@ -103,8 +103,8 @@ However, this library includes several third-party **Open Source** libraries, wh
 **All copies of liblava must include a copy of the MIT License terms and the copyright notice**
 
 ##### Vulkan and the Vulkan logo are trademarks of the <a href="http://www.khronos.org" target="_blank">Khronos Group Inc.</a>
-##### Copyright (c) 2018-present, <a href="https://lava-block.com">Lava Block OÜ</a>
+##### Copyright (c) 2018-present, <a href="https://lava-block.com">Lava Block OÜ</a> and [contributors](https://github.com/liblava/liblava/graphs/contributors)
 
 <br />
 
-<a href="https://lava-block.com"><img src="https://github.com/liblava.png" width="50"></a>
+<a href="https://git.io/liblava"><img src="https://github.com/liblava.png" width="50"></a>

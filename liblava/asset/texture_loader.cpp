@@ -1,5 +1,5 @@
 // file      : liblava/asset/texture_loader.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ
+// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 // license   : MIT; see accompanying LICENSE file
 
 #include <bitmap_image.hpp>

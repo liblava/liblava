@@ -1,4 +1,4 @@
-﻿<a href="https://lava-block.com"><img align="left" src="https://github.com/liblava.png" width="100" style="margin:0px 20px 0px 0px"></a>
+﻿<a href="https://git.io/liblava"><img align="left" src="https://github.com/liblava.png" width="100" style="margin:0px 20px 0px 0px"></a>
 
 # liblava docs &nbsp; [![Version](https://img.shields.io/badge/Version-0.5.6-blue)](https://git.io/liblava)
 
@@ -515,4 +515,4 @@ cmake --build .
 
 <br />
 
-<a href="https://lava-block.com"><img src="https://github.com/liblava.png" width="50"></a>
+<a href="https://git.io/liblava"><img src="https://github.com/liblava.png" width="50"></a>

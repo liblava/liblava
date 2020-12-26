@@ -1,5 +1,5 @@
 // file      : liblava/util/thread.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ
+// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 // license   : MIT; see accompanying LICENSE file
 
 #pragma once
