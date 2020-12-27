@@ -5,14 +5,14 @@
 #include <liblava/base/memory.hpp>
 #include <liblava/frame/frame.hpp>
 
-#define GLFW_INCLUDE_NONE
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
 #if !LIBLAVA_DEBUG && _WIN32
 #    include <windows.h>
 #    include <iostream>
 #endif
+
+#define GLFW_INCLUDE_NONE
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
 
 void hide_console(lava::name program) {
 #if !LIBLAVA_DEBUG && _WIN32
