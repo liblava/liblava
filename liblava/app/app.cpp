@@ -5,7 +5,6 @@
 #include <imgui.h>
 #include <liblava/app/app.hpp>
 #include <liblava/app/def.hpp>
-#include <liblava/asset/scope_image.hpp>
 #include <liblava/base/debug_utils.hpp>
 
 namespace lava {
@@ -100,7 +99,7 @@ namespace lava {
         if (!window.create(load_window_state(window.get_save_name())))
             return false;
 
-        set_window_icon();
+        set_window_icon(window);
 
         if (!device) {
             device = create_device(config.physical_device);
@@ -305,7 +304,7 @@ namespace lava {
                     if (!window.switch_mode(window_state))
                         return false;
 
-                    set_window_icon();
+                    set_window_icon(window);
                 }
 
                 if (toggle_v_sync) {
@@ -395,12 +394,6 @@ namespace lava {
             ImGui::SameLine();
             ImGui::TextUnformatted(_paused_);
         }
-    }
-
-    void app::set_window_icon() {
-        scope_image icon("icon.png");
-        if (icon.ready)
-            window.set_icon(icon.data, icon.size);
     }
 
 } // namespace lava

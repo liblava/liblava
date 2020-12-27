@@ -79,7 +79,6 @@ namespace lava {
         void destroy_target();
 
         bool create_block();
-        void set_window_icon();
 
         texture::ptr fonts;
 

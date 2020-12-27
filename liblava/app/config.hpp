@@ -22,4 +22,6 @@ namespace lava {
     window::state::optional load_window_state(name save_name);
     void save_window_file(window::ref window);
 
+    void set_window_icon(window& window, string_ref icon_file = "icon.png");
+
 } // namespace lava
