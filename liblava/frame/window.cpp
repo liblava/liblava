@@ -86,6 +86,8 @@ namespace lava {
         switch_mode_request_active = false;
         handle_message();
 
+        get_framebuffer_size(framebuffer_width, framebuffer_height);
+
         return true;
     }
 

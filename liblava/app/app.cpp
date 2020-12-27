@@ -114,6 +114,9 @@ namespace lava {
         if (!camera.create(device))
             return false;
 
+        camera.aspect_ratio = window.get_aspect_ratio();
+        camera.update_projection();
+
         if (!create_gui())
             return false;
 
