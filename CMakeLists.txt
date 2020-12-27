@@ -311,6 +311,8 @@ add_library(lava.app STATIC
         ${LIBLAVA_DIR}/app/app.hpp
         ${LIBLAVA_DIR}/app/camera.cpp
         ${LIBLAVA_DIR}/app/camera.hpp
+        ${LIBLAVA_DIR}/app/config.cpp
+        ${LIBLAVA_DIR}/app/config.hpp
         ${LIBLAVA_DIR}/app/def.hpp
         ${LIBLAVA_DIR}/app/forward_shading.cpp
         ${LIBLAVA_DIR}/app/forward_shading.hpp

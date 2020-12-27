@@ -5,28 +5,14 @@
 #pragma once
 
 #include <liblava/app/camera.hpp>
+#include <liblava/app/config.hpp>
 #include <liblava/app/forward_shading.hpp>
-#include <liblava/app/gui.hpp>
 #include <liblava/block.hpp>
 #include <liblava/frame.hpp>
 
 namespace lava {
 
     struct app : frame {
-        struct config {
-            bool save_window = true;
-            bool handle_key_events = true;
-
-            bool auto_load = true;
-            bool auto_save = true;
-            seconds save_interval{ 300 };
-
-            bool v_sync = false;
-            index physical_device = 0;
-
-            lava::font font;
-        };
-
         explicit app(frame_config config);
         explicit app(name name, argh::parser cmd_line = {});
 
@@ -67,14 +53,8 @@ namespace lava {
         }
 
         void draw_about(bool separator = true) const;
-        void draw_about_with_separator() const {
-            draw_about();
-        }
-        void draw_about_without_separator() const {
-            draw_about(false);
-        }
 
-        config config;
+        app_config config;
         json_file config_file;
 
         using process_func = std::function<void(VkCommandBuffer, index)>;
