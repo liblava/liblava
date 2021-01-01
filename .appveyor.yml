@@ -1,7 +1,4 @@
 version: '{build}'
-branches:
-  only:
-  - master
 skip_tags: true
 image: Visual Studio 2019
 platform: x64
