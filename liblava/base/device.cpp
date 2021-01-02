@@ -53,6 +53,7 @@ namespace lava {
         graphics_queue_list.clear();
         compute_queue_list.clear();
         transfer_queue_list.clear();
+        queue_list.clear();
 
         index_map queue_family_map;
 
@@ -73,6 +74,8 @@ namespace lava {
                     compute_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
                 if (param.queue_info_list[i].flags & VK_QUEUE_TRANSFER_BIT)
                     transfer_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+
+                queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
             }
         }
 
@@ -86,6 +89,7 @@ namespace lava {
         graphics_queue_list.clear();
         compute_queue_list.clear();
         transfer_queue_list.clear();
+        queue_list.clear();
 
         call().vkDestroyDescriptorPool(vk_device, descriptor_pool, memory::alloc());
         descriptor_pool = 0;

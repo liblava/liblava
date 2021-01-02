@@ -109,6 +109,14 @@ namespace lava {
             return get_transfer_queues();
         }
 
+        queue::list const& get_queues() const {
+            return queue_list;
+        }
+
+        queue::list const& queues() const {
+            return get_queues();
+        }
+
         VkDevice get() const {
             return vk_device;
         }
@@ -155,6 +163,7 @@ namespace lava {
         device::queue::list graphics_queue_list;
         device::queue::list compute_queue_list;
         device::queue::list transfer_queue_list;
+        device::queue::list queue_list;
 
         VkPhysicalDeviceFeatures features;
 
