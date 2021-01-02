@@ -39,7 +39,7 @@ namespace lava {
 
     bool physical_device::get_queue_family(index& index, VkQueueFlags flags) const {
         for (size_t i = 0, e = queue_family_properties.size(); i != e; ++i) {
-            if (queue_family_properties[i].queueFlags & flags) {
+            if ((queue_family_properties[i].queueFlags & flags) == flags) {
                 index = to_index(i);
                 return true;
             }
