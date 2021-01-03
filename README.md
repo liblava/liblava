@@ -56,6 +56,7 @@
 
 * [argh](https://github.com/adishavit/argh) &nbsp; *3-clause BSD*
 * [bitmap](https://github.com/ArashPartow/bitmap) &nbsp; *MIT*
+* [Catch2](https://github.com/catchorg/Catch2) &nbsp; *BSL 1.0*
 * [glfw](https://github.com/glfw/glfw) &nbsp; *zlib*
 * [gli](https://github.com/g-truc/gli) &nbsp; *MIT*
 * [glm](https://github.com/g-truc/glm) &nbsp; *MIT*

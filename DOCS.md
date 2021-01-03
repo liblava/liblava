@@ -422,7 +422,7 @@ int main(int argc, char* argv[]) {
 
 ## Tests
 
-Run the **lava** executable to test the [Tutorial examples](tests/tests.cpp)
+Run the **lava** executable to test our [Tutorial examples](tests/tests.cpp)
 
 Let it simply flow...
 
@@ -447,7 +447,13 @@ lava -t
 lava 2
 ```
 
-The **driver** starts the last test when you provide *no* command line arguments
+The **driver** starts the *last* test when you provide *no* command line arguments
+
+<br />
+
+### Unit testing
+
+In addition run **lava-unit** that will check parts of **liblava** using [Catch2](https://github.com/catchorg/Catch2) test framework
 
 <br />
 

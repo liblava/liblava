@@ -342,6 +342,8 @@ option(LIBLAVA_TESTS "Enable Tests" TRUE)
 if(LIBLAVA_TESTS)
         message("> tests")
 
+        message(">> lava")
+
         add_executable(lava 
                 ${LIBLAVA_TESTS_DIR}/driver.cpp
                 ${LIBLAVA_TESTS_DIR}/driver.hpp
@@ -352,6 +354,25 @@ if(LIBLAVA_TESTS)
 
         install(TARGETS
                 lava
+                RUNTIME DESTINATION bin
+                )
+
+        message(">> lava-unit")
+
+        message(">>> Catch2")
+
+        add_subdirectory(${LIBLAVA_EXT_DIR}/Catch2 Catch2 EXCLUDE_FROM_ALL)
+
+        message("<<< Catch2")
+
+        add_executable(lava-unit 
+                ${LIBLAVA_TESTS_DIR}/unit.cpp
+                )
+
+        target_link_libraries(lava-unit lava::app Catch2::Catch2 Catch2::Catch2WithMain)
+
+        install(TARGETS
+                lava-unit
                 RUNTIME DESTINATION bin
                 )
 endif()
@@ -395,6 +416,7 @@ install(DIRECTORY
         #${LIBLAVA_EXT_DIR}/bitmap/
         #${LIBLAVA_EXT_DIR}/selene/selene
         #${LIBLAVA_EXT_DIR}/glfw/include/
+        #${LIBLAVA_EXT_DIR}/Catch2/
         ${LIBLAVA_EXT_DIR}/argh/
         ${LIBLAVA_EXT_DIR}/imgui/
         DESTINATION include/liblava/ext
