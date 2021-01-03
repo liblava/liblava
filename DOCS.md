@@ -1,6 +1,6 @@
 ﻿<a href="https://git.io/liblava"><img align="left" src="https://github.com/liblava.png" width="100" style="margin:0px 20px 0px 0px"></a>
 
-# liblava docs &nbsp; [![Version](https://img.shields.io/badge/Version-0.5.6-blue)](https://git.io/liblava)
+# liblava docs &nbsp; [![Version](https://img.shields.io/badge/Version-0.6.0-blue)](https://git.io/liblava)
 
 [Features](#features) &nbsp; **[Tutorial](#tutorial)** &nbsp; [Modules](#modules) &nbsp; **[Guide](#guide)** &nbsp; [Tests](#tests) &nbsp; **[Build](#build)** &nbsp; [Install](#install)
 
@@ -422,7 +422,7 @@ int main(int argc, char* argv[]) {
 
 ## Tests
 
-Run the **lava** executable to test the [Tutorial examples](tests/tests.cpp)
+Run the **lava** executable to test our [Tutorial examples](tests/tests.cpp)
 
 Let it simply flow...
 
@@ -447,7 +447,13 @@ lava -t
 lava 2
 ```
 
-The **driver** starts the last test when you provide *no* command line arguments
+The **driver** starts the *last* test when you provide *no* command line arguments
+
+<br />
+
+### Unit testing
+
+In addition run **lava-unit** that will check parts of **liblava** using [Catch2](https://github.com/catchorg/Catch2) test framework
 
 <br />
 

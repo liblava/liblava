@@ -25,8 +25,8 @@ namespace lava {
     };
 
     struct version {
-        i32 year = 2020;
-        i32 release = 1;
+        i32 year = 2021;
+        i32 release = 0;
         version_stage stage = version_stage::preview;
         i32 rev = 0;
     };
