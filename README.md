@@ -8,7 +8,7 @@
 
 **C++20** + **Modular** &nbsp; **<a href="https://git.io/liblava-demo">demo</a>**  + <a href="https://git.io/liblava-template">template</a> &nbsp; **Windows** + **Linux**
 
-[![Version](https://img.shields.io/badge/Version-0.5.6-blue)](https://git.io/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![CodeFactor](https://www.codefactor.io/repository/github/liblava/liblava/badge)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
+[![Version](https://img.shields.io/badge/Version-0.6.0-blue)](https://git.io/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![CodeFactor](https://www.codefactor.io/repository/github/liblava/liblava/badge)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
 
 <br />
 
