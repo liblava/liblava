@@ -11,7 +11,7 @@ namespace lava {
         target = t;
         device = target->get_device();
 
-        queue = device->get_graphics_queue();
+        graphics_queue = device->get_graphics_queue();
         queued_frames = target->get_backbuffer_count();
 
         fences.resize(queued_frames);
@@ -141,7 +141,7 @@ namespace lava {
         std::array<VkSubmitInfo, 1> const submit_infos = { submit_info };
         VkFence current_fence = fences[current_sync];
 
-        if (!device->vkQueueSubmit(queue.vk_queue, to_ui32(submit_infos.size()), submit_infos.data(), current_fence))
+        if (!device->vkQueueSubmit(graphics_queue.vk_queue, to_ui32(submit_infos.size()), submit_infos.data(), current_fence))
             return false;
 
         std::array<VkSwapchainKHR, 1> const swapchains = { target->get() };
@@ -156,7 +156,7 @@ namespace lava {
             .pImageIndices = indices.data(),
         };
 
-        auto result = device->vkQueuePresentKHR(queue.vk_queue, &present_info);
+        auto result = device->vkQueuePresentKHR(graphics_queue.vk_queue, &present_info);
         if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
             target->request_reload();
             return true;

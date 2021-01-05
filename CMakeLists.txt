@@ -164,6 +164,8 @@ add_library(lava.base STATIC
         ${LIBLAVA_DIR}/base/memory.hpp
         ${LIBLAVA_DIR}/base/physical_device.cpp
         ${LIBLAVA_DIR}/base/physical_device.hpp
+        ${LIBLAVA_DIR}/base/queue.cpp
+        ${LIBLAVA_DIR}/base/queue.hpp
         ${LIBLAVA_EXT_DIR}/volk/volk.c
         )
 
@@ -357,13 +359,9 @@ if(LIBLAVA_TESTS)
                 RUNTIME DESTINATION bin
                 )
 
-        message(">> lava-unit")
-
-        message(">>> Catch2")
+        message(">> lava-unit (Catch2)")
 
         add_subdirectory(${LIBLAVA_EXT_DIR}/Catch2 Catch2 EXCLUDE_FROM_ALL)
-
-        message("<<< Catch2")
 
         add_executable(lava-unit 
                 ${LIBLAVA_TESTS_DIR}/unit.cpp
