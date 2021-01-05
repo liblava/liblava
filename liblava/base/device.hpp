@@ -46,7 +46,7 @@ namespace lava {
 
             bool add_dedicated_queues(r32 priority = 1.f);
 
-            queue_verify_result verify_queues() const;
+            verify_queues_result verify_queues() const;
         };
 
         ~device() {

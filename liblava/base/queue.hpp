@@ -39,8 +39,10 @@ namespace lava {
         queue_info::list queues;
 
         void add(VkQueueFlags flags, ui32 count = 1, r32 priority = 1.f) {
-            for (auto i = 0u; i < count; ++i)
-                queues.emplace_back(flags, priority);
+            for (auto i = 0u; i < count; ++i) {
+                queue_info info{ flags, priority };
+                queues.push_back(info);
+            }
         }
 
         ui32 count() const {
@@ -63,7 +65,7 @@ namespace lava {
                               VkQueueFamilyPropertiesList const& properties,
                               r32 priority = 1.f);
 
-    enum class queue_verify_result : type {
+    enum class verify_queues_result : type {
         ok = 0,
         empty_list,
         no_properties,
@@ -73,6 +75,6 @@ namespace lava {
         too_many_queues,
         no_compatible_flags
     };
-    queue_verify_result verify_queues(queue_family_info::list const& list, VkQueueFamilyPropertiesList const& properties);
+    verify_queues_result verify_queues(queue_family_info::list const& list, VkQueueFamilyPropertiesList const& properties);
 
 } // namespace lava

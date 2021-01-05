@@ -20,8 +20,43 @@ namespace lava {
         return lava::add_dedicated_queues(queue_family_infos, physical_device->get_queue_family_properties(), priority);
     }
 
-    queue_verify_result device::create_param::verify_queues() const {
+    verify_queues_result device::create_param::verify_queues() const {
         return lava::verify_queues(queue_family_infos, physical_device->get_queue_family_properties());
+    }
+
+    void log_verify_queues_failed(verify_queues_result result) {
+        switch (result) {
+        case verify_queues_result::empty_list: {
+            log()->error("create device - verify queues - param with empty list");
+            break;
+        }
+        case verify_queues_result::no_properties: {
+            log()->error("create device - verify queues - no device family properties");
+            break;
+        }
+        case verify_queues_result::duplicate_family_index: {
+            log()->error("create device - verify queues - duplicate family index");
+            break;
+        }
+        case verify_queues_result::no_family_index: {
+            log()->error("create device - verify queues - family index is not available");
+            break;
+        }
+        case verify_queues_result::no_queues: {
+            log()->error("create device - verify queues - undefined queues in family");
+            break;
+        }
+        case verify_queues_result::too_many_queues: {
+            log()->error("create device - verify queues - number of queues is incorrect");
+            break;
+        }
+        case verify_queues_result::no_compatible_flags: {
+            log()->error("create device - verify queues - no compatible flags in queue");
+            break;
+        }
+        default:
+            log()->error("create device - verify queues");
+        }
     }
 
     bool device::create(create_param::ref param) {
@@ -30,40 +65,8 @@ namespace lava {
             return false;
 
         auto verify_result = param.verify_queues();
-        if (verify_result != queue_verify_result::ok) {
-            switch (verify_result) {
-            case queue_verify_result::empty_list: {
-                log()->error("create device - verify queues - param with empty list");
-                break;
-            }
-            case queue_verify_result::no_properties: {
-                log()->error("create device - verify queues - no device family properties");
-                break;
-            }
-            case queue_verify_result::duplicate_family_index: {
-                log()->error("create device - verify queues - duplicate family index");
-                break;
-            }
-            case queue_verify_result::no_family_index: {
-                log()->error("create device - verify queues - family index is not available");
-                break;
-            }
-            case queue_verify_result::no_queues: {
-                log()->error("create device - verify queues - undefined queues in family");
-                break;
-            }
-            case queue_verify_result::too_many_queues: {
-                log()->error("create device - verify queues - number of queues is incorrect");
-                break;
-            }
-            case queue_verify_result::no_compatible_flags: {
-                log()->error("create device - verify queues - no compatible flags in queue");
-                break;
-            }
-            default:
-                log()->error("create device - verify queues");
-            }
-
+        if (verify_result != verify_queues_result::ok) {
+            log_verify_queues_failed(verify_result);
             return false;
         }
 

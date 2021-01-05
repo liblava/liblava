@@ -48,7 +48,7 @@ TEST_CASE("queue setup - GeForce GTX 1060", "[queue]") {
         REQUIRE(add_queues(list, properties, VK_QUEUE_TRANSFER_BIT, 1));
     }
 
-    REQUIRE(verify_queues(list, properties) == queue_verify_result::ok);
+    REQUIRE(verify_queues(list, properties) == verify_queues_result::ok);
 }
 
 TEST_CASE("queue setup - Radeon RX 580 Series", "[queue]") {
@@ -87,7 +87,7 @@ TEST_CASE("queue setup - Radeon RX 580 Series", "[queue]") {
         REQUIRE_FALSE(add_queues(list, properties, VK_QUEUE_COMPUTE_BIT, 1));
     }
 
-    REQUIRE(verify_queues(list, properties) == queue_verify_result::ok);
+    REQUIRE(verify_queues(list, properties) == verify_queues_result::ok);
 }
 
 TEST_CASE("queue setup - Intel(R) HD Graphics 620", "[queue]") {
@@ -102,13 +102,13 @@ TEST_CASE("queue setup - Intel(R) HD Graphics 620", "[queue]") {
     SECTION("no dedicated queues available") {
         REQUIRE_FALSE(add_dedicated_queues(list, properties));
 
-        REQUIRE(verify_queues(list, properties) == queue_verify_result::empty_list);
+        REQUIRE(verify_queues(list, properties) == verify_queues_result::empty_list);
     }
 
     SECTION("no more queues available") {
         REQUIRE(add_queues(list, properties, VK_QUEUE_GRAPHICS_BIT, 1));
         REQUIRE_FALSE(add_queues(list, properties, VK_QUEUE_COMPUTE_BIT, 1));
 
-        REQUIRE(verify_queues(list, properties) == queue_verify_result::ok);
+        REQUIRE(verify_queues(list, properties) == verify_queues_result::ok);
     }
 }

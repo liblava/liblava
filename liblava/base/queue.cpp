@@ -17,11 +17,14 @@ namespace lava {
         list.clear();
 
         for (auto& queue_family : properties) {
-            queue_family_info info;
-            info.family_index = list.size();
-            for (auto queue_count = 0; queue_count < queue_family.queueCount; ++queue_count)
-                info.queues.emplace_back(queue_family.queueFlags, 1.f);
-            list.push_back(info);
+            queue_family_info family_info;
+            family_info.family_index = list.size();
+            for (auto queue_count = 0; queue_count < queue_family.queueCount; ++queue_count) {
+                queue_info info{ queue_family.queueFlags, 1.f };
+                family_info.queues.push_back(info);
+            }
+
+            list.push_back(family_info);
         }
     }
 
@@ -36,7 +39,7 @@ namespace lava {
         queue_family_info family_info;
         family_info.family_index = family_index;
         family_info.add(flags, count, priority);
-        list.emplace_back(family_info);
+        list.push_back(family_info);
     }
 
     bool add_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList const& properties, VkQueueFlags flags, ui32 count, r32 priority) {
@@ -84,46 +87,49 @@ namespace lava {
             return false;
 
         for (auto family_index = 1u; family_index < properties.size(); ++family_index) {
-            queue_family_info info;
-            info.family_index = family_index;
-            for (auto queue_count = 0; queue_count < properties.at(family_index).queueCount; ++queue_count)
-                info.queues.emplace_back(properties.at(family_index).queueFlags, priority);
-            list.push_back(info);
+            queue_family_info family_info;
+            family_info.family_index = family_index;
+            for (auto queue_count = 0; queue_count < properties.at(family_index).queueCount; ++queue_count) {
+                queue_info info{ properties.at(family_index).queueFlags, priority };
+                family_info.queues.push_back(info);
+            }
+
+            list.push_back(family_info);
         }
 
         return true;
     }
 
-    queue_verify_result verify_queues(queue_family_info::list const& list, VkQueueFamilyPropertiesList const& properties) {
+    verify_queues_result verify_queues(queue_family_info::list const& list, VkQueueFamilyPropertiesList const& properties) {
         if (list.empty())
-            return queue_verify_result::empty_list;
+            return verify_queues_result::empty_list;
 
         if (properties.empty())
-            return queue_verify_result::no_properties;
+            return verify_queues_result::no_properties;
 
         index_list families;
         for (auto& info : list) {
             if (contains(families, info.family_index))
-                return queue_verify_result::duplicate_family_index;
+                return verify_queues_result::duplicate_family_index;
 
             families.push_back(info.family_index);
 
             if (info.family_index > properties.size() - 1)
-                return queue_verify_result::no_family_index;
+                return verify_queues_result::no_family_index;
 
             if (info.queues.empty())
-                return queue_verify_result::no_queues;
+                return verify_queues_result::no_queues;
 
             if (info.count() > properties[info.family_index].queueCount)
-                return queue_verify_result::too_many_queues;
+                return verify_queues_result::too_many_queues;
 
             for (auto& queue : info.queues) {
                 if ((properties[info.family_index].queueFlags & queue.flags) != queue.flags)
-                    return queue_verify_result::no_compatible_flags;
+                    return verify_queues_result::no_compatible_flags;
             }
         }
 
-        return queue_verify_result::ok;
+        return verify_queues_result::ok;
     }
 
 } // namespace lava
