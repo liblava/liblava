@@ -18,6 +18,10 @@ namespace lava {
         index family = 0;
         r32 priority = 1.f;
 
+        bool valid() const {
+            return vk_queue != nullptr;
+        }
+
         bool operator<(queue const& other) const {
             return priority < other.priority;
         }

@@ -191,7 +191,12 @@ namespace lava {
     }
 
     bool device::surface_supported(VkSurfaceKHR surface) const {
-        return physical_device->surface_supported(get_graphics_queue().family, surface);
+        for (auto& queue : queue_list) {
+            if (physical_device->surface_supported(queue.family, surface))
+                return true;
+        }
+
+        return false;
     }
 
     VkPhysicalDevice device::get_vk_physical_device() const {

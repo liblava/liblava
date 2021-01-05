@@ -226,4 +226,8 @@ namespace lava {
         remove(callbacks, cb);
     }
 
+    bool swapchain::surface_supported(index queue_family) const {
+        return device->get_physical_device()->surface_supported(queue_family, surface);
+    }
+
 } // namespace lava

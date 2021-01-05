@@ -8,10 +8,19 @@
 namespace lava {
 
     bool renderer::create(swapchain* t) {
+        for (auto& queue : t->get_device()->get_graphics_queues()) {
+            if (t->surface_supported(queue.family)) {
+                graphics_queue = queue;
+                break;
+            }
+        }
+
+        if (!graphics_queue.valid())
+            return false;
+
         target = t;
         device = target->get_device();
 
-        graphics_queue = device->get_graphics_queue();
         queued_frames = target->get_backbuffer_count();
 
         fences.resize(queued_frames);
