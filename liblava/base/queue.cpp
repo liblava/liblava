@@ -69,7 +69,7 @@ namespace lava {
         }
 
         // fallback: search again if the flags exists within a free family
-        for (auto family_index = 0u; family_index < free_properties.size(); ++family_index) {
+        for (auto family_index = family_index_count - 1; family_index >= 0; --family_index) {
             auto const& queue_family = free_properties.at(family_index);
 
             auto queue_family_flags = queue_family.queueFlags & ~VK_QUEUE_SPARSE_BINDING_BIT; // ignore
