@@ -117,10 +117,6 @@ namespace lava {
             return check(call().vkDeviceWaitIdle(vk_device));
         }
 
-        VkDescriptorPool get_descriptor_pool() const {
-            return descriptor_pool;
-        }
-
         physical_device_cptr get_physical_device() const {
             return physical_device;
         }
@@ -143,11 +139,7 @@ namespace lava {
         }
 
     private:
-        bool create_descriptor_pool();
-
         physical_device_cptr physical_device = nullptr;
-
-        VkDescriptorPool descriptor_pool = 0;
 
         queue::list graphics_queue_list;
         queue::list compute_queue_list;

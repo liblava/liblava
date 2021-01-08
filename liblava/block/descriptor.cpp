@@ -14,6 +14,34 @@ namespace lava {
         vk_binding.pImmutableSamplers = nullptr;
     }
 
+    bool descriptor::pool::create(device_ptr d, VkDescriptorPoolSizesRef s, ui32 m, VkDescriptorPoolCreateFlags flags) {
+        if (s.empty() || (m == 0))
+            return false;
+
+        device = d;
+        sizes = s;
+        max = m;
+
+        VkDescriptorPoolCreateInfo const pool_info{
+            .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
+            .flags = flags,
+            .maxSets = max,
+            .poolSizeCount = to_ui32(s.size()),
+            .pPoolSizes = sizes.data(),
+        };
+
+        return check(device->call().vkCreateDescriptorPool(device->get(), &pool_info, memory::alloc(), &vk_pool));
+    }
+
+    void descriptor::pool::destroy() {
+        device->call().vkDestroyDescriptorPool(device->get(), vk_pool, memory::alloc());
+        vk_pool = 0;
+
+        device = nullptr;
+        sizes.clear();
+        max = 0;
+    }
+
     bool descriptor::create(device_ptr d) {
         device = d;
 
@@ -50,12 +78,12 @@ namespace lava {
         add(item);
     }
 
-    VkDescriptorSet descriptor::allocate_set() {
+    VkDescriptorSet descriptor::allocate_set(VkDescriptorPool pool) {
         VkDescriptorSet descriptor_set = 0;
 
         VkDescriptorSetAllocateInfo const alloc_info{
             .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
-            .descriptorPool = device->get_descriptor_pool(),
+            .descriptorPool = pool,
             .descriptorSetCount = 1,
             .pSetLayouts = &layout,
         };
@@ -66,19 +94,19 @@ namespace lava {
         return descriptor_set;
     }
 
-    bool descriptor::free_set(VkDescriptorSet descriptor_set) {
+    bool descriptor::free_set(VkDescriptorSet descriptor_set, VkDescriptorPool pool) {
         std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
 
-        return check(device->call().vkFreeDescriptorSets(device->get(), device->get_descriptor_pool(),
+        return check(device->call().vkFreeDescriptorSets(device->get(), pool,
                                                          to_ui32(descriptor_sets.size()), descriptor_sets.data()));
     }
 
-    VkDescriptorSets descriptor::allocate_sets(ui32 size) {
+    VkDescriptorSets descriptor::allocate_sets(ui32 size, VkDescriptorPool pool) {
         VkDescriptorSets result(size);
 
         VkDescriptorSetAllocateInfo const alloc_info{
             .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
-            .descriptorPool = device->get_descriptor_pool(),
+            .descriptorPool = pool,
             .descriptorSetCount = size,
             .pSetLayouts = &layout,
         };
@@ -89,8 +117,8 @@ namespace lava {
         return result;
     }
 
-    bool descriptor::free_sets(VkDescriptorSets const& descriptor_sets) {
-        return check(device->call().vkFreeDescriptorSets(device->get(), device->get_descriptor_pool(),
+    bool descriptor::free_sets(VkDescriptorSets const& descriptor_sets, VkDescriptorPool pool) {
+        return check(device->call().vkFreeDescriptorSets(device->get(), pool,
                                                          to_ui32(descriptor_sets.size()), descriptor_sets.data()));
     }
 

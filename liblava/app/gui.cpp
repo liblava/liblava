@@ -375,6 +375,10 @@ namespace lava {
         if (!descriptor->create(device))
             return false;
 
+        descriptor_pool = make_descriptor_pool();
+        if (!descriptor_pool->create(device, { { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1 } }))
+            return false;
+
         layout = make_pipeline_layout();
         layout->add(descriptor);
         layout->add({ VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(r32) * 4 });
@@ -385,7 +389,7 @@ namespace lava {
         pipeline->set_layout(layout);
         pipeline->set_auto_size(false);
 
-        descriptor_set = descriptor->allocate();
+        descriptor_set = descriptor->allocate(descriptor_pool->get());
 
         pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
             if (!activated() || !on_draw)
@@ -441,7 +445,8 @@ namespace lava {
         vertex_buffers.clear();
         index_buffers.clear();
 
-        descriptor->free(descriptor_set);
+        descriptor->free(descriptor_set, descriptor_pool->get());
+        descriptor_pool->destroy();
         descriptor->destroy();
         descriptor = nullptr;
 

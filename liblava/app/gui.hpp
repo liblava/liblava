@@ -124,6 +124,7 @@ namespace lava {
         buffer::list index_buffers;
 
         lava::descriptor::ptr descriptor;
+        lava::descriptor::pool::ptr descriptor_pool;
         VkDescriptorSet descriptor_set = 0;
 
         GLFWwindow* window = nullptr;

@@ -138,7 +138,7 @@ namespace lava {
             }
         }
 
-        return create_descriptor_pool();
+        return true;
     }
 
     void device::destroy() {
@@ -150,44 +150,12 @@ namespace lava {
         transfer_queue_list.clear();
         queue_list.clear();
 
-        call().vkDestroyDescriptorPool(vk_device, descriptor_pool, memory::alloc());
-        descriptor_pool = 0;
-
         mem_allocator = nullptr;
 
         call().vkDestroyDevice(vk_device, memory::alloc());
         vk_device = nullptr;
 
         table = {};
-    }
-
-    bool device::create_descriptor_pool() {
-        auto const count = 11u;
-        auto const size = 1000u;
-
-        VkDescriptorPoolSize const pool_size[count] = {
-            { VK_DESCRIPTOR_TYPE_SAMPLER, size },
-            { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, size },
-            { VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, size },
-            { VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, size },
-            { VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, size },
-            { VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, size },
-            { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, size },
-            { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, size },
-            { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, size },
-            { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, size },
-            { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, size },
-        };
-
-        VkDescriptorPoolCreateInfo const pool_info{
-            .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
-            .flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT,
-            .maxSets = size * count,
-            .poolSizeCount = count,
-            .pPoolSizes = pool_size,
-        };
-
-        return check(call().vkCreateDescriptorPool(vk_device, &pool_info, memory::alloc(), &descriptor_pool));
     }
 
     bool device::surface_supported(VkSurfaceKHR surface) const {

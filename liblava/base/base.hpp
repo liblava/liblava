@@ -37,6 +37,8 @@ namespace lava {
     using VkDescriptorSets = std::vector<VkDescriptorSet>;
     using VkDescriptorSetLayouts = std::vector<VkDescriptorSetLayout>;
     using VkDescriptorSetLayoutBindings = std::vector<VkDescriptorSetLayoutBinding>;
+    using VkDescriptorPoolSizes = std::vector<VkDescriptorPoolSize>;
+    using VkDescriptorPoolSizesRef = VkDescriptorPoolSizes const&;
 
     using VkPushConstantRanges = std::vector<VkPushConstantRange>;
 

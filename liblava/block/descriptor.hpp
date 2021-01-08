@@ -43,6 +43,35 @@ namespace lava {
             VkDescriptorSetLayoutBinding vk_binding;
         };
 
+        struct pool : id_obj {
+            using ptr = std::shared_ptr<pool>;
+            using list = std::vector<ptr>;
+
+            bool create(device_ptr device, VkDescriptorPoolSizesRef sizes, ui32 max = 1,
+                        VkDescriptorPoolCreateFlags flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT);
+            void destroy();
+
+            VkDescriptorPool get() const {
+                return vk_pool;
+            }
+
+            VkDescriptorPoolSizes const& get_sizes() const {
+                return sizes;
+            }
+
+            ui32 get_max() const {
+                return max;
+            }
+
+        private:
+            device_ptr device = nullptr;
+
+            VkDescriptorPool vk_pool = 0;
+
+            VkDescriptorPoolSizes sizes;
+            ui32 max = 0;
+        };
+
         using ptr = std::shared_ptr<descriptor>;
         using list = std::vector<ptr>;
 
@@ -66,24 +95,24 @@ namespace lava {
             return layout;
         }
 
-        VkDescriptorSet allocate_set();
-        VkDescriptorSet allocate() {
-            return allocate_set();
+        VkDescriptorSet allocate_set(VkDescriptorPool pool);
+        VkDescriptorSet allocate(VkDescriptorPool pool) {
+            return allocate_set(pool);
         }
 
-        bool free_set(VkDescriptorSet descriptor_set);
-        bool free(VkDescriptorSet descriptor_set) {
-            return free_set(descriptor_set);
+        bool free_set(VkDescriptorSet descriptor_set, VkDescriptorPool pool);
+        bool free(VkDescriptorSet descriptor_set, VkDescriptorPool pool) {
+            return free_set(descriptor_set, pool);
         }
 
-        VkDescriptorSets allocate_sets(ui32 size);
-        VkDescriptorSets allocate(ui32 size) {
-            return allocate_sets(size);
+        VkDescriptorSets allocate_sets(ui32 size, VkDescriptorPool pool);
+        VkDescriptorSets allocate(ui32 size, VkDescriptorPool pool) {
+            return allocate_sets(size, pool);
         }
 
-        bool free_sets(VkDescriptorSets const& descriptor_sets);
-        bool free(VkDescriptorSets const& descriptor_sets) {
-            return free_sets(descriptor_sets);
+        bool free_sets(VkDescriptorSets const& descriptor_sets, VkDescriptorPool pool);
+        bool free(VkDescriptorSets const& descriptor_sets, VkDescriptorPool pool) {
+            return free_sets(descriptor_sets, pool);
         }
 
     private:
@@ -98,5 +127,9 @@ namespace lava {
     }
 
     descriptor::binding::ptr make_descriptor_binding(index index);
+
+    inline descriptor::pool::ptr make_descriptor_pool() {
+        return std::make_shared<descriptor::pool>();
+    }
 
 } // namespace lava
