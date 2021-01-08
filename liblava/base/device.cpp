@@ -8,25 +8,82 @@
 
 namespace lava {
 
+    void device::create_param::set_all_queues() {
+        lava::set_all_queues(queue_family_infos, physical_device->get_queue_family_properties());
+    }
+
+    bool device::create_param::add_queues(VkQueueFlags flags, ui32 count, r32 priority) {
+        return lava::add_queues(queue_family_infos, physical_device->get_queue_family_properties(), flags, count, priority);
+    }
+
+    bool device::create_param::add_dedicated_queues(r32 priority) {
+        return lava::add_dedicated_queues(queue_family_infos, physical_device->get_queue_family_properties(), priority);
+    }
+
+    verify_queues_result device::create_param::verify_queues() const {
+        return lava::verify_queues(queue_family_infos, physical_device->get_queue_family_properties());
+    }
+
+    void log_verify_queues_failed(verify_queues_result result) {
+        switch (result) {
+        case verify_queues_result::empty_list: {
+            log()->error("create device - verify queues - param with empty list");
+            break;
+        }
+        case verify_queues_result::no_properties: {
+            log()->error("create device - verify queues - no device family properties");
+            break;
+        }
+        case verify_queues_result::duplicate_family_index: {
+            log()->error("create device - verify queues - duplicate family index");
+            break;
+        }
+        case verify_queues_result::no_family_index: {
+            log()->error("create device - verify queues - family index is not available");
+            break;
+        }
+        case verify_queues_result::no_queues: {
+            log()->error("create device - verify queues - undefined queues in family");
+            break;
+        }
+        case verify_queues_result::too_many_queues: {
+            log()->error("create device - verify queues - number of queues is incorrect");
+            break;
+        }
+        case verify_queues_result::no_compatible_flags: {
+            log()->error("create device - verify queues - no compatible flags in queue");
+            break;
+        }
+        default:
+            log()->error("create device - verify queues");
+        }
+    }
+
     bool device::create(create_param::ref param) {
         physical_device = param.physical_device;
         if (!physical_device)
             return false;
 
-        std::vector<VkDeviceQueueCreateInfo> queue_create_info_list(param.queue_info_list.size());
+        auto verify_result = param.verify_queues();
+        if (verify_result != verify_queues_result::ok) {
+            log_verify_queues_failed(verify_result);
+            return false;
+        }
 
-        for (size_t i = 0, e = param.queue_info_list.size(); i != e; ++i) {
+        std::vector<VkDeviceQueueCreateInfo> queue_create_info_list(param.queue_family_infos.size());
+
+        std::vector<std::vector<r32>> priorities;
+        priorities.resize(param.queue_family_infos.size());
+
+        for (auto i = 0u; i < param.queue_family_infos.size(); ++i) {
             queue_create_info_list[i].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+            queue_create_info_list[i].queueFamilyIndex = param.queue_family_infos[i].family_index;
+            queue_create_info_list[i].queueCount = param.queue_family_infos[i].queues.size();
 
-            auto index = 0u;
-            if (!physical_device->get_queue_family(index, param.queue_info_list[i].flags)) {
-                log()->error("create device queue family");
-                return false;
-            }
+            for (auto j = 0u; j < param.queue_family_infos[i].queues.size(); ++j)
+                priorities.at(i).push_back(param.queue_family_infos[i].queues.at(j).priority);
 
-            queue_create_info_list[i].queueFamilyIndex = index;
-            queue_create_info_list[i].queueCount = param.queue_info_list[i].count();
-            queue_create_info_list[i].pQueuePriorities = param.queue_info_list[i].priorities.data();
+            queue_create_info_list[i].pQueuePriorities = priorities.at(i).data();
         }
 
         VkDeviceCreateInfo create_info{
@@ -55,27 +112,29 @@ namespace lava {
         transfer_queue_list.clear();
         queue_list.clear();
 
-        index_map queue_family_map;
+        for (auto i = 0u; i != queue_create_info_list.size(); ++i) {
+            auto queue_family_index = queue_create_info_list[i].queueFamilyIndex;
+            auto queue_family_flags = physical_device->get_queue_family_properties().at(queue_family_index).queueFlags;
 
-        for (size_t i = 0, ei = queue_create_info_list.size(); i != ei; ++i) {
-            if (!queue_family_map.count(queue_create_info_list[i].queueFamilyIndex))
-                queue_family_map.emplace(queue_create_info_list[i].queueFamilyIndex, 0);
+            for (auto queue_index = 0u; queue_index != queue_create_info_list[i].queueCount; ++queue_index) {
+                VkQueue vk_queue = nullptr;
+                call().vkGetDeviceQueue(vk_device, queue_family_index, queue_index, &vk_queue);
 
-            for (size_t j = 0, ej = queue_create_info_list[i].queueCount; j != ej; ++j) {
-                auto counter = queue_family_map[queue_create_info_list[i].queueFamilyIndex];
-                queue_family_map[queue_create_info_list[i].queueFamilyIndex]++;
+                auto flags = param.queue_family_infos[i].queues.at(queue_index).flags;
+                auto priority = queue_create_info_list[i].pQueuePriorities[queue_index];
 
-                VkQueue queue = nullptr;
-                call().vkGetDeviceQueue(vk_device, queue_create_info_list[i].queueFamilyIndex, counter, &queue);
+                queue queue{
+                    vk_queue, queue_family_flags, queue_family_index, priority
+                };
 
-                if (param.queue_info_list[i].flags & VK_QUEUE_GRAPHICS_BIT)
-                    graphics_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
-                if (param.queue_info_list[i].flags & VK_QUEUE_COMPUTE_BIT)
-                    compute_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
-                if (param.queue_info_list[i].flags & VK_QUEUE_TRANSFER_BIT)
-                    transfer_queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+                if (flags & VK_QUEUE_GRAPHICS_BIT)
+                    graphics_queue_list.push_front(queue);
+                if (flags & VK_QUEUE_COMPUTE_BIT)
+                    compute_queue_list.push_front(queue);
+                if (flags & VK_QUEUE_TRANSFER_BIT)
+                    transfer_queue_list.push_front(queue);
 
-                queue_list.push_back({ queue, queue_create_info_list[i].queueFamilyIndex });
+                queue_list.push_back(queue);
             }
         }
 
@@ -132,7 +191,12 @@ namespace lava {
     }
 
     bool device::surface_supported(VkSurfaceKHR surface) const {
-        return physical_device->surface_supported(get_graphics_queue().family, surface);
+        for (auto& queue : queue_list) {
+            if (physical_device->surface_supported(queue.family, surface))
+                return true;
+        }
+
+        return false;
     }
 
     VkPhysicalDevice device::get_vk_physical_device() const {

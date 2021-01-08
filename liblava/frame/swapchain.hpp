@@ -61,6 +61,8 @@ namespace lava {
             return v_sync_active;
         }
 
+        bool surface_supported(index queue_family) const;
+
     private:
         void set_surface_format();
 

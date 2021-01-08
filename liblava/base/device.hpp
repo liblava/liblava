@@ -5,6 +5,7 @@
 #pragma once
 
 #include <liblava/base/device_table.hpp>
+#include <liblava/base/queue.hpp>
 #include <liblava/core/data.hpp>
 
 namespace lava {
@@ -22,34 +23,30 @@ namespace lava {
 
             physical_device_cptr physical_device = nullptr;
 
-            struct queue_info {
-                using list = std::vector<queue_info>;
-
-                VkQueueFlags flags = VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT;
-
-                using priority_list = std::vector<float>;
-                priority_list priorities;
-
-                ui32 count() const {
-                    return to_ui32(priorities.size());
-                }
-
-                explicit queue_info(ui32 count = 1) {
-                    for (auto i = 0u; i < count; ++i)
-                        priorities.push_back(1.f);
-                }
-            };
-
-            queue_info::list queue_info_list;
-
             names extensions;
             VkPhysicalDeviceFeatures features{};
             void const* next = nullptr; // pNext
 
-            void set_default_queues() {
+            queue_family_info::list queue_family_infos;
+
+            void add_swapchain_extension() {
                 extensions.push_back("VK_KHR_swapchain");
-                queue_info_list.resize(1);
             }
+
+            void set_default_queues() {
+                lava::set_default_queues(queue_family_infos);
+            }
+
+            void set_all_queues();
+
+            bool add_queue(VkQueueFlags flags, r32 priority = 1.f) {
+                return add_queues(flags, 1, priority);
+            }
+            bool add_queues(VkQueueFlags flags, ui32 count, r32 priority = 1.f);
+
+            bool add_dedicated_queues(r32 priority = 1.f);
+
+            verify_queues_result verify_queues() const;
         };
 
         ~device() {
@@ -58,14 +55,6 @@ namespace lava {
 
         bool create(create_param::ref param);
         void destroy();
-
-        struct queue {
-            using list = std::vector<queue>;
-            using ref = queue const&;
-
-            VkQueue vk_queue = nullptr;
-            index family = 0;
-        };
 
         queue::ref get_graphics_queue(index index = 0) const {
             return get_graphics_queues().at(index);
@@ -160,10 +149,10 @@ namespace lava {
 
         VkDescriptorPool descriptor_pool = 0;
 
-        device::queue::list graphics_queue_list;
-        device::queue::list compute_queue_list;
-        device::queue::list transfer_queue_list;
-        device::queue::list queue_list;
+        queue::list graphics_queue_list;
+        queue::list compute_queue_list;
+        queue::list transfer_queue_list;
+        queue::list queue_list;
 
         VkPhysicalDeviceFeatures features;
 

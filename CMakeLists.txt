@@ -74,6 +74,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_link_options(lava.core INTERFACE "-latomic")
 endif()
 
+set_target_properties(lava.core PROPERTIES FOLDER "lava")
 set_property(TARGET lava.core PROPERTY EXPORT_NAME core)
 add_library(lava::core ALIAS lava.core)
 
@@ -93,6 +94,8 @@ message(">>> spdlog")
 
 add_subdirectory(${LIBLAVA_EXT_DIR}/spdlog spdlog EXCLUDE_FROM_ALL)
 
+set_target_properties(spdlog PROPERTIES FOLDER "lava/ext")
+
 message("<<< spdlog")
 
 target_link_libraries(lava.util INTERFACE
@@ -100,6 +103,7 @@ target_link_libraries(lava.util INTERFACE
         spdlog
         )
 
+set_target_properties(lava.util PROPERTIES FOLDER "lava")
 set_property(TARGET lava.util PROPERTY EXPORT_NAME util)
 add_library(lava::util ALIAS lava.util)
 
@@ -138,6 +142,8 @@ set(PHYSFS_BUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(PHYSFS_BUILD_TEST OFF CACHE BOOL "" FORCE)
 add_subdirectory(${LIBLAVA_EXT_DIR}/physfs physfs EXCLUDE_FROM_ALL)
 
+set_target_properties(physfs-static PROPERTIES FOLDER "lava/ext")
+
 message("<<< physfs")
 
 target_link_libraries(lava.file
@@ -145,6 +151,7 @@ target_link_libraries(lava.file
         physfs-static
         )
 
+set_target_properties(lava.file PROPERTIES FOLDER "lava")
 set_property(TARGET lava.file PROPERTY EXPORT_NAME file)
 add_library(lava::file ALIAS lava.file)
 
@@ -164,6 +171,8 @@ add_library(lava.base STATIC
         ${LIBLAVA_DIR}/base/memory.hpp
         ${LIBLAVA_DIR}/base/physical_device.cpp
         ${LIBLAVA_DIR}/base/physical_device.hpp
+        ${LIBLAVA_DIR}/base/queue.cpp
+        ${LIBLAVA_DIR}/base/queue.hpp
         ${LIBLAVA_EXT_DIR}/volk/volk.c
         )
 
@@ -178,6 +187,7 @@ target_link_libraries(lava.base
         ${CMAKE_DL_LIBS}
         )
 
+set_target_properties(lava.base PROPERTIES FOLDER "lava")
 set_property(TARGET lava.base PROPERTY EXPORT_NAME base)
 add_library(lava::base ALIAS lava.base)
 
@@ -200,6 +210,7 @@ target_link_libraries(lava.resource
         lava::base
         )
 
+set_target_properties(lava.resource PROPERTIES FOLDER "lava")
 set_property(TARGET lava.resource PROPERTY EXPORT_NAME resource)
 add_library(lava::resource ALIAS lava.resource)
 
@@ -237,6 +248,7 @@ target_link_libraries(lava.asset
         lava::resource
         )
 
+set_target_properties(lava.asset PROPERTIES FOLDER "lava")
 set_property(TARGET lava.asset PROPERTY EXPORT_NAME asset)
 add_library(lava::asset ALIAS lava.asset)
 
@@ -270,6 +282,8 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${LIBLAVA_EXT_DIR}/glfw glfw EXCLUDE_FROM_ALL)
 
+set_target_properties(glfw PROPERTIES FOLDER "lava/ext")
+
 message("<<< glfw")
 
 target_link_libraries(lava.frame
@@ -278,6 +292,7 @@ target_link_libraries(lava.frame
         ${GLFW_LIBRARIES}
         )
 
+set_target_properties(lava.frame PROPERTIES FOLDER "lava")
 set_property(TARGET lava.frame PROPERTY EXPORT_NAME frame)
 add_library(lava::frame ALIAS lava.frame)
 
@@ -301,6 +316,7 @@ target_link_libraries(lava.block
         lava::base
         )
 
+set_target_properties(lava.block PROPERTIES FOLDER "lava")
 set_property(TARGET lava.block PROPERTY EXPORT_NAME block)
 add_library(lava::block ALIAS lava.block)
 
@@ -335,6 +351,7 @@ target_link_libraries(lava.app
         lava::frame
         )
 
+set_target_properties(lava.app PROPERTIES FOLDER "lava")
 set_property(TARGET lava.app PROPERTY EXPORT_NAME app)
 add_library(lava::app ALIAS lava.app)
 
@@ -350,6 +367,8 @@ if(LIBLAVA_TESTS)
                 ${LIBLAVA_TESTS_DIR}/tests.cpp
                 )
 
+        set_target_properties(lava PROPERTIES FOLDER "lava/tests")
+
         target_link_libraries(lava lava::app)
 
         install(TARGETS
@@ -357,17 +376,17 @@ if(LIBLAVA_TESTS)
                 RUNTIME DESTINATION bin
                 )
 
-        message(">> lava-unit")
-
-        message(">>> Catch2")
+        message(">> lava-unit (Catch2)")
 
         add_subdirectory(${LIBLAVA_EXT_DIR}/Catch2 Catch2 EXCLUDE_FROM_ALL)
-
-        message("<<< Catch2")
+        set_target_properties(Catch2 PROPERTIES FOLDER "lava/ext")
+        set_target_properties(Catch2WithMain PROPERTIES FOLDER "lava/ext")
 
         add_executable(lava-unit 
                 ${LIBLAVA_TESTS_DIR}/unit.cpp
                 )
+
+        set_target_properties(lava-unit PROPERTIES FOLDER "lava/tests")
 
         target_link_libraries(lava-unit lava::app Catch2::Catch2 Catch2::Catch2WithMain)
 

@@ -51,6 +51,7 @@ namespace lava {
     device::create_param physical_device::create_default_device_param() const {
         device::create_param create_param;
         create_param.physical_device = this;
+        create_param.add_swapchain_extension();
         create_param.set_default_queues();
 
         return create_param;

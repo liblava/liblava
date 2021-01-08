@@ -34,7 +34,7 @@ namespace lava {
 
     private:
         device_ptr device = nullptr;
-        device::queue queue;
+        queue graphics_queue;
 
         swapchain* target = nullptr;
 

@@ -11,3 +11,4 @@
 #include <liblava/base/instance.hpp>
 #include <liblava/base/memory.hpp>
 #include <liblava/base/physical_device.hpp>
+#include <liblava/base/queue.hpp>

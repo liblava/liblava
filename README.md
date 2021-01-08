@@ -12,7 +12,7 @@
 
 <br />
 
-#### [Features](DOCS.md/#features)
+### [Features](DOCS.md/#features)
 
 * written in **modern C++** with latest **Vulkan** support
 * **[run loop](DOCS.md/#run-loop)** **abstraction** for **[window](DOCS.md/#window)** and **[input](DOCS.md/#input) handling**
@@ -26,7 +26,7 @@
 
 ### Docs
 
- **[Tutorial](DOCS.md/#tutorial)** &nbsp; **[Guide](DOCS.md/#guide)** &nbsp; [Tests](DOCS.md/#tests) &nbsp; [Build](DOCS.md/#build) &nbsp; [Install](DOCS.md/#install)
+ [Requirements](DOCS.md/#requirements) &nbsp; **[Tutorial](DOCS.md/#tutorial)** &nbsp; **[Guide](DOCS.md/#guide)** &nbsp; [Tests](DOCS.md/#tests) &nbsp; **[Build](DOCS.md/#build)** &nbsp; **[Install](DOCS.md/#install)** &nbsp;  [Third-Party](DOCS.md/#third-party)
 
 <br />
 
@@ -43,33 +43,6 @@
 <br />
 
 [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava)
-
-## Requirements
-
-* **C++20** compatible compiler
-* CMake **3.15+**
-* [Vulkan SDK](https://vulkan.lunarg.com)
-
-<br />
-
-## Third-Party
-
-* [argh](https://github.com/adishavit/argh) &nbsp; *3-clause BSD*
-* [bitmap](https://github.com/ArashPartow/bitmap) &nbsp; *MIT*
-* [Catch2](https://github.com/catchorg/Catch2) &nbsp; *BSL 1.0*
-* [glfw](https://github.com/glfw/glfw) &nbsp; *zlib*
-* [gli](https://github.com/g-truc/gli) &nbsp; *MIT*
-* [glm](https://github.com/g-truc/glm) &nbsp; *MIT*
-* [imgui](https://github.com/ocornut/imgui) &nbsp; *MIT*
-* [json](https://github.com/nlohmann/json) &nbsp; *MIT*
-* [physfs](https://github.com/Didstopia/physfs) &nbsp; *zlib*
-* [selene](https://github.com/kmhofmann/selene) &nbsp; *MIT*
-* [spdlog](https://github.com/gabime/spdlog) &nbsp; *MIT*
-* [stb](https://github.com/nothings/stb) &nbsp; *MIT*
-* [tinyobjloader](https://github.com/syoyo/tinyobjloader) &nbsp; *MIT*
-* [volk](https://github.com/zeux/volk) &nbsp; *MIT*
-* [Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers) &nbsp; *Apache 2.0*
-* [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) &nbsp; *MIT*
 
 <br />
 
@@ -99,7 +72,7 @@ If you want to contribute, we suggest the following:
 
 <br />
 
-However, this library includes several third-party **Open Source** libraries, which are licensed under their own respective licenses ➜ They all allow static linking with closed source software
+However, this library includes several [Third-Party](DOCS.md/#third-party) libraries, which are licensed under their own respective **Open Source** licenses ➜ They all allow static linking with closed source software
 
 **All copies of liblava must include a copy of the MIT License terms and the copyright notice**
 
