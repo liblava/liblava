@@ -2,7 +2,7 @@
 
 # liblava docs &nbsp; [![Version](https://img.shields.io/badge/Version-0.6.0-blue)](https://git.io/liblava)
 
-[Features](#features) &nbsp; **[Tutorial](#tutorial)** &nbsp; [Modules](#modules) &nbsp; **[Guide](#guide)** &nbsp; [Tests](#tests) &nbsp; **[Build](#build)** &nbsp; [Install](#install)
+[Features](#features) &nbsp; **[Tutorial](#tutorial)** &nbsp; [Requirements](#requirements) &nbsp; **[Modules](#modules)** &nbsp; [Third-Party](#third-party) &nbsp; **[Guide](#guide)** &nbsp; [Tests](#tests) &nbsp; **[Build](#build)** &nbsp; [Install](#install)
 
 <br />
 
@@ -374,6 +374,14 @@ int main(int argc, char* argv[]) {
 
 <br />
 
+## Requirements
+
+* **C++20** compatible compiler
+* CMake **3.15+**
+* [Vulkan SDK](https://vulkan.lunarg.com)
+
+<br />
+
 ## Modules
 
 #### lava [app](https://github.com/liblava/liblava/tree/master/liblava/app)
@@ -411,6 +419,27 @@ int main(int argc, char* argv[]) {
 #### lava [core](https://github.com/liblava/liblava/tree/master/liblava/core)
 
 [![data](https://img.shields.io/badge/lava-data-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/data.hpp) [![id](https://img.shields.io/badge/lava-id-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/id.hpp) [![math](https://img.shields.io/badge/lava-math-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/math.hpp) [![time](https://img.shields.io/badge/lava-time-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/time.hpp) [![types](https://img.shields.io/badge/lava-types-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/types.hpp) [![version](https://img.shields.io/badge/lava-version-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/version.hpp)
+
+<br />
+
+## Third-Party
+
+* [argh](https://github.com/adishavit/argh) &nbsp; *3-clause BSD*
+* [bitmap](https://github.com/ArashPartow/bitmap) &nbsp; *MIT*
+* [Catch2](https://github.com/catchorg/Catch2) &nbsp; *BSL 1.0*
+* [glfw](https://github.com/glfw/glfw) &nbsp; *zlib*
+* [gli](https://github.com/g-truc/gli) &nbsp; *MIT*
+* [glm](https://github.com/g-truc/glm) &nbsp; *MIT*
+* [imgui](https://github.com/ocornut/imgui) &nbsp; *MIT*
+* [json](https://github.com/nlohmann/json) &nbsp; *MIT*
+* [physfs](https://github.com/Didstopia/physfs) &nbsp; *zlib*
+* [selene](https://github.com/kmhofmann/selene) &nbsp; *MIT*
+* [spdlog](https://github.com/gabime/spdlog) &nbsp; *MIT*
+* [stb](https://github.com/nothings/stb) &nbsp; *MIT*
+* [tinyobjloader](https://github.com/syoyo/tinyobjloader) &nbsp; *MIT*
+* [volk](https://github.com/zeux/volk) &nbsp; *MIT*
+* [Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers) &nbsp; *Apache 2.0*
+* [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) &nbsp; *MIT*
 
 <br />
 
