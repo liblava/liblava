@@ -175,4 +175,7 @@ namespace lava {
 
     VkShaderModule create_shader_module(device_ptr device, data const& data);
 
+    using one_time_command_func = std::function<void(VkCommandBuffer)>;
+    bool one_time_command_buffer(device_ptr device, VkCommandPool pool, queue::ref queue, one_time_command_func callback);
+
 } // namespace lava

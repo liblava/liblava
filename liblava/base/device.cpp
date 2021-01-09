@@ -243,3 +243,41 @@ VkShaderModule lava::create_shader_module(device_ptr device, data const& data) {
 
     return result;
 }
+
+bool lava::one_time_command_buffer(lava::device_ptr device, VkCommandPool pool, lava::queue::ref queue, one_time_command_func callback) {
+    if (!callback)
+        return false;
+
+    VkCommandBuffer cmd_buf = nullptr;
+    if (!device->vkAllocateCommandBuffers(pool, 1, &cmd_buf, VK_COMMAND_BUFFER_LEVEL_PRIMARY))
+        return false;
+
+    VkCommandBufferBeginInfo const begin_info = { .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
+                                                  .flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT };
+    if (!check(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
+        return false;
+
+    callback(cmd_buf);
+
+    device->call().vkEndCommandBuffer(cmd_buf);
+
+    VkFence fence = VK_NULL_HANDLE;
+    VkFenceCreateInfo const fence_info = { .sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO };
+    if (!device->vkCreateFence(&fence_info, &fence))
+        return false;
+
+    VkSubmitInfo const submit_info = { .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
+                                       .commandBufferCount = 1,
+                                       .pCommandBuffers = &cmd_buf };
+    if (!device->vkQueueSubmit(queue.vk_queue, 1, &submit_info, fence)) {
+        device->vkDestroyFence(fence);
+        return false;
+    }
+
+    device->vkWaitForFences(1, &fence, VK_TRUE, ~0);
+    device->vkDestroyFence(fence);
+
+    device->vkFreeCommandBuffers(pool, 1, &cmd_buf);
+
+    return true;
+}
