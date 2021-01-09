@@ -25,7 +25,9 @@ message("=======================================================================
 
 message("> module")
 
-file(CREATE_LINK "${PROJECT_SOURCE_DIR}/res" "${PROJECT_BINARY_DIR}/res" COPY_ON_ERROR SYMBOLIC)
+if(NOT ${PROJECT_SOURCE_DIR}/res MATCHES ${PROJECT_BINARY_DIR}/res)
+        file(CREATE_LINK "${PROJECT_SOURCE_DIR}/res" "${PROJECT_BINARY_DIR}/res" COPY_ON_ERROR SYMBOLIC)
+endif()
 
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
         set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
