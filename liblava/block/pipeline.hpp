@@ -53,7 +53,7 @@ namespace lava {
     private:
         device_ptr device = nullptr;
 
-        VkPipelineLayout layout = 0;
+        VkPipelineLayout layout = VK_NULL_HANDLE;
 
         descriptor::list descriptors;
         VkPushConstantRanges push_constant_ranges;
@@ -99,7 +99,7 @@ namespace lava {
         }
 
         bool ready() const {
-            return vk_pipeline != 0;
+            return vk_pipeline != VK_NULL_HANDLE;
         }
 
         VkPipeline get() const {
@@ -151,9 +151,9 @@ namespace lava {
         virtual void destroy_internal() = 0;
 
         device_ptr device = nullptr;
-        VkPipeline vk_pipeline = 0;
+        VkPipeline vk_pipeline = VK_NULL_HANDLE;
 
-        VkPipelineCache pipeline_cache = 0;
+        VkPipelineCache pipeline_cache = VK_NULL_HANDLE;
         pipeline_layout::ptr layout;
 
     private:
@@ -307,7 +307,7 @@ namespace lava {
         bool create_internal() override;
         void destroy_internal() override;
 
-        VkRenderPass render_pass = 0;
+        VkRenderPass render_pass = VK_NULL_HANDLE;
         index subpass = 0;
 
         create_info info;

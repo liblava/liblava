@@ -75,9 +75,9 @@ namespace lava {
 
         device_ptr device = nullptr;
 
-        VkSurfaceKHR surface = 0;
+        VkSurfaceKHR surface = VK_NULL_HANDLE;
         VkSurfaceFormatKHR format = {};
-        VkSwapchainKHR vk_swapchain = 0;
+        VkSwapchainKHR vk_swapchain = VK_NULL_HANDLE;
 
         image::list backbuffers;
 

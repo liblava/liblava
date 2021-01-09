@@ -29,7 +29,7 @@ namespace lava {
             return;
 
         device->call().vkDestroyPipelineLayout(device->get(), layout, memory::alloc());
-        layout = 0;
+        layout = VK_NULL_HANDLE;
     }
 
     void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets, VkPipelineBindPoint bind_point) {
@@ -42,7 +42,7 @@ namespace lava {
     : device(device_), pipeline_cache(pipeline_cache) {}
 
     pipeline::~pipeline() {
-        pipeline_cache = 0;
+        pipeline_cache = VK_NULL_HANDLE;
         layout = nullptr;
     }
 
@@ -55,7 +55,7 @@ namespace lava {
 
         if (vk_pipeline) {
             device->call().vkDestroyPipeline(device->get(), vk_pipeline, memory::alloc());
-            vk_pipeline = 0;
+            vk_pipeline = VK_NULL_HANDLE;
         }
 
         layout = nullptr;
@@ -66,7 +66,7 @@ namespace lava {
         create_info.pNext = nullptr;
         create_info.flags = 0;
         create_info.stage = VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
-        create_info.module = 0;
+        create_info.module = VK_NULL_HANDLE;
         create_info.pName = _main_;
         create_info.pSpecializationInfo = &specialization_info;
 
@@ -100,7 +100,7 @@ namespace lava {
 
         create_info.module = create_shader_module(device, shader_data);
 
-        return create_info.module != 0;
+        return create_info.module != VK_NULL_HANDLE;
     }
 
     void pipeline::shader_stage::destroy() {
@@ -109,7 +109,7 @@ namespace lava {
 
         device->call().vkDestroyShaderModule(device->get(), create_info.module, memory::alloc());
 
-        create_info.module = 0;
+        create_info.module = VK_NULL_HANDLE;
         device = nullptr;
     }
 

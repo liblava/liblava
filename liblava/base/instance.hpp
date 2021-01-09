@@ -90,7 +90,7 @@ namespace lava {
         debug_config debug;
         app_info info;
 
-        VkDebugUtilsMessengerEXT debug_messenger = 0;
+        VkDebugUtilsMessengerEXT debug_messenger = VK_NULL_HANDLE;
     };
 
     bool check(instance::create_param::ref param);

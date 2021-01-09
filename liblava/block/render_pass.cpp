@@ -59,7 +59,7 @@ namespace lava {
 
         if (vk_render_pass) {
             device->call().vkDestroyRenderPass(device->get(), vk_render_pass, memory::alloc());
-            vk_render_pass = 0;
+            vk_render_pass = VK_NULL_HANDLE;
         }
 
         device = nullptr;
@@ -160,7 +160,7 @@ namespace lava {
                 continue;
 
             device->call().vkDestroyFramebuffer(device->get(), framebuffer, memory::alloc());
-            framebuffer = 0;
+            framebuffer = VK_NULL_HANDLE;
         }
 
         framebuffers.clear();

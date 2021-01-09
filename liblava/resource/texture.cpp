@@ -85,7 +85,7 @@ namespace lava {
                 if (auto device = img->get_device())
                     device->vkDestroySampler(sampler);
 
-            sampler = 0;
+            sampler = VK_NULL_HANDLE;
         }
 
         if (img) {

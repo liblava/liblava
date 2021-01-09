@@ -32,7 +32,7 @@ namespace lava {
         }
 
         bool valid() const {
-            return vk_buffer != 0;
+            return vk_buffer != VK_NULL_HANDLE;
         }
 
         VkBuffer get() const {
@@ -68,7 +68,7 @@ namespace lava {
     private:
         device_ptr device = nullptr;
 
-        VkBuffer vk_buffer = 0;
+        VkBuffer vk_buffer = VK_NULL_HANDLE;
         VmaAllocation allocation = nullptr;
 
         VmaAllocationInfo allocation_info = {};

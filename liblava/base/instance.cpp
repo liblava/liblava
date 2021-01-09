@@ -160,7 +160,7 @@ namespace lava {
 
         vkDestroyDebugUtilsMessengerEXT(vk_instance, debug_messenger, memory::alloc());
 
-        debug_messenger = 0;
+        debug_messenger = VK_NULL_HANDLE;
     }
 
     VkLayerPropertiesList instance::enumerate_layer_properties() {

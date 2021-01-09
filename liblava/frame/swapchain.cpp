@@ -25,7 +25,7 @@ namespace lava {
         destroy_internal();
 
         vkDestroySurfaceKHR(instance::get(), surface, memory::alloc());
-        surface = 0;
+        surface = VK_NULL_HANDLE;
     }
 
     bool swapchain::resize(uv2 new_size) {
@@ -208,7 +208,7 @@ namespace lava {
             return;
 
         device->vkDestroySwapchainKHR(vk_swapchain);
-        vk_swapchain = 0;
+        vk_swapchain = VK_NULL_HANDLE;
     }
 
     void swapchain::destroy_backbuffer_views() {

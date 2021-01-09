@@ -88,12 +88,12 @@ namespace lava {
     private:
         device_ptr device = nullptr;
 
-        VkImage vk_image = 0;
+        VkImage vk_image = VK_NULL_HANDLE;
         VkImageCreateInfo info;
 
         VmaAllocation allocation = nullptr;
 
-        VkImageView view = 0;
+        VkImageView view = VK_NULL_HANDLE;
 
         VkImageViewCreateInfo view_info;
         VkImageSubresourceRange subresource_range;

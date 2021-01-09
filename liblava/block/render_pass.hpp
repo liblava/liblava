@@ -75,7 +75,7 @@ namespace lava {
     private:
         device_ptr device = nullptr;
 
-        VkRenderPass vk_render_pass = 0;
+        VkRenderPass vk_render_pass = VK_NULL_HANDLE;
         VkFramebuffers framebuffers = {};
 
         attachment::list attachments;

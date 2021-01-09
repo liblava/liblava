@@ -35,7 +35,7 @@ namespace lava {
 
     void descriptor::pool::destroy() {
         device->call().vkDestroyDescriptorPool(device->get(), vk_pool, memory::alloc());
-        vk_pool = 0;
+        vk_pool = VK_NULL_HANDLE;
 
         device = nullptr;
         sizes.clear();
@@ -64,7 +64,7 @@ namespace lava {
             return;
 
         device->call().vkDestroyDescriptorSetLayout(device->get(), layout, memory::alloc());
-        layout = 0;
+        layout = VK_NULL_HANDLE;
 
         // keep device for descriptors
     }
@@ -79,7 +79,7 @@ namespace lava {
     }
 
     VkDescriptorSet descriptor::allocate_set(VkDescriptorPool pool) {
-        VkDescriptorSet descriptor_set = 0;
+        VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 
         VkDescriptorSetAllocateInfo const alloc_info{
             .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,

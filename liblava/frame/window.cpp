@@ -407,7 +407,7 @@ namespace lava {
 } // namespace lava
 
 VkSurfaceKHR lava::create_surface(GLFWwindow* window) {
-    VkSurfaceKHR surface = 0;
+    VkSurfaceKHR surface = VK_NULL_HANDLE;
     if (failed(glfwCreateWindowSurface(instance::get(), window, memory::alloc(), &surface)))
         return 0;
 

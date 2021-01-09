@@ -99,7 +99,7 @@ namespace lava {
             return;
 
         vmaDestroyBuffer(device->alloc(), vk_buffer, allocation);
-        vk_buffer = 0;
+        vk_buffer = VK_NULL_HANDLE;
         allocation = nullptr;
 
         device = nullptr;

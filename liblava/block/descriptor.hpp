@@ -66,7 +66,7 @@ namespace lava {
         private:
             device_ptr device = nullptr;
 
-            VkDescriptorPool vk_pool = 0;
+            VkDescriptorPool vk_pool = VK_NULL_HANDLE;
 
             VkDescriptorPoolSizes sizes;
             ui32 max = 0;
@@ -118,7 +118,7 @@ namespace lava {
     private:
         device_ptr device = nullptr;
 
-        VkDescriptorSetLayout layout = 0;
+        VkDescriptorSetLayout layout = VK_NULL_HANDLE;
         binding::list bindings;
     };
 
