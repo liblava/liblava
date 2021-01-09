@@ -13,12 +13,19 @@
 
 namespace lava {
 
-    struct allocator {
-        explicit allocator(VkPhysicalDevice physical_device, VkDevice device);
-        explicit allocator(VmaAllocator allocator);
-        ~allocator();
+    // fwd
+    struct device;
+    using device_cptr = device const*;
 
+    struct allocator {
         using ptr = std::shared_ptr<allocator>;
+
+        allocator() = default;
+        explicit allocator(VmaAllocator allocator)
+        : vma_allocator(allocator) {}
+
+        bool create(device_cptr device, VmaAllocatorCreateFlags flags = 0);
+        void destroy();
 
         bool valid() const {
             return vma_allocator != nullptr;
@@ -32,8 +39,16 @@ namespace lava {
         VmaAllocator vma_allocator = nullptr;
     };
 
-    inline allocator::ptr make_allocator(VkPhysicalDevice physical_device, VkDevice device) {
-        return std::make_shared<allocator>(physical_device, device);
+    inline allocator::ptr make_allocator() {
+        return std::make_shared<allocator>();
+    }
+
+    inline allocator::ptr create_allocator(device_cptr device, VmaAllocatorCreateFlags flags = 0) {
+        auto result = make_allocator();
+        if (!result->create(device, flags))
+            return nullptr;
+
+        return result;
     }
 
     struct memory : no_copy_no_move {

@@ -2,6 +2,7 @@
 // copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 // license   : MIT; see accompanying LICENSE file
 
+#include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
 #include <liblava/base/memory.hpp>
 
@@ -83,54 +84,51 @@ namespace lava {
         return no_type;
     }
 
-    allocator::allocator(VkPhysicalDevice physical_device, VkDevice device) {
-        VmaVulkanFunctions vulkan_function {
+    bool allocator::create(device_cptr device, VmaAllocatorCreateFlags flags) {
+        VmaVulkanFunctions const vulkan_function {
             .vkGetPhysicalDeviceProperties = vkGetPhysicalDeviceProperties,
             .vkGetPhysicalDeviceMemoryProperties = vkGetPhysicalDeviceMemoryProperties,
-            .vkAllocateMemory = vkAllocateMemory,
-            .vkFreeMemory = vkFreeMemory,
-            .vkMapMemory = vkMapMemory,
-            .vkUnmapMemory = vkUnmapMemory,
-            .vkFlushMappedMemoryRanges = vkFlushMappedMemoryRanges,
-            .vkInvalidateMappedMemoryRanges = vkInvalidateMappedMemoryRanges,
-            .vkBindBufferMemory = vkBindBufferMemory,
-            .vkBindImageMemory = vkBindImageMemory,
-            .vkGetBufferMemoryRequirements = vkGetBufferMemoryRequirements,
-            .vkGetImageMemoryRequirements = vkGetImageMemoryRequirements,
-            .vkCreateBuffer = vkCreateBuffer,
-            .vkDestroyBuffer = vkDestroyBuffer,
-            .vkCreateImage = vkCreateImage,
-            .vkDestroyImage = vkDestroyImage,
-            .vkCmdCopyBuffer = vkCmdCopyBuffer,
+            .vkAllocateMemory = device->call().vkAllocateMemory,
+            .vkFreeMemory = device->call().vkFreeMemory,
+            .vkMapMemory = device->call().vkMapMemory,
+            .vkUnmapMemory = device->call().vkUnmapMemory,
+            .vkFlushMappedMemoryRanges = device->call().vkFlushMappedMemoryRanges,
+            .vkInvalidateMappedMemoryRanges = device->call().vkInvalidateMappedMemoryRanges,
+            .vkBindBufferMemory = device->call().vkBindBufferMemory,
+            .vkBindImageMemory = device->call().vkBindImageMemory,
+            .vkGetBufferMemoryRequirements = device->call().vkGetBufferMemoryRequirements,
+            .vkGetImageMemoryRequirements = device->call().vkGetImageMemoryRequirements,
+            .vkCreateBuffer = device->call().vkCreateBuffer,
+            .vkDestroyBuffer = device->call().vkDestroyBuffer,
+            .vkCreateImage = device->call().vkCreateImage,
+            .vkDestroyImage = device->call().vkDestroyImage,
+            .vkCmdCopyBuffer = device->call().vkCmdCopyBuffer,
 #if VMA_DEDICATED_ALLOCATION
-            .vkGetBufferMemoryRequirements2KHR = vkGetBufferMemoryRequirements2KHR,
-            .vkGetImageMemoryRequirements2KHR = vkGetImageMemoryRequirements2KHR,
+            .vkGetBufferMemoryRequirements2KHR = device->call().vkGetBufferMemoryRequirements2KHR,
+            .vkGetImageMemoryRequirements2KHR = device->call().vkGetImageMemoryRequirements2KHR,
 #endif
 #if VMA_BIND_MEMORY2
-            .vkBindBufferMemory2KHR = vkBindBufferMemory2KHR,
-            .vkBindImageMemory2KHR = vkBindImageMemory2KHR,
+            .vkBindBufferMemory2KHR = device->call().vkBindBufferMemory2KHR,
+            .vkBindImageMemory2KHR = device->call().vkBindImageMemory2KHR,
 #endif
 #if VMA_MEMORY_BUDGET
             .vkGetPhysicalDeviceMemoryProperties2KHR = vkGetPhysicalDeviceMemoryProperties2KHR
 #endif
         };
 
-        VmaAllocatorCreateInfo allocator_info{
-            .physicalDevice = physical_device,
-            .device = device,
+        VmaAllocatorCreateInfo const allocator_info{
+            .flags = flags,
+            .physicalDevice = device->get_vk_physical_device(),
+            .device = device->get(),
             .pAllocationCallbacks = memory::alloc(),
             .pVulkanFunctions = &vulkan_function,
             .instance = instance::get(),
         };
 
-        check(vmaCreateAllocator(&allocator_info, &vma_allocator));
+        return check(vmaCreateAllocator(&allocator_info, &vma_allocator));
     }
 
-    allocator::allocator(VmaAllocator allocator) {
-        vma_allocator = allocator;
-    }
-
-    allocator::~allocator() {
+    void allocator::destroy() {
         if (!vma_allocator)
             return;
 

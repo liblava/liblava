@@ -150,7 +150,10 @@ namespace lava {
         transfer_queue_list.clear();
         queue_list.clear();
 
-        mem_allocator = nullptr;
+        if (mem_allocator) {
+            mem_allocator->destroy();
+            mem_allocator = nullptr;
+        }
 
         call().vkDestroyDevice(vk_device, memory::alloc());
         vk_device = nullptr;
@@ -206,7 +209,7 @@ namespace lava {
         if (!result->create(param))
             return nullptr;
 
-        auto allocator = make_allocator(result->get_vk_physical_device(), result->get());
+        auto allocator = create_allocator(result.get(), param.vma_flags);
         if (!allocator)
             return nullptr;
 

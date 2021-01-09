@@ -22,6 +22,7 @@ namespace lava {
             using ref = create_param const&;
 
             physical_device_cptr physical_device = nullptr;
+            VmaAllocatorCreateFlags vma_flags = 0;
 
             names extensions;
             VkPhysicalDeviceFeatures features{};
