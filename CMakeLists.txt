@@ -25,6 +25,8 @@ message("=======================================================================
 
 message("> module")
 
+file(CREATE_LINK "${PROJECT_SOURCE_DIR}/res" "${PROJECT_BINARY_DIR}/res" COPY_ON_ERROR SYMBOLIC)
+
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
         set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
 endif()
@@ -322,6 +324,11 @@ add_library(lava::block ALIAS lava.block)
 
 message(">> lava::app")
 
+set(APP_SHADERS
+        res/tool/imgui/imgui.frag
+        res/tool/imgui/imgui.vert
+        )
+
 add_library(lava.app STATIC
         ${LIBLAVA_DIR}/app/app.cpp
         ${LIBLAVA_DIR}/app/app.hpp
@@ -339,7 +346,10 @@ add_library(lava.app STATIC
         ${LIBLAVA_EXT_DIR}/imgui/imgui_tables.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_widgets.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_demo.cpp
+        ${APP_SHADERS}
         )
+
+source_group("Shader Files" FILES ${APP_SHADERS})
 
 target_include_directories(lava.app PUBLIC
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/imgui>
@@ -371,6 +381,8 @@ if(LIBLAVA_TESTS)
 
         target_link_libraries(lava lava::app)
 
+        set_property(TARGET lava PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
         install(TARGETS
                 lava
                 RUNTIME DESTINATION bin
@@ -389,6 +401,8 @@ if(LIBLAVA_TESTS)
         set_target_properties(lava-unit PROPERTIES FOLDER "lava/tests")
 
         target_link_libraries(lava-unit lava::app Catch2::Catch2 Catch2::Catch2WithMain)
+
+        set_property(TARGET lava-unit PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         install(TARGETS
                 lava-unit
