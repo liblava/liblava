@@ -68,7 +68,7 @@ namespace lava {
         bool active = true;
 
         VkAttachmentReferences color_attachments;
-        VkAttachmentReference depth_stencil_attachment;
+        VkAttachmentReference depth_stencil_attachment{};
         VkAttachmentReferences input_attachments;
         VkAttachmentReferences resolve_attachments;
         index_list preserve_attachments;

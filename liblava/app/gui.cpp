@@ -5,6 +5,7 @@
 #include <liblava/app/def.hpp>
 #include <liblava/app/gui.hpp>
 #include <liblava/base/debug_utils.hpp>
+#include <liblava/resource/format.hpp>
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_INCLUDE_VULKAN
@@ -174,7 +175,7 @@ namespace lava {
         mouse_cursors[ImGuiMouseCursor_ResizeNWSE] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
         mouse_cursors[ImGuiMouseCursor_Hand] = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
 
-        glfwSetCharCallback(window, [](GLFWwindow*, unsigned int c) {
+        glfwSetCharCallback(window, [](GLFWwindow*, ui32 c) {
             if (c > 0 && c < 0x10000)
                 ImGui::GetIO().AddInputCharacter(static_cast<unsigned short>(c));
         });
@@ -239,7 +240,7 @@ namespace lava {
 
         memset(io.NavInputs, 0, sizeof(io.NavInputs));
         if (io.ConfigFlags & ImGuiConfigFlags_NavEnableGamepad) {
-            int axes_count = 0, buttons_count = 0;
+            i32 axes_count = 0, buttons_count = 0;
             auto const* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axes_count);
             auto const* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttons_count);
 
@@ -591,10 +592,11 @@ namespace lava {
         auto height = 0;
         ImGui::GetIO().Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
-        if (!texture->create(device, { width, height }, VK_FORMAT_R8G8B8A8_UNORM))
+        auto font_format = VK_FORMAT_R8G8B8A8_UNORM;
+        if (!texture->create(device, { width, height }, font_format))
             return false;
 
-        auto upload_size = width * height * sizeof(char) * 4;
+        auto upload_size = width * height * format_block_size(font_format);
         if (!texture->upload(pixels, upload_size))
             return false;
 

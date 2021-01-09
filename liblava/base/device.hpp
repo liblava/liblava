@@ -146,7 +146,7 @@ namespace lava {
         queue::list transfer_queue_list;
         queue::list queue_list;
 
-        VkPhysicalDeviceFeatures features;
+        VkPhysicalDeviceFeatures features{};
 
         allocator::ptr mem_allocator;
     };
