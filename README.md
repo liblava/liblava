@@ -18,7 +18,7 @@
 * **[run loop](DOCS.md/#run-loop)** **abstraction** for **[window](DOCS.md/#window)** and **[input](DOCS.md/#input) handling**
 * **plain** **[renderer](DOCS.md/#renderer)** and **[command buffer model](DOCS.md/#command-buffer-model)**
 * **[texture](DOCS.md/#texture)** and **[mesh](DOCS.md/#mesh)** **loading** from **virtual [file system](DOCS.md/#file-system)**
-* **[camera](DOCS.md/#camera)** + **[gui](DOCS.md/#gui)** + **[logging](DOCS.md/#logging)** + **test driver** and much more
+* **[GUI](DOCS.md/#gui)** + **[camera](DOCS.md/#camera)** + **[logging](DOCS.md/#logging)** + **utils** and much more
 
 <br />
 

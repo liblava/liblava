@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <liblava/app/gui.hpp>
+#include <liblava/app/imgui.hpp>
 #include <liblava/frame/window.hpp>
 
 namespace lava {
@@ -16,7 +16,7 @@ namespace lava {
         bool v_sync = false;
         index physical_device = 0;
 
-        lava::font font;
+        imgui::font imgui_font;
     };
 
     window::state::optional load_window_state(name save_name);

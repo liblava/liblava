@@ -21,8 +21,8 @@ namespace lava {
         lava::window window;
         lava::input input;
 
-        lava::gui gui;
-        gui::config gui_config;
+        lava::imgui imgui;
+        imgui::config imgui_config;
 
         device_ptr device = nullptr;
         lava::camera camera;
@@ -72,15 +72,15 @@ namespace lava {
         void update();
         void render();
 
-        bool create_gui();
-        void destroy_gui();
+        bool create_imgui();
+        void destroy_imgui();
 
         bool create_target();
         void destroy_target();
 
         bool create_block();
 
-        texture::ptr fonts;
+        texture::ptr imgui_fonts;
 
         bool toggle_v_sync = false;
         ui32 frame_counter = 0;

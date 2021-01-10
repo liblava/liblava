@@ -1,4 +1,4 @@
-// file      : liblava/app/gui.hpp
+// file      : liblava/app/imgui.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 // license   : MIT; see accompanying LICENSE file
 
@@ -16,15 +16,15 @@ struct ImDrawData;
 
 namespace lava {
 
-    constexpr const r32 default_font_size = 18.f;
-    constexpr name _gui_file_ = "gui.ini";
+    constexpr const r32 default_imgui_font_size = 18.f;
+    constexpr name _imgui_file_ = "imgui.ini";
 
-    struct gui : input_callback {
-        explicit gui() = default;
-        explicit gui(GLFWwindow* window) {
+    struct imgui : input_callback {
+        explicit imgui() = default;
+        explicit imgui(GLFWwindow* window) {
             setup(window);
         }
-        ~gui() {
+        ~imgui() {
             destroy();
         }
 
@@ -34,12 +34,25 @@ namespace lava {
             ui16 range_begin = 0;
             ui16 range_end = 0;
 
-            r32 size = default_font_size;
+            r32 size = default_imgui_font_size;
+        };
+
+        struct font {
+            using ref = font const&;
+
+            string file;
+            r32 size = 21.f;
+
+            string icon_file;
+            r32 icon_size = 21.f;
+
+            ui16 icon_range_begin = 0;
+            ui16 icon_range_end = 0;
         };
 
         struct config {
             data font_data;
-            r32 font_size = default_font_size;
+            r32 font_size = default_imgui_font_size;
 
             icon_font icon;
 
@@ -139,22 +152,8 @@ namespace lava {
         bool active = true;
     };
 
-    constexpr name _gui_font_path_ = "font/gui/";
-    constexpr name _gui_font_icon_path_ = "font/icon/";
+    constexpr name _imgui_font_path_ = "font/imgui/";
 
-    struct font {
-        using ref = font const&;
-
-        string file;
-        r32 size = 21.f;
-
-        string icon_file;
-        r32 icon_size = 21.f;
-
-        ui16 icon_range_begin = 0;
-        ui16 icon_range_end = 0;
-    };
-
-    void setup_font(gui::config& config, font::ref font);
+    void setup_imgui_font(imgui::config& config, imgui::font::ref font);
 
 } // namespace lava

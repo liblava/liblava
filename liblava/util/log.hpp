@@ -75,4 +75,9 @@ namespace lava {
         }
     }
 
+    template<typename T>
+    inline string icon_text(T value) {
+        return fmt::format("{}", icon(value));
+    }
+
 } // namespace lava

@@ -31,8 +31,8 @@ namespace lava {
             if (j.count(_delta_))
                 run_time.fix_delta = ms(j[_delta_]);
 
-            if (j.count(_gui_))
-                gui.set_active(j[_gui_]);
+            if (j.count(_imgui_))
+                imgui.set_active(j[_imgui_]);
 
             if (j.count(_v_sync_))
                 config.v_sync = j[_v_sync_];
@@ -46,7 +46,7 @@ namespace lava {
             j[_speed_] = run_time.speed;
             j[_fixed_delta_] = run_time.use_fix_delta;
             j[_delta_] = run_time.fix_delta.count();
-            j[_gui_] = gui.activated();
+            j[_imgui_] = imgui.activated();
             j[_v_sync_] = config.v_sync;
             j[_physical_device_] = config.physical_device;
         };
@@ -116,7 +116,7 @@ namespace lava {
         camera.aspect_ratio = window.get_aspect_ratio();
         camera.update_projection();
 
-        if (!create_gui())
+        if (!create_imgui())
             return false;
 
         if (!create_block())
@@ -131,7 +131,7 @@ namespace lava {
         add_run_end([&]() {
             camera.destroy();
 
-            destroy_gui();
+            destroy_imgui();
 
             block.destroy();
 
@@ -157,35 +157,35 @@ namespace lava {
         return true;
     }
 
-    bool app::create_gui() {
-        if (config.font.file.empty()) {
-            auto font_files = file_system::enumerate_files(_gui_font_path_);
+    bool app::create_imgui() {
+        if (config.imgui_font.file.empty()) {
+            auto font_files = file_system::enumerate_files(_imgui_font_path_);
             if (!font_files.empty())
-                config.font.file = fmt::format("{}{}", _gui_font_path_, str(font_files.front()));
+                config.imgui_font.file = fmt::format("{}{}", _imgui_font_path_, str(font_files.front()));
         }
 
-        setup_font(gui_config, config.font);
+        setup_imgui_font(imgui_config, config.imgui_font);
 
-        gui_config.ini_file_dir = file_system::get_pref_dir();
+        imgui_config.ini_file_dir = file_system::get_pref_dir();
 
-        gui.setup(window.get(), gui_config);
-        if (!gui.create(device, target->get_frame_count(), shading.get_vk_pass()))
+        imgui.setup(window.get(), imgui_config);
+        if (!imgui.create(device, target->get_frame_count(), shading.get_vk_pass()))
             return false;
 
-        shading.get_pass()->add(gui.get_pipeline());
+        shading.get_pass()->add(imgui.get_pipeline());
 
-        fonts = make_texture();
-        if (!gui.upload_fonts(fonts))
+        imgui_fonts = make_texture();
+        if (!imgui.upload_fonts(imgui_fonts))
             return false;
 
-        staging.add(fonts);
+        staging.add(imgui_fonts);
 
         return true;
     }
 
-    void app::destroy_gui() {
-        gui.destroy();
-        fonts->destroy();
+    void app::destroy_imgui() {
+        imgui.destroy();
+        imgui_fonts->destroy();
     }
 
     bool app::create_target() {
@@ -215,17 +215,17 @@ namespace lava {
     }
 
     void app::handle_input() {
-        input.add(&gui);
+        input.add(&imgui);
 
         input.key.listeners.add([&](key_event::ref event) {
-            if (gui.capture_keyboard()) {
+            if (imgui.capture_keyboard()) {
                 camera.stop();
                 return false;
             }
 
             if (config.handle_key_events) {
                 if (event.pressed(key::tab))
-                    gui.toggle();
+                    imgui.toggle();
 
                 if (event.pressed(key::escape))
                     return shut_down();
@@ -251,7 +251,7 @@ namespace lava {
         });
 
         input.mouse_button.listeners.add([&](mouse_button_event::ref event) {
-            if (gui.capture_mouse())
+            if (imgui.capture_mouse())
                 return false;
 
             if (camera.activated())
@@ -261,7 +261,7 @@ namespace lava {
         });
 
         input.scroll.listeners.add([&](scroll_event::ref event) {
-            if (gui.capture_mouse())
+            if (imgui.capture_mouse())
                 return false;
 
             if (camera.activated())
@@ -278,7 +278,7 @@ namespace lava {
         });
 
         add_run_end([&]() {
-            input.remove(&gui);
+            input.remove(&imgui);
         });
     }
 
@@ -291,7 +291,7 @@ namespace lava {
                 device->wait_for_idle();
 
                 destroy_target();
-                destroy_gui();
+                destroy_imgui();
 
                 if (window.switch_mode_request()) {
                     if (config.save_window)
@@ -315,7 +315,7 @@ namespace lava {
                 if (!create_target())
                     return false;
 
-                return create_gui();
+                return create_imgui();
             }
 
             if (window.resize_request()) {

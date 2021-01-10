@@ -135,6 +135,11 @@ namespace lava {
         return static_cast<index>(value);
     }
 
+    template<typename T>
+    inline char const* icon(T value) {
+        return (char const*) value;
+    }
+
     struct no_copy_no_move {
         no_copy_no_move() = default;
         no_copy_no_move(no_copy_no_move const&) = delete;

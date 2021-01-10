@@ -399,7 +399,7 @@ LAVA_TEST(8, "imgui demo") {
     if (!app.setup())
         return error::not_ready;
 
-    app.gui.on_draw = []() {
+    app.imgui.on_draw = []() {
         ImGui::ShowDemoWindow();
     };
 

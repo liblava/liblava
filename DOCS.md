@@ -358,7 +358,8 @@ int main(int argc, char* argv[]) {
     if (!app.setup())
         return error::not_ready;
 
-    app.gui.on_draw = []() {
+    app.imgui.on_draw = []() {
+
         ImGui::ShowDemoWindow();
     };
 
@@ -386,7 +387,7 @@ int main(int argc, char* argv[]) {
 
 #### lava [app](https://github.com/liblava/liblava/tree/master/liblava/app)
 
-[![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/camera.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/config.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/forward_shading.hpp) [![gui](https://img.shields.io/badge/lava-gui-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/gui.hpp)
+[![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/camera.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/config.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/forward_shading.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/imgui.hpp)
 
 #### lava [block](https://github.com/liblava/liblava/tree/master/liblava/block)
 

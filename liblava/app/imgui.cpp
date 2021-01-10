@@ -1,9 +1,9 @@
-// file      : liblava/app/gui.cpp
+// file      : liblava/app/imgui.cpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/app/def.hpp>
-#include <liblava/app/gui.hpp>
+#include <liblava/app/imgui.hpp>
 #include <liblava/base/debug_utils.hpp>
 #include <liblava/resource/format.hpp>
 
@@ -29,18 +29,18 @@ namespace lava {
         glfwSetClipboardString(static_cast<GLFWwindow*>(user_data), text);
     }
 
-    void gui::handle_mouse_button_event(i32 button, i32 action, i32 mods) {
+    void imgui::handle_mouse_button_event(i32 button, i32 action, i32 mods) {
         if (action == GLFW_PRESS && button >= 0 && button < IM_ARRAYSIZE(mouse_just_pressed))
             mouse_just_pressed[button] = true;
     }
 
-    void gui::handle_scroll_event(r64 x_offset, r64 y_offset) {
+    void imgui::handle_scroll_event(r64 x_offset, r64 y_offset) {
         auto& io = ImGui::GetIO();
         io.MouseWheelH += static_cast<float>(x_offset);
         io.MouseWheel += static_cast<float>(y_offset);
     }
 
-    void gui::handle_key_event(i32 key, i32 scancode, i32 action, i32 mods) {
+    void imgui::handle_key_event(i32 key, i32 scancode, i32 action, i32 mods) {
         auto& io = ImGui::GetIO();
 
         if (action == GLFW_PRESS)
@@ -55,7 +55,7 @@ namespace lava {
         io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
     }
 
-    void gui::update_mouse_pos_and_buttons() {
+    void imgui::update_mouse_pos_and_buttons() {
         auto& io = ImGui::GetIO();
 
         for (i32 i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) {
@@ -77,7 +77,7 @@ namespace lava {
         }
     }
 
-    void gui::update_mouse_cursor() {
+    void imgui::update_mouse_cursor() {
         auto& io = ImGui::GetIO();
         if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange) || glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED)
             return;
@@ -91,7 +91,7 @@ namespace lava {
         }
     }
 
-    void gui::setup(GLFWwindow* w, config config) {
+    void imgui::setup(GLFWwindow* w, config config) {
         window = w;
         current_time = 0.0;
 
@@ -219,7 +219,7 @@ namespace lava {
             io.NavInputs[NAV_NO] = v; \
     }
 
-    void gui::new_frame() {
+    void imgui::new_frame() {
         auto& io = ImGui::GetIO();
         IM_ASSERT(io.Fonts->IsBuilt());
 
@@ -345,7 +345,7 @@ namespace lava {
         0x00010038
     };
 
-    bool gui::create(graphics_pipeline::ptr p, index mf) {
+    bool imgui::create(graphics_pipeline::ptr p, index mf) {
         pipeline = std::move(p);
 
         device = pipeline->get_device();
@@ -411,7 +411,7 @@ namespace lava {
         return true;
     }
 
-    void gui::destroy() {
+    void imgui::destroy() {
         if (!initialized)
             return;
 
@@ -426,23 +426,23 @@ namespace lava {
         initialized = false;
     }
 
-    bool gui::capture_mouse() const {
+    bool imgui::capture_mouse() const {
         return ImGui::GetIO().WantCaptureMouse;
     }
 
-    bool gui::capture_keyboard() const {
+    bool imgui::capture_keyboard() const {
         return ImGui::GetIO().WantCaptureKeyboard;
     }
 
-    void gui::set_ini_file(fs::path dir) {
-        dir.append(_gui_file_);
+    void imgui::set_ini_file(fs::path dir) {
+        dir.append(_imgui_file_);
 
         ini_file = dir.string();
 
         ImGui::GetIO().IniFilename = str(ini_file);
     }
 
-    void gui::invalidate_device_objects() {
+    void imgui::invalidate_device_objects() {
         vertex_buffers.clear();
         index_buffers.clear();
 
@@ -459,7 +459,7 @@ namespace lava {
         layout = nullptr;
     }
 
-    void gui::render(VkCommandBuffer cmd_buf) {
+    void imgui::render(VkCommandBuffer cmd_buf) {
         ImGui::Render();
 
         render_draw_lists(cmd_buf);
@@ -467,7 +467,7 @@ namespace lava {
         frame = (frame + 1) % max_frames;
     }
 
-    void gui::prepare_draw_lists(ImDrawData* draw_data) {
+    void imgui::prepare_draw_lists(ImDrawData* draw_data) {
         auto vertex_size = draw_data->TotalVtxCount * sizeof(ImDrawVert);
         if (!vertex_buffers[frame]->valid() || vertex_buffers[frame]->get_size() < vertex_size) {
             if (vertex_buffers[frame]->valid())
@@ -519,7 +519,7 @@ namespace lava {
         check(device->call().vkFlushMappedMemoryRanges(device->get(), to_ui32(ranges.size()), ranges.data()));
     }
 
-    void gui::render_draw_lists(VkCommandBuffer cmd_buf) {
+    void imgui::render_draw_lists(VkCommandBuffer cmd_buf) {
         auto draw_data = ImGui::GetDrawData();
         if (draw_data->TotalVtxCount == 0)
             return;
@@ -587,7 +587,7 @@ namespace lava {
         }
     }
 
-    bool gui::upload_fonts(texture::ptr texture) {
+    bool imgui::upload_fonts(texture::ptr texture) {
         uchar* pixels = nullptr;
 
         auto width = 0;
@@ -618,7 +618,7 @@ namespace lava {
 
 } // namespace lava
 
-void lava::setup_font(gui::config& config, font::ref font) {
+void lava::setup_imgui_font(imgui::config& config, imgui::font::ref font) {
     if (load_file_data(str(font.file), config.font_data)) {
         config.font_size = font.size;
 

@@ -10,7 +10,7 @@ namespace lava {
     struct app;
     struct camera;
     struct forward_shading;
-    struct gui;
+    struct imgui;
 
     // liblava/asset.hpp
     struct scope_image;
