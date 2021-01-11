@@ -12,6 +12,8 @@ namespace lava {
         i32 major = LIBLAVA_VERSION_MAJOR;
         i32 minor = LIBLAVA_VERSION_MINOR;
         i32 patch = LIBLAVA_VERSION_PATCH;
+
+        auto operator<=>(internal_version const&) const = default;
     };
 
     constexpr internal_version const _internal_version = {};

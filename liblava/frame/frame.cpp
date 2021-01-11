@@ -113,11 +113,18 @@ namespace lava {
 
         setup_log(config.log);
 
-        log()->info(">>> {} / {} - {} / {} - {} {}", str(to_string(_version)),
-                    str(to_string(_internal_version)),
-                    config.app_info.app_name,
-                    str(to_string(config.app_info.app_version)),
-                    _build_date, _build_time);
+        if (_internal_version != config.app_info.app_version) {
+            log()->info(">>> {} / {} - {} / {} - {} {}", str(to_string(_version)),
+                        str(to_string(_internal_version)),
+                        config.app_info.app_name,
+                        str(to_string(config.app_info.app_version)),
+                        _build_date, _build_time);
+        } else {
+            log()->info(">>> {} / {} - {} - {} {}", str(to_string(_version)),
+                        str(to_string(_internal_version)),
+                        config.app_info.app_name,
+                        _build_date, _build_time);
+        }
 
         log_command_line(cmd_line);
 
