@@ -385,62 +385,92 @@ int main(int argc, char* argv[]) {
 
 ## Modules
 
-#### lava [app](https://github.com/liblava/liblava/tree/master/liblava/app)
+#### lava [app](liblava/app)
 
-[![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/camera.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/config.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/forward_shading.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](https://github.com/liblava/liblava/tree/master/liblava/app/imgui.hpp)
+[![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](liblava/app/camera.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](liblava/app/config.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](liblava/app/forward_shading.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.hpp)
 
-#### lava [block](https://github.com/liblava/liblava/tree/master/liblava/block)
+#### lava [block](liblava/block)
 
-[![attachment](https://img.shields.io/badge/lava-attachment-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/attachment.hpp) [![block](https://img.shields.io/badge/lava-block-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/block.hpp) [![descriptor](https://img.shields.io/badge/lava-descriptor-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/descriptor.hpp) [![pipeline](https://img.shields.io/badge/lava-pipeline-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/pipeline.hpp) [![render_pass](https://img.shields.io/badge/lava-render_pass-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/render_pass.hpp) [![subpass](https://img.shields.io/badge/lava-subpass-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/block/subpass.hpp)
+[![attachment](https://img.shields.io/badge/lava-attachment-red.svg)](liblava/block/attachment.hpp) [![block](https://img.shields.io/badge/lava-block-red.svg)](liblava/block/block.hpp) [![descriptor](https://img.shields.io/badge/lava-descriptor-red.svg)](liblava/block/descriptor.hpp) [![pipeline](https://img.shields.io/badge/lava-pipeline-red.svg)](liblava/block/pipeline.hpp) [![render_pass](https://img.shields.io/badge/lava-render_pass-red.svg)](liblava/block/render_pass.hpp) [![subpass](https://img.shields.io/badge/lava-subpass-red.svg)](liblava/block/subpass.hpp)
 
-#### lava [frame](https://github.com/liblava/liblava/tree/master/liblava/frame)
+#### lava [frame](liblava/frame)
 
-[![frame](https://img.shields.io/badge/lava-frame-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/frame.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/input.hpp) [![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/swapchain.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](https://github.com/liblava/liblava/tree/master/liblava/frame/window.hpp)
+[![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.hpp) [![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](liblava/frame/swapchain.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp)
 
-#### lava [asset](https://github.com/liblava/liblava/tree/master/liblava/asset)
+#### lava [asset](liblava/asset)
 
-[![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/asset/mesh_loader.hpp) [![scope_image](https://img.shields.io/badge/lava-scope_image-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/asset/scope_image.hpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/asset/texture_loader.hpp)
+[![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-orange.svg)](liblava/asset/mesh_loader.hpp) [![scope_image](https://img.shields.io/badge/lava-scope_image-orange.svg)](liblava/asset/scope_image.hpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](liblava/asset/texture_loader.hpp)
 
-#### lava [resource](https://github.com/liblava/liblava/tree/master/liblava/resource)
+#### lava [resource](liblava/resource)
 
-[![buffer](https://img.shields.io/badge/lava-buffer-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/buffer.hpp) [![format](https://img.shields.io/badge/lava-format-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/format.hpp) [![image](https://img.shields.io/badge/lava-image-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/image.hpp) [![mesh](https://img.shields.io/badge/lava-mesh-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/mesh.hpp) [![texture](https://img.shields.io/badge/lava-texture-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/resource/texture.hpp)
+[![buffer](https://img.shields.io/badge/lava-buffer-orange.svg)](liblava/resource/buffer.hpp) [![format](https://img.shields.io/badge/lava-format-orange.svg)](liblava/resource/format.hpp) [![image](https://img.shields.io/badge/lava-image-orange.svg)](liblava/resource/image.hpp) [![mesh](https://img.shields.io/badge/lava-mesh-orange.svg)](liblava/resource/mesh.hpp) [![texture](https://img.shields.io/badge/lava-texture-orange.svg)](liblava/resource/texture.hpp)
 
-#### lava [base](https://github.com/liblava/liblava/tree/master/liblava/base)
+#### lava [base](liblava/base)
 
-[![base](https://img.shields.io/badge/lava-base-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/base.hpp) [![device](https://img.shields.io/badge/lava-device-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/device.hpp) [![instance](https://img.shields.io/badge/lava-instance-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/instance.hpp) [![memory](https://img.shields.io/badge/lava-memory-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/memory.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/physical_device.hpp) [![queue](https://img.shields.io/badge/lava-queue-orange.svg)](https://github.com/liblava/liblava/tree/master/liblava/base/queue.hpp)
+[![base](https://img.shields.io/badge/lava-base-orange.svg)](liblava/base/base.hpp) [![device](https://img.shields.io/badge/lava-device-orange.svg)](liblava/base/device.hpp) [![instance](https://img.shields.io/badge/lava-instance-orange.svg)](liblava/base/instance.hpp) [![memory](https://img.shields.io/badge/lava-memory-orange.svg)](liblava/base/memory.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-orange.svg)](liblava/base/physical_device.hpp) [![queue](https://img.shields.io/badge/lava-queue-orange.svg)](liblava/base/queue.hpp)
 
-#### lava [file](https://github.com/liblava/liblava/tree/master/liblava/file)
+#### lava [file](liblava/file)
 
-[![file](https://img.shields.io/badge/lava-file-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/file/json_file.hpp)
+[![file](https://img.shields.io/badge/lava-file-blue.svg)](liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-blue.svg)](liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-blue.svg)](liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-blue.svg)](liblava/file/json_file.hpp)
 
-#### lava [util](https://github.com/liblava/liblava/tree/master/liblava/util)
+#### lava [util](liblava/util)
 
-[![log](https://img.shields.io/badge/lava-log-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/log.hpp) [![random](https://img.shields.io/badge/lava-random-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/random.hpp) [![telegram](https://img.shields.io/badge/lava-telegram-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/telegram.hpp) [![thread](https://img.shields.io/badge/lava-thread-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/thread.hpp) [![utility](https://img.shields.io/badge/lava-utility-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/util/utility.hpp)
+[![log](https://img.shields.io/badge/lava-log-blue.svg)](liblava/util/log.hpp) [![random](https://img.shields.io/badge/lava-random-blue.svg)](liblava/util/random.hpp) [![telegram](https://img.shields.io/badge/lava-telegram-blue.svg)](liblava/util/telegram.hpp) [![thread](https://img.shields.io/badge/lava-thread-blue.svg)](liblava/util/thread.hpp) [![utility](https://img.shields.io/badge/lava-utility-blue.svg)](liblava/util/utility.hpp)
 
-#### lava [core](https://github.com/liblava/liblava/tree/master/liblava/core)
+#### lava [core](liblava/core)
 
-[![data](https://img.shields.io/badge/lava-data-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/data.hpp) [![id](https://img.shields.io/badge/lava-id-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/id.hpp) [![math](https://img.shields.io/badge/lava-math-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/math.hpp) [![time](https://img.shields.io/badge/lava-time-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/time.hpp) [![types](https://img.shields.io/badge/lava-types-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/types.hpp) [![version](https://img.shields.io/badge/lava-version-blue.svg)](https://github.com/liblava/liblava/tree/master/liblava/core/version.hpp)
+[![data](https://img.shields.io/badge/lava-data-blue.svg)](liblava/core/data.hpp) [![id](https://img.shields.io/badge/lava-id-blue.svg)](liblava/core/id.hpp) [![math](https://img.shields.io/badge/lava-math-blue.svg)](liblava/core/math.hpp) [![time](https://img.shields.io/badge/lava-time-blue.svg)](liblava/core/time.hpp) [![types](https://img.shields.io/badge/lava-types-blue.svg)](liblava/core/types.hpp) [![version](https://img.shields.io/badge/lava-version-blue.svg)](liblava/core/version.hpp)
 
 <br />
 
 ## Third-Party
 
-* [argh](https://github.com/adishavit/argh) &nbsp; *3-clause BSD*
-* [bitmap](https://github.com/ArashPartow/bitmap) &nbsp; *MIT*
-* [Catch2](https://github.com/catchorg/Catch2) &nbsp; *BSL 1.0*
-* [glfw](https://github.com/glfw/glfw) &nbsp; *zlib*
-* [gli](https://github.com/g-truc/gli) &nbsp; *MIT*
-* [glm](https://github.com/g-truc/glm) &nbsp; *MIT*
-* [imgui](https://github.com/ocornut/imgui) &nbsp; *MIT*
-* [json](https://github.com/nlohmann/json) &nbsp; *MIT*
-* [physfs](https://github.com/Didstopia/physfs) &nbsp; *zlib*
-* [selene](https://github.com/kmhofmann/selene) &nbsp; *MIT*
-* [spdlog](https://github.com/gabime/spdlog) &nbsp; *MIT*
-* [stb](https://github.com/nothings/stb) &nbsp; *MIT*
-* [tinyobjloader](https://github.com/syoyo/tinyobjloader) &nbsp; *MIT*
-* [volk](https://github.com/zeux/volk) &nbsp; *MIT*
-* [Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers) &nbsp; *Apache 2.0*
-* [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) &nbsp; *MIT*
+* [argh](https://github.com/adishavit/argh) &nbsp; **Argh! A minimalist argument handler** &nbsp; *3-clause BSD*
+
+  [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp)
+* [bitmap](https://github.com/ArashPartow/bitmap) &nbsp; **C++ Bitmap Library** &nbsp; *MIT*
+
+  [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](liblava/asset/texture_loader.cpp)
+* [Catch2](https://github.com/catchorg/Catch2) &nbsp; **A modern, C++-native, header-only, test framework for unit-tests, TDD and BDD** &nbsp; *BSL 1.0*
+* [glfw](https://github.com/glfw/glfw) &nbsp; **A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input** &nbsp; *zlib*
+
+  [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.cpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.cpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.cpp)
+* [gli](https://github.com/g-truc/gli) &nbsp; **OpenGL Image (GLI)** &nbsp; *MIT*
+
+  [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](liblava/asset/texture_loader.cpp)
+* [glm](https://github.com/g-truc/glm) &nbsp; **OpenGL Mathematics (GLM)** &nbsp; *MIT*
+
+  [![math](https://img.shields.io/badge/lava-math-blue.svg)](liblava/core/math.hpp)
+* [imgui](https://github.com/ocornut/imgui) &nbsp; **Dear ImGui - Bloat-free Graphical User interface for C++ with minimal dependencies** &nbsp; *MIT*
+
+  [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.cpp)
+* [json](https://github.com/nlohmann/json) &nbsp; **JSON for Modern C++** &nbsp; *MIT*
+
+  [![json_file](https://img.shields.io/badge/lava-json_file-blue.svg)](liblava/file/json_file.hpp)
+* [physfs](https://github.com/Didstopia/physfs) &nbsp; **A portable, flexible file i/o abstraction** &nbsp; *zlib*
+
+  [![file](https://img.shields.io/badge/lava-file-blue.svg)](liblava/file/file.cpp) [![file_system](https://img.shields.io/badge/lava-file_system-blue.svg)](liblava/file/file_system.cpp)
+* [selene](https://github.com/kmhofmann/selene) &nbsp; **A C++17 image representation, processing and I/O library** &nbsp; *MIT*
+
+  [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](liblava/asset/texture_loader.cpp)
+* [spdlog](https://github.com/gabime/spdlog) &nbsp; **Fast C++ logging library** &nbsp; *MIT*
+
+  [![log](https://img.shields.io/badge/lava-log-blue.svg)](liblava/util/log.hpp)
+* [stb](https://github.com/nothings/stb) &nbsp; **Single-file public domain libraries for C/C++** &nbsp; *MIT*
+
+  [![scope_image](https://img.shields.io/badge/lava-scope_image-orange.svg)](liblava/asset/scope_image.cpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](liblava/asset/texture_loader.cpp)
+* [tinyobjloader](https://github.com/syoyo/tinyobjloader) &nbsp; **Tiny but powerful single file wavefront obj loader** &nbsp; *MIT*
+
+  [![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-orange.svg)](liblava/asset/mesh_loader.hpp)
+* [volk](https://github.com/zeux/volk) &nbsp; **Meta loader for Vulkan API** &nbsp; *MIT*
+
+  [![base](https://img.shields.io/badge/lava-base-orange.svg)](liblava/base/base.hpp)
+* [Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers) &nbsp; **Vulkan Header files and API registry** &nbsp; *Apache 2.0*
+
+  [![base](https://img.shields.io/badge/lava-base-orange.svg)](liblava/base/base.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp)
+* [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) &nbsp; **Easy to integrate Vulkan memory allocation library** &nbsp; *MIT*
+
+  [![memory](https://img.shields.io/badge/lava-memory-orange.svg)](liblava/base/memory.hpp)
 
 <br />
 
