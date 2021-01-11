@@ -14,8 +14,12 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
+#ifndef LIBLAVA_HIDE_CONSOLE
+#    define LIBLAVA_HIDE_CONSOLE (!LIBLAVA_DEBUG && _WIN32)
+#endif
+
 void hide_console(lava::name program) {
-#if !LIBLAVA_DEBUG && _WIN32
+#if LIBLAVA_HIDE_CONSOLE
 
     auto version_str = fmt::format("{} {}", lava::_liblava_, lava::str(lava::to_string(lava::_version)));
     std::cout << version_str.c_str() << std::endl;
