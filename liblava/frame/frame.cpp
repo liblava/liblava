@@ -81,12 +81,7 @@ namespace lava {
         return frame_initialized;
     }
 
-    bool frame::setup(frame_config c) {
-        if (frame_initialized)
-            return false;
-
-        config = c;
-
+    void handle_config(frame_config& config) {
         if (config.app_info.app_name == nullptr)
             config.app_info.app_name = config.app;
 
@@ -134,6 +129,14 @@ namespace lava {
 
         if (config.log.level >= 0)
             log()->info("log {}", spdlog::level::to_string_view((spdlog::level::level_enum) config.log.level));
+    }
+
+    bool frame::setup(frame_config c) {
+        if (frame_initialized)
+            return false;
+
+        config = c;
+        handle_config(config);
 
         glfwSetErrorCallback([](i32 error, name description) {
             log()->error("glfw {} - {}", error, description);
