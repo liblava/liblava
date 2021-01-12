@@ -593,11 +593,11 @@ namespace lava {
         auto height = 0;
         ImGui::GetIO().Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
-        auto font_format = VK_FORMAT_R8G8B8A8_UNORM;
+        auto const font_format = VK_FORMAT_R8G8B8A8_UNORM;
         if (!texture->create(device, { width, height }, font_format))
             return false;
 
-        auto upload_size = width * height * format_block_size(font_format);
+        auto const upload_size = width * height * format_block_size(font_format);
         if (!texture->upload(pixels, upload_size))
             return false;
 

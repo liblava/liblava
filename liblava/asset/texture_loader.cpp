@@ -58,7 +58,7 @@ namespace lava {
 
         auto texture = make_texture();
 
-        uv2 size = { tex[0].extent().x, tex[0].extent().y };
+        uv2 const size = { tex[0].extent().x, tex[0].extent().y };
         if (!texture->create(device, size, format, layers, texture_type::tex_2d))
             return nullptr;
 
@@ -72,7 +72,7 @@ namespace lava {
     texture::layer::list create_layer_list(T const& tex, ui32 layer_count) {
         texture::layer::list layers;
 
-        auto mip_levels = to_ui32(tex.levels());
+        auto const mip_levels = to_ui32(tex.levels());
 
         for (auto i = 0u; i < layer_count; ++i) {
             texture::layer layer;
@@ -102,7 +102,7 @@ namespace lava {
 
         auto texture = make_texture();
 
-        uv2 size = { tex[0].extent().x, tex[0].extent().y };
+        uv2 const size = { tex[0].extent().x, tex[0].extent().y };
         if (!texture->create(device, size, format, layers, texture_type::array))
             return nullptr;
 
@@ -123,7 +123,7 @@ namespace lava {
 
         auto texture = make_texture();
 
-        uv2 size = { tex[0].extent().x, tex[0].extent().y };
+        uv2 const size = { tex[0].extent().x, tex[0].extent().y };
         if (!texture->create(device, size, format, layers, texture_type::cube_map))
             return nullptr;
 
@@ -148,12 +148,12 @@ namespace lava {
 
         auto texture = make_texture();
 
-        uv2 size = { tex_width, tex_height };
-        if (!texture->create(device, size, VK_FORMAT_R8G8B8A8_UNORM))
+        uv2 const size = { tex_width, tex_height };
+        auto const font_format = VK_FORMAT_R8G8B8A8_UNORM;
+        if (!texture->create(device, size, font_format))
             return nullptr;
 
-        auto const tex_channels = 4;
-        auto uploadSize = tex_width * tex_height * tex_channels * sizeof(char);
+        auto const uploadSize = tex_width * tex_height * format_block_size(font_format);
         auto result = texture->upload(data, uploadSize);
 
         stbi_image_free(data);
@@ -217,22 +217,22 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
 lava::texture::ptr lava::create_default_texture(device_ptr device, uv2 size, v3 color, r32 alpha) {
     auto result = make_texture();
 
-    auto format = VK_FORMAT_R8G8B8A8_UNORM;
+    auto const format = VK_FORMAT_R8G8B8A8_UNORM;
     if (!result->create(device, size, format))
         return nullptr;
 
-    i32 block_size = format_block_size(format);
-    scope_data data(size.s * size.t * block_size);
+    i32 const block_size = format_block_size(format);
+    scope_data data(size.x * size.y * block_size);
     memset(data.ptr, 0, data.size);
 
-    ui32 color_r = 255 * color.r;
-    ui32 color_g = 255 * color.g;
-    ui32 color_b = 255 * color.b;
-    ui32 color_a = 255 * alpha;
+    ui32 const color_r = 255 * color.r;
+    ui32 const color_g = 255 * color.g;
+    ui32 const color_b = 255 * color.b;
+    ui32 const color_a = 255 * alpha;
 
-    for (auto y = 0u; y < size.t; ++y) {
-        for (auto x = 0u; x < size.s; ++x) {
-            auto const index = (x * block_size) + (y * size.t * block_size);
+    for (auto y = 0u; y < size.y; ++y) {
+        for (auto x = 0u; x < size.x; ++x) {
+            auto const index = (x * block_size) + (y * size.y * block_size);
             if ((y % 128 < 64 && x % 128 < 64) || (y % 128 >= 64 && x % 128 >= 64)) {
                 data.ptr[index] = color_r;
                 data.ptr[index + 1] = color_g;
