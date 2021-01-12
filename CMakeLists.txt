@@ -314,10 +314,23 @@ add_library(lava::block ALIAS lava.block)
 
 message(">> lava::app")
 
+set(IMGUI_FILES
+        ${LIBLAVA_EXT_DIR}/imgui/imgui.cpp
+        ${LIBLAVA_EXT_DIR}/imgui/imgui.h
+        ${LIBLAVA_EXT_DIR}/imgui/imgui_draw.cpp
+        ${LIBLAVA_EXT_DIR}/imgui/imgui_tables.cpp
+        ${LIBLAVA_EXT_DIR}/imgui/imgui_widgets.cpp
+        ${LIBLAVA_EXT_DIR}/imgui/imgui_demo.cpp
+        )
+
+source_group("imgui Files" FILES ${IMGUI_FILES})
+
 set(APP_SHADERS
         res/tool/imgui/imgui.frag
         res/tool/imgui/imgui.vert
         )
+
+source_group("Shader Files" FILES ${APP_SHADERS})
 
 add_library(lava.app STATIC
         ${LIBLAVA_DIR}/app/app.cpp
@@ -331,15 +344,9 @@ add_library(lava.app STATIC
         ${LIBLAVA_DIR}/app/forward_shading.hpp
         ${LIBLAVA_DIR}/app/imgui.cpp
         ${LIBLAVA_DIR}/app/imgui.hpp
-        ${LIBLAVA_EXT_DIR}/imgui/imgui.cpp
-        ${LIBLAVA_EXT_DIR}/imgui/imgui_draw.cpp
-        ${LIBLAVA_EXT_DIR}/imgui/imgui_tables.cpp
-        ${LIBLAVA_EXT_DIR}/imgui/imgui_widgets.cpp
-        ${LIBLAVA_EXT_DIR}/imgui/imgui_demo.cpp
+        ${IMGUI_FILES}
         ${APP_SHADERS}
         )
-
-source_group("Shader Files" FILES ${APP_SHADERS})
 
 target_include_directories(lava.app PUBLIC
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/imgui>
