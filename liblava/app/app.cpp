@@ -189,7 +189,7 @@ namespace lava {
     }
 
     bool app::create_target() {
-        target = lava::create_target(&window, device, config.v_sync);
+        target = lava::create_target(&window, device, config.v_sync, config.surface);
         if (!target)
             return false;
 

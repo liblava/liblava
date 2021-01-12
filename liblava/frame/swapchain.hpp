@@ -9,7 +9,7 @@
 namespace lava {
 
     struct swapchain : id_obj {
-        bool create(device_ptr device, VkSurfaceKHR surface, uv2 size, bool v_sync = false);
+        bool create(device_ptr device, VkSurfaceKHR surface, VkSurfaceFormatKHR format, uv2 size, bool v_sync = false);
 
         void destroy();
 
@@ -31,6 +31,9 @@ namespace lava {
         }
         VkFormat get_format() const {
             return format.format;
+        }
+        VkColorSpaceKHR get_color_space() const {
+            return format.colorSpace;
         }
 
         VkSwapchainKHR get() const {
@@ -64,8 +67,6 @@ namespace lava {
         bool surface_supported(index queue_family) const;
 
     private:
-        void set_surface_format();
-
         VkPresentModeKHR choose_present_mode(VkPresentModeKHRs const& present_modes) const;
         VkSwapchainCreateInfoKHR create_info(VkPresentModeKHRs present_modes);
 

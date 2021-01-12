@@ -8,8 +8,8 @@
 
 namespace lava {
 
-    bool render_target::create(device_ptr device, VkSurfaceKHR surface, uv2 size, bool v_sync) {
-        if (!target.create(device, surface, size, v_sync))
+    bool render_target::create(device_ptr device, VkSurfaceKHR surface, VkSurfaceFormatKHR format, uv2 size, bool v_sync) {
+        if (!target.create(device, surface, format, size, v_sync))
             return false;
 
         swapchain_callback.on_created = [&]() {
@@ -53,7 +53,7 @@ namespace lava {
 
 } // namespace lava
 
-lava::render_target::ptr lava::create_target(window* window, device_ptr device, bool v_sync) {
+lava::render_target::ptr lava::create_target(window* window, device_ptr device, bool v_sync, surface_format_request request) {
     auto surface = window->create_surface();
     if (!surface)
         return nullptr;
@@ -61,12 +61,18 @@ lava::render_target::ptr lava::create_target(window* window, device_ptr device, 
     if (!device->surface_supported(surface))
         return nullptr;
 
+    auto surface_format = get_surface_format(device->get_vk_physical_device(), surface, request);
+    if (surface_format.format == VK_FORMAT_UNDEFINED) {
+        vkDestroySurfaceKHR(instance::get(), surface, memory::alloc());
+        return nullptr;
+    }
+
     auto width = 0u;
     auto height = 0u;
     window->get_framebuffer_size(width, height);
 
     auto target = std::make_shared<render_target>();
-    if (!target->create(device, surface, { width, height }, v_sync))
+    if (!target->create(device, surface, surface_format, { width, height }, v_sync))
         return nullptr;
 
     auto target_ptr = target.get();

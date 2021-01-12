@@ -7,13 +7,12 @@
 
 namespace lava {
 
-    bool swapchain::create(device_ptr d, VkSurfaceKHR s, uv2 sz, bool v) {
+    bool swapchain::create(device_ptr d, VkSurfaceKHR s, VkSurfaceFormatKHR f, uv2 sz, bool v) {
         device = d;
         surface = s;
+        format = f;
         size = sz;
         v_sync_active = v;
-
-        set_surface_format();
 
         return create_internal();
     }
@@ -55,45 +54,6 @@ namespace lava {
         }
 
         return true;
-    }
-
-    void swapchain::set_surface_format() {
-        auto count = 0u;
-        check(vkGetPhysicalDeviceSurfaceFormatsKHR(device->get_vk_physical_device(), surface, &count, nullptr));
-
-        std::vector<VkSurfaceFormatKHR> formats(count);
-        check(vkGetPhysicalDeviceSurfaceFormatsKHR(device->get_vk_physical_device(), surface, &count, formats.data()));
-
-        if (count == 1) {
-            if (formats[0].format == VK_FORMAT_UNDEFINED) {
-                format.format = VK_FORMAT_B8G8R8A8_UNORM;
-                format.colorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
-            } else {
-                format = formats[0];
-            }
-
-        } else {
-            VkFormat const requestSurfaceImageFormat[] = { VK_FORMAT_B8G8R8A8_UNORM, VK_FORMAT_R8G8B8A8_UNORM,
-                                                           VK_FORMAT_B8G8R8_UNORM, VK_FORMAT_R8G8B8_UNORM };
-
-            VkColorSpaceKHR const requestSurfaceColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
-
-            auto requestedFound = false;
-            for (auto& i : requestSurfaceImageFormat) {
-                if (requestedFound)
-                    break;
-
-                for (ui32 j = 0; j < count; j++) {
-                    if (formats[j].format == i && formats[j].colorSpace == requestSurfaceColorSpace) {
-                        format = formats[j];
-                        requestedFound = true;
-                    }
-                }
-            }
-
-            if (!requestedFound)
-                format = formats[0];
-        }
     }
 
     VkPresentModeKHR swapchain::choose_present_mode(VkPresentModeKHRs const& present_modes) const {

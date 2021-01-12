@@ -6,6 +6,7 @@
 
 #include <liblava/app/imgui.hpp>
 #include <liblava/frame/window.hpp>
+#include <liblava/resource/format.hpp>
 
 namespace lava {
 
@@ -14,6 +15,8 @@ namespace lava {
         bool handle_key_events = true;
 
         bool v_sync = false;
+        surface_format_request surface;
+
         index physical_device = 0;
 
         imgui::font imgui_font;

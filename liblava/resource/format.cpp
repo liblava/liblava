@@ -476,3 +476,29 @@ void lava::insert_image_memory_barrier(device_ptr device, VkCommandBuffer cmd_bu
 
     device->call().vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 }
+
+VkSurfaceFormatKHR lava::get_surface_format(VkPhysicalDevice device, VkSurfaceKHR surface, surface_format_request request) {
+    auto count = 0u;
+    check(vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &count, nullptr));
+
+    std::vector<VkSurfaceFormatKHR> formats(count);
+    check(vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &count, formats.data()));
+
+    if (count == 1) {
+        if (formats[0].format == VK_FORMAT_UNDEFINED)
+            return {
+                VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR
+            };
+        else
+            return formats[0];
+    }
+
+    for (auto& request_format : request.formats) {
+        for (auto i = 0u; i < count; ++i) {
+            if ((formats[i].format == request_format) && (formats[i].colorSpace == request.color_space))
+                return formats[i];
+        }
+    }
+
+    return formats[0];
+}
