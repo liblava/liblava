@@ -279,7 +279,7 @@ set_target_properties(glfw PROPERTIES FOLDER "lava/ext")
 message("<<< glfw")
 
 target_link_libraries(lava.frame
-        lava::base
+        lava::resource
         glfw
         ${GLFW_LIBRARIES}
         )
