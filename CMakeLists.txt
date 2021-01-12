@@ -233,19 +233,7 @@ target_include_directories(lava.asset PUBLIC
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/stb>
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/gli>
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/tinyobjloader>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/bitmap>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/selene>
         )
-
-message(">>> selene")
-
-set(SELENE_USE_LIBJPEG OFF CACHE BOOL "" FORCE)
-set(SELENE_USE_LIBPNG OFF CACHE BOOL "" FORCE)
-set(SELENE_USE_LIBTIFF OFF CACHE BOOL "" FORCE)
-set(SELENE_USE_OPENCV OFF CACHE BOOL "" FORCE)
-add_subdirectory(${LIBLAVA_EXT_DIR}/selene selene EXCLUDE_FROM_ALL)
-
-message("<<< selene")
 
 target_link_libraries(lava.asset
         lava::file
@@ -448,8 +436,6 @@ install(DIRECTORY
         #${LIBLAVA_EXT_DIR}/stb/
         #${LIBLAVA_EXT_DIR}/gli/gli
         #${LIBLAVA_EXT_DIR}/tinyobjloader/
-        #${LIBLAVA_EXT_DIR}/bitmap/
-        #${LIBLAVA_EXT_DIR}/selene/selene
         #${LIBLAVA_EXT_DIR}/glfw/include/
         #${LIBLAVA_EXT_DIR}/Catch2/
         ${LIBLAVA_EXT_DIR}/argh/

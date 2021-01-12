@@ -107,6 +107,8 @@ namespace lava {
                 set(length, alloc);
         }
 
+        explicit scope_data(ui32 length, bool alloc = true)
+        : scope_data(to_size_t(length), alloc) {}
         explicit scope_data(i64 length, bool alloc = true)
         : scope_data(to_size_t(length), alloc) {}
         explicit scope_data(data const& data) {

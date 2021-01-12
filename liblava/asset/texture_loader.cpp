@@ -2,11 +2,9 @@
 // copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 // license   : MIT; see accompanying LICENSE file
 
-#include <bitmap_image.hpp>
 #include <liblava/asset/texture_loader.hpp>
 #include <liblava/file.hpp>
-#include <selene/img/pixel/PixelTypeAliases.hpp>
-#include <selene/img_ops/ImageConversions.hpp>
+#include <liblava/resource/format.hpp>
 
 #ifdef _WIN32
 #    pragma warning(push, 4)
@@ -216,24 +214,36 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
     return nullptr;
 }
 
-lava::texture::ptr lava::create_default_texture(device_ptr device, uv2 size) {
+lava::texture::ptr lava::create_default_texture(device_ptr device, uv2 size, v3 color, r32 alpha) {
     auto result = make_texture();
 
-    if (!result->create(device, size, VK_FORMAT_R8G8B8A8_UNORM))
+    auto format = VK_FORMAT_R8G8B8A8_UNORM;
+    if (!result->create(device, size, format))
         return nullptr;
 
-    bitmap_image image(size.x, size.y);
-    checkered_pattern(64, 64, 255, 255, 255, image);
+    i32 block_size = format_block_size(format);
+    scope_data data(size.s * size.t * block_size);
+    memset(data.ptr, 0, data.size);
 
-    image.bgr_to_rgb();
+    ui32 color_r = 255 * color.r;
+    ui32 color_g = 255 * color.g;
+    ui32 color_b = 255 * color.b;
+    ui32 color_a = 255 * alpha;
 
-    sln::TypedLayout typed_layout((sln::PixelLength) size.x, (sln::PixelLength) size.y, (sln::Stride)(image.width() * image.bytes_per_pixel()));
+    for (auto y = 0u; y < size.t; ++y) {
+        for (auto x = 0u; x < size.s; ++x) {
+            auto const index = (x * block_size) + (y * size.t * block_size);
+            if ((y % 128 < 64 && x % 128 < 64) || (y % 128 >= 64 && x % 128 >= 64)) {
+                data.ptr[index] = color_r;
+                data.ptr[index + 1] = color_g;
+                data.ptr[index + 2] = color_b;
+            }
 
-    sln::ImageView<sln::PixelRGB_8u, sln::ImageModifiability::Mutable> img_rgb((uint8_t*) image.data(), typed_layout);
+            data.ptr[index + 3] = color_a;
+        }
+    }
 
-    sln::Image<sln::PixelRGBA_8u> const img_rgba = sln::convert_image<sln::PixelFormat::RGBA>(img_rgb, std::uint8_t{ 192 });
-
-    if (!result->upload(img_rgba.data(), img_rgba.total_bytes()))
+    if (!result->upload(data.ptr, data.size))
         return nullptr;
 
     return result;

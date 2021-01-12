@@ -15,6 +15,6 @@ namespace lava {
         return load_texture(device, { filename, format }, type);
     }
 
-    texture::ptr create_default_texture(device_ptr device, uv2 size = { 512, 512 });
+    texture::ptr create_default_texture(device_ptr device, uv2 size = { 512, 512 }, v3 color = v3(1.f), r32 alpha = 0.7529f);
 
 } // namespace lava
