@@ -20,7 +20,7 @@ namespace lava {
         using list = std::vector<file_format>;
 
         string path;
-        VkFormat format = VK_FORMAT_R8G8B8A8_UNORM;
+        VkFormat format = VK_FORMAT_UNDEFINED;
     };
 
     struct texture : id_obj {
@@ -31,7 +31,7 @@ namespace lava {
         struct mip_level {
             using list = std::vector<mip_level>;
 
-            uv2 extent;
+            uv2 extent{};
             ui32 size = 0;
         };
 
