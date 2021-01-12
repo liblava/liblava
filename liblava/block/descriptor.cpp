@@ -94,11 +94,14 @@ namespace lava {
         return descriptor_set;
     }
 
-    bool descriptor::free_set(VkDescriptorSet descriptor_set, VkDescriptorPool pool) {
+    bool descriptor::free_set(VkDescriptorSet& descriptor_set, VkDescriptorPool pool) {
         std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
 
-        return check(device->call().vkFreeDescriptorSets(device->get(), pool,
-                                                         to_ui32(descriptor_sets.size()), descriptor_sets.data()));
+        auto result = check(device->call().vkFreeDescriptorSets(device->get(), pool,
+                                                                to_ui32(descriptor_sets.size()), descriptor_sets.data()));
+        if (result)
+            descriptor_set = VK_NULL_HANDLE;
+        return result;
     }
 
     VkDescriptorSets descriptor::allocate_sets(ui32 size, VkDescriptorPool pool) {
@@ -117,9 +120,13 @@ namespace lava {
         return result;
     }
 
-    bool descriptor::free_sets(VkDescriptorSets const& descriptor_sets, VkDescriptorPool pool) {
-        return check(device->call().vkFreeDescriptorSets(device->get(), pool,
-                                                         to_ui32(descriptor_sets.size()), descriptor_sets.data()));
+    bool descriptor::free_sets(VkDescriptorSets& descriptor_sets, VkDescriptorPool pool) {
+        auto result = check(device->call().vkFreeDescriptorSets(device->get(), pool,
+                                                                to_ui32(descriptor_sets.size()), descriptor_sets.data()));
+
+        if (result)
+            descriptor_sets.clear();
+        return result;
     }
 
     descriptor::binding::ptr make_descriptor_binding(index index) {

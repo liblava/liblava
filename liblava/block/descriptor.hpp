@@ -100,8 +100,8 @@ namespace lava {
             return allocate_set(pool);
         }
 
-        bool free_set(VkDescriptorSet descriptor_set, VkDescriptorPool pool);
-        bool free(VkDescriptorSet descriptor_set, VkDescriptorPool pool) {
+        bool free_set(VkDescriptorSet& descriptor_set, VkDescriptorPool pool);
+        bool free(VkDescriptorSet& descriptor_set, VkDescriptorPool pool) {
             return free_set(descriptor_set, pool);
         }
 
@@ -110,8 +110,8 @@ namespace lava {
             return allocate_sets(size, pool);
         }
 
-        bool free_sets(VkDescriptorSets const& descriptor_sets, VkDescriptorPool pool);
-        bool free(VkDescriptorSets const& descriptor_sets, VkDescriptorPool pool) {
+        bool free_sets(VkDescriptorSets& descriptor_sets, VkDescriptorPool pool);
+        bool free(VkDescriptorSets& descriptor_sets, VkDescriptorPool pool) {
             return free_sets(descriptor_sets, pool);
         }
 

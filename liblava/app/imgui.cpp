@@ -447,7 +447,6 @@ namespace lava {
         index_buffers.clear();
 
         descriptor->free(descriptor_set, descriptor_pool->get());
-        descriptor_set = VK_NULL_HANDLE;
 
         descriptor_pool->destroy();
         descriptor->destroy();
