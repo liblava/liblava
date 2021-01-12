@@ -8,10 +8,10 @@
 
 namespace lava {
 
-    texture::ptr load_texture(device_ptr device, file_format filename, texture_type type = texture_type::tex_2d);
+    texture::ptr load_texture(device_ptr device, file_format file_format, texture_type type = texture_type::tex_2d);
 
     inline texture::ptr load_texture(device_ptr device, string_ref filename,
-                                     VkFormat format = VK_FORMAT_R8G8B8A8_UNORM, texture_type type = texture_type::tex_2d) {
+                                     VkFormat format = VK_FORMAT_R8G8B8A8_SRGB, texture_type type = texture_type::tex_2d) {
         return load_texture(device, { filename, format }, type);
     }
 

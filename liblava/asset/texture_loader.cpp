@@ -149,7 +149,7 @@ namespace lava {
         auto texture = make_texture();
 
         uv2 const size = { tex_width, tex_height };
-        auto const font_format = VK_FORMAT_R8G8B8A8_UNORM;
+        auto const font_format = VK_FORMAT_R8G8B8A8_SRGB;
         if (!texture->create(device, size, font_format))
             return nullptr;
 
@@ -166,21 +166,17 @@ namespace lava {
 
 } // namespace lava
 
-lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, texture_type type) {
-    auto supported = (filename.format == VK_FORMAT_R8G8B8A8_UNORM) || (device->get_features().textureCompressionBC && (filename.format == VK_FORMAT_BC3_UNORM_BLOCK)) || (device->get_features().textureCompressionASTC_LDR && (filename.format == VK_FORMAT_ASTC_8x8_UNORM_BLOCK)) || (device->get_features().textureCompressionETC2 && (filename.format == VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK));
-    if (!supported)
-        return nullptr;
-
-    auto use_gli = extension(str(filename.path), { "DDS", "KTX", "KMG" });
+lava::texture::ptr lava::load_texture(device_ptr device, file_format file_format, texture_type type) {
+    auto use_gli = extension(str(file_format.path), { "DDS", "KTX", "KMG" });
     auto use_stbi = false;
 
     if (!use_gli)
-        use_stbi = extension(str(filename.path), { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
+        use_stbi = extension(str(file_format.path), { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
 
     if (!use_gli && !use_stbi)
         return nullptr;
 
-    file file(str(filename.path));
+    file file(str(file_format.path));
     scope_data temp_data(file.get_size(), false);
 
     if (file.opened()) {
@@ -196,15 +192,15 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format filename, t
 
         switch (type) {
         case texture_type::tex_2d: {
-            return create_gli_texture_2d(device, file, filename.format, temp_data);
+            return create_gli_texture_2d(device, file, file_format.format, temp_data);
         }
 
         case texture_type::array: {
-            return create_gli_texture_array(device, file, filename.format, temp_data);
+            return create_gli_texture_array(device, file, file_format.format, temp_data);
         }
 
         case texture_type::cube_map: {
-            return create_gli_texture_cube_map(device, file, filename.format, temp_data);
+            return create_gli_texture_cube_map(device, file, file_format.format, temp_data);
         }
         }
     } else {
