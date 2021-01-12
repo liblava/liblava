@@ -47,22 +47,18 @@ namespace lava {
                                      VkPipelineStageFlags dst_stage_mask,
                                      VkImageSubresourceRange subresource_range);
 
-    VkFormats const request_surface_format_formats = {
-        VK_FORMAT_B8G8R8A8_UNORM,
-        VK_FORMAT_R8G8B8A8_UNORM,
-        VK_FORMAT_B8G8R8_UNORM,
-        VK_FORMAT_R8G8B8_UNORM,
-        VK_FORMAT_B8G8R8A8_SRGB,
-        VK_FORMAT_R8G8B8A8_SRGB,
-        VK_FORMAT_B8G8R8_SRGB,
-        VK_FORMAT_R8G8B8_SRGB,
-    };
-
-    VkColorSpaceKHR const request_surface_format_color_space = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
-
     struct surface_format_request {
-        VkFormats formats = request_surface_format_formats;
-        VkColorSpaceKHR color_space = request_surface_format_color_space;
+        VkFormats formats = {
+            VK_FORMAT_B8G8R8A8_UNORM,
+            VK_FORMAT_R8G8B8A8_UNORM,
+            VK_FORMAT_B8G8R8_UNORM,
+            VK_FORMAT_R8G8B8_UNORM,
+            VK_FORMAT_B8G8R8A8_SRGB,
+            VK_FORMAT_R8G8B8A8_SRGB,
+            VK_FORMAT_B8G8R8_SRGB,
+            VK_FORMAT_R8G8B8_SRGB,
+        };
+        VkColorSpaceKHR color_space = VK_COLOR_SPACE_SRGB_NONLINEAR_KHR;
     };
     VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device, VkSurfaceKHR surface, surface_format_request request = {});
 
