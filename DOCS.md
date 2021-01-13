@@ -430,6 +430,11 @@ int main(int argc, char* argv[]) {
   [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp)
 
 * [Catch2](https://github.com/catchorg/Catch2) &nbsp; **A modern, C++-native, header-only, test framework for unit-tests, TDD and BDD** &nbsp; *BSL 1.0*
+
+* [freetype2](https://github.com/freetype/freetype2) &nbsp; **FreeType is a freely available software library to render fonts** &nbsp; *FTL*
+
+  [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.cpp)
+
 * [glfw](https://github.com/glfw/glfw) &nbsp; **A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input** &nbsp; *zlib*
 
   [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.cpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.cpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.cpp)

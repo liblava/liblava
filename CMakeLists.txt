@@ -314,6 +314,14 @@ add_library(lava::block ALIAS lava.block)
 
 message(">> lava::app")
 
+message(">>> freetype2")
+
+add_subdirectory(${LIBLAVA_EXT_DIR}/freetype2 freetype2 EXCLUDE_FROM_ALL)
+
+set_target_properties(freetype PROPERTIES FOLDER "lava/ext")
+
+message("<<< freetype2")
+
 set(IMGUI_FILES
         ${LIBLAVA_EXT_DIR}/imgui/imgui.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui.h
@@ -321,6 +329,8 @@ set(IMGUI_FILES
         ${LIBLAVA_EXT_DIR}/imgui/imgui_tables.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_widgets.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_demo.cpp
+        ${LIBLAVA_EXT_DIR}/imgui/misc/freetype/imgui_freetype.cpp
+        ${LIBLAVA_EXT_DIR}/imgui/misc/freetype/imgui_freetype.h
         )
 
 source_group("imgui Files" FILES ${IMGUI_FILES})
@@ -356,6 +366,7 @@ target_link_libraries(lava.app
         lava::asset
         lava::block
         lava::frame
+        freetype
         )
 
 set_target_properties(lava.app PROPERTIES FOLDER "lava")

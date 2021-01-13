@@ -42,3 +42,6 @@
 	path = ext/Catch2
 	url = https://github.com/catchorg/Catch2.git
 	branch = devel
+[submodule "ext/freetype2"]
+	path = ext/freetype2
+	url = https://github.com/freetype/freetype2.git
