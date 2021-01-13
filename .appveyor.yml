@@ -4,14 +4,16 @@ image: Visual Studio 2019
 platform: x64
 configuration: Release
 environment:
-  CFLAGS: /WX
+  CFLAGS: /W4
 matrix:
   fast_finish: true
 install:
   - git submodule update --init --recursive
 before_build:
-  - cmake -G "Visual Studio 16 2019" -A x64 .
+  - mkdir build
+  - cd build
+  - cmake -G "Visual Studio 16 2019" -A x64 ..
 build:
-  project: $(APPVEYOR_BUILD_FOLDER)\$(APPVEYOR_PROJECT_NAME).sln
+  project: $(APPVEYOR_BUILD_FOLDER)\build\$(APPVEYOR_PROJECT_NAME).sln
   parallel: true
   verbosity: minimal

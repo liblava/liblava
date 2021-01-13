@@ -316,6 +316,7 @@ message(">> lava::app")
 
 message(">>> freetype2")
 
+set(CMAKE_DISABLE_FIND_PACKAGE_HarfBuzz ON CACHE BOOL "" FORCE)
 add_subdirectory(${LIBLAVA_EXT_DIR}/freetype2 freetype2 EXCLUDE_FROM_ALL)
 
 set_target_properties(freetype PROPERTIES FOLDER "lava/ext")
