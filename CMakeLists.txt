@@ -494,6 +494,89 @@ install(
         DESTINATION ${CONFIG_PATH}
         )
 
+option(LIBLAVA_DEMO "Enable Demo" TRUE)
+if(LIBLAVA_DEMO)
+message("========================================================================")
+        
+        message("> module")
+
+        set(LIBLAVA_DEMO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava-demo)
+
+        message(">> lava::demo")
+
+        add_library(lava.demo STATIC
+                ${LIBLAVA_DEMO_DIR}/demo.cpp
+                ${LIBLAVA_DEMO_DIR}/demo.hpp
+                )
+
+        target_include_directories(lava.demo PUBLIC
+                ${LIBLAVA_DEMO_DIR}
+                ${LIBLAVA_EXT_DIR}/IconFontCppHeaders
+                )
+
+        set_target_properties(lava.demo PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava.demo lava::app)
+
+        add_library(lava::demo ALIAS lava.demo)
+
+        message("> lava-triangle")
+
+        set(TRIANGLE_SHADERS
+                res/triangle/triangle.frag
+                res/triangle/triangle.vert
+                )
+
+        add_executable(lava-triangle 
+                ${LIBLAVA_DEMO_DIR}/triangle.cpp
+                ${TRIANGLE_SHADERS}
+                )
+
+        source_group("Shader Files" FILES ${TRIANGLE_SHADERS})
+
+        set_target_properties(lava-triangle PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava-triangle lava::demo)
+
+        set_property(TARGET lava-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
+        message("> lava-lamp")
+
+        set(LAMP_SHADERS
+                res/lamp/lamp.frag
+                res/lamp/lamp.vert
+                )
+
+        add_executable(lava-lamp 
+                ${LIBLAVA_DEMO_DIR}/lamp.cpp
+                ${LAMP_SHADERS}
+                )
+
+        source_group("Shader Files" FILES ${LAMP_SHADERS})
+
+        set_target_properties(lava-lamp PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava-lamp lava::demo)
+
+        set_property(TARGET lava-lamp PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
+        message("> lava-spawn")
+
+        set(SPAWN_SHADERS
+                res/spawn/spawn.frag
+                res/spawn/spawn.vert
+                )
+
+        add_executable(lava-spawn 
+                ${LIBLAVA_DEMO_DIR}/spawn.cpp
+                ${SPAWN_SHADERS}
+                )
+
+        source_group("Shader Files" FILES ${SPAWN_SHADERS})
+
+        set_target_properties(lava-spawn PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava-spawn lava::demo)
+
+        set_property(TARGET lava-spawn PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+endif()
+
 option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
 if(LIBLAVA_TEMPLATE)
 message("========================================================================")

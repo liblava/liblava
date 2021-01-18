@@ -6,7 +6,7 @@
 
 <br />
 
-**C++20** + **Modular** &nbsp; **<a href="https://git.io/liblava-demo">demo</a>**  + [template](DOCS.md/#template) &nbsp; **Windows** + **Linux**
+**C++20** &nbsp; + &nbsp; **Modular** &nbsp; / &nbsp; **Windows** &nbsp; + &nbsp; **Linux**
 
 [![Version](https://img.shields.io/badge/Version-0.6.0-blue)](https://git.io/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![CodeFactor](https://www.codefactor.io/repository/github/liblava/liblava/badge)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
 
@@ -22,6 +22,10 @@
 
 <br />
 
+##### ⬇ Download latest **<a href="https://github.com/liblava/liblava/releases">demo</a>** (December 20, 2020)
+
+<br />
+
 <a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="res/Vulkan_170px_Dec16.png" width="300"></a>
 
 ### Docs
@@ -32,13 +36,27 @@
 
 ### [Modules](DOCS.md/#modules)
 
-[![core](https://img.shields.io/badge/lava-core-blue.svg)](liblava/core) [![util](https://img.shields.io/badge/lava-util-blue.svg)](liblava/util) [![file](https://img.shields.io/badge/lava-file-blue.svg)](liblava/file) &nbsp; [![base](https://img.shields.io/badge/lava-base-orange.svg)](liblava/base) [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](liblava/resource) [![asset](https://img.shields.io/badge/lava-asset-orange.svg)](liblava/asset) &nbsp; [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](liblava/block) &nbsp; [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](https://git.io/liblava-engine)
+[![core](https://img.shields.io/badge/lava-core-blue.svg)](liblava/core) [![util](https://img.shields.io/badge/lava-util-blue.svg)](liblava/util) [![file](https://img.shields.io/badge/lava-file-blue.svg)](liblava/file) &nbsp; [![base](https://img.shields.io/badge/lava-base-orange.svg)](liblava/base) [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](liblava/resource) [![asset](https://img.shields.io/badge/lava-asset-orange.svg)](liblava/asset) &nbsp; [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](liblava/block) &nbsp; [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app) [![demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo)
 
 <br />
 
-##### ⬇ Download latest **<a href="https://github.com/liblava/liblava-demo/releases">demo</a>** (December 20, 2020)
+### Demos
 
-<a href="https://github.com/liblava/liblava-demo/#readme"><img src="res/demo.png"></a>
+<br />
+
+##### [lava spawn](liblava-demo/spawn.cpp) ➜ uniform buffer camera
+
+<a href="liblava-demo/spawn.cpp">![spawn](res/spawn/screenshot.png)</a>
+
+##### [lava lamp](liblava-demo/lamp.cpp) ➜ push constants to shader
+
+<a href="liblava-demo/lamp.cpp">![lamp](res/lamp/screenshot.png)</a>
+
+<br />
+
+##### [lava triangle](liblava-demo/triangle.cpp) ➜ classic colored mesh
+
+<a href="liblava-demo/triangle.cpp">![triangle](res/triangle/screenshot.png)</a>
 
 <br />
 

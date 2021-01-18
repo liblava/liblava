@@ -2,7 +2,7 @@
 
 # liblava docs &nbsp; [![Version](https://img.shields.io/badge/Version-0.6.0-blue)](https://git.io/liblava)
 
-[Features](#features) &nbsp; **[Tutorial](#tutorial)** &nbsp; [Requirements](#requirements) &nbsp; **[Modules](#modules)** &nbsp; [Third-Party](#third-party) &nbsp; **[Guide](#guide)** &nbsp; [Tests](#tests) &nbsp; [Template](#template) &nbsp; **[Build](#build)** &nbsp; [Install](#install)
+[Features](#features) &nbsp; **[Tutorial](#tutorial)** &nbsp; [Requirements](#requirements) &nbsp; **[Modules](#modules)** &nbsp; [Third-Party](#third-party) &nbsp; **[Guide](#guide)** &nbsp; [Tests](#tests) &nbsp; **[Demo](#demo)** &nbsp; [Template](#template) &nbsp; **[Build](#build)** &nbsp; [Install](#install)
 
 <br />
 
@@ -247,7 +247,7 @@ frame.add_run_end([&]() {
 return frame.run();
 ```
 
-##### Welcome on **Planet Vulkan** - That's a lot to display a colored window!
+##### Welcome on **Planet Vulkan** - That's a lot to display a colored window
 
 <br />
 
@@ -349,7 +349,7 @@ Check [Awesome Vulkan ecosystem](http://www.vinjn.com/awesome-vulkan/) for tutor
 
 #### 8. imgui demo
 
-Out of blocks `lava app` supports [Dear ImGui](https://github.com/ocornut/imgui) for **tooling** and **easy prototyping**:
+Out of blocks, `lava app` supports [Dear ImGui](https://github.com/ocornut/imgui) for **tooling** and **easy prototyping**
 
 ```c++
 int main(int argc, char* argv[]) {
@@ -369,9 +369,7 @@ int main(int argc, char* argv[]) {
 
 <br />
 
-##### What's next? ➜ Check some <a href="https://git.io/liblava-demo">demos</a> and use the [template](#template) to try it out!
-
-<a href="https://github.com/liblava/liblava-demo/#readme"><img src="res/demo.png"></a>
+##### What's next? ➜ Check some [demos](liblava-demo) and use the [template](#template) to try it out
 
 <br />
 
@@ -384,6 +382,10 @@ int main(int argc, char* argv[]) {
 <br />
 
 ## Modules
+
+#### lava [demo](liblava-demo)
+
+[![lamp](https://img.shields.io/badge/lava-lamp-brightgreen.svg)](liblava-demo/lamp.cpp) [![spawn](https://img.shields.io/badge/lava-spawn-brightgreen.svg)](liblava-demo/spawn.cpp) [![triangle](https://img.shields.io/badge/lava-triangle-brightgreen.svg)](liblava-demo/triangle.cpp)
 
 #### lava [app](liblava/app)
 
@@ -446,6 +448,10 @@ int main(int argc, char* argv[]) {
 * [glm](https://github.com/g-truc/glm) &nbsp; **OpenGL Mathematics (GLM)** &nbsp; *MIT*
 
   [![math](https://img.shields.io/badge/lava-math-blue.svg)](liblava/core/math.hpp)
+
+* [IconFontCppHeaders](https://github.com/juliettef/IconFontCppHeaders) &nbsp; **C, C++ headers and C# classes for icon fonts** &nbsp; *zlib*
+
+  [![demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo)
 
 * [imgui](https://github.com/ocornut/imgui) &nbsp; **Dear ImGui - Bloat-free Graphical User interface for C++ with minimal dependencies** &nbsp; *MIT*
 
@@ -528,6 +534,37 @@ In addition run **lava-unit** that will check parts of **liblava** using [Catch2
 
 <br />
 
+## Demo
+
+The demonstration projects are in the [liblava-demo](liblava-demo) folder. Screenshots and a brief description in [README](README.md/#demos)
+
+#### Roboto
+
+*Apache License, Version 2.0* &nbsp; [GitHub](https://github.com/google/fonts/tree/master/apache/roboto) &nbsp; [Website](https://fonts.google.com/specimen/Roboto)
+
+* [Roboto-Regular.ttf](res/font/gui/Roboto-Regular.ttf)
+
+#### Font Awesome
+
+*Font Awesome Free License* &nbsp; [GitHub](https://github.com/FortAwesome/Font-Awesome) &nbsp; [Website](https://fontawesome.com)
+
+* [fa-solid-900.ttf](res/font/icon/fa-solid-900.ttf)
+
+#### Barbarella
+
+*Shader by Weyland Yutani* &nbsp; [Website](https://www.shadertoy.com/view/XdfGDr)
+
+* [lamp.frag](res/lamp/lamp.frag)
+
+#### Spawn Model
+
+*CC BY-SA 3.0* &nbsp; [Website](https://opengameart.org/content/lava-spawn)
+
+* [lava-spawn-game.mtl](res/spawn/lava-spawn-game.mtl)
+* [lava-spawn-game.obj](res/spawn/lava-spawn-game.obj)
+
+<br />
+
 ## Template
 
 You can start coding with the **template** project. If you like you can rename it in [CMakeLists](CMakeLists.txt)
@@ -555,7 +592,13 @@ make
 
 ## Install
 
-You can use **liblava** as a *git submodule* in your project ➜ Like in the [starter template](https://git.io/liblava-template) and [demo](https://git.io/liblava-demo)
+You can use **liblava** as a *git submodule* in your project
+
+```bash
+git submodule add https://github.com/liblava/liblava.git
+
+git submodule update --init --recursive
+```
 
 #### Conan Package Manager
 
