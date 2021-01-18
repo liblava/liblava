@@ -534,6 +534,8 @@ You can start coding with the **template** project. If you like you can rename i
 
 Just put your code in the [src](src) folder. Everything you need is in [main.cpp](src/main.cpp)
 
+<br />
+
 ## Build
 
 ```bash

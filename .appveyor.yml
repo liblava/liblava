@@ -4,7 +4,7 @@ image: Visual Studio 2019
 platform: x64
 configuration: Release
 environment:
-  CFLAGS: /W4
+  CFLAGS: /W3
 matrix:
   fast_finish: true
 install:
