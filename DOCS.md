@@ -37,7 +37,7 @@ using namespace lava;
 ```
 <br />
 
-⬇ Here are a few examples to get to know `lava`
+Here are a few examples to get to know `lava`
 
 <br />
 
@@ -312,7 +312,7 @@ block.add_command([&](VkCommandBuffer cmd_buf) {
 });
 ```
 
-##### Nice, this is much more simpler than before!
+##### Nice, this is much more simpler than before
 
 <br />
 
@@ -569,7 +569,7 @@ The demonstration projects are in the [liblava-demo](liblava-demo) folder. Scree
 
 You can start coding with the **template** project. If you like you can rename it in [CMakeLists](CMakeLists.txt)
 
-Just put your code in the [src](src) folder. Everything you need is in [main.cpp](src/main.cpp)
+➜ Just put your code in the [src](src) folder. Everything you need is in [main.cpp](src/main.cpp)
 
 <br />
 

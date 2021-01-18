@@ -22,7 +22,7 @@
 
 <br />
 
-##### ⬇ Download latest **<a href="https://github.com/liblava/liblava/releases">demo</a>** (December 20, 2020)
+##### ➜ Download latest **<a href="https://github.com/liblava/liblava/releases">demo</a>** (December 20, 2020)
 
 <br />
 
@@ -42,11 +42,11 @@
 
 ### Demos
 
-<br />
-
 ##### [lava spawn](liblava-demo/spawn.cpp) ➜ uniform buffer camera
 
 <a href="liblava-demo/spawn.cpp">![spawn](res/spawn/screenshot.png)</a>
+
+<br />
 
 ##### [lava lamp](liblava-demo/lamp.cpp) ➜ push constants to shader
 
