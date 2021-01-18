@@ -376,6 +376,8 @@ add_library(lava::app ALIAS lava.app)
 
 option(LIBLAVA_TESTS "Enable Tests" TRUE)
 if(LIBLAVA_TESTS)
+message("========================================================================")
+
         message("> tests")
 
         message(">> lava")
@@ -491,5 +493,28 @@ install(
         "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/lava-config.cmake"
         DESTINATION ${CONFIG_PATH}
         )
+
+option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
+if(LIBLAVA_TEMPLATE)
+message("========================================================================")
+
+        set(NAME template)
+
+        message("> ${NAME}")
+
+        set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+        add_executable(${NAME}
+                ${SRC_DIR}/main.cpp
+                )
+
+        target_include_directories(${NAME} PUBLIC
+                ${SRC_DIR}
+                )
+
+        target_link_libraries(${NAME} lava::app)
+
+        set_property(TARGET ${NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+endif()
 
 message("========================================================================")

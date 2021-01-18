@@ -2,7 +2,7 @@
 
 # liblava docs &nbsp; [![Version](https://img.shields.io/badge/Version-0.6.0-blue)](https://git.io/liblava)
 
-[Features](#features) &nbsp; **[Tutorial](#tutorial)** &nbsp; [Requirements](#requirements) &nbsp; **[Modules](#modules)** &nbsp; [Third-Party](#third-party) &nbsp; **[Guide](#guide)** &nbsp; [Tests](#tests) &nbsp; **[Build](#build)** &nbsp; [Install](#install)
+[Features](#features) &nbsp; **[Tutorial](#tutorial)** &nbsp; [Requirements](#requirements) &nbsp; **[Modules](#modules)** &nbsp; [Third-Party](#third-party) &nbsp; **[Guide](#guide)** &nbsp; [Tests](#tests) &nbsp; [Template](#template) &nbsp; **[Build](#build)** &nbsp; [Install](#install)
 
 <br />
 
@@ -369,7 +369,7 @@ int main(int argc, char* argv[]) {
 
 <br />
 
-##### What's next? ➜ Check some <a href="https://git.io/liblava-demo">demos</a> and clone a <a href="https://git.io/liblava-template">starter template</a> to try it out!
+##### What's next? ➜ Check some <a href="https://git.io/liblava-demo">demos</a> and use the [template](#template) to try it out!
 
 <a href="https://github.com/liblava/liblava-demo/#readme"><img src="res/demo.png"></a>
 
@@ -527,6 +527,12 @@ The **driver** starts the *last* test when you provide *no* command line argumen
 In addition run **lava-unit** that will check parts of **liblava** using [Catch2](https://github.com/catchorg/Catch2) test framework
 
 <br />
+
+## Template
+
+You can start coding with the **template** project. If you like you can rename it in [CMakeLists](CMakeLists.txt)
+
+Just put your code in the [src](src) folder. Everything you need is in [main.cpp](src/main.cpp)
 
 ## Build
 
