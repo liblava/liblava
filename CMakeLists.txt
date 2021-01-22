@@ -93,7 +93,6 @@ add_library(lava.util STATIC
         ${LIBLAVA_DIR}/util/utility.hpp
         )
 
-
 message(">>> spdlog")
 
 add_subdirectory(${LIBLAVA_EXT_DIR}/spdlog spdlog EXCLUDE_FROM_ALL)

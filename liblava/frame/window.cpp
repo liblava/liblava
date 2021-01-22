@@ -244,6 +244,18 @@ namespace lava {
         glfwGetFramebufferSize(handle, (i32*) &w, (i32*) &h);
     }
 
+    uv2 window::get_size() const {
+        uv2 size;
+        get_size(size.x, size.y);
+        return size;
+    }
+
+    uv2 window::get_framebuffer_size() const {
+        uv2 size;
+        get_framebuffer_size(size.x, size.y);
+        return size;
+    }
+
     void window::set_mouse_position(r64 x, r64 y) {
         glfwSetCursorPos(handle, x, y);
     }

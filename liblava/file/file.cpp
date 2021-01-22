@@ -75,10 +75,19 @@ namespace lava {
         if (type == file_type::fs) {
             return PHYSFS_fileLength(fs_file);
         } else if (type == file_type::f_stream) {
-            if (write_mode)
-                return to_i64(o_stream.tellp());
-            else
-                return to_i64(i_stream.tellg());
+            if (write_mode) {
+                auto current = o_stream.tellp();
+                o_stream.seekp(std::ostream::end);
+                auto result = o_stream.tellp();
+                o_stream.seekp(current);
+                return result;
+            } else {
+                auto current = i_stream.tellg();
+                i_stream.seekg(std::istream::end);
+                auto result = i_stream.tellg();
+                i_stream.seekg(current);
+                return result;
+            }
         }
 
         return file_error_result;
@@ -108,6 +117,34 @@ namespace lava {
         } else if (type == file_type::f_stream) {
             o_stream.write(data, size);
             return to_i64(size);
+        }
+
+        return file_error_result;
+    }
+
+    i64 file::seek(ui64 position) {
+        if (type == file_type::fs) {
+            return PHYSFS_seek(fs_file, position);
+        } else if (type == file_type::f_stream) {
+            if (write_mode)
+                o_stream.seekp(position, std::ostream::cur);
+            else
+                i_stream.seekg(position, std::ostream::cur);
+
+            return tell();
+        }
+
+        return file_error_result;
+    }
+
+    i64 file::tell() const {
+        if (type == file_type::fs) {
+            return PHYSFS_tell(fs_file);
+        } else if (type == file_type::f_stream) {
+            if (write_mode)
+                return to_i64(o_stream.tellp());
+            else
+                return to_i64(i_stream.tellg());
         }
 
         return file_error_result;

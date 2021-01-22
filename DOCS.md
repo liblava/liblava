@@ -542,7 +542,7 @@ The demonstration projects are in the [liblava-demo](liblava-demo) folder. Scree
 
 *Apache License, Version 2.0* &nbsp; [GitHub](https://github.com/google/fonts/tree/master/apache/roboto) &nbsp; [Website](https://fonts.google.com/specimen/Roboto)
 
-* [Roboto-Regular.ttf](res/font/gui/Roboto-Regular.ttf)
+* [Roboto-Regular.ttf](res/font/imgui/Roboto-Regular.ttf)
 
 #### Font Awesome
 

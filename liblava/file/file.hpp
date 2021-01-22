@@ -41,6 +41,9 @@ namespace lava {
 
         i64 write(data_cptr data, ui64 size);
 
+        i64 seek(ui64 position);
+        i64 tell() const;
+
         bool writable() const {
             return write_mode;
         }

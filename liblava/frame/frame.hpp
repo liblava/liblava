@@ -33,8 +33,10 @@ namespace lava {
     enum error {
         not_ready = -1,
         create_failed = -2,
-        aborted = -3,
-        running = -4,
+        init_failed = -3,
+        load_failed = -4,
+        aborted = -5,
+        running = -6,
     };
 
     ms now();

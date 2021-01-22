@@ -5,7 +5,11 @@
 #include <liblava/base/memory.hpp>
 #include <liblava/frame/frame.hpp>
 
-#if !LIBLAVA_DEBUG && _WIN32
+#ifndef LIBLAVA_HIDE_CONSOLE
+#    define LIBLAVA_HIDE_CONSOLE (!LIBLAVA_DEBUG && _WIN32)
+#endif
+
+#if LIBLAVA_HIDE_CONSOLE
 #    include <windows.h>
 #    include <iostream>
 #endif
@@ -14,10 +18,6 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-#ifndef LIBLAVA_HIDE_CONSOLE
-#    define LIBLAVA_HIDE_CONSOLE (!LIBLAVA_DEBUG && _WIN32)
-#endif
-
 void hide_console(lava::name program) {
 #if LIBLAVA_HIDE_CONSOLE
 
@@ -25,7 +25,7 @@ void hide_console(lava::name program) {
     std::cout << version_str.c_str() << std::endl;
 
     auto const dot_count = 5;
-    auto const sleep_ms = lava::to_i32(1.0 / dot_count * 1000.f);
+    auto const sleep_ms = lava::to_i32(1. / dot_count * 1000.f);
 
     for (auto i = 0u; i < dot_count; ++i) {
         lava::sleep(lava::ms(sleep_ms));

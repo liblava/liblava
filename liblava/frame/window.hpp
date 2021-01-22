@@ -74,10 +74,14 @@ namespace lava {
 
         void set_position(i32 x, i32 y);
         void get_position(i32& x, i32& y) const;
+
         void set_size(ui32 width, ui32 height);
         void get_size(ui32& width, ui32& height) const;
 
         void get_framebuffer_size(ui32& width, ui32& height) const;
+
+        uv2 get_size() const;
+        uv2 get_framebuffer_size() const;
 
         void set_mouse_position(r64 x, r64 y);
         void get_mouse_position(r64& x, r64& y) const;
