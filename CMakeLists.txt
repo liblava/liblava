@@ -369,6 +369,8 @@ target_link_libraries(lava.app
         freetype
         )
 
+target_compile_definitions(lava.app PRIVATE IMGUI_ENABLE_FREETYPE IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
+
 set_target_properties(lava.app PROPERTIES FOLDER "lava")
 set_property(TARGET lava.app PROPERTY EXPORT_NAME app)
 add_library(lava::app ALIAS lava.app)

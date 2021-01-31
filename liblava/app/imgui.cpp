@@ -18,7 +18,6 @@
 #endif
 
 #include <imgui.h>
-#include <misc/freetype/imgui_freetype.h>
 
 namespace lava {
 
@@ -588,15 +587,11 @@ namespace lava {
     }
 
     bool imgui::upload_fonts(texture::ptr texture) {
-        auto& io = ImGui::GetIO();
-        if (!ImGuiFreeType::BuildFontAtlas(io.Fonts))
-            return false;
-
         uchar* pixels = nullptr;
 
         auto width = 0;
         auto height = 0;
-        io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
+        ImGui::GetIO().Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
         auto const font_format = VK_FORMAT_R8G8B8A8_UNORM;
         if (!texture->create(device, { width, height }, font_format))
