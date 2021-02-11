@@ -32,10 +32,10 @@ namespace lava {
         layout = VK_NULL_HANDLE;
     }
 
-    void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets, VkPipelineBindPoint bind_point) {
+    void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, ui32 index, offset_list offsets, VkPipelineBindPoint bind_point) {
         std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
 
-        vkCmdBindDescriptorSets(cmd_buf, bind_point, layout, 0, to_ui32(descriptor_sets.size()), descriptor_sets.data(), to_ui32(offsets.size()), offsets.data());
+        device->call().vkCmdBindDescriptorSets(cmd_buf, bind_point, layout, index, to_ui32(descriptor_sets.size()), descriptor_sets.data(), to_ui32(offsets.size()), offsets.data());
     }
 
     pipeline::pipeline(device_ptr device_, VkPipelineCache pipeline_cache)
