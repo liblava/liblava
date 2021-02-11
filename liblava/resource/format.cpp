@@ -320,23 +320,22 @@ lava::ui32 lava::format_block_size(VkFormat format) {
 #undef fmt
 }
 
-bool lava::get_supported_depth_format(VkPhysicalDevice physical_device, VkFormat* depth_format) {
-    VkFormats depth_formats = { VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D32_SFLOAT, VK_FORMAT_D24_UNORM_S8_UINT, VK_FORMAT_D16_UNORM_S8_UINT, VK_FORMAT_D16_UNORM };
+std::optional<VkFormat> lava::get_supported_depth_format(VkPhysicalDevice physical_device) {
+    static const VkFormat depth_formats[] = { VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D32_SFLOAT, VK_FORMAT_D24_UNORM_S8_UINT, VK_FORMAT_D16_UNORM_S8_UINT, VK_FORMAT_D16_UNORM };
 
     for (auto& format : depth_formats) {
         VkFormatProperties format_props;
         vkGetPhysicalDeviceFormatProperties(physical_device, format, &format_props);
 
         if (format_props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) {
-            *depth_format = format;
-            return true;
+            return { format };
         }
     }
 
-    return false;
+    return std::nullopt;
 }
 
-std::optional<VkFormat> get_supported_format(lava::device_ptr device, lava::VkFormats const& possible_formats, VkImageUsageFlags usage) {
+std::optional<VkFormat> lava::get_supported_format(VkPhysicalDevice physical_device, lava::VkFormats const& possible_formats, VkImageUsageFlags usage) {
     VkFormatFeatureFlags features = 0;
     if (usage & VK_IMAGE_USAGE_TRANSFER_SRC_BIT)
         features |= VK_FORMAT_FEATURE_TRANSFER_SRC_BIT;
@@ -353,7 +352,7 @@ std::optional<VkFormat> get_supported_format(lava::device_ptr device, lava::VkFo
 
     for (auto& format : possible_formats) {
         VkFormatProperties format_props;
-        vkGetPhysicalDeviceFormatProperties(device->get_vk_physical_device(), format, &format_props);
+        vkGetPhysicalDeviceFormatProperties(physical_device, format, &format_props);
 
         if ((format_props.optimalTilingFeatures & features) == features) {
             return { format };

@@ -25,9 +25,9 @@ namespace lava {
 
     ui32 format_block_size(VkFormat format);
 
-    bool get_supported_depth_format(VkPhysicalDevice physical_device, VkFormat* depth_format);
+    std::optional<VkFormat> get_supported_depth_format(VkPhysicalDevice physical_device);
 
-    std::optional<VkFormat> get_supported_format(lava::device_ptr device, VkFormats const& possible_formats, VkImageUsageFlags usage);
+    std::optional<VkFormat> get_supported_format(VkPhysicalDevice physical_device, VkFormats const& possible_formats, VkImageUsageFlags usage);
 
     VkImageMemoryBarrier image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout);
 
