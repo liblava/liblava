@@ -34,6 +34,9 @@ namespace lava {
         VkPipelineLayout get() const {
             return layout;
         }
+        device_ptr get_device() {
+            return device;
+        }
 
         descriptor::list const& get_descriptors() const {
             return descriptors;

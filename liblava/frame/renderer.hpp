@@ -27,6 +27,10 @@ namespace lava {
             return frame_index;
         }
 
+        device_ptr get_device() {
+            return device;
+        }
+
         using destroy_func = std::function<void()>;
         destroy_func on_destroy;
 
