@@ -35,7 +35,7 @@ namespace lava {
         bool create(device_ptr device, index frame_count, index queue_family);
         void destroy();
 
-        auto get_frame_count() const {
+        index get_frame_count() const {
             return to_index(cmd_pools.size());
         }
 
@@ -51,17 +51,17 @@ namespace lava {
 
         bool process(index frame);
 
-        auto get_current_frame() const {
+        index get_current_frame() const {
             return current_frame;
         }
-        auto get_command_buffer(id::ref cmd) const {
+        VkCommandBuffer get_command_buffer(id::ref cmd) const {
             return commands.at(cmd).buffers.at(current_frame);
         }
-        auto get_command_buffer(id::ref cmd, index frame) const {
+        VkCommandBuffer get_command_buffer(id::ref cmd, index frame) const {
             return commands.at(cmd).buffers.at(frame);
         }
 
-        auto get_buffers() {
+        VkCommandBuffers get_buffers() {
             VkCommandBuffers result;
 
             for (auto& cmd : cmd_order)
@@ -71,17 +71,17 @@ namespace lava {
             return result;
         }
 
-        auto const& get_commands() const {
+        command::map const& get_commands() const {
             return commands;
         }
-        auto const& get_cmd_order() const {
+        command::list const& get_cmd_order() const {
             return cmd_order;
         }
 
         bool activated(id::ref command);
         bool set_active(id::ref command, bool active = true);
 
-        auto get_device() {
+        device_ptr get_device() {
             return device;
         }
 
