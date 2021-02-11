@@ -24,7 +24,7 @@ namespace lava {
             description.finalLayout = VK_IMAGE_LAYOUT_UNDEFINED;
         }
 
-        VkAttachmentDescription get_description() const {
+        VkAttachmentDescription const& get_description() const {
             return description;
         }
 

@@ -30,7 +30,7 @@ namespace lava {
 
         void process(VkCommandBuffer cmd_buf, uv2 size);
 
-        VkSubpassDescription get_description() const {
+        VkSubpassDescription const& get_description() const {
             return description;
         }
 
@@ -84,7 +84,7 @@ namespace lava {
 
         explicit subpass_dependency();
 
-        VkSubpassDependency get_dependency() const {
+        VkSubpassDependency const& get_dependency() const {
             return dependency;
         }
 

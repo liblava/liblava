@@ -15,7 +15,7 @@ namespace lava {
 
             explicit binding();
 
-            VkDescriptorSetLayoutBinding get() const {
+            VkDescriptorSetLayoutBinding const& get() const {
                 return vk_binding;
             }
 
