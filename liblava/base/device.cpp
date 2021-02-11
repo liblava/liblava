@@ -233,11 +233,11 @@ namespace lava {
 
 } // namespace lava
 
-VkShaderModule lava::create_shader_module(device_ptr device, data const& data) {
+VkShaderModule lava::create_shader_module(device_ptr device, cdata const& data) {
     VkShaderModuleCreateInfo shader_module_create_info{
         .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
         .codeSize = data.size,
-        .pCode = reinterpret_cast<ui32*>(data.ptr),
+        .pCode = reinterpret_cast<const ui32*>(data.ptr),
     };
 
     VkShaderModule result;

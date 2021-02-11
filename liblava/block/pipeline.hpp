@@ -132,7 +132,7 @@ namespace lava {
 
             void add_specialization_entry(VkSpecializationMapEntry const& specialization);
 
-            bool create(device_ptr device, data const& shader_data, data const& specialization_data = data());
+            bool create(device_ptr device, cdata const& shader_data, cdata const& specialization_data = data());
             void destroy();
 
             VkPipelineShaderStageCreateInfo const& get_create_info() const {
@@ -165,7 +165,7 @@ namespace lava {
     };
 
     pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits stage);
-    pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, data const& data, VkShaderStageFlagBits stage);
+    pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, cdata const& data, VkShaderStageFlagBits stage);
 
     struct graphics_pipeline : pipeline {
         using ptr = std::shared_ptr<graphics_pipeline>;
@@ -236,8 +236,8 @@ namespace lava {
         void set_dynamic_states(VkDynamicStates const& states);
         void add_dynamic_state(VkDynamicState state);
 
-        bool add_shader_stage(data const& data, VkShaderStageFlagBits stage);
-        bool add_shader(data const& data, VkShaderStageFlagBits stage) {
+        bool add_shader_stage(cdata const& data, VkShaderStageFlagBits stage);
+        bool add_shader(cdata const& data, VkShaderStageFlagBits stage) {
             return add_shader_stage(data, stage);
         }
 
@@ -348,7 +348,7 @@ namespace lava {
 
         void bind(VkCommandBuffer cmdBuffer) override;
 
-        bool set_shader_stage(data const& data, VkShaderStageFlagBits stage);
+        bool set_shader_stage(cdata const& data, VkShaderStageFlagBits stage);
         void set(shader_stage::ptr const& stage) {
             shader_stage = stage;
         }
