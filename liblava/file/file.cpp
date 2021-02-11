@@ -77,13 +77,13 @@ namespace lava {
         } else if (type == file_type::f_stream) {
             if (write_mode) {
                 auto current = o_stream.tellp();
-                o_stream.seekp(std::ostream::end);
+                o_stream.seekp(0, std::ostream::end);
                 auto result = o_stream.tellp();
                 o_stream.seekp(current);
                 return result;
             } else {
                 auto current = i_stream.tellg();
-                i_stream.seekg(std::istream::end);
+                i_stream.seekg(0, std::istream::end);
                 auto result = i_stream.tellg();
                 i_stream.seekg(current);
                 return result;
