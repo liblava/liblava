@@ -38,11 +38,8 @@ namespace lava {
         VkBuffer get() const {
             return vk_buffer;
         }
-        VkDescriptorBufferInfo const* get_descriptor() const {
+        VkDescriptorBufferInfo const* get_descriptor_info() const {
             return &descriptor;
-        }
-        VkDescriptorBufferInfo const* get_info() const {
-            return get_descriptor();
         }
 
         VkDeviceAddress get_address() const;

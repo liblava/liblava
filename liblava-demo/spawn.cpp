@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
             .dstBinding = 0,
             .descriptorCount = 1,
             .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-            .pBufferInfo = app.camera.get_info(),
+            .pBufferInfo = app.camera.get_descriptor_info(),
         };
 
         VkWriteDescriptorSet const write_desc_ubo_spawn{
@@ -105,7 +105,7 @@ int main(int argc, char* argv[]) {
             .dstBinding = 1,
             .descriptorCount = 1,
             .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-            .pBufferInfo = spawn_model_buffer.get_info(),
+            .pBufferInfo = spawn_model_buffer.get_descriptor_info(),
         };
 
         VkWriteDescriptorSet const write_desc_sampler{
@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
             .dstBinding = 2,
             .descriptorCount = 1,
             .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-            .pImageInfo = default_texture->get_info(),
+            .pImageInfo = default_texture->get_descriptor_info(),
         };
 
         app.device->vkUpdateDescriptorSets({ write_desc_ubo_camera, write_desc_ubo_spawn, write_desc_sampler });
