@@ -5,6 +5,7 @@
 #pragma once
 
 #include <liblava/base/base.hpp>
+#include <liblava/base/object_type.hpp>
 #include <liblava/core/def.hpp>
 
 /// only active in debug - enable for release profiling
@@ -37,6 +38,15 @@ namespace lava {
     inline void set_object_name(VkDevice device, VkObjectType type, VkObjectHandle handle, name object) {}
     inline void set_object_tag(VkDevice device, VkObjectType type, VkObjectHandle handle, ui64 name, void_cptr tag, size_t size) {}
 #endif
+
+    template<typename T>
+    inline void set_object_name(VkDevice device, T handle, name object) {
+        set_object_name(device, object_type<T>::value, VkObjectHandle(handle), object);
+    }
+    template<typename T>
+    inline void set_object_tag(VkDevice device, T handle, ui64 name, void_cptr tag, size_t size) {
+        set_object_tag(device, object_type<T>::value, VkObjectHandle(handle), name, tag, size);
+    }
 
     /// T can be VkCommandBuffer or VkQueue
     template<typename T>
