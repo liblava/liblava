@@ -15,7 +15,7 @@ namespace lava {
 
             explicit binding();
 
-            VkDescriptorSetLayoutBinding get() const {
+            VkDescriptorSetLayoutBinding const& get() const {
                 return vk_binding;
             }
 
@@ -53,6 +53,9 @@ namespace lava {
 
             VkDescriptorPool get() const {
                 return vk_pool;
+            }
+            device_ptr get_device() {
+                return device;
             }
 
             VkDescriptorPoolSizes const& get_sizes() const {
@@ -93,6 +96,9 @@ namespace lava {
 
         VkDescriptorSetLayout get() const {
             return layout;
+        }
+        device_ptr get_device() {
+            return device;
         }
 
         VkDescriptorSet allocate_set(VkDescriptorPool pool);

@@ -53,11 +53,8 @@ namespace lava {
         bool stage(VkCommandBuffer cmd_buffer);
         void destroy_upload_buffer();
 
-        VkDescriptorImageInfo const* get_descriptor() const {
+        VkDescriptorImageInfo const* get_descriptor_info() const {
             return &descriptor;
-        }
-        VkDescriptorImageInfo const* get_info() const {
-            return get_descriptor();
         }
 
         image::ptr get_image() {

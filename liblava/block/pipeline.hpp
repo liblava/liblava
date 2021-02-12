@@ -34,6 +34,9 @@ namespace lava {
         VkPipelineLayout get() const {
             return layout;
         }
+        device_ptr get_device() {
+            return device;
+        }
 
         descriptor::list const& get_descriptors() const {
             return descriptors;
@@ -45,9 +48,9 @@ namespace lava {
 
         using offset_list = std::vector<ui32>;
 
-        void bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets = {}, VkPipelineBindPoint bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS);
-        void bind(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets = {}, VkPipelineBindPoint bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS) {
-            bind_descriptor_set(cmd_buf, descriptor_set, offsets, bind_point);
+        void bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, ui32 index = 0, offset_list offsets = {}, VkPipelineBindPoint bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS);
+        void bind(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, ui32 index = 0, offset_list offsets = {}, VkPipelineBindPoint bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS) {
+            bind_descriptor_set(cmd_buf, descriptor_set, index, offsets, bind_point);
         }
 
     private:
@@ -129,7 +132,7 @@ namespace lava {
 
             void add_specialization_entry(VkSpecializationMapEntry const& specialization);
 
-            bool create(device_ptr device, data const& shader_data, data const& specialization_data = data());
+            bool create(device_ptr device, cdata const& shader_data, cdata const& specialization_data = data());
             void destroy();
 
             VkPipelineShaderStageCreateInfo const& get_create_info() const {
@@ -162,7 +165,7 @@ namespace lava {
     };
 
     pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits stage);
-    pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, data const& data, VkShaderStageFlagBits stage);
+    pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, cdata const& data, VkShaderStageFlagBits stage);
 
     struct graphics_pipeline : pipeline {
         using ptr = std::shared_ptr<graphics_pipeline>;
@@ -233,8 +236,8 @@ namespace lava {
         void set_dynamic_states(VkDynamicStates const& states);
         void add_dynamic_state(VkDynamicState state);
 
-        bool add_shader_stage(data const& data, VkShaderStageFlagBits stage);
-        bool add_shader(data const& data, VkShaderStageFlagBits stage) {
+        bool add_shader_stage(cdata const& data, VkShaderStageFlagBits stage);
+        bool add_shader(cdata const& data, VkShaderStageFlagBits stage) {
             return add_shader_stage(data, stage);
         }
 
@@ -345,7 +348,7 @@ namespace lava {
 
         void bind(VkCommandBuffer cmdBuffer) override;
 
-        bool set_shader_stage(data const& data, VkShaderStageFlagBits stage);
+        bool set_shader_stage(cdata const& data, VkShaderStageFlagBits stage);
         void set(shader_stage::ptr const& stage) {
             shader_stage = stage;
         }

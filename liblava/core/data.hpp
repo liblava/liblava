@@ -101,6 +101,17 @@ namespace lava {
         size_t alignment = 0;
     };
 
+    struct cdata {
+        cdata() = default;
+        cdata(const void* ptr, size_t size)
+        : ptr(as_ptr(ptr)), size(size) {}
+        cdata(data const& data)
+        : cdata(data.ptr, data.size) {}
+
+        data_cptr ptr = nullptr;
+        size_t size = 0;
+    };
+
     struct scope_data : data {
         explicit scope_data(size_t length = 0, bool alloc = true) {
             if (length)

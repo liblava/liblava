@@ -32,8 +32,8 @@ namespace lava {
         bool valid() const {
             return data ? data->valid() : false;
         }
-        VkDescriptorBufferInfo const* get_info() const {
-            return data ? data->get_info() : nullptr;
+        VkDescriptorBufferInfo const* get_descriptor_info() const {
+            return data ? data->get_descriptor_info() : nullptr;
         }
 
         void upload();

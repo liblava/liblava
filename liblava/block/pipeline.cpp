@@ -32,10 +32,10 @@ namespace lava {
         layout = VK_NULL_HANDLE;
     }
 
-    void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, offset_list offsets, VkPipelineBindPoint bind_point) {
+    void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, ui32 index, offset_list offsets, VkPipelineBindPoint bind_point) {
         std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
 
-        vkCmdBindDescriptorSets(cmd_buf, bind_point, layout, 0, to_ui32(descriptor_sets.size()), descriptor_sets.data(), to_ui32(offsets.size()), offsets.data());
+        device->call().vkCmdBindDescriptorSets(cmd_buf, bind_point, layout, index, to_ui32(descriptor_sets.size()), descriptor_sets.data(), to_ui32(offsets.size()), offsets.data());
     }
 
     pipeline::pipeline(device_ptr device_, VkPipelineCache pipeline_cache)
@@ -86,7 +86,7 @@ namespace lava {
         specialization_info.pMapEntries = specialization_entries.data();
     }
 
-    bool pipeline::shader_stage::create(device_ptr d, data const& shader_data, data const& specialization_data) {
+    bool pipeline::shader_stage::create(device_ptr d, cdata const& shader_data, cdata const& specialization_data) {
         device = d;
 
         if (specialization_data.size > 0) {
@@ -120,7 +120,7 @@ namespace lava {
         return shaderStage;
     }
 
-    pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, data const& data, VkShaderStageFlagBits stage) {
+    pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, cdata const& data, VkShaderStageFlagBits stage) {
         auto shaderStage = make_pipeline_shader_stage(stage);
 
         if (!shaderStage->create(device, data))
@@ -292,7 +292,7 @@ namespace lava {
         set_dynamic_states(dynamic_states);
     }
 
-    bool graphics_pipeline::add_shader_stage(data const& data, VkShaderStageFlagBits stage) {
+    bool graphics_pipeline::add_shader_stage(cdata const& data, VkShaderStageFlagBits stage) {
         if (!data.ptr) {
             log()->error("graphics pipeline shader stage data");
             return false;
@@ -410,7 +410,7 @@ namespace lava {
         vkCmdBindPipeline(cmd_buf, VK_PIPELINE_BIND_POINT_COMPUTE, vk_pipeline);
     }
 
-    bool compute_pipeline::set_shader_stage(data const& data, VkShaderStageFlagBits stage) {
+    bool compute_pipeline::set_shader_stage(cdata const& data, VkShaderStageFlagBits stage) {
         if (!data.ptr) {
             log()->error("compute pipeline shader stage data");
             return false;

@@ -10,8 +10,8 @@ namespace lava {
     bool forward_shading::create(render_target::ptr t) {
         target = t;
 
-        auto depth_format = VK_FORMAT_UNDEFINED;
-        if (!get_supported_depth_format(target->get_device()->get_vk_physical_device(), &depth_format))
+        auto depth_format = get_supported_depth_format(target->get_device()->get_vk_physical_device());
+        if(!depth_format.has_value())
             return false;
 
         pass = make_render_pass(target->get_device());
@@ -22,7 +22,7 @@ namespace lava {
             color_attachment->set_layouts(VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
             pass->add(color_attachment);
 
-            auto depth_attachment = make_attachment(depth_format);
+            auto depth_attachment = make_attachment(*depth_format);
             depth_attachment->set_op(VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE);
             depth_attachment->set_stencil_op(VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE);
             depth_attachment->set_layouts(VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
@@ -48,7 +48,7 @@ namespace lava {
             pass->add(second_subpass_dependency);
         }
 
-        depth_stencil = make_image(depth_format);
+        depth_stencil = make_image(*depth_format);
         if (!depth_stencil)
             return false;
 

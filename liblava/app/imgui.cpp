@@ -607,7 +607,7 @@ namespace lava {
             .dstBinding = 0,
             .descriptorCount = 1,
             .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-            .pImageInfo = texture->get_info(),
+            .pImageInfo = texture->get_descriptor_info(),
         };
 
         device->vkUpdateDescriptorSets({ write_desc });
