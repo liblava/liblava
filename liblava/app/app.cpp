@@ -172,6 +172,9 @@ namespace lava {
         if (!imgui.create(device, target->get_frame_count(), shading.get_vk_pass()))
             return false;
 
+        if (format_srgb(target->get_format()))
+            imgui.convert_style_to_srgb();
+
         shading.get_pass()->add(imgui.get_pipeline());
 
         imgui_fonts = make_texture();

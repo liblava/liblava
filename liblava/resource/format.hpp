@@ -15,6 +15,8 @@ namespace lava {
 
     bool format_depth_stencil(VkFormat format);
 
+    bool format_srgb(VkFormat format);
+
     VkImageAspectFlags format_aspect_mask(VkFormat format);
 
     void format_block_dim(VkFormat format, ui32& width, ui32& height);
