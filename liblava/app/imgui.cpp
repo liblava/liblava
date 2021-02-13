@@ -18,6 +18,7 @@
 #endif
 
 #include <imgui.h>
+#include <glm/gtc/color_space.hpp>
 
 namespace lava {
 
@@ -125,16 +126,21 @@ namespace lava {
         io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
 
         auto& style = ImGui::GetStyle();
-        style.Colors[ImGuiCol_TitleBg] = ImVec4(0.8f, 0.f, 0.f, 0.4f);
-        style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.8f, 0.f, 0.0f, 1.f);
-        style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.f, 0.f, 0.f, 0.1f);
-        style.Colors[ImGuiCol_MenuBarBg] = ImVec4(1.f, 0.f, 0.f, 0.4f);
-        style.Colors[ImGuiCol_Header] = ImVec4(0.8f, 0.f, 0.f, 0.4f);
-        style.Colors[ImGuiCol_HeaderActive] = ImVec4(1.f, 0.f, 0.f, 0.4f);
-        style.Colors[ImGuiCol_HeaderHovered] = ImVec4(1.f, 0.f, 0.f, 0.5f);
-        style.Colors[ImGuiCol_CheckMark] = ImVec4(1.f, 0.f, 0.f, 0.8f);
-        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.059f, 0.059f, 0.059f, 0.863f);
-        style.Colors[ImGuiCol_ResizeGrip] = ImVec4(0.f, 0.f, 0.f, 0.0f);
+        if (config.style) {
+            style = *config.style;
+        } else {
+            ImGui::StyleColorsDark();
+            style.Colors[ImGuiCol_TitleBg] = ImVec4(0.8f, 0.f, 0.f, 0.4f);
+            style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.8f, 0.f, 0.0f, 1.f);
+            style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.f, 0.f, 0.f, 0.1f);
+            style.Colors[ImGuiCol_MenuBarBg] = ImVec4(1.f, 0.f, 0.f, 0.4f);
+            style.Colors[ImGuiCol_Header] = ImVec4(0.8f, 0.f, 0.f, 0.4f);
+            style.Colors[ImGuiCol_HeaderActive] = ImVec4(1.f, 0.f, 0.f, 0.4f);
+            style.Colors[ImGuiCol_HeaderHovered] = ImVec4(1.f, 0.f, 0.f, 0.5f);
+            style.Colors[ImGuiCol_CheckMark] = ImVec4(1.f, 0.f, 0.f, 0.8f);
+            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.059f, 0.059f, 0.059f, 0.863f);
+            style.Colors[ImGuiCol_ResizeGrip] = ImVec4(0.f, 0.f, 0.f, 0.0f);
+        }
 
         if (config.font_data.ptr) {
             ImFontConfig font_config;
@@ -440,6 +446,15 @@ namespace lava {
         ini_file = dir.string();
 
         ImGui::GetIO().IniFilename = str(ini_file);
+    }
+
+    void imgui::convert_style_to_srgb() {
+        ImGuiStyle& style = ImGui::GetStyle();
+        for (size_t i = 0; i < ImGuiCol_COUNT; i++) {
+            glm::vec3 srgb = glm::make_vec3(&style.Colors[i].x);
+            glm::vec3 linear = glm::convertSRGBToLinear(srgb);
+            style.Colors[i] = ImVec4(linear.x, linear.y, linear.z, style.Colors[i].w);
+        }
     }
 
     void imgui::invalidate_device_objects() {

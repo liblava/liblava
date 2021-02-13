@@ -28,6 +28,48 @@ bool lava::format_depth_stencil(VkFormat format) {
     return format_depth(format) || format_stencil(format);
 }
 
+bool lava::format_srgb(VkFormat format)
+{
+    switch (format) {
+    case VK_FORMAT_R8_SRGB:
+    case VK_FORMAT_R8G8_SRGB:
+    case VK_FORMAT_R8G8B8_SRGB:
+    case VK_FORMAT_B8G8R8_SRGB:
+    case VK_FORMAT_R8G8B8A8_SRGB:
+    case VK_FORMAT_B8G8R8A8_SRGB:
+    case VK_FORMAT_BC1_RGB_SRGB_BLOCK:
+    case VK_FORMAT_BC1_RGBA_SRGB_BLOCK:
+    case VK_FORMAT_BC2_SRGB_BLOCK:
+    case VK_FORMAT_BC3_SRGB_BLOCK:
+    case VK_FORMAT_BC7_SRGB_BLOCK:
+    case VK_FORMAT_ETC2_R8G8B8_SRGB_BLOCK:
+    case VK_FORMAT_ETC2_R8G8B8A1_SRGB_BLOCK:
+    case VK_FORMAT_ETC2_R8G8B8A8_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_4x4_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_5x4_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_5x5_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_6x5_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_6x6_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_8x5_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_8x6_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_8x8_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_10x5_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_10x6_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_10x8_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_10x10_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_12x10_SRGB_BLOCK:
+    case VK_FORMAT_ASTC_12x12_SRGB_BLOCK:
+    case VK_FORMAT_PVRTC1_2BPP_SRGB_BLOCK_IMG:
+    case VK_FORMAT_PVRTC1_4BPP_SRGB_BLOCK_IMG:
+    case VK_FORMAT_PVRTC2_2BPP_SRGB_BLOCK_IMG:
+    case VK_FORMAT_PVRTC2_4BPP_SRGB_BLOCK_IMG:
+        return true;
+
+    default:
+        return false;
+    }
+}
+
 VkImageAspectFlags lava::format_aspect_mask(VkFormat format) {
     switch (format) {
     case VK_FORMAT_UNDEFINED:
@@ -484,10 +526,8 @@ VkSurfaceFormatKHR lava::get_surface_format(VkPhysicalDevice device, VkSurfaceKH
     check(vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &count, formats.data()));
 
     if (count == 1) {
-        if (formats[0].format == VK_FORMAT_UNDEFINED)
-            return {
-                VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR
-            };
+        if (formats[0].format == VK_FORMAT_UNDEFINED && !request.formats.empty())
+            return { request.formats.front(), request.color_space };
         else
             return formats[0];
     }

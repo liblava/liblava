@@ -13,6 +13,7 @@
 struct GLFWwindow;
 struct GLFWcursor;
 struct ImDrawData;
+struct ImGuiStyle;
 
 namespace lava {
 
@@ -53,6 +54,8 @@ namespace lava {
         struct config {
             data font_data;
             r32 font_size = default_imgui_font_size;
+
+            std::shared_ptr<ImGuiStyle> style;
 
             icon_font icon;
 
@@ -107,6 +110,8 @@ namespace lava {
         fs::path get_ini_file() const {
             return fs::path(ini_file);
         }
+
+        void convert_style_to_srgb();
 
     private:
         void handle_key_event(i32 key, i32 scancode, i32 action, i32 mods);
