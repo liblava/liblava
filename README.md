@@ -6,7 +6,7 @@
 
 <br />
 
-**C++20** &nbsp; + &nbsp; **Modular** &nbsp; / &nbsp; **Windows** &nbsp; + &nbsp; **Linux**
+**C++20** &nbsp; + &nbsp; **Modular** &nbsp; / &nbsp; **Windows** &nbsp; + &nbsp; **Linux** &nbsp; / &nbsp; **[Demos](#demos)** &nbsp; + &nbsp; **[Projects](#projects)**
 
 [![Version](https://img.shields.io/badge/Version-0.6.1-blue)](https://git.io/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) [![CodeFactor](https://www.codefactor.io/repository/github/liblava/liblava/badge)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/liblava) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
 
@@ -22,7 +22,7 @@
 
 <br />
 
-##### ➜ Download latest **<a href="https://github.com/liblava/liblava/releases">demo</a>** (December 20, 2020)
+##### ➜ Download latest **<a href="https://github.com/liblava/liblava/releases/latest">demo</a>** (December 20, 2020)
 
 <br />
 
@@ -61,6 +61,14 @@
 <br />
 
 [![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava)
+
+<br />
+
+### Projects
+
+##### [lava cubes](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) ➜ Raytracing with liblava ([pezcode/lava-rt](https://github.com/pezcode/lava-rt))
+
+<a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp">![cubes](https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png)</a>
 
 <br />
 
