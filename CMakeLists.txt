@@ -314,15 +314,6 @@ add_library(lava::block ALIAS lava.block)
 
 message(">> lava::app")
 
-message(">>> freetype2")
-
-set(CMAKE_DISABLE_FIND_PACKAGE_HarfBuzz ON CACHE BOOL "" FORCE)
-add_subdirectory(${LIBLAVA_EXT_DIR}/freetype2 freetype2 EXCLUDE_FROM_ALL)
-
-set_target_properties(freetype PROPERTIES FOLDER "lava/ext")
-
-message("<<< freetype2")
-
 set(IMGUI_FILES
         ${LIBLAVA_EXT_DIR}/imgui/imgui.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui.h
@@ -330,8 +321,6 @@ set(IMGUI_FILES
         ${LIBLAVA_EXT_DIR}/imgui/imgui_tables.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_widgets.cpp
         ${LIBLAVA_EXT_DIR}/imgui/imgui_demo.cpp
-        ${LIBLAVA_EXT_DIR}/imgui/misc/freetype/imgui_freetype.cpp
-        ${LIBLAVA_EXT_DIR}/imgui/misc/freetype/imgui_freetype.h
         )
 
 source_group("imgui Files" FILES ${IMGUI_FILES})
@@ -367,10 +356,9 @@ target_link_libraries(lava.app
         lava::asset
         lava::block
         lava::frame
-        freetype
         )
 
-target_compile_definitions(lava.app PRIVATE IMGUI_ENABLE_FREETYPE IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
+target_compile_definitions(lava.app PRIVATE IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
 
 set_target_properties(lava.app PROPERTIES FOLDER "lava")
 set_property(TARGET lava.app PROPERTY EXPORT_NAME app)
