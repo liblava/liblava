@@ -236,8 +236,8 @@ target_include_directories(lava.asset PUBLIC
         )
 
 target_link_libraries(lava.asset
-        lava::file
         lava::resource
+        lava::file
         )
 
 set_target_properties(lava.asset PROPERTIES FOLDER "lava")
@@ -353,9 +353,9 @@ target_include_directories(lava.app PUBLIC
         )
 
 target_link_libraries(lava.app
-        lava::asset
         lava::block
         lava::frame
+        lava::asset
         )
 
 target_compile_definitions(lava.app PRIVATE IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
