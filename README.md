@@ -66,7 +66,7 @@
 
 ### Projects
 
-##### [lava cubes](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) ➜ Raytracing with liblava ([pezcode/lava-rt](https://github.com/pezcode/lava-rt))
+##### [raytracing cubes](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) ➜ raytraced reflecting cubes ([pezcode/lava-rt](https://github.com/pezcode/lava-rt))
 
 <a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp">![cubes](https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png)</a>
 
