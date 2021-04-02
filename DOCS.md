@@ -491,6 +491,54 @@ int main(int argc, char* argv[]) {
 
 *WIP*
 
+#### Lifetime of an Object
+
+Before you create new objects or use existing ones, you should get familiar with the lifetime of objects
+
+It is basically possible to create all objects in **liblava** on the stack or on the heap
+
+But be careful. You have to take care of the lifetime yourself
+
+##### make ➜ create ➜ destroy
+
+This is the general pattern that is used in this library:
+
+1. **make** - Use constructor or factory method *(static function to get a shared pointer)*
+2. **create** - Build the respective object
+3. **destroy** - Discard it after your use
+
+The destructor calls the **destroy** method if it was not called before
+
+##### For example: buffer object
+
+```c++
+void use_buffer_on_stack() {
+
+    buffer buf; // make
+
+    auto created = buf.create(device, data, size, usage);
+    if (created) {
+        // ...
+
+        buf.destroy();
+    }
+}
+```
+
+Or look at this method where it is returned as a shared pointer:
+
+```c++
+buffer::ptr use_buffer_on_heap() {
+
+    auto buf = make_buffer();
+
+    if (buf->create(device, data, size, usage))
+        return buf;
+
+    return nullptr;
+}
+```
+
 <br />
 
 ## Tests
