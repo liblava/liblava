@@ -9,9 +9,18 @@ matrix:
   fast_finish: true
 install:
   - git submodule update --init --recursive
+  - mkdir C:\projects\deps
+  - cd C:\projects\deps
+  - appveyor DownloadFile https://github.com/Kitware/CMake/releases/download/v3.20.1/cmake-3.20.1-windows-x86_64.zip -FileName cmake.zip
+  - 7z x cmake.zip -oC:\projects\deps > nul
+  - move C:\projects\deps\cmake-* C:\projects\deps\cmake
+  - rm cmake.zip
+  - set PATH=C:\projects\deps\cmake\bin;%PATH%
+  - cd C:\projects\liblava
 before_build:
   - mkdir build
   - cd build
+  - cmake --version
   - cmake -G "Visual Studio 16 2019" -A x64 ..
 build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\$(APPVEYOR_PROJECT_NAME).sln

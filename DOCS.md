@@ -376,7 +376,7 @@ int main(int argc, char* argv[]) {
 ## Requirements
 
 * **C++20** compatible compiler
-* CMake **3.15+**
+* CMake **3.20+**
 * [Vulkan SDK](https://vulkan.lunarg.com)
 
 <br />
