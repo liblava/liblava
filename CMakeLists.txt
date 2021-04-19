@@ -182,7 +182,7 @@ add_library(lava.base STATIC
 
 target_include_directories(lava.base PUBLIC
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/Vulkan-Headers/include>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/src>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/include>
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/volk>
         )
 
