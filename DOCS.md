@@ -1,6 +1,6 @@
 ﻿<a href="https://git.io/liblava"><img align="left" src="https://github.com/liblava.png" width="100" style="margin:0px 20px 0px 0px"></a>
 
-# liblava docs &nbsp; [![Version](https://img.shields.io/badge/Version-0.6.1-blue)](https://git.io/liblava)
+# liblava docs &nbsp; [![Version](https://img.shields.io/badge/Version-0.6.2-blue)](https://git.io/liblava)
 
 [Features](#features) &nbsp; **[Tutorial](#tutorial)** &nbsp; [Requirements](#requirements) &nbsp; **[Modules](#modules)** &nbsp; [Third-Party](#third-party) &nbsp; **[Guide](#guide)** &nbsp; [Tests](#tests) &nbsp; **[Demo](#demo)** &nbsp; [Template](#template) &nbsp; **[Build](#build)** &nbsp; [Install](#install)
 
