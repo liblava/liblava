@@ -644,13 +644,15 @@ git submodule add https://github.com/liblava/liblava.git
 git submodule update --init --recursive
 ```
 
-#### Conan Package Manager
+Add this to your *CMakeLists.txt*
 
-If you are familiar with [Conan](https://conan.io/) then you can build our [package recipe](https://github.com/liblava/conan-liblava)
+```cmake
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/liblava ${CMAKE_CURRENT_BINARY_DIR}/liblava)
+```
 
 <br />
 
-Alternatively - You can compile and install a specific version for multiple projects: 
+Alternatively ➜ compile and install a specific version for multiple projects:
 
 ```bash
 mkdir build
@@ -665,7 +667,7 @@ cmake --build . --target install
 First find the package in your *CMakeLists.txt*
 
 ```cmake
-find_package(lava 0.6.0 REQUIRED)
+find_package(lava 0.6.2 REQUIRED)
 
 ...
 
@@ -684,6 +686,10 @@ cd build
 cmake -D lava_DIR=path/to/lava-install/lib/cmake/lava ..
 cmake --build .
 ```
+
+#### Conan Package Manager
+
+If you are familiar with [Conan](https://conan.io/) ➜ build this [package recipe](https://github.com/liblava/conan-liblava)
 
 <br />
 
