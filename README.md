@@ -28,9 +28,13 @@
 
 <a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="res/Vulkan_170px_Dec16.png" width="300"></a>
 
+[Requirements](#requirements) &nbsp; [Build](#build) &nbsp; [Template](#template)
+
+<br />
+
 ### Docs
 
- [Requirements](#requirements) &nbsp; **[Tutorial](doc/Tutorial.md)** &nbsp; **[Guide](doc/Guide.md)** &nbsp; **[Tests](doc/Tests.md)** &nbsp; [Build](#build) &nbsp; [Template](#template) &nbsp; **[Third-Party](doc/Third-Party.md)** &nbsp; **[Install](doc/Install.md)**
+ **[Tutorial](doc/Tutorial.md)** &nbsp; [Guide](doc/Guide.md) &nbsp; [Tests](doc/Tests.md) &nbsp; [Third-Party](doc/Third-Party.md) &nbsp; [Install](doc/Install.md)
 
 <br />
 
@@ -129,7 +133,7 @@ If you want to contribute, we suggest the following:
 
 <br />
 
-However, this library includes several [Third-Party](doc/Third-party.md) libraries, which are licensed under their own respective **Open Source** licenses ➜ They all allow static linking with closed source software
+However, this library includes several [Third-Party](doc/Third-Party.md) libraries, which are licensed under their own respective **Open Source** licenses ➜ They all allow static linking with closed source software
 
 **All copies of liblava must include a copy of the MIT License terms and the copyright notice**
 
