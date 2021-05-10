@@ -12,13 +12,13 @@
 
 <br />
 
-### [Features](DOCS.md/#features)
+### [Features](doc/Features.md)
 
 * written in **modern C++** with latest **Vulkan** support
-* **[run loop](DOCS.md/#run-loop)** **abstraction** for **[window](DOCS.md/#window)** and **[input](DOCS.md/#input) handling**
-* **plain** **[renderer](DOCS.md/#renderer)** and **[command buffer model](DOCS.md/#command-buffer-model)**
-* **[texture](DOCS.md/#texture)** and **[mesh](DOCS.md/#mesh)** **loading** from **virtual [file system](DOCS.md/#file-system)**
-* **[GUI](DOCS.md/#gui)** + **[camera](DOCS.md/#camera)** + **[logging](DOCS.md/#logging)** + **utils** and much more
+* **run loop** abstraction for **window** and **input** handling
+* plain **renderer** and **command buffer** model
+* **texture** and **mesh** loading from virtual **file system**
+* **GUI** + **camera** + **logging** + **utils** and much more
 
 <br />
 
@@ -30,11 +30,11 @@
 
 ### Docs
 
- [Requirements](DOCS.md/#requirements) &nbsp; **[Tutorial](DOCS.md/#tutorial)** &nbsp; **[Guide](DOCS.md/#guide)** &nbsp; [Tests](DOCS.md/#tests) &nbsp; **[Build](DOCS.md/#build)** &nbsp; **[Install](DOCS.md/#install)** &nbsp;  [Third-Party](DOCS.md/#third-party)
+ [Requirements](#requirements) &nbsp; **[Tutorial](doc/Tutorial.md)** &nbsp; **[Guide](doc/Guide.md)** &nbsp; **[Tests](doc/Tests.md)** &nbsp; [Build](#build) &nbsp; [Template](#template) &nbsp; **[Third-Party](doc/Third-Party.md)** &nbsp; **[Install](doc/Install.md)**
 
 <br />
 
-### [Modules](DOCS.md/#modules)
+### [Modules](doc/Modules.md)
 
 [![core](https://img.shields.io/badge/lava-core-blue.svg)](liblava/core) [![util](https://img.shields.io/badge/lava-util-blue.svg)](liblava/util) [![file](https://img.shields.io/badge/lava-file-blue.svg)](liblava/file) &nbsp; [![base](https://img.shields.io/badge/lava-base-orange.svg)](liblava/base) [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](liblava/resource) [![asset](https://img.shields.io/badge/lava-asset-orange.svg)](liblava/asset) &nbsp; [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](liblava/block) &nbsp; [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app) [![demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo)
 
@@ -60,15 +60,46 @@
 
 <br />
 
-[![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava)
-
-<br />
-
 ### Projects
 
 ##### [raytracing cubes](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) ➜ raytraced reflecting cubes ([pezcode/lava-rt](https://github.com/pezcode/lava-rt))
 
 <a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp">![cubes](https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png)</a>
+
+<br />
+
+## Requirements
+
+* **C++20** compatible compiler
+* CMake **3.20+**
+* [Vulkan SDK](https://vulkan.lunarg.com)
+
+<br />
+
+## Build
+
+[![Build status](https://ci.appveyor.com/api/projects/status/gxvjpo73qf637hy3?svg=true)](https://ci.appveyor.com/project/TheLavaBlock/liblava) [![Build Status](https://travis-ci.com/liblava/liblava.svg?branch=master)](https://travis-ci.com/liblava/liblava)
+
+```bash
+git clone https://github.com/liblava/liblava.git
+cd liblava
+
+git submodule update --init --recursive
+
+mkdir build
+cd build
+
+cmake ..
+make
+```
+
+<br />
+
+## Template
+
+You can start coding with the **template** project. If you like you can rename it in [CMakeLists](CMakeLists.txt)
+
+➜ Just put your code in the [src](src) folder. Everything you need is in [main.cpp](src/main.cpp)
 
 <br />
 
@@ -98,7 +129,7 @@ If you want to contribute, we suggest the following:
 
 <br />
 
-However, this library includes several [Third-Party](DOCS.md/#third-party) libraries, which are licensed under their own respective **Open Source** licenses ➜ They all allow static linking with closed source software
+However, this library includes several [Third-Party](doc/Third-party.md) libraries, which are licensed under their own respective **Open Source** licenses ➜ They all allow static linking with closed source software
 
 **All copies of liblava must include a copy of the MIT License terms and the copyright notice**
 
