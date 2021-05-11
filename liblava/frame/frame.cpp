@@ -88,7 +88,7 @@ namespace lava {
         config.debug.utils = true;
 #endif
 
-        hide_console(config.app_info.app_name);
+        hide_console(config.info.app_name);
 
         auto cmd_line = config.cmd_line;
 
@@ -167,7 +167,7 @@ namespace lava {
         for (auto i = 0u; i < glfw_extensions_count; ++i)
             config.param.extensions.push_back(glfw_extensions[i]);
 
-        if (!instance::singleton().create(config.param, config.debug, config.app_info)) {
+        if (!instance::singleton().create(config.param, config.debug, config.info)) {
             log()->error("create instance");
             return false;
         }

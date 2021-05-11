@@ -21,6 +21,7 @@ namespace lava {
     struct device_table;
     struct device_manager;
     struct device;
+    struct instance_info;
     struct instance;
     struct allocator;
     struct memory;

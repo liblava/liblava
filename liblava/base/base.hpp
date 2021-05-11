@@ -106,4 +106,10 @@ namespace lava {
     static constexpr ui32 const Vk_Limit_PushConstant_Size = 128;
     static constexpr ui32 const Vk_Limit_UBO_Size = 16 * 1024;
 
+    enum class api_version : type {
+        v1_0 = 0,
+        v1_1,
+        v1_2
+    };
+
 } // namespace lava

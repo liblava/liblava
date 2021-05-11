@@ -8,6 +8,18 @@
 
 namespace lava {
 
+    struct instance_info {
+        using ref = instance_info const&;
+
+        name app_name = _lava_;
+        name engine_name = _liblava_;
+
+        internal_version app_version;
+        internal_version engine_version;
+
+        api_version req_api_version = api_version::v1_0;
+    };
+
     struct instance : no_copy_no_move {
         struct create_param {
             using ref = create_param const&;
@@ -25,30 +37,12 @@ namespace lava {
             bool utils = false;
         };
 
-        enum class api_version : type {
-            v1_0 = 0,
-            v1_1,
-            v1_2
-        };
-
-        struct app_info {
-            using ref = app_info const&;
-
-            name app_name = _lava_;
-            name engine_name = _liblava_;
-
-            internal_version app_version;
-            internal_version engine_version = _internal_version;
-
-            api_version req_api_version = api_version::v1_0;
-        };
-
         static instance& singleton() {
             static instance instance;
             return instance;
         }
 
-        bool create(create_param& param, debug_config::ref debug, app_info::ref info);
+        bool create(create_param& param, debug_config::ref debug, instance_info::ref info);
         void destroy();
 
         static VkLayerPropertiesList enumerate_layer_properties();
@@ -71,7 +65,7 @@ namespace lava {
         debug_config::ref get_debug_config() const {
             return debug;
         }
-        app_info::ref get_app_info() const {
+        instance_info::ref get_info() const {
             return info;
         }
 
@@ -91,7 +85,7 @@ namespace lava {
         physical_device::list physical_devices;
 
         debug_config debug;
-        app_info info;
+        instance_info info;
 
         VkDebugUtilsMessengerEXT debug_messenger = VK_NULL_HANDLE;
     };

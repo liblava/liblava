@@ -10,7 +10,7 @@
 namespace lava {
 
     app::app(frame_config config)
-    : frame(config), window(config.app_info.app_name) {}
+    : frame(config), window(config.info.app_name) {}
 
     app::app(name name, argh::parser cmd_line)
     : frame(frame_config(name, cmd_line)), window(name) {}
@@ -383,7 +383,7 @@ namespace lava {
         if (separator)
             ImGui::Separator();
 
-        ImGui::Text("%s %s", _liblava_, to_string(_version).c_str());
+        ImGui::Text("%s %s", _liblava_, str(version_string()));
 
         if (ImGui::IsItemHovered())
             ImGui::SetTooltip("alt + enter = fullscreen\nalt + backspace = v-sync\nspace = pause\ntab = gui");

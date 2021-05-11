@@ -45,7 +45,7 @@ namespace lava {
         return true;
     }
 
-    bool instance::create(create_param& param, debug_config::ref d, app_info::ref i) {
+    bool instance::create(create_param& param, debug_config::ref d, instance_info::ref i) {
         debug = d;
         info = i;
 
