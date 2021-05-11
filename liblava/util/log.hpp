@@ -26,6 +26,10 @@ namespace lava {
         return fmt::format("{}.{}.{}", version.major, version.minor, version.patch);
     }
 
+    inline string internal_version_string() {
+        return to_string(internal_version{});
+    }
+
     inline name to_string(version_stage stage) {
         switch (stage) {
         case version_stage::preview:
@@ -53,6 +57,10 @@ namespace lava {
                 return fmt::format("{} {}", version.year, str(stage_str));
         } else
             return fmt::format("{}.{} {}", version.year, version.release, str(stage_str));
+    }
+
+    inline string version_string() {
+        return to_string(version{});
     }
 
     constexpr name _lava_log_file_ = "lava.log";

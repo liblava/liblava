@@ -16,8 +16,6 @@ namespace lava {
         auto operator<=>(internal_version const&) const = default;
     };
 
-    constexpr internal_version const _internal_version = {};
-
     enum class version_stage {
         preview,
         alpha,
@@ -32,8 +30,6 @@ namespace lava {
         version_stage stage = version_stage::preview;
         i32 rev = 0;
     };
-
-    constexpr version const _version = {};
 
     constexpr name _build_date = LIBLAVA_BUILD_DATE;
     constexpr name _build_time = LIBLAVA_BUILD_TIME;

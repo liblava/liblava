@@ -109,16 +109,16 @@ namespace lava {
 
         setup_log(config.log);
 
-        if (_internal_version != config.app_info.app_version) {
-            log()->info(">>> {} / {} - {} / {} - {} {}", str(to_string(_version)),
-                        str(to_string(_internal_version)),
-                        config.app_info.app_name,
-                        str(to_string(config.app_info.app_version)),
+        if (internal_version{} != config.info.app_version) {
+            log()->info(">>> {} / {} - {} / {} - {} {}", str(version_string()),
+                        str(internal_version_string()),
+                        config.info.app_name,
+                        str(to_string(config.info.app_version)),
                         _build_date, _build_time);
         } else {
-            log()->info(">>> {} / {} - {} - {} {}", str(to_string(_version)),
-                        str(to_string(_internal_version)),
-                        config.app_info.app_name,
+            log()->info(">>> {} / {} - {} - {} {}", str(version_string()),
+                        str(internal_version_string()),
+                        config.info.app_name,
                         _build_date, _build_time);
         }
 
