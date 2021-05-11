@@ -109,7 +109,7 @@ You can start coding with the **template** project. If you like you can rename i
 
 ## Collaborate
 
-You can use the [issue tracker](https://github.com/liblava/liblava/issues) to report any bug or compatibility issue
+Use the [issue tracker](https://github.com/liblava/liblava/issues) to report any bug or compatibility issue
 
 :heart: Thanks to all **[contributors](https://github.com/liblava/liblava/graphs/contributors)** making **liblava** flow...
 
