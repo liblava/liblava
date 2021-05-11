@@ -21,7 +21,7 @@
 void hide_console(lava::name program) {
 #if LIBLAVA_HIDE_CONSOLE
 
-    auto version_str = fmt::format("{} {}", lava::_liblava_, lava::str(lava::to_string(lava::_version)));
+    auto version_str = fmt::format("{} {}", lava::_liblava_, lava::str(lava::version_string()));
     std::cout << version_str.c_str() << std::endl;
 
     auto const dot_count = 5;
