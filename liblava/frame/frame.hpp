@@ -35,8 +35,8 @@ namespace lava {
         create_failed = -2,
         init_failed = -3,
         load_failed = -4,
-        aborted = -5,
-        running = -6,
+        run_aborted = -5,
+        still_running = -6,
     };
 
     ms now();

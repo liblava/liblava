@@ -202,7 +202,7 @@ namespace lava {
 
     frame::result frame::run() {
         if (running)
-            return error::running;
+            return error::still_running;
 
         running = true;
         start_time = now();
@@ -218,7 +218,7 @@ namespace lava {
 
         auto result = 0;
         if (running) {
-            result = error::aborted;
+            result = error::run_aborted;
             running = false;
         }
 
