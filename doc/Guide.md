@@ -60,4 +60,73 @@ buffer::ptr use_buffer_on_heap() {
 
 <br />
 
+## Command-Line Arguments
+
+### lava::app
+
+```
+--v_sync, -vs {0|1}
+```
+
+* 0 ➜ vertical sync off
+* 1 ➜ vertical sync on
+
+<br />
+
+```
+--physical_device, -pd {n}
+```
+
+* n ➜ physical device index
+
+<br />
+
+### lava::frame
+
+```
+--debug, -d
+```
+
+* validation layers (VK_LAYER_KHRONOS_validation)
+
+<br />
+
+```
+--utils, -u
+```
+
+* debug utils extension (VK_EXT_debug_utils)
+
+<br />
+
+```
+--renderdoc, -r
+```
+
+* [RenderDoc](https://renderdoc.org/) capture layer (VK_LAYER_RENDERDOC_Capture)
+
+<br />
+
+```
+--verbose, -v
+```
+
+* verbose debugging
+
+<br />
+
+```
+--log, -l {0|1|2|3|4|5|6}
+```
+
+* 0 ➜ trace level
+* 1 ➜ debug level
+* 2 ➜ info level
+* 3 ➜ warn level
+* 4 ➜ error level
+* 5 ➜ critical level
+* 6 ➜ logging off
+
+<br />
+
 <a href="https://git.io/liblava"><img src="https://github.com/liblava.png" width="50"></a>
