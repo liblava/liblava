@@ -24,7 +24,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/liblava ${CMAKE_CURRENT_BINARY_DIR}
 
 <br />
 
-## Project setup
+## Package setup
 
 Alternatively ➜ compile and install a specific version for multiple projects:
 
@@ -47,8 +47,6 @@ add_executable(test main.cpp)
 target_link_libraries(test lava::app)
 ```
 
-<br />
-
 And then build your project with install path ➜ *lava_DIR*
 
 ```bash
@@ -58,6 +56,8 @@ cd build
 cmake -D lava_DIR=path/to/lava-install/lib/cmake/lava ..
 cmake --build .
 ```
+
+<br />
 
 ## Conan Package Manager
 
