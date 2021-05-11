@@ -58,14 +58,14 @@ namespace lava {
 
         VkApplicationInfo application_info{
             .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
-            .pApplicationName = info.app_name ? info.app_name : _lava_,
+            .pApplicationName = info.app_name,
             .applicationVersion = app_version,
-            .pEngineName = _liblava_,
+            .pEngineName = info.engine_name,
         };
 
-        application_info.engineVersion = VK_MAKE_VERSION(_internal_version.major,
-                                                         _internal_version.minor,
-                                                         _internal_version.patch);
+        application_info.engineVersion = VK_MAKE_VERSION(info.engine_version.major,
+                                                         info.engine_version.minor,
+                                                         info.engine_version.patch);
 
         application_info.apiVersion = VK_API_VERSION_1_0;
 

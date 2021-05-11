@@ -11,6 +11,9 @@
 namespace lava {
 
     struct app_config {
+        name org = _liblava_;
+        name ext = _zip_;
+
         bool save_window = true;
         bool handle_key_events = true;
 

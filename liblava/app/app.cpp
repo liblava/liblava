@@ -10,7 +10,7 @@
 namespace lava {
 
     app::app(frame_config config)
-    : frame(config), window(config.app) {}
+    : frame(config), window(config.app_info.app_name) {}
 
     app::app(name name, argh::parser cmd_line)
     : frame(frame_config(name, cmd_line)), window(name) {}
@@ -83,7 +83,7 @@ namespace lava {
 
         log()->debug("physfs {}", str(to_string(file_system::get_version())));
 
-        if (!file_system::instance().initialize(str(get_cmd_line()[0]), get_config().org, get_config().app, get_config().ext)) {
+        if (!file_system::instance().initialize(str(get_cmd_line()[0]), config.org, get_name(), config.ext)) {
             log()->error("init file system");
             return false;
         }

@@ -34,9 +34,12 @@ namespace lava {
         struct app_info {
             using ref = app_info const&;
 
-            name app_name = nullptr;
+            name app_name = _lava_;
+            name engine_name = _liblava_;
 
             internal_version app_version;
+            internal_version engine_version = _internal_version;
+
             api_version req_api_version = api_version::v1_0;
         };
 

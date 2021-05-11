@@ -15,13 +15,11 @@ namespace lava {
 
         explicit frame_config() = default;
         explicit frame_config(name a, argh::parser cl)
-        : app(a), cmd_line(cl) {}
+        : cmd_line(cl) {
+            app_info.app_name = a;
+        }
 
         argh::parser cmd_line;
-
-        name org = _liblava_;
-        name app = _lava_;
-        name ext = _zip_;
 
         log_config log;
 
@@ -92,7 +90,7 @@ namespace lava {
             return config;
         }
         name get_name() const {
-            return config.app;
+            return config.app_info.app_name;
         }
 
         bool waiting_for_events() const {

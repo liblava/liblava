@@ -82,16 +82,13 @@ namespace lava {
     }
 
     void handle_config(frame_config& config) {
-        if (config.app_info.app_name == nullptr)
-            config.app_info.app_name = config.app;
-
 #if LIBLAVA_DEBUG
         config.log.debug = true;
         config.debug.validation = true;
         config.debug.utils = true;
 #endif
 
-        hide_console(config.app);
+        hide_console(config.app_info.app_name);
 
         auto cmd_line = config.cmd_line;
 
