@@ -42,7 +42,7 @@ namespace lava {
         template<typename F>
         void enqueue(F f) {
             {
-                std::unique_lock<std::mutex> lock(queueMutex);
+                std::unique_lock<std::mutex> lock(queue_mutex);
                 tasks.push_back(task(f));
             }
             condition.notify_one();
@@ -59,7 +59,7 @@ namespace lava {
                 task task;
                 while (true) {
                     {
-                        std::unique_lock<std::mutex> lock(pool.queueMutex);
+                        std::unique_lock<std::mutex> lock(pool.queue_mutex);
 
                         while (!pool.stop && pool.tasks.empty())
                             pool.condition.wait(lock);
@@ -84,7 +84,7 @@ namespace lava {
         std::vector<std::thread> workers;
         std::deque<task> tasks;
 
-        std::mutex queueMutex;
+        std::mutex queue_mutex;
         std::condition_variable condition;
 
         bool stop = false;

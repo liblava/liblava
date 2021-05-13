@@ -42,8 +42,8 @@ namespace lava {
     };
 
     struct dispatcher {
-        void setup(ui32 threadcount) {
-            pool.setup(threadcount);
+        void setup(ui32 thread_count) {
+            pool.setup(thread_count);
         }
 
         void teardown() {
