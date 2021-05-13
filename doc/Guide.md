@@ -62,7 +62,7 @@ buffer::ptr use_buffer_on_heap() {
 
 ## Command-Line Arguments
 
-### lava::app
+### lava app
 
 ```
 --v_sync, -vs {0|1}
@@ -81,7 +81,7 @@ buffer::ptr use_buffer_on_heap() {
 
 <br />
 
-### lava::frame
+### lava frame
 
 ```
 --debug, -d
