@@ -221,10 +221,10 @@ add_library(lava::resource ALIAS lava.resource)
 message(">> lava::asset")
 
 add_library(lava.asset STATIC
+        ${LIBLAVA_DIR}/asset/image_data.cpp
+        ${LIBLAVA_DIR}/asset/image_data.hpp
         ${LIBLAVA_DIR}/asset/mesh_loader.cpp
         ${LIBLAVA_DIR}/asset/mesh_loader.hpp
-        ${LIBLAVA_DIR}/asset/scope_image.cpp
-        ${LIBLAVA_DIR}/asset/scope_image.hpp
         ${LIBLAVA_DIR}/asset/texture_loader.cpp
         ${LIBLAVA_DIR}/asset/texture_loader.hpp
         )

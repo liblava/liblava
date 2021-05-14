@@ -13,7 +13,7 @@ namespace lava {
     struct imgui;
 
     // liblava/asset.hpp
-    struct scope_image;
+    struct image_data;
 
     // liblava/base.hpp
     struct target_callback;

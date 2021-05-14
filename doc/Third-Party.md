@@ -48,7 +48,7 @@
 
 * [stb](https://github.com/nothings/stb) &nbsp; **Single-file public domain libraries for C/C++** &nbsp; *MIT*
 
-  [![scope_image](https://img.shields.io/badge/lava-scope_image-orange.svg)](../liblava/asset/scope_image.cpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](../liblava/asset/texture_loader.cpp)
+  [![image_data](https://img.shields.io/badge/lava-image_data-orange.svg)](../liblava/asset/image_data.cpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](../liblava/asset/texture_loader.cpp)
 
 * [tinyobjloader](https://github.com/syoyo/tinyobjloader) &nbsp; **Tiny but powerful single file wavefront obj loader** &nbsp; *MIT*
 

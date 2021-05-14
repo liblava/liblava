@@ -4,6 +4,6 @@
 
 #pragma once
 
+#include <liblava/asset/image_data.hpp>
 #include <liblava/asset/mesh_loader.hpp>
-#include <liblava/asset/scope_image.hpp>
 #include <liblava/asset/texture_loader.hpp>

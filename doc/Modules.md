@@ -34,7 +34,7 @@
 
 ## lava [asset](../liblava/asset) &nbsp; ➜ resource + file
 
-[![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-orange.svg)](../liblava/asset/mesh_loader.hpp) [![scope_image](https://img.shields.io/badge/lava-scope_image-orange.svg)](../liblava/asset/scope_image.hpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](../liblava/asset/texture_loader.hpp)
+[![image_data](https://img.shields.io/badge/lava-image_data-orange.svg)](../liblava/asset/image_data.hpp) [![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-orange.svg)](../liblava/asset/mesh_loader.hpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](../liblava/asset/texture_loader.hpp)
 
 <br />
 

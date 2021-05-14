@@ -1,13 +1,13 @@
-// file      : liblava/asset/scope_image.cpp
+// file      : liblava/asset/image_data.cpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 // license   : MIT; see accompanying LICENSE file
 
 #include <stb_image.h>
-#include <liblava/asset/scope_image.hpp>
+#include <liblava/asset/image_data.hpp>
 
 namespace lava {
 
-    scope_image::scope_image(string_ref filename)
+    image_data::image_data(string_ref filename)
     : image_file(str(filename)), file_data(image_file.get_size(), false) {
         if (image_file.opened()) {
             if (!file_data.allocate())
@@ -33,7 +33,7 @@ namespace lava {
         ready = true;
     }
 
-    scope_image::~scope_image() {
+    image_data::~image_data() {
         if (data)
             stbi_image_free(data);
     }

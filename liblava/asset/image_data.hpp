@@ -1,4 +1,4 @@
-// file      : liblava/asset/scope_image.hpp
+// file      : liblava/asset/image_data.hpp
 // copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 // license   : MIT; see accompanying LICENSE file
 
@@ -9,9 +9,9 @@
 
 namespace lava {
 
-    struct scope_image {
-        explicit scope_image(string_ref filename);
-        ~scope_image();
+    struct image_data {
+        explicit image_data(string_ref filename);
+        ~image_data();
 
         bool ready = false;
 

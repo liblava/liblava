@@ -3,7 +3,7 @@
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/app/config.hpp>
-#include <liblava/asset/scope_image.hpp>
+#include <liblava/asset/image_data.hpp>
 
 namespace lava {
 
@@ -99,7 +99,7 @@ namespace lava {
     }
 
     void set_window_icon(window& window, string_ref icon_file) {
-        scope_image icon(icon_file);
+        image_data icon(icon_file);
         if (icon.ready)
             window.set_icon(icon.data, icon.size);
     }
