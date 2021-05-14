@@ -87,7 +87,7 @@ buffer::ptr use_buffer_on_heap() {
 --debug, -d
 ```
 
-* validation layers (VK_LAYER_KHRONOS_validation)
+* validation layer ([VK_LAYER_KHRONOS_validation](https://github.com/KhronosGroup/Vulkan-ValidationLayers/blob/master/docs/khronos_validation_layer.md))
 
 <br />
 
@@ -95,7 +95,7 @@ buffer::ptr use_buffer_on_heap() {
 --utils, -u
 ```
 
-* debug utils extension (VK_EXT_debug_utils)
+* debug utils extension ([VK_EXT_debug_utils](https://www.lunarg.com/wp-content/uploads/2018/05/Vulkan-Debug-Utils_05_18_v1.pdf))
 
 <br />
 

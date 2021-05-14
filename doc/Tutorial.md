@@ -363,7 +363,7 @@ int main(int argc, char* argv[]) {
 
 <br />
 
-### What's next? ➜ Check some [demos](../liblava-demo) and use the [template](../README.md#template) to try it out
+### What's next? ➜ Check some [demo](../liblava-demo) and use the [template](../README.md#template) to try it out
 
 <br />
 
