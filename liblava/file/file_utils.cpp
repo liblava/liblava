@@ -39,8 +39,8 @@ bool lava::write_file(name filename, char const* data, size_t data_size) {
     return true;
 }
 
-bool lava::extension(name file_name, name extension) {
-    string fn = file_name;
+bool lava::extension(name filename, name extension) {
+    string fn = filename;
     string ext = extension;
 
     string to_check = fn.substr(fn.find_last_of('.') + 1);

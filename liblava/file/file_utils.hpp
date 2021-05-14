@@ -12,7 +12,7 @@ namespace lava {
 
     bool write_file(name filename, char const* data, size_t data_size);
 
-    bool extension(name file_name, name extension);
+    bool extension(name filename, name extension);
 
     bool extension(name filename, names extensions);
 
