@@ -22,7 +22,7 @@ namespace lava {
     }
 
     bool json_file::load() {
-        scope_data data;
+        unique_data data;
         if (!load_file_data(path, data))
             return false;
 

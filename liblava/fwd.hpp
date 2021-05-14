@@ -43,7 +43,8 @@ namespace lava {
     // liblava/core.hpp
     struct data_provider;
     struct data;
-    struct scope_data;
+    struct cdata;
+    struct unique_data;
     struct id;
     struct ids;
     struct id_obj;

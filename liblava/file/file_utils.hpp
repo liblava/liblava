@@ -22,7 +22,7 @@ namespace lava {
 
     bool load_file_data(string_ref filename, data& target);
 
-    struct file_data : scope_data {
+    struct file_data : unique_data {
         explicit file_data(string_ref filename) {
             load_file_data(filename, *this);
         }

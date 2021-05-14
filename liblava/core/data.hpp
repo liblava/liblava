@@ -112,23 +112,23 @@ namespace lava {
         size_t size = 0;
     };
 
-    struct scope_data : data {
-        explicit scope_data(size_t length = 0, bool alloc = true) {
+    struct unique_data : data {
+        explicit unique_data(size_t length = 0, bool alloc = true) {
             if (length)
                 set(length, alloc);
         }
 
-        explicit scope_data(ui32 length, bool alloc = true)
-        : scope_data(to_size_t(length), alloc) {}
-        explicit scope_data(i64 length, bool alloc = true)
-        : scope_data(to_size_t(length), alloc) {}
-        explicit scope_data(data const& data) {
+        explicit unique_data(ui32 length, bool alloc = true)
+        : unique_data(to_size_t(length), alloc) {}
+        explicit unique_data(i64 length, bool alloc = true)
+        : unique_data(to_size_t(length), alloc) {}
+        explicit unique_data(data const& data) {
             ptr = data.ptr;
             size = data.size;
             alignment = data.alignment;
         }
 
-        ~scope_data() {
+        ~unique_data() {
             free();
         }
     };

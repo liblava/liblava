@@ -41,7 +41,7 @@ namespace lava {
     }
 
     bool load_window_file(window::state& state, name save_name) {
-        scope_data data;
+        unique_data data;
         if (!load_file_data(_window_file_, data))
             return false;
 
@@ -73,7 +73,7 @@ namespace lava {
 
         json j;
 
-        scope_data data;
+        unique_data data;
         if (load_file_data(_window_file_, data)) {
             j = json::parse(data.ptr, data.ptr + data.size);
 

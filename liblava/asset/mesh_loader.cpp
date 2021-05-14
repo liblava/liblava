@@ -48,7 +48,7 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
                 temp_file = file_system::get_pref_dir();
                 temp_file += get_filename_from(target_file, true);
 
-                scope_data temp_data(file.get_size());
+                unique_data temp_data(file.get_size());
                 if (!temp_data.ptr)
                     return nullptr;
 

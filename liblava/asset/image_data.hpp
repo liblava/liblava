@@ -21,7 +21,7 @@ namespace lava {
 
     private:
         file image_file;
-        scope_data file_data;
+        unique_data file_data;
     };
 
 } // namespace lava

@@ -34,7 +34,7 @@
 
 namespace lava {
 
-    texture::ptr create_gli_texture_2d(device_ptr device, file const& file, VkFormat format, scope_data const& temp_data) {
+    texture::ptr create_gli_texture_2d(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
         gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                          : gli::load(file.get_path()));
         assert(!tex.empty());
@@ -91,7 +91,7 @@ namespace lava {
         return layers;
     }
 
-    texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFormat format, scope_data const& temp_data) {
+    texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
         gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                                : gli::load(file.get_path()));
         assert(!tex.empty());
@@ -112,7 +112,7 @@ namespace lava {
         return texture;
     }
 
-    texture::ptr create_gli_texture_cube_map(device_ptr device, file const& file, VkFormat format, scope_data const& temp_data) {
+    texture::ptr create_gli_texture_cube_map(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
         gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                             : gli::load(file.get_path()));
         assert(!tex.empty());
@@ -133,7 +133,7 @@ namespace lava {
         return texture;
     }
 
-    texture::ptr create_stbi_texture(device_ptr device, file const& file, scope_data const& temp_data) {
+    texture::ptr create_stbi_texture(device_ptr device, file const& file, unique_data const& temp_data) {
         i32 tex_width = 0, tex_height = 0;
         stbi_uc* data = nullptr;
 
@@ -177,7 +177,7 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format file_format
         return nullptr;
 
     file file(str(file_format.path));
-    scope_data temp_data(file.get_size(), false);
+    unique_data temp_data(file.get_size(), false);
 
     if (file.opened()) {
         if (!temp_data.allocate())
@@ -218,7 +218,7 @@ lava::texture::ptr lava::create_default_texture(device_ptr device, uv2 size, v3 
         return nullptr;
 
     i32 const block_size = format_block_size(format);
-    scope_data data(size.x * size.y * block_size);
+    unique_data data(size.x * size.y * block_size);
     memset(data.ptr, 0, data.size);
 
     ui32 const color_r = 255 * color.r;
