@@ -8,7 +8,11 @@
 
 # Guide
 
-*WIP*
+[Lifetime of an Object](#lifetime-of-an-object) / [Command-Line Arguments](#command-line-arguments)
+
+---
+
+<br />
 
 ## Lifetime of an Object
 
@@ -126,6 +130,10 @@ buffer::ptr use_buffer_on_heap() {
 * 4 ➜ error level
 * 5 ➜ critical level
 * 6 ➜ logging off
+
+<br />
+
+*WIP*
 
 <br />
 

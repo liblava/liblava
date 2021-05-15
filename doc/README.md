@@ -6,4 +6,6 @@
 
 <br />
 
-This is the official documentation and is constantly evolving... if you need any help, please feel free to ask us on ➜ [Discord](https://discord.lava-block.com)
+This is the official documentation and is constantly evolving...
+
+If you need any help, please feel free to ask us on ➜ [Discord](https://discord.lava-block.com)

@@ -8,9 +8,9 @@
 
 # Tests
 
-Run the **lava** executable to test our [Tutorial examples](../tests/tests.cpp)
+Run the `lava` executable to test our [Tutorial](../tests/tests.cpp) examples
 
-Let it simply flow...
+<br />
 
 ### List all tests:
 
@@ -27,19 +27,21 @@ lava -t
 7. gamepad
 8. [imgui demo](Tutorial.md/#8-imgui-demo)
 
-### Run test 2 for example:
+<br />
+
+### Run *window input* test for example:
 
 ```bash
-lava 2
+lava 3
 ```
 
-The **driver** starts the *last* test when you provide *no* command line arguments
+If you *do not* specify a number, the *last test* will be started
 
 <br />
 
 ## Unit testing
 
-In addition run **lava-unit** that will check parts of **liblava** using [Catch2](https://github.com/catchorg/Catch2) test framework
+In addition run `lava-unit` to check parts of the library with [Catch2](https://github.com/catchorg/Catch2) test framework
 
 <br />
 

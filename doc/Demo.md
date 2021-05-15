@@ -8,29 +8,29 @@
 
 # Demo
 
-The demonstration projects are in the [liblava-demo](../liblava-demo) folder. Screenshots and a brief description in [README](../README.md/#demos)
+You can find the demonstration projects in the `liblava-demo` folder
 
 ## Roboto
 
-*Apache License, Version 2.0* &nbsp; [GitHub](https://github.com/google/fonts/tree/master/apache/roboto) &nbsp; [Website](https://fonts.google.com/specimen/Roboto)
+*Apache License, Version 2.0* / [GitHub](https://github.com/google/fonts/tree/master/apache/roboto) / [Website](https://fonts.google.com/specimen/Roboto)
 
 * [Roboto-Regular.ttf](../res/font/imgui/Roboto-Regular.ttf)
 
 ## Font Awesome
 
-*Font Awesome Free License* &nbsp; [GitHub](https://github.com/FortAwesome/Font-Awesome) &nbsp; [Website](https://fontawesome.com)
+*Font Awesome Free License* / [GitHub](https://github.com/FortAwesome/Font-Awesome) / [Website](https://fontawesome.com)
 
 * [fa-solid-900.ttf](../res/font/icon/fa-solid-900.ttf)
 
 ## Barbarella
 
-*Shader by Weyland Yutani* &nbsp; [Website](https://www.shadertoy.com/view/XdfGDr)
+*Shader by Weyland Yutani* / [Website](https://www.shadertoy.com/view/XdfGDr)
 
 * [lamp.frag](../res/lamp/lamp.frag)
 
 ## Spawn Model
 
-*CC BY-SA 3.0* &nbsp; [Website](https://opengameart.org/content/lava-spawn)
+*CC BY-SA 3.0* / [Website](https://opengameart.org/content/lava-spawn)
 
 * [lava-spawn-game.mtl](../res/spawn/lava-spawn-game.mtl)
 * [lava-spawn-game.obj](../res/spawn/lava-spawn-game.obj)

@@ -8,9 +8,9 @@
 
 # Reference
 
-Run [doc/build.bat](build.bat) or [doc/build.sh](build.sh) to generate the documentation with [Doxygen](https://www.doxygen.nl)
+To generate the documentation with [Doxygen](https://www.doxygen.nl) run the appropriate `doc/build` script
 
-## You can find the latest here ➜ [liblava.lava-block.com](https://liblava.lava-block.com)
+## Here you can find the latest ➜ [liblava.lava-block.com](https://liblava.lava-block.com)
 
 <br />
 
