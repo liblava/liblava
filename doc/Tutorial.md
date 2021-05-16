@@ -57,7 +57,7 @@ lava::frame frame(argh);
 if (!frame.ready())
     return error::not_ready;
 
-auto count = 0;
+ui32 count = 0;
 
 frame.add_run([&]() {
     sleep(one_second);
@@ -138,19 +138,19 @@ input.key.listeners.add([&](key_event::ref event) {
     return input_ignore;
 });
 
-auto device = frame.create_device();
+lava::device_ptr device = frame.create_device();
 if (!device)
     return error::create_failed;
 
-auto render_target = create_target(&window, device);
+lava::render_target::ptr render_target = create_target(&window, device);
 if (!render_target)
     return error::create_failed;
 
-lava::renderer plotter;
-if (!plotter.create(render_target->get_swapchain()))
+lava::renderer renderer;
+if (!renderer.create(render_target->get_swapchain()))
     return error::create_failed;
 
-auto frame_count = render_target->get_frame_count();
+ui32 frame_count = render_target->get_frame_count();
 
 VkCommandPool cmd_pool;
 VkCommandBuffers cmd_bufs(frame_count);
@@ -176,8 +176,8 @@ auto build_cmd_bufs = [&]() {
     };
 
     for (auto i = 0u; i < frame_count; i++) {
-        auto cmd_buf = cmd_bufs[i];
-        auto frame_image = render_target->get_image(i);
+        VkCommandBuffer cmd_buf = cmd_bufs[i];
+        VkImage frame_image = render_target->get_image(i);
 
         if (failed(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
             return build_failed;
@@ -224,17 +224,17 @@ frame.add_run([&]() {
     if (window.resize_request())
         return window.handle_resize();
 
-    auto frame_index = plotter.begin_frame();
+    auto frame_index = renderer.begin_frame();
     if (!frame_index)
         return run_continue;
 
-    return plotter.end_frame({ cmd_bufs[*frame_index] });
+    return renderer.end_frame({ cmd_bufs[*frame_index] });
 });
 
 frame.add_run_end([&]() {
     clean_cmd_bufs();
 
-    plotter.destroy();
+    renderer.destroy();
     render_target->destroy();
 });
 
@@ -287,7 +287,7 @@ block.add_command([&](VkCommandBuffer cmd_buf) {
         .layerCount = 1,
     };
 
-    auto frame_image = render_target->get_image(block.get_current_frame());
+    VkImage frame_image = render_target->get_image(block.get_current_frame());
 
     insert_image_memory_barrier(device, cmd_buf, frame_image,
                                 VK_ACCESS_MEMORY_READ_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
@@ -320,7 +320,7 @@ All we need to do now is to process the block in the run loop:
 if (!block.process(*frame_index))
     return run_abort;
 
-return plotter.end_frame(block.get_buffers());
+return renderer.end_frame(block.get_buffers());
 ```
 
 And call the renderer with our recorded command buffers

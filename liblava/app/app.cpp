@@ -199,7 +199,7 @@ namespace lava {
         if (!shading.create(target))
             return false;
 
-        if (!plotter.create(target->get_swapchain()))
+        if (!renderer.create(target->get_swapchain()))
             return false;
 
         window.assign(&input);
@@ -211,7 +211,7 @@ namespace lava {
         if (on_destroy)
             on_destroy();
 
-        plotter.destroy();
+        renderer.destroy();
 
         shading.destroy();
         target->destroy();
@@ -366,7 +366,7 @@ namespace lava {
                 return true;
             }
 
-            auto frame_index = plotter.begin_frame();
+            auto frame_index = renderer.begin_frame();
             if (!frame_index)
                 return true;
 
@@ -375,7 +375,7 @@ namespace lava {
             if (!block.process(*frame_index))
                 return false;
 
-            return plotter.end_frame(block.get_buffers());
+            return renderer.end_frame(block.get_buffers());
         });
     }
 

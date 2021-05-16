@@ -25,12 +25,14 @@ namespace lava {
         imgui::config imgui_config;
 
         device_ptr device = nullptr;
+
         lava::camera camera;
 
         lava::staging staging;
         lava::block block;
 
-        renderer plotter;
+        lava::renderer renderer;
+
         forward_shading shading;
         render_target::ptr target;
 

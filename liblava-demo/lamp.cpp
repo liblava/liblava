@@ -15,8 +15,8 @@ int main(int argc, char* argv[]) {
     if (!app.setup())
         return error::not_ready;
 
-    auto lamp_depth = .03f;
-    auto lamp_color = v4(.3f, .15f, .15f, 1.f);
+    r32 lamp_depth = .03f;
+    v4 lamp_color{ .3f, .15f, .15f, 1.f };
 
     graphics_pipeline::ptr pipeline;
     pipeline_layout::ptr layout;
@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
         pipeline->set_auto_size(true);
 
         pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
-            auto viewport = pipeline->get_viewport();
+            VkViewport viewport = pipeline->get_viewport();
 
             r32 pc_resolution[2];
             pc_resolution[0] = viewport.width - viewport.x;
@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
             app.device->call().vkCmdPushConstants(cmd_buf, layout->get(), VK_SHADER_STAGE_FRAGMENT_BIT,
                                                   sizeof(r32) * 0, sizeof(r32) * 2, pc_resolution);
 
-            auto pc_time = to_r32(to_sec(app.run_time.current));
+            r32 pc_time = to_r32(to_sec(app.run_time.current));
             app.device->call().vkCmdPushConstants(cmd_buf, layout->get(), VK_SHADER_STAGE_FRAGMENT_BIT,
                                                   sizeof(r32) * 2, sizeof(r32), &pc_time);
 
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
             app.device->call().vkCmdDraw(cmd_buf, 3, 1, 0, 0);
         };
 
-        auto render_pass = app.shading.get_pass();
+        render_pass::ptr render_pass = app.shading.get_pass();
 
         if (!pipeline->create(render_pass->get()))
             return false;
@@ -80,7 +80,7 @@ int main(int argc, char* argv[]) {
         layout->destroy();
     };
 
-    auto auto_play = true;
+    bool auto_play = true;
 
     app.input.key.listeners.add([&](key_event::ref event) {
         if (app.imgui.capture_mouse())
@@ -108,7 +108,7 @@ int main(int argc, char* argv[]) {
 
         ImGui::SameLine(0.f, 10.f);
 
-        auto lamp_active = pipeline->activated();
+        bool lamp_active = pipeline->activated();
         if (ImGui::Checkbox("active", &lamp_active))
             pipeline->toggle();
 
@@ -126,7 +126,7 @@ int main(int argc, char* argv[]) {
         ImGui::DragFloat("depth", &lamp_depth, 0.0001f, 0.01f, 1.f, "%.4f");
         ImGui::ColorEdit4("color", (r32*) &lamp_color);
 
-        auto clear_color = app.shading.get_pass()->get_clear_color();
+        v3 clear_color = app.shading.get_pass()->get_clear_color();
         if (ImGui::ColorEdit3("ground", (r32*) &clear_color))
             app.shading.get_pass()->set_clear_color(clear_color);
 
@@ -146,7 +146,7 @@ int main(int argc, char* argv[]) {
         }
 
         r32 update(delta dt, r32 value) {
-            auto next = factor * dt;
+            r32 next = factor * dt;
 
             if (add)
                 value += next;
@@ -185,14 +185,14 @@ int main(int argc, char* argv[]) {
     color_dimmer.factor_max = 0.02f;
     color_dimmer.next_factor();
 
-    auto r_dimmer = color_dimmer;
+    dimmer r_dimmer = color_dimmer;
     r_dimmer.add = true;
 
-    auto g_dimmer = color_dimmer;
+    dimmer g_dimmer = color_dimmer;
     g_dimmer.add = true;
 
-    auto b_dimmer = color_dimmer;
-    auto a_dimmer = color_dimmer;
+    dimmer b_dimmer = color_dimmer;
+    dimmer a_dimmer = color_dimmer;
     a_dimmer.min = 0.2f;
 
     app.on_update = [&](delta dt) {

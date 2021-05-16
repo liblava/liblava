@@ -15,11 +15,11 @@ int main(int argc, char* argv[]) {
     if (!app.setup())
         return error::not_ready;
 
-    auto triangle = create_mesh(app.device, mesh_type::triangle);
+    mesh::ptr triangle = create_mesh(app.device, mesh_type::triangle);
     if (!triangle)
         return error::create_failed;
 
-    auto& triangle_data = triangle->get_data();
+    mesh_data& triangle_data = triangle->get_data();
     triangle_data.vertices.at(0).color = v4(1.f, 0.f, 0.f, 1.f);
     triangle_data.vertices.at(1).color = v4(0.f, 1.f, 0.f, 1.f);
     triangle_data.vertices.at(2).color = v4(0.f, 0.f, 1.f, 1.f);
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
             { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color)) },
         });
 
-        auto render_pass = app.shading.get_pass();
+        render_pass::ptr render_pass = app.shading.get_pass();
 
         pipeline->set_layout(layout);
 

@@ -17,7 +17,7 @@ LAVA_TEST(2, "run loop") {
     if (!frame.ready())
         return error::not_ready;
 
-    auto count = 0;
+    ui32 count = 0;
 
     frame.add_run([&]() {
         sleep(one_second);
@@ -84,19 +84,19 @@ LAVA_TEST(4, "clear color") {
         return input_ignore;
     });
 
-    auto device = frame.create_device();
+    device_ptr device = frame.create_device();
     if (!device)
         return error::create_failed;
 
-    auto render_target = create_target(&window, device);
+    render_target::ptr render_target = create_target(&window, device);
     if (!render_target)
         return error::create_failed;
 
-    renderer plotter;
-    if (!plotter.create(render_target->get_swapchain()))
+    renderer renderer;
+    if (!renderer.create(render_target->get_swapchain()))
         return error::create_failed;
 
-    auto frame_count = render_target->get_frame_count();
+    ui32 frame_count = render_target->get_frame_count();
 
     VkCommandPool cmd_pool;
     VkCommandBuffers cmd_bufs(frame_count);
@@ -122,8 +122,8 @@ LAVA_TEST(4, "clear color") {
         };
 
         for (auto i = 0u; i < frame_count; ++i) {
-            auto cmd_buf = cmd_bufs[i];
-            auto frame_image = render_target->get_image(i);
+            VkCommandBuffer cmd_buf = cmd_bufs[i];
+            VkImage frame_image = render_target->get_image(i);
 
             if (failed(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
                 return build_failed;
@@ -167,17 +167,17 @@ LAVA_TEST(4, "clear color") {
         if (window.resize_request())
             return window.handle_resize();
 
-        auto frame_index = plotter.begin_frame();
+        auto frame_index = renderer.begin_frame();
         if (!frame_index)
             return run_continue;
 
-        return plotter.end_frame({ cmd_bufs[*frame_index] });
+        return renderer.end_frame({ cmd_bufs[*frame_index] });
     });
 
     frame.add_run_end([&]() {
         clean_cmd_bufs();
 
-        plotter.destroy();
+        renderer.destroy();
         render_target->destroy();
     });
 
@@ -203,19 +203,19 @@ LAVA_TEST(5, "color block") {
         return input_ignore;
     });
 
-    auto device = frame.create_device();
+    device_ptr device = frame.create_device();
     if (!device)
         return error::create_failed;
 
-    auto render_target = create_target(&window, device);
+    render_target::ptr render_target = create_target(&window, device);
     if (!render_target)
         return error::create_failed;
 
-    renderer plotter;
-    if (!plotter.create(render_target->get_swapchain()))
+    renderer renderer;
+    if (!renderer.create(render_target->get_swapchain()))
         return error::create_failed;
 
-    auto frame_count = render_target->get_frame_count();
+    ui32 frame_count = render_target->get_frame_count();
 
     block block;
 
@@ -231,7 +231,7 @@ LAVA_TEST(5, "color block") {
             .layerCount = 1,
         };
 
-        auto frame_image = render_target->get_image(block.get_current_frame());
+        VkImage frame_image = render_target->get_image(block.get_current_frame());
 
         insert_image_memory_barrier(device, cmd_buf, frame_image,
                                     VK_ACCESS_MEMORY_READ_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
@@ -255,20 +255,20 @@ LAVA_TEST(5, "color block") {
         if (window.resize_request())
             return window.handle_resize();
 
-        auto frame_index = plotter.begin_frame();
+        auto frame_index = renderer.begin_frame();
         if (!frame_index)
             return run_continue;
 
         if (!block.process(*frame_index))
             return run_abort;
 
-        return plotter.end_frame(block.get_buffers());
+        return renderer.end_frame(block.get_buffers());
     });
 
     frame.add_run_end([&]() {
         block.destroy();
 
-        plotter.destroy();
+        renderer.destroy();
         render_target->destroy();
     });
 
@@ -294,11 +294,11 @@ LAVA_TEST(6, "forward shading") {
         return input_ignore;
     });
 
-    auto device = frame.create_device();
+    device_ptr device = frame.create_device();
     if (!device)
         return error::create_failed;
 
-    auto render_target = create_target(&window, device);
+    render_target::ptr render_target = create_target(&window, device);
     if (!render_target)
         return error::create_failed;
 
@@ -306,7 +306,7 @@ LAVA_TEST(6, "forward shading") {
     if (!shading.create(render_target))
         return error::create_failed;
 
-    auto render_pass = shading.get_pass();
+    render_pass::ptr render_pass = shading.get_pass();
 
     block block;
     if (!block.create(device, render_target->get_frame_count(), device->graphics_queue().family))
@@ -317,8 +317,8 @@ LAVA_TEST(6, "forward shading") {
         render_pass->process(cmd_buf, block.get_current_frame());
     });
 
-    renderer plotter;
-    if (!plotter.create(render_target->get_swapchain()))
+    renderer renderer;
+    if (!renderer.create(render_target->get_swapchain()))
         return error::create_failed;
 
     frame.add_run([&]() {
@@ -338,21 +338,21 @@ LAVA_TEST(6, "forward shading") {
                 frame.set_wait_for_events(false);
         }
 
-        auto frame_index = plotter.begin_frame();
+        auto frame_index = renderer.begin_frame();
         if (!frame_index)
             return run_continue;
 
         if (!block.process(*frame_index))
             return run_abort;
 
-        return plotter.end_frame(block.get_buffers());
+        return renderer.end_frame(block.get_buffers());
     });
 
     frame.add_run_end([&]() {
         block.destroy();
         shading.destroy();
 
-        plotter.destroy();
+        renderer.destroy();
         render_target->destroy();
     });
 
@@ -365,7 +365,7 @@ LAVA_TEST(7, "gamepad") {
         return error::not_ready;
 
     gamepad_manager::add([&](gamepad pad, bool active) {
-        auto id = pad.get_id();
+        ui32 id = pad.get_id();
 
         if (active)
             log()->info("gamepad {} - active ({})", id, pad.get_name());
@@ -375,7 +375,7 @@ LAVA_TEST(7, "gamepad") {
         return input_ignore;
     });
 
-    for (auto& pad : gamepads())
+    for (gamepad& pad : gamepads())
         log()->info("gamepad {} - active ({})", pad.get_id(), pad.get_name());
 
     log()->info("Waiting some seconds for gamepads...");

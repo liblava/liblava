@@ -17,13 +17,13 @@ int main(int argc, char* argv[]) {
 
     timer load_timer;
 
-    auto spawn_mesh = load_mesh(app.device, "spawn/lava-spawn-game.obj");
+    mesh::ptr spawn_mesh = load_mesh(app.device, "spawn/lava-spawn-game.obj");
     if (!spawn_mesh)
         return error::create_failed;
 
-    auto mesh_load_time = load_timer.elapsed();
+    ms mesh_load_time = load_timer.elapsed();
 
-    auto default_texture = create_default_texture(app.device, { 4096, 4096 }, default_color);
+    texture::ptr default_texture = create_default_texture(app.device, { 4096, 4096 }, default_color);
     if (!default_texture)
         return error::create_failed;
 
@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
     app.camera.position = v3(0.832f, 0.036f, 2.304f);
     app.camera.rotation = v3(8.42f, -29.73f, 0.f);
 
-    auto spawn_model = glm::identity<mat4>();
+    mat4 spawn_model = glm::identity<mat4>();
 
     buffer spawn_model_buffer;
     if (!spawn_model_buffer.create_mapped(app.device, &spawn_model, sizeof(mat4), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
@@ -125,7 +125,7 @@ int main(int argc, char* argv[]) {
             spawn_mesh->bind_draw(cmd_buf);
         };
 
-        auto render_pass = app.shading.get_pass();
+        render_pass::ptr render_pass = app.shading.get_pass();
 
         if (!pipeline->create(render_pass->get()))
             return false;
@@ -145,11 +145,11 @@ int main(int argc, char* argv[]) {
         layout->destroy();
     };
 
-    auto spawn_position = v3(0.f);
-    auto spawn_rotation = v3(0.f);
-    auto spawn_scale = v3(1.f);
+    v3 spawn_position{ 0.f };
+    v3 spawn_rotation{ 0.f };
+    v3 spawn_scale{ 1.f };
 
-    auto update_spawn_matrix = false;
+    bool update_spawn_matrix = false;
 
     app.imgui.on_draw = [&]() {
         ImGui::SetNextWindowPos(ImVec2(30, 30), ImGuiCond_FirstUseEver);
@@ -157,7 +157,7 @@ int main(int argc, char* argv[]) {
 
         ImGui::Begin(app.get_name());
 
-        auto camera_active = app.camera.activated();
+        bool camera_active = app.camera.activated();
         if (ImGui::Checkbox("active", &camera_active))
             app.camera.set_active(camera_active);
 
@@ -167,7 +167,7 @@ int main(int argc, char* argv[]) {
 
         ImGui::SameLine(0.f, 15.f);
 
-        auto first_person = app.camera.type == camera_type::first_person;
+        bool first_person = app.camera.type == camera_type::first_person;
         if (ImGui::Checkbox("first person##camera", &first_person))
             app.camera.type = first_person ? camera_type::first_person : camera_type::look_at;
 
@@ -197,7 +197,7 @@ int main(int argc, char* argv[]) {
         }
 
         if (ImGui::CollapsingHeader("projection")) {
-            auto update_projection = false;
+            bool update_projection = false;
 
             update_projection |= ImGui::DragFloat("fov", &app.camera.fov);
             update_projection |= ImGui::DragFloat("z near", &app.camera.z_near);
@@ -232,7 +232,7 @@ int main(int argc, char* argv[]) {
 
         ImGui::SameLine();
 
-        auto texture_size = default_texture->get_size();
+        uv2 texture_size = default_texture->get_size();
         ImGui::Text("texture: %d x %d", texture_size.x, texture_size.y);
 
         app.draw_about();
