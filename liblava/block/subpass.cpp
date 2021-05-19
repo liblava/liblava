@@ -157,11 +157,11 @@ namespace lava {
     subpass_dependency::subpass_dependency() {
         dependency.srcSubpass = 0;
         dependency.dstSubpass = 0;
-        dependency.srcStageMask = VK_PIPELINE_STAGE_FLAG_BITS_MAX_ENUM;
-        dependency.dstStageMask = VK_PIPELINE_STAGE_FLAG_BITS_MAX_ENUM;
-        dependency.srcAccessMask = VK_ACCESS_FLAG_BITS_MAX_ENUM;
-        dependency.dstAccessMask = VK_ACCESS_FLAG_BITS_MAX_ENUM;
-        dependency.dependencyFlags = VK_DEPENDENCY_FLAG_BITS_MAX_ENUM;
+        dependency.srcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+        dependency.dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+        dependency.srcAccessMask = 0;
+        dependency.dstAccessMask = 0;
+        dependency.dependencyFlags = 0;
     }
 
     subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass, ui32 dst_subpass, VkDependencyFlags dependency_flags) {
