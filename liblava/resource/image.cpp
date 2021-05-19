@@ -3,6 +3,7 @@
 // license   : MIT; see accompanying LICENSE file
 
 #include <liblava/resource/image.hpp>
+#include <liblava/resource/format.hpp>
 
 namespace lava {
 
@@ -27,7 +28,7 @@ namespace lava {
         };
 
         subresource_range = {
-            .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+            .aspectMask = format_aspect_mask(format),
             .baseMipLevel = 0,
             .levelCount = 1,
             .baseArrayLayer = 0,
