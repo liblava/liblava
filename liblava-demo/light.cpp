@@ -153,7 +153,7 @@ int main(int argc, char* argv[]) {
         app.device->vkUpdateDescriptorSets(gbuffer_write_sets.size(), gbuffer_write_sets.data());
 
         gbuffer_pipeline_layout->add(gbuffer_set_layout);
-        gbuffer_pipeline_layout->add_range({ VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(glsl::PushConstantData) });
+        gbuffer_pipeline_layout->add_push_constant_range({ VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(glsl::PushConstantData) });
         if (!gbuffer_pipeline_layout->create(app.device))
             return false;
 

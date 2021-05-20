@@ -21,10 +21,10 @@ namespace lava {
             push_constant_ranges.push_back(range);
         }
 
-        void add_layout(descriptor::ptr const& layout) {
-            add(layout);
+        void add_descriptor(descriptor::ptr const& descriptor) {
+            add(descriptor);
         }
-        void add_range(VkPushConstantRange const& range) {
+        void add_push_constant_range(VkPushConstantRange const& range) {
             add(range);
         }
 

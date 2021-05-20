@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
         pipeline->set_rasterization_front_face(VK_FRONT_FACE_COUNTER_CLOCKWISE);
 
         layout = make_pipeline_layout();
-        layout->add_range({ VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(r32) * 8 });
+        layout->add_push_constant_range({ VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(r32) * 8 });
 
         if (!layout->create(app.device))
             return false;
