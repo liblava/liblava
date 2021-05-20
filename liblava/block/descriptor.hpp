@@ -79,6 +79,9 @@ namespace lava {
         using list = std::vector<ptr>;
 
         void add_binding(index binding, VkDescriptorType descriptor_type, VkShaderStageFlags stage_flags);
+        void clear_bindings() {
+            bindings.clear();
+        }
 
         void add(binding::ptr const& binding) {
             bindings.push_back(binding);

@@ -30,6 +30,8 @@ namespace lava {
 
         device->call().vkDestroyPipelineLayout(device->get(), layout, memory::alloc());
         layout = VK_NULL_HANDLE;
+
+        clear();
     }
 
     void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, ui32 index, offset_list offsets, VkPipelineBindPoint bind_point) {
@@ -280,6 +282,13 @@ namespace lava {
         color_blend_state.pAttachments = color_blend_attachment_states.data();
     }
 
+    void graphics_pipeline::clear_color_blend_attachment() {
+        color_blend_attachment_states.clear();
+
+        color_blend_state.attachmentCount = 0;
+        color_blend_state.pAttachments = nullptr;
+    }
+
     void graphics_pipeline::set_dynamic_states(VkDynamicStates const& states) {
         dynamic_states = states;
 
@@ -290,6 +299,13 @@ namespace lava {
     void graphics_pipeline::add_dynamic_state(VkDynamicState state) {
         dynamic_states.push_back(state);
         set_dynamic_states(dynamic_states);
+    }
+
+    void graphics_pipeline::clear_dynamic_states() {
+        dynamic_states.clear();
+
+        dynamic_state.dynamicStateCount = 0;
+        dynamic_state.pDynamicStates = nullptr;
     }
 
     bool graphics_pipeline::add_shader_stage(cdata const& data, VkShaderStageFlagBits stage) {
@@ -361,7 +377,7 @@ namespace lava {
     }
 
     void graphics_pipeline::destroy_internal() {
-        shader_stages.clear();
+        clear();
     }
 
     void graphics_pipeline::bind(VkCommandBuffer cmd_buf) {

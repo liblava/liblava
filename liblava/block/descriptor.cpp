@@ -66,6 +66,8 @@ namespace lava {
         device->call().vkDestroyDescriptorSetLayout(device->get(), layout, memory::alloc());
         layout = VK_NULL_HANDLE;
 
+        clear_bindings();
+
         // keep device for descriptors
     }
 

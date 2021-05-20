@@ -28,6 +28,17 @@ namespace lava {
             add(range);
         }
 
+        void clear_descriptors() {
+            descriptors.clear();
+        }
+        void clear_ranges() {
+            push_constant_ranges.clear();
+        }
+        void clear() {
+            clear_descriptors();
+            clear_ranges();
+        }
+
         bool create(device_ptr device);
         void destroy();
 
@@ -232,9 +243,11 @@ namespace lava {
 
         static VkPipelineColorBlendAttachmentState create_color_blend_attachment();
         void add_color_blend_attachment(VkPipelineColorBlendAttachmentState const& attachment = create_color_blend_attachment());
+        void clear_color_blend_attachment();
 
         void set_dynamic_states(VkDynamicStates const& states);
         void add_dynamic_state(VkDynamicState state);
+        void clear_dynamic_states();
 
         bool add_shader_stage(cdata const& data, VkShaderStageFlagBits stage);
         bool add_shader(cdata const& data, VkShaderStageFlagBits stage) {
@@ -250,6 +263,11 @@ namespace lava {
         }
         void clear_shader_stages() {
             shader_stages.clear();
+        }
+
+        void clear() {
+            clear_color_blend_attachment();
+            clear_shader_stages();
         }
 
         void set_auto_size(bool value = true) {
