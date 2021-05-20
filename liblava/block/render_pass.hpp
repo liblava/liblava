@@ -19,7 +19,7 @@ namespace lava {
         bool create(VkAttachmentsRef target_attachments, rect area);
         void destroy();
 
-        void process(VkCommandBuffer cmd_buf, index frame);
+        void process(VkCommandBuffer cmd_buf, index frame = 0);
 
         device_ptr get_device() {
             return device;
