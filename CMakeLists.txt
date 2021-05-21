@@ -587,6 +587,14 @@ message("=======================================================================
         target_link_libraries(lava-light lava::demo)
 
         set_property(TARGET lava-light PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
+        install(TARGETS
+                lava-triangle
+                lava-lamp
+                lava-spawn
+                lava-light
+                RUNTIME DESTINATION bin
+                )
 endif()
 
 option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
