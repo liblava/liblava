@@ -565,6 +565,28 @@ message("=======================================================================
         target_link_libraries(lava-spawn lava::demo)
 
         set_property(TARGET lava-spawn PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
+        message("> lava-light")
+
+        set(LIGHT_SHADERS
+                res/light/gbuffer.frag
+                res/light/gbuffer.vert
+                res/light/lighting.frag
+                res/light/lighting.vert
+                res/light/data.inc
+                )
+
+        add_executable(lava-light 
+                ${LIBLAVA_DEMO_DIR}/light.cpp
+                ${LIGHT_SHADERS}
+                )
+
+        source_group("Shader Files" FILES ${LIGHT_SHADERS})
+
+        set_target_properties(lava-light PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava-light lava::demo)
+
+        set_property(TARGET lava-light PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 endif()
 
 option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
