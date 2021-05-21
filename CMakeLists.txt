@@ -26,7 +26,7 @@ message("=======================================================================
 message("> module")
 
 if(NOT ${PROJECT_SOURCE_DIR}/res MATCHES ${PROJECT_BINARY_DIR}/res)
-        file(CREATE_LINK "${PROJECT_SOURCE_DIR}/res" "${PROJECT_BINARY_DIR}/res" COPY_ON_ERROR SYMBOLIC)
+        file(CREATE_LINK "${PROJECT_SOURCE_DIR}/res" "${PROJECT_BINARY_DIR}/res" RESULT 0 COPY_ON_ERROR SYMBOLIC)
 endif()
 
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
