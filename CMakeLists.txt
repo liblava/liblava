@@ -442,7 +442,7 @@ install(DIRECTORY
         ${LIBLAVA_EXT_DIR}/json/single_include/
         ${LIBLAVA_EXT_DIR}/spdlog/include/
         ${LIBLAVA_EXT_DIR}/Vulkan-Headers/include/
-        ${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/src/
+        ${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/include/
         ${LIBLAVA_EXT_DIR}/volk/
         #${LIBLAVA_EXT_DIR}/stb/
         #${LIBLAVA_EXT_DIR}/gli/gli
