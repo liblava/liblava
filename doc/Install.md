@@ -33,7 +33,7 @@ mkdir build
 cd build
 
 cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=../lava-install ..
-cmake --build . --target install
+cmake --build . --config Release --target install
 ```
 
 First find the package in your *CMakeLists.txt*
