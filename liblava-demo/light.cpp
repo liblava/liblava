@@ -267,7 +267,7 @@ int main(int argc, char* argv[]) {
         scoped_label label(cmd_buf, "on_process");
 
         // start custom renderpass, run on_process() for each pipeline added to the renderpass
-        gbuffer_renderpass->process(cmd_buf);
+        gbuffer_renderpass->process(cmd_buf, 0);
     };
 
     app.on_update = [&](delta dt) {
