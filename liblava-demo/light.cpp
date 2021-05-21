@@ -8,12 +8,11 @@
 using namespace lava;
 
 // structs for interfacing with shaders
-namespace glsl
-{
+namespace glsl {
     using namespace glm;
     using uint = uint32_t;
 #include "res/light/data.inc"
-}
+} // namespace glsl
 
 glsl::UboData g_ubo;
 
