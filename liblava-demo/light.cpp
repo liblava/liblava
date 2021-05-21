@@ -17,7 +17,7 @@ namespace glsl {
 glsl::UboData g_ubo;
 
 struct gbuffer_attachment {
-    enum type : uint32_t {
+    enum type : ui32 {
         albedo = 0,
         normal,
         metallic_roughness,
@@ -31,7 +31,7 @@ struct gbuffer_attachment {
     attachment::ptr renderpass_attachment;
     VkAttachmentReference subpass_reference;
 
-    bool create(uint32_t index);
+    bool create(ui32 index);
 };
 
 using attachment_array = std::array<gbuffer_attachment, gbuffer_attachment::count>;
@@ -186,7 +186,7 @@ int main(int argc, char* argv[]) {
             gbuffer_pipeline_layout->bind(cmd_buf, gbuffer_set);
             object->bind(cmd_buf);
 
-            for (size_t i = 0; i < object_instances.size(); i++) {
+            for (auto i = 0u; i < object_instances.size(); i++) {
                 const glsl::PushConstantData pc = {
                     .model = object_instances[i],
                     .color = v3(1.0f),
@@ -351,11 +351,11 @@ int main(int argc, char* argv[]) {
 
     app.imgui.on_draw = [&]() {
         ImGui::SetNextWindowPos(ImVec2(30, 30), ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize(ImVec2(262, 262), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(190, 90), ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
 
-        app.draw_about();
+        app.draw_about(false);
 
         ImGui::End();
     };
@@ -392,7 +392,7 @@ int main(int argc, char* argv[]) {
     return app.run();
 }
 
-bool gbuffer_attachment::create(uint32_t index) {
+bool gbuffer_attachment::create(ui32 index) {
     usage |= VK_IMAGE_USAGE_SAMPLED_BIT;
     std::optional<VkFormat> format = get_supported_format(g_app->device->get_vk_physical_device(), requested_formats, usage);
     if (!format.has_value())
@@ -422,7 +422,7 @@ render_pass::ptr create_gbuffer_renderpass(attachment_array& attachments) {
     pass->set_clear_values(clear_values);
 
     VkAttachmentReferences color_attachments;
-    for (uint32_t i = 0; i < gbuffer_attachment::count; i++) {
+    for (auto i = 0u; i < gbuffer_attachment::count; i++) {
         if (!attachments[i].create(i))
             return nullptr;
         pass->add(attachments[i].renderpass_attachment);
