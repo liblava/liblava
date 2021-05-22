@@ -363,7 +363,7 @@ int main(int argc, char* argv[]) {
 
     app.imgui.on_draw = [&]() {
         ImGui::SetNextWindowPos(ImVec2(30, 30), ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize(ImVec2(180, 90), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(200, 90), ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
 
