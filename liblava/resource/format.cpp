@@ -362,7 +362,7 @@ lava::ui32 lava::format_block_size(VkFormat format) {
 #undef fmt
 }
 
-std::optional<VkFormat> lava::get_supported_depth_format(VkPhysicalDevice physical_device) {
+lava::VkFormat_optional lava::get_supported_depth_format(VkPhysicalDevice physical_device) {
     static const VkFormat depth_formats[] = { VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D32_SFLOAT, VK_FORMAT_D24_UNORM_S8_UINT, VK_FORMAT_D16_UNORM_S8_UINT, VK_FORMAT_D16_UNORM };
 
     for (auto& format : depth_formats) {
@@ -377,7 +377,7 @@ std::optional<VkFormat> lava::get_supported_depth_format(VkPhysicalDevice physic
     return std::nullopt;
 }
 
-std::optional<VkFormat> lava::get_supported_format(VkPhysicalDevice physical_device, lava::VkFormats const& possible_formats, VkImageUsageFlags usage) {
+lava::VkFormat_optional lava::get_supported_format(VkPhysicalDevice physical_device, lava::VkFormats const& possible_formats, VkImageUsageFlags usage) {
     VkFormatFeatureFlags features = 0;
     if (usage & VK_IMAGE_USAGE_TRANSFER_SRC_BIT)
         features |= VK_FORMAT_FEATURE_TRANSFER_SRC_BIT;

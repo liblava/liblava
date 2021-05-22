@@ -9,6 +9,8 @@
 
 namespace lava {
 
+    using VkFormat_optional = std::optional<VkFormat>;
+
     bool format_depth(VkFormat format);
 
     bool format_stencil(VkFormat format);
@@ -27,9 +29,9 @@ namespace lava {
 
     ui32 format_block_size(VkFormat format);
 
-    std::optional<VkFormat> get_supported_depth_format(VkPhysicalDevice physical_device);
+    VkFormat_optional get_supported_depth_format(VkPhysicalDevice physical_device);
 
-    std::optional<VkFormat> get_supported_format(VkPhysicalDevice physical_device, VkFormats const& possible_formats, VkImageUsageFlags usage);
+    VkFormat_optional get_supported_format(VkPhysicalDevice physical_device, VkFormats const& possible_formats, VkImageUsageFlags usage);
 
     VkImageMemoryBarrier image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout);
 
