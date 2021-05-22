@@ -14,7 +14,7 @@ You can find the demonstration projects in the `liblava-demo` folder
 
 *Apache License, Version 2.0* / [GitHub](https://github.com/google/fonts/tree/master/apache/roboto) / [Website](https://fonts.google.com/specimen/Roboto)
 
-* [Roboto-Regular.ttf](../res/font/imgui/Roboto-Regular.ttf)
+* [Roboto-Regular.ttf](../res/font/Roboto-Regular.ttf)
 
 ## Font Awesome
 

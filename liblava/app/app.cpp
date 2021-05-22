@@ -159,9 +159,9 @@ namespace lava {
 
     bool app::create_imgui() {
         if (config.imgui_font.file.empty()) {
-            auto font_files = file_system::enumerate_files(_imgui_font_path_);
+            auto font_files = file_system::enumerate_files(_font_path_);
             if (!font_files.empty())
-                config.imgui_font.file = fmt::format("{}{}", _imgui_font_path_, str(font_files.front()));
+                config.imgui_font.file = fmt::format("{}{}", _font_path_, str(font_files.front()));
         }
 
         setup_imgui_font(imgui_config, config.imgui_font);

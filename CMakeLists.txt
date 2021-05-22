@@ -326,8 +326,8 @@ set(IMGUI_FILES
 source_group("imgui Files" FILES ${IMGUI_FILES})
 
 set(APP_SHADERS
-        res/tool/imgui/imgui.frag
-        res/tool/imgui/imgui.vert
+        res/imgui/imgui.frag
+        res/imgui/imgui.vert
         )
 
 source_group("Shader Files" FILES ${APP_SHADERS})

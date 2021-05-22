@@ -157,8 +157,6 @@ namespace lava {
         bool active = true;
     };
 
-    constexpr name _imgui_font_path_ = "font/imgui/";
-
     void setup_imgui_font(imgui::config& config, imgui::font::ref font);
 
 } // namespace lava

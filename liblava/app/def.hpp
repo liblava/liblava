@@ -26,6 +26,7 @@ namespace lava {
     constexpr name _lava_texture_staging_ = "lava texture staging";
 
     // res folder
+    constexpr name _font_path_ = "font/";
     constexpr name _font_icon_path_ = "font/icon/";
 
 } // namespace lava

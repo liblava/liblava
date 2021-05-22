@@ -280,11 +280,11 @@ namespace lava {
 #undef MAP_ANALOG
 
     static ui32 imgui_vert_shader[] = {
-#include "res/tool/imgui/imgui.vert.u32"
+#include "res/imgui/imgui.vert.u32"
     };
 
     static ui32 imgui_frag_shader[] = {
-#include "res/tool/imgui/imgui.frag.u32"
+#include "res/imgui/imgui.frag.u32"
     };
 
     bool imgui::create(graphics_pipeline::ptr p, index mf) {
