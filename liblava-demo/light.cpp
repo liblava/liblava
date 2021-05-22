@@ -273,7 +273,8 @@ int main(int argc, char* argv[]) {
     };
 
     app.on_update = [&](delta dt) {
-        float seconds = to_delta(app.get_running_time());
+        float seconds = to_sec(app.run_time.current);
+
         constexpr float distance = 1.25f;
         float const left = -distance * (object_instances.size() - 1) * 0.5f;
 
@@ -362,7 +363,7 @@ int main(int argc, char* argv[]) {
 
     app.imgui.on_draw = [&]() {
         ImGui::SetNextWindowPos(ImVec2(30, 30), ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize(ImVec2(190, 90), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize(ImVec2(180, 90), ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
 
