@@ -59,7 +59,7 @@ namespace lava {
     void imgui::update_mouse_pos_and_buttons() {
         auto& io = ImGui::GetIO();
 
-        for (i32 i = 0; i < IM_ARRAYSIZE(io.MouseDown); i++) {
+        for (auto i = 0; i < IM_ARRAYSIZE(io.MouseDown); ++i) {
             io.MouseDown[i] = mouse_just_pressed[i] || glfwGetMouseButton(window, i) != 0;
             mouse_just_pressed[i] = false;
         }
@@ -280,11 +280,11 @@ namespace lava {
 #undef MAP_ANALOG
 
     static ui32 imgui_vert_shader[] = {
-        #include "res/tool/imgui/imgui.vert.u32"
+#include "res/tool/imgui/imgui.vert.u32"
     };
 
     static ui32 imgui_frag_shader[] = {
-        #include "res/tool/imgui/imgui.frag.u32"
+#include "res/tool/imgui/imgui.frag.u32"
     };
 
     bool imgui::create(graphics_pipeline::ptr p, index mf) {
@@ -386,7 +386,7 @@ namespace lava {
 
     void imgui::convert_style_to_srgb() {
         ImGuiStyle& style = ImGui::GetStyle();
-        for (size_t i = 0; i < ImGuiCol_COUNT; i++) {
+        for (auto i = 0u; i < ImGuiCol_COUNT; ++i) {
             glm::vec3 srgb = glm::make_vec3(&style.Colors[i].x);
             glm::vec3 linear = glm::convertSRGBToLinear(srgb);
             style.Colors[i] = ImVec4(linear.x, linear.y, linear.z, style.Colors[i].w);

@@ -10,7 +10,7 @@ using namespace lava;
 // structs for interfacing with shaders
 namespace glsl {
     using namespace glm;
-    using uint = uint32_t;
+    using uint = ui32;
 #include "res/light/data.inc"
 } // namespace glsl
 
@@ -31,7 +31,7 @@ struct gbuffer_attachment {
     attachment::ptr renderpass_attachment;
     VkAttachmentReference subpass_reference;
 
-    bool create(ui32 index);
+    bool create(app const& app, ui32 index);
 };
 
 using attachment_array = std::array<gbuffer_attachment, gbuffer_attachment::count>;
@@ -43,15 +43,13 @@ attachment_array g_attachments = {
 };
 
 using light_array = std::array<glsl::LightData, 3>;
-const light_array g_lights = {
-    glsl::LightData{ { 2.0f, 2.0f, 2.5f }, 10.0f, { 30.0f, 10.0f, 10.0f } },
-    glsl::LightData{ { -2.0f, -2.0f, -0.5f }, 10.0f, { 10.0f, 30.0f, 10.0f } },
-    glsl::LightData{ { 0.0f, 0.0f, -1.5f }, 10.0f, { 10.0f, 10.0f, 30.0f } }
+light_array const g_lights = {
+    glsl::LightData{ { 2.f, 2.f, 2.5f }, 10.f, { 30.f, 10.f, 10.f } },
+    glsl::LightData{ { -2.f, -2.f, -0.5f }, 10.f, { 10.f, 30.f, 10.f } },
+    glsl::LightData{ { 0.f, 0.f, -1.5f }, 10.f, { 10.f, 10.f, 30.f } }
 };
 
-app* g_app = nullptr;
-
-render_pass::ptr create_gbuffer_renderpass(attachment_array& attachments);
+render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments);
 
 int main(int argc, char* argv[]) {
     app app("lava light", { argc, argv });
@@ -60,8 +58,6 @@ int main(int argc, char* argv[]) {
 
     target_callback resize_callback;
     app.target->add_callback(&resize_callback);
-
-    g_app = &app;
 
     // create global immutable resources
     // destroyed in app.add_run_end
@@ -89,7 +85,7 @@ int main(int argc, char* argv[]) {
     if (!light_buffer.create_mapped(app.device, g_lights.data(), sizeof(g_lights), VK_BUFFER_USAGE_STORAGE_BUFFER_BIT))
         return error::create_failed;
 
-    const VkSamplerCreateInfo sampler_info = {
+    VkSamplerCreateInfo const sampler_info = {
         .sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO,
         .magFilter = VK_FILTER_NEAREST,
         .minFilter = VK_FILTER_NEAREST,
@@ -116,7 +112,7 @@ int main(int argc, char* argv[]) {
     VkDescriptorSet lighting_set = VK_NULL_HANDLE;
 
     app.on_create = [&]() {
-        const VkDescriptorPoolSizes pool_sizes = {
+        VkDescriptorPoolSizes const pool_sizes = {
             { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1 * 2 }, // one uniform buffer for each pass (gbuffer + lighting)
             { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1 }, // light buffer
             { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 2 /* normal + roughness texture */ + g_attachments.size() },
@@ -132,13 +128,14 @@ int main(int argc, char* argv[]) {
         gbuffer_set_layout->add_binding(2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
         if (!gbuffer_set_layout->create(app.device))
             return false;
+
         gbuffer_set = gbuffer_set_layout->allocate(descriptor_pool.get());
         if (!gbuffer_set)
             return false;
 
         std::vector<VkWriteDescriptorSet> gbuffer_write_sets;
-        for (const descriptor::binding::ptr& binding : gbuffer_set_layout->get_bindings()) {
-            const VkDescriptorSetLayoutBinding& info = binding->get();
+        for (descriptor::binding::ptr const& binding : gbuffer_set_layout->get_bindings()) {
+            VkDescriptorSetLayoutBinding const& info = binding->get();
             gbuffer_write_sets.push_back({ .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
                                            .dstSet = gbuffer_set,
                                            .dstBinding = info.binding,
@@ -157,7 +154,7 @@ int main(int argc, char* argv[]) {
         if (!gbuffer_pipeline_layout->create(app.device))
             return false;
 
-        const VkPipelineColorBlendAttachmentState gbuffer_blend_state = {
+        VkPipelineColorBlendAttachmentState const gbuffer_blend_state = {
             .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT
         };
 
@@ -165,9 +162,11 @@ int main(int argc, char* argv[]) {
             return false;
         if (!gbuffer_pipeline->add_shader(file_data("light/gbuffer.fragment.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
-        for (size_t i = 0; i < g_attachments.size() - 1; i++) {
+
+        for (auto i = 0u; i < g_attachments.size() - 1; ++i) {
             gbuffer_pipeline->add_color_blend_attachment(gbuffer_blend_state);
         }
+
         gbuffer_pipeline->set_depth_test_and_write(true, true);
         gbuffer_pipeline->set_depth_compare_op(VK_COMPARE_OP_LESS);
         gbuffer_pipeline->set_rasterization_cull_mode(VK_CULL_MODE_NONE);
@@ -177,6 +176,7 @@ int main(int argc, char* argv[]) {
             { 1, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(vertex, uv)) },
             { 2, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, normal)) },
         });
+
         gbuffer_pipeline->set_layout(gbuffer_pipeline_layout);
         gbuffer_pipeline->set_auto_size(true);
 
@@ -186,8 +186,8 @@ int main(int argc, char* argv[]) {
             gbuffer_pipeline_layout->bind(cmd_buf, gbuffer_set);
             object->bind(cmd_buf);
 
-            for (auto i = 0u; i < object_instances.size(); i++) {
-                const glsl::PushConstantData pc = {
+            for (auto i = 0u; i < object_instances.size(); ++i) {
+                glsl::PushConstantData const pc = {
                     .model = object_instances[i],
                     .color = v3(1.0f),
                     .metallic = float(i % 2),
@@ -199,18 +199,19 @@ int main(int argc, char* argv[]) {
             }
         };
 
-        gbuffer_renderpass = create_gbuffer_renderpass(g_attachments);
+        gbuffer_renderpass = create_gbuffer_renderpass(app, g_attachments);
         gbuffer_renderpass->add_front(gbuffer_pipeline);
 
         // lighting pass
 
-        for (size_t i = 0; i < g_attachments.size(); i++) {
+        for (auto i = 0u; i < g_attachments.size(); ++i) {
             lighting_set_layout->add_binding(i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
         }
         lighting_set_layout->add_binding(g_attachments.size() + 0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT);
         lighting_set_layout->add_binding(g_attachments.size() + 1, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT);
         if (!lighting_set_layout->create(app.device))
             return false;
+
         lighting_set = lighting_set_layout->allocate(descriptor_pool.get());
         if (!lighting_set)
             return false;
@@ -219,7 +220,7 @@ int main(int argc, char* argv[]) {
         if (!lighting_pipeline_layout->create(app.device))
             return false;
 
-        const VkPipelineColorBlendAttachmentState lighting_blend_state = {
+        VkPipelineColorBlendAttachmentState const lighting_blend_state = {
             .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT
         };
 
@@ -227,6 +228,7 @@ int main(int argc, char* argv[]) {
             return false;
         if (!lighting_pipeline->add_shader(file_data("light/lighting.fragment.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
+
         lighting_pipeline->add_color_blend_attachment(lighting_blend_state);
         lighting_pipeline->set_rasterization_cull_mode(VK_CULL_MODE_NONE);
         lighting_pipeline->set_layout(lighting_pipeline_layout);
@@ -256,6 +258,7 @@ int main(int argc, char* argv[]) {
         // renderpasses have been created at this point, actually create the pipelines
         if (!gbuffer_pipeline->create(gbuffer_renderpass->get()))
             return false;
+
         if (!lighting_pipeline->create(lighting_renderpass->get()))
             return false;
 
@@ -272,14 +275,17 @@ int main(int argc, char* argv[]) {
     app.on_update = [&](delta dt) {
         float seconds = to_delta(app.get_running_time());
         constexpr float distance = 1.25f;
-        const float left = -distance * (object_instances.size() - 1) * 0.5f;
-        for (size_t i = 0; i < object_instances.size(); i++) {
+        float const left = -distance * (object_instances.size() - 1) * 0.5f;
+
+        for (auto i = 0u; i < object_instances.size(); ++i) {
             float x = left + distance * i;
-            v3 axis = v3(0.0f);
-            axis[i % 3] = 1.0f;
+
+            v3 axis = v3(0.f);
+            axis[i % 3] = 1.f;
+
             mat4 model = mat4(1.0f);
-            model = glm::translate(model, { x, 0.0f, 0.0f });
-            model = glm::rotate(model, glm::radians(std::fmod(seconds * 45.0f, 360.0f)), axis);
+            model = glm::translate(model, { x, 0.f, 0.f });
+            model = glm::rotate(model, glm::radians(std::fmod(seconds * 45.f, 360.f)), axis);
             model = glm::scale(model, { 0.5f, 0.5f, 0.5f });
             object_instances[i] = model;
         }
@@ -291,10 +297,10 @@ int main(int argc, char* argv[]) {
 
     resize_callback.on_created = [&](VkAttachmentsRef, rect area) {
         // update uniform buffer
-        g_ubo.camPos = { 0.0f, 0.0f, -1.25f };
+        g_ubo.camPos = { 0.f, 0.f, -1.25f };
         g_ubo.lightCount = g_lights.size();
-        g_ubo.view = glm::lookAtLH(g_ubo.camPos, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
-        g_ubo.projection = perspective_matrix(area.get_size(), 90.0f, 3.0f);
+        g_ubo.view = glm::lookAtLH(g_ubo.camPos, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+        g_ubo.projection = perspective_matrix(area.get_size(), 90.f, 3.f);
         g_ubo.invProjection = glm::inverse(g_ubo.projection);
         g_ubo.resolution = area.get_size();
         *(decltype(g_ubo)*) ubo_buffer.get_mapped_data() = g_ubo;
@@ -304,13 +310,14 @@ int main(int argc, char* argv[]) {
         for (gbuffer_attachment& att : g_attachments) {
             if (!att.image_handle->create(app.device, area.get_size()))
                 return false;
+
             views.push_back(att.image_handle->get_view());
         }
 
         // update lighting descriptor set with new gbuffer image handles
         std::vector<VkWriteDescriptorSet> lighting_write_sets;
-        for (const descriptor::binding::ptr& binding : lighting_set_layout->get_bindings()) {
-            const VkDescriptorSetLayoutBinding& info = binding->get();
+        for (descriptor::binding::ptr const& binding : lighting_set_layout->get_bindings()) {
+            VkDescriptorSetLayoutBinding const& info = binding->get();
             lighting_write_sets.push_back({ .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
                                             .dstSet = lighting_set,
                                             .dstBinding = info.binding,
@@ -319,14 +326,16 @@ int main(int argc, char* argv[]) {
         }
 
         std::array<VkDescriptorImageInfo, g_attachments.size()> lighting_images;
-        for (size_t i = 0; i < g_attachments.size(); i++) {
+        for (auto i = 0u; i < g_attachments.size(); ++i) {
             lighting_images[i] = {
                 .sampler = sampler,
                 .imageView = g_attachments[i].image_handle->get_view(),
                 .imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
             };
+
             lighting_write_sets[i].pImageInfo = &lighting_images[i];
         }
+
         lighting_write_sets[g_attachments.size() + 0].pBufferInfo = ubo_buffer.get_descriptor_info();
         lighting_write_sets[g_attachments.size() + 1].pBufferInfo = light_buffer.get_descriptor_info();
 
@@ -341,8 +350,10 @@ int main(int argc, char* argv[]) {
 
     resize_callback.on_destroyed = [&]() {
         app.device->wait_for_idle();
+
         // destroy framebuffer
         gbuffer_renderpass->on_destroyed();
+
         // destroy gbuffer attachments
         for (gbuffer_attachment& att : g_attachments) {
             att.image_handle->destroy();
@@ -392,9 +403,9 @@ int main(int argc, char* argv[]) {
     return app.run();
 }
 
-bool gbuffer_attachment::create(ui32 index) {
+bool gbuffer_attachment::create(app const& app, ui32 index) {
     usage |= VK_IMAGE_USAGE_SAMPLED_BIT;
-    std::optional<VkFormat> format = get_supported_format(g_app->device->get_vk_physical_device(), requested_formats, usage);
+    VkFormat_optional format = get_supported_format(app.device->get_vk_physical_device(), requested_formats, usage);
     if (!format.has_value())
         return false;
 
@@ -414,18 +425,20 @@ bool gbuffer_attachment::create(ui32 index) {
     return true;
 }
 
-render_pass::ptr create_gbuffer_renderpass(attachment_array& attachments) {
-    VkClearValues clear_values(attachments.size(), { .color = { 0.0f, 0.0f, 0.0f, 1.0f } });
-    clear_values[gbuffer_attachment::depth] = { .depthStencil = { 1.0f, 0 } };
+render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments) {
+    VkClearValues clear_values(attachments.size(), { .color = { 0.f, 0.f, 0.f, 1.f } });
+    clear_values[gbuffer_attachment::depth] = { .depthStencil = { 1.f, 0 } };
 
-    render_pass::ptr pass = make_render_pass(g_app->device);
+    render_pass::ptr pass = make_render_pass(app.device);
     pass->set_clear_values(clear_values);
 
     VkAttachmentReferences color_attachments;
-    for (auto i = 0u; i < gbuffer_attachment::count; i++) {
-        if (!attachments[i].create(i))
+    for (auto i = 0u; i < gbuffer_attachment::count; ++i) {
+        if (!attachments[i].create(app, i))
             return nullptr;
+
         pass->add(attachments[i].renderpass_attachment);
+
         if (i != gbuffer_attachment::depth)
             color_attachments.push_back(attachments[i].subpass_reference);
     }

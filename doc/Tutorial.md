@@ -175,7 +175,7 @@ auto build_cmd_bufs = [&]() {
         .layerCount = 1,
     };
 
-    for (auto i = 0u; i < frame_count; i++) {
+    for (auto i = 0u; i < frame_count; ++i) {
         VkCommandBuffer cmd_buf = cmd_bufs[i];
         VkImage frame_image = render_target->get_image(i);
 
