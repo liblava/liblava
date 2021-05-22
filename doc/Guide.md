@@ -69,6 +69,14 @@ buffer::ptr use_buffer_on_heap() {
 ### lava app
 
 ```
+--clean, -c
+```
+
+* clean preferences folder
+
+<br />
+
+```
 --v_sync, -vs {0|1}
 ```
 

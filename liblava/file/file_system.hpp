@@ -35,6 +35,7 @@ namespace lava {
 
         void mount_res();
         bool create_data_folder();
+        void clean_pref_dir();
 
         name get_org() const {
             return org;

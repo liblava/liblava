@@ -90,9 +90,12 @@ namespace lava {
 
         file_system::instance().mount_res();
 
+        auto& cmd_line = get_cmd_line();
+        if (cmd_line[{ "-c", "--clean" }])
+            file_system::instance().clean_pref_dir();
+
         handle_config();
 
-        auto& cmd_line = get_cmd_line();
         cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
         cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
 

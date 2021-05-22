@@ -127,4 +127,8 @@ namespace lava {
         return fs::exists(data_path);
     }
 
+    void file_system::clean_pref_dir() {
+        fs::remove_all(get_pref_dir());
+    }
+
 } // namespace lava
