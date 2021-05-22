@@ -73,7 +73,7 @@ namespace lava {
         queued_frames = 0;
     }
 
-    std::optional<index> renderer::begin_frame() {
+    optional_index renderer::begin_frame() {
         if (!active)
             return {};
 
@@ -98,15 +98,15 @@ namespace lava {
 
         auto current_semaphore = image_acquired_semaphores[current_sync];
 
-        auto result = device->vkAcquireNextImageKHR(target->get(), UINT64_MAX, current_semaphore, 0, &frame_index);
+        auto result = device->vkAcquireNextImageKHR(target->get(), UINT64_MAX, current_semaphore, 0, &current_frame);
         if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
             target->request_reload();
             return {};
         }
 
         // because frames might not come in sequential order current frame might still be locked
-        if ((fences_in_use[frame_index] != 0) && (fences_in_use[frame_index] != fences[current_sync])) {
-            auto result = device->vkWaitForFences(1, &fences_in_use[frame_index], VK_TRUE, UINT64_MAX);
+        if ((fences_in_use[current_frame] != 0) && (fences_in_use[current_frame] != fences[current_sync])) {
+            auto result = device->vkWaitForFences(1, &fences_in_use[current_frame], VK_TRUE, UINT64_MAX);
 
             if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
                 target->request_reload();
@@ -117,7 +117,7 @@ namespace lava {
                 return {};
         }
 
-        fences_in_use[frame_index] = fences[current_sync];
+        fences_in_use[current_frame] = fences[current_sync];
 
         if (!result)
             return {};
@@ -154,7 +154,7 @@ namespace lava {
             return false;
 
         std::array<VkSwapchainKHR, 1> const swapchains = { target->get() };
-        std::array<ui32, 1> const indices = { frame_index };
+        std::array<ui32, 1> const indices = { current_frame };
 
         VkPresentInfoKHR const present_info{
             .sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,

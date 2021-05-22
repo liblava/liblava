@@ -167,11 +167,11 @@ LAVA_TEST(4, "clear color") {
         if (window.resize_request())
             return window.handle_resize();
 
-        auto frame_index = renderer.begin_frame();
-        if (!frame_index)
+        optional_index current_frame = renderer.begin_frame();
+        if (!current_frame.has_value())
             return run_continue;
 
-        return renderer.end_frame({ cmd_bufs[*frame_index] });
+        return renderer.end_frame({ cmd_bufs[*current_frame] });
     });
 
     frame.add_run_end([&]() {
@@ -255,11 +255,11 @@ LAVA_TEST(5, "color block") {
         if (window.resize_request())
             return window.handle_resize();
 
-        auto frame_index = renderer.begin_frame();
-        if (!frame_index)
+        optional_index current_frame = renderer.begin_frame();
+        if (!current_frame.has_value())
             return run_continue;
 
-        if (!block.process(*frame_index))
+        if (!block.process(*current_frame))
             return run_abort;
 
         return renderer.end_frame(block.get_buffers());
@@ -338,11 +338,11 @@ LAVA_TEST(6, "forward shading") {
                 frame.set_wait_for_events(false);
         }
 
-        auto frame_index = renderer.begin_frame();
-        if (!frame_index)
+        optional_index current_frame = renderer.begin_frame();
+        if (!current_frame.has_value())
             return run_continue;
 
-        if (!block.process(*frame_index))
+        if (!block.process(*current_frame))
             return run_abort;
 
         return renderer.end_frame(block.get_buffers());

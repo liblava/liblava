@@ -224,11 +224,11 @@ frame.add_run([&]() {
     if (window.resize_request())
         return window.handle_resize();
 
-    auto frame_index = renderer.begin_frame();
-    if (!frame_index)
+    optional_index current_frame = renderer.begin_frame();
+    if (!current_frame.has_value())
         return run_continue;
 
-    return renderer.end_frame({ cmd_bufs[*frame_index] });
+    return renderer.end_frame({ cmd_bufs[*current_frame] });
 });
 
 frame.add_run_end([&]() {

@@ -9,11 +9,13 @@
 
 namespace lava {
 
+    using optional_index = std::optional<index>;
+
     struct renderer : id_obj {
         bool create(swapchain* target);
         void destroy();
 
-        std::optional<index> begin_frame();
+        optional_index begin_frame();
         bool end_frame(VkCommandBuffers const& cmd_buffers);
 
         bool frame(VkCommandBuffers const& cmd_buffers) {
@@ -24,7 +26,7 @@ namespace lava {
         }
 
         index get_frame() const {
-            return frame_index;
+            return current_frame;
         }
 
         device_ptr get_device() {
@@ -42,7 +44,7 @@ namespace lava {
 
         swapchain* target = nullptr;
 
-        index frame_index = 0;
+        index current_frame = 0;
         ui32 queued_frames = 2;
 
         ui32 current_sync = 0;
