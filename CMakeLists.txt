@@ -25,17 +25,17 @@ message("=======================================================================
 
 message("> module")
 
-if(NOT ${PROJECT_SOURCE_DIR}/res MATCHES ${PROJECT_BINARY_DIR}/res)
-        file(CREATE_LINK "${PROJECT_SOURCE_DIR}/res" "${PROJECT_BINARY_DIR}/res" RESULT 0 COPY_ON_ERROR SYMBOLIC)
+set(LIBLAVA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava)
+set(LIBLAVA_EXT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ext)
+set(LIBLAVA_RES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res)
+
+if(NOT ${LIBLAVA_RES_DIR} MATCHES ${CMAKE_CURRENT_BINARY_DIR}/res)
+        file(CREATE_LINK "${LIBLAVA_RES_DIR}" "${CMAKE_CURRENT_BINARY_DIR}/res" RESULT 0 COPY_ON_ERROR SYMBOLIC)
 endif()
 
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
         set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
 endif()
-
-set(LIBLAVA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava)
-set(LIBLAVA_EXT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ext)
-set(LIBLAVA_TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
 
 message(">> lava::core")
 
@@ -370,6 +370,8 @@ message("=======================================================================
 
         message("> tests")
 
+        set(LIBLAVA_TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
+
         message(">> lava")
 
         add_executable(lava 
@@ -595,6 +597,10 @@ message("=======================================================================
                 lava-light
                 RUNTIME DESTINATION bin
                 )
+
+        install(DIRECTORY ${LIBLAVA_RES_DIR}
+                DESTINATION bin
+        )
 endif()
 
 option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
