@@ -28,8 +28,7 @@ bool lava::format_depth_stencil(VkFormat format) {
     return format_depth(format) || format_stencil(format);
 }
 
-bool lava::format_srgb(VkFormat format)
-{
+bool lava::format_srgb(VkFormat format) {
     switch (format) {
     case VK_FORMAT_R8_SRGB:
     case VK_FORMAT_R8G8_SRGB:

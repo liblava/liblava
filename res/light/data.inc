@@ -1,5 +1,4 @@
-struct UboData
-{
+struct UboData {
     vec3 camPos;
     uint lightCount;
     mat4 view;
@@ -8,16 +7,14 @@ struct UboData
     uvec2 resolution;
 };
 
-struct PushConstantData
-{
+struct PushConstantData {
     mat4 model;
     vec3 color;
     float metallic;
     uint enableNormalMapping;
 };
 
-struct LightData
-{
+struct LightData {
     vec3 position;
     float radius;
     vec3 intensity;

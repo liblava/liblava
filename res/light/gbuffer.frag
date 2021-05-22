@@ -3,26 +3,24 @@
 
 #include "data.inc"
 
-layout (location = 0) in vec3 inPos;
-layout (location = 1) in vec2 inUV;
-layout (location = 2) in vec3 inNormal;
+layout(location = 0) in vec3 inPos;
+layout(location = 1) in vec2 inUV;
+layout(location = 2) in vec3 inNormal;
 
-layout(push_constant) uniform PushConstants
-{
+layout(push_constant) uniform PushConstants {
     PushConstantData pc;
 };
 
-layout (binding = 1) uniform sampler2D samplerNormal;
-layout (binding = 2) uniform sampler2D samplerRoughness;
+layout(binding = 1) uniform sampler2D samplerNormal;
+layout(binding = 2) uniform sampler2D samplerRoughness;
 
-layout (location = 0) out vec4 outAlbedo;
-layout (location = 1) out vec4 outNormal;
-layout (location = 2) out vec2 outMetallicRoughness;
+layout(location = 0) out vec4 outAlbedo;
+layout(location = 1) out vec4 outNormal;
+layout(location = 2) out vec2 outMetallicRoughness;
 
 // Schlüter 2013. Normal Mapping Without Precomputed Tangents.
 // http://www.thetenthplanet.de/archives/1180
-mat3 cotangentFrame(vec3 N, vec3 pos, vec2 uv)
-{
+mat3 cotangentFrame(vec3 N, vec3 pos, vec2 uv) {
     vec3 dPx = dFdx(pos);
     vec3 dPy = dFdy(pos);
     vec2 dTx = dFdx(uv);
@@ -39,11 +37,9 @@ mat3 cotangentFrame(vec3 N, vec3 pos, vec2 uv)
     return mat3(T * invmax, B * invmax, N);
 }
 
-void main()
-{
+void main() {
     vec3 normal = normalize(inNormal);
-    if(pc.enableNormalMapping != 0)
-    {
+    if (pc.enableNormalMapping != 0) {
         mat3 TBN = cotangentFrame(normal, inPos, inUV);
         vec3 tangentNormal = texture(samplerNormal, inUV).xyz * 2.0 - 1.0;
         normal = normalize(TBN * tangentNormal);

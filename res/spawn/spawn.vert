@@ -1,30 +1,28 @@
 #version 450 core
 
-layout (location = 0) in vec3 inPos;
-layout (location = 1) in vec4 inColor;
-layout (location = 2) in vec2 inUV;
+layout(location = 0) in vec3 inPos;
+layout(location = 1) in vec4 inColor;
+layout(location = 2) in vec2 inUV;
 
-layout (binding = 0) uniform Ubo_Camera
-{
+layout(binding = 0) uniform Ubo_Camera {
     mat4 projection;
     mat4 view;
-} ubo_camera;
+}
+ubo_camera;
 
-layout (binding = 1) uniform Ubo_Spawn
-{
+layout(binding = 1) uniform Ubo_Spawn {
     mat4 model;
-} ubo_spawn;
+}
+ubo_spawn;
 
-layout (location = 0) out vec4 outColor;
-layout (location = 1) out vec2 outUV;
+layout(location = 0) out vec4 outColor;
+layout(location = 1) out vec2 outUV;
 
-out gl_PerVertex
-{
+out gl_PerVertex {
     vec4 gl_Position;
 };
 
-void main()
-{
+void main() {
     outColor = inColor;
     outUV = inUV;
 
