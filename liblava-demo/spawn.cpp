@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 
     ms mesh_load_time = load_timer.elapsed();
 
-    texture::ptr default_texture = create_default_texture(app.device, { 4096, 4096 }, default_color);
+    texture::ptr default_texture = create_default_texture(app.device, { 4096, 4096 });
     if (!default_texture)
         return error::create_failed;
 
