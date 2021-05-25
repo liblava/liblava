@@ -438,24 +438,45 @@ install(DIRECTORY
         FILES_MATCHING PATTERN "*.hpp"
         )
 
-install(DIRECTORY
-        ${LIBLAVA_EXT_DIR}/glm/glm
-        #${LIBLAVA_EXT_DIR}/physfs/src/
-        ${LIBLAVA_EXT_DIR}/json/single_include/
-        ${LIBLAVA_EXT_DIR}/spdlog/include/
-        ${LIBLAVA_EXT_DIR}/Vulkan-Headers/include/
-        ${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/include/
-        ${LIBLAVA_EXT_DIR}/volk/
-        #${LIBLAVA_EXT_DIR}/stb/
-        #${LIBLAVA_EXT_DIR}/gli/gli
-        #${LIBLAVA_EXT_DIR}/tinyobjloader/
-        #${LIBLAVA_EXT_DIR}/glfw/include/
-        #${LIBLAVA_EXT_DIR}/Catch2/
-        ${LIBLAVA_EXT_DIR}/argh/
-        ${LIBLAVA_EXT_DIR}/imgui/
-        DESTINATION include/liblava/ext
-        FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp" PATTERN "*.inl"
+set(EXT_INCLUDE_DIRS
+        ${LIBLAVA_EXT_DIR}/glm
+        #${LIBLAVA_EXT_DIR}/physfs/src
+        ${LIBLAVA_EXT_DIR}/json/single_include
+        ${LIBLAVA_EXT_DIR}/spdlog/include
+        ${LIBLAVA_EXT_DIR}/Vulkan-Headers/include
+        ${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/include
+        ${LIBLAVA_EXT_DIR}/volk
+        #${LIBLAVA_EXT_DIR}/stb
+        #${LIBLAVA_EXT_DIR}/gli
+        #${LIBLAVA_EXT_DIR}/tinyobjloader
+        #${LIBLAVA_EXT_DIR}/glfw/include
+        #${LIBLAVA_EXT_DIR}/Catch2
+        ${LIBLAVA_EXT_DIR}/argh
+        ${LIBLAVA_EXT_DIR}/imgui
         )
+
+foreach(DIR ${EXT_INCLUDE_DIRS})
+        file(GLOB_RECURSE
+                HEADER_FILES
+                "${DIR}/*.h"
+                "${DIR}/*.hpp"
+                "${DIR}/*.inl"
+                )
+
+        foreach(HEADER_FILE ${HEADER_FILES})
+                cmake_path(SET PATH ${HEADER_FILE})
+                cmake_path(RELATIVE_PATH
+                        PATH
+                        BASE_DIRECTORY ${DIR}
+                        )
+                cmake_path(GET PATH PARENT_PATH OUT_DIR)
+
+                install(FILES
+                        ${HEADER_FILE}
+                        DESTINATION "include/liblava/ext/${OUT_DIR}"
+                        )
+        endforeach()
+endforeach()
 
 set(CONFIG_PATH lib/cmake/lava)
 
@@ -479,8 +500,7 @@ install(EXPORT LavaTargets
         EXPORT_LINK_INTERFACE_LIBRARIES
         )
 
-install(
-        FILES
+install(FILES
         "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/lava-config-version.cmake"
         "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/lava-config.cmake"
         DESTINATION ${CONFIG_PATH}
