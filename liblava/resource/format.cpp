@@ -1,11 +1,14 @@
 // file      : liblava/resource/format.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <liblava/base/memory.hpp>
 #include <liblava/resource/format.hpp>
 
-bool lava::format_depth(VkFormat format) {
+namespace lava {
+
+//-----------------------------------------------------------------------------
+bool format_depth(VkFormat format) {
     switch (format) {
     case VK_FORMAT_D16_UNORM:
     case VK_FORMAT_D16_UNORM_S8_UINT:
@@ -20,15 +23,18 @@ bool lava::format_depth(VkFormat format) {
     }
 }
 
-bool lava::format_stencil(VkFormat format) {
+//-----------------------------------------------------------------------------
+bool format_stencil(VkFormat format) {
     return format == VK_FORMAT_S8_UINT;
 }
 
-bool lava::format_depth_stencil(VkFormat format) {
+//-----------------------------------------------------------------------------
+bool format_depth_stencil(VkFormat format) {
     return format_depth(format) || format_stencil(format);
 }
 
-bool lava::format_srgb(VkFormat format) {
+//-----------------------------------------------------------------------------
+bool format_srgb(VkFormat format) {
     switch (format) {
     case VK_FORMAT_R8_SRGB:
     case VK_FORMAT_R8G8_SRGB:
@@ -69,7 +75,8 @@ bool lava::format_srgb(VkFormat format) {
     }
 }
 
-VkImageAspectFlags lava::format_aspect_mask(VkFormat format) {
+//-----------------------------------------------------------------------------
+VkImageAspectFlags format_aspect_mask(VkFormat format) {
     switch (format) {
     case VK_FORMAT_UNDEFINED:
         return 0;
@@ -92,7 +99,8 @@ VkImageAspectFlags lava::format_aspect_mask(VkFormat format) {
     }
 }
 
-void lava::format_block_dim(VkFormat format, ui32& width, ui32& height) {
+//-----------------------------------------------------------------------------
+void format_block_dim(VkFormat format, ui32& width, ui32& height) {
 #define fmt(x, w, h) \
     case VK_FORMAT_##x: \
         width = w; \
@@ -158,21 +166,24 @@ void lava::format_block_dim(VkFormat format, ui32& width, ui32& height) {
 #undef fmt
 }
 
-void lava::format_align_dim(VkFormat format, ui32& width, ui32& height) {
+//-----------------------------------------------------------------------------
+void format_align_dim(VkFormat format, ui32& width, ui32& height) {
     ui32 align_width, align_height;
     format_block_dim(format, align_width, align_height);
     width = ((width + align_width - 1) / align_width) * align_width;
     height = ((height + align_height - 1) / align_height) * align_height;
 }
 
-void lava::format_num_blocks(VkFormat format, ui32& width, ui32& height) {
+//-----------------------------------------------------------------------------
+void format_num_blocks(VkFormat format, ui32& width, ui32& height) {
     ui32 align_width, align_height;
     format_block_dim(format, align_width, align_height);
     width = (width + align_width - 1) / align_width;
     height = (height + align_height - 1) / align_height;
 }
 
-lava::ui32 lava::format_block_size(VkFormat format) {
+//-----------------------------------------------------------------------------
+ui32 format_block_size(VkFormat format) {
 #define fmt(x, bpp) \
     case VK_FORMAT_##x: \
         return bpp
@@ -361,7 +372,8 @@ lava::ui32 lava::format_block_size(VkFormat format) {
 #undef fmt
 }
 
-lava::VkFormat_optional lava::get_supported_depth_format(VkPhysicalDevice physical_device) {
+//-----------------------------------------------------------------------------
+VkFormat_optional get_supported_depth_format(VkPhysicalDevice physical_device) {
     static const VkFormat depth_formats[] = { VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D32_SFLOAT, VK_FORMAT_D24_UNORM_S8_UINT, VK_FORMAT_D16_UNORM_S8_UINT, VK_FORMAT_D16_UNORM };
 
     for (auto& format : depth_formats) {
@@ -376,7 +388,8 @@ lava::VkFormat_optional lava::get_supported_depth_format(VkPhysicalDevice physic
     return std::nullopt;
 }
 
-lava::VkFormat_optional lava::get_supported_format(VkPhysicalDevice physical_device, lava::VkFormats const& possible_formats, VkImageUsageFlags usage) {
+//-----------------------------------------------------------------------------
+VkFormat_optional get_supported_format(VkPhysicalDevice physical_device, VkFormats const& possible_formats, VkImageUsageFlags usage) {
     VkFormatFeatureFlags features = 0;
     if (usage & VK_IMAGE_USAGE_TRANSFER_SRC_BIT)
         features |= VK_FORMAT_FEATURE_TRANSFER_SRC_BIT;
@@ -403,7 +416,8 @@ lava::VkFormat_optional lava::get_supported_format(VkPhysicalDevice physical_dev
     return std::nullopt;
 }
 
-VkImageMemoryBarrier lava::image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout) {
+//-----------------------------------------------------------------------------
+VkImageMemoryBarrier image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout) {
     return {
         .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
         .pNext = nullptr,
@@ -418,6 +432,7 @@ VkImageMemoryBarrier lava::image_memory_barrier(VkImage image, VkImageLayout old
     };
 }
 
+//-----------------------------------------------------------------------------
 void set_src_access_mask(VkImageMemoryBarrier& barrier, VkImageLayout image_layout) {
     switch (image_layout) {
     case VK_IMAGE_LAYOUT_UNDEFINED:
@@ -452,6 +467,7 @@ void set_src_access_mask(VkImageMemoryBarrier& barrier, VkImageLayout image_layo
     }
 }
 
+//-----------------------------------------------------------------------------
 void set_dst_access_mask(VkImageMemoryBarrier& barrier, VkImageLayout image_layout) {
     switch (image_layout) {
     case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
@@ -481,8 +497,9 @@ void set_dst_access_mask(VkImageMemoryBarrier& barrier, VkImageLayout image_layo
     }
 }
 
-void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout, VkImageLayout new_image_layout,
-                            VkImageSubresourceRange subresource_range, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
+//-----------------------------------------------------------------------------
+void set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout, VkImageLayout new_image_layout,
+                      VkImageSubresourceRange subresource_range, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
     auto barrier = image_memory_barrier(image, old_image_layout, new_image_layout);
     barrier.subresourceRange = subresource_range;
 
@@ -492,8 +509,9 @@ void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkIma
     device->call().vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 }
 
-void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageAspectFlags aspect_mask, VkImageLayout old_image_layout,
-                            VkImageLayout new_image_layout, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
+//-----------------------------------------------------------------------------
+void set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageAspectFlags aspect_mask, VkImageLayout old_image_layout,
+                      VkImageLayout new_image_layout, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
     VkImageSubresourceRange subresource_range{
         .aspectMask = aspect_mask,
         .baseMipLevel = 0,
@@ -505,9 +523,10 @@ void lava::set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkIma
     set_image_layout(device, cmd_buffer, image, old_image_layout, new_image_layout, subresource_range, src_stage_mask, dst_stage_mask);
 }
 
-void lava::insert_image_memory_barrier(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkAccessFlags src_access_mask, VkAccessFlags dst_access_mask,
-                                       VkImageLayout old_image_layout, VkImageLayout new_image_layout,
-                                       VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask, VkImageSubresourceRange subresource_range) {
+//-----------------------------------------------------------------------------
+void insert_image_memory_barrier(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkAccessFlags src_access_mask, VkAccessFlags dst_access_mask,
+                                 VkImageLayout old_image_layout, VkImageLayout new_image_layout,
+                                 VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask, VkImageSubresourceRange subresource_range) {
     auto barrier = image_memory_barrier(image, old_image_layout, new_image_layout);
 
     barrier.srcAccessMask = src_access_mask;
@@ -517,7 +536,8 @@ void lava::insert_image_memory_barrier(device_ptr device, VkCommandBuffer cmd_bu
     device->call().vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
 }
 
-VkSurfaceFormatKHR lava::get_surface_format(VkPhysicalDevice device, VkSurfaceKHR surface, surface_format_request request) {
+//-----------------------------------------------------------------------------
+VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device, VkSurfaceKHR surface, surface_format_request request) {
     auto count = 0u;
     check(vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &count, nullptr));
 
@@ -540,3 +560,5 @@ VkSurfaceFormatKHR lava::get_surface_format(VkPhysicalDevice device, VkSurfaceKH
 
     return formats[0];
 }
+
+} // namespace lava

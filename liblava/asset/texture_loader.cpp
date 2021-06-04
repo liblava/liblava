@@ -1,32 +1,32 @@
 // file      : liblava/asset/texture_loader.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <liblava/asset/texture_loader.hpp>
 #include <liblava/file.hpp>
 #include <liblava/resource/format.hpp>
 
 #ifdef _WIN32
-#    pragma warning(push, 4)
-#    pragma warning(disable : 4458)
-#    pragma warning(disable : 4100)
-#    pragma warning(disable : 5054)
-#    pragma warning(disable : 4244)
+    #pragma warning(push, 4)
+    #pragma warning(disable : 4458)
+    #pragma warning(disable : 4100)
+    #pragma warning(disable : 5054)
+    #pragma warning(disable : 4244)
 #else
-#    pragma GCC diagnostic push
-#    pragma GCC diagnostic ignored "-Wignored-qualifiers"
-#    pragma GCC diagnostic ignored "-Wunused-variable"
-#    pragma GCC diagnostic ignored "-Wtype-limits"
-#    pragma GCC diagnostic ignored "-Wempty-body"
-#    pragma GCC diagnostic ignored "-Wunused-result"
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wignored-qualifiers"
+    #pragma GCC diagnostic ignored "-Wunused-variable"
+    #pragma GCC diagnostic ignored "-Wtype-limits"
+    #pragma GCC diagnostic ignored "-Wempty-body"
+    #pragma GCC diagnostic ignored "-Wunused-result"
 #endif
 
 #include <gli/gli.hpp>
 
 #ifdef _WIN32
-#    pragma warning(pop)
+    #pragma warning(pop)
 #else
-#    pragma GCC diagnostic pop
+    #pragma GCC diagnostic pop
 #endif
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -34,139 +34,181 @@
 
 namespace lava {
 
-    texture::ptr create_gli_texture_2d(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
-        gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
-                                         : gli::load(file.get_path()));
-        assert(!tex.empty());
-        if (tex.empty())
-            return nullptr;
+/**
+ * @brief Create a gli 2D texture
+ * 
+ * @param device Vulkan device
+ * @param file File to load
+ * @param format Format of texture
+ * @param temp_data Data of texture
+ * @return texture::ptr Loaded texture
+ */
+texture::ptr create_gli_texture_2d(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
+    gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+                                     : gli::load(file.get_path()));
+    assert(!tex.empty());
+    if (tex.empty())
+        return nullptr;
 
-        auto mip_levels = to_ui32(tex.levels());
+    auto mip_levels = to_ui32(tex.levels());
 
+    texture::layer layer;
+
+    for (auto m = 0u; m < mip_levels; ++m) {
+        texture::mip_level level;
+        level.extent = { tex[m].extent().x, tex[m].extent().y };
+        level.size = to_ui32(tex[m].size());
+
+        layer.levels.push_back(level);
+    }
+
+    texture::layer::list layers;
+    layers.push_back(layer);
+
+    auto texture = make_texture();
+
+    uv2 const size = { tex[0].extent().x, tex[0].extent().y };
+    if (!texture->create(device, size, format, layers, texture_type::tex_2d))
+        return nullptr;
+
+    if (!texture->upload(tex.data(), tex.size()))
+        return nullptr;
+
+    return texture;
+}
+
+/**
+ * @brief Create a layer list for a texture
+ * 
+ * @tparam T Texture type
+ * @param tex Target texture
+ * @param layer_count Number of layers
+ * @return texture::layer::list List of texture layers
+ */
+template<typename T>
+texture::layer::list create_layer_list(T const& tex, ui32 layer_count) {
+    texture::layer::list layers;
+
+    auto const mip_levels = to_ui32(tex.levels());
+
+    for (auto i = 0u; i < layer_count; ++i) {
         texture::layer layer;
 
         for (auto m = 0u; m < mip_levels; ++m) {
             texture::mip_level level;
-            level.extent = { tex[m].extent().x, tex[m].extent().y };
-            level.size = to_ui32(tex[m].size());
+            level.extent = { tex[i][m].extent().x, tex[i][m].extent().y };
+            level.size = to_ui32(tex[i][m].size());
 
             layer.levels.push_back(level);
         }
 
-        texture::layer::list layers;
         layers.push_back(layer);
-
-        auto texture = make_texture();
-
-        uv2 const size = { tex[0].extent().x, tex[0].extent().y };
-        if (!texture->create(device, size, format, layers, texture_type::tex_2d))
-            return nullptr;
-
-        if (!texture->upload(tex.data(), tex.size()))
-            return nullptr;
-
-        return texture;
     }
 
-    template<typename T>
-    texture::layer::list create_layer_list(T const& tex, ui32 layer_count) {
-        texture::layer::list layers;
+    return layers;
+}
 
-        auto const mip_levels = to_ui32(tex.levels());
+/**
+ * @brief Create a gli array texture
+ * 
+ * @param device Vulkan device
+ * @param file File to load
+ * @param format Format of texture
+ * @param temp_data Data of texture
+ * @return texture::ptr Loaded texture
+ */
+texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
+    gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+                                           : gli::load(file.get_path()));
+    assert(!tex.empty());
+    if (tex.empty())
+        return nullptr;
 
-        for (auto i = 0u; i < layer_count; ++i) {
-            texture::layer layer;
+    auto layers = create_layer_list(tex, to_ui32(tex.layers()));
 
-            for (auto m = 0u; m < mip_levels; ++m) {
-                texture::mip_level level;
-                level.extent = { tex[i][m].extent().x, tex[i][m].extent().y };
-                level.size = to_ui32(tex[i][m].size());
+    auto texture = make_texture();
 
-                layer.levels.push_back(level);
-            }
+    uv2 const size = { tex[0].extent().x, tex[0].extent().y };
+    if (!texture->create(device, size, format, layers, texture_type::array))
+        return nullptr;
 
-            layers.push_back(layer);
-        }
+    if (!texture->upload(tex.data(), tex.size()))
+        return nullptr;
 
-        return layers;
-    }
+    return texture;
+}
 
-    texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
-        gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
-                                               : gli::load(file.get_path()));
-        assert(!tex.empty());
-        if (tex.empty())
-            return nullptr;
+/**
+ * @brief Create a gli cube map texture
+ * 
+ * @param device Vulkan device
+ * @param file File to load
+ * @param format Format of texture
+ * @param temp_data Data of texture
+ * @return texture::ptr Loaded texture
+ */
+texture::ptr create_gli_texture_cube_map(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
+    gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+                                        : gli::load(file.get_path()));
+    assert(!tex.empty());
+    if (tex.empty())
+        return nullptr;
 
-        auto layers = create_layer_list(tex, to_ui32(tex.layers()));
+    auto layers = create_layer_list(tex, to_ui32(tex.faces()));
 
-        auto texture = make_texture();
+    auto texture = make_texture();
 
-        uv2 const size = { tex[0].extent().x, tex[0].extent().y };
-        if (!texture->create(device, size, format, layers, texture_type::array))
-            return nullptr;
+    uv2 const size = { tex[0].extent().x, tex[0].extent().y };
+    if (!texture->create(device, size, format, layers, texture_type::cube_map))
+        return nullptr;
 
-        if (!texture->upload(tex.data(), tex.size()))
-            return nullptr;
+    if (!texture->upload(tex.data(), tex.size()))
+        return nullptr;
 
-        return texture;
-    }
+    return texture;
+}
 
-    texture::ptr create_gli_texture_cube_map(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
-        gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
-                                            : gli::load(file.get_path()));
-        assert(!tex.empty());
-        if (tex.empty())
-            return nullptr;
+/**
+ * @brief Create a stbi texture
+ * 
+ * @param device Vulkan device
+ * @param file File to load
+ * @param temp_data Data of texture
+ * @return texture::ptr Loaded texture
+ */
+texture::ptr create_stbi_texture(device_ptr device, file const& file, unique_data const& temp_data) {
+    i32 tex_width = 0, tex_height = 0;
+    stbi_uc* data = nullptr;
 
-        auto layers = create_layer_list(tex, to_ui32(tex.faces()));
+    if (file.opened())
+        data = stbi_load_from_memory((stbi_uc const*) temp_data.ptr, to_i32(temp_data.size),
+                                     &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
+    else
+        data = stbi_load(str(file.get_path()), &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
 
-        auto texture = make_texture();
+    if (!data)
+        return nullptr;
 
-        uv2 const size = { tex[0].extent().x, tex[0].extent().y };
-        if (!texture->create(device, size, format, layers, texture_type::cube_map))
-            return nullptr;
+    auto texture = make_texture();
 
-        if (!texture->upload(tex.data(), tex.size()))
-            return nullptr;
+    uv2 const size = { tex_width, tex_height };
+    auto const font_format = VK_FORMAT_R8G8B8A8_SRGB;
+    if (!texture->create(device, size, font_format))
+        return nullptr;
 
-        return texture;
-    }
+    auto const uploadSize = tex_width * tex_height * format_block_size(font_format);
+    auto result = texture->upload(data, uploadSize);
 
-    texture::ptr create_stbi_texture(device_ptr device, file const& file, unique_data const& temp_data) {
-        i32 tex_width = 0, tex_height = 0;
-        stbi_uc* data = nullptr;
+    stbi_image_free(data);
 
-        if (file.opened())
-            data = stbi_load_from_memory((stbi_uc const*) temp_data.ptr, to_i32(temp_data.size),
-                                         &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
-        else
-            data = stbi_load(str(file.get_path()), &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
+    if (!result)
+        return nullptr;
 
-        if (!data)
-            return nullptr;
+    return texture;
+}
 
-        auto texture = make_texture();
-
-        uv2 const size = { tex_width, tex_height };
-        auto const font_format = VK_FORMAT_R8G8B8A8_SRGB;
-        if (!texture->create(device, size, font_format))
-            return nullptr;
-
-        auto const uploadSize = tex_width * tex_height * format_block_size(font_format);
-        auto result = texture->upload(data, uploadSize);
-
-        stbi_image_free(data);
-
-        if (!result)
-            return nullptr;
-
-        return texture;
-    }
-
-} // namespace lava
-
-lava::texture::ptr lava::load_texture(device_ptr device, file_format file_format, texture_type type) {
+//-----------------------------------------------------------------------------
+texture::ptr load_texture(device_ptr device, file_format file_format, texture_type type) {
     auto use_gli = extension(str(file_format.path), { "DDS", "KTX", "KMG" });
     auto use_stbi = false;
 
@@ -210,7 +252,8 @@ lava::texture::ptr lava::load_texture(device_ptr device, file_format file_format
     return nullptr;
 }
 
-lava::texture::ptr lava::create_default_texture(device_ptr device, uv2 size, v3 color, r32 alpha) {
+//-----------------------------------------------------------------------------
+texture::ptr create_default_texture(device_ptr device, uv2 size, v3 color, r32 alpha) {
     auto result = make_texture();
 
     auto const format = VK_FORMAT_R8G8B8A8_UNORM;
@@ -244,3 +287,5 @@ lava::texture::ptr lava::create_default_texture(device_ptr device, uv2 size, v3 
 
     return result;
 }
+
+} // namespace lava

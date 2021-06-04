@@ -1,13 +1,16 @@
 // file      : liblava/file/file_utils.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <liblava/file/file.hpp>
 #include <liblava/file/file_system.hpp>
 #include <liblava/file/file_utils.hpp>
 #include <liblava/util/log.hpp>
 
-bool lava::read_file(std::vector<char>& out, name filename) {
+namespace lava {
+
+//-----------------------------------------------------------------------------
+bool read_file(std::vector<char>& out, name filename) {
     std::ifstream file(filename, std::ios::ate | std::ios::binary);
     assert(file.is_open());
 
@@ -27,7 +30,8 @@ bool lava::read_file(std::vector<char>& out, name filename) {
     return true;
 }
 
-bool lava::write_file(name filename, char const* data, size_t data_size) {
+//-----------------------------------------------------------------------------
+bool write_file(name filename, char const* data, size_t data_size) {
     std::ofstream file(filename, std::ofstream::binary);
     assert(file.is_open());
 
@@ -39,7 +43,8 @@ bool lava::write_file(name filename, char const* data, size_t data_size) {
     return true;
 }
 
-bool lava::extension(name filename, name extension) {
+//-----------------------------------------------------------------------------
+bool extension(name filename, name extension) {
     string fn = filename;
     string ext = extension;
 
@@ -51,7 +56,8 @@ bool lava::extension(name filename, name extension) {
     return to_check == ext;
 }
 
-bool lava::extension(name filename, names extensions) {
+//-----------------------------------------------------------------------------
+bool extension(name filename, names extensions) {
     for (auto& ex : extensions)
         if (extension(filename, ex))
             return true;
@@ -59,7 +65,8 @@ bool lava::extension(name filename, names extensions) {
     return false;
 }
 
-lava::string lava::get_filename_from(string_ref path, bool with_extension) {
+//-----------------------------------------------------------------------------
+string get_filename_from(string_ref path, bool with_extension) {
     fs::path target(path);
     return with_extension ? target.filename().string() : target.stem().string();
 }
@@ -79,7 +86,8 @@ bool lava::remove_existing_path(string& target, string_ref path) {
     return false;
 }
 
-bool lava::load_file_data(string_ref filename, data& target) {
+//-----------------------------------------------------------------------------
+bool load_file_data(string_ref filename, data& target) {
     file file(str(filename));
     if (!file.opened())
         return false;
@@ -96,11 +104,10 @@ bool lava::load_file_data(string_ref filename, data& target) {
     return true;
 }
 
-namespace lava {
-
-    file_remover::~file_remover() {
-        if (remove)
-            fs::remove(filename);
-    }
+//-----------------------------------------------------------------------------
+file_remover::~file_remover() {
+    if (remove)
+        fs::remove(filename);
+}
 
 } // namespace lava

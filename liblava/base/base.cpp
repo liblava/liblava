@@ -1,10 +1,13 @@
 // file      : liblava/base/base.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <liblava/base/base.hpp>
 
-bool lava::check(VkResult result) {
+namespace lava {
+
+//-----------------------------------------------------------------------------
+bool check(VkResult result) {
     if (result == VK_SUCCESS)
         return true;
 
@@ -17,7 +20,8 @@ bool lava::check(VkResult result) {
     return false;
 }
 
-lava::string lava::to_string(VkResult result) {
+//-----------------------------------------------------------------------------
+string to_string(VkResult result) {
 #define RETURN_STR(result_code) \
     case result_code: \
         return string(#result_code);
@@ -63,6 +67,9 @@ lava::string lava::to_string(VkResult result) {
 #undef RETURN_STR
 }
 
-lava::string lava::version_to_string(ui32 version) {
+//-----------------------------------------------------------------------------
+string version_to_string(ui32 version) {
     return fmt::format("{}.{}.{}", VK_VERSION_MAJOR(version), VK_VERSION_MINOR(version), VK_VERSION_PATCH(version));
 }
+
+} // namespace lava

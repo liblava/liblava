@@ -1,6 +1,9 @@
-// file      : liblava/block/block.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file liblava/block/block.hpp
+ * @brief Command buffer model
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 
@@ -8,95 +11,247 @@
 
 namespace lava {
 
-    struct command : id_obj {
-        using map = std::map<id, command>;
-        using list = std::vector<command*>;
+/**
+ * @brief Block command
+ */
+struct command : id_obj {
+    /// Map of commands
+    using map = std::map<id, command>;
 
-        VkCommandBuffers buffers = {};
+    /// List of commands
+    using list = std::vector<command*>;
 
-        using func = std::function<void(VkCommandBuffer)>;
-        func on_func;
+    /// List of command buffers
+    VkCommandBuffers buffers = {};
 
-        bool active = true;
+    /// Command process function
+    using process_func = std::function<void(VkCommandBuffer)>;
 
-        bool create(device_ptr device, index frame_count, VkCommandPools command_pools);
-        void destroy(device_ptr device, VkCommandPools command_pools);
-    };
+    /// Called on command process
+    process_func on_process;
 
-    struct block : id_obj {
-        using ptr = std::shared_ptr<block>;
-        using map = std::map<id, block>;
-        using list = std::vector<block*>;
+    /// Active state
+    bool active = true;
 
-        ~block() {
-            destroy();
-        }
+    /**
+     * @brief Create a new command
+     * 
+     * @param device Vulkan device
+     * @param frame_count Number of frames
+     * @param command_pools List of command pools
+     * @return true Create was successful
+     * @return false Create failed
+     */
+    bool create(device_ptr device, index frame_count, VkCommandPools command_pools);
 
-        bool create(device_ptr device, index frame_count, index queue_family);
-        void destroy();
+    /**
+     * @brief Destroy the command
+     * 
+     * @param device Vulkan device
+     * @param command_pools List of command pools
+     */
+    void destroy(device_ptr device, VkCommandPools command_pools);
+};
 
-        index get_frame_count() const {
-            return to_index(cmd_pools.size());
-        }
+/**
+ * @brief Block of commands
+ */
+struct block : id_obj {
+    /// Shared pointer to block
+    using ptr = std::shared_ptr<block>;
 
-        id add_cmd(command::func func, bool active = true);
-        id add_command(command::func func, bool active = true) {
-            return add_cmd(func, active);
-        }
+    /// Map of blocks
+    using map = std::map<id, block>;
 
-        void remove_cmd(id::ref cmd);
-        void remove_command(id::ref cmd) {
-            remove_cmd(cmd);
-        }
+    /// List of blocks
+    using list = std::vector<block*>;
 
-        bool process(index frame);
-
-        index get_current_frame() const {
-            return current_frame;
-        }
-        VkCommandBuffer get_command_buffer(id::ref cmd) const {
-            return commands.at(cmd).buffers.at(current_frame);
-        }
-        VkCommandBuffer get_command_buffer(id::ref cmd, index frame) const {
-            return commands.at(cmd).buffers.at(frame);
-        }
-
-        VkCommandBuffers get_buffers() {
-            VkCommandBuffers result;
-
-            for (auto& cmd : cmd_order)
-                if (cmd->active)
-                    result.push_back(cmd->buffers.at(current_frame));
-
-            return result;
-        }
-
-        command::map const& get_commands() const {
-            return commands;
-        }
-        command::list const& get_cmd_order() const {
-            return cmd_order;
-        }
-
-        bool activated(id::ref command);
-        bool set_active(id::ref command, bool active = true);
-
-        device_ptr get_device() {
-            return device;
-        }
-
-    private:
-        device_ptr device = nullptr;
-
-        index current_frame = 0;
-        VkCommandPools cmd_pools = {};
-
-        command::map commands;
-        command::list cmd_order;
-    };
-
-    inline block::ptr make_block() {
-        return std::make_shared<block>();
+    /**
+     * @brief Destroy the block
+     */
+    ~block() {
+        destroy();
     }
+
+    /**
+     * @brief Create a new block
+     * 
+     * @param device Vulkan device
+     * @param frame_count Number of frames
+     * @param queue_family Queue family index
+     * @return true Create was successful
+     * @return false Create failed
+     */
+    bool create(device_ptr device, index frame_count, index queue_family);
+
+    /**
+     * @brief Destroy the block
+     */
+    void destroy();
+
+    /**
+     * @brief Get the frame count
+     * 
+     * @return index Number of frames
+     */
+    index get_frame_count() const {
+        return to_index(cmd_pools.size());
+    }
+
+    /**
+     * @see add_command
+     */
+    id add_cmd(command::process_func func, bool active = true);
+
+    /**
+     * @brief Add a command
+     * 
+     * @param func Command function
+     * @param active Active state
+     * @return id Command id
+     */
+    id add_command(command::process_func func, bool active = true) {
+        return add_cmd(func, active);
+    }
+
+    /**
+     * @see remove_command 
+     */
+    void remove_cmd(id::ref cmd);
+
+    /**
+     * @brief Remove the command
+     * 
+     * @param cmd Command id
+     */
+    void remove_command(id::ref cmd) {
+        remove_cmd(cmd);
+    }
+
+    /**
+     * @brief Process the block
+     * 
+     * @param frame Frame index
+     * @return true Process was successful
+     * @return false Process aborted
+     */
+    bool process(index frame);
+
+    /**
+     * @brief Get the current frame
+     * 
+     * @return index Current frame
+     */
+    index get_current_frame() const {
+        return current_frame;
+    }
+
+    /**
+     * @brief Get the command buffer
+     * 
+     * @param cmd Command id
+     * @return VkCommandBuffer Vulkan command buffer
+     */
+    VkCommandBuffer get_command_buffer(id::ref cmd) const {
+        return commands.at(cmd).buffers.at(current_frame);
+    }
+
+    /**
+     * @brief Get the command buffer
+     * 
+     * @param cmd Command id
+     * @param frame Frame index
+     * @return VkCommandBuffer Vulkan command buffer
+     */
+    VkCommandBuffer get_command_buffer(id::ref cmd, index frame) const {
+        return commands.at(cmd).buffers.at(frame);
+    }
+
+    /**
+     * @brief Get the buffers
+     * 
+     * @return VkCommandBuffers List of Vulkan command buffers
+     */
+    VkCommandBuffers get_buffers() {
+        VkCommandBuffers result;
+
+        for (auto& cmd : cmd_order)
+            if (cmd->active)
+                result.push_back(cmd->buffers.at(current_frame));
+
+        return result;
+    }
+
+    /**
+     * @brief Get the commands
+     * 
+     * @return command::map const& Map of commands
+     */
+    command::map const& get_commands() const {
+        return commands;
+    }
+
+    /**
+     * @brief Get the cmd order
+     * 
+     * @return command::list const& List of commands
+     */
+    command::list const& get_cmd_order() const {
+        return cmd_order;
+    }
+
+    /**
+     * @brief Check if command is activated
+     * 
+     * @param command Command id
+     * @return true Command is active
+     * @return false Command is inactive
+     */
+    bool activated(id::ref command);
+
+    /**
+     * @brief Set the command active
+     * 
+     * @param command Command id
+     * @param active Active state
+     * @return true Set was successful
+     * @return false Set failed
+     */
+    bool set_active(id::ref command, bool active = true);
+
+    /**
+     * @brief Get the device
+     * 
+     * @return device_ptr Vulkan device
+     */
+    device_ptr get_device() {
+        return device;
+    }
+
+private:
+    /// Vulkan device
+    device_ptr device = nullptr;
+
+    /// Current frame index
+    index current_frame = 0;
+
+    /// Command pools
+    VkCommandPools cmd_pools = {};
+
+    /// Map of commands
+    command::map commands;
+
+    /// Ordered list of commands
+    command::list cmd_order;
+};
+
+/**
+ * @brief Make a new block
+ * 
+ * @return block::ptr Shared pointer to block
+ */
+inline block::ptr make_block() {
+    return std::make_shared<block>();
+}
 
 } // namespace lava

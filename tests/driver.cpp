@@ -1,12 +1,19 @@
 // file      : tests/driver.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <iostream>
 #include <tests/driver.hpp>
 
-using namespace lava;
+namespace lava {
 
+/**
+ * @brief Run the driver
+ * 
+ * @param argc Number of command line arguments
+ * @param argv Command line arguments
+ * @return int Result code
+ */
 int run(int argc, char** argv) {
     auto& tests = driver::instance().get();
 
@@ -45,15 +52,15 @@ int run(int argc, char** argv) {
     return test_result::no_tests;
 }
 
-int main(int argc, char* argv[]) {
-    return run(argc, argv);
+//-----------------------------------------------------------------------------
+test::test(ui32 id, name descr, func func)
+: id(id), descr(descr), on_func(func) {
+    driver::instance().add_test(this);
 }
 
-namespace lava {
-
-    test::test(ui32 id, name descr, func func)
-    : id(id), descr(descr), on_func(func) {
-        driver::instance().add_test(this);
-    }
-
 } // namespace lava
+
+//-----------------------------------------------------------------------------
+int main(int argc, char* argv[]) {
+    return lava::run(argc, argv);
+}

@@ -1,17 +1,19 @@
 // file      : tests/tests.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <tests/driver.hpp>
 
 using namespace lava;
 
+//-----------------------------------------------------------------------------
 LAVA_TEST(1, "frame init") {
     frame frame(argh);
 
     return frame.ready() ? 0 : error::not_ready;
 }
 
+//-----------------------------------------------------------------------------
 LAVA_TEST(2, "run loop") {
     frame frame(argh);
     if (!frame.ready())
@@ -34,6 +36,7 @@ LAVA_TEST(2, "run loop") {
     return frame.run();
 }
 
+//-----------------------------------------------------------------------------
 LAVA_TEST(3, "window input") {
     frame frame(argh);
     if (!frame.ready())
@@ -65,6 +68,7 @@ LAVA_TEST(3, "window input") {
     return frame.run();
 }
 
+//-----------------------------------------------------------------------------
 LAVA_TEST(4, "clear color") {
     frame frame(argh);
     if (!frame.ready())
@@ -184,6 +188,7 @@ LAVA_TEST(4, "clear color") {
     return frame.run();
 }
 
+//-----------------------------------------------------------------------------
 LAVA_TEST(5, "color block") {
     frame frame(argh);
     if (!frame.ready())
@@ -275,6 +280,7 @@ LAVA_TEST(5, "color block") {
     return frame.run();
 }
 
+//-----------------------------------------------------------------------------
 LAVA_TEST(6, "forward shading") {
     frame frame(argh);
     if (!frame.ready())
@@ -359,6 +365,7 @@ LAVA_TEST(6, "forward shading") {
     return frame.run();
 }
 
+//-----------------------------------------------------------------------------
 LAVA_TEST(7, "gamepad") {
     frame frame(argh);
     if (!frame.ready())
@@ -394,6 +401,7 @@ LAVA_TEST(7, "gamepad") {
 
 #include <imgui.h>
 
+//-----------------------------------------------------------------------------
 LAVA_TEST(8, "imgui demo") {
     app app("demo", argh);
     if (!app.setup())

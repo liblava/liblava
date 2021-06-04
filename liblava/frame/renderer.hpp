@@ -1,6 +1,9 @@
-// file      : liblava/frame/renderer.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file liblava/frame/renderer.hpp
+ * @brief Plain renderer
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 
@@ -9,49 +12,114 @@
 
 namespace lava {
 
-    using optional_index = std::optional<index>;
+/// Optional frame index
+using optional_index = std::optional<index>;
 
-    struct renderer : id_obj {
-        bool create(swapchain* target);
-        void destroy();
+/**
+ * @brief Plain renderer
+ */
+struct renderer : id_obj {
+    /**
+     * @brief Create a new renderer
+     * 
+     * @param target Swapchain target
+     * @return true Create was successful
+     * @return false Create failed
+     */
+    bool create(swapchain* target);
 
-        optional_index begin_frame();
-        bool end_frame(VkCommandBuffers const& cmd_buffers);
+    /**
+     * @brief Destroy the renderer
+     */
+    void destroy();
 
-        bool frame(VkCommandBuffers const& cmd_buffers) {
-            if (!begin_frame())
-                return false;
+    /**
+     * @brief Begin to render a frame
+     * 
+     * @return optional_index Frame index
+     */
+    optional_index begin_frame();
 
-            return end_frame(cmd_buffers);
-        }
+    /**
+     * @brief End of frame rendering
+     * 
+     * @param cmd_buffers List of command buffers
+     * @return true End was successful
+     * @return false End failed
+     */
+    bool end_frame(VkCommandBuffers const& cmd_buffers);
 
-        index get_frame() const {
-            return current_frame;
-        }
+    /**
+     * @brief Render a frame
+     * 
+     * @param cmd_buffers List of command buffers
+     * @return true Render was successful
+     * @return false Render failed
+     */
+    bool frame(VkCommandBuffers const& cmd_buffers) {
+        if (!begin_frame())
+            return false;
 
-        device_ptr get_device() {
-            return device;
-        }
+        return end_frame(cmd_buffers);
+    }
 
-        using destroy_func = std::function<void()>;
-        destroy_func on_destroy;
+    /**
+     * @brief Get the current frame index
+     * 
+     * @return index Frame index
+     */
+    index get_frame() const {
+        return current_frame;
+    }
 
-        bool active = true;
+    /**
+     * @brief Get the device
+     * 
+     * @return device_ptr Vulkan device
+     */
+    device_ptr get_device() {
+        return device;
+    }
 
-    private:
-        device_ptr device = nullptr;
-        queue graphics_queue;
+    /// Destroy function
+    using destroy_func = std::function<void()>;
 
-        swapchain* target = nullptr;
+    /// Called on destroy renderer
+    destroy_func on_destroy;
 
-        index current_frame = 0;
-        ui32 queued_frames = 2;
+    /// Active state
+    bool active = true;
 
-        ui32 current_sync = 0;
-        VkFences fences = {};
-        VkFences fences_in_use = {};
-        VkSemaphores image_acquired_semaphores = {};
-        VkSemaphores render_complete_semaphores = {};
-    };
+private:
+    /// Vulkan device
+    device_ptr device = nullptr;
+
+    /// Graphics queue
+    queue graphics_queue;
+
+    /// Swapchain target
+    swapchain* target = nullptr;
+
+    /// Current frame index
+    index current_frame = 0;
+
+    /// Number of queued frames
+    ui32 queued_frames = 2;
+
+    /// Current sync frame
+    ui32 current_sync = 0;
+
+    /// List of fences
+    VkFences fences = {};
+
+    /// List of fences in use
+    VkFences fences_in_use = {};
+
+    /// List of image acquired semaphores
+    VkSemaphores image_acquired_semaphores = {};
+
+    /// List of render complete semaphores
+    VkSemaphores render_complete_semaphores = {};
+};
 
 } // namespace lava

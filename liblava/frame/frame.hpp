@@ -1,6 +1,9 @@
-// file      : liblava/frame/frame.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file liblava/frame/frame.hpp
+ * @brief Framework
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 
@@ -10,136 +13,339 @@
 
 namespace lava {
 
-    struct frame_config {
-        using ref = frame_config const&;
+/**
+ * @brief Framework configuration
+ */
+struct frame_config {
+    /// Reference to frame configuration
+    using ref = frame_config const&;
 
-        explicit frame_config() = default;
-        explicit frame_config(name a, argh::parser cl)
-        : cmd_line(cl) {
-            info.app_name = a;
-        }
+    /**
+     * @brief Construct a new frame configuration
+     */
+    explicit frame_config() = default;
 
-        argh::parser cmd_line;
+    /**
+     * @brief Construct a new frame configuration
+     * 
+     * @param app_name Name of application
+     * @param cl Command line arguments
+     */
+    explicit frame_config(name app_name, argh::parser cl)
+    : cmd_line(cl) {
+        info.app_name = app_name;
+    }
 
-        log_config log;
+    /// Command line arguments
+    argh::parser cmd_line;
 
-        instance_info info;
-        instance::create_param param;
-        instance::debug_config debug;
-    };
+    /// Logging configuration
+    log_config log;
 
-    enum error {
-        not_ready = -1,
-        create_failed = -2,
-        init_failed = -3,
-        load_failed = -4,
-        run_aborted = -5,
-        still_running = -6,
-    };
+    /// Instance information
+    instance_info info;
 
-    ms now();
+    /// Instance create parameters
+    instance::create_param param;
 
-    constexpr bool const run_abort = false;
-    constexpr bool const run_continue = true;
+    /// Intance debug configuration
+    instance::debug_config debug;
+};
 
-    struct frame : interface, no_copy_no_move {
-        using ptr = std::shared_ptr<frame>;
+/**
+ * @brief Error codes
+ */
+enum error {
+    not_ready = -1,
+    create_failed = -2,
+    init_failed = -3,
+    load_failed = -4,
+    run_aborted = -5,
+    still_running = -6,
+};
 
-        explicit frame(argh::parser cmd_line);
-        explicit frame(frame_config config);
-        ~frame() override;
+/**
+ * @brief Get the current time
+ * 
+ * @return ms Current milliseconds
+ */
+ms now();
 
-        bool ready() const;
+/// Run abort result
+constexpr bool const run_abort = false;
 
-        using result = i32; // error < 0
-        result run();
+/// Run continue result
+constexpr bool const run_continue = true;
 
-        bool shut_down();
+/**
+ * @brief Framework
+ */
+struct frame : interface, no_copy_no_move {
+    /// Shared pointer to framework
+    using ptr = std::shared_ptr<frame>;
 
-        using run_func = std::function<bool()>;
-        using run_func_ref = run_func const&;
+    /**
+     * @brief Construct a new framework
+     * 
+     * @param cmd_line Command line arguments
+     */
+    explicit frame(argh::parser cmd_line);
 
-        id add_run(run_func_ref func);
+    /**
+     * @brief Construct a new framework
+     * 
+     * @param config Framework configuration
+     */
+    explicit frame(frame_config config);
 
-        using run_end_func = std::function<void()>;
-        using run_end_func_ref = run_end_func const&;
+    /**
+     * @brief Destroy the framework
+     */
+    ~frame() override;
 
-        id add_run_end(run_end_func_ref func);
+    /**
+     * @brief Check if framework is ready
+     * 
+     * @return true Framework is ready
+     * @return false Framework is not ready
+     */
+    bool ready() const;
 
-        using run_once_func = std::function<bool()>;
-        using run_once_func_ref = run_once_func const&;
+    /// Framework result
+    using result = i32; // error < 0
 
-        void add_run_once(run_once_func_ref func) {
-            run_once_list.push_back(func);
-        }
+    /**
+     * @brief Run the framework
+     * 
+     * @return result Run result
+     */
+    result run();
 
-        bool remove(id::ref id);
+    /**
+     * @brief Shut down the framework
+     * 
+     * @return true Shut down was successful
+     * @return false Shut down failed
+     */
+    bool shut_down();
 
-        ms get_running_time() const {
-            return now() - start_time;
-        }
+    /// Run function
+    using run_func = std::function<bool()>;
 
-        r64 get_running_time_sec() const {
-            return to_sec(get_running_time());
-        }
+    /// Reference to run function
+    using run_func_ref = run_func const&;
 
-        argh::parser const& get_cmd_line() const {
-            return config.cmd_line;
-        }
-        frame_config::ref get_config() const {
-            return config;
-        }
-        name get_name() const {
-            return config.info.app_name;
-        }
+    /**
+     * @brief Add run to framework
+     * 
+     * @param func Run function
+     * @return id Id of function
+     */
+    id add_run(run_func_ref func);
 
-        bool waiting_for_events() const {
-            return wait_for_events;
-        }
-        void set_wait_for_events(bool value = true) {
-            wait_for_events = value;
-        }
+    /// Run end function
+    using run_end_func = std::function<void()>;
 
-        device_ptr create_device(index physical_device = 0) {
-            auto device = manager.create(physical_device);
-            if (!device)
-                return nullptr;
+    /// Reference to run end function
+    using run_end_func_ref = run_end_func const&;
 
-            auto ptr = device.get();
-            return ptr;
-        }
+    /**
+     * @brief Add run end to framework
+     * 
+     * @param func Run end function
+     * @return id Id of function
+     */
+    id add_run_end(run_end_func_ref func);
 
-        device_manager manager;
+    /// Run once function
+    using run_once_func = std::function<bool()>;
 
-    private:
-        bool setup(frame_config config);
-        void teardown();
+    /// Reference to run once function
+    using run_once_func_ref = run_once_func const&;
 
-        bool run_step();
+    /**
+     * @brief Add run once to framework
+     * 
+     * @param func Run once function
+     */
+    void add_run_once(run_once_func_ref func) {
+        run_once_list.push_back(func);
+    }
 
-        void trigger_run_end();
+    /**
+     * @brief Remove a function from framework
+     * 
+     * @param id Id of function
+     * @return true Remove was successful
+     * @return false Remove failed
+     */
+    bool remove(id::ref id);
 
-        frame_config config;
+    /**
+     * @brief Get the running time
+     * 
+     * @return ms Time since start of framework
+     */
+    ms get_running_time() const {
+        return now() - start_time;
+    }
 
-        bool running = false;
-        bool wait_for_events = false;
-        ms start_time;
+    /**
+     * @brief Get the running time in seconds
+     * 
+     * @return r64 Time since start of framework
+     */
+    r64 get_running_time_sec() const {
+        return to_sec(get_running_time());
+    }
 
-        using run_func_map = std::map<id, run_func>;
-        run_func_map run_map;
+    /**
+     * @brief Get the command line arguments
+     * 
+     * @return argh::parser const& Command line arguments
+     */
+    argh::parser const& get_cmd_line() const {
+        return config.cmd_line;
+    }
 
-        using run_end_func_map = std::map<id, run_end_func>;
-        run_end_func_map run_end_map;
+    /**
+     * @brief Get the framework configuration
+     * 
+     * @return frame_config::ref Framework configuration
+     */
+    frame_config::ref get_config() const {
+        return config;
+    }
 
-        using run_once_func_list = std::vector<run_once_func>;
-        run_once_func_list run_once_list;
-    };
+    /**
+     * @brief Get the name of application
+     * 
+     * @return name Name of application
+     */
+    name get_name() const {
+        return config.info.app_name;
+    }
 
-    void handle_events(bool wait = false);
+    /**
+     * @brief Check if framework is waiting for events
+     * 
+     * @return true Framework waits for events
+     * @return false Framework does not wait for events
+     */
+    bool waiting_for_events() const {
+        return wait_for_events;
+    }
 
-    void handle_events(ms timeout);
-    void handle_events(seconds timeout);
+    /**
+     * @brief Set wait for events in framework
+     * 
+     * @param value Wait for events state
+     */
+    void set_wait_for_events(bool value = true) {
+        wait_for_events = value;
+    }
 
-    void post_empty_event();
+    /**
+     * @brief Create a new device
+     * 
+     * @param physical_device Physical device 
+     * @return device_ptr Shared pointer to device
+     */
+    device_ptr create_device(index physical_device = 0) {
+        auto device = manager.create(physical_device);
+        if (!device)
+            return nullptr;
+
+        auto ptr = device.get();
+        return ptr;
+    }
+
+    /// Device manager
+    device_manager manager;
+
+private:
+    /**
+     * @brief Set up the framework
+     * 
+     * @param config Framework configuration
+     * @return true Setup was successful
+     * @return false Setup failed
+     */
+    bool setup(frame_config config);
+
+    /**
+     * @brief Tear down the framework
+     */
+    void teardown();
+
+    /**
+     * @brief Run a step
+     * 
+     * @return true Run was successful
+     * @return false Run failed
+     */
+    bool run_step();
+
+    /**
+     * @brief Trigger run end
+     */
+    void trigger_run_end();
+
+    /// Framework configuration
+    frame_config config;
+
+    /// Running state
+    bool running = false;
+
+    /// Wait for events state
+    bool wait_for_events = false;
+
+    /// Framework start time
+    ms start_time;
+
+    /// Map of run functions
+    using run_func_map = std::map<id, run_func>;
+
+    /// Map of run functions
+    run_func_map run_map;
+
+    /// Map fo run end functions
+    using run_end_func_map = std::map<id, run_end_func>;
+
+    /// Map fo run end functions
+    run_end_func_map run_end_map;
+
+    /// Map of run once functions
+    using run_once_func_list = std::vector<run_once_func>;
+
+    /// Map of run once functions
+    run_once_func_list run_once_list;
+};
+
+/**
+ * @brief Handle events
+ * 
+ * @param wait Wait for events
+ */
+void handle_events(bool wait = false);
+
+/**
+ * @brief Handle events
+ * 
+ * @param timeout Wait timeout in milliseconds
+ */
+void handle_events(ms timeout);
+
+/**
+ * @brief Handle events
+ * 
+ * @param timeout Wait timeout in seconds
+ */
+void handle_events(seconds timeout);
+
+/**
+ * @brief Post an empty event
+ */
+void post_empty_event();
 
 } // namespace lava

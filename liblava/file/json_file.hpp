@@ -1,6 +1,9 @@
-// file      : liblava/file/json_file.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file liblava/file/json_file.hpp
+ * @brief Json file
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 
@@ -9,37 +12,94 @@
 
 namespace lava {
 
-    constexpr name _config_file_ = "config.json";
+/// Configuration json file
+constexpr name _config_file_ = "config.json";
 
-    using json = nlohmann::json;
+/// Json
+using json = nlohmann::json;
 
-    struct json_file {
-        explicit json_file(name path = _config_file_);
+/**
+ * @brief Json file
+ */
+struct json_file {
+    /**
+     * @brief Construct a new json file
+     * 
+     * @param path Name of file
+     */
+    explicit json_file(name path = _config_file_);
 
-        struct callback {
-            using list = std::vector<callback*>;
+    /**
+     * @brief Json file callback
+     */
+    struct callback {
+        /// List of callbacks
+        using list = std::vector<callback*>;
 
-            using func = std::function<void(json&)>;
-            func on_load;
-            func on_save;
-        };
+        /// Callback function
+        using func = std::function<void(json&)>;
 
-        void add(callback* callback);
-        void remove(callback* callback);
+        /// Called on load
+        func on_load;
 
-        void set(name value) {
-            path = value;
-        }
-        name get() const {
-            return str(path);
-        }
-
-        bool load();
-        bool save();
-
-    private:
-        string path;
-        callback::list callbacks;
+        /// Called on save
+        func on_save;
     };
+
+    /**
+     * @brief Add callback to json file
+     * 
+     * @param callback Callback to add
+     */
+    void add(callback* callback);
+
+    /**
+     * @brief Remove callback from json file
+     * 
+     * @param callback Callback to remove
+     */
+    void remove(callback* callback);
+
+    /**
+     * @brief Set path of the json file
+     * 
+     * @param value Name of file
+     */
+    void set(name value) {
+        path = value;
+    }
+
+    /**
+     * @brief Get path of the json file
+     * 
+     * @return name Name of file
+     */
+    name get() const {
+        return str(path);
+    }
+
+    /**
+     * @brief Load the json file
+     * 
+     * @return true Load was successful
+     * @return false Load failed
+     */
+    bool load();
+
+    /**
+     * @brief Save the json file
+     * 
+     * @return true Save was successful
+     * @return false Save failed
+     */
+    bool save();
+
+private:
+    /// Name of file
+    string path;
+
+    /// List of callbacks
+    callback::list callbacks;
+};
 
 } // namespace lava

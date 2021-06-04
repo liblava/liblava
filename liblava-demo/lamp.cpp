@@ -1,12 +1,73 @@
 // file      : liblava-demo/lamp.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <imgui.h>
 #include <demo.hpp>
 
 using namespace lava;
 
+/**
+ * @brief Dimmer for depth and color
+ */
+struct dimmer {
+    /**
+     * @brief Construct a new dimmer
+     */
+    explicit dimmer() {
+        next_factor();
+    }
+
+    /**
+     * @brief Update dimmer
+     * 
+     * @param dt Delta time
+     * @param value Value to update
+     * @return r32 Updated value
+     */
+    r32 update(delta dt, r32 value) {
+        r32 next = factor * dt;
+
+        value += add ? next : -next;
+
+        if (value > max) {
+            add = false;
+            next_factor();
+        } else if (value < min) {
+            add = true;
+            next_factor();
+        }
+
+        return value;
+    }
+
+    /**
+     * @brief Set next random factor
+     */
+    void next_factor() {
+        factor = random(factor_min, factor_max);
+    }
+
+    /// Current factor
+    r32 factor = 0.f;
+
+    /// Minimal factor
+    r32 factor_min = 0.00001f;
+
+    /// Maximal factor
+    r32 factor_max = 0.0001f;
+
+    /// Add state
+    bool add = false;
+
+    /// Minimal value
+    r32 min = 0.01f;
+
+    /// Maximal Value
+    r32 max = 0.03f;
+};
+
+//-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
     app app("lava lamp", { argc, argv });
 
@@ -95,18 +156,16 @@ int main(int argc, char* argv[]) {
     });
 
     app.imgui.on_draw = [&]() {
-        ImGui::SetNextWindowPos(ImVec2(30, 30), ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize(ImVec2(262, 262), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({ 265, 275 }, ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
 
-        ImGui::Dummy({ 0.f, 2.f });
-        ImGui::Dummy({ 0.f, 2.f });
-        ImGui::SameLine(0.f, 5.f);
+        imgui_left_spacing(2);
 
         ImGui::TextUnformatted(icon(ICON_FA_LIGHTBULB));
 
-        ImGui::SameLine(0.f, 10.f);
+        ImGui::SameLine(0.f, 15.f);
 
         bool lamp_active = pipeline->activated();
         if (ImGui::Checkbox("active", &lamp_active))
@@ -138,43 +197,6 @@ int main(int argc, char* argv[]) {
             ImGui::SetTooltip("enter = auto play");
 
         ImGui::End();
-    };
-
-    struct dimmer {
-        explicit dimmer() {
-            next_factor();
-        }
-
-        r32 update(delta dt, r32 value) {
-            r32 next = factor * dt;
-
-            if (add)
-                value += next;
-            else
-                value -= next;
-
-            if (value > max) {
-                add = false;
-                next_factor();
-            } else if (value < min) {
-                add = true;
-                next_factor();
-            }
-
-            return value;
-        }
-
-        void next_factor() {
-            factor = random(factor_min, factor_max);
-        }
-
-        r32 factor = 0.f;
-        r32 factor_min = 0.00001f;
-        r32 factor_max = 0.0001f;
-
-        bool add = false;
-        r32 min = 0.01f;
-        r32 max = 0.03f;
     };
 
     dimmer depth_dimmer;

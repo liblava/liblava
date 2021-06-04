@@ -1,6 +1,9 @@
-// file      : liblava/asset/image_data.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file liblava/asset/image_data.hpp
+ * @brief Load image data from file
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 
@@ -9,19 +12,40 @@
 
 namespace lava {
 
-    struct image_data {
-        explicit image_data(string_ref filename);
-        ~image_data();
+/**
+ * @brief Load image data from file
+ */
+struct image_data {
+    /**
+     * @brief Construct a new image data
+     * 
+     * @param filename File to load
+     */
+    explicit image_data(string_ref filename);
 
-        bool ready = false;
+    /**
+     * @brief Destroy the image data
+     */
+    ~image_data();
 
-        data_ptr data = nullptr;
-        uv2 size = uv2(0, 0);
-        ui32 channels = 0;
+    /// Data is ready
+    bool ready = false;
 
-    private:
-        file image_file;
-        unique_data file_data;
-    };
+    /// Pointer to data
+    data_ptr data = nullptr;
+
+    /// Dimensions
+    uv2 size = uv2(0, 0);
+
+    /// Number of channels
+    ui32 channels = 0;
+
+private:
+    /// Image file
+    file image_file;
+
+    /// File data
+    unique_data file_data;
+};
 
 } // namespace lava

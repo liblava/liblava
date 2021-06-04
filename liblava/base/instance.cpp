@@ -1,6 +1,6 @@
 // file      : liblava/base/instance.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <liblava/base/instance.hpp>
 #include <liblava/base/memory.hpp>
@@ -10,226 +10,238 @@
 
 namespace lava {
 
-    instance::~instance() {
-        destroy();
+/**
+ * @see https://khronos.org/registry/vulkan/specs/1.2-extensions/man/html/PFN_vkDebugUtilsMessengerCallbackEXT.html
+ */
+static VKAPI_ATTR VkBool32 VKAPI_CALL validation_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
+                                                          VkDebugUtilsMessageTypeFlagsEXT message_type, const VkDebugUtilsMessengerCallbackDataEXT* callback_data, void* user_data) {
+    auto message_header = fmt::format("validation: {} ({})", callback_data->pMessageIdName,
+                                      callback_data->messageIdNumber);
+
+    if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
+        log()->error(str(message_header));
+        log()->error(callback_data->pMessage);
+
+        assert(!"check validation error");
+    } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
+        log()->warn(str(message_header));
+        log()->warn(callback_data->pMessage);
+    } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
+        log()->info(str(message_header));
+        log()->info(callback_data->pMessage);
+    } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT) {
+        log()->trace(str(message_header));
+        log()->trace(callback_data->pMessage);
     }
 
-    bool instance::check_debug(create_param& param) const {
-        if (debug.validation) {
-            if (!exists(param.layers, VK_LAYER_KHRONOS_VALIDATION_NAME))
-                param.layers.push_back(VK_LAYER_KHRONOS_VALIDATION_NAME);
-        }
+    return VK_FALSE;
+}
 
-        if (debug.render_doc) {
-            if (!exists(param.layers, VK_LAYER_RENDERDOC_CAPTURE_NAME))
-                param.layers.push_back(VK_LAYER_RENDERDOC_CAPTURE_NAME);
-        }
+//-----------------------------------------------------------------------------
+instance::~instance() {
+    destroy();
+}
 
-        if (debug.utils) {
-            if (!exists(param.extensions, VK_EXT_DEBUG_UTILS_EXTENSION_NAME))
-                param.extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-        }
-
-        if (!check(param)) {
-            log()->error("create instance param");
-
-            for (auto& extension : param.extensions)
-                log()->debug("extension: {}", extension);
-
-            for (auto& layer : param.layers)
-                log()->debug("layer: {}", layer);
-
-            return false;
-        }
-
-        return true;
+//-----------------------------------------------------------------------------
+bool instance::check_debug(create_param& param) const {
+    if (debug.validation) {
+        if (!exists(param.layers, VK_LAYER_KHRONOS_VALIDATION_NAME))
+            param.layers.push_back(VK_LAYER_KHRONOS_VALIDATION_NAME);
     }
 
-    bool instance::create(create_param& param, debug_config::ref d, instance_info::ref i) {
-        debug = d;
-        info = i;
-
-        if (!check_debug(param))
-            return false;
-
-        ui32 app_version = VK_MAKE_VERSION(info.app_version.major,
-                                           info.app_version.minor,
-                                           info.app_version.patch);
-
-        VkApplicationInfo application_info{
-            .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
-            .pApplicationName = info.app_name,
-            .applicationVersion = app_version,
-            .pEngineName = info.engine_name,
-        };
-
-        application_info.engineVersion = VK_MAKE_VERSION(info.engine_version.major,
-                                                         info.engine_version.minor,
-                                                         info.engine_version.patch);
-
-        application_info.apiVersion = VK_API_VERSION_1_0;
-
-        switch (info.req_api_version) {
-        case api_version::v1_1:
-            application_info.apiVersion = VK_API_VERSION_1_1;
-            break;
-        case api_version::v1_2:
-            application_info.apiVersion = VK_API_VERSION_1_2;
-            break;
-        }
-
-        VkInstanceCreateInfo create_info{
-            .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
-            .pApplicationInfo = &application_info,
-            .enabledLayerCount = to_ui32(param.layers.size()),
-            .ppEnabledLayerNames = param.layers.data(),
-            .enabledExtensionCount = to_ui32(param.extensions.size()),
-            .ppEnabledExtensionNames = param.extensions.data(),
-        };
-
-        auto result = vkCreateInstance(&create_info, memory::alloc(), &vk_instance);
-        if (failed(result))
-            return false;
-
-        volkLoadInstance(vk_instance);
-
-        if (!enumerate_physical_devices())
-            return false;
-
-        if (debug.utils)
-            if (!create_validation_report())
-                return false;
-
-        return true;
+    if (debug.render_doc) {
+        if (!exists(param.layers, VK_LAYER_RENDERDOC_CAPTURE_NAME))
+            param.layers.push_back(VK_LAYER_RENDERDOC_CAPTURE_NAME);
     }
 
-    void instance::destroy() {
-        if (!vk_instance)
-            return;
-
-        physical_devices.clear();
-
-        if (debug.utils)
-            destroy_validation_report();
-
-        vkDestroyInstance(vk_instance, memory::alloc());
-        vk_instance = nullptr;
+    if (debug.utils) {
+        if (!exists(param.extensions, VK_EXT_DEBUG_UTILS_EXTENSION_NAME))
+            param.extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
     }
 
-    static VKAPI_ATTR VkBool32 VKAPI_CALL validation_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
-                                                              VkDebugUtilsMessageTypeFlagsEXT message_type, const VkDebugUtilsMessengerCallbackDataEXT* callback_data, void* user_data) {
-        auto message_header = fmt::format("validation: {} ({})", callback_data->pMessageIdName,
-                                          callback_data->messageIdNumber);
+    if (!check(param)) {
+        log()->error("create instance param");
 
-        if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
-            log()->error(str(message_header));
-            log()->error(callback_data->pMessage);
+        for (auto& extension : param.extensions)
+            log()->debug("extension: {}", extension);
 
-            assert(!"check validation error");
-        } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
-            log()->warn(str(message_header));
-            log()->warn(callback_data->pMessage);
-        } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
-            log()->info(str(message_header));
-            log()->info(callback_data->pMessage);
-        } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT) {
-            log()->trace(str(message_header));
-            log()->trace(callback_data->pMessage);
-        }
+        for (auto& layer : param.layers)
+            log()->debug("layer: {}", layer);
 
-        return VK_FALSE;
+        return false;
     }
 
-    bool instance::create_validation_report() {
-        VkDebugUtilsMessengerCreateInfoEXT create_info{
-            .sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT,
-            .messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT,
-            .messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT,
-            .pfnUserCallback = validation_callback,
-        };
+    return true;
+}
 
-        if (debug.verbose)
-            create_info.messageSeverity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
+//-----------------------------------------------------------------------------
+bool instance::create(create_param& param, debug_config::ref d, instance_info::ref i) {
+    debug = d;
+    info = i;
 
-        return check(vkCreateDebugUtilsMessengerEXT(vk_instance, &create_info, memory::alloc(), &debug_messenger));
+    if (!check_debug(param))
+        return false;
+
+    ui32 app_version = VK_MAKE_VERSION(info.app_version.major,
+                                       info.app_version.minor,
+                                       info.app_version.patch);
+
+    VkApplicationInfo application_info{
+        .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
+        .pApplicationName = info.app_name,
+        .applicationVersion = app_version,
+        .pEngineName = info.engine_name,
+    };
+
+    application_info.engineVersion = VK_MAKE_VERSION(info.engine_version.major,
+                                                     info.engine_version.minor,
+                                                     info.engine_version.patch);
+
+    application_info.apiVersion = VK_API_VERSION_1_0;
+
+    switch (info.req_api_version) {
+    case api_version::v1_1:
+        application_info.apiVersion = VK_API_VERSION_1_1;
+        break;
+    case api_version::v1_2:
+        application_info.apiVersion = VK_API_VERSION_1_2;
+        break;
     }
 
-    void instance::destroy_validation_report() {
-        if (!debug_messenger)
-            return;
+    VkInstanceCreateInfo create_info{
+        .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
+        .pApplicationInfo = &application_info,
+        .enabledLayerCount = to_ui32(param.layers.size()),
+        .ppEnabledLayerNames = param.layers.data(),
+        .enabledExtensionCount = to_ui32(param.extensions.size()),
+        .ppEnabledExtensionNames = param.extensions.data(),
+    };
 
-        vkDestroyDebugUtilsMessengerEXT(vk_instance, debug_messenger, memory::alloc());
+    auto result = vkCreateInstance(&create_info, memory::alloc(), &vk_instance);
+    if (failed(result))
+        return false;
 
-        debug_messenger = VK_NULL_HANDLE;
-    }
+    volkLoadInstance(vk_instance);
 
-    VkLayerPropertiesList instance::enumerate_layer_properties() {
-        auto layer_count = 0u;
-        auto result = vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
-        if (failed(result))
-            return {};
+    if (!enumerate_physical_devices())
+        return false;
 
-        VkLayerPropertiesList list(layer_count);
-        result = vkEnumerateInstanceLayerProperties(&layer_count, list.data());
-        if (failed(result))
-            return {};
-
-        return list;
-    }
-
-    VkExtensionPropertiesList instance::enumerate_extension_properties(name layer_name) {
-        auto property_count = 0u;
-        auto result = vkEnumerateInstanceExtensionProperties(layer_name, &property_count, nullptr);
-        if (failed(result))
-            return {};
-
-        VkExtensionPropertiesList list(property_count);
-        result = vkEnumerateInstanceExtensionProperties(layer_name, &property_count, list.data());
-        if (failed(result))
-            return {};
-
-        return list;
-    }
-
-    bool instance::enumerate_physical_devices() {
-        physical_devices.clear();
-
-        auto count = 0u;
-        auto result = vkEnumeratePhysicalDevices(vk_instance, &count, nullptr);
-        if (failed(result))
+    if (debug.utils)
+        if (!create_validation_report())
             return false;
 
-        VkPhysicalDevices devices(count);
-        result = vkEnumeratePhysicalDevices(vk_instance, &count, devices.data());
-        if (failed(result))
-            return false;
+    return true;
+}
 
-        for (auto& device : devices) {
-            physical_device physical_device;
-            physical_device.initialize(device);
-            physical_devices.push_back(std::move(physical_device));
-        }
+//-----------------------------------------------------------------------------
+void instance::destroy() {
+    if (!vk_instance)
+        return;
 
-        return true;
+    physical_devices.clear();
+
+    if (debug.utils)
+        destroy_validation_report();
+
+    vkDestroyInstance(vk_instance, memory::alloc());
+    vk_instance = nullptr;
+}
+
+//-----------------------------------------------------------------------------
+bool instance::create_validation_report() {
+    VkDebugUtilsMessengerCreateInfoEXT create_info{
+        .sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT,
+        .messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT,
+        .messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT,
+        .pfnUserCallback = validation_callback,
+    };
+
+    if (debug.verbose)
+        create_info.messageSeverity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
+
+    return check(vkCreateDebugUtilsMessengerEXT(vk_instance, &create_info, memory::alloc(), &debug_messenger));
+}
+
+//-----------------------------------------------------------------------------
+void instance::destroy_validation_report() {
+    if (!debug_messenger)
+        return;
+
+    vkDestroyDebugUtilsMessengerEXT(vk_instance, debug_messenger, memory::alloc());
+
+    debug_messenger = VK_NULL_HANDLE;
+}
+
+//-----------------------------------------------------------------------------
+VkLayerPropertiesList instance::enumerate_layer_properties() {
+    auto layer_count = 0u;
+    auto result = vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
+    if (failed(result))
+        return {};
+
+    VkLayerPropertiesList list(layer_count);
+    result = vkEnumerateInstanceLayerProperties(&layer_count, list.data());
+    if (failed(result))
+        return {};
+
+    return list;
+}
+
+//-----------------------------------------------------------------------------
+VkExtensionPropertiesList instance::enumerate_extension_properties(name layer_name) {
+    auto property_count = 0u;
+    auto result = vkEnumerateInstanceExtensionProperties(layer_name, &property_count, nullptr);
+    if (failed(result))
+        return {};
+
+    VkExtensionPropertiesList list(property_count);
+    result = vkEnumerateInstanceExtensionProperties(layer_name, &property_count, list.data());
+    if (failed(result))
+        return {};
+
+    return list;
+}
+
+//-----------------------------------------------------------------------------
+bool instance::enumerate_physical_devices() {
+    physical_devices.clear();
+
+    auto count = 0u;
+    auto result = vkEnumeratePhysicalDevices(vk_instance, &count, nullptr);
+    if (failed(result))
+        return false;
+
+    VkPhysicalDevices devices(count);
+    result = vkEnumeratePhysicalDevices(vk_instance, &count, devices.data());
+    if (failed(result))
+        return false;
+
+    for (auto& device : devices) {
+        physical_device physical_device;
+        physical_device.initialize(device);
+        physical_devices.push_back(std::move(physical_device));
     }
 
-    internal_version instance::get_version() {
-        ui32 instance_version = VK_API_VERSION_1_0;
+    return true;
+}
 
-        auto enumerate_instance_version = (PFN_vkEnumerateInstanceVersion) vkGetInstanceProcAddr(nullptr, "vkEnumerateInstanceVersion");
-        if (enumerate_instance_version)
-            enumerate_instance_version(&instance_version);
+//-----------------------------------------------------------------------------
+internal_version instance::get_version() {
+    ui32 instance_version = VK_API_VERSION_1_0;
 
-        internal_version version;
-        version.major = VK_VERSION_MAJOR(instance_version);
-        version.minor = VK_VERSION_MINOR(instance_version);
-        version.patch = VK_VERSION_PATCH(VK_HEADER_VERSION);
-        return version;
-    }
+    auto enumerate_instance_version = (PFN_vkEnumerateInstanceVersion) vkGetInstanceProcAddr(nullptr, "vkEnumerateInstanceVersion");
+    if (enumerate_instance_version)
+        enumerate_instance_version(&instance_version);
 
-} // namespace lava
+    internal_version version;
+    version.major = VK_VERSION_MAJOR(instance_version);
+    version.minor = VK_VERSION_MINOR(instance_version);
+    version.patch = VK_VERSION_PATCH(VK_HEADER_VERSION);
+    return version;
+}
 
-bool lava::check(instance::create_param::ref param) {
+//-----------------------------------------------------------------------------
+bool check(instance::create_param::ref param) {
     auto layer_properties = instance::enumerate_layer_properties();
     for (auto const& layer_name : param.layers) {
         auto itr = std::find_if(layer_properties.begin(), layer_properties.end(),
@@ -254,3 +266,5 @@ bool lava::check(instance::create_param::ref param) {
 
     return true;
 }
+
+} // namespace lava

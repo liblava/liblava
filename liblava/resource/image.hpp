@@ -1,6 +1,9 @@
-// file      : liblava/resource/image.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file liblava/resource/image.hpp
+ * @brief Vulkan image
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 
@@ -8,98 +11,258 @@
 
 namespace lava {
 
-    struct image : id_obj {
-        using ptr = std::shared_ptr<image>;
-        using map = std::map<id, ptr>;
-        using list = std::vector<ptr>;
+/**
+ * @brief Image
+ */
+struct image : id_obj {
+    /// Shared pointer to image
+    using ptr = std::shared_ptr<image>;
 
-        explicit image(VkFormat format, VkImage vk_image = 0);
+    /// Map of images
+    using map = std::map<id, ptr>;
 
-        bool create(device_ptr device, uv2 size, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY, bool mip_levels_generation = false);
-        void destroy(bool view_only = false);
-        void destroy_view() {
-            destroy(true);
-        }
+    /// List of images
+    using list = std::vector<ptr>;
 
-        device_ptr get_device() {
-            return device;
-        }
+    /**
+     * @brief Construct a new image
+     * 
+     * @param format Image format
+     * @param vk_image Vulkan image
+     */
+    explicit image(VkFormat format, VkImage vk_image = 0);
 
-        VkFormat get_format() const {
-            return info.format;
-        }
-        uv2 get_size() const {
-            return { info.extent.width, info.extent.height };
-        }
-        ui32 get_depth() const {
-            return info.extent.depth;
-        }
+    /**
+     * @brief Create a new image
+     * 
+     * @param device Vulkan device
+     * @param size Image size
+     * @param memory_usage Memory usage
+     * @param mip_levels_generation Enable mip levels generation
+     * @return true Create was successful
+     * @return false Create failed
+     */
+    bool create(device_ptr device, uv2 size, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY, bool mip_levels_generation = false);
 
-        VkImage get() const {
-            return vk_image;
-        }
-        VkImageView get_view() const {
-            return view;
-        }
+    /**
+     * @brief Destroy the image
+     * 
+     * @param view_only Destroy only the image view
+     */
+    void destroy(bool view_only = false);
 
-        VkImageCreateInfo const& get_info() const {
-            return info;
-        }
-        VkImageViewCreateInfo const& get_view_info() const {
-            return view_info;
-        }
-        VkImageSubresourceRange const& get_subresource_range() const {
-            return subresource_range;
-        }
+    /**
+     * @brief Destroy the image view
+     */
+    void destroy_view() {
+        destroy(true);
+    }
 
-        void set_flags(VkImageCreateFlagBits flags) {
-            info.flags = flags;
-        }
-        void set_tiling(VkImageTiling tiling) {
-            info.tiling = tiling;
-        }
-        void set_usage(VkImageUsageFlags usage) {
-            info.usage = usage;
-        }
-        void set_layout(VkImageLayout initial) {
-            info.initialLayout = initial;
-        }
+    /**
+     * @brief Get the device
+     * 
+     * @return device_ptr Vulkan device
+     */
+    device_ptr get_device() {
+        return device;
+    }
 
-        void set_aspect_mask(VkImageAspectFlags aspectMask) {
-            subresource_range.aspectMask = aspectMask;
-        }
+    /**
+     * @brief Get the format of the image
+     * 
+     * @return VkFormat Image format
+     */
+    VkFormat get_format() const {
+        return info.format;
+    }
 
-        void set_level_count(ui32 levels) {
-            subresource_range.levelCount = levels;
-            info.mipLevels = levels;
-        }
-        void set_layer_count(ui32 layers) {
-            subresource_range.layerCount = layers;
-            info.arrayLayers = layers;
-        }
+    /**
+     * @brief Get the size of the image
+     * 
+     * @return uv2 Image size
+     */
+    uv2 get_size() const {
+        return { info.extent.width, info.extent.height };
+    }
 
-        void set_component(VkComponentMapping mapping = {}) {
-            view_info.components = mapping;
-        }
-        void set_view_type(VkImageViewType type) {
-            view_info.viewType = type;
-        }
+    /**
+     * @brief Get the depth of the image
+     * 
+     * @return ui32 Image depth
+     */
+    ui32 get_depth() const {
+        return info.extent.depth;
+    }
 
-    private:
-        device_ptr device = nullptr;
+    /**
+     * @brief Get the image
+     * 
+     * @return VkImage Vulkan image
+     */
+    VkImage get() const {
+        return vk_image;
+    }
 
-        VkImage vk_image = VK_NULL_HANDLE;
-        VkImageCreateInfo info;
+    /**
+     * @brief Get the image view
+     * 
+     * @return VkImageView Vulkan image view
+     */
+    VkImageView get_view() const {
+        return view;
+    }
 
-        VmaAllocation allocation = nullptr;
+    /**
+     * @brief Get the image create information
+     * 
+     * @return VkImageCreateInfo const& Image create information
+     */
+    VkImageCreateInfo const& get_info() const {
+        return info;
+    }
 
-        VkImageView view = VK_NULL_HANDLE;
+    /**
+     * @brief Get the image view create information
+     * 
+     * @return VkImageViewCreateInfo const& Image view create information
+     */
+    VkImageViewCreateInfo const& get_view_info() const {
+        return view_info;
+    }
 
-        VkImageViewCreateInfo view_info;
-        VkImageSubresourceRange subresource_range;
-    };
+    /**
+     * @brief Get the subresource range of the image
+     * 
+     * @return VkImageSubresourceRange const& Image subresource range
+     */
+    VkImageSubresourceRange const& get_subresource_range() const {
+        return subresource_range;
+    }
 
-    image::ptr make_image(VkFormat format, VkImage vk_image = 0);
-    image::ptr make_image(VkFormat format, device_ptr device, uv2 size, VkImage vk_image = 0);
+    /**
+     * @brief Set the image create flags
+     * 
+     * @param flags Image create flag bits
+     */
+    void set_flags(VkImageCreateFlagBits flags) {
+        info.flags = flags;
+    }
+
+    /**
+     * @brief Set the image tiling
+     * 
+     * @param tiling Image tiling
+     */
+    void set_tiling(VkImageTiling tiling) {
+        info.tiling = tiling;
+    }
+
+    /**
+     * @brief Set the image usage
+     * 
+     * @param usage Image usage flags
+     */
+    void set_usage(VkImageUsageFlags usage) {
+        info.usage = usage;
+    }
+
+    /**
+     * @brief Set the initial layout of the image
+     * 
+     * @param initial Initial image layout
+     */
+    void set_layout(VkImageLayout initial) {
+        info.initialLayout = initial;
+    }
+
+    /**
+     * @brief Set the aspect mask of the image
+     * 
+     * @param aspectMask Image aspect flags
+     */
+    void set_aspect_mask(VkImageAspectFlags aspectMask) {
+        subresource_range.aspectMask = aspectMask;
+    }
+
+    /**
+     * @brief Set the level count of the image
+     * 
+     * @param levels Number of levels
+     */
+    void set_level_count(ui32 levels) {
+        subresource_range.levelCount = levels;
+        info.mipLevels = levels;
+    }
+
+    /**
+     * @brief Set the layer count of the image
+     * 
+     * @param layers Number of layers
+     */
+    void set_layer_count(ui32 layers) {
+        subresource_range.layerCount = layers;
+        info.arrayLayers = layers;
+    }
+
+    /**
+     * @brief Set the component mapping of the image
+     * 
+     * @param mapping Component mapping
+     */
+    void set_component(VkComponentMapping mapping = {}) {
+        view_info.components = mapping;
+    }
+
+    /**
+     * @brief Set the view type of the image
+     * 
+     * @param type Image view type
+     */
+    void set_view_type(VkImageViewType type) {
+        view_info.viewType = type;
+    }
+
+private:
+    /// Vulkan device
+    device_ptr device = nullptr;
+
+    /// Vulkan image
+    VkImage vk_image = VK_NULL_HANDLE;
+
+    /// Image create information
+    VkImageCreateInfo info;
+
+    /// Allocation
+    VmaAllocation allocation = nullptr;
+
+    /// Vulkan image view
+    VkImageView view = VK_NULL_HANDLE;
+
+    /// Image view create information
+    VkImageViewCreateInfo view_info;
+
+    /// Image subresource range
+    VkImageSubresourceRange subresource_range;
+};
+
+/**
+ * @brief Create a new image
+ * 
+ * @param format Image format
+ * @param vk_image Vulkan image
+ * @return image::ptr Shared pointer to image
+ */
+image::ptr make_image(VkFormat format, VkImage vk_image = 0);
+
+/**
+ * @brief Make a new image
+ * 
+ * @param format Image format
+ * @param device Vulkan device
+ * @param size Image size
+ * @param vk_image Vulkan image
+ * @return image::ptr Shared pointer to image
+ */
+image::ptr make_image(VkFormat format, device_ptr device, uv2 size, VkImage vk_image = 0);
 
 } // namespace lava

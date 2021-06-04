@@ -1,6 +1,6 @@
 // file      : liblava/file/json_file.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <liblava/file/file.hpp>
 #include <liblava/file/file_utils.hpp>
@@ -10,47 +10,52 @@
 
 namespace lava {
 
-    json_file::json_file(name path)
-    : path(path) {}
+//-----------------------------------------------------------------------------
+json_file::json_file(name path)
+: path(path) {}
 
-    void json_file::add(callback* callback) {
-        callbacks.push_back(callback);
+//-----------------------------------------------------------------------------
+void json_file::add(callback* callback) {
+    callbacks.push_back(callback);
+}
+
+//-----------------------------------------------------------------------------
+void json_file::remove(callback* callback) {
+    lava::remove(callbacks, callback);
+}
+
+//-----------------------------------------------------------------------------
+bool json_file::load() {
+    unique_data data;
+    if (!load_file_data(path, data))
+        return false;
+
+    auto j = json::parse(data.ptr, data.ptr + data.size);
+
+    for (auto callback : callbacks)
+        callback->on_load(j);
+
+    return true;
+}
+
+//-----------------------------------------------------------------------------
+bool json_file::save() {
+    file file(str(path), true);
+    if (!file.opened()) {
+        log()->error("save file {}", str(path));
+        return false;
     }
 
-    void json_file::remove(callback* callback) {
-        lava::remove(callbacks, callback);
-    }
+    json j;
 
-    bool json_file::load() {
-        unique_data data;
-        if (!load_file_data(path, data))
-            return false;
+    for (auto callback : callbacks)
+        callback->on_save(j);
 
-        auto j = json::parse(data.ptr, data.ptr + data.size);
+    auto jString = j.dump(4);
 
-        for (auto callback : callbacks)
-            callback->on_load(j);
+    file.write(jString.data(), jString.size());
 
-        return true;
-    }
-
-    bool json_file::save() {
-        file file(str(path), true);
-        if (!file.opened()) {
-            log()->error("save file {}", str(path));
-            return false;
-        }
-
-        json j;
-
-        for (auto callback : callbacks)
-            callback->on_save(j);
-
-        auto jString = j.dump(4);
-
-        file.write(jString.data(), jString.size());
-
-        return true;
-    }
+    return true;
+}
 
 } // namespace lava

@@ -1,6 +1,9 @@
-// file      : liblava/frame/window.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file liblava/frame/window.hpp
+ * @brief Window
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 
@@ -12,200 +15,602 @@
 #include <vulkan/vulkan.h>
 #include <optional>
 
-// fwd
+/// fwd
 struct GLFWwindow;
 
 namespace lava {
 
-    constexpr name _x_ = "x";
-    constexpr name _y_ = "y";
-    constexpr name _width_ = "width";
-    constexpr name _height_ = "height";
-    constexpr name _fullscreen_ = "fullscreen";
-    constexpr name _floating_ = "floating";
-    constexpr name _resizable_ = "resizable";
-    constexpr name _decorated_ = "decorated";
-    constexpr name _maximized_ = "maximized";
-    constexpr name _monitor_ = "monitor";
+/// X position
+constexpr name _x_ = "x";
 
-    struct window : id_obj {
-        struct state {
-            using optional = std::optional<window::state>;
+/// Y position
+constexpr name _y_ = "y";
 
-            explicit state() {}
+/// Width
+constexpr name _width_ = "width";
 
-            i32 x = 0;
-            i32 y = 0;
-            ui32 width = 0;
-            ui32 height = 0;
-            bool fullscreen = false;
-            bool floating = false;
-            bool resizable = true;
-            bool decorated = true;
-            bool maximized = false;
-            index monitor = 0;
-        };
+/// Height
+constexpr name _height_ = "height";
 
-        using ptr = std::shared_ptr<window>;
-        using event = std::function<void(ptr)>;
-        using map = std::map<id, ptr>;
-        using ref = window const&;
+/// Fullscreen
+constexpr name _fullscreen_ = "fullscreen";
 
-        window() = default;
-        explicit window(name title)
-        : title(title) {}
+/// Floating
+constexpr name _floating_ = "floating";
 
-        bool create(state::optional state = {});
-        void destroy();
+/// Resizable
+constexpr name _resizable_ = "resizable";
 
-        state get_state() const;
+/// Decorated
+constexpr name _decorated_ = "decorated";
 
-        void set_title(name text);
-        name get_title() const {
-            return str(title);
-        }
+/// Maximized
+constexpr name _maximized_ = "maximized";
 
-        void set_save_name(name save) {
-            save_name = save;
-        }
-        name get_save_name() const {
-            return str(save_name);
-        }
+/// Monitor
+constexpr name _monitor_ = "monitor";
 
-        void set_position(i32 x, i32 y);
-        void get_position(i32& x, i32& y) const;
+/**
+ * @brief Window
+ */
+struct window : id_obj {
+    /**
+     * @brief Windoe state
+     */
+    struct state {
+        /// Optional window state
+        using optional = std::optional<window::state>;
 
-        void set_size(ui32 width, ui32 height);
-        void get_size(ui32& width, ui32& height) const;
+        /**
+         * @brief Construct a new state
+         */
+        explicit state() {}
 
-        void get_framebuffer_size(ui32& width, ui32& height) const;
+        /// Window X position
+        i32 x = 0;
 
-        uv2 get_size() const;
-        uv2 get_framebuffer_size() const;
+        /// Window Y position
+        i32 y = 0;
 
-        void set_mouse_position(r64 x, r64 y);
-        void get_mouse_position(r64& x, r64& y) const;
-        mouse_position get_mouse_position() const;
-
-        void hide_mouse_cursor();
-        void show_mouse_cursor();
-
-        float get_aspect_ratio() const;
-
-        void show();
-        void hide();
-        bool visible() const;
-
-        void iconify();
-        bool iconified() const;
-        void restore();
-
-        void maximize();
-        bool maximized() const;
-
-        void focus();
-        bool focused() const;
-
-        void set_fullscreen(bool active) {
-            if (fullscreen_active != active)
-                switch_mode_request_active = true;
-        }
-        bool fullscreen() const {
-            return fullscreen_active;
-        }
-
-        bool hovered() const;
-
-        bool resizable() const;
-        void set_resizable(bool value);
-
-        bool decorated() const;
-        void set_decorated(bool value);
-
-        bool floating() const;
-        void set_floating(bool value);
-
-        static window* get_window(GLFWwindow* handle);
-
-        bool close_request() const;
-        bool switch_mode_request() const {
-            return switch_mode_request_active;
-        }
-
-        bool switch_mode(state::optional state = {});
-
-        GLFWwindow* get() const {
-            return handle;
-        }
-
-        bool resize_request() const {
-            return resize_request_active;
-        }
-        bool handle_resize() {
-            if (on_resize)
-                if (!on_resize(framebuffer_width, framebuffer_height))
-                    return false;
-
-            resize_request_active = false;
-            return true;
-        }
-
-        void update_state() {
-            get_position(pos_x, pos_y);
-            get_size(width, height);
-        }
-
-        using resize_func = std::function<bool(ui32, ui32)>;
-        resize_func on_resize;
-
-        void assign(input* callback) {
-            input = callback;
-        }
-
-        void set_debug_title(bool value = true) {
-            debug_title_active = value;
-        }
-        bool debug_title() const {
-            return debug_title_active;
-        }
-
-        void update_title() {
-            set_title(str(title));
-        }
-
-        VkSurfaceKHR create_surface();
-
-        void set_icon(data_ptr data, uv2 size);
-
-        index get_monitor() const;
-
-        void center();
-
-    private:
-        void handle_message();
-        void handle_mouse_message();
-
-        GLFWwindow* handle = nullptr;
-        lava::input* input = nullptr;
-
-        string title = _lava_;
-        string save_name = _default_;
-
-        bool fullscreen_active = false;
-        bool debug_title_active = false;
-
-        bool switch_mode_request_active = false;
-        bool resize_request_active = false;
-
-        ui32 framebuffer_width = 0;
-        ui32 framebuffer_height = 0;
-
-        i32 pos_x = 0;
-        i32 pos_y = 0;
+        /// Window width
         ui32 width = 0;
+
+        /// Window height
         ui32 height = 0;
+
+        /// Fullscreen window
+        bool fullscreen = false;
+
+        /// Floating window
+        bool floating = false;
+
+        /// Resizable window
+        bool resizable = true;
+
+        /// Decorated window
+        bool decorated = true;
+
+        /// Maximized window
+        bool maximized = false;
+
+        /// Monitor of window
+        index monitor = 0;
     };
 
-    VkSurfaceKHR create_surface(GLFWwindow* window);
+    /// Shared pointer to window
+    using ptr = std::shared_ptr<window>;
+
+    /// Window event function
+    using event = std::function<void(ptr)>;
+
+    /// Map of windows
+    using map = std::map<id, ptr>;
+
+    /// Reference to window
+    using ref = window const&;
+
+    /**
+     * @brief Construct a new window
+     */
+    window() = default;
+
+    /**
+     * @brief Construct a new window
+     * 
+     * @param title Title of window
+     */
+    explicit window(name title)
+    : title(title) {}
+
+    /**
+     * @brief Create a new window with optional state
+     * 
+     * @param state Window state
+     * @return true Create was successful
+     * @return false Create failed
+     */
+    bool create(state::optional state = {});
+
+    /**
+     * @brief Destroy the window
+     */
+    void destroy();
+
+    /**
+     * @brief Get the window state
+     * 
+     * @return state Window state
+     */
+    state get_state() const;
+
+    /**
+     * @brief Set the window title
+     * 
+     * @param text Title of window
+     */
+    void set_title(name text);
+
+    /**
+     * @brief Get the window title
+     * 
+     * @return name Title of window
+     */
+    name get_title() const {
+        return str(title);
+    }
+
+    /**
+     * @brief Set the save name
+     * 
+     * @param save Save name of window
+     */
+    void set_save_name(name save) {
+        save_name = save;
+    }
+
+    /**
+     * @brief Get the save name
+     * 
+     * @return name Save name of window
+     */
+    name get_save_name() const {
+        return str(save_name);
+    }
+
+    /**
+     * @brief Set the position of window
+     * 
+     * @param x X positoin
+     * @param y Y position
+     */
+    void set_position(i32 x, i32 y);
+
+    /**
+     * @brief Get the position of window
+     * 
+     * @param x X position
+     * @param y Y position
+     */
+    void get_position(i32& x, i32& y) const;
+
+    /**
+     * @brief Set the size of window
+     * 
+     * @param width Window width
+     * @param height Window height
+     */
+    void set_size(ui32 width, ui32 height);
+
+    /**
+     * @brief Get the size of window
+     * 
+     * @param width Window width
+     * @param height Window height
+     */
+    void get_size(ui32& width, ui32& height) const;
+
+    /**
+     * @brief Get the framebuffer size
+     * 
+     * @param width Framebuffer width
+     * @param height Framebuffer height
+     */
+    void get_framebuffer_size(ui32& width, ui32& height) const;
+
+    /**
+     * @brief Get the size
+     * 
+     * @return uv2 Size of window
+     */
+    uv2 get_size() const;
+
+    /**
+     * @brief Get the framebuffer size
+     * 
+     * @return uv2 Size of framebuffer
+     */
+    uv2 get_framebuffer_size() const;
+
+    /**
+     * @brief Set the mouse position
+     * 
+     * @param x Mouse X position
+     * @param y Mouse Y position
+     */
+    void set_mouse_position(r64 x, r64 y);
+
+    /**
+     * @brief Get the mouse position
+     * 
+     * @param x Mouse X position
+     * @param y Mouse Y position
+     */
+    void get_mouse_position(r64& x, r64& y) const;
+
+    /**
+     * @brief Get the mouse position in window
+     * 
+     * @return mouse_position Position of mouse
+     */
+    mouse_position get_mouse_position() const;
+
+    /**
+     * @brief Hide mouse cursor
+     */
+    void hide_mouse_cursor();
+
+    /**
+     * @brief Show mouse cursor
+     */
+    void show_mouse_cursor();
+
+    /**
+     * @brief Get the aspect ratio of window
+     * 
+     * @return float Aspect ratio
+     */
+    float get_aspect_ratio() const;
+
+    /**
+     * @brief Show the window
+     */
+    void show();
+
+    /**
+     * @brief Hide the window
+     */
+    void hide();
+
+    /**
+     * @brief Check if window is visible
+     * 
+     * @return true Window is visible
+     * @return false Window is invisible
+     */
+    bool visible() const;
+
+    /**
+     * @brief Iconify the window
+     */
+    void iconify();
+
+    /**
+     * @brief Check if the window is iconified
+     * 
+     * @return true Window is iconified
+     * @return false Window is not iconfied
+     */
+    bool iconified() const;
+
+    /**
+     * @brief Restore the window
+     */
+    void restore();
+
+    /**
+     * @brief Maximize the window
+     */
+    void maximize();
+
+    /**
+     * @brief Check if the window is maximized
+     * 
+     * @return true Window is maximized
+     * @return false Window is not maximized
+     */
+    bool maximized() const;
+
+    /**
+     * @brief Focus the window
+     */
+    void focus();
+
+    /**
+     * @brief Check if the window is focused
+     * 
+     * @return true Window is focused
+     * @return false Window is not focused
+     */
+    bool focused() const;
+
+    /**
+     * @brief Set the window to fullscreen
+     * 
+     * @param active Fullscreen or windowed mode
+     */
+    void set_fullscreen(bool active) {
+        if (fullscreen_active != active)
+            switch_mode_request_active = true;
+    }
+
+    /**
+     * @brief Check if the window is fullscreen
+     * 
+     * @return true Window is fullscreen
+     * @return false Window is not fullscreen
+     */
+    bool fullscreen() const {
+        return fullscreen_active;
+    }
+
+    /**
+     * @brief Check if mouse hovered over the window
+     * 
+     * @return true Mouse hovered
+     * @return false Nouse not hovered
+     */
+    bool hovered() const;
+
+    /**
+     * @brief Check if the window is resizable
+     * 
+     * @return true Window is resizable
+     * @return false Window is not resizable
+     */
+    bool resizable() const;
+
+    /**
+     * @brief Set the window resizable
+     * 
+     * @param value Resizable state
+     */
+    void set_resizable(bool value);
+
+    /**
+     * @brief Check if the window is decorated
+     * 
+     * @return true Window is decorated
+     * @return false Window is not decorated
+     */
+    bool decorated() const;
+
+    /**
+     * @brief Set the window decorated
+     * 
+     * @param value Decorated state
+     */
+    void set_decorated(bool value);
+
+    /**
+     * @brief Check if the window is floating
+     * 
+     * @return true Window is floating
+     * @return false Window is not floating
+     */
+    bool floating() const;
+
+    /**
+     * @brief Set the window floating
+     * 
+     * @param value Floating state
+     */
+    void set_floating(bool value);
+
+    /**
+     * @brief Get the window by GLFW handle
+     * 
+     * @param handle GLFW window handle
+     * @return window* Assigned Window
+     */
+    static window* get_window(GLFWwindow* handle);
+
+    /**
+     * @brief Check if the window request to close
+     * 
+     * @return true Window has close request
+     * @return false No close request
+     */
+    bool close_request() const;
+
+    /**
+     * @brief Check if the window request to switch mode
+     * 
+     * @return true Window has switch mode request
+     * @return false No switch mode request
+     */
+    bool switch_mode_request() const {
+        return switch_mode_request_active;
+    }
+
+    /**
+     * @brief Switch mode of the window
+     * 
+     * @param state Target window state
+     * @return true Switch was successful
+     * @return false Switch failed
+     */
+    bool switch_mode(state::optional state = {});
+
+    /**
+     * @brief Get GLFW handle
+     * 
+     * @return GLFWwindow* GLFW window handle
+     */
+    GLFWwindow* get() const {
+        return handle;
+    }
+
+    /**
+     * @brief Check if the window request to resize
+     * 
+     * @return true Window has resize request
+     * @return false No resize request
+     */
+    bool resize_request() const {
+        return resize_request_active;
+    }
+
+    /**
+     * @brief Handle window resize
+     * 
+     * @return true Resize was successful
+     * @return false Resize failed
+     */
+    bool handle_resize() {
+        if (on_resize)
+            if (!on_resize(framebuffer_width, framebuffer_height))
+                return false;
+
+        resize_request_active = false;
+        return true;
+    }
+
+    /**
+     * @brief Update window state
+     */
+    void update_state() {
+        get_position(pos_x, pos_y);
+        get_size(width, height);
+    }
+
+    /// Resize window function
+    using resize_func = std::function<bool(ui32, ui32)>;
+
+    /// Called on window resize
+    resize_func on_resize;
+
+    /**
+     * @brief Assign input callback
+     * 
+     * @param callback Input callbacl
+     */
+    void assign(input* callback) {
+        input = callback;
+    }
+
+    /**
+     * @brief Show the debug title in the window
+     * 
+     * @param value Debug title state
+     */
+    void set_debug_title(bool value = true) {
+        debug_title_active = value;
+    }
+
+    /**
+     * @brief Check show debug title state
+     * 
+     * @return true Debug title is active
+     * @return false Debug title is inactive
+     */
+    bool debug_title() const {
+        return debug_title_active;
+    }
+
+    /**
+     * @brief Update the window title
+     */
+    void update_title() {
+        set_title(str(title));
+    }
+
+    /**
+     * @brief Create a surface
+     * 
+     * @return VkSurfaceKHR Vulkan surface
+     */
+    VkSurfaceKHR create_surface();
+
+    /**
+     * @brief Set the window icon
+     * 
+     * @param data Image data
+     * @param size Image size
+     */
+    void set_icon(data_ptr data, uv2 size);
+
+    /**
+     * @brief Get the monitor index of the window
+     * 
+     * @return index Monitor index
+     */
+    index get_monitor() const;
+
+    /**
+     * @brief Center the window on the monitor
+     */
+    void center();
+
+private:
+    /**
+     * @brief Handle window message
+     */
+    void handle_message();
+
+    /**
+     * @brief Handle window mouse message
+     */
+    void handle_mouse_message();
+
+    /// GLFW window handle
+    GLFWwindow* handle = nullptr;
+
+    /// Input handling
+    lava::input* input = nullptr;
+
+    /// Window title
+    string title = _lava_;
+
+    /// Window save name
+    string save_name = _default_;
+
+    /// Fullscreen state
+    bool fullscreen_active = false;
+
+    /// Debug title state
+    bool debug_title_active = false;
+
+    /// Switch mode request state
+    bool switch_mode_request_active = false;
+
+    /// Resize request state
+    bool resize_request_active = false;
+
+    /// Framebuffer width
+    ui32 framebuffer_width = 0;
+
+    /// Framebuffer height
+    ui32 framebuffer_height = 0;
+
+    /// Window X position
+    i32 pos_x = 0;
+
+    /// Window Y position
+    i32 pos_y = 0;
+
+    /// Window width
+    ui32 width = 0;
+
+    /// Window height
+    ui32 height = 0;
+};
+
+/**
+ * @brief Create a new surface
+ * 
+ * @param window GLFW window handle
+ * @return VkSurfaceKHR Vulkan surface
+ */
+VkSurfaceKHR create_surface(GLFWwindow* window);
 
 } // namespace lava

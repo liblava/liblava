@@ -1,6 +1,9 @@
-// file      : liblava/app/app.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file liblava/app/app.hpp
+ * @brief Application with basic functionality
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 
@@ -12,84 +15,208 @@
 
 namespace lava {
 
-    struct app : frame {
-        explicit app(frame_config config);
-        explicit app(name name, argh::parser cmd_line = {});
+/**
+ * @brief Application with basic functionality
+ */
+struct app : frame {
+    /**
+     * @brief Construct a new app
+     * 
+     * @param config Frame configuration
+     */
+    explicit app(frame_config config);
 
-        bool setup();
+    /**
+     * @brief Construct a new app
+     * 
+     * @param name Application name
+     * @param cmd_line Command line arguments
+     */
+    explicit app(name name, argh::parser cmd_line = {});
 
-        lava::window window;
-        lava::input input;
+    /**
+     * @brief Setup the application
+     * 
+     * @return true Setup was successful
+     * @return false Setup failed
+     */
+    bool setup();
 
-        lava::imgui imgui;
-        imgui::config imgui_config;
+    /// Main window
+    lava::window window;
 
-        device_ptr device = nullptr;
+    /// Window input
+    lava::input input;
 
-        lava::camera camera;
+    /// ImGui handling
+    lava::imgui imgui;
 
-        lava::staging staging;
-        lava::block block;
+    /// ImGui configuration
+    imgui::config imgui_config;
 
-        lava::renderer renderer;
+    /// Vulkan device
+    device_ptr device = nullptr;
 
-        forward_shading shading;
-        render_target::ptr target;
+    /// Main camera
+    lava::camera camera;
 
-        lava::run_time run_time;
+    /// Texture staging
+    lava::staging staging;
 
-        using update_func = std::function<bool(delta)>;
-        update_func on_update;
+    /// Basic block
+    lava::block block;
 
-        using create_func = std::function<bool()>;
-        create_func on_create;
+    /// Plain renderer
+    lava::renderer renderer;
 
-        using destroy_func = std::function<void()>;
-        destroy_func on_destroy;
+    /// Forward shading
+    forward_shading shading;
 
-        bool v_sync() const {
-            return config.v_sync;
-        }
-        ui32 get_frame_counter() const {
-            return frame_counter;
-        }
+    /// Render target
+    render_target::ptr target;
 
-        void draw_about(bool separator = true) const;
+    /// Run time
+    lava::run_time run_time;
 
-        app_config config;
-        json_file config_file;
+    /// Update function
+    using update_func = std::function<bool(delta)>;
 
-        using process_func = std::function<void(VkCommandBuffer, index)>;
-        process_func on_process;
+    /// Function called on application update
+    update_func on_update;
 
-        id::ref block_cmd() const {
-            return block_command;
-        }
+    /// Create function
+    using create_func = std::function<bool()>;
 
-    private:
-        void handle_config();
-        void handle_input();
-        void handle_window();
+    /// Function called on application create
+    create_func on_create;
 
-        void update();
-        void render();
+    /// Destroy function
+    using destroy_func = std::function<void()>;
 
-        bool create_imgui();
-        void destroy_imgui();
+    /// Function called on application destroy
+    destroy_func on_destroy;
 
-        bool create_target();
-        void destroy_target();
+    /**
+     * @brief V-Sync setting
+     * 
+     * @return true V-Sync is active
+     * @return false V-Sync is inactive
+     */
+    bool v_sync() const {
+        return config.v_sync;
+    }
 
-        bool create_block();
+    /**
+     * @brief Get the frame counter
+     * 
+     * @return ui32 Number of rendered frames
+     */
+    ui32 get_frame_counter() const {
+        return frame_counter;
+    }
 
-        texture::ptr imgui_fonts;
+    /**
+     * @brief Draw about information
+     * 
+     * @param separator Prepend separator
+     */
+    void draw_about(bool separator = true) const;
 
-        bool toggle_v_sync = false;
-        ui32 frame_counter = 0;
+    /// Application configuration
+    app_config config;
 
-        json_file::callback config_callback;
+    /// Configuration file
+    json_file config_file;
 
-        id block_command;
-    };
+    /// Process function
+    using process_func = std::function<void(VkCommandBuffer, index)>;
+
+    /// Function called on application process
+    process_func on_process;
+
+    /**
+     * @brief Get id of the block command
+     * 
+     * @return id::ref Id to access the command
+     */
+    id::ref block_cmd() const {
+        return block_command;
+    }
+
+private:
+    /**
+     * @brief Handle configuration file
+     */
+    void handle_config();
+
+    /**
+     * @brief Handle inputs
+     */
+    void handle_input();
+
+    /**
+     * @brief Handle window states
+     */
+    void handle_window();
+
+    /**
+     * @brief Update the application
+     */
+    void update();
+
+    /**
+     * @brief Render the application
+     */
+    void render();
+
+    /**
+     * @brief Create ImGui
+     * 
+     * @return true Create was successful
+     * @return false Create failed
+     */
+    bool create_imgui();
+
+    /**
+     * @brief Destroy ImGui
+     */
+    void destroy_imgui();
+
+    /**
+     * @brief Create a render target
+     * 
+     * @return true Create was successful
+     * @return false Create failed
+     */
+    bool create_target();
+
+    /**
+     * @brief Destroy the render target
+     */
+    void destroy_target();
+
+    /**
+     * @brief Create a block object
+     * 
+     * @return true Create was successful
+     * @return false Create failed
+     */
+    bool create_block();
+
+    /// Texture for ImGui fonts
+    texture::ptr imgui_fonts;
+
+    /// Toggle V-Sync state
+    bool toggle_v_sync = false;
+
+    /// Number of frames rendered
+    ui32 frame_counter = 0;
+
+    /// Configuration file callback
+    json_file::callback config_callback;
+
+    /// Block command id
+    id block_command;
+};
 
 } // namespace lava

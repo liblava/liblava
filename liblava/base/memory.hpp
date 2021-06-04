@@ -1,6 +1,9 @@
-// file      : liblava/base/memory.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file liblava/base/memory.hpp
+ * @brief Vulkan allocator
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 
@@ -13,74 +16,171 @@
 
 namespace lava {
 
-    // fwd
-    struct device;
-    using device_cptr = device const*;
+/// fwd
+struct device;
 
-    struct allocator {
-        using ptr = std::shared_ptr<allocator>;
+/// Const pointer to device
+using device_cptr = device const*;
 
-        allocator() = default;
-        explicit allocator(VmaAllocator allocator)
-        : vma_allocator(allocator) {}
+/**
+ * @brief Vulkan allocator
+ */
+struct allocator {
+    /// Shared pointer to a allocator
+    using ptr = std::shared_ptr<allocator>;
 
-        bool create(device_cptr device, VmaAllocatorCreateFlags flags = 0);
-        void destroy();
+    /**
+     * @brief Construct a new allocator
+     */
+    allocator() = default;
 
-        bool valid() const {
-            return vma_allocator != nullptr;
-        }
+    /**
+     * @brief Construct a new allocator
+     * 
+     * @param allocator Vma allocator
+     */
+    explicit allocator(VmaAllocator allocator)
+    : vma_allocator(allocator) {}
 
-        VmaAllocator get() const {
-            return vma_allocator;
-        }
+    /**
+     * @brief Create a new allocator
+     * 
+     * @param device Vulkan device
+     * @param flags Vma allocator create flags
+     * @return true Create was successfal
+     * @return false Create failed
+     */
+    bool create(device_cptr device, VmaAllocatorCreateFlags flags = 0);
 
-    private:
-        VmaAllocator vma_allocator = nullptr;
-    };
+    /**
+     * @brief Destroy the allocator
+     */
+    void destroy();
 
-    inline allocator::ptr make_allocator() {
-        return std::make_shared<allocator>();
+    /**
+     * @brief Check if allocator is valid
+     * 
+     * @return true Allocator is valid
+     * @return false Allocator is invalid
+     */
+    bool valid() const {
+        return vma_allocator != nullptr;
     }
 
-    inline allocator::ptr create_allocator(device_cptr device, VmaAllocatorCreateFlags flags = 0) {
-        auto result = make_allocator();
-        if (!result->create(device, flags))
-            return nullptr;
-
-        return result;
+    /**
+     * @brief Get the Vma allocator
+     * 
+     * @return VmaAllocator Vma allocator
+     */
+    VmaAllocator get() const {
+        return vma_allocator;
     }
 
-    struct memory : no_copy_no_move {
-        static memory& get() {
-            static memory memory;
-            return memory;
-        }
+private:
+    /// Vma allocator
+    VmaAllocator vma_allocator = nullptr;
+};
 
-        static VkAllocationCallbacks* alloc() {
-            if (get().use_custom_cpu_callbacks)
-                return &get().vk_callbacks;
+/**
+ * @brief Make a new allocator
+ * 
+ * @return allocator::ptr Allacator
+ */
+inline allocator::ptr make_allocator() {
+    return std::make_shared<allocator>();
+}
 
-            return nullptr;
-        }
+/**
+ * @brief Create a allocator
+ * 
+ * @param device Vulkan device
+ * @param flags Vma allocator create flags
+ * @return allocator::ptr Allocator
+ */
+inline allocator::ptr create_allocator(device_cptr device, VmaAllocatorCreateFlags flags = 0) {
+    auto result = make_allocator();
+    if (!result->create(device, flags))
+        return nullptr;
 
-        static type find_type_with_properties(VkPhysicalDeviceMemoryProperties properties, ui32 type_bits,
-                                              VkMemoryPropertyFlags required_properties);
+    return result;
+}
 
-        static type find_type(VkPhysicalDevice gpu, VkMemoryPropertyFlags properties, ui32 type_bits);
+/**
+ * @brief Vulkan memory
+ */
+struct memory : no_copy_no_move {
+    /**
+     * @brief Get memory singleton
+     * 
+     * @return memory& Memory
+     */
+    static memory& get() {
+        static memory memory;
+        return memory;
+    }
 
-        void set_callbacks(VkAllocationCallbacks const& callbacks) {
-            vk_callbacks = callbacks;
-        }
-        void set_use_custom_cpu_callbacks(bool value) {
-            use_custom_cpu_callbacks = value;
-        }
+    /**
+     * @brief Get allocation callback
+     * 
+     * @return VkAllocationCallbacks* Allocation callbacks
+     */
+    static VkAllocationCallbacks* alloc() {
+        if (get().use_custom_cpu_callbacks)
+            return &get().vk_callbacks;
 
-    private:
-        memory();
+        return nullptr;
+    }
 
-        bool use_custom_cpu_callbacks = true;
-        VkAllocationCallbacks vk_callbacks = {};
-    };
+    /**
+     * @brief Find the type with properties
+     * 
+     * @param properties Physical device memory properties
+     * @param type_bits Type bits
+     * @param required_properties Memory property flags
+     * @return type Result type
+     */
+    static type find_type_with_properties(VkPhysicalDeviceMemoryProperties properties, ui32 type_bits,
+                                          VkMemoryPropertyFlags required_properties);
+
+    /**
+     * @brief Find the type
+     * 
+     * @param gpu Physical device
+     * @param properties Memory properties flags
+     * @param type_bits Type bits
+     * @return type Result type
+     */
+    static type find_type(VkPhysicalDevice gpu, VkMemoryPropertyFlags properties, ui32 type_bits);
+
+    /**
+     * @brief Set the callbacks object
+     * 
+     * @param callbacks Allocation Callbacks
+     */
+    void set_callbacks(VkAllocationCallbacks const& callbacks) {
+        vk_callbacks = callbacks;
+    }
+
+    /**
+     * @brief Set use custom cpu callbacks
+     * 
+     * @param value Value state
+     */
+    void set_use_custom_cpu_callbacks(bool value) {
+        use_custom_cpu_callbacks = value;
+    }
+
+private:
+    /**
+     * @brief Construct a new memory
+     */
+    memory();
+
+    /// Use custom cpu callbacks
+    bool use_custom_cpu_callbacks = true;
+
+    /// @see https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkAllocationCallbacks.html
+    VkAllocationCallbacks vk_callbacks = {};
+};
 
 } // namespace lava

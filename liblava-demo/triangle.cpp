@@ -1,12 +1,13 @@
 // file      : liblava-demo/triangle.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <imgui.h>
 #include <demo.hpp>
 
 using namespace lava;
 
+//-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
     app app("lava triangle", { argc, argv });
 
@@ -73,8 +74,8 @@ int main(int argc, char* argv[]) {
     };
 
     app.imgui.on_draw = [&]() {
-        ImGui::SetNextWindowPos(ImVec2(30, 30), ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize(ImVec2(193, 90), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({ 210, 110 }, ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
 

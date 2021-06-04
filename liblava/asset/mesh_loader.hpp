@@ -1,6 +1,9 @@
-// file      : liblava/asset/mesh_loader.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file liblava/asset/mesh_loader.hpp
+ * @brief Load mesh from file
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 
@@ -8,6 +11,13 @@
 
 namespace lava {
 
-    mesh::ptr load_mesh(device_ptr device, name filename);
+/**
+ * @brief Load mesh from file
+ * 
+ * @param device Vulkan device
+ * @param filename File to load
+ * @return mesh::ptr Loaded mesh
+ */
+mesh::ptr load_mesh(device_ptr device, name filename);
 
 } // namespace lava

@@ -1,6 +1,6 @@
 // file      : liblava-demo/light.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <imgui.h>
 #include <demo.hpp>
@@ -9,14 +9,21 @@ using namespace lava;
 
 // structs for interfacing with shaders
 namespace glsl {
-    using namespace glm;
-    using uint = ui32;
+using namespace glm;
+using uint = ui32;
 #include "res/light/data.inc"
 } // namespace glsl
 
+/// G-Buffer UBO data
 glsl::UboData g_ubo;
 
+/**
+ * @brief G-Buffer attachment
+ */
 struct gbuffer_attachment {
+    /**
+     * @brief Attachment types
+     */
     enum type : ui32 {
         albedo = 0,
         normal,
@@ -25,16 +32,36 @@ struct gbuffer_attachment {
         count
     };
 
+    /// Requested formats
     VkFormats requested_formats;
+
+    /// Image usage flags
     VkImageUsageFlags usage;
+
+    /// Image handle
     image::ptr image_handle;
+
+    /// Render pass attachment
     attachment::ptr renderpass_attachment;
+
+    /// Subpass attachment reference
     VkAttachmentReference subpass_reference;
 
+    /**
+     * @brief Create a new G-Buffer attachment
+     * 
+     * @param app Application
+     * @param index Attachment index
+     * @return true Create was successful
+     * @return false Create failed
+     */
     bool create(app const& app, ui32 index);
 };
 
+/// Array of G-Buffer attachments
 using attachment_array = std::array<gbuffer_attachment, gbuffer_attachment::count>;
+
+/// G-Buffer attachments
 attachment_array g_attachments = {
     gbuffer_attachment{ { VK_FORMAT_R8G8B8A8_UNORM }, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT },
     gbuffer_attachment{ { VK_FORMAT_R16G16B16A16_SFLOAT }, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT },
@@ -42,15 +69,26 @@ attachment_array g_attachments = {
     gbuffer_attachment{ { VK_FORMAT_D32_SFLOAT, VK_FORMAT_D16_UNORM }, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT },
 };
 
+/// Array of lights
 using light_array = std::array<glsl::LightData, 3>;
+
+/// Lights
 light_array const g_lights = {
     glsl::LightData{ { 2.f, 2.f, 2.5f }, 10.f, { 30.f, 10.f, 10.f } },
     glsl::LightData{ { -2.f, -2.f, -0.5f }, 10.f, { 10.f, 30.f, 10.f } },
     glsl::LightData{ { 0.f, 0.f, -1.5f }, 10.f, { 10.f, 10.f, 30.f } }
 };
 
+/**
+ * @brief Create a G-Buffer renderpass
+ * 
+ * @param app Application
+ * @param attachments Array of attachments
+ * @return render_pass::ptr Shared pointer to render pass
+ */
 render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments);
 
+//-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
     app app("lava light", { argc, argv });
     if (!app.setup())
@@ -113,7 +151,7 @@ int main(int argc, char* argv[]) {
 
     app.on_create = [&]() {
         VkDescriptorPoolSizes const pool_sizes = {
-            { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1 * 2 }, // one uniform buffer for each pass (gbuffer + lighting)
+            { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1 * 2 }, // one uniform buffer for each pass (G-Buffer + Lighting)
             { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1 }, // light buffer
             { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 2 /* normal + roughness texture */ + g_attachments.size() },
         };
@@ -121,7 +159,7 @@ int main(int argc, char* argv[]) {
         if (!descriptor_pool.create(app.device, pool_sizes, max_sets))
             return false;
 
-        // gbuffer pass
+        // G-Buffer pass
 
         gbuffer_set_layout->add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT);
         gbuffer_set_layout->add_binding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
@@ -202,7 +240,7 @@ int main(int argc, char* argv[]) {
         gbuffer_renderpass = create_gbuffer_renderpass(app, g_attachments);
         gbuffer_renderpass->add_front(gbuffer_pipeline);
 
-        // lighting pass
+        // Lighting pass
 
         for (auto i = 0u; i < g_attachments.size(); ++i) {
             lighting_set_layout->add_binding(i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
@@ -240,7 +278,7 @@ int main(int argc, char* argv[]) {
             // run a fullscreen pass to calculate lighting, the shader loops over all lights
             // - this is NOT very performant, but simplifies the demo
             // - in a proper deferred renderer you most likely want to:
-            //     - render light geometries (e.g. spheres) while depth testing against the gbuffer depth
+            //     - render light geometries (e.g. spheres) while depth testing against the G-Buffer depth
             //     - use some kind of spatial acceleration structure for lights
 
             lighting_pipeline_layout->bind(cmd_buf, lighting_set);
@@ -251,7 +289,7 @@ int main(int argc, char* argv[]) {
         render_pass::ptr lighting_renderpass = app.shading.get_pass();
         lighting_renderpass->add_front(lighting_pipeline);
 
-        // the resize callback creates the gbuffer images and renderpass, call it once manually
+        // the resize callback creates the G-Buffer images and renderpass, call it once manually
         if (!resize_callback.on_created({}, { { 0, 0 }, app.target->get_size() }))
             return false;
 
@@ -306,7 +344,7 @@ int main(int argc, char* argv[]) {
         g_ubo.resolution = area.get_size();
         *(decltype(g_ubo)*) ubo_buffer.get_mapped_data() = g_ubo;
 
-        // (re-)create gbuffer attachments and collect views for framebuffer creation
+        // (re-)create G-Buffer attachments and collect views for framebuffer creation
         VkImageViews views;
         for (gbuffer_attachment& att : g_attachments) {
             if (!att.image_handle->create(app.device, area.get_size()))
@@ -315,7 +353,7 @@ int main(int argc, char* argv[]) {
             views.push_back(att.image_handle->get_view());
         }
 
-        // update lighting descriptor set with new gbuffer image handles
+        // update lighting descriptor set with new G-Buffer image handles
         std::vector<VkWriteDescriptorSet> lighting_write_sets;
         for (descriptor::binding::ptr const& binding : lighting_set_layout->get_bindings()) {
             VkDescriptorSetLayoutBinding const& info = binding->get();
@@ -355,15 +393,15 @@ int main(int argc, char* argv[]) {
         // destroy framebuffer
         gbuffer_renderpass->on_destroyed();
 
-        // destroy gbuffer attachments
+        // destroy G-Buffer attachments
         for (gbuffer_attachment& att : g_attachments) {
             att.image_handle->destroy();
         }
     };
 
     app.imgui.on_draw = [&]() {
-        ImGui::SetNextWindowPos(ImVec2(30, 30), ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize(ImVec2(200, 90), ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({ 210, 110 }, ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
 
@@ -404,6 +442,7 @@ int main(int argc, char* argv[]) {
     return app.run();
 }
 
+//-----------------------------------------------------------------------------
 bool gbuffer_attachment::create(app const& app, ui32 index) {
     usage |= VK_IMAGE_USAGE_SAMPLED_BIT;
     VkFormat_optional format = get_supported_format(app.device->get_vk_physical_device(), requested_formats, usage);
@@ -426,6 +465,7 @@ bool gbuffer_attachment::create(app const& app, ui32 index) {
     return true;
 }
 
+//-----------------------------------------------------------------------------
 render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments) {
     VkClearValues clear_values(attachments.size(), { .color = { 0.f, 0.f, 0.f, 1.f } });
     clear_values[gbuffer_attachment::depth] = { .depthStencil = { 1.f, 0 } };

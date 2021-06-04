@@ -1,12 +1,13 @@
 // file      : tests/unit.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <catch2/catch_test_macros.hpp>
 #include <liblava/lava.hpp>
 
 using namespace lava;
 
+//-----------------------------------------------------------------------------
 TEST_CASE("queue setup - GeForce GTX 1060", "[queue]") {
     // http://vulkan.gpuinfo.org/listreports.php?devicename=GeForce+GTX+1060
 
@@ -51,6 +52,7 @@ TEST_CASE("queue setup - GeForce GTX 1060", "[queue]") {
     REQUIRE(verify_queues(list, properties) == verify_queues_result::ok);
 }
 
+//-----------------------------------------------------------------------------
 TEST_CASE("queue setup - Radeon RX 580 Series", "[queue]") {
     // http://vulkan.gpuinfo.org/listreports.php?devicename=Radeon+RX+580+Series
 
@@ -90,6 +92,7 @@ TEST_CASE("queue setup - Radeon RX 580 Series", "[queue]") {
     REQUIRE(verify_queues(list, properties) == verify_queues_result::ok);
 }
 
+//-----------------------------------------------------------------------------
 TEST_CASE("queue setup - Intel(R) HD Graphics 620", "[queue]") {
     // http://vulkan.gpuinfo.org/listreports.php?devicename=Intel%28R%29+HD+Graphics+620
 

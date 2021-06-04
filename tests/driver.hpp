@@ -1,6 +1,9 @@
-// file      : tests/driver.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file tests/driver.hpp
+ * @brief Test driver
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/lava.hpp>
 
@@ -27,42 +30,85 @@ LAVA_TEST(1, "first test")
 
 namespace lava {
 
-    enum test_result {
-        no_tests = -100,
-        not_found = -101,
-        wrong_arguments = -102
-    };
+/**
+ * @brief Test result
+ */
+enum test_result {
+    no_tests = -100,
+    not_found = -101,
+    wrong_arguments = -102
+};
 
-    struct test {
-        using map = std::map<index, test*>;
-        using func = std::function<i32(argh::parser)>;
+/**
+ * @brief Test wrapper
+ */
+struct test {
+    /// Map of tests
+    using map = std::map<index, test*>;
 
-        explicit test(ui32 id, name descr, func func);
+    /// Test function
+    using func = std::function<i32(argh::parser)>;
 
-        index id = 0;
-        string descr;
-        func on_func;
-    };
+    /**
+     * @brief Construct a new test
+     * 
+     * @param id Test id
+     * @param descr Test description
+     * @param func Test function
+     */
+    explicit test(ui32 id, name descr, func func);
 
-    struct driver {
-        static driver& instance() {
-            static driver singleton;
-            return singleton;
-        }
+    /// Test id
+    index id = 0;
 
-        void add_test(test* test) {
-            tests.emplace(test->id, test);
-        }
+    /// Test description
+    string descr;
 
-        test::map const& get() const {
-            return tests;
-        }
+    /// Called on test run
+    func on_func;
+};
 
-    private:
-        driver() = default;
+/**
+ * @brief Test driver
+ */
+struct driver {
+    /**
+     * @brief Get driver singleton
+     * 
+     * @return driver& Test driver
+     */
+    static driver& instance() {
+        static driver singleton;
+        return singleton;
+    }
 
-        test::map tests;
-    };
+    /**
+     * @brief Add a test
+     * 
+     * @param test Test to add
+     */
+    void add_test(test* test) {
+        tests.emplace(test->id, test);
+    }
+
+    /**
+     * @brief Get all tests
+     * 
+     * @return test::map const& Map of tests
+     */
+    test::map const& get() const {
+        return tests;
+    }
+
+private:
+    /**
+     * @brief Construct a new driver
+     */
+    driver() = default;
+
+    /// Map of tests
+    test::map tests;
+};
 
 } // namespace lava
 

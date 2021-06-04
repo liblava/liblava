@@ -1,6 +1,9 @@
-// file      : liblava/frame/input.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file liblava/frame/input.hpp
+ * @brief Input handling
+ * @authors Lava Block OÜ and contributors
+ * @copyright Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 
@@ -9,472 +12,822 @@
 
 namespace lava {
 
-    enum class key : i32 {
-        unknown = -1,
+/**
+ * @brief Input key
+ */
+enum class key : i32 {
+    unknown = -1,
 
-        /* printable keys */
+    /* printable keys */
 
-        space = 32,
-        apostrophe = 29, /* ' */
-        comma = 44, /* , */
-        minus = 45, /* - */
-        period = 46, /* . */
-        slash = 47, /* / */
+    space = 32,
+    apostrophe = 29, /* ' */
+    comma = 44, /* , */
+    minus = 45, /* - */
+    period = 46, /* . */
+    slash = 47, /* / */
 
-        _0 = 48,
-        _1,
-        _2,
-        _3,
-        _4,
-        _5,
-        _6,
-        _7,
-        _8,
-        _9,
+    _0 = 48,
+    _1,
+    _2,
+    _3,
+    _4,
+    _5,
+    _6,
+    _7,
+    _8,
+    _9,
 
-        semicolon = 59, /* ; */
-        equal = 61, /* = */
+    semicolon = 59, /* ; */
+    equal = 61, /* = */
 
-        a = 65,
-        b,
-        c,
-        d,
-        e,
-        f,
-        g,
-        h,
-        i,
-        j,
-        k,
-        l,
-        m,
-        n,
-        o,
-        p,
-        q,
-        r,
-        s,
-        t,
-        u,
-        v,
-        w,
-        x,
-        y,
-        z,
+    a = 65,
+    b,
+    c,
+    d,
+    e,
+    f,
+    g,
+    h,
+    i,
+    j,
+    k,
+    l,
+    m,
+    n,
+    o,
+    p,
+    q,
+    r,
+    s,
+    t,
+    u,
+    v,
+    w,
+    x,
+    y,
+    z,
 
-        left_bracket = 91, /* [ */
-        backslash = 92, /* \ */
-        right_bracket = 93, /* ] */
-        grave_accent = 96, /* ` */
+    left_bracket = 91, /* [ */
+    backslash = 92, /* \ */
+    right_bracket = 93, /* ] */
+    grave_accent = 96, /* ` */
 
-        world_1 = 161, /* non-US #1 */
-        world_2 = 162, /* non-US #2 */
+    world_1 = 161, /* non-US #1 */
+    world_2 = 162, /* non-US #2 */
 
-        /* function keys */
+    /* function keys */
 
-        escape = 256,
-        enter,
-        tab,
-        backspace,
-        insert,
-        del, /* delete */
+    escape = 256,
+    enter,
+    tab,
+    backspace,
+    insert,
+    del, /* delete */
 
-        right,
-        left,
-        down,
-        up,
+    right,
+    left,
+    down,
+    up,
 
-        page_up,
-        page_down,
-        home,
-        end,
+    page_up,
+    page_down,
+    home,
+    end,
 
-        caps_lock = 280,
-        scroll_lock,
-        num_lock,
-        print_screen,
-        pause,
+    caps_lock = 280,
+    scroll_lock,
+    num_lock,
+    print_screen,
+    pause,
 
-        f1 = 290,
-        f2,
-        f3,
-        f4,
-        f5,
-        f6,
-        f7,
-        f8,
-        f9,
-        f10,
-        f11,
-        f12,
-        f13,
-        f14,
-        f15,
-        f16,
-        f17,
-        f18,
-        f19,
-        f20,
-        f21,
-        f22,
-        f23,
-        f24,
-        f25,
+    f1 = 290,
+    f2,
+    f3,
+    f4,
+    f5,
+    f6,
+    f7,
+    f8,
+    f9,
+    f10,
+    f11,
+    f12,
+    f13,
+    f14,
+    f15,
+    f16,
+    f17,
+    f18,
+    f19,
+    f20,
+    f21,
+    f22,
+    f23,
+    f24,
+    f25,
 
-        kp_0 = 320,
-        kp_1,
-        kp_2,
-        kp_3,
-        kp_4,
-        kp_5,
-        kp_6,
-        kp_7,
-        kp_8,
-        kp_9,
+    kp_0 = 320,
+    kp_1,
+    kp_2,
+    kp_3,
+    kp_4,
+    kp_5,
+    kp_6,
+    kp_7,
+    kp_8,
+    kp_9,
 
-        kp_decimal,
-        kp_divide,
-        kp_multiply,
-        kp_subtract,
-        kp_add,
-        kp_enter,
-        kp_equal,
+    kp_decimal,
+    kp_divide,
+    kp_multiply,
+    kp_subtract,
+    kp_add,
+    kp_enter,
+    kp_equal,
 
-        left_shift = 340,
-        left_control,
-        left_alt,
-        left_super,
+    left_shift = 340,
+    left_control,
+    left_alt,
+    left_super,
 
-        right_shift,
-        right_control,
-        right_alt,
-        right_super,
+    right_shift,
+    right_control,
+    right_alt,
+    right_super,
 
-        menu,
+    menu,
 
-        last = menu,
-    };
+    last = menu,
+};
 
-    enum class action : type {
-        release = 0,
-        press,
-        repeat
-    };
+/**
+ * @brief Input action
+ */
+enum class action : type {
+    release = 0,
+    press,
+    repeat
+};
 
-    enum class mod : c8 {
-        shift = 0x01,
-        control = 0x02,
-        alt = 0x04,
-        super = 0x08,
-        caps_lock = 0x10,
-        num_lock = 0x20,
-    };
+/**
+ * @brief Input mod
+ */
+enum class mod : c8 {
+    shift = 0x01,
+    control = 0x02,
+    alt = 0x04,
+    super = 0x08,
+    caps_lock = 0x10,
+    num_lock = 0x20,
+};
 
-    struct key_event {
-        using ref = key_event const&;
-        using func = std::function<bool(ref)>;
-        using listeners = std::map<id, func>;
-        using list = std::vector<key_event>;
+/**
+ * @brief Key event
+ */
+struct key_event {
+    /// Reference to key event
+    using ref = key_event const&;
 
-        id sender;
+    /// Key event function
+    using func = std::function<bool(ref)>;
 
-        lava::key key;
-        lava::action action;
-        lava::mod mod;
+    /// List of key event listeners
+    using listeners = std::map<id, func>;
 
-        i32 scancode = 0;
+    /// List of key events
+    using list = std::vector<key_event>;
 
-        bool pressed(lava::key k) const {
-            return action == action::press && key == k;
-        }
-        bool released(lava::key k) const {
-            return action == action::release && key == k;
-        }
-        bool repeated(lava::key k) const {
-            return action == action::repeat && key == k;
-        }
+    /// Sender id
+    id sender;
 
-        bool active() const {
-            return action == action::press || action == action::repeat;
-        }
+    /// Input key
+    lava::key key;
 
-        bool pressed(lava::key k, lava::mod m) const {
-            return pressed(k) && mod == m;
-        }
-    };
+    /// Input action
+    lava::action action;
 
-    struct scroll_offset {
-        r64 x = 0.0;
-        r64 y = 0.0;
-    };
+    /// Input mod
+    lava::mod mod;
 
-    struct scroll_event {
-        using ref = scroll_event const&;
-        using func = std::function<bool(ref)>;
-        using listeners = std::map<id, func>;
-        using list = std::vector<scroll_event>;
+    /// Input scan code
+    i32 scancode = 0;
 
-        id sender;
+    /**
+     * @brief Check if key is pressed
+     * 
+     * @param k Key to check
+     * @return true Key is pressed
+     * @return false Key is not pressed
+     */
+    bool pressed(lava::key k) const {
+        return action == action::press && key == k;
+    }
 
-        scroll_offset offset;
-    };
+    /**
+     * @brief Check if key is released
+     * 
+     * @param k Key to check
+     * @return true Key is released
+     * @return false Key is not released
+     */
+    bool released(lava::key k) const {
+        return action == action::release && key == k;
+    }
 
-    struct mouse_position {
-        r64 x = 0.0;
-        r64 y = 0.0;
-    };
+    /**
+     * @brief Check if key is repeated
+     * 
+     * @param k Key to check
+     * @return true Key is repeated
+     * @return false Key is not repeated
+     */
+    bool repeated(lava::key k) const {
+        return action == action::repeat && key == k;
+    }
 
-    struct mouse_move_event {
-        using ref = mouse_move_event const&;
-        using func = std::function<bool(ref)>;
-        using listeners = std::map<id, func>;
-        using list = std::vector<mouse_move_event>;
+    /**
+     * @brief Check if key is active
+     * 
+     * @return true Key is pressed or repeated
+     * @return false Key is not active
+     */
+    bool active() const {
+        return action == action::press || action == action::repeat;
+    }
 
-        id sender;
+    /**
+     * @brief Check if key is pressed with mod
+     * 
+     * @param k Key to check
+     * @param m Mod to check
+     * @return true Key is pressed with mod
+     * @return false Key is not pressed with mod
+     */
+    bool pressed(lava::key k, lava::mod m) const {
+        return pressed(k) && mod == m;
+    }
+};
 
-        mouse_position position;
-    };
+/**
+ * @brief Input scroll offset
+ */
+struct scroll_offset {
+    /// X offset
+    r64 x = 0.0;
 
-    enum class mouse_button : type {
-        _1 = 0,
-        _2,
-        _3,
-        _4,
-        _5,
-        _6,
-        _7,
-        _8,
+    /// Y offset
+    r64 y = 0.0;
+};
 
-        last = _8,
+/**
+ * @brief Scroll event
+ */
+struct scroll_event {
+    /// Reference to scroll event
+    using ref = scroll_event const&;
 
-        left = _1,
-        right = _2,
-        middle = _3,
-    };
+    /// Scroll event function
+    using func = std::function<bool(ref)>;
 
-    struct mouse_button_event {
-        using ref = mouse_button_event const&;
-        using func = std::function<bool(ref)>;
-        using listeners = std::map<id, func>;
-        using list = std::vector<mouse_button_event>;
+    /// List of scroll event listeners
+    using listeners = std::map<id, func>;
 
-        id sender;
+    /// List of scroll events
+    using list = std::vector<scroll_event>;
 
-        mouse_button button;
+    /// Sender id
+    id sender;
 
-        lava::action action;
-        lava::mod mod;
+    /// Input scroll offset
+    scroll_offset offset;
+};
 
-        bool pressed(mouse_button b) const {
-            return action == action::press && button == b;
-        }
-        bool released(mouse_button b) const {
-            return action == action::release && button == b;
-        }
-    };
+/**
+ * @brief Input mouse position
+ */
+struct mouse_position {
+    /// X position
+    r64 x = 0.0;
 
-    struct path_drop_event {
-        using ref = path_drop_event const&;
-        using func = std::function<bool(ref)>;
-        using listeners = std::map<id, func>;
-        using list = std::vector<path_drop_event>;
+    /// Y position
+    r64 y = 0.0;
+};
 
-        id sender;
+/**
+ * @brief Mouse move event
+ */
+struct mouse_move_event {
+    /// Reference to mouse move event
+    using ref = mouse_move_event const&;
 
-        string_list files;
-    };
+    /// Mouse move event function
+    using func = std::function<bool(ref)>;
 
-    struct mouse_active_event {
-        using ref = mouse_active_event const&;
-        using func = std::function<bool(ref)>;
-        using listeners = std::map<id, func>;
-        using list = std::vector<mouse_active_event>;
+    /// List of mouse move event listeners
+    using listeners = std::map<id, func>;
 
-        id sender;
+    /// List of mouse move events
+    using list = std::vector<mouse_move_event>;
 
-        bool active = false;
-    };
+    /// Sender id
+    id sender;
 
-    struct input_callback {
-        using list = std::vector<input_callback*>;
+    /// Input mouse position
+    mouse_position position;
+};
 
-        template<typename T>
-        using func = std::function<bool(typename T::ref)>;
+/**
+ * @brief Input mouse button
+ */
+enum class mouse_button : type {
+    _1 = 0,
+    _2,
+    _3,
+    _4,
+    _5,
+    _6,
+    _7,
+    _8,
 
-        key_event::func on_key_event;
-        scroll_event::func on_scroll_event;
+    last = _8,
 
-        mouse_move_event::func on_mouse_move_event;
-        mouse_button_event::func on_mouse_button_event;
-        mouse_active_event::func on_mouse_active_event;
-        path_drop_event::func on_path_drop_event;
-    };
+    left = _1,
+    right = _2,
+    middle = _3,
+};
 
+/**
+ * @brief Mouse button event
+ */
+struct mouse_button_event {
+    /// Reference to mouse button event
+    using ref = mouse_button_event const&;
+
+    /// Mouse button event function
+    using func = std::function<bool(ref)>;
+
+    /// List of mouse button event listeners
+    using listeners = std::map<id, func>;
+
+    /// List of mouse button events
+    using list = std::vector<mouse_button_event>;
+
+    /// Sender id
+    id sender;
+
+    /// Input mouse button
+    mouse_button button;
+
+    /// Input action
+    lava::action action;
+
+    /// Input mod
+    lava::mod mod;
+
+    /**
+     * @brief Check if mouse button is pressed
+     * 
+     * @param b Mouse button to check
+     * @return true Mouse button is pressed
+     * @return false Mouse button is not pressed
+     */
+    bool pressed(mouse_button b) const {
+        return action == action::press && button == b;
+    }
+
+    /**
+     * @brief Check if mouse button is released
+     * 
+     * @param b Mouse button to check
+     * @return true Mouse button is released
+     * @return false Mouse button is not released
+     */
+    bool released(mouse_button b) const {
+        return action == action::release && button == b;
+    }
+};
+
+/**
+ * @brief Path drop event
+ */
+struct path_drop_event {
+    /// Reference to path drop event
+    using ref = path_drop_event const&;
+
+    /// Path drop event function
+    using func = std::function<bool(ref)>;
+
+    /// List of path drop event listeners
+    using listeners = std::map<id, func>;
+
+    /// List of path drop events
+    using list = std::vector<path_drop_event>;
+
+    /// Sender id
+    id sender;
+
+    /// List of files
+    string_list files;
+};
+
+/**
+ * @brief Mouse active event
+ */
+struct mouse_active_event {
+    /// Reference to mouse active event
+    using ref = mouse_active_event const&;
+
+    /// Mouse active event function
+    using func = std::function<bool(ref)>;
+
+    /// List of mouse active event listeners
+    using listeners = std::map<id, func>;
+
+    /// List of mouse active events
+    using list = std::vector<mouse_active_event>;
+
+    /// Sender id
+    id sender;
+
+    /// Active state
+    bool active = false;
+};
+
+/**
+ * @brief Input callback
+ */
+struct input_callback {
+    /// List of input callbacks
+    using list = std::vector<input_callback*>;
+
+    /**
+     * @brief Input callback functions
+     * 
+     * @tparam T Type of callback
+     */
     template<typename T>
-    struct input_events : T::list {
-        void add(typename T::ref event) {
-            this->push_back(event);
-        }
+    using func = std::function<bool(typename T::ref)>;
 
-        id_listeners<T> listeners;
+    /// Called on key event
+    key_event::func on_key_event;
+
+    /// Called on scroll event
+    scroll_event::func on_scroll_event;
+
+    /// Called on mouse move event
+    mouse_move_event::func on_mouse_move_event;
+
+    /// Called on mouse button event
+    mouse_button_event::func on_mouse_button_event;
+
+    /// Called on mouse active event
+    mouse_active_event::func on_mouse_active_event;
+
+    /// Called on path drop event
+    path_drop_event::func on_path_drop_event;
+};
+
+/**
+ * @brief List of input events
+ * 
+ * @tparam T Type of event
+ */
+template<typename T>
+struct input_events : T::list {
+    /**
+     * @brief Add event to list
+     * 
+     * @param event Event to add
+     */
+    void add(typename T::ref event) {
+        this->push_back(event);
+    }
+
+    /// List of event listeners
+    id_listeners<T> listeners;
+};
+
+/// List of key events
+using input_key_events = input_events<key_event>;
+
+/// List of scroll events
+using input_scroll_events = input_events<scroll_event>;
+
+/// List of mouse move events
+using input_mouse_move_events = input_events<mouse_move_event>;
+
+/// List of mouse button events
+using input_mouse_button_events = input_events<mouse_button_event>;
+
+/// List of mouse active events
+using input_mouse_active_events = input_events<mouse_active_event>;
+
+/// List of path drop events
+using input_path_drop_events = input_events<path_drop_event>;
+
+/// Input ignore result
+constexpr bool const input_ignore = false;
+
+/// Input done result
+constexpr bool const input_done = true;
+
+/**
+ * @brief Input handling
+ */
+struct input : id_obj {
+    /// List of key events
+    input_key_events key;
+
+    /// List of scroll events
+    input_scroll_events scroll;
+
+    /// List of mouse move events
+    input_mouse_move_events mouse_move;
+
+    /// List of mouse button events
+    input_mouse_button_events mouse_button;
+
+    /// List of mouse active events
+    input_mouse_active_events mouse_active;
+
+    /// List of path drop events
+    input_path_drop_events path_drop;
+
+    /**
+     * @brief Handle events
+     */
+    void handle_events();
+
+    /**
+     * @brief Add callback to the input handling
+     * 
+     * @param callback Callback to add
+     */
+    void add(input_callback* callback) {
+        callbacks.push_back(callback);
+    }
+
+    /**
+     * @brief Remove callback from the input handling
+     * 
+     * @param callback Callback to remove
+     */
+    void remove(input_callback* callback) {
+        lava::remove(callbacks, callback);
+    }
+
+    /**
+     * @brief Get the mouse position
+     * 
+     * @return mouse_position Current mouse position
+     */
+    mouse_position get_mouse_position() const {
+        return current_position;
+    }
+
+    /**
+     * @brief Set the mouse position
+     * 
+     * @param position Current mouse position
+     */
+    void set_mouse_position(mouse_position const& position) {
+        current_position = position;
+    }
+
+private:
+    /**
+     * @brief Handle mouse events
+     */
+    void handle_mouse_events();
+
+    /// Current mouse position
+    mouse_position current_position;
+
+    /// List of input callbacks
+    input_callback::list callbacks;
+};
+
+/**
+ * @brief Gamepad id
+ */
+enum class gamepad_id : ui32 {
+    _1 = 0,
+    _2,
+    _3,
+    _4,
+    _5,
+    _6,
+    _7,
+    _8,
+    _9,
+    _10,
+    _11,
+    _12,
+    _13,
+    _14,
+    _15,
+    _16,
+
+    last = _16,
+};
+
+/**
+ * @brief Gamepad button
+ */
+enum class gamepad_button : type {
+    a = 0,
+    b,
+    x,
+    y,
+
+    left_bumper,
+    right_bumper,
+
+    back,
+    start,
+    guide,
+
+    left_thumb,
+    right_thumb,
+
+    dpad_up,
+    dpad_right,
+    dpad_down,
+    dpad_left,
+
+    last = dpad_left,
+
+    cross = a,
+    circle = b,
+    square = x,
+    triangle = y,
+};
+
+/**
+ * @brief Gamepad axis
+ */
+enum class gamepad_axis : type {
+    left_x = 0,
+    left_y,
+
+    right_x,
+    right_y,
+
+    left_trigger,
+    right_trigger,
+
+    last = right_trigger,
+};
+
+/**
+ * @brief Gamepad
+ */
+struct gamepad {
+    /// List of gamepads
+    using list = std::vector<gamepad>;
+
+    /// Reference to gamepad
+    using ref = gamepad const&;
+
+    /**
+     * @brief Construct a new gamepad
+     * 
+     * @param id Gamepad id
+     */
+    explicit gamepad(gamepad_id id);
+
+    /**
+     * @brief Check if gamepad is active
+     * 
+     * @return true Gamepad is active
+     * @return false Gamepad is inactive
+     */
+    bool ready() const;
+
+    /**
+     * @brief Update gamepad
+     * 
+     * @return true Update was successful
+     * @return false Update failed
+     */
+    bool update();
+
+    /**
+     * @brief Check if gamepad button is pressed
+     * 
+     * @param button Gamepad button to check
+     * @return true Button is pressed
+     * @return false Button is not pressed
+     */
+    bool pressed(gamepad_button button) const {
+        return state.buttons[to_ui32(button)];
+    }
+
+    /**
+     * @brief Get value of axis
+     * 
+     * @param axis Target axis
+     * @return r32 Axis value
+     */
+    r32 value(gamepad_axis axis) const {
+        return state.axes[to_ui32(axis)];
+    }
+
+    /**
+     * @brief Get the gamepad id
+     * 
+     * @return gamepad_id Gamepad id
+     */
+    gamepad_id get_pad_id() const {
+        return id;
+    }
+
+    /**
+     * @brief Get the gamepad id as integer
+     * 
+     * @return ui32 Integer gamepad id
+     */
+    ui32 get_id() const {
+        return to_ui32(get_pad_id());
+    }
+
+    /**
+     * @brief Get the name
+     * 
+     * @return name Name of gamepad
+     */
+    name get_name() const;
+
+private:
+    /// Gamepad id
+    gamepad_id id;
+
+    /**
+     * @brief Gamepad state
+     */
+    struct state {
+        /// Gamepad buttons
+        unsigned char buttons[15];
+
+        /// Gamepad axes
+        r32 axes[6];
     };
 
-    constexpr bool const input_ignore = false;
-    constexpr bool const input_done = true;
+    /// Gamepad state
+    gamepad::state state;
+};
 
-    struct input : id_obj {
-        input_events<key_event> key;
-        input_events<scroll_event> scroll;
+/**
+ * @brief Get list of all gamepads
+ * 
+ * @return gamepad::list List of gamepads
+ */
+gamepad::list gamepads();
 
-        input_events<mouse_move_event> mouse_move;
-        input_events<mouse_button_event> mouse_button;
-        input_events<mouse_active_event> mouse_active;
-        input_events<path_drop_event> path_drop;
+/**
+ * @brief Gamepad manager
+ */
+struct gamepad_manager {
+    /// Gamepad listener function
+    using listener_func = std::function<bool(gamepad, bool)>;
 
-        void handle_events();
+    /**
+     * @brief Add listener
+     * 
+     * @param listener Gamepad listener function
+     * @return id Id of function
+     */
+    static id add(listener_func listener);
 
-        void add(input_callback* callback) {
-            callbacks.push_back(callback);
-        }
-        void remove(input_callback* callback) {
-            lava::remove(callbacks, callback);
-        }
+    /**
+     * @brief Remove listener
+     * 
+     * @param id Id of function
+     */
+    static void remove(id::ref id);
 
-        mouse_position get_mouse_position() const {
-            return current_position;
-        }
-        void set_mouse_position(mouse_position const& position) {
-            current_position = position;
-        }
+private:
+    /**
+     * @brief Construct a new gamepad manager
+     */
+    explicit gamepad_manager();
 
-    private:
-        void handle_mouse_events();
+    /**
+     * @brief Get gamepad manager singleton
+     * 
+     * @return gamepad_manager& Gamepad manager
+     */
+    static gamepad_manager& instance() {
+        static gamepad_manager manager;
+        return manager;
+    }
 
-        mouse_position current_position;
+    /// Map of gamepad listeners
+    using listener_map = std::map<id, listener_func>;
 
-        input_callback::list callbacks;
-    };
-
-    enum class gamepad_id : ui32 {
-        _1 = 0,
-        _2,
-        _3,
-        _4,
-        _5,
-        _6,
-        _7,
-        _8,
-        _9,
-        _10,
-        _11,
-        _12,
-        _13,
-        _14,
-        _15,
-        _16,
-
-        last = _16,
-    };
-
-    enum class gamepad_button : type {
-        a = 0,
-        b,
-        x,
-        y,
-
-        left_bumper,
-        right_bumper,
-
-        back,
-        start,
-        guide,
-
-        left_thumb,
-        right_thumb,
-
-        dpad_up,
-        dpad_right,
-        dpad_down,
-        dpad_left,
-
-        last = dpad_left,
-
-        cross = a,
-        circle = b,
-        square = x,
-        triangle = y,
-    };
-
-    enum class gamepad_axis : type {
-        left_x = 0,
-        left_y,
-
-        right_x,
-        right_y,
-
-        left_trigger,
-        right_trigger,
-
-        last = right_trigger,
-    };
-
-    struct gamepad {
-        using list = std::vector<gamepad>;
-        using ref = gamepad const&;
-
-        explicit gamepad(gamepad_id id);
-
-        bool ready() const;
-        bool update();
-
-        bool pressed(gamepad_button button) const {
-            return state.buttons[to_ui32(button)];
-        }
-
-        r32 value(gamepad_axis axis) const {
-            return state.axes[to_ui32(axis)];
-        }
-
-        gamepad_id get_pad_id() const {
-            return id;
-        }
-
-        ui32 get_id() const {
-            return to_ui32(get_pad_id());
-        }
-
-        name get_name() const;
-
-    private:
-        gamepad_id id;
-
-        struct state {
-            unsigned char buttons[15];
-            r32 axes[6];
-        };
-
-        gamepad::state state;
-    };
-
-    gamepad::list gamepads();
-
-    struct gamepad_manager {
-        using listener_func = std::function<bool(gamepad, bool)>;
-
-        static id add(listener_func listener);
-
-        static void remove(id::ref id);
-
-    private:
-        explicit gamepad_manager();
-
-        static gamepad_manager& instance() {
-            static gamepad_manager manager;
-            return manager;
-        }
-
-        using listener_map = std::map<id, listener_func>;
-        listener_map map;
-    };
+    /// Map of gamepad listeners
+    listener_map map;
+};
 
 } // namespace lava

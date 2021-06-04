@@ -1,36 +1,30 @@
 // file      : liblava/asset/mesh_loader.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <liblava/asset/mesh_loader.hpp>
 #include <liblava/file.hpp>
 
-#ifndef LIBLAVA_TINYOBJLOADER
-#    define LIBLAVA_TINYOBJLOADER 1
+#ifdef _WIN32
+    #pragma warning(push, 4)
+#else
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 #endif
 
-#if LIBLAVA_TINYOBJLOADER
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tiny_obj_loader.h>
 
-#    ifdef _WIN32
-#        pragma warning(push, 4)
-#    else
-#        pragma GCC diagnostic push
-#        pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-#    endif
-
-#    define TINYOBJLOADER_IMPLEMENTATION
-#    include <tiny_obj_loader.h>
-
-#    ifdef _WIN32
-#        pragma warning(pop)
-#    else
-#        pragma GCC diagnostic pop
-#    endif
-
+#ifdef _WIN32
+    #pragma warning(pop)
+#else
+    #pragma GCC diagnostic pop
 #endif
 
-lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
-#if LIBLAVA_TINYOBJLOADER
+namespace lava {
+
+//-----------------------------------------------------------------------------
+mesh::ptr load_mesh(device_ptr device, name filename) {
     if (extension(filename, "OBJ")) {
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
@@ -96,7 +90,8 @@ lava::mesh::ptr lava::load_mesh(device_ptr device, name filename) {
             return mesh;
         }
     }
-#endif
 
     return nullptr;
 }
+
+} // namespace lava

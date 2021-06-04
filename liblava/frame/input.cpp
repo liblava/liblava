@@ -1,6 +1,6 @@
 // file      : liblava/frame/input.cpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+// authors   : Lava Block OÜ and contributors
+// copyright : Copyright (c) 2018-present, MIT License
 
 #include <liblava/frame/input.hpp>
 
@@ -10,134 +10,149 @@
 
 namespace lava {
 
-    template<typename T>
-    void _handle_events(input_events<T>& events, input_callback::func<T> input_callback) {
-        for (auto& event : events) {
-            auto handled = false;
+/**
+ * @brief Handle events
+ * 
+ * @tparam T Type of event
+ * @param events Events to handle
+ * @param input_callback Input callback
+ */
+template<typename T>
+void _handle_events(input_events<T>& events, input_callback::func<T> input_callback) {
+    for (auto& event : events) {
+        auto handled = false;
 
-            for (auto& listener : events.listeners.get_list()) {
-                if (listener.second(event)) {
-                    handled = true;
-                    break;
-                }
+        for (auto& listener : events.listeners.get_list()) {
+            if (listener.second(event)) {
+                handled = true;
+                break;
             }
-
-            if (handled)
-                continue;
-
-            if (input_callback)
-                input_callback(event);
         }
 
-        events.clear();
+        if (handled)
+            continue;
+
+        if (input_callback)
+            input_callback(event);
     }
 
-    void input::handle_mouse_events() {
-        _handle_events<mouse_move_event>(mouse_move, [&](auto& event) {
-            for (auto& callback : callbacks)
-                if (callback->on_mouse_move_event)
-                    if (callback->on_mouse_move_event(event))
-                        return true;
+    events.clear();
+}
 
-            return false;
-        });
+//-----------------------------------------------------------------------------
+void input::handle_mouse_events() {
+    _handle_events<mouse_move_event>(mouse_move, [&](auto& event) {
+        for (auto& callback : callbacks)
+            if (callback->on_mouse_move_event)
+                if (callback->on_mouse_move_event(event))
+                    return true;
 
-        _handle_events<mouse_button_event>(mouse_button, [&](auto& event) {
-            for (auto& callback : callbacks)
-                if (callback->on_mouse_button_event)
-                    if (callback->on_mouse_button_event(event))
-                        return true;
+        return false;
+    });
 
-            return false;
-        });
+    _handle_events<mouse_button_event>(mouse_button, [&](auto& event) {
+        for (auto& callback : callbacks)
+            if (callback->on_mouse_button_event)
+                if (callback->on_mouse_button_event(event))
+                    return true;
 
-        _handle_events<mouse_active_event>(mouse_active, [&](auto& event) {
-            for (auto& callback : callbacks)
-                if (callback->on_mouse_active_event)
-                    if (callback->on_mouse_active_event(event))
-                        return true;
+        return false;
+    });
 
-            return false;
-        });
-    }
+    _handle_events<mouse_active_event>(mouse_active, [&](auto& event) {
+        for (auto& callback : callbacks)
+            if (callback->on_mouse_active_event)
+                if (callback->on_mouse_active_event(event))
+                    return true;
 
-    void input::handle_events() {
-        _handle_events<key_event>(key, [&](auto& event) {
-            for (auto& callback : callbacks)
-                if (callback->on_key_event)
-                    if (callback->on_key_event(event))
-                        return true;
+        return false;
+    });
+}
 
-            return false;
-        });
+//-----------------------------------------------------------------------------
+void input::handle_events() {
+    _handle_events<key_event>(key, [&](auto& event) {
+        for (auto& callback : callbacks)
+            if (callback->on_key_event)
+                if (callback->on_key_event(event))
+                    return true;
 
-        _handle_events<scroll_event>(scroll, [&](auto& event) {
-            for (auto& callback : callbacks)
-                if (callback->on_scroll_event)
-                    if (callback->on_scroll_event(event))
-                        return true;
+        return false;
+    });
 
-            return false;
-        });
+    _handle_events<scroll_event>(scroll, [&](auto& event) {
+        for (auto& callback : callbacks)
+            if (callback->on_scroll_event)
+                if (callback->on_scroll_event(event))
+                    return true;
 
-        handle_mouse_events();
+        return false;
+    });
 
-        _handle_events<path_drop_event>(path_drop, [&](auto& event) {
-            for (auto& callback : callbacks)
-                if (callback->on_path_drop_event)
-                    if (callback->on_path_drop_event(event))
-                        return true;
+    handle_mouse_events();
 
-            return false;
-        });
-    }
+    _handle_events<path_drop_event>(path_drop, [&](auto& event) {
+        for (auto& callback : callbacks)
+            if (callback->on_path_drop_event)
+                if (callback->on_path_drop_event(event))
+                    return true;
 
-    gamepad::gamepad(gamepad_id id)
-    : id(id) {
-        if (ready())
-            update();
-    }
+        return false;
+    });
+}
 
-    name gamepad::get_name() const {
-        return glfwGetGamepadName(to_i32(id));
-    }
+//-----------------------------------------------------------------------------
+gamepad::gamepad(gamepad_id id)
+: id(id) {
+    if (ready())
+        update();
+}
 
-    bool gamepad::ready() const {
-        return glfwJoystickIsGamepad(to_i32(id));
-    }
+//-----------------------------------------------------------------------------
+name gamepad::get_name() const {
+    return glfwGetGamepadName(to_i32(id));
+}
 
-    bool gamepad::update() {
-        return glfwGetGamepadState(to_i32(id), (GLFWgamepadstate*) &state) == GLFW_TRUE;
-    }
+//-----------------------------------------------------------------------------
+bool gamepad::ready() const {
+    return glfwJoystickIsGamepad(to_i32(id));
+}
 
-    gamepad_manager::gamepad_manager() {
-        glfwSetJoystickCallback([](int jid, int e) {
-            for (auto& event : instance().map)
-                if (event.second(gamepad(gamepad_id(jid)), e == GLFW_CONNECTED))
-                    break;
-        });
-    }
+//-----------------------------------------------------------------------------
+bool gamepad::update() {
+    return glfwGetGamepadState(to_i32(id), (GLFWgamepadstate*) &state) == GLFW_TRUE;
+}
 
-    id gamepad_manager::add(listener_func event) {
-        auto id = ids::next();
+//-----------------------------------------------------------------------------
+gamepad_manager::gamepad_manager() {
+    glfwSetJoystickCallback([](int jid, int e) {
+        for (auto& event : instance().map)
+            if (event.second(gamepad(gamepad_id(jid)), e == GLFW_CONNECTED))
+                break;
+    });
+}
 
-        instance().map.emplace(id, event);
+//-----------------------------------------------------------------------------
+id gamepad_manager::add(listener_func event) {
+    auto id = ids::next();
 
-        return id;
-    }
+    instance().map.emplace(id, event);
 
-    void gamepad_manager::remove(id::ref id) {
-        if (!instance().map.count(id))
-            return;
+    return id;
+}
 
-        instance().map.erase(id);
+//-----------------------------------------------------------------------------
+void gamepad_manager::remove(id::ref id) {
+    if (!instance().map.count(id))
+        return;
 
-        ids::free(id);
-    }
+    instance().map.erase(id);
 
-} // namespace lava
+    ids::free(id);
+}
 
-lava::gamepad::list lava::gamepads() {
+//-----------------------------------------------------------------------------
+gamepad::list gamepads() {
     gamepad::list result;
 
     for (auto id = GLFW_JOYSTICK_1; id < GLFW_JOYSTICK_LAST; ++id) {
@@ -147,3 +162,5 @@ lava::gamepad::list lava::gamepads() {
 
     return result;
 }
+
+} // namespace lava
