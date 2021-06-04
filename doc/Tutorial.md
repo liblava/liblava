@@ -317,7 +317,7 @@ We create a `lava block` and add just one **command** that clears the current fr
 All we need to do now is to process the block in the run loop:
 
 ```c++
-if (!block.process(*frame_index))
+if (!block.process(*current_frame))
     return run_abort;
 
 return renderer.end_frame(block.get_buffers());
