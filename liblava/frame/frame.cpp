@@ -67,7 +67,7 @@ void log_command_line(argh::parser& cmd_line) {
 }
 
 //-----------------------------------------------------------------------------
-ms lava::now() {
+ms now() {
     return to_ms(glfwGetTime());
 }
 

@@ -71,7 +71,7 @@ string get_filename_from(string_ref path, bool with_extension) {
     return with_extension ? target.filename().string() : target.stem().string();
 }
 
-bool lava::remove_existing_path(string& target, string_ref path) {
+bool remove_existing_path(string& target, string_ref path) {
     auto pos = target.find(path);
     if (pos != std::string::npos) {
         target.erase(pos, path.length());
