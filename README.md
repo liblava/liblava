@@ -1,4 +1,4 @@
-<a href="https://git.io/liblava"><img align="left" src="https://github.com/liblava.png" width="200" style="margin:0px 40px 0px 0px"></a>
+﻿<a href="https://git.io/liblava"><img align="left" src="https://github.com/liblava.png" width="200" style="margin:0px 40px 0px 0px"></a>
 
 🌋 **[liblava](https://git.io/liblava) &nbsp; A modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
 
@@ -45,6 +45,12 @@
 <br />
 
 ### Demos
+
+##### [lava light](liblava-demo/light.cpp) ➜ deferred shading / offscreen rendering
+
+<a href="liblava-demo/light.cpp">![light](res/light/screenshot.png)</a>
+
+<br />
 
 ##### [lava spawn](liblava-demo/spawn.cpp) ➜ uniform buffer camera
 
