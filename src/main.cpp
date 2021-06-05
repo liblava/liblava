@@ -1,4 +1,4 @@
-// file      : src-demo/main.cpp
+// file      : src/main.cpp
 // authors   : Lava Block OÜ and contributors
 // copyright : Copyright (c) 2018-present, MIT License
 

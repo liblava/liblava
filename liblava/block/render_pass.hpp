@@ -74,7 +74,7 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Get the subpass count
      * 
-     * @return ui32 Number of supasses
+     * @return ui32 Number of subpasses
      */
     ui32 get_subpass_count() const {
         return to_ui32(subpasses.size());
@@ -180,7 +180,7 @@ struct render_pass : id_obj, target_callback {
     }
 
     /**
-     * @brief Add a graphics pipeline to the fronst of subpass
+     * @brief Add a graphics pipeline to the front of subpass
      * 
      * @param pipeline Graphics pipeline
      * @param subpass Subpass
@@ -190,7 +190,7 @@ struct render_pass : id_obj, target_callback {
     }
 
     /**
-     * @brief Remove a graphice pipeline from the subpass
+     * @brief Remove a graphics pipeline from the subpass
      * 
      * @param pipeline Graphics pipeline
      * @param subpass Subpass
@@ -243,7 +243,7 @@ private:
      * @brief Called on target created
      * 
      * @param target_attachments List of target attachments
-     * @param area Rectangle are
+     * @param area Rectangle area
      * @return true Create was successful
      * @return false Create failed
      */

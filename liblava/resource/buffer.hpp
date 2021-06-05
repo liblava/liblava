@@ -1,6 +1,6 @@
 /**
  * @file liblava/resource/buffer.hpp
- * @brief Vulkan Buffer
+ * @brief Vulkan buffer
  * @authors Lava Block OÜ and contributors
  * @copyright Copyright (c) 2018-present, MIT License
  */
@@ -193,7 +193,7 @@ private:
 };
 
 /**
- * @brief Create a new buffer
+ * @brief Make a new buffer
  * 
  * @return buffer::ptr Shared pointer to buffer
  */

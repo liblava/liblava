@@ -190,7 +190,7 @@ private:
 };
 
 /**
- * @brief Create a new texture
+ * @brief Make a new texture
  * 
  * @return texture::ptr Shared pointer to texture
  */

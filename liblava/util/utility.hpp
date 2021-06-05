@@ -1,6 +1,6 @@
 /**
  * @file liblava/util/utility.hpp
- * @brief Container utilites
+ * @brief Container utilities
  * @authors Lava Block OÜ and contributors
  * @copyright Copyright (c) 2018-present, MIT License
  */
@@ -40,7 +40,7 @@ inline void remove(std::vector<T>& list, T item) {
 }
 
 /**
- * @brief Check if item contains in list
+ * @brief Check if item is included in list
  * 
  * @tparam T Type of list
  * @param list List of items
