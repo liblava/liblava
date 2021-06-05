@@ -59,6 +59,12 @@ cmake --build .
 
 <br />
 
+## Installing and using Vcpkg
+
+[Vcpkg](https://github.com/microsoft/vcpkg) integration with 2 options ➜ use this [registry and port](https://github.com/liblava/vcpkg-liblava)
+
+<br />
+
 ## Conan Package Manager
 
 If you are familiar with [Conan](https://conan.io/) ➜ build this [package recipe](https://github.com/liblava/conan-liblava)
