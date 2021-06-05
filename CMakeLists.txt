@@ -1,4 +1,4 @@
-﻿# file      : CMakeLists.txt
+# file      : CMakeLists.txt
 # copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 # license   : MIT; see accompanying LICENSE file
 
@@ -249,6 +249,8 @@ message(">> lava::frame")
 add_library(lava.frame STATIC
         ${LIBLAVA_DIR}/frame/frame.cpp
         ${LIBLAVA_DIR}/frame/frame.hpp
+        ${LIBLAVA_DIR}/frame/gamepad.cpp
+        ${LIBLAVA_DIR}/frame/gamepad.hpp
         ${LIBLAVA_DIR}/frame/input.cpp
         ${LIBLAVA_DIR}/frame/input.hpp
         ${LIBLAVA_DIR}/frame/render_target.cpp

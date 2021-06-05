@@ -16,7 +16,7 @@
 
 * [glfw](https://github.com/glfw/glfw) / **A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input** / *zlib*
 
-  [![frame](https://img.shields.io/badge/lava-frame-red.svg)](../liblava/frame/frame.cpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](../liblava/frame/input.cpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](../liblava/frame/window.cpp)
+  [![frame](https://img.shields.io/badge/lava-frame-red.svg)](../liblava/frame/frame.cpp) [![gamepad](https://img.shields.io/badge/lava-gamepad-red.svg)](../liblava/frame/gamepad.cpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](../liblava/frame/input.cpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](../liblava/frame/window.cpp)
 
 * [gli](https://github.com/g-truc/gli) / **OpenGL Image (GLI)** / *MIT*
 
