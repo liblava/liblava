@@ -20,7 +20,7 @@
 
 * [gli](https://github.com/g-truc/gli) / **OpenGL Image (GLI)** / *MIT*
 
-  [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](../liblava/asset/texture_loader.cpp)
+  [![texture_loader](https://img.shields.io/badge/lava-texture_loader-yellowgreen.svg)](../liblava/asset/texture_loader.cpp)
 
 * [glm](https://github.com/g-truc/glm) / **OpenGL Mathematics (GLM)** / *MIT*
 
@@ -48,23 +48,23 @@
 
 * [stb](https://github.com/nothings/stb) / **Single-file public domain libraries for C/C++** / *MIT*
 
-  [![image_data](https://img.shields.io/badge/lava-image_data-orange.svg)](../liblava/asset/image_data.cpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-orange.svg)](../liblava/asset/texture_loader.cpp)
+  [![image_data](https://img.shields.io/badge/lava-image_data-yellowgreen.svg)](../liblava/asset/image_data.cpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-yellowgreen.svg)](../liblava/asset/texture_loader.cpp)
 
 * [tinyobjloader](https://github.com/syoyo/tinyobjloader) / **Tiny but powerful single file wavefront obj loader** / *MIT*
 
-  [![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-orange.svg)](../liblava/asset/mesh_loader.hpp)
+  [![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-yellowgreen.svg)](../liblava/asset/mesh_loader.hpp)
 
 * [volk](https://github.com/zeux/volk) / **Meta loader for Vulkan API** / *MIT*
 
-  [![base](https://img.shields.io/badge/lava-base-orange.svg)](../liblava/base/base.hpp)
+  [![base](https://img.shields.io/badge/lava-base-yellowgreen.svg)](../liblava/base/base.hpp)
 
 * [Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers) / **Vulkan Header files and API registry** / *Apache 2.0*
 
-  [![base](https://img.shields.io/badge/lava-base-orange.svg)](../liblava/base/base.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](../liblava/frame/window.hpp)
+  [![base](https://img.shields.io/badge/lava-base-yellowgreen.svg)](../liblava/base/base.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](../liblava/frame/window.hpp)
 
 * [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) / **Easy to integrate Vulkan memory allocation library** / *MIT*
 
-  [![memory](https://img.shields.io/badge/lava-memory-orange.svg)](../liblava/base/memory.hpp)
+  [![memory](https://img.shields.io/badge/lava-memory-yellowgreen.svg)](../liblava/base/memory.hpp)
 
 <br />
 
