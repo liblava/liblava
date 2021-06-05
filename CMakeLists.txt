@@ -1,4 +1,4 @@
-# file      : CMakeLists.txt
+﻿# file      : CMakeLists.txt
 # copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 # license   : MIT; see accompanying LICENSE file
 
@@ -296,10 +296,16 @@ add_library(lava.block STATIC
         ${LIBLAVA_DIR}/block/attachment.hpp
         ${LIBLAVA_DIR}/block/block.cpp
         ${LIBLAVA_DIR}/block/block.hpp
+        ${LIBLAVA_DIR}/block/compute_pipeline.cpp
+        ${LIBLAVA_DIR}/block/compute_pipeline.hpp
         ${LIBLAVA_DIR}/block/descriptor.cpp
         ${LIBLAVA_DIR}/block/descriptor.hpp
+        ${LIBLAVA_DIR}/block/graphics_pipeline.cpp
+        ${LIBLAVA_DIR}/block/graphics_pipeline.hpp
         ${LIBLAVA_DIR}/block/pipeline.cpp
         ${LIBLAVA_DIR}/block/pipeline.hpp
+        ${LIBLAVA_DIR}/block/pipeline_layout.cpp
+        ${LIBLAVA_DIR}/block/pipeline_layout.hpp
         ${LIBLAVA_DIR}/block/render_pass.cpp
         ${LIBLAVA_DIR}/block/render_pass.hpp
         ${LIBLAVA_DIR}/block/subpass.cpp

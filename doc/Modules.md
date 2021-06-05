@@ -22,7 +22,9 @@
 
 ## lava [block](../liblava/block) / base
 
-[![attachment](https://img.shields.io/badge/lava-attachment-red.svg)](../liblava/block/attachment.hpp) [![block](https://img.shields.io/badge/lava-block-red.svg)](../liblava/block/block.hpp) [![descriptor](https://img.shields.io/badge/lava-descriptor-red.svg)](../liblava/block/descriptor.hpp) [![pipeline](https://img.shields.io/badge/lava-pipeline-red.svg)](../liblava/block/pipeline.hpp) [![render_pass](https://img.shields.io/badge/lava-render_pass-red.svg)](../liblava/block/render_pass.hpp) [![subpass](https://img.shields.io/badge/lava-subpass-red.svg)](../liblava/block/subpass.hpp)
+[![attachment](https://img.shields.io/badge/lava-attachment-red.svg)](../liblava/block/attachment.hpp) [![block](https://img.shields.io/badge/lava-block-red.svg)](../liblava/block/block.hpp) [![descriptor](https://img.shields.io/badge/lava-descriptor-red.svg)](../liblava/block/descriptor.hpp) [![render_pass](https://img.shields.io/badge/lava-render_pass-red.svg)](../liblava/block/render_pass.hpp) [![subpass](https://img.shields.io/badge/lava-subpass-red.svg)](../liblava/block/subpass.hpp)
+
+[![compute_pipeline](https://img.shields.io/badge/lava-compute_pipeline-red.svg)](../liblava/block/compute_pipeline.hpp) [![graphics_pipeline](https://img.shields.io/badge/lava-graphics_pipeline-red.svg)](../liblava/block/graphics_pipeline.hpp) [![pipeline](https://img.shields.io/badge/lava-pipeline-red.svg)](../liblava/block/pipeline.hpp) [![pipeline_layout](https://img.shields.io/badge/lava-pipeline_layout-red.svg)](../liblava/block/pipeline_layout.hpp)
 
 <br />
 

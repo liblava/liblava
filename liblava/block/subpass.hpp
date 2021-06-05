@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <liblava/block/pipeline.hpp>
+#include <liblava/block/graphics_pipeline.hpp>
 
 namespace lava {
 
