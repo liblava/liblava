@@ -518,11 +518,9 @@ option(LIBLAVA_DEMO "Enable Demo" TRUE)
 if(LIBLAVA_DEMO)
 message("========================================================================")
         
-        message("> module")
+        message("> lava::demo")
 
         set(LIBLAVA_DEMO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava-demo)
-
-        message(">> lava::demo")
 
         add_library(lava.demo STATIC
                 ${LIBLAVA_DEMO_DIR}/demo.cpp
@@ -539,7 +537,7 @@ message("=======================================================================
 
         add_library(lava::demo ALIAS lava.demo)
 
-        message("> lava-triangle")
+        message(">> lava-triangle")
 
         set(TRIANGLE_SHADERS
                 res/triangle/triangle.frag
@@ -558,7 +556,7 @@ message("=======================================================================
 
         set_property(TARGET lava-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-        message("> lava-lamp")
+        message(">> lava-lamp")
 
         set(LAMP_SHADERS
                 res/lamp/lamp.frag
@@ -577,7 +575,7 @@ message("=======================================================================
 
         set_property(TARGET lava-lamp PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-        message("> lava-spawn")
+        message(">> lava-spawn")
 
         set(SPAWN_SHADERS
                 res/spawn/spawn.frag
@@ -596,7 +594,7 @@ message("=======================================================================
 
         set_property(TARGET lava-spawn PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-        message("> lava-light")
+        message(">> lava-light")
 
         set(LIGHT_SHADERS
                 res/light/gbuffer.frag
