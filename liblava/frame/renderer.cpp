@@ -1,6 +1,9 @@
-// file      : liblava/frame/renderer.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/frame/renderer.cpp
+ * @brief        Plain renderer
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <array>
 #include <liblava/frame/renderer.hpp>

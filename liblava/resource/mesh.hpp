@@ -1,8 +1,8 @@
 /**
- * @file liblava/resource/mesh.hpp
- * @brief Vulkan mesh
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/resource/mesh.hpp
+ * @brief        Vulkan mesh
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -33,9 +33,10 @@ struct vertex {
     /**
      * @brief Equal compare operator
      * 
-     * @param other Another vertex
-     * @return true Another vertex is equal
-     * @return false Another vertex is unequal
+     * @param other     Another vertex
+     * 
+     * @return true     Another vertex is equal
+     * @return false    Another vertex is unequal
      */
     bool operator==(vertex const& other) const {
         return position == other.position && color == other.color && uv == other.uv && normal == other.normal;
@@ -55,7 +56,7 @@ struct mesh_data {
     /**
      * @brief Move mesh data by offset
      * 
-     * @param offset Position offset
+     * @param offset    Position offset
      */
     void move(v3 offset) {
         for (auto& vertex : vertices)
@@ -65,7 +66,7 @@ struct mesh_data {
     /**
      * @brief Scale mesh data by factor
      * 
-     * @param factor Position factor
+     * @param factor    Position factor
      */
     void scale(r32 factor) {
         for (auto& vertex : vertices)
@@ -96,11 +97,12 @@ struct mesh : id_obj {
     /**
      * @brief Create a new mesh
      * 
-     * @param device Vulkan device
-     * @param mapped Map mesh data
-     * @param memory_usage Memory usage
-     * @return true Create was successful
-     * @return false Create failed
+     * @param device          Vulkan device
+     * @param mapped          Map mesh data
+     * @param memory_usage    Memory usage
+     * 
+     * @return true           Create was successful
+     * @return false          Create failed
      */
     bool create(device_ptr device, bool mapped = false, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
 
@@ -112,21 +114,21 @@ struct mesh : id_obj {
     /**
      * @brief Bind the mesh
      * 
-     * @param cmd_buf Command buffer
+     * @param cmd_buf    Command buffer
      */
     void bind(VkCommandBuffer cmd_buf) const;
 
     /**
      * @brief Draw the mesh
      * 
-     * @param cmd_buf Command buffer
+     * @param cmd_buf    Command buffer
      */
     void draw(VkCommandBuffer cmd_buf) const;
 
     /**
      * @brief Bind and draw the mesh
      * 
-     * @param cmd_buf Command buffer
+     * @param cmd_buf    Command buffer
      */
     void bind_draw(VkCommandBuffer cmd_buf) const {
         bind(cmd_buf);
@@ -136,7 +138,7 @@ struct mesh : id_obj {
     /**
      * @brief Get the device
      * 
-     * @return device_ptr Vulkan device
+     * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
         return device;
@@ -145,8 +147,8 @@ struct mesh : id_obj {
     /**
      * @brief Check if mesh is empty
      * 
-     * @return true Mesh is empty
-     * @return false Mesh is not empty
+     * @return true     Mesh is empty
+     * @return false    Mesh is not empty
      */
     bool empty() const {
         return data.vertices.empty();
@@ -155,7 +157,7 @@ struct mesh : id_obj {
     /**
      * @brief Set the mesh data
      * 
-     * @param value Mesh data
+     * @param value    Mesh data
      */
     void set_data(mesh_data const& value) {
         data = value;
@@ -164,7 +166,7 @@ struct mesh : id_obj {
     /**
      * @brief Get the mesh data
      * 
-     * @return mesh_data& Mesh data
+     * @return mesh_data&    Mesh data
      */
     mesh_data& get_data() {
         return data;
@@ -173,14 +175,14 @@ struct mesh : id_obj {
     /**
      * @brief Add mesh data to existing data
      * 
-     * @param value Mesh data to add
+     * @param value    Mesh data to add
      */
     void add_data(mesh_data const& value);
 
     /**
      * @brief Get the vertices of the mesh
      * 
-     * @return vertex::list& List of vertices
+     * @return vertex::list&    List of vertices
      */
     vertex::list& get_vertices() {
         return data.vertices;
@@ -189,7 +191,7 @@ struct mesh : id_obj {
     /**
      * @brief Get the const vertices of the mesh
      * 
-     * @return vertex::list const& List of vertices
+     * @return vertex::list const&    List of vertices
      */
     vertex::list const& get_vertices() const {
         return data.vertices;
@@ -198,7 +200,7 @@ struct mesh : id_obj {
     /**
      * @brief Get the vertices count of the mesh
      * 
-     * @return ui32 Number of vertices
+     * @return ui32    Number of vertices
      */
     ui32 get_vertices_count() const {
         return to_ui32(data.vertices.size());
@@ -207,7 +209,7 @@ struct mesh : id_obj {
     /**
      * @brief Get the indices of the mesh
      * 
-     * @return index_list& List of indices
+     * @return index_list&    List of indices
      */
     index_list& get_indices() {
         return data.indices;
@@ -216,7 +218,7 @@ struct mesh : id_obj {
     /**
      * @brief Get the const indices of the mesh
      * 
-     * @return index_list const& List of indices
+     * @return index_list const&    List of indices
      */
     index_list const& get_indices() const {
         return data.indices;
@@ -225,7 +227,7 @@ struct mesh : id_obj {
     /**
      * @brief Get the indices count of the mesh
      * 
-     * @return ui32 Number of indices
+     * @return ui32    Number of indices
      */
     ui32 get_indices_count() const {
         return to_ui32(data.indices.size());
@@ -234,15 +236,15 @@ struct mesh : id_obj {
     /**
      * @brief Reload the mesh data
      * 
-     * @return true Reload was successful
-     * @return false Reload failed
+     * @return true     Reload was successful
+     * @return false    Reload failed
      */
     bool reload();
 
     /**
      * @brief Get the vertex buffer of the mesh
      * 
-     * @return buffer::ptr Shared pointer to buffer
+     * @return buffer::ptr    Shared pointer to buffer
      */
     buffer::ptr get_vertex_buffer() {
         return vertex_buffer;
@@ -251,7 +253,7 @@ struct mesh : id_obj {
     /**
      * @brief Get the index buffer of the mesh
      * 
-     * @return buffer::ptr Shared pointer to buffer
+     * @return buffer::ptr    Shared pointer to buffer
      */
     buffer::ptr get_index_buffer() {
         return index_buffer;
@@ -280,7 +282,7 @@ private:
 /**
  * @brief Make a new mesh
  * 
- * @return mesh::ptr Shared pointer to mesh
+ * @return mesh::ptr    Shared pointer to mesh
  */
 inline mesh::ptr make_mesh() {
     return std::make_shared<mesh>();
@@ -299,9 +301,10 @@ enum class mesh_type : type {
 /**
  * @brief Create a new mesh
  * 
- * @param device Vulkan device
- * @param type Mesh type
- * @return mesh::ptr Shared pointer to mesh
+ * @param device        Vulkan device
+ * @param type          Mesh type
+ * 
+ * @return mesh::ptr    Shared pointer to mesh
  */
 mesh::ptr create_mesh(device_ptr device, mesh_type type);
 

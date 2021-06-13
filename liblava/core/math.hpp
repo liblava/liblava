@@ -1,8 +1,8 @@
 /**
- * @file liblava/core/math.hpp
- * @brief Math helpers
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/core/math.hpp
+ * @brief        Math helpers
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -53,10 +53,10 @@ struct rect {
     /**
      * @brief Construct a new rectangle
      * 
-     * @param left Left position
-     * @param top Top position
-     * @param width Rectangle width
-     * @param height Rectangle height
+     * @param left      Left position
+     * @param top       Top position
+     * @param width     Rectangle width
+     * @param height    Rectangle height
      */
     rect(i32 left, i32 top, ui32 width, ui32 height)
     : left_top({ left, top }) {
@@ -66,9 +66,9 @@ struct rect {
     /**
      * @brief Construct a new rectangle
      * 
-     * @param left_top Left top position
-     * @param width Rectangle width
-     * @param height Rectangle height
+     * @param left_top    Left top position
+     * @param width       Rectangle width
+     * @param height      Rectangle height
      */
     rect(iv2 const& left_top, ui32 width, ui32 height)
     : left_top(left_top) {
@@ -78,8 +78,8 @@ struct rect {
     /**
      * @brief Construct a new rectangle
      * 
-     * @param left_top Left top position
-     * @param size Size of rectangle
+     * @param left_top    Left top position
+     * @param size        Size of rectangle
      */
     rect(iv2 const& left_top, uv2 const& size)
     : left_top(left_top) {
@@ -89,7 +89,7 @@ struct rect {
     /**
      * @brief Get the origin
      * 
-     * @return iv2 const& Left top position
+     * @return iv2 const&    Left top position
      */
     iv2 const& get_origin() const {
         return left_top;
@@ -98,7 +98,7 @@ struct rect {
     /**
      * @brief Get the end point
      * 
-     * @return iv2 const& Right bottom position
+     * @return iv2 const&    Right bottom position
      */
     iv2 const& get_end_point() const {
         return right_bottom;
@@ -107,7 +107,7 @@ struct rect {
     /**
      * @brief Get the size
      * 
-     * @return uv2 Width and height
+     * @return uv2    Width and height
      */
     uv2 get_size() const {
         assert(left_top.x <= right_bottom.x);
@@ -118,7 +118,7 @@ struct rect {
     /**
      * @brief Set the size
      * 
-     * @param size Width and height
+     * @param size    Width and height
      */
     void set_size(uv2 const& size) {
         right_bottom.x = left_top.x + size.x;
@@ -128,7 +128,7 @@ struct rect {
     /**
      * @brief Move the rectangle
      * 
-     * @param offset Offset to move
+     * @param offset    Offset to move
      */
     void move(iv2 const& offset) {
         left_top += offset;
@@ -138,9 +138,10 @@ struct rect {
     /**
      * @brief Check if point is inside the rectangle
      * 
-     * @param point Point to check
-     * @return true Point is inside
-     * @return false Point is outside
+     * @param point     Point to check
+     * 
+     * @return true     Point is inside
+     * @return false    Point is outside
      */
     bool contains(iv2 point) const {
         return (left_top.x < point.x) && (left_top.y < point.y) && (right_bottom.x > point.x) && (right_bottom.y > point.y);
@@ -157,10 +158,12 @@ private:
 /**
  * @brief Ceiling of division
  * 
- * @tparam T Target type
- * @param x X value
- * @param y Y value
- * @return T Result of division
+ * @tparam T    Target type
+ * 
+ * @param x     X value
+ * @param y     Y value
+ * 
+ * @return T    Result of division
  */
 template<typename T>
 inline T ceil_div(T x, T y) {
@@ -173,10 +176,11 @@ constexpr v3 const default_color = v3{ 0.8118f, 0.0627f, 0.1255f };
 /**
  * @brief Calculate perspective matrix
  * 
- * @param size Size for aspect ratio
- * @param fov Field of view
- * @param far_plane Far plane
- * @return mat4 Calculated matrix
+ * @param size         Size for aspect ratio
+ * @param fov          Field of view
+ * @param far_plane    Far plane
+ * 
+ * @return mat4        Calculated matrix
  */
 inline mat4 perspective_matrix(uv2 size, float fov = 90.f, float far_plane = 5.f) {
     // Vulkan NDC is right-handed with Y pointing down

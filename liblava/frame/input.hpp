@@ -1,8 +1,8 @@
 /**
- * @file liblava/frame/input.hpp
- * @brief Input handling
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/frame/input.hpp
+ * @brief        Input handling
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -13,7 +13,7 @@
 namespace lava {
 
 /**
- * @brief Input key
+ * @brief Input keys
  */
 enum class key : i32 {
     unknown = -1,
@@ -162,7 +162,7 @@ enum class key : i32 {
 };
 
 /**
- * @brief Input action
+ * @brief Input actions
  */
 enum class action : type {
     release = 0,
@@ -171,7 +171,7 @@ enum class action : type {
 };
 
 /**
- * @brief Input mod
+ * @brief Input mods
  */
 enum class mod : c8 {
     shift = 0x01,
@@ -216,9 +216,10 @@ struct key_event {
     /**
      * @brief Check if key is pressed
      * 
-     * @param k Key to check
-     * @return true Key is pressed
-     * @return false Key is not pressed
+     * @param k         Key to check
+     * 
+     * @return true     Key is pressed
+     * @return false    Key is not pressed
      */
     bool pressed(lava::key k) const {
         return action == action::press && key == k;
@@ -227,9 +228,10 @@ struct key_event {
     /**
      * @brief Check if key is released
      * 
-     * @param k Key to check
-     * @return true Key is released
-     * @return false Key is not released
+     * @param k         Key to check
+     * 
+     * @return true     Key is released
+     * @return false    Key is not released
      */
     bool released(lava::key k) const {
         return action == action::release && key == k;
@@ -238,9 +240,10 @@ struct key_event {
     /**
      * @brief Check if key is repeated
      * 
-     * @param k Key to check
-     * @return true Key is repeated
-     * @return false Key is not repeated
+     * @param k         Key to check
+     * 
+     * @return true     Key is repeated
+     * @return false    Key is not repeated
      */
     bool repeated(lava::key k) const {
         return action == action::repeat && key == k;
@@ -249,8 +252,8 @@ struct key_event {
     /**
      * @brief Check if key is active
      * 
-     * @return true Key is pressed or repeated
-     * @return false Key is not active
+     * @return true     Key is pressed or repeated
+     * @return false    Key is not active
      */
     bool active() const {
         return action == action::press || action == action::repeat;
@@ -259,10 +262,11 @@ struct key_event {
     /**
      * @brief Check if key is pressed with mod
      * 
-     * @param k Key to check
-     * @param m Mod to check
-     * @return true Key is pressed with mod
-     * @return false Key is not pressed with mod
+     * @param k         Key to check
+     * @param m         Mod to check
+     * 
+     * @return true     Key is pressed with mod
+     * @return false    Key is not pressed with mod
      */
     bool pressed(lava::key k, lava::mod m) const {
         return pressed(k) && mod == m;
@@ -338,7 +342,7 @@ struct mouse_move_event {
 };
 
 /**
- * @brief Input mouse button
+ * @brief Input mouse buttons
  */
 enum class mouse_button : type {
     _1 = 0,
@@ -388,9 +392,10 @@ struct mouse_button_event {
     /**
      * @brief Check if mouse button is pressed
      * 
-     * @param b Mouse button to check
-     * @return true Mouse button is pressed
-     * @return false Mouse button is not pressed
+     * @param b         Mouse button to check
+     * 
+     * @return true     Mouse button is pressed
+     * @return false    Mouse button is not pressed
      */
     bool pressed(mouse_button b) const {
         return action == action::press && button == b;
@@ -399,9 +404,10 @@ struct mouse_button_event {
     /**
      * @brief Check if mouse button is released
      * 
-     * @param b Mouse button to check
-     * @return true Mouse button is released
-     * @return false Mouse button is not released
+     * @param b         Mouse button to check
+     * 
+     * @return true     Mouse button is released
+     * @return false    Mouse button is not released
      */
     bool released(mouse_button b) const {
         return action == action::release && button == b;
@@ -464,7 +470,7 @@ struct input_callback {
     /**
      * @brief Input callback functions
      * 
-     * @tparam T Type of callback
+     * @tparam T    Type of callback
      */
     template<typename T>
     using func = std::function<bool(typename T::ref)>;
@@ -491,14 +497,14 @@ struct input_callback {
 /**
  * @brief List of input events
  * 
- * @tparam T Type of event
+ * @tparam T    Type of event
  */
 template<typename T>
 struct input_events : T::list {
     /**
      * @brief Add event to list
      * 
-     * @param event Event to add
+     * @param event    Event to add
      */
     void add(typename T::ref event) {
         this->push_back(event);
@@ -562,7 +568,7 @@ struct input : id_obj {
     /**
      * @brief Add callback to the input handling
      * 
-     * @param callback Callback to add
+     * @param callback    Callback to add
      */
     void add(input_callback* callback) {
         callbacks.push_back(callback);
@@ -571,7 +577,7 @@ struct input : id_obj {
     /**
      * @brief Remove callback from the input handling
      * 
-     * @param callback Callback to remove
+     * @param callback    Callback to remove
      */
     void remove(input_callback* callback) {
         lava::remove(callbacks, callback);
@@ -580,7 +586,7 @@ struct input : id_obj {
     /**
      * @brief Get the mouse position
      * 
-     * @return mouse_position Current mouse position
+     * @return mouse_position    Current mouse position
      */
     mouse_position get_mouse_position() const {
         return current_position;
@@ -589,7 +595,7 @@ struct input : id_obj {
     /**
      * @brief Set the mouse position
      * 
-     * @param position Current mouse position
+     * @param position    Current mouse position
      */
     void set_mouse_position(mouse_position const& position) {
         current_position = position;

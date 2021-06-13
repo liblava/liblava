@@ -1,6 +1,9 @@
-// file      : liblava/frame/input.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/frame/input.cpp
+ * @brief        Input handling
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/frame/input.hpp>
 
@@ -13,9 +16,10 @@ namespace lava {
 /**
  * @brief Handle events
  * 
- * @tparam T Type of event
- * @param events Events to handle
- * @param input_callback Input callback
+ * @tparam T                Type of event
+ * 
+ * @param events            Events to handle
+ * @param input_callback    Input callback
  */
 template<typename T>
 void _handle_events(input_events<T>& events, input_callback::func<T> input_callback) {

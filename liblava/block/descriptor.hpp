@@ -1,8 +1,8 @@
 /**
- * @file liblava/block/descriptor.hpp
- * @brief Descriptor definition
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/block/descriptor.hpp
+ * @brief        Descriptor definition
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -33,7 +33,7 @@ struct descriptor : id_obj {
         /**
          * @brief Get the Vulkan descriptor set layout binding
          * 
-         * @return VkDescriptorSetLayoutBinding const& Vulkan binding
+         * @return VkDescriptorSetLayoutBinding const&    Vulkan binding
          */
         VkDescriptorSetLayoutBinding const& get() const {
             return vk_binding;
@@ -42,7 +42,7 @@ struct descriptor : id_obj {
         /**
          * @brief Det the binding index
          * 
-         * @param index Binding index
+         * @param index    Binding index
          */
         void set(index index) {
             vk_binding.binding = index;
@@ -51,7 +51,7 @@ struct descriptor : id_obj {
         /**
          * @brief Set the type
          * 
-         * @param descriptor_type Descriptor type
+         * @param descriptor_type    Descriptor type
          */
         void set_type(VkDescriptorType descriptor_type) {
             vk_binding.descriptorType = descriptor_type;
@@ -60,7 +60,7 @@ struct descriptor : id_obj {
         /**
          * @brief Set the count
          * 
-         * @param descriptor_count Descriptor count
+         * @param descriptor_count    Descriptor count
          */
         void set_count(ui32 descriptor_count) {
             vk_binding.descriptorCount = descriptor_count;
@@ -69,7 +69,7 @@ struct descriptor : id_obj {
         /**
          * @brief Set the stage flags
          * 
-         * @param stage_flags Shader stage flags
+         * @param stage_flags    Shader stage flags
          */
         void set_stage_flags(VkShaderStageFlags stage_flags) {
             vk_binding.stageFlags = stage_flags;
@@ -78,7 +78,7 @@ struct descriptor : id_obj {
         /**
          * @brief Set the samplers
          * 
-         * @param immutable_samplers Pointer to immutable samplers
+         * @param immutable_samplers    Pointer to immutable samplers
          */
         void set_samplers(VkSampler const* immutable_samplers) {
             vk_binding.pImmutableSamplers = immutable_samplers;
@@ -102,25 +102,26 @@ struct descriptor : id_obj {
         /**
          * @brief Create a new pool
          * 
-         * @param device Vulkan device
-         * @param sizes Descriptor pool sizes
-         * @param max Number of pools
-         * @param flags Create flags
-         * @return true Create was successful
-         * @return false Create failed
+         * @param device    Vulkan device
+         * @param sizes     Descriptor pool sizes
+         * @param max       Number of pools
+         * @param flags     Create flags
+         * 
+         * @return true     Create was successful
+         * @return false    Create failed
          */
         bool create(device_ptr device, VkDescriptorPoolSizesRef sizes, ui32 max = 1,
                     VkDescriptorPoolCreateFlags flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT);
 
         /**
-         * @brief Destory the pool
+         * @brief Destroy the pool
          */
         void destroy();
 
         /**
          * @brief Get the descriptor pool
          * 
-         * @return VkDescriptorPool Vulkan descriptor pool
+         * @return VkDescriptorPool    Vulkan descriptor pool
          */
         VkDescriptorPool get() const {
             return vk_pool;
@@ -129,7 +130,7 @@ struct descriptor : id_obj {
         /**
          * @brief Get the device
          * 
-         * @return device_ptr Vulkan device
+         * @return device_ptr    Vulkan device
          */
         device_ptr get_device() {
             return device;
@@ -138,7 +139,7 @@ struct descriptor : id_obj {
         /**
          * @brief Get the sizes
          * 
-         * @return VkDescriptorPoolSizes const& Descriptor pool sizes
+         * @return VkDescriptorPoolSizes const&    Descriptor pool sizes
          */
         VkDescriptorPoolSizes const& get_sizes() const {
             return sizes;
@@ -147,7 +148,7 @@ struct descriptor : id_obj {
         /**
          * @brief Get the max
          * 
-         * @return ui32 Number of pools
+         * @return ui32    Number of pools
          */
         ui32 get_max() const {
             return max;
@@ -176,9 +177,9 @@ struct descriptor : id_obj {
     /**
      * @brief Add binding
      * 
-     * @param binding Index of binding
-     * @param descriptor_type Descriptor type
-     * @param stage_flags Shader stage flags
+     * @param binding            Index of binding
+     * @param descriptor_type    Descriptor type
+     * @param stage_flags        Shader stage flags
      */
     void add_binding(index binding, VkDescriptorType descriptor_type, VkShaderStageFlags stage_flags);
 
@@ -192,7 +193,7 @@ struct descriptor : id_obj {
     /**
      * @brief Add binding
      * 
-     * @param binding Descriptor binding
+     * @param binding    Descriptor binding
      */
     void add(binding::ptr const& binding) {
         bindings.push_back(binding);
@@ -201,9 +202,10 @@ struct descriptor : id_obj {
     /**
      * @brief Create a new descriptor
      * 
-     * @param device Vulkan device
-     * @return true Create was successful
-     * @return false Create failed
+     * @param device    Vulkan device
+     * 
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create(device_ptr device);
 
@@ -215,7 +217,7 @@ struct descriptor : id_obj {
     /**
      * @brief Get the binding count
      * 
-     * @return ui32 Number of bindings
+     * @return ui32    Number of bindings
      */
     ui32 get_binding_count() const {
         return to_ui32(bindings.size());
@@ -224,7 +226,7 @@ struct descriptor : id_obj {
     /**
      * @brief Get the bindings
      * 
-     * @return binding::list const& List of bindings
+     * @return binding::list const&    List of bindings
      */
     binding::list const& get_bindings() {
         return bindings;
@@ -233,7 +235,7 @@ struct descriptor : id_obj {
     /**
      * @brief Get descriptor set layout
      * 
-     * @return VkDescriptorSetLayout Vulkan descriptor set layout
+     * @return VkDescriptorSetLayout    Vulkan descriptor set layout
      */
     VkDescriptorSetLayout get() const {
         return layout;
@@ -242,7 +244,7 @@ struct descriptor : id_obj {
     /**
      * @brief Get the device
      * 
-     * @return device_ptr Vulkan device
+     * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
         return device;
@@ -251,8 +253,8 @@ struct descriptor : id_obj {
     /**
      * @brief Allocate descriptor set
      * 
-     * @param pool Descriptor pool
-     * @return VkDescriptorSet Descriptor set
+     * @param pool                Descriptor pool
+     * @return VkDescriptorSet    Descriptor set
      */
     VkDescriptorSet allocate_set(VkDescriptorPool pool);
 
@@ -266,10 +268,11 @@ struct descriptor : id_obj {
     /**
      * @brief Free descriptor set
      * 
-     * @param descriptor_set Descriptor set
-     * @param pool Descriptor pool
-     * @return true Free was successful
-     * @return false Free failed
+     * @param descriptor_set    Descriptor set
+     * @param pool              Descriptor pool
+     * 
+     * @return true             Free was successful
+     * @return false            Free failed
      */
     bool free_set(VkDescriptorSet& descriptor_set, VkDescriptorPool pool);
 
@@ -283,9 +286,10 @@ struct descriptor : id_obj {
     /**
      * @brief Allocate descriptor sets
      * 
-     * @param size Number of sets
-     * @param pool Descriptor pool
-     * @return VkDescriptorSets List of descriptor sets
+     * @param size                 Number of sets
+     * @param pool                 Descriptor pool
+     * 
+     * @return VkDescriptorSets    List of descriptor sets
      */
     VkDescriptorSets allocate_sets(ui32 size, VkDescriptorPool pool);
 
@@ -299,10 +303,11 @@ struct descriptor : id_obj {
     /**
      * @brief Free descriptor sets
      * 
-     * @param descriptor_sets List of descriptor sets
-     * @param pool Descriptor pool
-     * @return true Free was successful
-     * @return false Free failed
+     * @param descriptor_sets    List of descriptor sets
+     * @param pool               Descriptor pool
+     * 
+     * @return true              Free was successful
+     * @return false             Free failed
      */
     bool free_sets(VkDescriptorSets& descriptor_sets, VkDescriptorPool pool);
 
@@ -327,7 +332,7 @@ private:
 /**
  * @brief Make a new descriptor
  * 
- * @return descriptor::ptr Shared pointer to descriptor
+ * @return descriptor::ptr    Shared pointer to descriptor
  */
 inline descriptor::ptr make_descriptor() {
     return std::make_shared<descriptor>();
@@ -336,15 +341,16 @@ inline descriptor::ptr make_descriptor() {
 /**
  * @brief Make a new descriptor binding
  * 
- * @param index Binding index
- * @return descriptor::binding::ptr Shared pointer to descriptor binding
+ * @param index                        Binding index
+ * 
+ * @return descriptor::binding::ptr    Shared pointer to descriptor binding
  */
 descriptor::binding::ptr make_descriptor_binding(index index);
 
 /**
  * @brief Make a new descriptor pool
  * 
- * @return descriptor::pool::ptr Shared pointer to descriptor pool
+ * @return descriptor::pool::ptr    Shared pointer to descriptor pool
  */
 inline descriptor::pool::ptr make_descriptor_pool() {
     return std::make_shared<descriptor::pool>();

@@ -1,6 +1,9 @@
-// file      : liblava/block/block.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/block/block.cpp
+ * @brief        Command buffer model
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/block/block.hpp>
 

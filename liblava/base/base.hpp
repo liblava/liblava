@@ -1,8 +1,8 @@
 /**
- * @file liblava/base/base.hpp
- * @brief Vulkan base types
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/base/base.hpp
+ * @brief        Vulkan base types
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -113,18 +113,20 @@ using VkPhysicalDevices = std::vector<VkPhysicalDevice>;
 /**
  * @brief Check a Vulkan result
  * 
- * @param result Result to check
- * @return true No error
- * @return false Error
+ * @param result    Result to check
+ * 
+ * @return true     No error
+ * @return false    Error
  */
 bool check(VkResult result);
 
 /**
  * @brief Check if a Vulkan result failed
  * 
- * @param result Result to check
- * @return true Error
- * @return false No error
+ * @param result    Result to check
+ * 
+ * @return true     Error
+ * @return false    No error
  */
 inline bool failed(VkResult result) {
     return !check(result);
@@ -133,16 +135,18 @@ inline bool failed(VkResult result) {
 /**
  * @brief Convert a Vulkan result to string
  * 
- * @param result Result to convert
- * @return string String of result
+ * @param result     Result to convert
+ * 
+ * @return string    String of result
  */
 string to_string(VkResult result);
 
 /**
  * @brief Convert a version to string
  * 
- * @param version Version to convert
- * @return string String of version
+ * @param version    Version to convert
+ * 
+ * @return string    String of version
  */
 string version_to_string(ui32 version);
 
@@ -159,8 +163,8 @@ struct vk_result {
     /**
      * @brief Check result state
      * 
-     * @return true No error
-     * @return false Error
+     * @return true     No error
+     * @return false    Error
      */
     operator bool() {
         return state;
@@ -221,7 +225,7 @@ static constexpr ui32 const Vk_Limit_PushConstant_Size = 128;
 static constexpr ui32 const Vk_Limit_UBO_Size = 16 * 1024;
 
 /**
- * @brief Vulkan api version
+ * @brief Vulkan api versions
  */
 enum class api_version : type {
     v1_0 = 0,

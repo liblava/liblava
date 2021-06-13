@@ -1,8 +1,8 @@
 /**
- * @file liblava/block/graphics_pipeline.hpp
- * @brief Graphics pipeline
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/block/graphics_pipeline.hpp
+ * @brief        Graphics pipeline
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -25,7 +25,7 @@ struct graphics_pipeline : pipeline {
     using list = std::vector<ptr>;
 
     /**
-     * @brief Sizing mode
+     * @brief Sizing modes
      */
     enum class sizing_mode : type {
         input = 0,
@@ -59,30 +59,30 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Construct a new graphics pipeline
      * 
-     * @param device Vulkan device
-     * @param pipeline_cache Pipeline cache
+     * @param device            Vulkan device
+     * @param pipeline_cache    Pipeline cache
      */
     explicit graphics_pipeline(device_ptr device, VkPipelineCache pipeline_cache);
 
     /**
      * @brief Bind the pipeline
      * 
-     * @param cmd_buf Command buffer
+     * @param cmd_buf    Command buffer
      */
     void bind(VkCommandBuffer cmd_buf) override;
 
     /**
      * @brief Set the viewport and scissor
      * 
-     * @param cmd_buf Command buffer
-     * @param size Viewport and scissor size
+     * @param cmd_buf    Command buffer
+     * @param size       Viewport and scissor size
      */
     void set_viewport_and_scissor(VkCommandBuffer cmd_buf, uv2 size);
 
     /**
      * @brief Set the render pass
      * 
-     * @param pass Render pass
+     * @param pass    Render pass
      */
     void set_render_pass(VkRenderPass pass) {
         render_pass = pass;
@@ -98,7 +98,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Get the render pass
      * 
-     * @return VkRenderPass Render pass
+     * @return VkRenderPass    Render pass
      */
     VkRenderPass get_render_pass() const {
         return render_pass;
@@ -107,7 +107,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Get the subpass
      * 
-     * @return index Index of subpass
+     * @return index    Index of subpass
      */
     index get_subpass() const {
         return subpass;
@@ -116,7 +116,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Set the subpass
      * 
-     * @param value Index of subpass
+     * @param value    Index of subpass
      */
     void set_subpass(index value) {
         subpass = value;
@@ -125,9 +125,10 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Create a new graphics pipeline
      * 
-     * @param pass Vulkan render pass
-     * @return true Create was successful
-     * @return false Create failed
+     * @param pass      Vulkan render pass
+     * 
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create(VkRenderPass pass) {
         set(pass);
@@ -138,78 +139,78 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Set the vertex input binding
      * 
-     * @param description Vertex input binding description
+     * @param description    Vertex input binding description
      */
     void set_vertex_input_binding(VkVertexInputBindingDescription const& description);
 
     /**
      * @brief Set the vertex input bindings
      * 
-     * @param descriptions List of vertex input binding descriptions
+     * @param descriptions    List of vertex input binding descriptions
      */
     void set_vertex_input_bindings(VkVertexInputBindingDescriptions const& descriptions);
 
     /**
      * @brief Set the vertex input attribute
      * 
-     * @param attribute Vertex input attribute description
+     * @param attribute    Vertex input attribute description
      */
     void set_vertex_input_attribute(VkVertexInputAttributeDescription const& attribute);
 
     /**
      * @brief Set the vertex input attributes
      * 
-     * @param attributes List of vertex input attributes descriptions
+     * @param attributes    List of vertex input attributes descriptions
      */
     void set_vertex_input_attributes(VkVertexInputAttributeDescriptions const& attributes);
 
     /**
      * @brief Set the depth test and write
      * 
-     * @param test_enable Enable depth test
-     * @param write_enable Enable depth write
+     * @param test_enable     Enable depth test
+     * @param write_enable    Enable depth write
      */
     void set_depth_test_and_write(bool test_enable = true, bool write_enable = true);
 
     /**
      * @brief Set the depth compare operation
      * 
-     * @param compare_op Depth compare operation
+     * @param compare_op    Depth compare operation
      */
     void set_depth_compare_op(VkCompareOp compare_op);
 
     /**
      * @brief Set the rasterization cull mode
      * 
-     * @param cull_mode Cull mode flags
+     * @param cull_mode    Cull mode flags
      */
     void set_rasterization_cull_mode(VkCullModeFlags cull_mode);
 
     /**
      * @brief Set the rasterization front face
      * 
-     * @param front_face Front face
+     * @param front_face    Front face
      */
     void set_rasterization_front_face(VkFrontFace front_face);
 
     /**
      * @brief Set the rasterization polygon mode
      * 
-     * @param polygon_mode Polygon mode
+     * @param polygon_mode    Polygon mode
      */
     void set_rasterization_polygon_mode(VkPolygonMode polygon_mode);
 
     /**
      * @brief Create a color blend attachment
      * 
-     * @return VkPipelineColorBlendAttachmentState Pipeline color blend attachment state
+     * @return VkPipelineColorBlendAttachmentState    Pipeline color blend attachment state
      */
     static VkPipelineColorBlendAttachmentState create_color_blend_attachment();
 
     /**
      * @brief Add color blend attachment
      * 
-     * @param attachment Pipeline color blend attachment state
+     * @param attachment    Pipeline color blend attachment state
      */
     void add_color_blend_attachment(VkPipelineColorBlendAttachmentState const& attachment = create_color_blend_attachment());
 
@@ -221,14 +222,14 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Set the dynamic states
      * 
-     * @param states List of dynamic states
+     * @param states    List of dynamic states
      */
     void set_dynamic_states(VkDynamicStates const& states);
 
     /**
      * @brief Add a dynamic state
      * 
-     * @param state Dynamic state
+     * @param state    Dynamic state
      */
     void add_dynamic_state(VkDynamicState state);
 
@@ -240,20 +241,22 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Add shader stage
      * 
-     * @param data Shader data
-     * @param stage Shader stage flag bits
-     * @return true Add was successful
-     * @return false Add failed
+     * @param data      Shader data
+     * @param stage     Shader stage flag bits
+     * 
+     * @return true     Add was successful
+     * @return false    Add failed
      */
     bool add_shader_stage(cdata const& data, VkShaderStageFlagBits stage);
 
     /**
      * @brief Add shader
      * 
-     * @param data Shader data
-     * @param stage Shader stage flag bits
-     * @return true Add was successful
-     * @return false Add failed
+     * @param data      Shader data
+     * @param stage     Shader stage flag bits
+     * 
+     * @return true     Add was successful
+     * @return false    Add failed
      */
     bool add_shader(cdata const& data, VkShaderStageFlagBits stage) {
         return add_shader_stage(data, stage);
@@ -262,7 +265,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Add shader stage
      * 
-     * @param shader_stage Shader stage
+     * @param shader_stage    Shader stage
      */
     void add(shader_stage::ptr const& shader_stage) {
         shader_stages.push_back(shader_stage);
@@ -271,7 +274,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Get the shader stages
      * 
-     * @return shader_stage::list const& List of shader stages
+     * @return shader_stage::list const&    List of shader stages
      */
     shader_stage::list const& get_shader_stages() const {
         return shader_stages;
@@ -295,7 +298,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Set the auto size
      * 
-     * @param value Enable state
+     * @param value    Enable state
      */
     void set_auto_size(bool value = true) {
         auto_size = value;
@@ -304,8 +307,8 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Get the auto sizing state
      * 
-     * @return true Auto sizing is enabled
-     * @return false Auto sizing is disabled
+     * @return true     Auto sizing is enabled
+     * @return false    Auto sizing is disabled
      */
     bool auto_sizing() const {
         return auto_size;
@@ -314,7 +317,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Get the viewport
      * 
-     * @return VkViewport Vulkan viewport
+     * @return VkViewport    Vulkan viewport
      */
     VkViewport get_viewport() const {
         return viewport;
@@ -323,7 +326,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Set the viewport
      * 
-     * @param value Vulkan viewport
+     * @param value    Vulkan viewport
      */
     void set_viewport(VkViewport value) {
         viewport = value;
@@ -332,7 +335,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Get the scissor
      * 
-     * @return VkRect2D Scissor rectangle
+     * @return VkRect2D    Scissor rectangle
      */
     VkRect2D get_scissor() const {
         return scissor;
@@ -341,7 +344,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Set the scissor
      * 
-     * @param value Scissor rectangle
+     * @param value    Scissor rectangle
      */
     void set_scissor(VkRect2D value) {
         scissor = value;
@@ -350,7 +353,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Get the sizing mode
      * 
-     * @return sizing_mode Sizing mode
+     * @return sizing_mode    Sizing mode
      */
     sizing_mode get_sizing_mode() const {
         return sizing_mode;
@@ -359,7 +362,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Set the sizing mode
      * 
-     * @param value Sizing mode
+     * @param value    Sizing mode
      */
     void set_sizing_mode(sizing_mode value) {
         sizing_mode = value;
@@ -368,14 +371,14 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Copy pipeline configuration to target
      * 
-     * @param target Graphics pipeline
+     * @param target    Graphics pipeline
      */
     void copy_to(graphics_pipeline* target) const;
 
     /**
      * @brief Copy pipeline configuration from source
      * 
-     * @param source Graphics pipeline
+     * @param source    Graphics pipeline
      */
     void copy_from(ptr const& source) {
         source->copy_to(this);
@@ -384,7 +387,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Set the line width
      * 
-     * @param value Line width
+     * @param value    Line width
      */
     void set_line_width(r32 value) {
         line_width = value;
@@ -393,7 +396,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Get the line width
      * 
-     * @return r32 Line width
+     * @return r32    Line width
      */
     r32 get_line_width() const {
         return line_width;
@@ -402,8 +405,8 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Check if auto line width is active
      * 
-     * @return true Auto line width is enabled
-     * @return false Auto line width is disabled
+     * @return true     Auto line width is enabled
+     * @return false    Auto line width is disabled
      */
     bool auto_line_width() const {
         return auto_line_width_active;
@@ -412,7 +415,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Set the auto line width
      * 
-     * @param value Enable state
+     * @param value    Enable state
      */
     void set_auto_line_width(bool value = true) {
         auto_line_width_active = value;
@@ -421,7 +424,7 @@ struct graphics_pipeline : pipeline {
     /**
      * @brief Set the line width
      * 
-     * @param cmd_buf Command buffer
+     * @param cmd_buf    Command buffer
      */
     void set_line_width(VkCommandBuffer cmd_buf) {
         vkCmdSetLineWidth(cmd_buf, line_width);
@@ -437,8 +440,8 @@ private:
     /**
      * @brief Internal create a new graphics pipeline
      * 
-     * @return true Create was successful
-     * @return false Create failed
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create_internal() override;
 
@@ -499,9 +502,10 @@ private:
 /**
  * @brief Make a new graphics pipeline
  * 
- * @param device Vulkan device
- * @param pipeline_cache Pipeline cache
- * @return graphics_pipeline::ptr Shared pointer to graphics pipeline
+ * @param device                     Vulkan device
+ * @param pipeline_cache             Pipeline cache
+ * 
+ * @return graphics_pipeline::ptr    Shared pointer to graphics pipeline
  */
 inline graphics_pipeline::ptr make_graphics_pipeline(device_ptr device, VkPipelineCache pipeline_cache = 0) {
     return std::make_shared<graphics_pipeline>(device, pipeline_cache);

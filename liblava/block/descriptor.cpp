@@ -1,6 +1,9 @@
-// file      : liblava/block/descriptor.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/block/descriptor.cpp
+ * @brief        Descriptor definition
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/block/descriptor.hpp>
 

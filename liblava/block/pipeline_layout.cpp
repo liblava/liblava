@@ -1,6 +1,9 @@
-// file      : liblava/block/pipeline_layout.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/block/pipeline_layout.cpp
+ * @brief        Pipeline layout
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/block/pipeline_layout.hpp>
 

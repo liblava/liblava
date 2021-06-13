@@ -1,6 +1,9 @@
-// file      : liblava/base/instance.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/base/instance.cpp
+ * @brief        Vulkan instance
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/base/instance.hpp>
 #include <liblava/base/memory.hpp>

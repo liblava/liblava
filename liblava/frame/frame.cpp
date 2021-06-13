@@ -1,6 +1,9 @@
-// file      : liblava/frame/frame.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/frame/frame.cpp
+ * @brief        Framework
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/base/memory.hpp>
 #include <liblava/frame/frame.hpp>
@@ -23,7 +26,7 @@ namespace lava {
 /**
  * @brief Hide the console
  * 
- * @param program Name of program
+ * @param program    Name of program
  */
 void hide_console(name program) {
 #if LIBLAVA_HIDE_CONSOLE
@@ -47,7 +50,7 @@ void hide_console(name program) {
 /**
  * @brief Log command line
  * 
- * @param cmd_line Command line parser
+ * @param cmd_line    Command line parser
  */
 void log_command_line(argh::parser& cmd_line) {
     if (!cmd_line.pos_args().empty()) {
@@ -100,7 +103,7 @@ bool frame::ready() const {
 /**
  * @brief Handle config
  * 
- * @param config Frame config
+ * @param config    Frame config
  */
 void handle_config(frame_config& config) {
 #if LIBLAVA_DEBUG

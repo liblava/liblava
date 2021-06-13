@@ -1,6 +1,9 @@
-// file      : liblava/resource/buffer.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/resource/buffer.cpp
+ * @brief        Vulkan buffer
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/resource/buffer.hpp>
 

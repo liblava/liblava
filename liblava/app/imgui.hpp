@@ -1,8 +1,8 @@
 /**
- * @file liblava/app/imgui.hpp
- * @brief ImGui integration
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/app/imgui.hpp
+ * @brief        ImGui integration
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -38,7 +38,7 @@ struct imgui : input_callback {
     /**
      * @brief Construct a new ImGui
      * 
-     * @param window Window for ImGui
+     * @param window    Window for ImGui
      */
     explicit imgui(GLFWwindow* window) {
         setup(window);
@@ -117,15 +117,15 @@ struct imgui : input_callback {
     /**
      * @brief Setup ImGui with configuration
      * 
-     * @param window Target window
-     * @param config Configuration
+     * @param window    Target window
+     * @param config    Configuration
      */
     void setup(GLFWwindow* window, config config);
 
     /**
      * @brief Setup default ImGui 
      * 
-     * @param window Target window
+     * @param window    Target window
      */
     void setup(GLFWwindow* window) {
         setup(window, config());
@@ -134,20 +134,22 @@ struct imgui : input_callback {
     /**
      * @brief Create ImGui
      * 
-     * @param pipeline Graphics pipeline
-     * @param max_frames Number of frames
-     * @return true Create was successful
-     * @return false Create failed
+     * @param pipeline      Graphics pipeline
+     * @param max_frames    Number of frames
+     * 
+     * @return true         Create was successful
+     * @return false        Create failed
      */
     bool create(graphics_pipeline::ptr pipeline, index max_frames);
 
     /**
      * @brief Create ImGui with device
      * 
-     * @param device Vulkan device
-     * @param max_frames Number of frames
-     * @return true Create was successful
-     * @return false Create failed
+     * @param device        Vulkan device
+     * @param max_frames    Number of frames
+     * 
+     * @return true         Create was successful
+     * @return false        Create failed
      */
     bool create(device_ptr device, index max_frames) {
         return create(make_graphics_pipeline(device), max_frames);
@@ -156,11 +158,12 @@ struct imgui : input_callback {
     /**
      * @brief Create ImGui with device and render pass
      * 
-     * @param device Vulkan device
-     * @param max_frames Number of frames
-     * @param pass Render pass
-     * @return true Create was successful
-     * @return false Create failed
+     * @param device        Vulkan device
+     * @param max_frames    Number of frames
+     * @param pass          Render pass
+     * 
+     * @return true         Create was successful
+     * @return false        Create failed
      */
     bool create(device_ptr device, index max_frames, VkRenderPass pass) {
         if (!create(device, max_frames))
@@ -172,9 +175,10 @@ struct imgui : input_callback {
     /**
      * @brief Upload font texture
      * 
-     * @param texture Texture to upload
-     * @return true Upload was successful
-     * @return false Upload failed
+     * @param texture    Texture to upload
+     * 
+     * @return true      Upload was successful
+     * @return false     Upload failed
      */
     bool upload_fonts(texture::ptr texture);
 
@@ -186,8 +190,8 @@ struct imgui : input_callback {
     /**
      * @brief Check if ImGui is ready
      * 
-     * @return true ImGui is ready
-     * @return false ImGui is not ready
+     * @return true     ImGui is ready
+     * @return false    ImGui is not ready
      */
     bool ready() const {
         return initialized;
@@ -196,7 +200,7 @@ struct imgui : input_callback {
     /**
      * @brief Get the pipeline
      * 
-     * @return graphics_pipeline::ptr Graphics pipeline
+     * @return graphics_pipeline::ptr    Graphics pipeline
      */
     graphics_pipeline::ptr get_pipeline() {
         return pipeline;
@@ -211,23 +215,23 @@ struct imgui : input_callback {
     /**
      * @brief Check if mouse capture is active
      * 
-     * @return true Capture is active
-     * @return false Capture is not active 
+     * @return true     Capture is active
+     * @return false    Capture is not active 
      */
     bool capture_mouse() const;
 
     /**
      * @brief Check if keyboard capture is active
      * 
-     * @return true Capture is active
-     * @return false Capture is not active
+     * @return true     Capture is active
+     * @return false    Capture is not active
      */
     bool capture_keyboard() const;
 
     /**
      * @brief Set ImGui active
      * 
-     * @param value Active state
+     * @param value    Active state
      */
     void set_active(bool value = true) {
         active = value;
@@ -236,8 +240,8 @@ struct imgui : input_callback {
     /**
      * @brief Check if ImGui is activated
      * 
-     * @return true ImGui is active
-     * @return false ImGui is not active
+     * @return true     ImGui is active
+     * @return false    ImGui is not active
      */
     bool activated() const {
         return active;
@@ -253,14 +257,14 @@ struct imgui : input_callback {
     /**
      * @brief Set the ini file
      * 
-     * @param dir Path for file
+     * @param dir    Path for file
      */
     void set_ini_file(fs::path dir);
 
     /**
      * @brief Get the ini file
      * 
-     * @return fs::path Path of file
+     * @return fs::path    Path of file
      */
     fs::path get_ini_file() const {
         return fs::path(ini_file);
@@ -275,41 +279,41 @@ private:
     /**
      * @brief Handle key event
      * 
-     * @param key Key
-     * @param scancode Scan code
-     * @param action Action
-     * @param mods Mods
+     * @param key         Key
+     * @param scancode    Scan code
+     * @param action      Action
+     * @param mods        Mods
      */
     void handle_key_event(i32 key, i32 scancode, i32 action, i32 mods);
 
     /**
      * @brief Handle mouse button event
      * 
-     * @param button Button
-     * @param action Action
-     * @param mods Mods
+     * @param button    Button
+     * @param action    Action
+     * @param mods      Mods
      */
     void handle_mouse_button_event(i32 button, i32 action, i32 mods);
 
     /**
      * @brief Handle scroll event
      * 
-     * @param x_offset X offset
-     * @param y_offset Y offset
+     * @param x_offset    X offset
+     * @param y_offset    Y offset
      */
     void handle_scroll_event(r64 x_offset, r64 y_offset);
 
     /**
      * @brief Prepare draw lists
      * 
-     * @param draw_data Draw data
+     * @param draw_data    Draw data
      */
     void prepare_draw_lists(ImDrawData* draw_data);
 
     /**
      * @brief Render draw lists
      * 
-     * @param cmd_buf Vulkan command buffer
+     * @param cmd_buf    Vulkan command buffer
      */
     void render_draw_lists(VkCommandBuffer cmd_buf);
 
@@ -336,7 +340,7 @@ private:
     /**
      * @brief Render ImGui
      * 
-     * @param cmd_buf Vulkan command buffer
+     * @param cmd_buf    Vulkan command buffer
      */
     void render(VkCommandBuffer cmd_buf);
 
@@ -398,15 +402,15 @@ private:
 /**
  * @brief Set the up ImGui font
  * 
- * @param config ImGui configuration
- * @param font ImGui font
+ * @param config    ImGui configuration
+ * @param font      ImGui font
  */
 void setup_imgui_font(imgui::config& config, imgui::font::ref font);
 
 /**
  * @brief ImGui left spacing with top offset
  * 
- * @param top Top offset
+ * @param top    Top offset
  */
 void imgui_left_spacing(ui32 top = 1);
 

@@ -1,8 +1,8 @@
 /**
- * @file liblava/block/attachment.hpp
- * @brief Attachment description
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/block/attachment.hpp
+ * @brief        Attachment description
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -24,8 +24,8 @@ struct attachment : id_obj {
     /**
      * @brief Construct a new attachment
      * 
-     * @param format Attachment format
-     * @param samples Sample count flag bits
+     * @param format     Attachment format
+     * @param samples    Sample count flag bits
      */
     explicit attachment(VkFormat format = VK_FORMAT_UNDEFINED, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
         description.flags = 0;
@@ -42,7 +42,7 @@ struct attachment : id_obj {
     /**
      * @brief Get the description
      * 
-     * @return VkAttachmentDescription const& Attachment description
+     * @return VkAttachmentDescription const&    Attachment description
      */
     VkAttachmentDescription const& get_description() const {
         return description;
@@ -51,7 +51,7 @@ struct attachment : id_obj {
     /**
      * @brief Set the format
      * 
-     * @param format Attachment format
+     * @param format    Attachment format
      */
     void set_format(VkFormat format) {
         description.format = format;
@@ -60,7 +60,7 @@ struct attachment : id_obj {
     /**
      * @brief Set the samples
      * 
-     * @param samples Attachment sample count flag bits
+     * @param samples    Attachment sample count flag bits
      */
     void set_samples(VkSampleCountFlagBits samples) {
         description.samples = samples;
@@ -69,8 +69,8 @@ struct attachment : id_obj {
     /**
      * @brief Set the op
      * 
-     * @param load_op Attachment load op
-     * @param store_op Attachment store op
+     * @param load_op     Attachment load op
+     * @param store_op    Attachment store op
      */
     void set_op(VkAttachmentLoadOp load_op, VkAttachmentStoreOp store_op) {
         set_load_op(load_op);
@@ -80,7 +80,7 @@ struct attachment : id_obj {
     /**
      * @brief Set the load op
      * 
-     * @param load_op Attachment load op
+     * @param load_op    Attachment load op
      */
     void set_load_op(VkAttachmentLoadOp load_op) {
         description.loadOp = load_op;
@@ -89,7 +89,7 @@ struct attachment : id_obj {
     /**
      * @brief Set the store op
      * 
-     * @param store_op Attachment store op
+     * @param store_op    Attachment store op
      */
     void set_store_op(VkAttachmentStoreOp store_op) {
         description.storeOp = store_op;
@@ -98,8 +98,8 @@ struct attachment : id_obj {
     /**
      * @brief Set the stencil op
      * 
-     * @param load_op Attachment load op
-     * @param store_op Attachment store op
+     * @param load_op     Attachment load op
+     * @param store_op    Attachment store op
      */
     void set_stencil_op(VkAttachmentLoadOp load_op, VkAttachmentStoreOp store_op) {
         set_stencil_load_op(load_op);
@@ -109,7 +109,7 @@ struct attachment : id_obj {
     /**
      * @brief Set the stencil load op
      * 
-     * @param load_op Attachment load op
+     * @param load_op    Attachment load op
      */
     void set_stencil_load_op(VkAttachmentLoadOp load_op) {
         description.stencilLoadOp = load_op;
@@ -118,7 +118,7 @@ struct attachment : id_obj {
     /**
      * @brief Set the stencil store op
      * 
-     * @param store_op Attachment store op
+     * @param store_op    Attachment store op
      */
     void set_stencil_store_op(VkAttachmentStoreOp store_op) {
         description.stencilStoreOp = store_op;
@@ -127,8 +127,8 @@ struct attachment : id_obj {
     /**
      * @brief Set the layouts
      * 
-     * @param initial Initial image layout
-     * @param final Final image layout
+     * @param initial    Initial image layout
+     * @param final      Final image layout
      */
     void set_layouts(VkImageLayout initial, VkImageLayout final) {
         set_initial_layout(initial);
@@ -138,7 +138,7 @@ struct attachment : id_obj {
     /**
      * @brief Set the initial layout
      * 
-     * @param layout Image layout
+     * @param layout    Image layout
      */
     void set_initial_layout(VkImageLayout layout) {
         description.initialLayout = layout;
@@ -147,7 +147,7 @@ struct attachment : id_obj {
     /**
      * @brief Set the final layout
      * 
-     * @param layout Image layout
+     * @param layout    Image layout
      */
     void set_final_layout(VkImageLayout layout) {
         description.finalLayout = layout;
@@ -161,9 +161,10 @@ private:
 /**
  * @brief Make a new attachment
  * 
- * @param format Attachment format
- * @param samples Sample count flag bits
- * @return attachment::ptr Shared pointer to attachment
+ * @param format              Attachment format
+ * @param samples             Sample count flag bits
+ * 
+ * @return attachment::ptr    Shared pointer to attachment
  */
 inline attachment::ptr make_attachment(VkFormat format = VK_FORMAT_UNDEFINED,
                                        VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {

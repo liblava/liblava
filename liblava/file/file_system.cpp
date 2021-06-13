@@ -1,6 +1,9 @@
-// file      : liblava/file/file_system.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/file/file_system.cpp
+ * @brief        File system
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <physfs.h>
 #include <liblava/file/file_system.hpp>

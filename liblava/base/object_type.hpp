@@ -1,8 +1,8 @@
 /**
- * @file liblava/base/object_type.hpp
- * @brief Object type helper
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/base/object_type.hpp
+ * @brief        Object type helper
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once

@@ -1,8 +1,8 @@
 /**
- * @file liblava/block/pipeline.hpp
- * @brief Pipeline
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/block/pipeline.hpp
+ * @brief        Pipeline
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -33,8 +33,8 @@ struct pipeline : id_obj {
     /**
      * @brief Construct a new pipeline
      * 
-     * @param device Vulkan device
-     * @param pipeline_cache Pipeline cache
+     * @param device            Vulkan device
+     * @param pipeline_cache    Pipeline cache
      */
     explicit pipeline(device_ptr device, VkPipelineCache pipeline_cache = 0);
 
@@ -46,8 +46,8 @@ struct pipeline : id_obj {
     /**
      * @brief Create a new pipeline
      * 
-     * @return true Create was successful
-     * @return false Create failed
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create();
 
@@ -59,14 +59,14 @@ struct pipeline : id_obj {
     /**
      * @brief Bind the pipeline
      * 
-     * @param cmd_buf Command buffer
+     * @param cmd_buf    Command buffer
      */
     virtual void bind(VkCommandBuffer cmd_buf) = 0;
 
     /**
      * @brief Set pipeline active
      * 
-     * @param value Active state
+     * @param value    Active state
      */
     void set_active(bool value = true) {
         active = value;
@@ -75,8 +75,8 @@ struct pipeline : id_obj {
     /**
      * @brief Check if pipeline is active
      * 
-     * @return true Pipeline is active
-     * @return false Pipeline is inactive
+     * @return true     Pipeline is active
+     * @return false    Pipeline is inactive
      */
     bool activated() const {
         return active;
@@ -92,7 +92,7 @@ struct pipeline : id_obj {
     /**
      * @brief Set auto bind
      * 
-     * @param value Enable state
+     * @param value    Enable state
      */
     void set_auto_bind(bool value = true) {
         auto_bind_active = value;
@@ -101,8 +101,8 @@ struct pipeline : id_obj {
     /**
      * @brief Check if auto bind is enabled
      * 
-     * @return true Auto bind is enabled
-     * @return false Audo bind is disabled
+     * @return true     Auto bind is enabled
+     * @return false    Audo bind is disabled
      */
     bool auto_bind() const {
         return auto_bind_active;
@@ -111,8 +111,8 @@ struct pipeline : id_obj {
     /**
      * @brief Check if pipeline is ready
      * 
-     * @return true Pipeline is ready
-     * @return false Pipeline is not ready
+     * @return true     Pipeline is ready
+     * @return false    Pipeline is not ready
      */
     bool ready() const {
         return vk_pipeline != VK_NULL_HANDLE;
@@ -121,7 +121,7 @@ struct pipeline : id_obj {
     /**
      * @brief Get the pipeline
      * 
-     * @return VkPipeline Vulkan pipeline
+     * @return VkPipeline    Vulkan pipeline
      */
     VkPipeline get() const {
         return vk_pipeline;
@@ -130,7 +130,7 @@ struct pipeline : id_obj {
     /**
      * @brief Get the device
      * 
-     * @return device_ptr Vulkan device
+     * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
         return device;
@@ -139,7 +139,7 @@ struct pipeline : id_obj {
     /**
      * @brief Get the layout
      * 
-     * @return pipeline_layout::ptr Pipeline layout
+     * @return pipeline_layout::ptr    Pipeline layout
      */
     pipeline_layout::ptr get_layout() const {
         return layout;
@@ -148,7 +148,7 @@ struct pipeline : id_obj {
     /**
      * @brief Set the layout
      * 
-     * @param value Pipeline layout
+     * @param value    Pipeline layout
      */
     void set_layout(pipeline_layout::ptr const& value) {
         layout = value;
@@ -177,7 +177,7 @@ struct pipeline : id_obj {
         /**
          * @brief Set the stage
          * 
-         * @param stage Shader stage flag bits
+         * @param stage    Shader stage flag bits
          */
         void set_stage(VkShaderStageFlagBits stage) {
             create_info.stage = stage;
@@ -186,18 +186,19 @@ struct pipeline : id_obj {
         /**
          * @brief Add specialization entry
          * 
-         * @param specialization Specialization map entry
+         * @param specialization    Specialization map entry
          */
         void add_specialization_entry(VkSpecializationMapEntry const& specialization);
 
         /**
          * @brief Create a new shader stage
          * 
-         * @param device Vulkan device
-         * @param shader_data Shader data
-         * @param specialization_data Specialization data
-         * @return true Create was successful
-         * @return false Create failed
+         * @param device                 Vulkan device
+         * @param shader_data            Shader data
+         * @param specialization_data    Specialization data
+         * 
+         * @return true                  Create was successful
+         * @return false                 Create failed
          */
         bool create(device_ptr device, cdata const& shader_data, cdata const& specialization_data = data());
 
@@ -209,7 +210,7 @@ struct pipeline : id_obj {
         /**
          * @brief Get the create info
          * 
-         * @return VkPipelineShaderStageCreateInfo const& Pipeline shader stage create information
+         * @return VkPipelineShaderStageCreateInfo const&    Pipeline shader stage create information
          */
         VkPipelineShaderStageCreateInfo const& get_create_info() const {
             return create_info;
@@ -236,8 +237,8 @@ protected:
     /**
      * @brief Internal create a new pipeline
      * 
-     * @return true Create was successful
-     * @return false Create failed
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     virtual bool create_internal() = 0;
 
@@ -269,18 +270,18 @@ private:
 /**
  * @brief Make a new pipline shader stage
  * 
- * @param stage Shader stage flag bits
- * @return pipeline::shader_stage::ptr Shared pointer to shader stage
+ * @param stage                           Shader stage flag bits
+ * @return pipeline::shader_stage::ptr    Shared pointer to shader stage
  */
 pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits stage);
 
 /**
  * @brief Create a new pipeline shader stage
  * 
- * @param device Vulkan device
- * @param data Shader data
- * @param stage Shader stage flag bits
- * @return pipeline::shader_stage::ptr Shared pointer to pipeline shader stage 
+ * @param device                          Vulkan device
+ * @param data                            Shader data
+ * @param stage                           Shader stage flag bits
+ * @return pipeline::shader_stage::ptr    Shared pointer to pipeline shader stage 
  */
 pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, cdata const& data, VkShaderStageFlagBits stage);
 

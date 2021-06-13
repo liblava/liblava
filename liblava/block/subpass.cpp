@@ -1,6 +1,9 @@
-// file      : liblava/block/subpass.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/block/subpass.cpp
+ * @brief        Subpass
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/block/subpass.hpp>
 

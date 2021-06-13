@@ -1,8 +1,8 @@
 /**
- * @file liblava-demo/demo.hpp
- * @brief Demo helpers
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava-demo/demo.hpp
+ * @brief        Demo helpers
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -15,7 +15,7 @@ namespace lava {
 /**
  * @brief Set up the imgui font icons
  * 
- * @param font Imgui font
+ * @param font    Imgui font
  */
 void setup_imgui_font_icons(imgui::font& font);
 

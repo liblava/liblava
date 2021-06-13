@@ -1,8 +1,8 @@
 /**
- * @file liblava/app/forward_shading.hpp
- * @brief Forward shading
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/app/forward_shading.hpp
+ * @brief        Forward shading
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -31,9 +31,10 @@ struct forward_shading : id_obj {
     /**
      * @brief Create a forward shading for a render target
      * 
-     * @param target Render target
-     * @return true Create was successful
-     * @return false Create failed
+     * @param target    Render target
+     * 
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create(render_target::ptr target);
 
@@ -45,7 +46,7 @@ struct forward_shading : id_obj {
     /**
      * @brief Get the render pass
      * 
-     * @return render_pass::ptr Render pass
+     * @return render_pass::ptr    Render pass
      */
     render_pass::ptr get_pass() const {
         return pass;
@@ -54,7 +55,7 @@ struct forward_shading : id_obj {
     /**
      * @brief Get the Vulkan render pass
      * 
-     * @return VkRenderPass Vulkan Render pass
+     * @return VkRenderPass    Vulkan Render pass
      */
     VkRenderPass get_vk_pass() const {
         return pass->get();
@@ -63,7 +64,7 @@ struct forward_shading : id_obj {
     /**
      * @brief Get the depth stencil image
      * 
-     * @return image::ptr Depth stencil Image
+     * @return image::ptr    Depth stencil Image
      */
     image::ptr get_depth_stencil() const {
         return depth_stencil;

@@ -1,8 +1,8 @@
 /**
- * @file liblava/base/debug_utils.hpp
- * @brief Debug utilities
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/base/debug_utils.hpp
+ * @brief        Debug utilities
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -23,72 +23,72 @@ namespace lava {
 /**
  * @brief Begin a label for a command buffer
  * 
- * @param cmd_buf Vulkan command buffer
- * @param label Name of label
- * @param color Color of label
+ * @param cmd_buf    Vulkan command buffer
+ * @param label      Name of label
+ * @param color      Color of label
  */
 void begin_label(VkCommandBuffer cmd_buf, name label, v4 color);
 
 /**
  * @brief End the command buffer label
  * 
- * @param cmd_buf Vulkan command buffer 
+ * @param cmd_buf    Vulkan command buffer 
  */
 void end_label(VkCommandBuffer cmd_buf);
 
 /**
  * @brief Insert a label for a command buffer
  * 
- * @param cmd_buf Vulkan command buffer
- * @param label Name of label
- * @param color Color of label
+ * @param cmd_buf    Vulkan command buffer
+ * @param label      Name of label
+ * @param color      Color of label
  */
 void insert_label(VkCommandBuffer cmd_buf, name label, v4 color);
 
 /**
  * @brief Begin a label for a queue
  * 
- * @param queue Vulkan queue
- * @param label Name of label
- * @param color Color of label
+ * @param queue    Vulkan queue
+ * @param label    Name of label
+ * @param color    Color of label
  */
 void begin_label(VkQueue queue, name label, v4 color);
 
 /**
  * @brief End the queue label
  * 
- * @param queue Vulkan queue
+ * @param queue    Vulkan queue
  */
 void end_label(VkQueue queue);
 
 /**
  * @brief Insert a label for a queue
  * 
- * @param queue Vulkan queue
- * @param label Name of label
- * @param color Color of label
+ * @param queue    Vulkan queue
+ * @param label    Name of label
+ * @param color    Color of label
  */
 void insert_label(VkQueue queue, name label, v4 color);
 
 /**
  * @brief Set the object name
  * 
- * @param device Vulkan device
- * @param type Object type
- * @param handle Object handle
- * @param object Name of object
+ * @param device    Vulkan device
+ * @param type      Object type
+ * @param handle    Object handle
+ * @param object    Name of object
  */
 void set_object_name(VkDevice device, VkObjectType type, VkObjectHandle handle, name object);
 
 /**
  * @brief Set the object tag
  * 
- * @param device Vulkan device
- * @param type Object type
- * @param handle Object handle
- * @param name Tag name
- * @param tag Tag data
- * @param size Size of tag data
+ * @param device    Vulkan device
+ * @param type      Object type
+ * @param handle    Object handle
+ * @param name      Name of tag
+ * @param tag       Tag data
+ * @param size      Size of tag data
  */
 void set_object_tag(VkDevice device, VkObjectType type, VkObjectHandle handle, ui64 name, void_cptr tag, size_t size);
 
@@ -123,10 +123,11 @@ inline void set_object_tag(VkDevice device, VkObjectType type, VkObjectHandle ha
 /**
  * @brief Set the object name
  * 
- * @tparam T Type of object
- * @param device Vulkan device
- * @param handle Object handle
- * @param object Name of object
+ * @tparam T        Type of object
+ * 
+ * @param device    Vulkan device
+ * @param handle    Object handle
+ * @param object    Name of object
  */
 template<typename T>
 inline void set_object_name(VkDevice device, T handle, name object) {
@@ -137,11 +138,12 @@ inline void set_object_name(VkDevice device, T handle, name object) {
  * @brief Set the object tag
  * 
  * @tparam T Type of object
- * @param device Vulkan device
- * @param handle Object handle
- * @param name Tag name
- * @param tag Tag data
- * @param size Size of tag data
+ * 
+ * @param device    Vulkan device
+ * @param handle    Object handle
+ * @param name      Name of tag
+ * @param tag       Tag data
+ * @param size      Size of tag data
  */
 template<typename T>
 inline void set_object_tag(VkDevice device, T handle, ui64 name, void_cptr tag, size_t size) {
@@ -151,16 +153,16 @@ inline void set_object_tag(VkDevice device, T handle, ui64 name, void_cptr tag, 
 /**
  * @brief Scoped debug util label
  * 
- * @tparam T VkCommandBuffer or VkQueue
+ * @tparam T    VkCommandBuffer or VkQueue
  */
 template<typename T>
 struct scoped_label {
     /**
      * @brief Construct a new scoped label
      * 
-     * @param scope Scoped label
-     * @param label Name of label
-     * @param color Color of label
+     * @param scope    Scoped label
+     * @param label    Name of label
+     * @param color    Color of label
      */
     scoped_label(T scope, name label, v4 color = v4(0.f))
     : scope(scope) {

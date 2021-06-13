@@ -1,8 +1,8 @@
 /**
- * @file liblava/base/queue.hpp
- * @brief Device queue
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/base/queue.hpp
+ * @brief        Device queue
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -36,8 +36,8 @@ struct queue {
     /**
      * @brief Check if queue is valid
      * 
-     * @return true Queue is valid
-     * @return false Queue is invalid
+     * @return true     Queue is valid
+     * @return false    Queue is invalid
      */
     bool valid() const {
         return vk_queue != nullptr;
@@ -46,9 +46,10 @@ struct queue {
     /**
      * @brief Queue priority compare operator
      * 
-     * @param other Queue to compare
-     * @return true Priority of queue is higher
-     * @return false Priority of queue is lower or equal
+     * @param other     Queue to compare
+     * 
+     * @return true     Priority of queue is higher
+     * @return false    Priority of queue is lower or equal
      */
     bool operator<(queue const& other) const {
         return priority < other.priority;
@@ -88,9 +89,9 @@ struct queue_family_info {
     /**
      * @brief Add a queue family information
      * 
-     * @param flags Queue flags
-     * @param count Number of queues
-     * @param priority Queue priority
+     * @param flags       Queue flags
+     * @param count       Number of queues
+     * @param priority    Queue priority
      */
     void add(VkQueueFlags flags, ui32 count = 1, r32 priority = 1.f) {
         for (auto i = 0u; i < count; ++i) {
@@ -102,7 +103,7 @@ struct queue_family_info {
     /**
      * @brief Get the count of queues
      * 
-     * @return ui32 Count of queues
+     * @return ui32    Count of queues
      */
     ui32 count() const {
         return to_ui32(queues.size());
@@ -119,28 +120,29 @@ struct queue_family_info {
 /**
  * @brief Set the default queues
  * 
- * @param list List of queue family informations
+ * @param list    List of queue family informations
  */
 void set_default_queues(queue_family_info::list& list);
 
 /**
  * @brief Set all queues
  * 
- * @param list List of queue family informations
- * @param properties List of queue family properties
+ * @param list          List of queue family informations
+ * @param properties    List of queue family properties
  */
 void set_all_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList const& properties);
 
 /**
  * @brief Add queues
  * 
- * @param list List of queue family informations
- * @param properties List of queue family properties
- * @param flags Queue flags
- * @param count Number of queues
- * @param priority Queue priority
- * @return true Add was successful
- * @return false Add failed
+ * @param list          List of queue family informations
+ * @param properties    List of queue family properties
+ * @param flags         Queue flags
+ * @param count         Number of queues
+ * @param priority      Queue priority
+ * 
+ * @return true         Add was successful
+ * @return false        Add failed
  */
 bool add_queues(queue_family_info::list& list,
                 VkQueueFamilyPropertiesList const& properties,
@@ -149,18 +151,19 @@ bool add_queues(queue_family_info::list& list,
 /**
  * @brief Add dedicated queues
  * 
- * @param list List of queue family informations
- * @param properties List of queue family properties
- * @param priority Queue priority
- * @return true Add was successful
- * @return false Add failed
+ * @param list          List of queue family informations
+ * @param properties    List of queue family properties
+ * @param priority      Queue priority
+ * 
+ * @return true         Add was successful
+ * @return false        Add failed
  */
 bool add_dedicated_queues(queue_family_info::list& list,
                           VkQueueFamilyPropertiesList const& properties,
                           r32 priority = 1.f);
 
 /**
- * @brief Result of queue verification
+ * @brief Result of queue verifications
  */
 enum class verify_queues_result : type {
     ok = 0,
@@ -176,9 +179,10 @@ enum class verify_queues_result : type {
 /**
  * @brief Verify queues
  * 
- * @param list List of queue family informations
- * @param properties List of queue family properties
- * @return verify_queues_result Verification result
+ * @param list                     List of queue family informations
+ * @param properties               List of queue family properties
+ * 
+ * @return verify_queues_result    Verification result
  */
 verify_queues_result verify_queues(queue_family_info::list const& list, VkQueueFamilyPropertiesList const& properties);
 

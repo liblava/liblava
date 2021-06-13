@@ -1,6 +1,9 @@
-// file      : liblava/base/debug_utils.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/base/debug_utils.cpp
+ * @brief        Debug utilities
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/base/debug_utils.hpp>
 
@@ -10,14 +13,17 @@
 
 namespace lava {
 
+/// Optional debug utils label
+using optional_label = std::optional<VkDebugUtilsLabelEXT>;
+
 /**
- * @brief Create a label info object
+ * @brief Create a label information
  * 
- * @param label 
- * @param color 
- * @return std::optional<VkDebugUtilsLabelEXT> 
+ * @param label              Name of label
+ * @param color              Color of label
+ * @return optional_label    Optional label
  */
-std::optional<VkDebugUtilsLabelEXT> create_label_info(name label, v4 color) {
+optional_label create_label_info(name label, v4 color) {
     if (!instance::singleton().get_debug_config().utils)
         return {};
 

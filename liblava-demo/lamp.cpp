@@ -1,6 +1,9 @@
-// file      : liblava-demo/lamp.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava-demo/lamp.cpp
+ * @brief        Lamp demo
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <imgui.h>
 #include <demo.hpp>
@@ -21,9 +24,10 @@ struct dimmer {
     /**
      * @brief Update dimmer
      * 
-     * @param dt Delta time
-     * @param value Value to update
-     * @return r32 Updated value
+     * @param dt       Delta time
+     * @param value    Value to update
+     * 
+     * @return r32     Updated value
      */
     r32 update(delta dt, r32 value) {
         r32 next = factor * dt;

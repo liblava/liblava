@@ -1,8 +1,8 @@
 /**
- * @file liblava/frame/swapchain.hpp
- * @brief Swapchain
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/frame/swapchain.hpp
+ * @brief        Swapchain
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -18,13 +18,14 @@ struct swapchain : id_obj {
     /**
      * @brief Create a new swapchain
      * 
-     * @param device Vulkan device
-     * @param surface Vulkan surface
-     * @param format Surface format
-     * @param size Size of swapchain
-     * @param v_sync V-Sync enabled
-     * @return true Create was successful
-     * @return false Create failed
+     * @param device     Vulkan device
+     * @param surface    Vulkan surface
+     * @param format     Surface format
+     * @param size       Size of swapchain
+     * @param v_sync     V-Sync enabled
+     * 
+     * @return true      Create was successful
+     * @return false     Create failed
      */
     bool create(device_ptr device, VkSurfaceKHR surface, VkSurfaceFormatKHR format, uv2 size, bool v_sync = false);
 
@@ -36,9 +37,10 @@ struct swapchain : id_obj {
     /**
      * @brief Resize the swapchain
      * 
-     * @param new_size New size of swapchain
-     * @return true Resize was successful
-     * @return false Resize failed
+     * @param new_size    New size of swapchain
+     * 
+     * @return true       Resize was successful
+     * @return false      Resize failed
      */
     bool resize(uv2 new_size);
 
@@ -52,8 +54,8 @@ struct swapchain : id_obj {
     /**
      * @brief Check if reload of the swapchain is requested
      * 
-     * @return true Reload is requsted
-     * @return false Reload is not requested
+     * @return true     Reload is requsted
+     * @return false    Reload is not requested
      */
     bool reload_request() const {
         return reload_request_active;
@@ -62,7 +64,7 @@ struct swapchain : id_obj {
     /**
      * @brief Get the device
      * 
-     * @return device_ptr Vulkan device
+     * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
         return device;
@@ -71,7 +73,7 @@ struct swapchain : id_obj {
     /**
      * @brief Get the size of the swapchain
      * 
-     * @return uv2 Swapchain size
+     * @return uv2    Swapchain size
      */
     uv2 get_size() const {
         return size;
@@ -80,7 +82,7 @@ struct swapchain : id_obj {
     /**
      * @brief Get the format of the swapchain
      * 
-     * @return VkFormat Swapchain format
+     * @return VkFormat    Swapchain format
      */
     VkFormat get_format() const {
         return format.format;
@@ -89,7 +91,7 @@ struct swapchain : id_obj {
     /**
      * @brief Get the color space of the swapchain
      * 
-     * @return VkColorSpaceKHR Swapchain color space
+     * @return VkColorSpaceKHR    Swapchain color space
      */
     VkColorSpaceKHR get_color_space() const {
         return format.colorSpace;
@@ -98,7 +100,7 @@ struct swapchain : id_obj {
     /**
      * @brief Get the swapchain
      * 
-     * @return VkSwapchainKHR Vulkan swapchain
+     * @return VkSwapchainKHR    Vulkan swapchain
      */
     VkSwapchainKHR get() const {
         return vk_swapchain;
@@ -107,7 +109,7 @@ struct swapchain : id_obj {
     /**
      * @brief Get the backbuffer count
      * 
-     * @return ui32 Number of backbuffers
+     * @return ui32    Number of backbuffers
      */
     ui32 get_backbuffer_count() const {
         return to_ui32(backbuffers.size());
@@ -116,7 +118,7 @@ struct swapchain : id_obj {
     /**
      * @brief Get the backbuffers
      * 
-     * @return image::list const& List of backbuffer images
+     * @return image::list const&    List of backbuffer images
      */
     image::list const& get_backbuffers() const {
         return backbuffers;
@@ -145,22 +147,22 @@ struct swapchain : id_obj {
     /**
      * @brief Add callback to swapchain
      * 
-     * @param cb Callback to add
+     * @param cb    Callback to add
      */
     void add_callback(callback* cb);
 
     /**
      * @brief Remove callback from swapchain
      * 
-     * @param cb Callback to remove
+     * @param cb    Callback to remove
      */
     void remove_callback(callback* cb);
 
     /**
      * @brief Check if V-Sync is enabled
      * 
-     * @return true V-Sync is active
-     * @return false V-Sync is inactive
+     * @return true     V-Sync is active
+     * @return false    V-Sync is inactive
      */
     bool v_sync() const {
         return v_sync_active;
@@ -169,9 +171,10 @@ struct swapchain : id_obj {
     /**
      * @brief Check if surface is supported by queue family index
      * 
-     * @param queue_family Queue family index
-     * @return true Surface is supported by queue family
-     * @return false Surface is not supported queue family
+     * @param queue_family    Queue family index
+     * 
+     * @return true           Surface is supported by queue family
+     * @return false          Surface is not supported queue family
      */
     bool surface_supported(index queue_family) const;
 
@@ -179,24 +182,26 @@ private:
     /**
      * @brief Choose present mode
      * 
-     * @param present_modes List of present modes to choose
-     * @return VkPresentModeKHR Chosen present mode
+     * @param present_modes        List of present modes to choose
+     * 
+     * @return VkPresentModeKHR    Chosen present mode
      */
     VkPresentModeKHR choose_present_mode(VkPresentModeKHRs const& present_modes) const;
 
     /**
      * @brief Create a swapchain create infomation (helper)
      * 
-     * @param present_modes List of present modes
-     * @return VkSwapchainCreateInfoKHR Swapchain create information
+     * @param present_modes                List of present modes
+     * 
+     * @return VkSwapchainCreateInfoKHR    Swapchain create information
      */
     VkSwapchainCreateInfoKHR create_info(VkPresentModeKHRs present_modes);
 
     /**
      * @brief Internal create a new swapchain
      * 
-     * @return true Internal create was successful
-     * @return false Internal create failed
+     * @return true     Internal create was successful
+     * @return false    Internal create failed
      */
     bool create_internal();
 

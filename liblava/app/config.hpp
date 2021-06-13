@@ -1,8 +1,8 @@
 /**
- * @file liblava/app/config.hpp
- * @brief Application configuration
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/app/config.hpp
+ * @brief        Application configuration
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -45,23 +45,24 @@ struct app_config {
 /**
  * @brief Load window state from file
  * 
- * @param save_name Name of the saved window
- * @return window::state::optional Window state if available
+ * @param save_name    Name of the saved window
+ * 
+ * @return window::state::optional    Window state if available
  */
 window::state::optional load_window_state(name save_name);
 
 /**
  * @brief Save window state to file
  * 
- * @param window Window to save
+ * @param window    Window to save
  */
 void save_window_file(window::ref window);
 
 /**
  * @brief Set the window icon
  * 
- * @param window Target window
- * @param icon_file Icon file
+ * @param window       Target window
+ * @param icon_file    Icon file
  */
 void set_window_icon(window& window, string_ref icon_file = "icon.png");
 

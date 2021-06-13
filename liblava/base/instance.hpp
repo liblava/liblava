@@ -1,8 +1,8 @@
 /**
- * @file liblava/base/instance.hpp
- * @brief Vulkan instance
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/base/instance.hpp
+ * @brief        Vulkan instance
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -75,7 +75,7 @@ struct instance : no_copy_no_move {
     /**
      * @brief Instance singeton 
      * 
-     * @return instance& Instance
+     * @return instance&    Instance
      */
     static instance& singleton() {
         static instance instance;
@@ -85,11 +85,12 @@ struct instance : no_copy_no_move {
     /**
      * @brief Create a new instance
      * 
-     * @param param Create parameters
-     * @param debug Debug configuration
-     * @param info Instance information
-     * @return true Create was successful
-     * @return false Create failed
+     * @param param     Create parameters
+     * @param debug     Debug configuration
+     * @param info      Instance information
+     * 
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create(create_param& param, debug_config::ref debug, instance_info::ref info);
 
@@ -101,22 +102,23 @@ struct instance : no_copy_no_move {
     /**
      * @brief Enumerate enabled layer properties
      * 
-     * @return VkLayerPropertiesList List of layer properties
+     * @return VkLayerPropertiesList    List of layer properties
      */
     static VkLayerPropertiesList enumerate_layer_properties();
 
     /**
      * @brief Enumerate enabled extension properties
      * 
-     * @param layer_name Name of layer
-     * @return VkExtensionPropertiesList List of extension properties
+     * @param layer_name                    Name of layer
+     * 
+     * @return VkExtensionPropertiesList    List of extension properties
      */
     static VkExtensionPropertiesList enumerate_extension_properties(name layer_name = nullptr);
 
     /**
      * @brief Get the physical devices
      * 
-     * @return physical_device::list const& List of physical devices
+     * @return physical_device::list const&    List of physical devices
      */
     physical_device::list const& get_physical_devices() const {
         return physical_devices;
@@ -125,7 +127,7 @@ struct instance : no_copy_no_move {
     /**
      * @brief Get the first physical device
      * 
-     * @return physical_device::ref Physcial device
+     * @return physical_device::ref    Physcial device
      */
     static physical_device::ref get_first_physical_device() {
         return singleton().physical_devices.front();
@@ -134,7 +136,7 @@ struct instance : no_copy_no_move {
     /**
      * @brief Get the Vulkan instance
      * 
-     * @return VkInstance Vulkan instance
+     * @return VkInstance    Vulkan instance
      */
     static VkInstance get() {
         return singleton().vk_instance;
@@ -143,14 +145,14 @@ struct instance : no_copy_no_move {
     /**
      * @brief Get the version
      * 
-     * @return internal_version Version
+     * @return internal_version    Version
      */
     static internal_version get_version();
 
     /**
      * @brief Get the debug configuration
      * 
-     * @return debug_config::ref Debug configuration
+     * @return debug_config::ref    Debug configuration
      */
     debug_config::ref get_debug_config() const {
         return debug;
@@ -159,7 +161,7 @@ struct instance : no_copy_no_move {
     /**
      * @brief Get the instance information
      * 
-     * @return instance_info::ref Instance information
+     * @return instance_info::ref    Instance information
      */
     instance_info::ref get_info() const {
         return info;
@@ -179,25 +181,26 @@ private:
     /**
      * @brief Check the debug configuration and create parameters
      * 
-     * @param param Create parameters
-     * @return true Check was successful
-     * @return false Check failed
+     * @param param     Create parameters
+     * 
+     * @return true     Check was successful
+     * @return false    Check failed
      */
     bool check_debug(create_param& param) const;
 
     /**
      * @brief Enumerate all available physical devices
      * 
-     * @return true Enumerate was successful
-     * @return false Enumerate failed
+     * @return true     Enumerate was successful
+     * @return false    Enumerate failed
      */
     bool enumerate_physical_devices();
 
     /**
      * @brief Create a validation report
      * 
-     * @return true Create was successful
-     * @return false Create failed
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create_validation_report();
 
@@ -225,9 +228,10 @@ private:
 /**
  * @brief Check instance create parameters
  * 
- * @param param Create parameters
- * @return true Check was successful
- * @return false Check failed
+ * @param param     Create parameters
+ * 
+ * @return true     Check was successful
+ * @return false    Check failed
  */
 bool check(instance::create_param::ref param);
 

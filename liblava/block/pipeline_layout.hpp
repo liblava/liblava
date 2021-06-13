@@ -1,8 +1,8 @@
 /**
- * @file liblava/block/pipeline_layout.hpp
- * @brief Pipeline layout
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/block/pipeline_layout.hpp
+ * @brief        Pipeline layout
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -38,7 +38,7 @@ struct pipeline_layout : id_obj {
     /**
      * @brief Add descriptor
      * 
-     * @param descriptor Descriptor
+     * @param descriptor    Descriptor
      */
     void add_descriptor(descriptor::ptr const& descriptor) {
         add(descriptor);
@@ -47,7 +47,7 @@ struct pipeline_layout : id_obj {
     /**
      * @brief Add push contant range
      * 
-     * @param range Push contant range
+     * @param range    Push contant range
      */
     void add_push_constant_range(VkPushConstantRange const& range) {
         add(range);
@@ -78,9 +78,10 @@ struct pipeline_layout : id_obj {
     /**
      * @brief Create a new pipeline layout
      * 
-     * @param device Vulkan device
-     * @return true Create was successful
-     * @return false Create failed
+     * @param device    Vulkan device
+     * 
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create(device_ptr device);
 
@@ -92,7 +93,7 @@ struct pipeline_layout : id_obj {
     /**
      * @brief Get the Vulkan pipeline layout
      * 
-     * @return VkPipelineLayout Pipeline layout
+     * @return VkPipelineLayout    Pipeline layout
      */
     VkPipelineLayout get() const {
         return layout;
@@ -101,7 +102,7 @@ struct pipeline_layout : id_obj {
     /**
      * @brief Get the device
      * 
-     * @return device_ptr Vulkan device
+     * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
         return device;
@@ -110,7 +111,7 @@ struct pipeline_layout : id_obj {
     /**
      * @brief Get the descriptors
      * 
-     * @return descriptor::list const& List of descriptors
+     * @return descriptor::list const&    List of descriptors
      */
     descriptor::list const& get_descriptors() const {
         return descriptors;
@@ -119,7 +120,7 @@ struct pipeline_layout : id_obj {
     /**
      * @brief Get the push constant ranges
      * 
-     * @return VkPushConstantRanges const& List of push constant ranges 
+     * @return VkPushConstantRanges const&    List of push constant ranges 
      */
     VkPushConstantRanges const& get_push_constant_ranges() const {
         return push_constant_ranges;
@@ -131,11 +132,11 @@ struct pipeline_layout : id_obj {
     /**
      * @brief Bind descriptor set
      * 
-     * @param cmd_buf Command buffer
-     * @param descriptor_set Descriptor set
-     * @param first_set Index to first descriptor set
-     * @param offsets List of offsets
-     * @param bind_point Pipeline bind point
+     * @param cmd_buf           Command buffer
+     * @param descriptor_set    Descriptor set
+     * @param first_set         Index to first descriptor set
+     * @param offsets           List of offsets
+     * @param bind_point        Pipeline bind point
      */
     void bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, index first_set = 0, offset_list offsets = {}, VkPipelineBindPoint bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS);
 
@@ -163,7 +164,7 @@ private:
 /**
  * @brief Make a new pipeline layout
  * 
- * @return pipeline_layout::ptr Shared pointer to pipeline layout
+ * @return pipeline_layout::ptr    Shared pointer to pipeline layout
  */
 inline pipeline_layout::ptr make_pipeline_layout() {
     return std::make_shared<pipeline_layout>();

@@ -1,8 +1,8 @@
 /**
- * @file liblava/util/random.hpp
- * @brief Random generator
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/util/random.hpp
+ * @brief        Random generator
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -19,7 +19,7 @@ struct random_generator {
     /**
      * @brief Get singleton
      * 
-     * @return random_generator& Random generator
+     * @return random_generator&    Random generator
      */
     static random_generator& instance() {
         static random_generator generator;
@@ -29,9 +29,10 @@ struct random_generator {
     /**
      * @brief Get next random number
      * 
-     * @param low Lowest number
-     * @param high Highest number
-     * @return i32 Random number
+     * @param low     Lowest number
+     * @param high    Highest number
+     * 
+     * @return i32    Random number
      */
     i32 get(i32 low, i32 high) {
         std::uniform_int_distribution<i32> dist(low, high);
@@ -41,10 +42,12 @@ struct random_generator {
     /**
      * @brief Get next real random number
      * 
-     * @tparam T Type of number
-     * @param low Lowest number
-     * @param high Highest number
-     * @return T Random number
+     * @tparam T      Type of number
+     * 
+     * @param low     Lowest number
+     * @param high    Highest number
+     * 
+     * @return T      Random number
      */
     template<typename T = real>
     T get(T low, T high) {
@@ -68,10 +71,12 @@ private:
 /**
  * @brief Get next random number
  * 
- * @tparam T Type of number
- * @param low Lowest number
- * @param high Highest number
- * @return T Random number
+ * @tparam T      Type of number
+ * 
+ * @param low     Lowest number
+ * @param high    Highest number
+ * 
+ * @return T      Random number
  */
 template<typename T>
 inline T random(T low, T high) {
@@ -81,9 +86,11 @@ inline T random(T low, T high) {
 /**
  * @brief Get next random number (lowest is 0)
  * 
- * @tparam T Type of number
- * @param high Highest number
- * @return T Random number
+ * @tparam T      Type of number
+ * 
+ * @param high    Highest number
+ * 
+ * @return T      Random number
  */
 template<typename T>
 inline T random(T high) {
@@ -97,7 +104,7 @@ struct pseudo_random_generator {
     /**
      * @brief Construct a new pseudo random generator
      * 
-     * @param seed Seed for generator
+     * @param seed    Seed for generator
      */
     explicit pseudo_random_generator(ui32 seed)
     : seed(seed) {}
@@ -105,7 +112,7 @@ struct pseudo_random_generator {
     /**
      * @brief Set the seed
      * 
-     * @param value Generator seed
+     * @param value    Generator seed
      */
     void set_seed(ui32 value) {
         seed = value;
@@ -114,7 +121,7 @@ struct pseudo_random_generator {
     /**
      * @brief Get next pseudo random number
      * 
-     * @return ui32 Random number
+     * @return ui32    Random number
      */
     ui32 get() {
         return generate_fast() ^ (generate_fast() >> 7);
@@ -127,7 +134,7 @@ private:
     /**
      * @brief Generate fast random number
      * 
-     * @return ui32 Random number
+     * @return ui32    Random number
      */
     ui32 generate_fast() {
         return seed = (seed * 196314165 + 907633515);

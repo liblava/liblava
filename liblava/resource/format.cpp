@@ -1,6 +1,9 @@
-// file      : liblava/resource/format.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/resource/format.cpp
+ * @brief        Vulkan format
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/base/memory.hpp>
 #include <liblava/resource/format.hpp>

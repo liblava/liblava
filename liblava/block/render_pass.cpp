@@ -1,6 +1,9 @@
-// file      : liblava/block/render_pass.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/block/render_pass.cpp
+ * @brief        Render pass
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/block/render_pass.hpp>
 

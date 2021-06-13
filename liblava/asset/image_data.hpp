@@ -1,8 +1,8 @@
 /**
- * @file liblava/asset/image_data.hpp
- * @brief Load image data from file
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/asset/image_data.hpp
+ * @brief        Load image data from file
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -19,7 +19,7 @@ struct image_data {
     /**
      * @brief Construct a new image data
      * 
-     * @param filename File to load
+     * @param filename    File to load
      */
     explicit image_data(string_ref filename);
 

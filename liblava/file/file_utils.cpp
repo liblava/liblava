@@ -1,6 +1,9 @@
-// file      : liblava/file/file_utils.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/file/file_utils.cpp
+ * @brief        File utilities
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/file/file.hpp>
 #include <liblava/file/file_system.hpp>

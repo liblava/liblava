@@ -1,6 +1,9 @@
-// file      : liblava-demo/light.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava-demo/light.cpp
+ * @brief        Light demo
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <imgui.h>
 #include <demo.hpp>
@@ -50,10 +53,11 @@ struct gbuffer_attachment {
     /**
      * @brief Create a new G-Buffer attachment
      * 
-     * @param app Application
-     * @param index Attachment index
-     * @return true Create was successful
-     * @return false Create failed
+     * @param app       Application
+     * @param index     Attachment index
+     * 
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create(app const& app, ui32 index);
 };
@@ -82,9 +86,10 @@ light_array const g_lights = {
 /**
  * @brief Create a G-Buffer renderpass
  * 
- * @param app Application
- * @param attachments Array of attachments
- * @return render_pass::ptr Shared pointer to render pass
+ * @param app                  Application
+ * @param attachments          Array of attachments
+ * 
+ * @return render_pass::ptr    Shared pointer to render pass
  */
 render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments);
 

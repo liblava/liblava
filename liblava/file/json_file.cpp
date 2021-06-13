@@ -1,6 +1,9 @@
-// file      : liblava/file/json_file.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/file/json_file.cpp
+ * @brief        Json file
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/file/file.hpp>
 #include <liblava/file/file_utils.hpp>

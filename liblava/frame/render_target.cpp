@@ -1,6 +1,9 @@
-// file      : liblava/frame/render_target.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/frame/render_target.cpp
+ * @brief        Render target
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/frame/frame.hpp>
 #include <liblava/frame/render_target.hpp>

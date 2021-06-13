@@ -1,8 +1,8 @@
 /**
- * @file liblava/app/app.hpp
- * @brief Application with basic functionality
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/app/app.hpp
+ * @brief        Application with basic functionality
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -22,23 +22,23 @@ struct app : frame {
     /**
      * @brief Construct a new app
      * 
-     * @param config Frame configuration
+     * @param config    Frame configuration
      */
     explicit app(frame_config config);
 
     /**
      * @brief Construct a new app
      * 
-     * @param name Application name
-     * @param cmd_line Command line arguments
+     * @param name        Application name
+     * @param cmd_line    Command line arguments
      */
     explicit app(name name, argh::parser cmd_line = {});
 
     /**
      * @brief Setup the application
      * 
-     * @return true Setup was successful
-     * @return false Setup failed
+     * @return true     Setup was successful
+     * @return false    Setup failed
      */
     bool setup();
 
@@ -99,8 +99,8 @@ struct app : frame {
     /**
      * @brief V-Sync setting
      * 
-     * @return true V-Sync is active
-     * @return false V-Sync is inactive
+     * @return true     V-Sync is active
+     * @return false    V-Sync is inactive
      */
     bool v_sync() const {
         return config.v_sync;
@@ -109,7 +109,7 @@ struct app : frame {
     /**
      * @brief Get the frame counter
      * 
-     * @return ui32 Number of rendered frames
+     * @return ui32    Number of rendered frames
      */
     ui32 get_frame_counter() const {
         return frame_counter;
@@ -118,7 +118,7 @@ struct app : frame {
     /**
      * @brief Draw about information
      * 
-     * @param separator Prepend separator
+     * @param separator    Prepend separator
      */
     void draw_about(bool separator = true) const;
 
@@ -137,7 +137,7 @@ struct app : frame {
     /**
      * @brief Get id of the block command
      * 
-     * @return id::ref Id to access the command
+     * @return id::ref    Id to access the command
      */
     id::ref block_cmd() const {
         return block_command;
@@ -172,8 +172,8 @@ private:
     /**
      * @brief Create ImGui
      * 
-     * @return true Create was successful
-     * @return false Create failed
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create_imgui();
 
@@ -185,8 +185,8 @@ private:
     /**
      * @brief Create a render target
      * 
-     * @return true Create was successful
-     * @return false Create failed
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create_target();
 
@@ -198,8 +198,8 @@ private:
     /**
      * @brief Create a block object
      * 
-     * @return true Create was successful
-     * @return false Create failed
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create_block();
 

@@ -1,6 +1,9 @@
-// file      : liblava/asset/mesh_loader.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/asset/mesh_loader.cpp
+ * @brief        Load mesh from file
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/asset/mesh_loader.hpp>
 #include <liblava/file.hpp>

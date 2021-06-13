@@ -1,6 +1,9 @@
-// file      : liblava/asset/texture_loader.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/asset/texture_loader.cpp
+ * @brief        Load texture from file
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/asset/texture_loader.hpp>
 #include <liblava/file.hpp>
@@ -37,11 +40,12 @@ namespace lava {
 /**
  * @brief Create a gli 2D texture
  * 
- * @param device Vulkan device
- * @param file File to load
- * @param format Format of texture
- * @param temp_data Data of texture
- * @return texture::ptr Loaded texture
+ * @param device           Vulkan device
+ * @param file             File to load
+ * @param format           Format of texture
+ * @param temp_data        Data of texture
+ * 
+ * @return texture::ptr    Loaded texture
  */
 texture::ptr create_gli_texture_2d(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
     gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
@@ -80,10 +84,12 @@ texture::ptr create_gli_texture_2d(device_ptr device, file const& file, VkFormat
 /**
  * @brief Create a layer list for a texture
  * 
- * @tparam T Texture type
- * @param tex Target texture
- * @param layer_count Number of layers
- * @return texture::layer::list List of texture layers
+ * @tparam T                       Texture type
+ * 
+ * @param tex                      Target texture
+ * @param layer_count              Number of layers
+ * 
+ * @return texture::layer::list    List of texture layers
  */
 template<typename T>
 texture::layer::list create_layer_list(T const& tex, ui32 layer_count) {
@@ -111,11 +117,12 @@ texture::layer::list create_layer_list(T const& tex, ui32 layer_count) {
 /**
  * @brief Create a gli array texture
  * 
- * @param device Vulkan device
- * @param file File to load
- * @param format Format of texture
- * @param temp_data Data of texture
- * @return texture::ptr Loaded texture
+ * @param device           Vulkan device
+ * @param file             File to load
+ * @param format           Format of texture
+ * @param temp_data        Data of texture
+ * 
+ * @return texture::ptr    Loaded texture
  */
 texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
     gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
@@ -141,11 +148,12 @@ texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFor
 /**
  * @brief Create a gli cube map texture
  * 
- * @param device Vulkan device
- * @param file File to load
- * @param format Format of texture
- * @param temp_data Data of texture
- * @return texture::ptr Loaded texture
+ * @param device           Vulkan device
+ * @param file             File to load
+ * @param format           Format of texture
+ * @param temp_data        Data of texture
+ * 
+ * @return texture::ptr    Loaded texture
  */
 texture::ptr create_gli_texture_cube_map(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
     gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
@@ -171,10 +179,11 @@ texture::ptr create_gli_texture_cube_map(device_ptr device, file const& file, Vk
 /**
  * @brief Create a stbi texture
  * 
- * @param device Vulkan device
- * @param file File to load
- * @param temp_data Data of texture
- * @return texture::ptr Loaded texture
+ * @param device           Vulkan device
+ * @param file             File to load
+ * @param temp_data        Data of texture
+ * 
+ * @return texture::ptr    Loaded texture
  */
 texture::ptr create_stbi_texture(device_ptr device, file const& file, unique_data const& temp_data) {
     i32 tex_width = 0, tex_height = 0;

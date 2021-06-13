@@ -1,8 +1,8 @@
 /**
- * @file liblava/resource/texture.hpp
- * @brief Vulkan texture
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/resource/texture.hpp
+ * @brief        Vulkan texture
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -84,13 +84,14 @@ struct texture : id_obj {
     /**
      * @brief Create a new texture
      * 
-     * @param device Vulkan device
-     * @param size Texture size
-     * @param format Texture format
-     * @param layers List of layers
-     * @param type Texture type
-     * @return true Create was successful
-     * @return false Create failed
+     * @param device    Vulkan device
+     * @param size      Texture size
+     * @param format    Texture format
+     * @param layers    List of layers
+     * @param type      Texture type
+     * 
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create(device_ptr device, uv2 size, VkFormat format,
                 layer::list const& layers = {}, texture_type type = texture_type::tex_2d);
@@ -103,19 +104,21 @@ struct texture : id_obj {
     /**
      * @brief Upload data to texture
      * 
-     * @param data Data to upload
-     * @param data_size Size of data
-     * @return true Upload was successful
-     * @return false Upload failed
+     * @param data         Data to upload
+     * @param data_size    Size of data
+     * 
+     * @return true        Upload was successful
+     * @return false       Upload failed
      */
     bool upload(void const* data, size_t data_size);
 
     /**
      * @brief Stage the texture
      * 
-     * @param cmd_buffer Command buffer
-     * @return true Stage was successful
-     * @return false Stage failed
+     * @param cmd_buffer    Command buffer
+     * 
+     * @return true         Stage was successful
+     * @return false        Stage failed
      */
     bool stage(VkCommandBuffer cmd_buffer);
 
@@ -127,7 +130,7 @@ struct texture : id_obj {
     /**
      * @brief Get the descriptor information
      * 
-     * @return VkDescriptorImageInfo const* Descriptor image information
+     * @return VkDescriptorImageInfo const*    Descriptor image information
      */
     VkDescriptorImageInfo const* get_descriptor_info() const {
         return &descriptor;
@@ -136,7 +139,7 @@ struct texture : id_obj {
     /**
      * @brief Get the image of the texture
      * 
-     * @return image::ptr Shared pointer to image
+     * @return image::ptr    Shared pointer to image
      */
     image::ptr get_image() {
         return img;
@@ -145,7 +148,7 @@ struct texture : id_obj {
     /**
      * @brief Get the size of the texture
      * 
-     * @return uv2 Texture size
+     * @return uv2    Texture size
      */
     uv2 get_size() const {
         return img ? img->get_size() : uv2();
@@ -154,7 +157,7 @@ struct texture : id_obj {
     /**
      * @brief Get the type of the texture
      * 
-     * @return texture_type Texture type
+     * @return texture_type    Texture type
      */
     texture_type get_type() const {
         return type;
@@ -163,7 +166,7 @@ struct texture : id_obj {
     /**
      * @brief Get the format of the texture
      * 
-     * @return VkFormat Texture format
+     * @return VkFormat    Texture format
      */
     VkFormat get_format() const {
         return img ? img->get_format() : VK_FORMAT_UNDEFINED;
@@ -192,7 +195,7 @@ private:
 /**
  * @brief Make a new texture
  * 
- * @return texture::ptr Shared pointer to texture
+ * @return texture::ptr    Shared pointer to texture
  */
 inline texture::ptr make_texture() {
     return std::make_shared<texture>();
@@ -205,7 +208,7 @@ struct staging {
     /**
      * @brief Add texture for staging
      * 
-     * @param texture Texture to stage
+     * @param texture    Texture to stage
      */
     void add(texture::ptr texture) {
         todo.push_back(texture);
@@ -214,10 +217,11 @@ struct staging {
     /**
      * @brief Stage textures
      * 
-     * @param cmd_buf Command buffer
-     * @param frame Frame index
-     * @return true Stage was successful
-     * @return false Stage failed
+     * @param cmd_buf    Command buffer
+     * @param frame      Frame index
+     * 
+     * @return true      Stage was successful
+     * @return false     Stage failed
      */
     bool stage(VkCommandBuffer cmd_buf, index frame);
 
@@ -232,8 +236,8 @@ struct staging {
     /**
      * @brief Check if staging is busy
      * 
-     * @return true Staging is busy
-     * @return false Staging is not busy
+     * @return true     Staging is busy
+     * @return false    Staging is not busy
      */
     bool busy() const {
         return !todo.empty() || !staged.empty();

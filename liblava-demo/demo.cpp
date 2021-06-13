@@ -1,6 +1,9 @@
-// file      : liblava-demo/demo.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava-demo/demo.cpp
+ * @brief        Demo helpers
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <imgui.h>
 #include <demo.hpp>

@@ -1,6 +1,9 @@
-// file      : liblava/base/memory.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/base/memory.cpp
+ * @brief        Vulkan allocator
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
@@ -36,11 +39,12 @@ namespace lava {
 /**
  * @brief Custom CPU allocation callback
  * 
- * @param user_data User data
- * @param size Size to allocate
- * @param alignment Memory alignment
- * @param allocation_scope System allocation scope
- * @return void* Allocated data
+ * @param user_data           User data
+ * @param size                Size to allocate
+ * @param alignment           Memory alignment
+ * @param allocation_scope    System allocation scope
+ * 
+ * @return void*              Allocated data
  */
 static void* VKAPI_PTR custom_cpu_allocation(void* user_data, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
     assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
@@ -50,12 +54,13 @@ static void* VKAPI_PTR custom_cpu_allocation(void* user_data, size_t size, size_
 /**
  * @brief Custom CPU reallocation callback
  * 
- * @param user_data User data
- * @param original Pointer to original data
- * @param size Size to reallocate
- * @param alignment Memory alignment
- * @param allocation_scope System allocation scope
- * @return void* Reallocated data
+ * @param user_data           User data
+ * @param original            Pointer to original data
+ * @param size                Size to reallocate
+ * @param alignment           Memory alignment
+ * @param allocation_scope    System allocation scope
+ * 
+ * @return void*              Reallocated data
  */
 static void* VKAPI_PTR custom_cpu_reallocation(void* user_data, void* original, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
     assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
@@ -65,8 +70,8 @@ static void* VKAPI_PTR custom_cpu_reallocation(void* user_data, void* original, 
 /**
  * @brief Custom CPU free callback
  * 
- * @param user_data User data
- * @param memory Memory to free
+ * @param user_data    User data
+ * @param memory       Memory to free
  */
 static void VKAPI_PTR custom_cpu_free(void* user_data, void* memory) {
     assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);

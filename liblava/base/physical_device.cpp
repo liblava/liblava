@@ -1,6 +1,9 @@
-// file      : liblava/base/physical_device.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/base/physical_device.cpp
+ * @brief        Vulkan physical device
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/base/physical_device.hpp>
 

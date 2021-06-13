@@ -1,8 +1,8 @@
 /**
- * @file liblava/app/camera.hpp
- * @brief First Person / Look At camera
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/app/camera.hpp
+ * @brief        First Person / Look At camera
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -34,9 +34,9 @@ struct camera : id_obj {
     /**
      * @brief Create a camera
      * 
-     * @param device Vulkan device
-     * @return true Create was successful
-     * @return false Create failed
+     * @param device    Vulkan device
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create(device_ptr device);
 
@@ -53,52 +53,55 @@ struct camera : id_obj {
     /**
      * @brief Update the view with mouse position
      * 
-     * @param dt Delta time
-     * @param mouse_pos Mouse position
+     * @param dt           Delta time
+     * @param mouse_pos    Mouse position
      */
     void update_view(delta dt, mouse_position mouse_pos);
 
     /**
      * @brief Update the view with gamepad
      * 
-     * @param dt Delta time
-     * @param pad Gamepad
+     * @param dt     Delta time
+     * @param pad    Gamepad
      */
     void update_view(delta dt, gamepad::ref pad);
 
     /**
      * @brief Handle key event
      * 
-     * @param event Key event
-     * @return true Event was handled
-     * @return false Event ignored
+     * @param event     Key event
+     * 
+     * @return true     Event was handled
+     * @return false    Event ignored
      */
     bool handle(key_event::ref event);
 
     /**
      * @brief Handle mouse button event
      * 
-     * @param event Mouse button event
-     * @param mouse_pos Mouse position
-     * @return true Event was handled
-     * @return false Event ignored
+     * @param event        Mouse button event
+     * @param mouse_pos    Mouse position
+     * 
+     * @return true        Event was handled
+     * @return false       Event ignored
      */
     bool handle(mouse_button_event::ref event, mouse_position mouse_pos);
 
     /**
      * @brief Handle scroll event
      * 
-     * @param event Scroll event
-     * @return true Event was handled
-     * @return false Event ignored
+     * @param event     Scroll event
+     * 
+     * @return true     Event was handled
+     * @return false    Event ignored
      */
     bool handle(scroll_event::ref event);
 
     /**
      * @brief Check if camera is valid
      * 
-     * @return true Camera is valid
-     * @return false Camera is invalid
+     * @return true     Camera is valid
+     * @return false    Camera is invalid
      */
     bool valid() const {
         return data ? data->valid() : false;
@@ -107,7 +110,7 @@ struct camera : id_obj {
     /**
      * @brief Get the descriptor buffer info
      * 
-     * @return VkDescriptorBufferInfo const* Descriptor buffer info
+     * @return VkDescriptorBufferInfo const*    Descriptor buffer info
      */
     VkDescriptorBufferInfo const* get_descriptor_info() const {
         return data ? data->get_descriptor_info() : nullptr;
@@ -131,7 +134,7 @@ struct camera : id_obj {
     /**
      * @brief Set camera active
      * 
-     * @param value Active state
+     * @param value    Active state
      */
     void set_active(bool value = true) {
         active = value;
@@ -140,8 +143,8 @@ struct camera : id_obj {
     /**
      * @brief Check if camera is activated
      * 
-     * @return true Camera is active
-     * @return false Camera is inactive
+     * @return true     Camera is active
+     * @return false    Camera is inactive
      */
     bool activated() const {
         return active;
@@ -150,8 +153,8 @@ struct camera : id_obj {
     /**
      * @brief Check if camera is moving
      * 
-     * @return true Camera is moving
-     * @return false Camera does not move
+     * @return true     Camera is moving
+     * @return false    Camera does not move
      */
     bool moving() const {
         return up || down || left || right;
@@ -197,7 +200,7 @@ private:
     /**
      * @brief Move first person
      * 
-     * @param dt Delta time
+     * @param dt    Delta time
      */
     void move_first_person(delta dt);
 

@@ -1,6 +1,9 @@
-// file      : liblava/app/app.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/app/app.cpp
+ * @brief        Application with basic functionality
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <imgui.h>
 #include <liblava/app/app.hpp>

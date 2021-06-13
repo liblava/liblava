@@ -1,6 +1,9 @@
-// file      : liblava/base/device.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/base/device.cpp
+ * @brief        Vulkan device
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
@@ -11,7 +14,7 @@ namespace lava {
 /**
  * @brief Log when verify_queues_result failed
  * 
- * @param result Verify queues result
+ * @param result    Verify queues result
  */
 void log_verify_queues_failed(verify_queues_result result) {
     switch (result) {

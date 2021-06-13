@@ -1,8 +1,8 @@
 /**
- * @file liblava/util/log.hpp
- * @brief Logging
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/util/log.hpp
+ * @brief        Logging
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -21,8 +21,9 @@ using logger = std::shared_ptr<spdlog::logger>;
 /**
  * @brief Get the logger
  * 
- * @param name Name of logger
- * @return logger Logger
+ * @param name       Name of logger
+ * 
+ * @return logger    Logger
  */
 inline logger log(name name = _lava_) {
     return spdlog::get(name);
@@ -31,9 +32,10 @@ inline logger log(name name = _lava_) {
 /**
  * @brief Convert id and name to string
  * 
- * @param id Id to convert
- * @param name Name to convert
- * @return string String representation
+ * @param id         Id to convert
+ * @param name       Name to convert
+ * 
+ * @return string    String representation
  */
 inline string to_string(string_ref id, string_ref name) {
     return fmt::format("{} | {}", str(id), str(name));
@@ -42,8 +44,9 @@ inline string to_string(string_ref id, string_ref name) {
 /**
  * @brief Convert internal version to string
  * 
- * @param version Internal version to convert
- * @return string String representation
+ * @param version    Internal version to convert
+ * 
+ * @return string    String representation
  */
 inline string to_string(internal_version const& version) {
     return fmt::format("{}.{}.{}", version.major, version.minor, version.patch);
@@ -52,7 +55,7 @@ inline string to_string(internal_version const& version) {
 /**
  * @brief Convert global internal version to string
  * 
- * @return string String representation
+ * @return string    String representation
  */
 inline string internal_version_string() {
     return to_string(internal_version{});
@@ -61,8 +64,9 @@ inline string internal_version_string() {
 /**
  * @brief Convert version stage to string
  * 
- * @param stage Version stage to convert
- * @return name Name representation
+ * @param stage    Version stage to convert
+ * 
+ * @return name    Name representation
  */
 inline name to_string(version_stage stage) {
     switch (stage) {
@@ -82,8 +86,9 @@ inline name to_string(version_stage stage) {
 /**
  * @brief Convert version to string
  * 
- * @param version Version to convert
- * @return string String representation
+ * @param version    Version to convert
+ * 
+ * @return string    String representation
  */
 inline string to_string(version const& version) {
     string stage_str = to_string(version.stage);
@@ -102,7 +107,7 @@ inline string to_string(version const& version) {
 /**
  * @brief Convert global version to string
  * 
- * @return string String representation
+ * @return string    String representation
  */
 inline string version_string() {
     return to_string(version{});
@@ -131,7 +136,7 @@ struct log_config {
 /**
  * @brief Set the up logging
  * 
- * @param config Log configuration
+ * @param config    Log configuration
  */
 inline void setup_log(log_config config = {}) {
     if (config.debug) {
@@ -146,9 +151,11 @@ inline void setup_log(log_config config = {}) {
 /**
  * @brief Convert icon text to string
  * 
- * @tparam T Tyoe to convert
- * @param value Value to convert
- * @return string String representation
+ * @tparam T         Type to convert
+ * 
+ * @param value      Value to convert
+ * 
+ * @return string    String representation
  */
 template<typename T>
 inline string icon_text(T value) {

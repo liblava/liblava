@@ -1,6 +1,9 @@
-// file      : liblava/app/forward_shading.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/app/forward_shading.cpp
+ * @brief        Forward shading
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/app/forward_shading.hpp>
 #include <liblava/resource/format.hpp>

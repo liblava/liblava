@@ -1,6 +1,9 @@
-// file      : liblava/frame/gamepad.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/frame/gamepad.cpp
+ * @brief        Gamepad manager
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/frame/gamepad.hpp>
 

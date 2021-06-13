@@ -1,8 +1,8 @@
 /**
- * @file liblava/app/def.hpp
- * @brief Application defines
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/app/def.hpp
+ * @brief        Application defines
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once

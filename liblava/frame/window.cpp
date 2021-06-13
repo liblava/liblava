@@ -1,6 +1,9 @@
-// file      : liblava/frame/window.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/frame/window.cpp
+ * @brief        Window
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
@@ -15,9 +18,11 @@ namespace lava {
 /**
  * @brief Set window attribute
  * 
- * @tparam attr Attribute to set
- * @param handle Window handle
- * @return int Result
+ * @tparam attr     Attribute to set
+ * 
+ * @param handle    Window handle
+ * 
+ * @return int      Result
  */
 template<int attr>
 static int attribute_set(GLFWwindow* handle) {
@@ -27,10 +32,12 @@ static int attribute_set(GLFWwindow* handle) {
 /**
  * @brief Check attribute of window
  * 
- * @tparam attr Attribute to check
- * @param handle Window handle
- * @return true Attribute is set
- * @return false Attribute is unset
+ * @tparam attr     Attribute to check
+ * 
+ * @param handle    Window handle
+ * 
+ * @return true     Attribute is set
+ * @return false    Attribute is unset
  */
 template<int attr>
 static bool bool_attribute_set(GLFWwindow* handle) {

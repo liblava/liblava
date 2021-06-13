@@ -1,8 +1,8 @@
 /**
- * @file liblava/frame/renderer.hpp
- * @brief Plain renderer
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/frame/renderer.hpp
+ * @brief        Plain renderer
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -22,9 +22,10 @@ struct renderer : id_obj {
     /**
      * @brief Create a new renderer
      * 
-     * @param target Swapchain target
-     * @return true Create was successful
-     * @return false Create failed
+     * @param target    Swapchain target
+     * 
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create(swapchain* target);
 
@@ -36,25 +37,27 @@ struct renderer : id_obj {
     /**
      * @brief Begin to render a frame
      * 
-     * @return optional_index Frame index
+     * @return optional_index    Frame index
      */
     optional_index begin_frame();
 
     /**
      * @brief End of frame rendering
      * 
-     * @param cmd_buffers List of command buffers
-     * @return true End was successful
-     * @return false End failed
+     * @param cmd_buffers    List of command buffers
+     * 
+     * @return true          End was successful
+     * @return false         End failed
      */
     bool end_frame(VkCommandBuffers const& cmd_buffers);
 
     /**
      * @brief Render a frame
      * 
-     * @param cmd_buffers List of command buffers
-     * @return true Render was successful
-     * @return false Render failed
+     * @param cmd_buffers    List of command buffers
+     * 
+     * @return true          Render was successful
+     * @return false         Render failed
      */
     bool frame(VkCommandBuffers const& cmd_buffers) {
         if (!begin_frame())
@@ -66,7 +69,7 @@ struct renderer : id_obj {
     /**
      * @brief Get the current frame index
      * 
-     * @return index Frame index
+     * @return index    Frame index
      */
     index get_frame() const {
         return current_frame;
@@ -75,7 +78,7 @@ struct renderer : id_obj {
     /**
      * @brief Get the device
      * 
-     * @return device_ptr Vulkan device
+     * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
         return device;
@@ -84,7 +87,7 @@ struct renderer : id_obj {
     /// Destroy function
     using destroy_func = std::function<void()>;
 
-    /// Called on destroy renderer
+    /// Called on renderer destroy
     destroy_func on_destroy;
 
     /// Active state

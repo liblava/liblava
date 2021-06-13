@@ -1,8 +1,8 @@
 /**
- * @file liblava/block/render_pass.hpp
- * @brief Render pass
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/block/render_pass.hpp
+ * @brief        Render pass
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -26,17 +26,18 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Construct a new render pass
      * 
-     * @param device Vulkan device
+     * @param device    Vulkan device
      */
     explicit render_pass(device_ptr device);
 
     /**
      * @brief Create a new render pass
      * 
-     * @param target_attachments List of target attachments
-     * @param area Rectangle area
-     * @return true Create was successful
-     * @return false Create failed
+     * @param target_attachments    List of target attachments
+     * @param area                  Rectangle area
+     * 
+     * @return true                 Create was successful
+     * @return false                Create failed
      */
     bool create(VkAttachmentsRef target_attachments, rect area);
 
@@ -48,15 +49,15 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Process the render pass
      * 
-     * @param cmd_buf Command buffer
-     * @param frame Frame index
+     * @param cmd_buf    Command buffer
+     * @param frame      Frame index
      */
     void process(VkCommandBuffer cmd_buf, index frame);
 
     /**
      * @brief Get the device
      * 
-     * @return device_ptr Vulkan device
+     * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
         return device;
@@ -65,7 +66,7 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Get the render pass
      * 
-     * @return VkRenderPass Vulkan render pass
+     * @return VkRenderPass    Vulkan render pass
      */
     VkRenderPass get() const {
         return vk_render_pass;
@@ -74,7 +75,7 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Get the subpass count
      * 
-     * @return ui32 Number of subpasses
+     * @return ui32    Number of subpasses
      */
     ui32 get_subpass_count() const {
         return to_ui32(subpasses.size());
@@ -83,9 +84,10 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Check if subpass exists
      * 
-     * @param index Index to check
-     * @return true Subpass exists
-     * @return false Subpass does not exist
+     * @param index     Index to check
+     * 
+     * @return true     Subpass exists
+     * @return false    Subpass does not exist
      */
     bool exists_subpass(index index = 0) const {
         return index < subpasses.size();
@@ -94,8 +96,9 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Get the subpass
      * 
-     * @param index Index of subpass
-     * @return subpass* Subpass
+     * @param index        Index of subpass
+     * 
+     * @return subpass*    Subpass
      */
     subpass* get_subpass(index index = 0) {
         return subpasses.at(index).get();
@@ -104,7 +107,7 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Get the subpasses
      * 
-     * @return subpass::list const& List of subpasses
+     * @return subpass::list const&    List of subpasses
      */
     subpass::list const& get_subpasses() const {
         return subpasses;
@@ -113,7 +116,7 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Add an attachment
      * 
-     * @param attachment Attachment
+     * @param attachment    Attachment
      */
     void add(attachment::ptr const& attachment) {
         attachments.push_back(attachment);
@@ -122,7 +125,7 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Add a subpass dependency
      * 
-     * @param dependency Subpass dependency
+     * @param dependency    Subpass dependency
      */
     void add(subpass_dependency::ptr const& dependency) {
         dependencies.push_back(dependency);
@@ -131,7 +134,7 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Add a subpass
      * 
-     * @param subpass Subpass
+     * @param subpass    Subpass
      */
     void add(subpass::ptr const& subpass) {
         subpasses.push_back(subpass);
@@ -140,7 +143,7 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Set the clear values
      * 
-     * @param values List of clear values
+     * @param values    List of clear values
      */
     void set_clear_values(VkClearValues const& values) {
         clear_values = values;
@@ -149,7 +152,7 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Get the clear values
      * 
-     * @return VkClearValues const& List of clear values
+     * @return VkClearValues const&    List of clear values
      */
     VkClearValues const& get_clear_values() const {
         return clear_values;
@@ -158,22 +161,22 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Set the clear color
      * 
-     * @param value Clear color
+     * @param value    Clear color
      */
     void set_clear_color(v3 value = v3(0.086f, 0.086f, 0.094f));
 
     /**
      * @brief Get the clear color
      * 
-     * @return v3 Clear color
+     * @return v3    Clear color
      */
     v3 get_clear_color() const;
 
     /**
      * @brief Add a graphics pipeline to the back of subpass
      * 
-     * @param pipeline Graphics pipeline
-     * @param subpass Subpass
+     * @param pipeline    Graphics pipeline
+     * @param subpass     Subpass
      */
     void add(graphics_pipeline::ptr pipeline, index subpass = 0) {
         subpasses.at(subpass)->add(pipeline);
@@ -182,8 +185,8 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Add a graphics pipeline to the front of subpass
      * 
-     * @param pipeline Graphics pipeline
-     * @param subpass Subpass
+     * @param pipeline    Graphics pipeline
+     * @param subpass     Subpass
      */
     void add_front(graphics_pipeline::ptr pipeline, index subpass = 0) {
         subpasses.at(subpass)->add_front(pipeline);
@@ -192,8 +195,8 @@ struct render_pass : id_obj, target_callback {
     /**
      * @brief Remove a graphics pipeline from the subpass
      * 
-     * @param pipeline Graphics pipeline
-     * @param subpass Subpass
+     * @param pipeline    Graphics pipeline
+     * @param subpass     Subpass
      */
     void remove(graphics_pipeline::ptr pipeline, index subpass = 0) {
         subpasses.at(subpass)->remove(pipeline);
@@ -227,25 +230,26 @@ private:
     /**
      * @brief Begin the render pass
      * 
-     * @param cmd_buf Command buffer
-     * @param frame Frame index
+     * @param cmd_buf    Command buffer
+     * @param frame      Frame index
      */
     void begin(VkCommandBuffer cmd_buf, index frame);
 
     /**
      * @brief End the render pass
      * 
-     * @param cmd_buf Command buffer
+     * @param cmd_buf    Command buffer
      */
     void end(VkCommandBuffer cmd_buf);
 
     /**
      * @brief Called on target created
      * 
-     * @param target_attachments List of target attachments
-     * @param area Rectangle area
-     * @return true Create was successful
-     * @return false Create failed
+     * @param target_attachments    List of target attachments
+     * @param area                  Rectangle area
+     * 
+     * @return true                 Create was successful
+     * @return false                Create failed
      */
     bool on_target_created(VkAttachmentsRef target_attachments, rect area);
 
@@ -258,8 +262,9 @@ private:
 /**
  * @brief Make a new render pass
  * 
- * @param device Vulkan device
- * @return render_pass::ptr Shared pointer to render pass
+ * @param device               Vulkan device
+ * 
+ * @return render_pass::ptr    Shared pointer to render pass
  */
 inline render_pass::ptr make_render_pass(device_ptr device) {
     return std::make_shared<render_pass>(device);

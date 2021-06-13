@@ -1,8 +1,8 @@
 /**
- * @file liblava/core/time.hpp
- * @brief Run time
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/core/time.hpp
+ * @brief        Run time
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -41,8 +41,9 @@ using duration = clock::duration;
 /**
  * @brief Convert milliseconds to delta
  * 
- * @param ms Milliseconds to convert
- * @return delta Converted delta
+ * @param ms        Milliseconds to convert
+ * 
+ * @return delta    Converted delta
  */
 inline delta to_delta(milliseconds ms) {
     return ms.count() / 1000.f;
@@ -51,8 +52,9 @@ inline delta to_delta(milliseconds ms) {
 /**
  * @brief Convert milliseconds to seconds
  * 
- * @param ms Milliseconds to convert
- * @return real Converted seconds
+ * @param ms       Milliseconds to convert
+ * 
+ * @return real    Converted seconds
  */
 inline real to_sec(milliseconds ms) {
     return ms.count() / 1000.;
@@ -61,8 +63,9 @@ inline real to_sec(milliseconds ms) {
 /**
  * @brief Convert delta to milliseconds
  * 
- * @param dt Delta to convert
- * @return ms Converted milliseconds
+ * @param dt     Delta to convert
+ * 
+ * @return ms    Converted milliseconds
  */
 inline ms to_ms(delta dt) {
     return ms(to_i32(dt * 1000.f));
@@ -71,8 +74,9 @@ inline ms to_ms(delta dt) {
 /**
  * @brief Convert seconds to milliseconds
  * 
- * @param sec Seconds to convert
- * @return ms Converted milliseconds
+ * @param sec    Seconds to convert
+ * 
+ * @return ms    Converted milliseconds
  */
 inline ms to_ms(real sec) {
     return ms(to_i32(sec * 1000.));
@@ -98,7 +102,7 @@ struct timer {
     /**
      * @brief Get the elapsed time
      * 
-     * @return ms Elapsed milliseconds
+     * @return ms    Elapsed milliseconds
      */
     ms elapsed() const {
         return std::chrono::duration_cast<ms>(clock::now() - start_time);
@@ -144,10 +148,12 @@ struct run_time {
 /**
  * @brief Convert time stamp to string
  * 
- * @tparam CLOCK_TYPE Clock type
- * @param time_point Time point
- * @param format String format
- * @return string Converted string
+ * @tparam CLOCK_TYPE    Clock type
+ * 
+ * @param time_point     Time point
+ * @param format         String format
+ * 
+ * @return string        Converted string
  */
 template<typename CLOCK_TYPE = std::chrono::system_clock>
 inline string time_stamp(const typename CLOCK_TYPE::time_point& time_point, string_ref format = "%Y-%m-%d %H-%M-%S") {
@@ -164,7 +170,7 @@ inline string time_stamp(const typename CLOCK_TYPE::time_point& time_point, stri
 /**
  * @brief Get the current time and date as string
  * 
- * @return string Time and date representation
+ * @return string    Time and date representation
  */
 inline string get_current_time_and_date() {
     auto now = std::chrono::system_clock::now();

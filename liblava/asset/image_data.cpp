@@ -1,6 +1,9 @@
-// file      : liblava/asset/image_data.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/asset/image_data.cpp
+ * @brief        Load image data from file
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <stb_image.h>
 #include <liblava/asset/image_data.hpp>

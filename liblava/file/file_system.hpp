@@ -1,8 +1,8 @@
 /**
- * @file liblava/file/file_system.hpp
- * @brief File system
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/file/file_system.hpp
+ * @brief        File system
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -22,7 +22,7 @@ struct file_system : no_copy_no_move {
     /**
      * @brief Get file system singleton
      * 
-     * @return file_system& File system
+     * @return file_system&    File system
      */
     static file_system& instance() {
         static file_system fs;
@@ -32,90 +32,96 @@ struct file_system : no_copy_no_move {
     /**
      * @brief Get the version
      * 
-     * @return internal_version Internal version
+     * @return internal_version    Internal version
      */
     static internal_version get_version();
 
     /**
      * @brief Get the base directory
      * 
-     * @return name Base directory
+     * @return name    Base directory
      */
     static name get_base_dir();
 
     /**
      * @brief Get the base directory as string
      * 
-     * @return string Base directory
+     * @return string    Base directory
      */
     static string get_base_dir_str();
 
     /**
      * @brief Get the preferences directory
      * 
-     * @return name Preferences directory
+     * @return name    Preferences directory
      */
     static name get_pref_dir();
 
     /**
      * @brief Get the resource directory as string
      * 
-     * @return string Resource directory
+     * @return string    Resource directory
      */
     static string get_res_dir_str();
 
     /**
      * @brief Mount path
      * 
-     * @param path Path to mount
-     * @return true Mount was successful
-     * @return false Mount failed
+     * @param path      Path to mount
+     * 
+     * @return true     Mount was successful
+     * @return false    Mount failed
      */
     static bool mount(string_ref path);
 
     /**
      * @brief Mount base directory path
      * 
-     * @param base_dir_path Base directory path
-     * @return true Mount was successful
-     * @return false Mount failed
+     * @param base_dir_path    Base directory path
+     * 
+     * @return true            Mount was successful
+     * @return false           Mount failed
      */
     static bool mount(name base_dir_path);
 
     /**
      * @brief Check if file exists
      * 
-     * @param file File to check
-     * @return true File exists
-     * @return false File not found
+     * @param file      File to check
+     * 
+     * @return true     File exists
+     * @return false    File not found
      */
     static bool exists(name file);
 
     /**
      * @brief Get the real directory of file
      * 
-     * @param file Target file
-     * @return name Real directory of file
+     * @param file     Target file
+     * 
+     * @return name    Real directory of file
      */
     static name get_real_dir(name file);
 
     /**
      * @brief Enumerate files in directory
      * 
-     * @param path Target directory
-     * @return string_list List of files
+     * @param path            Target directory
+     * 
+     * @return string_list    List of files
      */
     static string_list enumerate_files(name path);
 
     /**
      * @brief Initialize the file system
      * 
-     * @param argv_0 First command line argument
-     * @param org Organization name
-     * @param app Application name
-     * @param ext Extension name
-     * @return true Initialize was successful
-     * @return false Initialize failed
+     * @param argv_0    First command line argument
+     * @param org       Organization name
+     * @param app       Application name
+     * @param ext       Extension name
+     * 
+     * @return true     Initialize was successful
+     * @return false    Initialize failed
      */
     bool initialize(name argv_0, name org, name app, name ext);
 
@@ -132,8 +138,8 @@ struct file_system : no_copy_no_move {
     /**
      * @brief Create data folder
      * 
-     * @return true Create was successful
-     * @return false Create failed
+     * @return true     Create was successful
+     * @return false    Create failed
      */
     bool create_data_folder();
 
@@ -145,7 +151,7 @@ struct file_system : no_copy_no_move {
     /**
      * @brief Get the organization name
      * 
-     * @return name Name of organization
+     * @return name    Name of organization
      */
     name get_org() const {
         return org;
@@ -154,7 +160,7 @@ struct file_system : no_copy_no_move {
     /**
      * @brief Get the application name
      * 
-     * @return name Name of application
+     * @return name    Name of application
      */
     name get_app() const {
         return app;
@@ -163,7 +169,7 @@ struct file_system : no_copy_no_move {
     /**
      * @brief Get the extension name
      * 
-     * @return name Name of extension
+     * @return name    Name of extension
      */
     name get_ext() const {
         return ext;
@@ -172,8 +178,8 @@ struct file_system : no_copy_no_move {
     /**
      * @brief Check if file system is ready
      * 
-     * @return true File system is ready
-     * @return false File system is not ready
+     * @return true     File system is ready
+     * @return false    File system is not ready
      */
     bool ready() const {
         return initialized;

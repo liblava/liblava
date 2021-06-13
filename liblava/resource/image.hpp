@@ -1,8 +1,8 @@
 /**
- * @file liblava/resource/image.hpp
- * @brief Vulkan image
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/resource/image.hpp
+ * @brief        Vulkan image
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -27,27 +27,28 @@ struct image : id_obj {
     /**
      * @brief Construct a new image
      * 
-     * @param format Image format
-     * @param vk_image Vulkan image
+     * @param format      Image format
+     * @param vk_image    Vulkan image
      */
     explicit image(VkFormat format, VkImage vk_image = 0);
 
     /**
      * @brief Create a new image
      * 
-     * @param device Vulkan device
-     * @param size Image size
-     * @param memory_usage Memory usage
-     * @param mip_levels_generation Enable mip levels generation
-     * @return true Create was successful
-     * @return false Create failed
+     * @param device                   Vulkan device
+     * @param size                     Image size
+     * @param memory_usage             Memory usage
+     * @param mip_levels_generation    Enable mip levels generation
+     * 
+     * @return true                    Create was successful
+     * @return false                   Create failed
      */
     bool create(device_ptr device, uv2 size, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY, bool mip_levels_generation = false);
 
     /**
      * @brief Destroy the image
      * 
-     * @param view_only Destroy only the image view
+     * @param view_only    Destroy only the image view
      */
     void destroy(bool view_only = false);
 
@@ -61,7 +62,7 @@ struct image : id_obj {
     /**
      * @brief Get the device
      * 
-     * @return device_ptr Vulkan device
+     * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
         return device;
@@ -70,7 +71,7 @@ struct image : id_obj {
     /**
      * @brief Get the format of the image
      * 
-     * @return VkFormat Image format
+     * @return VkFormat    Image format
      */
     VkFormat get_format() const {
         return info.format;
@@ -79,7 +80,7 @@ struct image : id_obj {
     /**
      * @brief Get the size of the image
      * 
-     * @return uv2 Image size
+     * @return uv2    Image size
      */
     uv2 get_size() const {
         return { info.extent.width, info.extent.height };
@@ -88,7 +89,7 @@ struct image : id_obj {
     /**
      * @brief Get the depth of the image
      * 
-     * @return ui32 Image depth
+     * @return ui32    Image depth
      */
     ui32 get_depth() const {
         return info.extent.depth;
@@ -97,7 +98,7 @@ struct image : id_obj {
     /**
      * @brief Get the image
      * 
-     * @return VkImage Vulkan image
+     * @return VkImage    Vulkan image
      */
     VkImage get() const {
         return vk_image;
@@ -106,7 +107,7 @@ struct image : id_obj {
     /**
      * @brief Get the image view
      * 
-     * @return VkImageView Vulkan image view
+     * @return VkImageView    Vulkan image view
      */
     VkImageView get_view() const {
         return view;
@@ -115,7 +116,7 @@ struct image : id_obj {
     /**
      * @brief Get the image create information
      * 
-     * @return VkImageCreateInfo const& Image create information
+     * @return VkImageCreateInfo const&    Image create information
      */
     VkImageCreateInfo const& get_info() const {
         return info;
@@ -124,7 +125,7 @@ struct image : id_obj {
     /**
      * @brief Get the image view create information
      * 
-     * @return VkImageViewCreateInfo const& Image view create information
+     * @return VkImageViewCreateInfo const&    Image view create information
      */
     VkImageViewCreateInfo const& get_view_info() const {
         return view_info;
@@ -133,7 +134,7 @@ struct image : id_obj {
     /**
      * @brief Get the subresource range of the image
      * 
-     * @return VkImageSubresourceRange const& Image subresource range
+     * @return VkImageSubresourceRange const&    Image subresource range
      */
     VkImageSubresourceRange const& get_subresource_range() const {
         return subresource_range;
@@ -142,7 +143,7 @@ struct image : id_obj {
     /**
      * @brief Set the image create flags
      * 
-     * @param flags Image create flag bits
+     * @param flags    Image create flag bits
      */
     void set_flags(VkImageCreateFlagBits flags) {
         info.flags = flags;
@@ -151,7 +152,7 @@ struct image : id_obj {
     /**
      * @brief Set the image tiling
      * 
-     * @param tiling Image tiling
+     * @param tiling    Image tiling
      */
     void set_tiling(VkImageTiling tiling) {
         info.tiling = tiling;
@@ -160,7 +161,7 @@ struct image : id_obj {
     /**
      * @brief Set the image usage
      * 
-     * @param usage Image usage flags
+     * @param usage    Image usage flags
      */
     void set_usage(VkImageUsageFlags usage) {
         info.usage = usage;
@@ -169,7 +170,7 @@ struct image : id_obj {
     /**
      * @brief Set the initial layout of the image
      * 
-     * @param initial Initial image layout
+     * @param initial    Initial image layout
      */
     void set_layout(VkImageLayout initial) {
         info.initialLayout = initial;
@@ -178,7 +179,7 @@ struct image : id_obj {
     /**
      * @brief Set the aspect mask of the image
      * 
-     * @param aspectMask Image aspect flags
+     * @param aspectMask    Image aspect flags
      */
     void set_aspect_mask(VkImageAspectFlags aspectMask) {
         subresource_range.aspectMask = aspectMask;
@@ -187,7 +188,7 @@ struct image : id_obj {
     /**
      * @brief Set the level count of the image
      * 
-     * @param levels Number of levels
+     * @param levels    Number of levels
      */
     void set_level_count(ui32 levels) {
         subresource_range.levelCount = levels;
@@ -197,7 +198,7 @@ struct image : id_obj {
     /**
      * @brief Set the layer count of the image
      * 
-     * @param layers Number of layers
+     * @param layers    Number of layers
      */
     void set_layer_count(ui32 layers) {
         subresource_range.layerCount = layers;
@@ -207,7 +208,7 @@ struct image : id_obj {
     /**
      * @brief Set the component mapping of the image
      * 
-     * @param mapping Component mapping
+     * @param mapping    Component mapping
      */
     void set_component(VkComponentMapping mapping = {}) {
         view_info.components = mapping;
@@ -216,7 +217,7 @@ struct image : id_obj {
     /**
      * @brief Set the view type of the image
      * 
-     * @param type Image view type
+     * @param type    Image view type
      */
     void set_view_type(VkImageViewType type) {
         view_info.viewType = type;
@@ -248,20 +249,22 @@ private:
 /**
  * @brief Create a new image
  * 
- * @param format Image format
- * @param vk_image Vulkan image
- * @return image::ptr Shared pointer to image
+ * @param format         Image format
+ * @param vk_image       Vulkan image
+ * 
+ * @return image::ptr    Shared pointer to image
  */
 image::ptr make_image(VkFormat format, VkImage vk_image = 0);
 
 /**
  * @brief Make a new image
  * 
- * @param format Image format
- * @param device Vulkan device
- * @param size Image size
- * @param vk_image Vulkan image
- * @return image::ptr Shared pointer to image
+ * @param format         Image format
+ * @param device         Vulkan device
+ * @param size           Image size
+ * @param vk_image       Vulkan image
+ * 
+ * @return image::ptr    Shared pointer to image
  */
 image::ptr make_image(VkFormat format, device_ptr device, uv2 size, VkImage vk_image = 0);
 

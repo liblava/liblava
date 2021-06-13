@@ -1,8 +1,8 @@
 /**
- * @file liblava/frame/gamepad.hpp
- * @brief Gamepad manager
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/frame/gamepad.hpp
+ * @brief        Gamepad manager
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -12,7 +12,7 @@
 namespace lava {
 
 /**
- * @brief Gamepad id
+ * @brief Gamepad ids
  */
 enum class gamepad_id : ui32 {
     _1 = 0,
@@ -36,7 +36,7 @@ enum class gamepad_id : ui32 {
 };
 
 /**
- * @brief Gamepad button
+ * @brief Gamepad buttons
  */
 enum class gamepad_button : type {
     a = 0,
@@ -96,32 +96,33 @@ struct gamepad {
     /**
      * @brief Construct a new gamepad
      * 
-     * @param id Gamepad id
+     * @param id    Gamepad id
      */
     explicit gamepad(gamepad_id id);
 
     /**
      * @brief Check if gamepad is active
      * 
-     * @return true Gamepad is active
-     * @return false Gamepad is inactive
+     * @return true     Gamepad is active
+     * @return false    Gamepad is inactive
      */
     bool ready() const;
 
     /**
      * @brief Update gamepad
      * 
-     * @return true Update was successful
-     * @return false Update failed
+     * @return true     Update was successful
+     * @return false    Update failed
      */
     bool update();
 
     /**
      * @brief Check if gamepad button is pressed
      * 
-     * @param button Gamepad button to check
-     * @return true Button is pressed
-     * @return false Button is not pressed
+     * @param button    Gamepad button to check
+     * 
+     * @return true     Button is pressed
+     * @return false    Button is not pressed
      */
     bool pressed(gamepad_button button) const {
         return state.buttons[to_ui32(button)];
@@ -130,8 +131,9 @@ struct gamepad {
     /**
      * @brief Get value of axis
      * 
-     * @param axis Target axis
-     * @return r32 Axis value
+     * @param axis    Target axis
+     * 
+     * @return r32    Axis value
      */
     r32 value(gamepad_axis axis) const {
         return state.axes[to_ui32(axis)];
@@ -140,7 +142,7 @@ struct gamepad {
     /**
      * @brief Get the gamepad id
      * 
-     * @return gamepad_id Gamepad id
+     * @return gamepad_id    Gamepad id
      */
     gamepad_id get_pad_id() const {
         return id;
@@ -149,7 +151,7 @@ struct gamepad {
     /**
      * @brief Get the gamepad id as integer
      * 
-     * @return ui32 Integer gamepad id
+     * @return ui32    Integer gamepad id
      */
     ui32 get_id() const {
         return to_ui32(get_pad_id());
@@ -158,7 +160,7 @@ struct gamepad {
     /**
      * @brief Get the name
      * 
-     * @return name Name of gamepad
+     * @return name    Name of gamepad
      */
     name get_name() const;
 
@@ -184,7 +186,7 @@ private:
 /**
  * @brief Get list of all gamepads
  * 
- * @return gamepad::list List of gamepads
+ * @return gamepad::list    List of gamepads
  */
 gamepad::list gamepads();
 
@@ -198,15 +200,16 @@ struct gamepad_manager {
     /**
      * @brief Add listener
      * 
-     * @param listener Gamepad listener function
-     * @return id Id of function
+     * @param listener    Gamepad listener function
+     * 
+     * @return id         Id of function
      */
     static id add(listener_func listener);
 
     /**
      * @brief Remove listener
      * 
-     * @param id Id of function
+     * @param id    Id of function
      */
     static void remove(id::ref id);
 
@@ -219,7 +222,7 @@ private:
     /**
      * @brief Get gamepad manager singleton
      * 
-     * @return gamepad_manager& Gamepad manager
+     * @return gamepad_manager&    Gamepad manager
      */
     static gamepad_manager& instance() {
         static gamepad_manager manager;

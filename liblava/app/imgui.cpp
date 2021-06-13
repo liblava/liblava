@@ -1,6 +1,9 @@
-// file      : liblava/app/imgui.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/app/imgui.cpp
+ * @brief        ImGui integration
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/app/def.hpp>
 #include <liblava/app/imgui.hpp>
@@ -35,8 +38,9 @@ static ui32 imgui_frag_shader[] = {
 /**
  * @brief Get the clipboard text
  * 
- * @param user_data Window handle
- * @return name Clipboard text
+ * @param user_data    Window handle
+ * 
+ * @return name        Clipboard text
  */
 name get_clipboard_text(void* user_data) {
     return glfwGetClipboardString(static_cast<GLFWwindow*>(user_data));
@@ -45,8 +49,8 @@ name get_clipboard_text(void* user_data) {
 /**
  * @brief Set the clipboard text
  * 
- * @param user_data Window handle
- * @param text Clipboard text
+ * @param user_data    Window handle
+ * @param text         Clipboard text
  */
 void set_clipboard_text(void* user_data, name text) {
     glfwSetClipboardString(static_cast<GLFWwindow*>(user_data), text);

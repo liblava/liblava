@@ -1,6 +1,9 @@
-// file      : liblava-demo/spawn.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava-demo/spawn.cpp
+ * @brief        Spawn demo
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <imgui.h>
 #include <demo.hpp>

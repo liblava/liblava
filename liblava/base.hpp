@@ -1,8 +1,8 @@
 /**
- * @file liblava/base.hpp
- * @brief Base module
- * @author Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/base.hpp
+ * @brief        Base module
+ * @author       Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once

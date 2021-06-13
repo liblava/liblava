@@ -1,8 +1,8 @@
 /**
- * @file liblava/core/data.hpp
- * @brief Data wrapper
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/core/data.hpp
+ * @brief        Data wrapper
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -50,9 +50,11 @@ struct data_provider {
 /**
  * @brief Cast to data pointer
  * 
- * @tparam T Type to cast
- * @param value Value to cast
- * @return data_ptr Data pointer
+ * @tparam T           Type to cast
+ * 
+ * @param value        Value to cast
+ * 
+ * @return data_ptr    Data pointer
  */
 template<typename T>
 inline data_ptr as_ptr(T* value) {
@@ -62,10 +64,12 @@ inline data_ptr as_ptr(T* value) {
 /**
  * @brief Align value up
  * 
- * @tparam T Type of value
- * @param value Value to align
- * @param align Target alignment
- * @return T Aligned value
+ * @tparam T       Type of value
+ * 
+ * @param value    Value to align
+ * @param align    Target alignment
+ * 
+ * @return T       Aligned value
  */
 template<typename T>
 inline T align_up(T value, T align) {
@@ -75,9 +79,10 @@ inline T align_up(T value, T align) {
 /**
  * @brief Align a size
  * 
- * @param size Site to align
- * @param min Minimal alignment
- * @return size_t Aligned size
+ * @param size       Site to align
+ * @param min        Minimal alignment
+ * 
+ * @return size_t    Aligned size
  */
 inline size_t align(size_t size, size_t min = 0) {
     if (min == 0)
@@ -89,9 +94,11 @@ inline size_t align(size_t size, size_t min = 0) {
 /**
  * @brief Get alignment of type
  * 
- * @tparam T Type to align
- * @param min Minimal alignment
- * @return size_t Aligned size
+ * @tparam T         Type to align
+ * 
+ * @param min        Minimal alignment
+ * 
+ * @return size_t    Aligned size
  */
 template<typename T>
 inline size_t align(size_t min = 0) {
@@ -101,9 +108,10 @@ inline size_t align(size_t min = 0) {
 /**
  * @brief Allocate data
  * 
- * @param size Size of data
- * @param alignment Target alignment
- * @return void* Allocated data
+ * @param size         Size of data
+ * @param alignment    Target alignment
+ * 
+ * @return void*       Allocated data
  */
 inline void* alloc_data(size_t size, size_t alignment = sizeof(c8)) {
 #if _WIN32
@@ -116,7 +124,7 @@ inline void* alloc_data(size_t size, size_t alignment = sizeof(c8)) {
 /**
  * @brief Free data
  * 
- * @param data Data to free
+ * @param data    Data to free
  */
 inline void free_data(void* data) {
 #if _WIN32
@@ -129,10 +137,11 @@ inline void free_data(void* data) {
 /**
  * @brief Reallocate data
  * 
- * @param data Data to reallocate
- * @param size Size of data
- * @param alignment Target alignment
- * @return void* Reallocated data
+ * @param data         Data to reallocate
+ * @param size         Size of data
+ * @param alignment    Target alignment
+ * 
+ * @return void*       Reallocated data
  */
 inline void* realloc_data(void* data, size_t size, size_t alignment) {
 #if _WIN32
@@ -154,8 +163,8 @@ struct data {
     /**
      * @brief Construct a new data
      * 
-     * @param ptr Data pointer
-     * @param size Size of data
+     * @param ptr     Data pointer
+     * @param size    Size of data
      */
     data(void* ptr, size_t size)
     : ptr(as_ptr(ptr)), size(size) {}
@@ -163,8 +172,8 @@ struct data {
     /**
      * @brief Set and allocate data by length
      * 
-     * @param length Length of data
-     * @param alloc Allocate data
+     * @param length   Length of data
+     * @param alloc    Allocate data
      */
     void set(size_t length, bool alloc = true) {
         size = length;
@@ -177,8 +186,8 @@ struct data {
     /**
      * @brief Allocate data
      * 
-     * @return true Allocate was successful
-     * @return false Allocate failed
+     * @return true     Allocate was successful
+     * @return false    Allocate failed
      */
     bool allocate() {
         ptr = as_ptr(alloc_data(size, alignment));
@@ -218,8 +227,8 @@ struct cdata {
     /**
      * @brief Construct a new const data
      * 
-     * @param ptr Pointer to data
-     * @param length Length of data
+     * @param ptr       Pointer to data
+     * @param length    Length of data
      */
     cdata(const void* ptr, size_t length)
     : ptr(as_ptr(ptr)), size(length) {}
@@ -227,7 +236,7 @@ struct cdata {
     /**
      * @brief Construct a new const data from other data
      * 
-     * @param data Source data
+     * @param data    Source data
      */
     cdata(data const& data)
     : cdata(data.ptr, data.size) {}
@@ -246,8 +255,8 @@ struct unique_data : data {
     /**
      * @brief Construct a new unique data
      * 
-     * @param length Length of data 
-     * @param alloc Allocate data
+     * @param length    Length of data 
+     * @param alloc     Allocate data
      */
     explicit unique_data(size_t length = 0, bool alloc = true) {
         if (length)
@@ -257,8 +266,8 @@ struct unique_data : data {
     /**
      * @brief Construct a new unique data
      * 
-     * @param length Length of data
-     * @param alloc Allocate data
+     * @param length    Length of data
+     * @param alloc     Allocate data
      */
     explicit unique_data(ui32 length, bool alloc = true)
     : unique_data(to_size_t(length), alloc) {}
@@ -266,8 +275,8 @@ struct unique_data : data {
     /**
      * @brief Construct a new unique data
      * 
-     * @param length Length of data
-     * @param alloc Allocate data
+     * @param length    Length of data
+     * @param alloc     Allocate data
      */
     explicit unique_data(i64 length, bool alloc = true)
     : unique_data(to_size_t(length), alloc) {}
@@ -275,7 +284,7 @@ struct unique_data : data {
     /**
      * @brief Construct a new unique data from another data
      * 
-     * @param data Source data
+     * @param data    Source data
      */
     explicit unique_data(data const& data) {
         ptr = data.ptr;
@@ -294,8 +303,9 @@ struct unique_data : data {
 /**
  * @brief Get next power of two
  * 
- * @param x Source value
- * @return size_t Next power of two
+ * @param x          Source value
+ * 
+ * @return size_t    Next power of two
  */
 inline size_t next_pow_2(size_t x) {
     x--;
@@ -316,8 +326,9 @@ inline size_t next_pow_2(size_t x) {
 /**
  * @brief Convert data size to human readable string
  * 
- * @param sz Size to convert
- * @return char* Human readable size string
+ * @param sz        Size to convert
+ * 
+ * @return char*    Human readable size string
  */
 inline char* human_readable(size_t const sz) {
     static auto const buffer_size = 32;

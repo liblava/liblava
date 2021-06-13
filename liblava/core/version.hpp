@@ -1,8 +1,8 @@
 /**
- * @file liblava/core/version.hpp
- * @brief Version information
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/core/version.hpp
+ * @brief        Version information
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -31,7 +31,7 @@ struct internal_version {
 };
 
 /**
- * @brief Version stage
+ * @brief Version stages
  */
 enum class version_stage {
     preview,

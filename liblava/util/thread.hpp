@@ -1,8 +1,8 @@
 /**
- * @file iblava/util/thread.hpp
- * @brief Thread pool
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/util/thread.hpp
+ * @brief        Thread pool
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -19,7 +19,7 @@ namespace lava {
 /**
  * @brief Sleep for milliseconds
  * 
- * @param time Milliseconds to sleep
+ * @param time    Milliseconds to sleep
  */
 inline void sleep(ms time) {
     std::this_thread::sleep_for(time);
@@ -28,7 +28,7 @@ inline void sleep(ms time) {
 /**
  * @brief Sleep for seconds
  * 
- * @param time Seconds to sleep
+ * @param time    Seconds to sleep
  */
 inline void sleep(seconds time) {
     std::this_thread::sleep_for(time);
@@ -44,7 +44,7 @@ struct thread_pool {
     /**
      * @brief Set up the thread pool
      * 
-     * @param count Number of threads
+     * @param count    Number of threads
      */
     void setup(ui32 count = 2) {
         for (auto i = 0u; i < count; ++i)
@@ -67,8 +67,9 @@ struct thread_pool {
     /**
      * @brief Enqueue a task
      * 
-     * @tparam F Type of task function
-     * @param f Task function
+     * @tparam F    Type of task function
+     * 
+     * @param f     Task function
      */
     template<typename F>
     void enqueue(F f) {
@@ -87,13 +88,13 @@ private:
         /**
          * @brief Construct a new worker
          * 
-         * @param pool Thread pool
+         * @param pool    Thread pool
          */
         explicit worker(thread_pool& pool)
         : pool(pool) {}
 
         /**
-         * @brief Eun task operator
+         * @brief Run task operator
          */
         void operator()() {
             auto thread_id = ids::next();

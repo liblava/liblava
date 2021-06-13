@@ -1,8 +1,8 @@
 /**
- * @file liblava/util/telegram.hpp
- * @brief Telegram dispatcher
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/util/telegram.hpp
+ * @brief        Telegram dispatcher
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -30,11 +30,11 @@ struct telegram {
     /**
      * @brief Construct a new telegram
      * 
-     * @param sender Sender id
-     * @param receiver Receiver id
-     * @param msg Telegram message
-     * @param dispatch_time Dispatch time
-     * @param info Telegram information
+     * @param sender           Sender id
+     * @param receiver         Receiver id
+     * @param msg              Telegram message
+     * @param dispatch_time    Dispatch time
+     * @param info             Telegram information
      */
     explicit telegram(id::ref sender, id::ref receiver, type msg, ms dispatch_time = {}, any info = {})
     : sender(sender), receiver(receiver), msg(msg), dispatch_time(dispatch_time), info(std::move(info)) {}
@@ -42,9 +42,10 @@ struct telegram {
     /**
      * @brief Equal operator
      * 
-     * @param rhs Another telegram
-     * @return true Telegram is equal
-     * @return false Telegram is inequal
+     * @param rhs       Another telegram
+     * 
+     * @return true     Telegram is equal
+     * @return false    Telegram is inequal
      */
     bool operator==(ref rhs) const {
         return ((dispatch_time - rhs.dispatch_time) < telegram_min_delay) && (sender == rhs.sender) && (receiver == rhs.receiver) && (msg == rhs.msg);
@@ -53,9 +54,10 @@ struct telegram {
     /**
      * @brief Time order operator
      * 
-     * @param rhs Another telegram
-     * @return true Telegram is earlier
-     * @return false Telegram is later
+     * @param rhs       Another telegram
+     * 
+     * @return true     Telegram is earlier
+     * @return false    Telegram is later
      */
     bool operator<(ref rhs) const {
         if (*this == rhs)
@@ -87,7 +89,7 @@ struct dispatcher {
     /**
      * @brief Set up the dispatcher
      * 
-     * @param thread_count Number of threads
+     * @param thread_count    Number of threads
      */
     void setup(ui32 thread_count) {
         pool.setup(thread_count);
@@ -103,7 +105,7 @@ struct dispatcher {
     /**
      * @brief Update the dispatcher
      * 
-     * @param current Time in milliseconds
+     * @param current    Time in milliseconds
      */
     void update(ms current) {
         current_time = current;
@@ -113,11 +115,11 @@ struct dispatcher {
     /**
      * @brief Add message to dispatcher
      * 
-     * @param receiver Receiver id
-     * @param sender Sender id
-     * @param message Telegram message
-     * @param delay Delay time
-     * @param info Telegram information
+     * @param receiver    Receiver id
+     * @param sender      Sender id
+     * @param message     Telegram message
+     * @param delay       Delay time
+     * @param info        Telegram information
      */
     void add_message(id::ref receiver, id::ref sender, type message, ms delay = {}, any const& info = {}) {
         telegram msg(sender, receiver, message, current_time, info);
@@ -141,7 +143,7 @@ private:
     /**
      * @brief Discharge a message
      * 
-     * @param message Message to discharge
+     * @param message    Message to discharge
      */
     void discharge(telegram::ref message) {
         pool.enqueue([&, message](id::ref thread) {
@@ -153,7 +155,7 @@ private:
     /**
      * @brief Dispatch delayed messages
      * 
-     * @param time Current time
+     * @param time    Current time
      */
     void dispatch_delayed_messages(ms time) {
         while (!messages.empty() && (messages.begin()->dispatch_time < time) && (messages.begin()->dispatch_time > ms{})) {

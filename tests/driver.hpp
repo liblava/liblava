@@ -1,8 +1,8 @@
 /**
- * @file tests/driver.hpp
- * @brief Test driver
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         tests/driver.hpp
+ * @brief        Test driver
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #include <liblava/lava.hpp>
@@ -52,9 +52,9 @@ struct test {
     /**
      * @brief Construct a new test
      * 
-     * @param id Test id
-     * @param descr Test description
-     * @param func Test function
+     * @param id       Test id
+     * @param descr    Test description
+     * @param func     Test function
      */
     explicit test(ui32 id, name descr, func func);
 
@@ -75,7 +75,7 @@ struct driver {
     /**
      * @brief Get driver singleton
      * 
-     * @return driver& Test driver
+     * @return driver&    Test driver
      */
     static driver& instance() {
         static driver singleton;
@@ -85,7 +85,7 @@ struct driver {
     /**
      * @brief Add a test
      * 
-     * @param test Test to add
+     * @param test    Test to add
      */
     void add_test(test* test) {
         tests.emplace(test->id, test);
@@ -94,7 +94,7 @@ struct driver {
     /**
      * @brief Get all tests
      * 
-     * @return test::map const& Map of tests
+     * @return test::map const&    Map of tests
      */
     test::map const& get() const {
         return tests;

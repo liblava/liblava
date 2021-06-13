@@ -1,8 +1,8 @@
 /**
- * @file liblava/frame/frame.hpp
- * @brief Framework
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/frame/frame.hpp
+ * @brief        Framework
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -28,8 +28,8 @@ struct frame_config {
     /**
      * @brief Construct a new frame configuration
      * 
-     * @param app_name Name of application
-     * @param cl Command line arguments
+     * @param app_name    Name of application
+     * @param cl          Command line arguments
      */
     explicit frame_config(name app_name, argh::parser cl)
     : cmd_line(cl) {
@@ -67,7 +67,7 @@ enum error {
 /**
  * @brief Get the current time
  * 
- * @return ms Current milliseconds
+ * @return ms    Current milliseconds
  */
 ms now();
 
@@ -87,14 +87,14 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Construct a new framework
      * 
-     * @param cmd_line Command line arguments
+     * @param cmd_line    Command line arguments
      */
     explicit frame(argh::parser cmd_line);
 
     /**
      * @brief Construct a new framework
      * 
-     * @param config Framework configuration
+     * @param config    Framework configuration
      */
     explicit frame(frame_config config);
 
@@ -106,8 +106,8 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Check if framework is ready
      * 
-     * @return true Framework is ready
-     * @return false Framework is not ready
+     * @return true     Framework is ready
+     * @return false    Framework is not ready
      */
     bool ready() const;
 
@@ -117,15 +117,15 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Run the framework
      * 
-     * @return result Run result
+     * @return result    Run result
      */
     result run();
 
     /**
      * @brief Shut down the framework
      * 
-     * @return true Shut down was successful
-     * @return false Shut down failed
+     * @return true     Shut down was successful
+     * @return false    Shut down failed
      */
     bool shut_down();
 
@@ -138,8 +138,9 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Add run to framework
      * 
-     * @param func Run function
-     * @return id Id of function
+     * @param func    Run function
+     * 
+     * @return id     Id of function
      */
     id add_run(run_func_ref func);
 
@@ -152,8 +153,9 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Add run end to framework
      * 
-     * @param func Run end function
-     * @return id Id of function
+     * @param func    Run end function
+     * 
+     * @return id     Id of function
      */
     id add_run_end(run_end_func_ref func);
 
@@ -166,7 +168,7 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Add run once to framework
      * 
-     * @param func Run once function
+     * @param func    Run once function
      */
     void add_run_once(run_once_func_ref func) {
         run_once_list.push_back(func);
@@ -176,15 +178,16 @@ struct frame : interface, no_copy_no_move {
      * @brief Remove a function from framework
      * 
      * @param id Id of function
-     * @return true Remove was successful
-     * @return false Remove failed
+     * 
+     * @return true     Remove was successful
+     * @return false    Remove failed
      */
     bool remove(id::ref id);
 
     /**
      * @brief Get the running time
      * 
-     * @return ms Time since start of framework
+     * @return ms    Time since start of framework
      */
     ms get_running_time() const {
         return now() - start_time;
@@ -193,7 +196,7 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Get the running time in seconds
      * 
-     * @return r64 Time since start of framework
+     * @return r64    Time since start of framework
      */
     r64 get_running_time_sec() const {
         return to_sec(get_running_time());
@@ -202,7 +205,7 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Get the command line arguments
      * 
-     * @return argh::parser const& Command line arguments
+     * @return argh::parser const&    Command line arguments
      */
     argh::parser const& get_cmd_line() const {
         return config.cmd_line;
@@ -211,7 +214,7 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Get the framework configuration
      * 
-     * @return frame_config::ref Framework configuration
+     * @return frame_config::ref    Framework configuration
      */
     frame_config::ref get_config() const {
         return config;
@@ -220,7 +223,7 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Get the name of application
      * 
-     * @return name Name of application
+     * @return name    Name of application
      */
     name get_name() const {
         return config.info.app_name;
@@ -229,8 +232,8 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Check if framework is waiting for events
      * 
-     * @return true Framework waits for events
-     * @return false Framework does not wait for events
+     * @return true     Framework waits for events
+     * @return false    Framework does not wait for events
      */
     bool waiting_for_events() const {
         return wait_for_events;
@@ -239,7 +242,7 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Set wait for events in framework
      * 
-     * @param value Wait for events state
+     * @param value    Wait for events state
      */
     void set_wait_for_events(bool value = true) {
         wait_for_events = value;
@@ -248,8 +251,9 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Create a new device
      * 
-     * @param physical_device Physical device 
-     * @return device_ptr Shared pointer to device
+     * @param physical_device    Physical device
+     * 
+     * @return device_ptr        Shared pointer to device
      */
     device_ptr create_device(index physical_device = 0) {
         auto device = manager.create(physical_device);
@@ -267,9 +271,10 @@ private:
     /**
      * @brief Set up the framework
      * 
-     * @param config Framework configuration
-     * @return true Setup was successful
-     * @return false Setup failed
+     * @param config    Framework configuration
+     * 
+     * @return true     Setup was successful
+     * @return false    Setup failed
      */
     bool setup(frame_config config);
 
@@ -281,8 +286,8 @@ private:
     /**
      * @brief Run a step
      * 
-     * @return true Run was successful
-     * @return false Run failed
+     * @return true     Run was successful
+     * @return false    Run failed
      */
     bool run_step();
 
@@ -325,21 +330,21 @@ private:
 /**
  * @brief Handle events
  * 
- * @param wait Wait for events
+ * @param wait    Wait for events
  */
 void handle_events(bool wait = false);
 
 /**
  * @brief Handle events
  * 
- * @param timeout Wait timeout in milliseconds
+ * @param timeout    Wait timeout in milliseconds
  */
 void handle_events(ms timeout);
 
 /**
  * @brief Handle events
  * 
- * @param timeout Wait timeout in seconds
+ * @param timeout    Wait timeout in seconds
  */
 void handle_events(seconds timeout);
 

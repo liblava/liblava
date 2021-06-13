@@ -1,8 +1,8 @@
 /**
- * @file liblava/base/device_table.hpp
- * @brief Device functions
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/base/device_table.hpp
+ * @brief        Device functions
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once

@@ -1,8 +1,8 @@
 /**
- * @file liblava/block/block.hpp
- * @brief Command buffer model
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/block/block.hpp
+ * @brief        Command buffer model
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -36,19 +36,20 @@ struct command : id_obj {
     /**
      * @brief Create a new command
      * 
-     * @param device Vulkan device
-     * @param frame_count Number of frames
-     * @param command_pools List of command pools
-     * @return true Create was successful
-     * @return false Create failed
+     * @param device           Vulkan device
+     * @param frame_count      Number of frames
+     * @param command_pools    List of command pools
+     * 
+     * @return true            Create was successful
+     * @return false           Create failed
      */
     bool create(device_ptr device, index frame_count, VkCommandPools command_pools);
 
     /**
      * @brief Destroy the command
      * 
-     * @param device Vulkan device
-     * @param command_pools List of command pools
+     * @param device           Vulkan device
+     * @param command_pools    List of command pools
      */
     void destroy(device_ptr device, VkCommandPools command_pools);
 };
@@ -76,11 +77,12 @@ struct block : id_obj {
     /**
      * @brief Create a new block
      * 
-     * @param device Vulkan device
-     * @param frame_count Number of frames
-     * @param queue_family Queue family index
-     * @return true Create was successful
-     * @return false Create failed
+     * @param device          Vulkan device
+     * @param frame_count     Number of frames
+     * @param queue_family    Queue family index
+     * 
+     * @return true           Create was successful
+     * @return false          Create failed
      */
     bool create(device_ptr device, index frame_count, index queue_family);
 
@@ -92,7 +94,7 @@ struct block : id_obj {
     /**
      * @brief Get the frame count
      * 
-     * @return index Number of frames
+     * @return index    Number of frames
      */
     index get_frame_count() const {
         return to_index(cmd_pools.size());
@@ -106,9 +108,10 @@ struct block : id_obj {
     /**
      * @brief Add a command
      * 
-     * @param func Command function
-     * @param active Active state
-     * @return id Command id
+     * @param func      Command function
+     * @param active    Active state
+     * 
+     * @return id       Command id
      */
     id add_command(command::process_func func, bool active = true) {
         return add_cmd(func, active);
@@ -122,7 +125,7 @@ struct block : id_obj {
     /**
      * @brief Remove the command
      * 
-     * @param cmd Command id
+     * @param cmd    Command id
      */
     void remove_command(id::ref cmd) {
         remove_cmd(cmd);
@@ -131,16 +134,17 @@ struct block : id_obj {
     /**
      * @brief Process the block
      * 
-     * @param frame Frame index
-     * @return true Process was successful
-     * @return false Process aborted
+     * @param frame     Frame index
+     * 
+     * @return true     Process was successful
+     * @return false    Process aborted
      */
     bool process(index frame);
 
     /**
      * @brief Get the current frame
      * 
-     * @return index Current frame
+     * @return index    Current frame
      */
     index get_current_frame() const {
         return current_frame;
@@ -149,8 +153,9 @@ struct block : id_obj {
     /**
      * @brief Get the command buffer
      * 
-     * @param cmd Command id
-     * @return VkCommandBuffer Vulkan command buffer
+     * @param cmd                 Command id
+     * 
+     * @return VkCommandBuffer    Vulkan command buffer
      */
     VkCommandBuffer get_command_buffer(id::ref cmd) const {
         return commands.at(cmd).buffers.at(current_frame);
@@ -159,9 +164,10 @@ struct block : id_obj {
     /**
      * @brief Get the command buffer
      * 
-     * @param cmd Command id
-     * @param frame Frame index
-     * @return VkCommandBuffer Vulkan command buffer
+     * @param cmd                 Command id
+     * @param frame               Frame index
+     * 
+     * @return VkCommandBuffer    Vulkan command buffer
      */
     VkCommandBuffer get_command_buffer(id::ref cmd, index frame) const {
         return commands.at(cmd).buffers.at(frame);
@@ -170,7 +176,7 @@ struct block : id_obj {
     /**
      * @brief Get the buffers
      * 
-     * @return VkCommandBuffers List of Vulkan command buffers
+     * @return VkCommandBuffers    List of Vulkan command buffers
      */
     VkCommandBuffers get_buffers() {
         VkCommandBuffers result;
@@ -185,7 +191,7 @@ struct block : id_obj {
     /**
      * @brief Get the commands
      * 
-     * @return command::map const& Map of commands
+     * @return command::map const&    Map of commands
      */
     command::map const& get_commands() const {
         return commands;
@@ -194,7 +200,7 @@ struct block : id_obj {
     /**
      * @brief Get the cmd order
      * 
-     * @return command::list const& List of commands
+     * @return command::list const&    List of commands
      */
     command::list const& get_cmd_order() const {
         return cmd_order;
@@ -203,26 +209,28 @@ struct block : id_obj {
     /**
      * @brief Check if command is activated
      * 
-     * @param command Command id
-     * @return true Command is active
-     * @return false Command is inactive
+     * @param command    Command id
+     * 
+     * @return true      Command is active
+     * @return false     Command is inactive
      */
     bool activated(id::ref command);
 
     /**
      * @brief Set the command active
      * 
-     * @param command Command id
-     * @param active Active state
-     * @return true Set was successful
-     * @return false Set failed
+     * @param command    Command id
+     * @param active     Active state
+     * 
+     * @return true      Set was successful
+     * @return false     Set failed
      */
     bool set_active(id::ref command, bool active = true);
 
     /**
      * @brief Get the device
      * 
-     * @return device_ptr Vulkan device
+     * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
         return device;
@@ -248,7 +256,7 @@ private:
 /**
  * @brief Make a new block
  * 
- * @return block::ptr Shared pointer to block
+ * @return block::ptr    Shared pointer to block
  */
 inline block::ptr make_block() {
     return std::make_shared<block>();

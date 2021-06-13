@@ -1,6 +1,9 @@
-// file      : liblava/frame/swapchain.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/frame/swapchain.cpp
+ * @brief        Swapchain
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/base/instance.hpp>
 #include <liblava/frame/swapchain.hpp>

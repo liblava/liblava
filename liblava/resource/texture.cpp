@@ -1,6 +1,9 @@
-// file      : liblava/resource/texture.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/resource/texture.cpp
+ * @brief        Vulkan texture
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/resource/format.hpp>
 #include <liblava/resource/texture.hpp>

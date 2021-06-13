@@ -1,6 +1,9 @@
-// file      : liblava/app/config.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/app/config.cpp
+ * @brief        Application configuration
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/app/config.hpp>
 #include <liblava/asset/image_data.hpp>
@@ -13,8 +16,8 @@ constexpr name _window_file_ = "window.json";
 /**
  * @brief Check if window state file exists
  * 
- * @return true State file exists
- * @return false State file does not exist
+ * @return true     State file exists
+ * @return false    State file does not exist
  */
 bool window_file() {
     return file_system::exists(_window_file_);
@@ -23,8 +26,8 @@ bool window_file() {
 /**
  * @brief Window state to Json
  * 
- * @param j Json object
- * @param w Window state
+ * @param j    Json object
+ * @param w    Window state
  */
 void to_json(json& j, window::state const& w) {
     j = json{ { _x_, w.x }, { _y_, w.y }, { _width_, w.width }, { _height_, w.height }, { _fullscreen_, w.fullscreen }, { _floating_, w.floating }, { _resizable_, w.resizable }, { _decorated_, w.decorated }, { _maximized_, w.maximized }, { _monitor_, w.monitor } };
@@ -33,8 +36,8 @@ void to_json(json& j, window::state const& w) {
 /**
  * @brief Json to window state
  * 
- * @param j Json object
- * @param w Window state
+ * @param j    Json object
+ * @param w    Window state
  */
 void from_json(json const& j, window::state& w) {
     if (j.count(_x_))
@@ -62,10 +65,11 @@ void from_json(json const& j, window::state& w) {
 /**
  * @brief Load window file by save name
  * 
- * @param state Window state
- * @param save_name Save name of window
- * @return true Loading was successful
- * @return false Loading failed
+ * @param state        Window state
+ * @param save_name    Save name of window
+ * 
+ * @return true        Loading was successful
+ * @return false       Loading failed
  */
 bool load_window_file(window::state& state, name save_name) {
     unique_data data;

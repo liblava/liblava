@@ -1,6 +1,9 @@
-// file      : liblava/base/base.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/base/base.cpp
+ * @brief        Vulkan base types
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/base/base.hpp>
 

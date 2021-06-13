@@ -1,8 +1,8 @@
 /**
- * @file liblava/util/utility.hpp
- * @brief Container utilities
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/util/utility.hpp
+ * @brief        Container utilities
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -17,10 +17,11 @@ namespace lava {
 /**
  * @brief Check if name exists in name list
  * 
- * @param list List of names
- * @param item Item to check
- * @return true Item exists
- * @return false Item not found
+ * @param list      List of names
+ * @param item      Item to check
+ * 
+ * @return true     Item exists
+ * @return false    Item not found
  */
 inline bool exists(names_ref list, name item) {
     auto itr = std::find_if(list.begin(), list.end(), [&](name entry) { return strcmp(entry, item) == 0; });
@@ -30,9 +31,10 @@ inline bool exists(names_ref list, name item) {
 /**
  * @brief Remove item from list
  * 
- * @tparam T Type of list
- * @param list List of items
- * @param item Item to remove
+ * @tparam T      Type of list
+ * 
+ * @param list    List of items
+ * @param item    Item to remove
  */
 template<typename T>
 inline void remove(std::vector<T>& list, T item) {
@@ -42,11 +44,13 @@ inline void remove(std::vector<T>& list, T item) {
 /**
  * @brief Check if item is included in list
  * 
- * @tparam T Type of list
- * @param list List of items
- * @param item Item to check
- * @return true Item exists
- * @return false Item not found
+ * @tparam T        Type of list
+ * 
+ * @param list      List of items
+ * @param item      Item to check
+ * 
+ * @return true     Item exists
+ * @return false    Item not found
  */
 template<typename T>
 inline bool contains(std::vector<T>& list, T item) {
@@ -56,9 +60,10 @@ inline bool contains(std::vector<T>& list, T item) {
 /**
  * @brief Append a list of items to another list
  * 
- * @tparam T Type of list
- * @param list List of items
- * @param items Items to append
+ * @tparam T       Type of list
+ * 
+ * @param list     List of items
+ * @param items    Items to append
  */
 template<typename T>
 inline void append(std::vector<T>& list, std::vector<T>& items) {
@@ -68,7 +73,7 @@ inline void append(std::vector<T>& list, std::vector<T>& items) {
 /**
  * @brief Reversion Wrapper
  * 
- * @tparam T Type to iterate
+ * @tparam T    Type to iterate
  */
 template<typename T>
 struct reversion_wrapper {
@@ -79,9 +84,11 @@ struct reversion_wrapper {
 /**
  * @brief Begin the iterator
  * 
- * @tparam T Type of iterable
- * @param w Reversion wrapper
- * @return auto Iterator
+ * @tparam T       Type of iterable
+ * 
+ * @param w        Reversion wrapper
+ * 
+ * @return auto    Iterator
  */
 template<typename T>
 inline auto begin(reversion_wrapper<T> w) {
@@ -91,9 +98,11 @@ inline auto begin(reversion_wrapper<T> w) {
 /**
  * @brief End the iterator
  * 
- * @tparam T Type of iterable
- * @param w Reversion wrapper
- * @return auto Iterator
+ * @tparam T       Type of iterable
+ * 
+ * @param w        Reversion wrapper
+ * 
+ * @return auto    Iterator
  */
 template<typename T>
 inline auto end(reversion_wrapper<T> w) {
@@ -103,9 +112,11 @@ inline auto end(reversion_wrapper<T> w) {
 /**
  * @brief Reverse iteration
  * 
- * @tparam T Type of iterable
- * @param iterable Iterable
- * @return reversion_wrapper<T> Wrapper
+ * @tparam T                       Type of iterable
+ * 
+ * @param iterable                 Iterable
+ * 
+ * @return reversion_wrapper<T>    Wrapper
  */
 template<typename T>
 inline reversion_wrapper<T> reverse(T&& iterable) {

@@ -1,8 +1,8 @@
 /**
- * @file liblava/file/json_file.hpp
- * @brief Json file
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/file/json_file.hpp
+ * @brief        Json file
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
@@ -25,7 +25,7 @@ struct json_file {
     /**
      * @brief Construct a new json file
      * 
-     * @param path Name of file
+     * @param path    Name of file
      */
     explicit json_file(name path = _config_file_);
 
@@ -49,21 +49,21 @@ struct json_file {
     /**
      * @brief Add callback to json file
      * 
-     * @param callback Callback to add
+     * @param callback    Callback to add
      */
     void add(callback* callback);
 
     /**
      * @brief Remove callback from json file
      * 
-     * @param callback Callback to remove
+     * @param callback    Callback to remove
      */
     void remove(callback* callback);
 
     /**
      * @brief Set path of the json file
      * 
-     * @param value Name of file
+     * @param value    Name of file
      */
     void set(name value) {
         path = value;
@@ -72,7 +72,7 @@ struct json_file {
     /**
      * @brief Get path of the json file
      * 
-     * @return name Name of file
+     * @return name    Name of file
      */
     name get() const {
         return str(path);
@@ -81,16 +81,16 @@ struct json_file {
     /**
      * @brief Load the json file
      * 
-     * @return true Load was successful
-     * @return false Load failed
+     * @return true     Load was successful
+     * @return false    Load failed
      */
     bool load();
 
     /**
      * @brief Save the json file
      * 
-     * @return true Save was successful
-     * @return false Save failed
+     * @return true     Save was successful
+     * @return false    Save failed
      */
     bool save();
 

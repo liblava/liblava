@@ -1,8 +1,8 @@
 /**
- * @file liblava/fwd.hpp
- * @brief Forward declarations
- * @authors Lava Block OÜ and contributors
- * @copyright Copyright (c) 2018-present, MIT License
+ * @file         liblava/fwd.hpp
+ * @brief        Forward declarations
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once

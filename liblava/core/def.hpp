@@ -1,6 +1,9 @@
-// file      : liblava/core/def.hpp
-// copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
-// license   : MIT; see accompanying LICENSE file
+/**
+ * @file         liblava/core/def.hpp
+ * @brief        Defines
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #pragma once
 

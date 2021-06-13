@@ -1,6 +1,9 @@
-// file      : liblava/block/compute_pipeline.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/block/compute_pipeline.cpp
+ * @brief        Compute pipeline
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/block/compute_pipeline.hpp>
 

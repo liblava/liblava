@@ -1,6 +1,9 @@
-// file      : liblava/app/camera.cpp
-// authors   : Lava Block OÜ and contributors
-// copyright : Copyright (c) 2018-present, MIT License
+/**
+ * @file         liblava/app/camera.cpp
+ * @brief        First Person / Look At camera
+ * @authors      Lava Block OÜ and contributors
+ * @copyright    Copyright (c) 2018-present, MIT License
+ */
 
 #include <liblava/app/camera.hpp>
 
