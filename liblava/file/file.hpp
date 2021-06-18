@@ -19,7 +19,7 @@ namespace lava {
 constexpr name _zip_ = "zip";
 
 /**
- * @brief Type of file
+ * @brief File types
  */
 enum class file_type : type {
     none = 0,

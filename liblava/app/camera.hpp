@@ -35,6 +35,7 @@ struct camera : id_obj {
      * @brief Create a camera
      * 
      * @param device    Vulkan device
+     * 
      * @return true     Create was successful
      * @return false    Create failed
      */
