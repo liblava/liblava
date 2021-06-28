@@ -8,6 +8,7 @@
 #pragma once
 
 #include <liblava/resource/buffer.hpp>
+// #include <liblava/resource/generic_mesh.hpp>
 
 namespace lava {
 
@@ -134,6 +135,16 @@ struct generic_mesh {
     inline generic_mesh<T>::ptr generic_make_mesh() {
         return std::make_shared<generic_mesh<T>>();
     }
+    list const& get_vertices() const {
+        return data.vertices;
+    }
+    ui32 get_vertices_count() const {
+        return to_ui32(data.vertices.size());
+    }
+    mesh_data& get_data() {
+        return data;
+    }
+    bool reload();
 
 private:
     device_ptr device = nullptr;
@@ -143,6 +154,47 @@ private:
     bool mapped = false;
     VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
 };
+
+//-----------------------------------------------------------------------------
+template<typename T>
+void generic_mesh<T>::bind(VkCommandBuffer cmd_buf) const {
+    if (vertex_buffer && vertex_buffer->valid()) {
+        std::array<VkDeviceSize, 1> const buffer_offsets = { 0 };
+        std::array<VkBuffer, 1> const buffers = { vertex_buffer->get() };
+
+        vkCmdBindVertexBuffers(cmd_buf, 0, to_ui32(buffers.size()), buffers.data(), buffer_offsets.data());
+    }
+
+    if (index_buffer && index_buffer->valid())
+        vkCmdBindIndexBuffer(cmd_buf, index_buffer->get(), 0, VK_INDEX_TYPE_UINT32);
+}
+
+//-----------------------------------------------------------------------------
+template<typename T>
+void generic_mesh<T>::draw(VkCommandBuffer cmd_buf) const {
+    if (!data.indices.empty())
+        vkCmdDrawIndexed(cmd_buf, to_ui32(data.indices.size()), 1, 0, 0, 0);
+    else
+        vkCmdDraw(cmd_buf, to_ui32(data.vertices.size()), 1, 0, 0);
+}
+
+//-----------------------------------------------------------------------------
+template<typename T>
+void generic_mesh<T>::destroy() {
+    vertex_buffer = nullptr;
+    index_buffer = nullptr;
+
+    device = nullptr;
+}
+
+//-----------------------------------------------------------------------------
+template<typename T>
+bool generic_mesh<T>::reload() {
+    auto dev = device;
+    destroy();
+
+    return create(dev, mapped, memory_usage);
+}
 
 /**
  * @brief Mesh
@@ -378,6 +430,22 @@ enum class mesh_type : type {
  */
 mesh::ptr create_mesh(device_ptr device, mesh_type type);
 
+template<typename T = lava::vertex, typename PosType>
+std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_type type);
+
+//-----------------------------------------------------------------------------
+template<typename T, typename PosType>
+std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_type type) {
+    auto triangle = generic_mesh<T>::generic_make_mesh();
+    std::array<PosType, 3> pos_one = { 1, 1, 0 };
+    std::array<PosType, 3> pos_two = { -1, 1, 0 };
+    std::array<PosType, 3> pos_three = { 0, -1, 0 };
+    // triangle->get_vertices().push_back(pos_one);
+    // triangle->get_vertices().push_back(pos_two);
+    // triangle->get_vertices().push_back(pos_three);
+    return triangle;
+}
+
 /**
  * @brief Mesh meta
  */
@@ -391,5 +459,4 @@ struct mesh_meta {
 
 /// Mesh registry
 using mesh_registry = id_registry<mesh, mesh_meta>;
-
 } // namespace lava
