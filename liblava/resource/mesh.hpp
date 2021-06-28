@@ -131,6 +131,9 @@ struct generic_mesh {
         draw(cmd_buf);
     }
     void add_data(generic_mesh_data<T> const& value);
+    inline generic_mesh<T>::ptr generic_make_mesh() {
+        return std::make_shared<generic_mesh<T>>();
+    }
 
 private:
     device_ptr device = nullptr;
