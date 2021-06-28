@@ -132,9 +132,6 @@ struct generic_mesh {
         draw(cmd_buf);
     }
     void add_data(generic_mesh_data<T> const& value);
-    inline generic_mesh<T>::ptr generic_make_mesh() {
-        return std::make_shared<generic_mesh<T>>();
-    }
     list const& get_vertices() const {
         return data.vertices;
     }
@@ -194,6 +191,11 @@ bool generic_mesh<T>::reload() {
     destroy();
 
     return create(dev, mapped, memory_usage);
+}
+
+template<typename T>
+inline std::shared_ptr<generic_mesh<T>> generic_make_mesh() {
+    return std::make_shared<generic_mesh<T>>();
 }
 
 /**
@@ -430,19 +432,48 @@ enum class mesh_type : type {
  */
 mesh::ptr create_mesh(device_ptr device, mesh_type type);
 
+//-----------------------------------------------------------------------------
 template<typename T = lava::vertex, typename PosType>
 std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_type type);
+
+template<typename T>
+bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
+    device = d;
+    mapped = m;
+    memory_usage = mu;
+
+    if (!data.vertices.empty()) {
+        vertex_buffer = make_buffer();
+
+        if (!vertex_buffer->create(device, data.vertices.data(), sizeof(vertex) * data.vertices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, mapped, memory_usage)) {
+            log()->error("create mesh vertex buffer");
+            return false;
+        }
+    }
+
+    if (!data.indices.empty()) {
+        index_buffer = make_buffer();
+
+        if (!index_buffer->create(device, data.indices.data(), sizeof(ui32) * data.indices.size(), VK_BUFFER_USAGE_INDEX_BUFFER_BIT, mapped, memory_usage)) {
+            log()->error("create mesh index buffer");
+            return false;
+        }
+    }
+
+    return true;
+}
 
 //-----------------------------------------------------------------------------
 template<typename T, typename PosType>
 std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_type type) {
-    auto triangle = generic_mesh<T>::generic_make_mesh();
+    std::shared_ptr<generic_mesh<T>> triangle = generic_make_mesh<T>();
     std::array<PosType, 3> pos_one = { 1, 1, 0 };
     std::array<PosType, 3> pos_two = { -1, 1, 0 };
     std::array<PosType, 3> pos_three = { 0, -1, 0 };
     // triangle->get_vertices().push_back(pos_one);
     // triangle->get_vertices().push_back(pos_two);
     // triangle->get_vertices().push_back(pos_three);
+    triangle->create(device);
     return triangle;
 }
 
