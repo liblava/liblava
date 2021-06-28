@@ -75,6 +75,73 @@ struct mesh_data {
 };
 
 /**
+ * @brief Temporary templated mesh data
+ *
+ * @tparam T Input vertex struct
+ */
+template<typename T = lava::vertex>
+struct generic_mesh_data {
+    /// List of vertices
+    std::vector<T> vertices;
+
+    /// List of indices.
+    index_list indices;
+
+    void move(v3 offset) {
+        static_assert(is_lava,
+                      "This method may only be called when lava::vertex is the mesh_data's input struct.");
+        if constexpr (is_lava) {
+            for (auto& vertex : vertices)
+                vertex.position += offset;
+        }
+    }
+
+    void scale(r32 factor) {
+        static_assert(is_lava,
+                      "This method may only be called when lava::vertex is the mesh_data's input struct.");
+        if constexpr (is_lava) {
+            for (auto& vertex : vertices)
+                vertex.position *= factor;
+        }
+    }
+
+private:
+    static constexpr bool const is_lava = std::is_same_v<T, lava::vertex>;
+};
+
+/**
+ * @brief Temporary templated mesh
+ *
+ * @tparam T Input vertex struct
+ */
+template<typename T = lava::vertex>
+struct generic_mesh {
+    using ptr = std::shared_ptr<generic_mesh<T>>;
+    using map = std::map<id, ptr>;
+    using list = std::vector<ptr>;
+    ~generic_mesh() {
+        destroy();
+    }
+    bool create(device_ptr device, bool mapped = false, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
+    void destroy();
+    void bind(VkCommandBuffer cmd_buf) const;
+    void draw(VkCommandBuffer cmd_buf) const;
+    void bind_draw(VkCommandBuffer cmd_buf) const {
+        bind(cmd_buf);
+        draw(cmd_buf);
+    }
+    void add_data(generic_mesh_data<T> const& value);
+
+private:
+    device_ptr device = nullptr;
+    mesh_data data;
+    buffer::ptr vertex_buffer;
+    buffer::ptr index_buffer;
+    bool mapped = false;
+    VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
+};
+
+/**
  * @brief Mesh
  */
 struct mesh : id_obj {
