@@ -543,18 +543,30 @@ message("=======================================================================
                 res/triangle/triangle.frag
                 res/triangle/triangle.vert
                 )
+        set(GENERIC_TRIANGLE_SHADERS
+                res/triangle/triangle.frag
+                res/triangle/triangle.vert
+                )
 
         add_executable(lava-triangle 
                 ${LIBLAVA_DEMO_DIR}/triangle.cpp
                 ${TRIANGLE_SHADERS}
                 )
+        add_executable(lava-generic-triangle
+                ${LIBLAVA_DEMO_DIR}/generic_triangle.cpp
+                ${GENERIC_TRIANGLE_SHADERS}
+                )
 
         source_group("Shader Files" FILES ${TRIANGLE_SHADERS})
+        # source_group("Shader Files" FILES ${GENERIC_TRIANGLE_SHADERS})
 
         set_target_properties(lava-triangle PROPERTIES FOLDER "lava-demo")
         target_link_libraries(lava-triangle lava::demo)
+        set_target_properties(lava-generic-triangle PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava-generic-triangle lava::demo)
 
         set_property(TARGET lava-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+        set_property(TARGET lava-generic-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         message(">> lava-lamp")
 
@@ -618,6 +630,7 @@ message("=======================================================================
 
         install(TARGETS
                 lava-triangle
+                lava-generic-triangle
                 lava-lamp
                 lava-spawn
                 lava-light
