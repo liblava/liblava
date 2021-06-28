@@ -125,6 +125,11 @@ void graphics_pipeline::set_vertex_input_attributes(VkVertexInputAttributeDescri
 }
 
 //-----------------------------------------------------------------------------
+void graphics_pipeline::set_input_topology(VkPrimitiveTopology const& topology) {
+    info.input_assembly_state.topology = topology;
+}
+
+//-----------------------------------------------------------------------------
 void graphics_pipeline::set_depth_test_and_write(bool enable_test, bool enable_write) {
     info.depth_stencil_state.depthTestEnable = enable_test ? VK_TRUE : VK_FALSE;
     info.depth_stencil_state.depthWriteEnable = enable_write ? VK_TRUE : VK_FALSE;
