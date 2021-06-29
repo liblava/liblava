@@ -80,7 +80,7 @@ struct mesh_data {
  *
  * @tparam T Input vertex struct
  */
-template<typename T = lava::vertex>
+template<typename T = vertex>
 struct generic_mesh_data {
     /// List of vertices
     std::vector<T> vertices;
@@ -107,7 +107,7 @@ struct generic_mesh_data {
     }
 
 private:
-    static constexpr bool const is_lava = std::is_same_v<T, lava::vertex>;
+    static constexpr bool const is_lava = std::is_same_v<T, vertex>;
 };
 
 /**
@@ -115,7 +115,7 @@ private:
  *
  * @tparam T Input vertex struct
  */
-template<typename T = lava::vertex>
+template<typename T = vertex>
 struct generic_mesh : id_obj {
     using ptr = std::shared_ptr<generic_mesh<T>>;
     using map = std::map<id, ptr>;
@@ -142,14 +142,14 @@ struct generic_mesh : id_obj {
     ui32 get_vertices_count() const {
         return to_ui32(data.vertices.size());
     }
-    mesh_data& get_data() {
+    generic_mesh_data<T>& get_data() {
         return data;
     }
     bool reload();
 
 private:
     device_ptr device = nullptr;
-    mesh_data data;
+    generic_mesh_data<T> data;
     buffer::ptr vertex_buffer;
     buffer::ptr index_buffer;
     bool mapped = false;
@@ -437,7 +437,7 @@ enum class mesh_type : type {
 mesh::ptr create_mesh(device_ptr device, mesh_type type);
 
 //-----------------------------------------------------------------------------
-template<typename T = lava::vertex, typename PosType>
+template<typename T = vertex, typename PosType>
 std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_type type);
 
 template<typename T>
