@@ -5,7 +5,6 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <imgui.h>
 #include <cstddef>
 #include <demo.hpp>
 
@@ -15,21 +14,19 @@ using namespace lava;
 int main(int argc, char* argv[]) {
     app app("lava triangle", { argc, argv });
 
-    setup_imgui_font_icons(app.config.imgui_font);
-
     if (!app.setup())
         return error::not_ready;
 
     // Initialize a lava triangle.
     generic_mesh<>::ptr lava_triangle;
-    lava_triangle = generic_create_mesh<lava::vertex, float>(app.device, mesh_type::triangle, offsetof(lava::vertex, position));
+    lava_triangle = generic_create_mesh<>(app.device, mesh_type::triangle);
     if (!lava_triangle)
         return error::create_failed;
     auto& lava_triangle_data = lava_triangle->get_data();
     lava_triangle_data.vertices.at(0).color = v4(1.f, 0.f, 0.f, 1.f);
     lava_triangle_data.vertices.at(1).color = v4(0.f, 1.f, 0.f, 1.f);
     lava_triangle_data.vertices.at(2).color = v4(0.f, 0.f, 1.f, 1.f);
-    lava_triangle_data.scale(0.5f);
+    lava_triangle_data.scale<>(0.5f);
     lava_triangle_data.move({ 0.5f, 0, 0 });
     if (!lava_triangle->reload())
         return error::create_failed;
@@ -47,6 +44,7 @@ int main(int argc, char* argv[]) {
     int_triangle_data.vertices.at(0).color = v4(1.f, 0.5f, 0.5f, 1.f);
     int_triangle_data.vertices.at(1).color = v4(0.5f, 1.f, 0.5f, 1.f);
     int_triangle_data.vertices.at(2).color = v4(0.5f, 0.5f, 1.f, 1.f);
+    int_triangle_data.scale<int>(2, offsetof(int_vertex, position));
     if (!int_triangle->reload())
         return error::create_failed;
 
@@ -63,6 +61,7 @@ int main(int argc, char* argv[]) {
     double_triangle_data.vertices.at(0).color = v4(1.f, 0.f, 0.5f, 1.f);
     double_triangle_data.vertices.at(1).color = v4(0.f, 1.f, 0.5f, 1.f);
     double_triangle_data.vertices.at(2).color = v4(0.f, 0.5f, 1.f, 1.f);
+    int_triangle_data.scale<double>(0.854, offsetof(double_vertex, position));
     if (!double_triangle->reload())
         return error::create_failed;
 
@@ -119,7 +118,6 @@ int main(int argc, char* argv[]) {
         lava_pipeline->set_layout(lava_pipeline_layout);
         if (!lava_pipeline->create(render_pass->get()))
             return false;
-        render_pass->add_front(lava_pipeline);
 
         // Describe the int triangle.
         if (!int_pipeline->add_shader(file_data("generic_triangle/int_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
@@ -134,7 +132,6 @@ int main(int argc, char* argv[]) {
         int_pipeline->set_layout(int_pipeline_layout);
         if (!int_pipeline->create(render_pass->get()))
             return false;
-        render_pass->add_front(int_pipeline);
 
         // Describe the double triangle.
         if (!double_pipeline->add_shader(file_data("generic_triangle/double_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
@@ -149,7 +146,10 @@ int main(int argc, char* argv[]) {
         double_pipeline->set_layout(double_pipeline_layout);
         if (!double_pipeline->create(render_pass->get()))
             return false;
+
+        render_pass->add_front(lava_pipeline);
         render_pass->add_front(double_pipeline);
+        render_pass->add_front(int_pipeline);
 
         // No errors so far!
         return true;
@@ -162,17 +162,6 @@ int main(int argc, char* argv[]) {
         int_pipeline_layout->destroy();
         double_pipeline->destroy();
         double_pipeline_layout->destroy();
-    };
-
-    app.imgui.on_draw = [&]() {
-        ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize({ 210, 110 }, ImGuiCond_FirstUseEver);
-
-        ImGui::Begin(app.get_name());
-
-        app.draw_about(false);
-
-        ImGui::End();
     };
 
     app.add_run_end([&]() {

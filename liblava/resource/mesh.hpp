@@ -88,26 +88,26 @@ struct generic_mesh_data {
     /// List of indices.
     index_list indices;
 
-    void move(v3 offset) {
-        static_assert(is_lava,
-                      "This method may only be called when lava::vertex is the mesh_data's input struct.");
-        if constexpr (is_lava) {
-            for (auto& vertex : vertices)
-                vertex.position += offset;
+    template<typename PosVecType = lava::v3, typename PosType = float>
+    void move(std::array<PosType, 3> offset, size_t struct_pos_offset = 0) {
+        for (T& vertex : vertices) {
+            for (size_t i = 0; i < 3; i++) {
+                (*((std::array<PosType, 3>*) (&vertex + struct_pos_offset)))[i] += offset[i];
+            }
         }
     }
 
-    void scale(r32 factor) {
-        static_assert(is_lava,
-                      "This method may only be called when lava::vertex is the mesh_data's input struct.");
-        if constexpr (is_lava) {
-            for (auto& vertex : vertices)
-                vertex.position *= factor;
+    template<typename PosType = float>
+    void scale(PosType factor, size_t struct_pos_offset = 0) {
+        for (T& vertex : vertices) {
+            for (size_t i = 0; i < 3; i++) {
+                (*((std::array<PosType, 3>*) (&vertex + struct_pos_offset)))[i] *= factor;
+            }
         }
     }
 
 private:
-    static constexpr bool const is_lava = std::is_same_v<T, vertex>;
+    static constexpr bool const is_default = std::is_same_v<T, vertex>;
 };
 
 /**
@@ -468,8 +468,8 @@ bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T, typename PosType>
-std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_type type, size_t pos_offset) {
+template<typename T = lava::vertex, typename PosType = float>
+std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_type type, size_t pos_offset = offsetof(T, position)) {
     std::shared_ptr<generic_mesh<T>> triangle = generic_make_mesh<T>();
     std::array<PosType, 3> pos_one = { 1, 1, 0 };
     T vert_one;
@@ -480,6 +480,7 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_typ
     std::array<PosType, 3> pos_three = { 0, -1, 0 };
     T vert_three;
     memcpy(&vert_three + pos_offset, &pos_three, sizeof(pos_three));
+
     triangle->get_vertices().push_back(vert_one);
     triangle->get_vertices().push_back(vert_two);
     triangle->get_vertices().push_back(vert_three);
