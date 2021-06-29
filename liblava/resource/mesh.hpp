@@ -88,6 +88,15 @@ struct generic_mesh_data {
     /// List of indices.
     index_list indices;
 
+    /**
+     * @brief Move mesh data by offset
+     *
+     * @tparam PosVecType Type of coordinate vector
+     * @tparam PosType    Type of coordinate element
+     *
+     * @param offset      Position offset
+     * @param factor      Byte offset of coordinate vector within T
+     */
     template<typename PosVecType = lava::v3, typename PosType = float>
     void move(std::array<PosType, 3> offset, size_t struct_pos_offset = 0) {
         for (T& vertex : vertices) {
@@ -97,6 +106,14 @@ struct generic_mesh_data {
         }
     }
 
+    /**
+     * @brief Scale mesh data by factor
+     *
+     * @tparam PosType  Type of coordinate element
+     *
+     * @param factor    Position scaling factor
+     * @param factor    Byte offset of coordinate vector within T
+     */
     template<typename PosType = float>
     void scale(PosType factor, size_t struct_pos_offset = 0) {
         for (T& vertex : vertices) {
@@ -132,6 +149,15 @@ struct generic_mesh : id_obj {
         bind(cmd_buf);
         draw(cmd_buf);
     }
+    bool empty() const {
+        return data.vertices.empty();
+    }
+    void set_data(mesh_data const& value) {
+        data = value;
+    }
+    generic_mesh_data<T>& get_data() {
+        return data;
+    }
     void add_data(generic_mesh_data<T> const& value);
     vertex_list& get_vertices() {
         return data.vertices;
@@ -142,10 +168,22 @@ struct generic_mesh : id_obj {
     ui32 get_vertices_count() const {
         return to_ui32(data.vertices.size());
     }
-    generic_mesh_data<T>& get_data() {
-        return data;
+    index_list& get_indices() {
+        return data.indices;
+    }
+    index_list const& get_indices() const {
+        return data.indices;
+    }
+    ui32 get_indices_count() const {
+        return to_ui32(data.indices.size());
     }
     bool reload();
+    buffer::ptr get_vertex_buffer() {
+        return vertex_buffer;
+    }
+    buffer::ptr get_index_buffer() {
+        return index_buffer;
+    }
 
 private:
     device_ptr device = nullptr;
