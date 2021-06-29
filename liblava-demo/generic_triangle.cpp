@@ -6,8 +6,8 @@
  */
 
 #include <imgui.h>
+#include <cstddef>
 #include <demo.hpp>
-// #include "../liblava/block/generic.hpp"
 
 using namespace lava;
 
@@ -21,8 +21,7 @@ int main(int argc, char* argv[]) {
         return error::not_ready;
 
     generic_mesh<vertex>::ptr triangle;
-    triangle = generic_create_mesh<vertex, float>(app.device, mesh_type::triangle);
-    // generic_create_mesh(app.device, mesh_type::triangle, triangle, lava::vertex, position);
+    triangle = generic_create_mesh<vertex, float>(app.device, mesh_type::triangle, offsetof(vertex, position));
 
     if (!triangle)
         return error::create_failed;

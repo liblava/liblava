@@ -116,10 +116,11 @@ private:
  * @tparam T Input vertex struct
  */
 template<typename T = lava::vertex>
-struct generic_mesh {
+struct generic_mesh : id_obj {
     using ptr = std::shared_ptr<generic_mesh<T>>;
     using map = std::map<id, ptr>;
     using list = std::vector<ptr>;
+    using vertex_list = std::vector<T>;
     ~generic_mesh() {
         destroy();
     }
@@ -132,7 +133,10 @@ struct generic_mesh {
         draw(cmd_buf);
     }
     void add_data(generic_mesh_data<T> const& value);
-    list const& get_vertices() const {
+    vertex_list& get_vertices() {
+        return data.vertices;
+    }
+    vertex_list const& get_vertices() const {
         return data.vertices;
     }
     ui32 get_vertices_count() const {
@@ -465,15 +469,22 @@ bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 
 //-----------------------------------------------------------------------------
 template<typename T, typename PosType>
-std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_type type) {
+std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_type type, size_t pos_offset) {
     std::shared_ptr<generic_mesh<T>> triangle = generic_make_mesh<T>();
     std::array<PosType, 3> pos_one = { 1, 1, 0 };
+    T vert_one;
+    memcpy(&vert_one + pos_offset, &pos_one, sizeof(pos_one));
     std::array<PosType, 3> pos_two = { -1, 1, 0 };
+    T vert_two;
+    memcpy(&vert_two + pos_offset, &pos_two, sizeof(pos_two));
     std::array<PosType, 3> pos_three = { 0, -1, 0 };
-    // triangle->get_vertices().push_back(pos_one);
-    // triangle->get_vertices().push_back(pos_two);
-    // triangle->get_vertices().push_back(pos_three);
-    triangle->create(device);
+    T vert_three;
+    memcpy(&vert_three + pos_offset, &pos_three, sizeof(pos_three));
+    triangle->get_vertices().push_back(vert_one);
+    triangle->get_vertices().push_back(vert_two);
+    triangle->get_vertices().push_back(vert_three);
+    if (!triangle->create(device))
+        return nullptr;
     return triangle;
 }
 
