@@ -8,6 +8,7 @@
 #include <liblava/resource/mesh.hpp>
 
 namespace lava {
+
 //-----------------------------------------------------------------------------
 void mesh::add_data(mesh_data const& value) {
     auto index_base = to_ui32(data.vertices.size());

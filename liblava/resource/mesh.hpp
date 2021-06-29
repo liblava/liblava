@@ -502,4 +502,5 @@ struct mesh_meta {
 
 /// Mesh registry
 using mesh_registry = id_registry<mesh, mesh_meta>;
+
 } // namespace lava
