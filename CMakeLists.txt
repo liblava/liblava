@@ -206,6 +206,8 @@ add_library(lava.resource STATIC
         ${LIBLAVA_DIR}/resource/image.hpp
         ${LIBLAVA_DIR}/resource/mesh.cpp
         ${LIBLAVA_DIR}/resource/mesh.hpp
+        ${LIBLAVA_DIR}/resource/mesh.tpp
+
         ${LIBLAVA_DIR}/resource/texture.cpp
         ${LIBLAVA_DIR}/resource/texture.hpp
         )
@@ -544,8 +546,10 @@ message("=======================================================================
                 res/triangle/triangle.vert
                 )
         set(GENERIC_TRIANGLE_SHADERS
-                res/triangle/triangle.frag
-                res/triangle/triangle.vert
+                res/generic_triangle/triangle.frag
+                res/generic_triangle/lava_triangle.vert
+                res/generic_triangle/int_triangle.vert
+                res/generic_triangle/double_triangle.vert
                 )
 
         add_executable(lava-triangle 
@@ -558,7 +562,7 @@ message("=======================================================================
                 )
 
         source_group("Shader Files" FILES ${TRIANGLE_SHADERS})
-        # source_group("Shader Files" FILES ${GENERIC_TRIANGLE_SHADERS})
+        source_group("Shader Files" FILES ${GENERIC_TRIANGLE_SHADERS})
 
         set_target_properties(lava-triangle PROPERTIES FOLDER "lava-demo")
         target_link_libraries(lava-triangle lava::demo)
