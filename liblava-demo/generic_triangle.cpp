@@ -1,6 +1,6 @@
 /**
- * @file         liblava-demo/triangle.cpp
- * @brief        Triangle demo
+ * @file         liblava-demo/generic_triangle.cpp
+ * @brief        Generic triangle demo
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
@@ -12,7 +12,7 @@ using namespace lava;
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
-    app app("lava triangle", { argc, argv });
+    app app("generic lava triangle", { argc, argv });
 
     if (!app.setup())
         return error::not_ready;
@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
     double_triangle_data.vertices.at(0).color = v4(1.f, 0.f, 0.5f, 1.f);
     double_triangle_data.vertices.at(1).color = v4(0.f, 1.f, 0.5f, 1.f);
     double_triangle_data.vertices.at(2).color = v4(0.f, 0.5f, 1.f, 1.f);
-    int_triangle_data.scale<double>(0.854, offsetof(double_vertex, position));
+    double_triangle_data.scale<double>(0.854d, offsetof(double_vertex, position));
     if (!double_triangle->reload())
         return error::create_failed;
 
