@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
     double_triangle_data.vertices.at(0).color = v4(1.f, 0.f, 0.5f, 1.f);
     double_triangle_data.vertices.at(1).color = v4(0.f, 1.f, 0.5f, 1.f);
     double_triangle_data.vertices.at(2).color = v4(0.f, 0.5f, 1.f, 1.f);
-    double_triangle_data.scale<double>(0.854d, offsetof(double_vertex, position));
+    double_triangle_data.scale<double>(0.854, offsetof(double_vertex, position));
     if (!double_triangle->reload())
         return error::create_failed;
 
