@@ -32,10 +32,10 @@ int main(int argc, char* argv[]) {
         return error::create_failed;
 
     // Initialize an int triangle.
-    typedef struct {
+    struct int_vertex {
         std::array<int, 3> position;
         lava::v4 color;
-    } int_vertex;
+    };
     generic_mesh<int_vertex>::ptr int_triangle;
     int_triangle = generic_create_mesh<int_vertex, int>(app.device, mesh_type::triangle, offsetof(int_vertex, position));
     if (!int_triangle)
@@ -49,10 +49,10 @@ int main(int argc, char* argv[]) {
         return error::create_failed;
 
     // Initialize a double triangle.
-    typedef struct {
+    struct double_vertex {
         std::array<double, 3> position;
         lava::v4 color;
-    } double_vertex;
+    };
     generic_mesh<double_vertex>::ptr double_triangle;
     double_triangle = generic_create_mesh<double_vertex, double>(app.device, mesh_type::triangle, offsetof(double_vertex, position));
     if (!double_triangle)
