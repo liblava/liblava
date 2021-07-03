@@ -165,9 +165,9 @@ struct graphics_pipeline : pipeline {
     void set_vertex_input_attributes(VkVertexInputAttributeDescriptions const& attributes);
 
     /**
-     * @brief Set the input assembler's topology.
+     * @brief Set the input assembler's topology
      *
-     * @param topology Enum describing polygon primitives
+     * @param topology    Enum describing polygon primitives
      */
     void set_input_topology(VkPrimitiveTopology const& topology);
 
