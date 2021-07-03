@@ -56,7 +56,7 @@ bool block::create(device_ptr d, index frame_count, index queue_family) {
     }
 
     for (auto& command : commands)
-        if (!command.second.create(device, frame_count, cmd_pools))
+        if (!command.second->create(device, frame_count, cmd_pools))
             return false;
 
     return true;
@@ -65,7 +65,7 @@ bool block::create(device_ptr d, index frame_count, index queue_family) {
 //-----------------------------------------------------------------------------
 void block::destroy() {
     for (auto& command : commands)
-        command.second.destroy(device, cmd_pools);
+        command.second->destroy(device, cmd_pools);
 
     for (auto i = 0u; i < cmd_pools.size(); ++i)
         device->call().vkDestroyCommandPool(device->get(), cmd_pools.at(i), memory::alloc());
@@ -77,18 +77,18 @@ void block::destroy() {
 
 //-----------------------------------------------------------------------------
 id block::add_cmd(command::process_func func, bool active) {
-    command cmd;
-    cmd.on_process = func;
-    cmd.active = active;
+    auto cmd = make_command();
+    cmd->on_process = func;
+    cmd->active = active;
 
     if (device && !cmd_pools.empty())
-        if (!cmd.create(device, get_frame_count(), cmd_pools))
+        if (!cmd->create(device, get_frame_count(), cmd_pools))
             return undef_id;
 
-    auto result = cmd.get_id();
+    auto result = cmd->get_id();
 
-    commands.emplace(result, std::move(cmd));
-    cmd_order.push_back(&commands.at(result));
+    commands.emplace(result, cmd);
+    cmd_order.push_back(commands.at(result).get());
 
     return result;
 }
@@ -98,10 +98,10 @@ void block::remove_cmd(id::ref cmd) {
     if (!commands.count(cmd))
         return;
 
-    auto& command = commands.at(cmd);
-    command.destroy(device, cmd_pools);
+    auto command = commands.at(cmd);
+    command->destroy(device, cmd_pools);
 
-    remove(cmd_order, &command);
+    remove(cmd_order, (command::cptr)(command.get()));
 
     commands.erase(cmd);
 }
@@ -143,7 +143,7 @@ bool block::activated(id::ref command) {
     if (!commands.count(command))
         return false;
 
-    return commands.at(command).active;
+    return commands.at(command)->active;
 }
 
 //-----------------------------------------------------------------------------
@@ -151,7 +151,7 @@ bool block::set_active(id::ref command, bool active) {
     if (!commands.count(command))
         return false;
 
-    commands.at(command).active = active;
+    commands.at(command)->active = active;
     return true;
 }
 

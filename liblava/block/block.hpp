@@ -15,11 +15,17 @@ namespace lava {
  * @brief Block command
  */
 struct command : entity {
+    /// Shared pointer to command
+    using ptr = std::shared_ptr<command>;
+
+    /// Const pointer to command
+    using cptr = command const*;
+
     /// Map of commands
-    using map = std::map<id, command>;
+    using map = std::map<id, command::ptr>;
 
     /// List of commands
-    using list = std::vector<command*>;
+    using list = std::vector<command::cptr>;
 
     /// List of command buffers
     VkCommandBuffers buffers = {};
@@ -158,7 +164,7 @@ struct block : entity {
      * @return VkCommandBuffer    Vulkan command buffer
      */
     VkCommandBuffer get_command_buffer(id::ref cmd) const {
-        return commands.at(cmd).buffers.at(current_frame);
+        return commands.at(cmd)->buffers.at(current_frame);
     }
 
     /**
@@ -170,7 +176,7 @@ struct block : entity {
      * @return VkCommandBuffer    Vulkan command buffer
      */
     VkCommandBuffer get_command_buffer(id::ref cmd, index frame) const {
-        return commands.at(cmd).buffers.at(frame);
+        return commands.at(cmd)->buffers.at(frame);
     }
 
     /**
@@ -252,6 +258,15 @@ private:
     /// Ordered list of commands
     command::list cmd_order;
 };
+
+/**
+ * @brief Make a new command
+ * 
+ * @return command::ptr    Shared pointer to command
+ */
+inline command::ptr make_command() {
+    return std::make_shared<command>();
+}
 
 /**
  * @brief Make a new block
