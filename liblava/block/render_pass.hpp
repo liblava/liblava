@@ -16,7 +16,7 @@ namespace lava {
 /**
  * @brief Render pass
  */
-struct render_pass : id_obj {
+struct render_pass : entity {
     /// Shared pointer to render pass
     using ptr = std::shared_ptr<render_pass>;
 

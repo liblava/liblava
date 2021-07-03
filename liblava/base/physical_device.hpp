@@ -14,7 +14,7 @@ namespace lava {
 /**
  * @brief Vulkan physical device
  */
-struct physical_device : id_obj {
+struct physical_device : entity {
     /// List of physical devices
     using list = std::vector<physical_device>;
 

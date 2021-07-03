@@ -547,7 +547,7 @@ constexpr bool const input_done = true;
 /**
  * @brief Input handling
  */
-struct input : id_obj {
+struct input {
     /// List of key events
     input_key_events key;
 

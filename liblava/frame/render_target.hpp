@@ -16,7 +16,7 @@ namespace lava {
 /**
  * @brief Render target
  */
-struct render_target : id_obj {
+struct render_target : entity {
     /// Shared pointer to render target
     using ptr = std::shared_ptr<render_target>;
 

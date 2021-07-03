@@ -14,11 +14,11 @@ namespace lava {
 /**
  * @brief Descriptor
  */
-struct descriptor : id_obj {
+struct descriptor : entity {
     /**
      * @brief Descriptor binding
      */
-    struct binding : id_obj {
+    struct binding {
         /// Shared pointer to binding
         using ptr = std::shared_ptr<binding>;
 
@@ -92,7 +92,7 @@ struct descriptor : id_obj {
     /**
      * @brief Descriptor pool
      */
-    struct pool : id_obj {
+    struct pool : entity {
         /// Shared pointer to pool
         using ptr = std::shared_ptr<pool>;
 

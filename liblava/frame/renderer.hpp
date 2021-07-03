@@ -18,7 +18,7 @@ using optional_index = std::optional<index>;
 /**
  * @brief Plain renderer
  */
-struct renderer : id_obj {
+struct renderer : entity {
     /**
      * @brief Create a new renderer
      * 

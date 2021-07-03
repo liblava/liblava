@@ -53,7 +53,7 @@ constexpr name _monitor_ = "monitor";
 /**
  * @brief Window
  */
-struct window : id_obj {
+struct window : entity {
     /**
      * @brief Windoe state
      */

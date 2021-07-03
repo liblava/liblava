@@ -14,7 +14,7 @@ namespace lava {
 /**
  * @brief Image
  */
-struct image : id_obj {
+struct image : entity {
     /// Shared pointer to image
     using ptr = std::shared_ptr<image>;
 

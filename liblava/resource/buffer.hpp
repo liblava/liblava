@@ -14,7 +14,7 @@ namespace lava {
 /**
  * @brief Buffer
  */
-struct buffer : id_obj {
+struct buffer : entity {
     /// Shared pointer to buffer
     using ptr = std::shared_ptr<buffer>;
 

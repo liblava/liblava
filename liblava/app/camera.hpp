@@ -24,7 +24,7 @@ enum class camera_mode : type {
 /**
  * @brief First Person / Look At camera
  */
-struct camera : id_obj {
+struct camera : entity {
     /// Map of cameras
     using map = std::map<id, camera>;
 

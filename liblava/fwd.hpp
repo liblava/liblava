@@ -50,7 +50,7 @@ struct cdata;
 struct unique_data;
 struct id;
 struct ids;
-struct id_obj;
+struct entity;
 struct rect;
 struct timer;
 struct run_time;

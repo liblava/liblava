@@ -14,7 +14,7 @@ namespace lava {
 /**
  * @brief Block command
  */
-struct command : id_obj {
+struct command : entity {
     /// Map of commands
     using map = std::map<id, command>;
 
@@ -57,7 +57,7 @@ struct command : id_obj {
 /**
  * @brief Block of commands
  */
-struct block : id_obj {
+struct block : entity {
     /// Shared pointer to block
     using ptr = std::shared_ptr<block>;
 
