@@ -12,8 +12,8 @@ namespace lava {
 //-----------------------------------------------------------------------------
 render_pass::render_pass(device_ptr d)
 : device(d) {
-    target_callback.on_created = [&](VkAttachmentsRef target_attachments, rect area) { return on_target_created(target_attachments, area); };
-    target_callback.on_destroyed = [&]() { on_target_destroyed(); };
+    callback.on_created = [&](VkAttachmentsRef target_attachments, rect area) { return on_target_created(target_attachments, area); };
+    callback.on_destroyed = [&]() { on_target_destroyed(); };
 }
 
 //-----------------------------------------------------------------------------

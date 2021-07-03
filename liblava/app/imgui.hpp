@@ -281,7 +281,7 @@ struct imgui {
      * @return input_callback const&    Input callback
      */
     input_callback const& get_input_callback() const {
-        return input_callback;
+        return callback;
     }
 
 private:
@@ -408,7 +408,7 @@ private:
     bool active = true;
 
     /// Input callback
-    input_callback input_callback;
+    input_callback callback;
 };
 
 /**

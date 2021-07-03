@@ -208,7 +208,7 @@ struct render_pass : entity {
      * @return target_callback const&    Target callback
      */
     target_callback const& get_target_callback() const {
-        return target_callback;
+        return callback;
     }
 
 private:
@@ -237,7 +237,7 @@ private:
     rect area;
 
     /// Target callback
-    target_callback target_callback;
+    target_callback callback;
 
     /**
      * @brief Begin the render pass
