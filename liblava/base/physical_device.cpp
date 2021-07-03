@@ -10,6 +10,11 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
+physical_device::physical_device(VkPhysicalDevice vk_physical_device) {
+    initialize(vk_physical_device);
+}
+
+//-----------------------------------------------------------------------------
 void physical_device::initialize(VkPhysicalDevice pd) {
     vk_physical_device = pd;
 
