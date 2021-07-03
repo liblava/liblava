@@ -86,7 +86,7 @@ bool forward_shading::create(render_target::ptr t) {
     if (!pass->create(target->on_create_attachments(), { {}, target->get_size() }))
         return false;
 
-    target->add_callback(pass.get());
+    target->add_callback(&pass->get_target_callback());
 
     pass->set_clear_color();
 
@@ -98,7 +98,7 @@ void forward_shading::destroy() {
     if (!target)
         return;
 
-    target->remove_callback(pass.get());
+    target->remove_callback(&pass->get_target_callback());
 
     pass->destroy();
     pass = nullptr;

@@ -389,14 +389,14 @@ int main(int argc, char* argv[]) {
         if (gbuffer_renderpass->get() == VK_NULL_HANDLE)
             return gbuffer_renderpass->create({ views }, area);
         else
-            return gbuffer_renderpass->on_created({ views }, area);
+            return gbuffer_renderpass->get_target_callback().on_created({ views }, area);
     };
 
     resize_callback.on_destroyed = [&]() {
         app.device->wait_for_idle();
 
         // destroy framebuffer
-        gbuffer_renderpass->on_destroyed();
+        gbuffer_renderpass->get_target_callback().on_destroyed();
 
         // destroy G-Buffer attachments
         for (gbuffer_attachment& att : g_attachments) {
