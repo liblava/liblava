@@ -220,21 +220,21 @@ void imgui::setup(GLFWwindow* w, config config) {
 
     set_ini_file(config.ini_file_dir);
 
-    on_key_event = [&](key_event const& event) {
+    input_callback.on_key_event = [&](key_event const& event) {
         if (activated())
             handle_key_event(to_i32(event.key), event.scancode, to_i32(event.action), to_i32(event.mod));
 
         return capture_keyboard();
     };
 
-    on_scroll_event = [&](scroll_event const& event) {
+    input_callback.on_scroll_event = [&](scroll_event const& event) {
         if (activated())
             handle_scroll_event(event.offset.x, event.offset.y);
 
         return capture_mouse();
     };
 
-    on_mouse_button_event = [&](mouse_button_event const& event) {
+    input_callback.on_mouse_button_event = [&](mouse_button_event const& event) {
         if (activated())
             handle_mouse_button_event(to_i32(event.button), to_i32(event.action), to_i32(event.mod));
 

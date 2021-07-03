@@ -464,8 +464,14 @@ struct mouse_active_event {
  * @brief Input callback
  */
 struct input_callback {
+    /// Const pointer to input callback
+    using cptr = input_callback const*;
+
     /// List of input callbacks
     using list = std::vector<input_callback*>;
+
+    /// List of const input callbacks
+    using clist = std::vector<cptr>;
 
     /**
      * @brief Input callback functions
@@ -570,7 +576,7 @@ struct input : id_obj {
      * 
      * @param callback    Callback to add
      */
-    void add(input_callback* callback) {
+    void add(input_callback::cptr callback) {
         callbacks.push_back(callback);
     }
 
@@ -579,7 +585,7 @@ struct input : id_obj {
      * 
      * @param callback    Callback to remove
      */
-    void remove(input_callback* callback) {
+    void remove(input_callback::cptr callback) {
         lava::remove(callbacks, callback);
     }
 
@@ -611,7 +617,7 @@ private:
     mouse_position current_position;
 
     /// List of input callbacks
-    input_callback::list callbacks;
+    input_callback::clist callbacks;
 };
 
 } // namespace lava
