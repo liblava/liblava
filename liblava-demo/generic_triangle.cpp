@@ -19,14 +19,14 @@ int main(int argc, char* argv[]) {
 
     // Initialize a lava triangle.
     generic_mesh<>::ptr lava_triangle;
-    lava_triangle = generic_create_mesh<>(app.device, mesh_type::triangle);
+    lava_triangle = generic_create_mesh(app.device, mesh_type::triangle);
     if (!lava_triangle)
         return error::create_failed;
     auto& lava_triangle_data = lava_triangle->get_data();
     lava_triangle_data.vertices.at(0).color = v4(1.f, 0.f, 0.f, 1.f);
     lava_triangle_data.vertices.at(1).color = v4(0.f, 1.f, 0.f, 1.f);
     lava_triangle_data.vertices.at(2).color = v4(0.f, 0.f, 1.f, 1.f);
-    lava_triangle_data.scale<>(0.5f);
+    lava_triangle_data.scale(0.5f);
     lava_triangle_data.move({ 0.5f, 0, 0 });
     if (!lava_triangle->reload())
         return error::create_failed;
