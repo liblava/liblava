@@ -193,6 +193,8 @@ private:
     VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
 };
 
+// using mesh = generic_mesh<lava::vertex>;
+
 /**
  * @brief Mesh
  */
@@ -443,4 +445,4 @@ using mesh_registry = id_registry<mesh, mesh_meta>;
 
 } // namespace lava
 
-#include "mesh.tpp"
+#include "generic_mesh.hpp"
