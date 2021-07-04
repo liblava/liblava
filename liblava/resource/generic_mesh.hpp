@@ -8,12 +8,12 @@
 #pragma once
 
 #include <liblava/resource/buffer.hpp>
-#include "primitive.hpp"
+#include <liblava/resource/primitive.hpp>
 
 namespace lava {
 
 /**
- * @brief Temporary templated mesh data
+ * @brief Templated mesh data
  *
  * @tparam T Input vertex struct
  */

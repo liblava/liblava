@@ -8,7 +8,7 @@
 #pragma once
 
 #include <liblava/resource/buffer.hpp>
-#include "primitive.hpp"
+#include <liblava/resource/primitive.hpp>
 
 namespace lava {
 
@@ -285,5 +285,3 @@ struct mesh_meta {
 using mesh_registry = id_registry<mesh, mesh_meta>;
 
 } // namespace lava
-
-#include "generic_mesh.hpp"
