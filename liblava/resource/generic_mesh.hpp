@@ -59,9 +59,6 @@ struct generic_mesh_data {
             }
         }
     }
-
-private:
-    static constexpr bool const is_default = std::is_same_v<T, vertex>;
 };
 
 /**
