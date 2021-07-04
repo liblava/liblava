@@ -204,6 +204,7 @@ add_library(lava.resource STATIC
         ${LIBLAVA_DIR}/resource/format.hpp
         ${LIBLAVA_DIR}/resource/image.cpp
         ${LIBLAVA_DIR}/resource/image.hpp
+        ${LIBLAVA_DIR}/resource/primitive.hpp
         ${LIBLAVA_DIR}/resource/mesh.cpp
         ${LIBLAVA_DIR}/resource/mesh.hpp
         ${LIBLAVA_DIR}/resource/generic_mesh.hpp
