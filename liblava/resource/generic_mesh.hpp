@@ -25,6 +25,7 @@ struct generic_mesh_data {
     /// List of indices.
     index_list indices;
 
+public:
     /**
      * @brief Move mesh data by offset
      *
@@ -168,8 +169,8 @@ inline std::shared_ptr<generic_mesh<T>> generic_make_mesh() {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T = vertex, typename PosType>
-std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_type type);
+template<typename T = lava::vertex, typename PosType = float>
+std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_type type);
 
 template<typename T>
 bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
@@ -199,25 +200,72 @@ bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T = lava::vertex, typename PosType = float>
-std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_type type, size_t pos_offset = offsetof(T, position)) {
-    std::shared_ptr<generic_mesh<T>> triangle = generic_make_mesh<T>();
-    std::array<PosType, 3> pos_one = { 1, 1, 0 };
-    T vert_one;
-    memcpy(&vert_one + pos_offset, &pos_one, sizeof(pos_one));
-    std::array<PosType, 3> pos_two = { -1, 1, 0 };
-    T vert_two;
-    memcpy(&vert_two + pos_offset, &pos_two, sizeof(pos_two));
-    std::array<PosType, 3> pos_three = { 0, -1, 0 };
-    T vert_three;
-    memcpy(&vert_three + pos_offset, &pos_three, sizeof(pos_three));
+template<typename T, typename PosType>
+std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
+                                                     mesh_type type) {
+    auto return_mesh = generic_make_mesh<T>();
+    switch (type) {
+    case mesh_type::cube: {
+        return_mesh->get_vertices().resize(8);
+        return_mesh->get_indices().resize(36);
+        for (int i =- 1; i < 1; i += 2) {
+            for (int j =- 1; j < 1; j += 2) {
+                for (int k =- 1; k < 1; k += 2) {
+                    T vert;
+                    vert.position = { i, j, k };
+                    return_mesh->get_vertices().push_back(vert);
+                }
+            }
+        }
 
-    triangle->get_vertices().push_back(vert_one);
-    triangle->get_vertices().push_back(vert_two);
-    triangle->get_vertices().push_back(vert_three);
-    if (!triangle->create(device))
+        // Clockwise winding order.
+        return_mesh->get_indices()={
+            // Left
+            0,1,2,
+            2,1,3,
+            // Right
+            4,5,6,
+            6,5,7,
+            // Top
+            0,1,4,
+            4,1,5,
+            // Bottom
+            2,3,6,
+            6,3,7,
+            // Back
+            3,1,5,
+            5,7,3,
+            // Front
+            2,0,4,
+            4,6,2,
+        };
+    }
+    break;
+
+    case mesh_type::triangle: {
+        T vert_one;
+        vert_one.position = { 1, 1, 0 };
+        T vert_two;
+        vert_two.position = { -1, 1, 0 };
+        T vert_three;
+        vert_three.position = { 0, -1, 0 };
+        return_mesh->get_vertices().push_back(vert_one);
+        return_mesh->get_vertices().push_back(vert_two);
+        return_mesh->get_vertices().push_back(vert_three);
+    }
+    break;
+
+    case mesh_type::quad:
+        break;
+
+    case mesh_type::none:
+    default:
         return nullptr;
-    return triangle;
+    }
+
+    if (!return_mesh->create(device))
+        return nullptr;
+    return return_mesh;
 }
 
 } // namespace lava

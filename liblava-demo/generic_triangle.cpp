@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
         lava::v4 color;
     };
     generic_mesh<int_vertex>::ptr int_triangle;
-    int_triangle = generic_create_mesh<int_vertex, int>(app.device, mesh_type::triangle, offsetof(int_vertex, position));
+    int_triangle = generic_create_mesh<int_vertex, int>(app.device, mesh_type::triangle);
     if (!int_triangle)
         return error::create_failed;
     auto& int_triangle_data = int_triangle->get_data();
@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
         lava::v4 color;
     };
     generic_mesh<double_vertex>::ptr double_triangle;
-    double_triangle = generic_create_mesh<double_vertex, double>(app.device, mesh_type::triangle, offsetof(double_vertex, position));
+    double_triangle = generic_create_mesh<double_vertex, double>(app.device, mesh_type::triangle);
     if (!double_triangle)
         return error::create_failed;
     auto& double_triangle_data = double_triangle->get_data();
