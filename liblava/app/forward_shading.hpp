@@ -15,7 +15,7 @@ namespace lava {
 /**
  * @brief Forward shading
  */
-struct forward_shading : id_obj {
+struct forward_shading {
     /**
      * @brief Construct a new forward shading
      */

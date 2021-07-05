@@ -210,7 +210,7 @@ device::ptr device_manager::create(index pd) {
             return nullptr;
         }
 
-        physical_device = &instance::singleton().get_physical_devices().at(pd);
+        physical_device = instance::singleton().get_physical_devices().at(pd).get();
     }
 
     if (!physical_device->swapchain_supported())

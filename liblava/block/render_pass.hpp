@@ -16,7 +16,7 @@ namespace lava {
 /**
  * @brief Render pass
  */
-struct render_pass : id_obj, target_callback {
+struct render_pass : entity {
     /// Shared pointer to render pass
     using ptr = std::shared_ptr<render_pass>;
 
@@ -202,6 +202,15 @@ struct render_pass : id_obj, target_callback {
         subpasses.at(subpass)->remove(pipeline);
     }
 
+    /**
+     * @brief Get the target callback
+     * 
+     * @return target_callback const&    Target callback
+     */
+    target_callback const& get_target_callback() const {
+        return callback;
+    }
+
 private:
     /// Vulkan device
     device_ptr device = nullptr;
@@ -226,6 +235,9 @@ private:
 
     /// Rectangle area
     rect area;
+
+    /// Target callback
+    target_callback callback;
 
     /**
      * @brief Begin the render pass

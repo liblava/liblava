@@ -238,7 +238,7 @@ void app::destroy_target() {
 
 //-----------------------------------------------------------------------------
 void app::handle_input() {
-    input.add(&imgui);
+    input.add(&imgui.get_input_callback());
 
     input.key.listeners.add([&](key_event::ref event) {
         if (imgui.capture_keyboard()) {
@@ -301,7 +301,7 @@ void app::handle_input() {
     });
 
     add_run_end([&]() {
-        input.remove(&imgui);
+        input.remove(&imgui.get_input_callback());
     });
 }
 

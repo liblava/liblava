@@ -49,7 +49,7 @@ struct mesh_data {
 /**
  * @brief Mesh
  */
-struct mesh : id_obj {
+struct mesh : entity {
     /// Shared pointer to mesh
     using ptr = std::shared_ptr<mesh>;
 

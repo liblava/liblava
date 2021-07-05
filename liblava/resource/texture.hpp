@@ -39,7 +39,7 @@ struct file_format {
 /**
  * @brief Texture
  */
-struct texture : id_obj {
+struct texture : entity {
     /// Shared pointer to texture
     using ptr = std::shared_ptr<texture>;
 

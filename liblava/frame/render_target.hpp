@@ -16,7 +16,7 @@ namespace lava {
 /**
  * @brief Render target
  */
-struct render_target : id_obj {
+struct render_target : entity {
     /// Shared pointer to render target
     using ptr = std::shared_ptr<render_target>;
 
@@ -161,7 +161,7 @@ struct render_target : id_obj {
      * 
      * @param callback    Target callback
      */
-    void add_callback(target_callback* callback) {
+    void add_callback(target_callback::cptr callback) {
         target_callbacks.push_back(callback);
     }
 
@@ -170,7 +170,7 @@ struct render_target : id_obj {
      * 
      * @param callback    Target callback
      */
-    void remove_callback(target_callback* callback) {
+    void remove_callback(target_callback::cptr callback) {
         remove(target_callbacks, callback);
     }
 
@@ -206,7 +206,7 @@ private:
     swapchain::callback swapchain_callback;
 
     /// List of target callbacks
-    target_callback::list target_callbacks;
+    target_callback::clist target_callbacks;
 };
 
 /**

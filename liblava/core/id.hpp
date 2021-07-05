@@ -355,34 +355,34 @@ private:
 };
 
 /**
- * @brief Id object
+ * @brief Entity
  */
-struct id_obj : interface {
+struct entity : no_copy_no_move, interface {
     /**
-     * @brief Construct a new id object
+     * @brief Construct a new entity
      */
-    id_obj()
-    : obj_id(ids::next()) {}
+    entity()
+    : entity_id(ids::next()) {}
 
     /**
-     * @brief Destroy the id object
+     * @brief Destroy the entity
      */
-    ~id_obj() {
-        ids::free(obj_id);
+    ~entity() {
+        ids::free(entity_id);
     }
 
     /**
-     * @brief Get the id of object
+     * @brief Get the id of entity
      * 
-     * @return id::ref    Object id
+     * @return id::ref    Entity id
      */
     id::ref get_id() const {
-        return obj_id;
+        return entity_id;
     }
 
 private:
-    /// Object id
-    id obj_id;
+    /// Entity id
+    id entity_id;
 };
 
 /**

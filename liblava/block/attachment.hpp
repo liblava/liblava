@@ -14,7 +14,7 @@ namespace lava {
 /**
  * @brief Attachment description
  */
-struct attachment : id_obj {
+struct attachment {
     /// Shared pointer to attachment
     using ptr = std::shared_ptr<attachment>;
 

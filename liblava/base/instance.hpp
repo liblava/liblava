@@ -130,7 +130,7 @@ struct instance : no_copy_no_move {
      * @return physical_device::ref    Physcial device
      */
     static physical_device::ref get_first_physical_device() {
-        return singleton().physical_devices.front();
+        return *singleton().physical_devices.front().get();
     }
 
     /**

@@ -14,7 +14,7 @@ namespace lava {
 /**
  * @brief Subpass
  */
-struct subpass : id_obj {
+struct subpass : entity {
     /// Shared pointer to subpass
     using ptr = std::shared_ptr<subpass>;
 
@@ -239,7 +239,7 @@ subpass::ptr make_subpass(VkPipelineBindPoint pipeline_bind_point = VK_PIPELINE_
 /**
  * @brief Subpass dependency
  */
-struct subpass_dependency : id_obj {
+struct subpass_dependency {
     /// Shared pointer to subpass dependency
     using ptr = std::shared_ptr<subpass_dependency>;
 

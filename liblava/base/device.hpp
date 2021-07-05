@@ -22,7 +22,7 @@ using physical_device_cptr = physical_device const*;
 /**
  * @brief Vulkan device
  */
-struct device : device_table {
+struct device : device_table, entity {
     /// Shared pointer to a device
     using ptr = std::shared_ptr<device>;
 

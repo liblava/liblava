@@ -14,7 +14,7 @@ namespace lava {
 /**
  * @brief Pipeline layout
  */
-struct pipeline_layout : id_obj {
+struct pipeline_layout : entity {
     /// Shared pointer to pipeline layout
     using ptr = std::shared_ptr<pipeline_layout>;
 

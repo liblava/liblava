@@ -14,7 +14,7 @@ namespace lava {
 /**
  * @brief Swaphchain
  */
-struct swapchain : id_obj {
+struct swapchain : entity {
     /**
      * @brief Create a new swapchain
      * 

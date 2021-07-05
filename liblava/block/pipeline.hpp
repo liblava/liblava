@@ -17,7 +17,7 @@ constexpr name _main_ = "main";
 /**
  * @brief Pipeline
  */
-struct pipeline : id_obj {
+struct pipeline : entity {
     /// Shared pointer to pipeline
     using ptr = std::shared_ptr<pipeline>;
 

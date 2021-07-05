@@ -14,7 +14,7 @@ namespace lava {
 /**
  * @brief Device functions
  */
-struct device_table : id_obj, no_copy_no_move {
+struct device_table {
     /**
      * @brief Load device table
      */

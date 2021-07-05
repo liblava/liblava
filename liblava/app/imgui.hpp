@@ -29,7 +29,7 @@ constexpr name _imgui_file_ = "imgui.ini";
 /**
  * @brief ImGui integration
  */
-struct imgui : input_callback {
+struct imgui {
     /**
      * @brief Construct a new ImGui
      */
@@ -275,6 +275,15 @@ struct imgui : input_callback {
      */
     void convert_style_to_srgb();
 
+    /**
+     * @brief Get the input callback
+     * 
+     * @return input_callback const&    Input callback
+     */
+    input_callback const& get_input_callback() const {
+        return callback;
+    }
+
 private:
     /**
      * @brief Handle key event
@@ -397,6 +406,9 @@ private:
 
     /// Active state
     bool active = true;
+
+    /// Input callback
+    input_callback callback;
 };
 
 /**
