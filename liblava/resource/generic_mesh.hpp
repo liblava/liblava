@@ -67,7 +67,7 @@ struct generic_mesh_data {
  * @tparam T Input vertex struct
  */
 template<typename T = vertex>
-struct generic_mesh : id_obj {
+struct generic_mesh : entity {
     using ptr = std::shared_ptr<generic_mesh<T>>;
     using map = std::map<id, ptr>;
     using list = std::vector<ptr>;
