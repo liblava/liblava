@@ -1,16 +1,16 @@
 /**
  * @file         liblava/resource/primitives.hpp
- * @brief        Liblava primitive structs
+ * @brief        Primitives
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
 
-#include <vector>
 #include "liblava/core/math.hpp"
 
 namespace lava {
+
 /**
  * @brief Vertex
  */
@@ -24,10 +24,10 @@ struct vertex {
     /// Vertex color
     v4 color;
 
-    /// Vertex UV
+    /// Vertex uv
     v2 uv;
 
-    /// Vertex Normal
+    /// Vertex normal
     v3 normal;
 
     /**
@@ -53,4 +53,4 @@ enum class mesh_type : type {
     quad
 };
 
-}
+} // namespace lava
