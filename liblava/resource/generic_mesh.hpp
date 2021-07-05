@@ -1,6 +1,6 @@
 /**
  * @file         liblava/resource/generic_mesh.hpp
- * @brief        Generic vulkan mesh
+ * @brief        Generic mesh
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
@@ -28,17 +28,15 @@ struct generic_mesh_data {
     /**
      * @brief Move mesh data by offset
      *
-     * @tparam PosVecType Type of coordinate vector
      * @tparam PosType    Type of coordinate element
      *
      * @param offset      Position offset
-     * @param factor      Byte offset of coordinate vector within T
      */
-    template<typename PosVecType = lava::v3, typename PosType = float>
-    void move(std::array<PosType, 3> offset, size_t struct_pos_offset = 0) {
+    template<typename PosType = float>
+    void move(std::array<PosType, 3> offset) {
         for (T& vertex : vertices) {
-            for (size_t i = 0; i < 3; i++) {
-                (*((std::array<PosType, 3>*) (&vertex + struct_pos_offset)))[i] += offset[i];
+            for (auto i = 0u; i < 3; ++i) {
+                vertex.position[i] += offset[i];
             }
         }
     }
@@ -46,16 +44,12 @@ struct generic_mesh_data {
     /**
      * @brief Scale mesh data by factor
      *
-     * @tparam PosType  Type of coordinate element
-     *
      * @param factor    Position scaling factor
-     * @param factor    Byte offset of coordinate vector within T
      */
-    template<typename PosType = float>
-    void scale(PosType factor, size_t struct_pos_offset = 0) {
+    void scale(auto factor) {
         for (T& vertex : vertices) {
-            for (size_t i = 0; i < 3; i++) {
-                (*((std::array<PosType, 3>*) (&vertex + struct_pos_offset)))[i] *= factor;
+            for (auto i = 0u; i < 3; ++i) {
+                vertex.position[i] *= factor;
             }
         }
     }
@@ -64,7 +58,7 @@ struct generic_mesh_data {
 /**
  * @brief Temporary templated mesh
  *
- * @tparam T Input vertex struct
+ * @tparam T    Input vertex struct
  */
 template<typename T = vertex>
 struct generic_mesh : entity {
@@ -159,7 +153,6 @@ void generic_mesh<T>::destroy() {
     device = nullptr;
 }
 
-
 //-----------------------------------------------------------------------------
 template<typename T>
 bool generic_mesh<T>::reload() {
@@ -227,4 +220,4 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr device, mesh_typ
     return triangle;
 }
 
-}
+} // namespace lava
