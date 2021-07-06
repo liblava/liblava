@@ -208,9 +208,9 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
     case mesh_type::cube: {
         return_mesh->get_vertices().resize(8);
         return_mesh->get_indices().resize(36);
-        for (int i =- 1; i < 1; i += 2) {
-            for (int j =- 1; j < 1; j += 2) {
-                for (int k =- 1; k < 1; k += 2) {
+        for (PosType i =- 1; i < 1; i += 2) {
+            for (PosType j =- 1; j < 1; j += 2) {
+                for (PosType k =- 1; k < 1; k += 2) {
                     T vert;
                     vert.position = { i, j, k };
                     return_mesh->get_vertices().push_back(vert);
