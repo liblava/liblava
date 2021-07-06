@@ -573,6 +573,23 @@ message("=======================================================================
         set_property(TARGET lava-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
         set_property(TARGET lava-generic-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
+        message(">> shapes")
+
+        set(SHAPES_SHADER
+                res/shapes/vert.glsl
+                res/shapes/frag.glsl)
+
+        add_executable(lava-shapes
+                ${LIBLAVA_DEMO_DIR}/shapes.cpp
+                ${SHAPES_SHADERS})
+
+        source_group("Shader Files" FILES ${SHAPES_SHADERS})
+
+        set_target_properties(lava-shapes PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava-shapes lava::demo)
+
+        set_property(TARGET lava-shapes PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
         message(">> lava-lamp")
 
         set(LAMP_SHADERS
@@ -636,6 +653,7 @@ message("=======================================================================
         install(TARGETS
                 lava-triangle
                 lava-generic-triangle
+                lava-shapes
                 lava-lamp
                 lava-spawn
                 lava-light
