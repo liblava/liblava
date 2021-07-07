@@ -29,9 +29,7 @@ int main(int argc, char* argv[]) {
         return error::create_failed;
 
     // Initialize a cube.
-    // mesh::ptr cube;
-    // cube = create_mesh(app.device, mesh_type::cube);
-    generic_mesh<>::ptr cube;
+    generic_mesh<lava::vertex>::ptr cube;
     cube = generic_create_mesh(app.device, mesh_type::cube);
     if (!cube)
         return error::create_failed;

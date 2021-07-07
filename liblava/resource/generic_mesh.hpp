@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <liblava/resource/buffer.hpp>
 #include <liblava/resource/primitive.hpp>
 
@@ -203,14 +204,16 @@ bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 template<typename T, typename PosType>
 std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
                                                      mesh_type type) {
+    std::cout << "make ";
     auto return_mesh = generic_make_mesh<T>();
     switch (type) {
-    case mesh_type::cube: {
-        return_mesh->get_vertices().resize(8);
-        return_mesh->get_indices().resize(36);
-        for (PosType i =- 1; i < 1; i += 2) {
-            for (PosType j =- 1; j < 1; j += 2) {
-                for (PosType k =- 1; k < 1; k += 2) {
+    case mesh_type::cube:
+        std::cout << "Cube ";
+        return_mesh->get_vertices().reserve(8);
+        return_mesh->get_indices().reserve(36);
+        for (PosType i = -1; i <= 1; i += 2) {
+            for (PosType j = -1; j <= 1; j += 2) {
+                for (PosType k = -1; k <= 1; k += 2) {
                     T vert;
                     vert.position = { i, j, k };
                     return_mesh->get_vertices().push_back(vert);
@@ -218,31 +221,33 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
             }
         }
 
+        // clang-format off
         // Clockwise winding order.
-        return_mesh->get_indices()={
+        return_mesh->get_indices() = {
             // Left
-            0,1,2,
-            2,1,3,
+            0, 1, 2,
+            2, 1, 3,
             // Right
-            4,5,6,
-            6,5,7,
+            4, 5, 6,
+            6, 5, 7,
             // Top
-            0,1,4,
-            4,1,5,
+            0, 1, 4,
+            4, 1, 5,
             // Bottom
-            2,3,6,
-            6,3,7,
+            2, 3, 6,
+            6, 3, 7,
             // Back
-            3,1,5,
-            5,7,3,
+            3, 1, 5,
+            5, 7, 3,
             // Front
-            2,0,4,
-            4,6,2,
+            2, 0, 4,
+            4, 6, 2,
         };
-    }
-    break;
+        // clang-format on
+        std::cout << " CUBE done";
+        break;
 
-    case mesh_type::triangle: {
+    case mesh_type::triangle:
         T vert_one;
         vert_one.position = { 1, 1, 0 };
         T vert_two;
@@ -252,8 +257,7 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
         return_mesh->get_vertices().push_back(vert_one);
         return_mesh->get_vertices().push_back(vert_two);
         return_mesh->get_vertices().push_back(vert_three);
-    }
-    break;
+        break;
 
     case mesh_type::quad:
         break;
@@ -263,8 +267,11 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
         return nullptr;
     }
 
-    if (!return_mesh->create(device))
+    if (!return_mesh->create(device)) {
+        std::cout << " FAIL";
         return nullptr;
+    }
+    std::cout << " SUCCEED";
     return return_mesh;
 }
 
