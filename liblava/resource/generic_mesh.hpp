@@ -263,27 +263,32 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
                     // Right
                     { 0, 1 }, { 0, 0 }, { 1, 0 }, { 1, 1 },
                     // Bottom
-                    { 1, 0 }, { 0, 0 }, { 0, 1 }, { 1, 1},
+                    { 1, 0 }, { 0, 0 }, { 0, 1 }, { 1, 1 },
                     // Top
                     { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
                 }};
                 // clang-format on
 
-                // NOTE: This extra for loop is required for using uv's.
+                // NOTE: This redundant loop is required for using uv's.
                 // uvs[] cannot be uninitialized in the outer scope
                 // unless -fpermissive is passed to the compiler.
+                // Revisit this in the future?
                 for (size_t i = 0; i < 24; i++) {
                     T vert;
                     memcpy(&vert.position, &positions[i], sizeof(PosType));
                     memcpy(&vert.normal, &normals[i / 6], sizeof(NormType));
                     memcpy(&vert.uv, &uvs[i], sizeof(UVType));
+                    return_mesh->get_vertices().push_back(vert);
+                    // return_mesh->get_vertices()[i] = vert;
                 }
-            }
-
-            for (size_t i = 0; i < 24; i++) {
-                T vert;
-                memcpy(&vert.position, &positions[i], sizeof(PosType));
-                memcpy(&vert.normal, &normals[i / 6], sizeof(NormType));
+            } else {
+                for (size_t i = 0; i < 24; i++) {
+                    T vert;
+                    memcpy(&vert.position, &positions[i], sizeof(PosType));
+                    memcpy(&vert.normal, &normals[i / 6], sizeof(NormType));
+                    return_mesh->get_vertices().push_back(vert);
+                    // return_mesh->get_vertices()[i] = vert;
+                }
             }
         } else {
             // A simpler cube can be made if there are no normals.
