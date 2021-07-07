@@ -5,6 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include <imgui.h>
 #include <demo.hpp>
 
 using namespace lava;
@@ -35,18 +36,37 @@ int main(int argc, char* argv[]) {
                                        VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
         return error::create_failed;
 
-    // Initialize a cube.
+    // Initialize meshes.
+    std::array<generic_mesh<>::ptr, 3> meshes;
+
+    generic_mesh<>::ptr triangle;
+    triangle = generic_create_mesh(app.device, mesh_type::triangle);
+    if (!triangle)
+        return error::create_failed;
+    meshes[0] = triangle;
+
+    generic_mesh<>::ptr quad;
+    quad = generic_create_mesh(app.device, mesh_type::quad);
+    if (!quad)
+        return error::create_failed;
+    meshes[1] = quad;
+
     generic_mesh<>::ptr cube;
     cube = generic_create_mesh(app.device, mesh_type::cube);
     if (!cube)
         return error::create_failed;
-    for (auto& vert : cube->get_data().vertices) {
-        for (size_t i = 0; i < 3; i++) {
-            vert.color = v4(1.f, 0.f, 0.f, 1.f);
+    meshes[2] = cube;
+
+    // Color all meshes red.
+    for (auto& shape : meshes) {
+        for (auto& vert : shape->get_data().vertices) {
+            for (size_t i = 0; i < 3; i++) {
+                vert.color = v4(1.f, 0.f, 0.f, 1.f);
+            }
         }
+        if (!shape->reload())
+            return error::create_failed;
     }
-    if (!cube->reload())
-        return error::create_failed;
 
     // A descriptor is needed for representing the world-space matrix.
     descriptor::ptr descriptor_layout;
@@ -61,9 +81,6 @@ int main(int argc, char* argv[]) {
         pipeline->add_color_blend_attachment();
         pipeline->set_depth_test_and_write();
         pipeline->set_depth_compare_op(VK_COMPARE_OP_LESS_OR_EQUAL);
-        pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
-            cube->bind_draw(cmd_buf);
-        };
 
         // All shapes use the same simple shaders.
         if (!pipeline->add_shader(file_data("shapes/vert.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
@@ -127,11 +144,6 @@ int main(int argc, char* argv[]) {
         app.device->vkUpdateDescriptorSets({ write_desc_ubo_camera, write_desc_ubo_world,
                                              write_desc_ubo_rotation });
 
-        pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
-            pipeline_layout->bind(cmd_buf, descriptor_set);
-            cube->bind_draw(cmd_buf);
-        };
-
         render_pass::ptr render_pass = app.shading.get_pass();
 
         if (!pipeline->create(render_pass->get()))
@@ -152,22 +164,49 @@ int main(int argc, char* argv[]) {
         pipeline_layout->destroy();
     };
 
+    mesh_type current_mesh = mesh_type::cube;
+
+    app.imgui.on_draw = [&]() {
+        ImGui::Begin(app.get_name());
+        if (ImGui::Button("Triangle")) {
+            current_mesh = mesh_type::triangle;
+        }
+        if (ImGui::Button("Quad")) {
+            current_mesh = mesh_type::quad;
+        }
+        if (ImGui::Button("Cube")) {
+            current_mesh = mesh_type::cube;
+        }
+        if (ImGui::Button("None")) {
+            current_mesh = mesh_type::none;
+        }
+        app.draw_about();
+        ImGui::End();
+    };
+
     app.on_update = [&](delta dt) {
         rotation_vector += v3{ 0, 1.f, 0 } * dt;
         memcpy(as_ptr(rotation_buffer.get_mapped_data()), &rotation_vector, sizeof(rotation_vector));
+
+        pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
+            switch (current_mesh) {
+            case mesh_type::cube:
+                cube->bind_draw(cmd_buf);
+                break;
+            case mesh_type::quad:
+                quad->bind_draw(cmd_buf);
+            case mesh_type::triangle:
+                triangle->bind_draw(cmd_buf);
+            case mesh_type::none:
+                return false;
+            }
+            pipeline_layout->bind(cmd_buf, descriptor_set);
+            return true;
+        };
+
         if (app.camera.activated()) {
             app.camera.update_view(dt, app.input.get_mouse_position());
         }
-
-        // if (update_spawn_matrix) {
-        //     spawn_model = glm::translate(mat4(1.f), spawn_position);
-        //     spawn_model = glm::rotate(spawn_model, glm::radians(spawn_rotation.x), v3(1.f, 1.f, 0.f));
-        //     spawn_model = glm::rotate(spawn_model, glm::radians(spawn_rotation.y), v3(0.f, 1.f, 0.f));
-        //     spawn_model = glm::rotate(spawn_model, glm::radians(spawn_rotation.z), v3(0.f, 0.f, 1.f));
-        //     spawn_model = glm::scale(spawn_model, spawn_scale);
-        //     memcpy(as_ptr(spawn_model_buffer.get_mapped_data()), &spawn_model, sizeof(mat4));
-        //     update_spawn_matrix = false;
-        // }
 
         return true;
     };

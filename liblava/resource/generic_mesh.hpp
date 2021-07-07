@@ -204,11 +204,9 @@ bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 template<typename T, typename PosType>
 std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
                                                      mesh_type type) {
-    std::cout << "make ";
     auto return_mesh = generic_make_mesh<T>();
     switch (type) {
     case mesh_type::cube: {
-        std::cout << "Cube ";
         return_mesh->get_vertices().reserve(8);
         return_mesh->get_indices().reserve(36);
         for (PosType i = -1; i <= 1; i += 2) {
@@ -244,7 +242,6 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
             4, 6, 2,
         };
         // clang-format on
-        std::cout << " CUBE done";
         break;
     }
 
@@ -292,10 +289,8 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
     }
 
     if (!return_mesh->create(device)) {
-        std::cout << " FAIL";
         return nullptr;
     }
-    std::cout << " SUCCEED";
     return return_mesh;
 }
 
