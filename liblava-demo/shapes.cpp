@@ -17,19 +17,26 @@ int main(int argc, char* argv[]) {
         return error::not_ready;
 
     // Initialize camera.
-    app.camera.position = v3(0.832f, 0.036f, 2.304f);
-    app.camera.rotation = v3(8.42f, -29.73f, 0.f);
+    app.camera.position = v3(0.f, -2.f, 4.f);
+    app.camera.rotation = v3(-25.f, 0.f, 0.f); // Degrees
 
     // All shapes will share the same world-space matrix in this example.
     mat4 world_matrix = glm::identity<mat4>();
+    v3 rotation_vector = v3{ 0, 0, 0 };
 
     buffer world_matrix_buffer;
-    if (!world_matrix_buffer.create_mapped(app.device, &world_matrix, sizeof(mat4),
+    if (!world_matrix_buffer.create_mapped(app.device, &world_matrix, sizeof(world_matrix),
                                            VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
         return error::create_failed;
 
+    // All shapes will share the same rotation value.
+    buffer rotation_buffer;
+    if (!rotation_buffer.create_mapped(app.device, &rotation_vector, sizeof(rotation_vector),
+                                       VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
+        return error::create_failed;
+
     // Initialize a cube.
-    generic_mesh<lava::vertex>::ptr cube;
+    generic_mesh<>::ptr cube;
     cube = generic_create_mesh(app.device, mesh_type::cube);
     if (!cube)
         return error::create_failed;
@@ -42,7 +49,7 @@ int main(int argc, char* argv[]) {
         return error::create_failed;
 
     // A descriptor is needed for representing the world-space matrix.
-    descriptor::ptr descriptor;
+    descriptor::ptr descriptor_layout;
     descriptor::pool::ptr descriptor_pool;
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 
@@ -73,24 +80,26 @@ int main(int argc, char* argv[]) {
 
         // Descriptor sets must be made to transfer the shapes' world matrix and the camera's
         // view matrix to the physical device.
-        descriptor = make_descriptor();
-        descriptor->add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
-        descriptor->add_binding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
-        if (!descriptor->create(app.device))
+        descriptor_layout = make_descriptor();
+        descriptor_layout->add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                                       VK_SHADER_STAGE_VERTEX_BIT); // View matrix
+        descriptor_layout->add_binding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                                       VK_SHADER_STAGE_VERTEX_BIT); // World matrix
+        descriptor_layout->add_binding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                                       VK_SHADER_STAGE_VERTEX_BIT); // Rotation vector
+        if (!descriptor_layout->create(app.device))
             return false;
         descriptor_pool = make_descriptor_pool();
-        if (!descriptor_pool->create(app.device, { { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2 } }))
+        if (!descriptor_pool->create(app.device, { { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 3 } }))
             return false;
 
         pipeline_layout = make_pipeline_layout();
-        pipeline_layout->add(descriptor);
+        pipeline_layout->add(descriptor_layout);
         if (!pipeline_layout->create(app.device))
             return false;
-        // if (!pipeline_layout->create(app.device))
-        //     return false;
         pipeline->set_layout(pipeline_layout);
 
-        descriptor_set = descriptor->allocate(descriptor_pool->get());
+        descriptor_set = descriptor_layout->allocate(descriptor_pool->get());
         VkWriteDescriptorSet const write_desc_ubo_camera{
             .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
             .dstSet = descriptor_set,
@@ -107,7 +116,16 @@ int main(int argc, char* argv[]) {
             .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
             .pBufferInfo = world_matrix_buffer.get_descriptor_info(),
         };
-        app.device->vkUpdateDescriptorSets({ write_desc_ubo_camera, write_desc_ubo_world });
+        VkWriteDescriptorSet const write_desc_ubo_rotation{
+            .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+            .dstSet = descriptor_set,
+            .dstBinding = 2,
+            .descriptorCount = 1,
+            .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+            .pBufferInfo = rotation_buffer.get_descriptor_info(),
+        };
+        app.device->vkUpdateDescriptorSets({ write_desc_ubo_camera, write_desc_ubo_world,
+                                             write_desc_ubo_rotation });
 
         pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
             pipeline_layout->bind(cmd_buf, descriptor_set);
@@ -127,14 +145,16 @@ int main(int argc, char* argv[]) {
     };
 
     app.on_destroy = [&]() {
-        descriptor->free(descriptor_set, descriptor_pool->get());
+        descriptor_layout->free(descriptor_set, descriptor_pool->get());
         descriptor_pool->destroy();
-        descriptor->destroy();
+        descriptor_layout->destroy();
         pipeline->destroy();
         pipeline_layout->destroy();
     };
 
     app.on_update = [&](delta dt) {
+        rotation_vector += v3{ 0, 1.f, 0 } * dt;
+        memcpy(as_ptr(rotation_buffer.get_mapped_data()), &rotation_vector, sizeof(rotation_vector));
         if (app.camera.activated()) {
             app.camera.update_view(dt, app.input.get_mouse_position());
         }
