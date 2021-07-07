@@ -164,15 +164,21 @@ bool generic_mesh<T>::reload() {
     return create(dev, mapped, memory_usage);
 }
 
+//-----------------------------------------------------------------------------
 template<typename T>
 inline std::shared_ptr<generic_mesh<T>> generic_make_mesh() {
     return std::make_shared<generic_mesh<T>>();
 }
 
 //-----------------------------------------------------------------------------
-template<typename T = lava::vertex, typename PosType = float>
-std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_type type);
+template<typename T = lava::vertex, typename PosType = float,
+         typename ColType = float, typename UVType = float, typename NormType = float>
+std::shared_ptr<generic_mesh<T>> generic_create_mesh(
+    device_ptr& device, mesh_type type,
+    size_t color_component_count = 4,
+    bool has_uv = true, bool has_normals = true);
 
+//-----------------------------------------------------------------------------
 template<typename T>
 bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
     device = d;
@@ -182,7 +188,10 @@ bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
     if (!data.vertices.empty()) {
         vertex_buffer = make_buffer();
 
-        if (!vertex_buffer->create(device, data.vertices.data(), sizeof(vertex) * data.vertices.size(), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, mapped, memory_usage)) {
+        if (!vertex_buffer->create(device, data.vertices.data(),
+                                   sizeof(vertex) * data.vertices.size(),
+                                   VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+                                   mapped, memory_usage)) {
             log()->error("create mesh vertex buffer");
             return false;
         }
@@ -191,7 +200,10 @@ bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
     if (!data.indices.empty()) {
         index_buffer = make_buffer();
 
-        if (!index_buffer->create(device, data.indices.data(), sizeof(ui32) * data.indices.size(), VK_BUFFER_USAGE_INDEX_BUFFER_BIT, mapped, memory_usage)) {
+        if (!index_buffer->create(device, data.indices.data(),
+                                  sizeof(ui32) * data.indices.size(),
+                                  VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
+                                  mapped, memory_usage)) {
             log()->error("create mesh index buffer");
             return false;
         }
@@ -201,9 +213,17 @@ bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T, typename PosType>
-std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
-                                                     mesh_type type) {
+template<typename T, typename PosType, typename ColType,
+         typename UVType, typename NormType>
+std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_type type,
+                                                     size_t color_component_count,
+                                                     bool has_uv, bool has_normals) {
+    auto set_color = [&](T& vert) {
+        for (size_t i = 0; i < color_component_count; i++) {
+            vert.color[i] = 1;
+        }
+    };
+
     auto return_mesh = generic_make_mesh<T>();
     switch (type) {
     case mesh_type::cube: {
@@ -214,6 +234,9 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
                 for (PosType k = -1; k <= 1; k += 2) {
                     T vert;
                     vert.position = { i, j, k };
+                    if (color_component_count > 0) {
+                        set_color(vert);
+                    }
                     return_mesh->get_vertices().push_back(vert);
                 }
             }
@@ -253,6 +276,11 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
         vert_two.position = { -1, 1, 0 };
         T vert_three;
         vert_three.position = { 0, -1, 0 };
+        if (color_component_count > 0) {
+            set_color(vert_one);
+            set_color(vert_two);
+            set_color(vert_three);
+        }
         return_mesh->get_vertices().push_back(vert_one);
         return_mesh->get_vertices().push_back(vert_two);
         return_mesh->get_vertices().push_back(vert_three);
@@ -270,6 +298,12 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
         vert_three.position = { -1, -1, 0 };
         T vert_four;
         vert_four.position = { 1, -1, 0 };
+        if (color_component_count > 0) {
+            set_color(vert_one);
+            set_color(vert_two);
+            set_color(vert_three);
+            set_color(vert_four);
+        }
         return_mesh->get_vertices().push_back(vert_one);
         return_mesh->get_vertices().push_back(vert_two);
         return_mesh->get_vertices().push_back(vert_three);
