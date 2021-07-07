@@ -231,6 +231,7 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
 
         if constexpr (HasNormals) {
             return_mesh->get_vertices().reserve(24);
+
             // clang-format off
             constexpr std::array<std::array<PosType, 3>, 24> positions = {{
                 // Front
@@ -275,19 +276,28 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
                 // Revisit this in the future?
                 for (size_t i = 0; i < 24; i++) {
                     T vert;
-                    memcpy(&vert.position, &positions[i], sizeof(PosType));
-                    memcpy(&vert.normal, &normals[i / 6], sizeof(NormType));
-                    memcpy(&vert.uv, &uvs[i], sizeof(UVType));
+                    // Setting these individually is required because they
+                    // could be opaque types sometimes.
+                    vert.position[0] = positions[i][0];
+                    vert.position[1] = positions[i][1];
+                    vert.position[2] = positions[i][2];
+                    vert.normal[0] = normals[i / 6][0];
+                    vert.normal[1] = normals[i / 6][1];
+                    vert.normal[2] = normals[i / 6][2];
+                    vert.uv[0] = uvs[i][0];
+                    vert.uv[1] = uvs[i][1];
                     return_mesh->get_vertices().push_back(vert);
-                    // return_mesh->get_vertices()[i] = vert;
                 }
-            } else {
+            } else { // Does not have UV data
                 for (size_t i = 0; i < 24; i++) {
                     T vert;
-                    memcpy(&vert.position, &positions[i], sizeof(PosType));
-                    memcpy(&vert.normal, &normals[i / 6], sizeof(NormType));
+                    vert.position[0] = positions[i][0];
+                    vert.position[1] = positions[i][1];
+                    vert.position[2] = positions[i][2];
+                    vert.normal[0] = normals[i / 6][0];
+                    vert.normal[1] = normals[i / 6][1];
+                    vert.normal[2] = normals[i / 6][2];
                     return_mesh->get_vertices().push_back(vert);
-                    // return_mesh->get_vertices()[i] = vert;
                 }
             }
         } else {

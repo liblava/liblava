@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
                                        VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
         return error::create_failed;
 
-    // Initialize meshes.
+    // Initialize meshes. By default, these make lava::vertex vertices.
     std::array<generic_mesh<>::ptr, 3> meshes;
 
     generic_mesh<>::ptr triangle;
