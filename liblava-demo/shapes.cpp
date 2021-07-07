@@ -189,6 +189,7 @@ int main(int argc, char* argv[]) {
         memcpy(as_ptr(rotation_buffer.get_mapped_data()), &rotation_vector, sizeof(rotation_vector));
 
         pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
+            pipeline_layout->bind(cmd_buf, descriptor_set);
             switch (current_mesh) {
             case mesh_type::cube:
                 cube->bind_draw(cmd_buf);
@@ -200,7 +201,6 @@ int main(int argc, char* argv[]) {
             case mesh_type::none:
                 return false;
             }
-            pipeline_layout->bind(cmd_buf, descriptor_set);
             return true;
         };
 
