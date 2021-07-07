@@ -207,7 +207,7 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
     std::cout << "make ";
     auto return_mesh = generic_make_mesh<T>();
     switch (type) {
-    case mesh_type::cube:
+    case mesh_type::cube: {
         std::cout << "Cube ";
         return_mesh->get_vertices().reserve(8);
         return_mesh->get_indices().reserve(36);
@@ -246,8 +246,10 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
         // clang-format on
         std::cout << " CUBE done";
         break;
+    }
 
-    case mesh_type::triangle:
+    case mesh_type::triangle: {
+        return_mesh->get_vertices().reserve(3);
         T vert_one;
         vert_one.position = { 1, 1, 0 };
         T vert_two;
@@ -258,9 +260,31 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
         return_mesh->get_vertices().push_back(vert_two);
         return_mesh->get_vertices().push_back(vert_three);
         break;
+    }
 
-    case mesh_type::quad:
+    case mesh_type::quad: {
+        return_mesh->get_vertices().reserve(4);
+        return_mesh->get_indices().reserve(6);
+        T vert_one;
+        vert_one.position = { -1, 1, 0 };
+        T vert_two;
+        vert_two.position = { 1, 1, 0 };
+        T vert_three;
+        vert_three.position = { -1, -1, 0 };
+        T vert_four;
+        vert_four.position = { 1, -1, 0 };
+        return_mesh->get_vertices().push_back(vert_one);
+        return_mesh->get_vertices().push_back(vert_two);
+        return_mesh->get_vertices().push_back(vert_three);
+        return_mesh->get_vertices().push_back(vert_four);
+        // clang-format off
+        return_mesh->get_indices() = {
+            0, 1, 2,
+            2, 1, 3,
+        };
+        // clang-format on
         break;
+    }
 
     case mesh_type::none:
     default:
