@@ -213,13 +213,11 @@ bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T, typename PosType, typename ColType,
-         typename UVType, typename NormType>
-std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_type type,
-                                                     size_t color_component_count,
-                                                     bool has_uv, bool has_normals) {
-    auto set_color = [&](T& vert) {
-        for (size_t i = 0; i < color_component_count; i++) {
+template<typename T, typename PosType, typename ColType, size_t ColorComponentsCount,
+         typename UVType, bool HasUVs, typename NormType, bool HasNormals>
+std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_type type) {
+    auto set_color = [&](T & vert) constexpr {
+        for (size_t i = 0; i < ColorComponentsCount; i++) {
             vert.color[i] = 1;
         }
     };
@@ -227,17 +225,48 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_ty
     auto return_mesh = generic_make_mesh<T>();
     switch (type) {
     case mesh_type::cube: {
-        return_mesh->get_vertices().reserve(8);
+        if constexpr (HasNormals) {
+            return_mesh->get_vertices().reserve(24);
+        } else {
+            return_mesh->get_vertices().reserve(8);
+        }
         return_mesh->get_indices().reserve(36);
-        for (PosType i = -1; i <= 1; i += 2) {
-            for (PosType j = -1; j <= 1; j += 2) {
-                for (PosType k = -1; k <= 1; k += 2) {
-                    T vert;
-                    vert.position = { i, j, k };
-                    if (color_component_count > 0) {
-                        set_color(vert);
+        if constexpr (HasNormals) {
+            // Front, back, left, right, bottom, and top normals, in that order.
+            // clang-format off
+            constexpr std::array<std::array<NormType, 3>, 6> normals = { { 0, 0, 1 },  { 0, 0, -1 },
+                                                                              { -1, 0, 0 }, { 1, 0, 0 },
+                                                                              { 0, -1, 0 }, { 0, 1, 0 }, };
+            if constexpr (HasUVs) {
+                constexpr std::array<std::array<UVType, 2>, 24> uvs = {
+                    // Front
+                    { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
+                    // Back
+                    { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, 0 },
+                    // Left
+                    { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
+                    // Right
+                    { 0, 1 }, { 0, 0 }, { 1, 0 }, { 1, 1 },
+                    // Bottom
+                    { 1, 0 }, { 0, 0 }, { 0, 1 }, { 1, 1},
+                    // Top
+                    { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
+                };
+            }
+            // clang-format on
+        } else {
+            // A simpler cube can be made if there are no normals.
+            // TODO: There should be a way to evaluate these loops at compile-time.
+            for (PosType i = -1; i <= 1; i += 2) {
+                for (PosType j = -1; j <= 1; j += 2) {
+                    for (PosType k = -1; k <= 1; k += 2) {
+                        T vert;
+                        vert.position = { i, j, k };
+                        if constexpr (ColorComponentsCount > 0) {
+                            set_color(vert);
+                        }
+                        return_mesh->get_vertices().push_back(vert);
                     }
-                    return_mesh->get_vertices().push_back(vert);
                 }
             }
         }
@@ -264,6 +293,7 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_ty
             2, 0, 4,
             4, 6, 2,
         };
+
         // clang-format on
         break;
     }
