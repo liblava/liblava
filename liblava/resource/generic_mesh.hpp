@@ -172,11 +172,11 @@ inline std::shared_ptr<generic_mesh<T>> generic_make_mesh() {
 
 //-----------------------------------------------------------------------------
 template<typename T = lava::vertex, typename PosType = float,
-         typename ColType = float, typename UVType = float, typename NormType = float>
-std::shared_ptr<generic_mesh<T>> generic_create_mesh(
-    device_ptr& device, mesh_type type,
-    size_t color_component_count = 4,
-    bool has_uv = true, bool has_normals = true);
+         typename NormType = float, bool HasNormals = true,
+         typename ColType = float, size_t ColorComponentsCount = 3,
+         typename UVType = float, bool HasUVs = true>
+std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
+                                                     mesh_type type);
 
 //-----------------------------------------------------------------------------
 template<typename T>
@@ -213,9 +213,11 @@ bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T, typename PosType, typename ColType, size_t ColorComponentsCount,
-         typename UVType, bool HasUVs, typename NormType, bool HasNormals>
-std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_type type) {
+template<typename T, typename PosType, typename NormType, bool HasNormals,
+         typename ColType, size_t ColorComponentsCount, typename UVType,
+         bool HasUVs>
+std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
+                                                     mesh_type type) {
     auto set_color = [&](T & vert) constexpr {
         for (size_t i = 0; i < ColorComponentsCount; i++) {
             vert.color[i] = 1;
@@ -225,20 +227,33 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_ty
     auto return_mesh = generic_make_mesh<T>();
     switch (type) {
     case mesh_type::cube: {
+        // return_mesh->get_indices().reserve(36);
+
         if constexpr (HasNormals) {
             return_mesh->get_vertices().reserve(24);
-        } else {
-            return_mesh->get_vertices().reserve(8);
-        }
-        return_mesh->get_indices().reserve(36);
-        if constexpr (HasNormals) {
-            // Front, back, left, right, bottom, and top normals, in that order.
             // clang-format off
-            constexpr std::array<std::array<NormType, 3>, 6> normals = { { 0, 0, 1 },  { 0, 0, -1 },
-                                                                              { -1, 0, 0 }, { 1, 0, 0 },
-                                                                              { 0, -1, 0 }, { 0, 1, 0 }, };
+            constexpr std::array<std::array<PosType, 3>, 24> positions = {{
+                // Front
+                { 1, 1, 1 }, { -1, 1, 1}, { -1, -1, 1 }, { 1, -1, 1 },
+                // Back
+                { 1, 1, -1 }, { -1, 1, -1 }, { -1, -1, -1 }, { 1, -1, -1 },
+                // Left
+                { -1, 1, 1 }, { -1, 1, -1 }, { -1, -1, -1 }, { -1, -1, 1 },
+                // Right
+                { 1, 1, 1 }, { 1, -1, 1 }, { 1, -1, -1 }, { 1, 1, -1 },
+                // Bottom
+                { 1, 1, 1 }, { -1, 1, 1 }, { -1, 1, -1 }, { 1, 1, -1 },
+                // Top
+                { 1, -1, 1 }, { -1, -1, 1 }, { -1, -1, -1 }, { 1, -1, -1 },
+            }};
+
+            // Front, back, left, right, bottom, and top normals, in that order.
+            constexpr std::array<std::array<NormType, 3>, 6> normals = {{ { 0, 0, 1 },  { 0, 0, -1 },
+                                                                         { -1, 0, 0 }, { 1, 0, 0 },
+                                                                         { 0, -1, 0 }, { 0, 1, 0 }, }};
+
             if constexpr (HasUVs) {
-                constexpr std::array<std::array<UVType, 2>, 24> uvs = {
+                constexpr std::array<std::array<UVType, 2>, 24> uvs = {{
                     // Front
                     { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
                     // Back
@@ -251,11 +266,29 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_ty
                     { 1, 0 }, { 0, 0 }, { 0, 1 }, { 1, 1},
                     // Top
                     { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
-                };
+                }};
+                // clang-format on
+
+                // NOTE: This extra for loop is required for using uv's.
+                // uvs[] cannot be uninitialized in the outer scope
+                // unless -fpermissive is passed to the compiler.
+                for (size_t i = 0; i < 24; i++) {
+                    T vert;
+                    memcpy(&vert.position, &positions[i], sizeof(PosType));
+                    memcpy(&vert.normal, &normals[i / 6], sizeof(NormType));
+                    memcpy(&vert.uv, &uvs[i], sizeof(UVType));
+                }
             }
-            // clang-format on
+
+            for (size_t i = 0; i < 24; i++) {
+                T vert;
+                memcpy(&vert.position, &positions[i], sizeof(PosType));
+                memcpy(&vert.normal, &normals[i / 6], sizeof(NormType));
+            }
         } else {
             // A simpler cube can be made if there are no normals.
+            return_mesh->get_vertices().reserve(8);
+            return_mesh->get_indices().reserve(36);
             // TODO: There should be a way to evaluate these loops at compile-time.
             for (PosType i = -1; i <= 1; i += 2) {
                 for (PosType j = -1; j <= 1; j += 2) {
@@ -269,32 +302,32 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_ty
                     }
                 }
             }
+
+            // clang-format off
+            // Clockwise winding order.
+            return_mesh->get_indices() = {
+                // Left
+                0, 1, 2,
+                2, 1, 3,
+                // Right
+                4, 5, 6,
+                6, 5, 7,
+                // Top
+                0, 1, 4,
+                4, 1, 5,
+                // Bottom
+                2, 3, 6,
+                6, 3, 7,
+                // Back
+                3, 1, 5,
+                5, 7, 3,
+                // Front
+                2, 0, 4,
+                4, 6, 2,
+            };
+            // clang-format on
         }
 
-        // clang-format off
-        // Clockwise winding order.
-        return_mesh->get_indices() = {
-            // Left
-            0, 1, 2,
-            2, 1, 3,
-            // Right
-            4, 5, 6,
-            6, 5, 7,
-            // Top
-            0, 1, 4,
-            4, 1, 5,
-            // Bottom
-            2, 3, 6,
-            6, 3, 7,
-            // Back
-            3, 1, 5,
-            5, 7, 3,
-            // Front
-            2, 0, 4,
-            4, 6, 2,
-        };
-
-        // clang-format on
         break;
     }
 
@@ -306,7 +339,7 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_ty
         vert_two.position = { -1, 1, 0 };
         T vert_three;
         vert_three.position = { 0, -1, 0 };
-        if (color_component_count > 0) {
+        if constexpr (ColorComponentsCount > 0) {
             set_color(vert_one);
             set_color(vert_two);
             set_color(vert_three);
@@ -328,7 +361,7 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device, mesh_ty
         vert_three.position = { -1, -1, 0 };
         T vert_four;
         vert_four.position = { 1, -1, 0 };
-        if (color_component_count > 0) {
+        if constexpr (ColorComponentsCount > 0) {
             set_color(vert_one);
             set_color(vert_two);
             set_color(vert_three);
