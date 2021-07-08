@@ -54,19 +54,13 @@ int main(int argc, char* argv[]) {
     generic_mesh<>::ptr cube;
     // This cube definition does not have normals:
     // cube = generic_create_mesh<lava::vertex, float, void, false>(app.device, mesh_type::cube);
-    // This cube definition has normals:
+    // This cube definition does have normals:
     cube = generic_create_mesh(app.device, mesh_type::cube);
     if (!cube)
         return error::create_failed;
     meshes[2] = cube;
 
-    // Color all meshes red.
     for (auto& shape : meshes) {
-        for (auto& vert : shape->get_data().vertices) {
-            for (size_t i = 0; i < 3; i++) {
-                vert.color = v4(1.f, 0.f, 0.f, 1.f);
-            }
-        }
         if (!shape->reload())
             return error::create_failed;
     }

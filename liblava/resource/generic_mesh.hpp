@@ -173,7 +173,7 @@ inline std::shared_ptr<generic_mesh<T>> generic_make_mesh() {
 //-----------------------------------------------------------------------------
 template<typename T = lava::vertex, typename PosType = float,
          typename NormType = float, bool HasNormals = true,
-         typename ColType = float, size_t ColorComponentsCount = 3,
+         typename ColType = float, size_t ColorComponentsCount = 4,
          typename UVType = float, bool HasUVs = true>
 std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
                                                      mesh_type type);
@@ -329,9 +329,6 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
                     for (PosType k = -1; k <= 1; k += 2) {
                         T vert;
                         vert.position = { i, j, k };
-                        if constexpr (ColorComponentsCount > 0) {
-                            set_color(vert);
-                        }
                         return_mesh->get_vertices().push_back(vert);
                     }
                 }
@@ -362,6 +359,12 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
             // clang-format on
         }
 
+        if constexpr (ColorComponentsCount > 0) {
+            for (auto& vert : return_mesh->get_vertices()) {
+                set_color(vert);
+            }
+        }
+
         break;
     }
 
@@ -377,6 +380,11 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
             set_color(vert_one);
             set_color(vert_two);
             set_color(vert_three);
+        }
+        if constexpr (HasNormals) {
+            vert_one.normal = { 1, 1, 0 };
+            vert_two.normal = { -1, 1, 0 };
+            vert_three.normal = { 0, -1, 0 };
         }
         return_mesh->get_vertices().push_back(vert_one);
         return_mesh->get_vertices().push_back(vert_two);
@@ -400,6 +408,12 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
             set_color(vert_two);
             set_color(vert_three);
             set_color(vert_four);
+        }
+        if constexpr (HasNormals) {
+            vert_one.normal = { 1, 1, 0 };
+            vert_two.normal = { -1, 1, 0 };
+            vert_three.normal = { -1, -1, 0 };
+            vert_four.normal = { 1, -1, 0 };
         }
         return_mesh->get_vertices().push_back(vert_one);
         return_mesh->get_vertices().push_back(vert_two);
