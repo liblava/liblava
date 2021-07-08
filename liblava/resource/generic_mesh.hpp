@@ -165,7 +165,7 @@ bool generic_mesh<T>::reload() {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T>
+template<typename T = lava::vertex>
 inline std::shared_ptr<generic_mesh<T>> generic_make_mesh() {
     return std::make_shared<generic_mesh<T>>();
 }
@@ -427,5 +427,7 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
     }
     return return_mesh;
 }
+
+using mesh = generic_mesh<>;
 
 } // namespace lava
