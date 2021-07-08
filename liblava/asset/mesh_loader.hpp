@@ -7,8 +7,7 @@
 
 #pragma once
 
-// #include <liblava/resource/mesh.hpp>
-#include <liblava/resource/generic_mesh.hpp>
+#include <liblava/resource/mesh.hpp>
 
 namespace lava {
 
