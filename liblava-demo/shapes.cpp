@@ -53,9 +53,9 @@ int main(int argc, char* argv[]) {
 
     generic_mesh<>::ptr cube;
     // This cube definition does not have normals:
-    cube = generic_create_mesh<lava::vertex, float, void, false>(app.device, mesh_type::cube);
+    // cube = generic_create_mesh<lava::vertex, float, void, false>(app.device, mesh_type::cube);
     // This cube definition has normals:
-    // cube = generic_create_mesh(app.device, mesh_type::cube);
+    cube = generic_create_mesh(app.device, mesh_type::cube);
     if (!cube)
         return error::create_failed;
     meshes[2] = cube;
@@ -93,9 +93,11 @@ int main(int argc, char* argv[]) {
 
         pipeline->set_vertex_input_binding({ 0, sizeof(lava::vertex), VK_VERTEX_INPUT_RATE_VERTEX });
         // Only send position and color to shaders for this demo.
+        // TODO: Update this comment.
         pipeline->set_vertex_input_attributes({
-            { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(lava::vertex, position)) },
-            { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(lava::vertex, color)) },
+            { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(lava::vertex, position) },
+            { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, offsetof(lava::vertex, color) },
+            { 2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(lava::vertex, normal) },
         });
 
         // Descriptor sets must be made to transfer the shapes' world matrix and the camera's

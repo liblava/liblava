@@ -251,7 +251,7 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
             // Front, back, left, right, bottom, and top normals, in that order.
             constexpr std::array<std::array<NormType, 3>, 6> normals = {{ { 0, 0, 1 },  { 0, 0, -1 },
                                                                          { -1, 0, 0 }, { 1, 0, 0 },
-                                                                         { 0, -1, 0 }, { 0, 1, 0 }, }};
+                                                                         { 0, 1, 0 }, { 0, -1, 0 }, }};
 
             if constexpr (HasUVs) {
                 constexpr std::array<std::array<UVType, 2>, 24> uvs = {{
@@ -277,13 +277,15 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
                 for (size_t i = 0; i < 24; i++) {
                     T vert;
                     // Setting these individually is required because they
-                    // could be opaque types sometimes.
+                    // could be opaque types, so memcpy won't work, and
+                    // the types cannot be guaranteed to be trivially
+                    // castable to each other, so assignment won't work.
                     vert.position[0] = positions[i][0];
                     vert.position[1] = positions[i][1];
                     vert.position[2] = positions[i][2];
-                    vert.normal[0] = normals[i / 6][0];
-                    vert.normal[1] = normals[i / 6][1];
-                    vert.normal[2] = normals[i / 6][2];
+                    vert.normal[0] = normals[i / 4][0];
+                    vert.normal[1] = normals[i / 4][1];
+                    vert.normal[2] = normals[i / 4][2];
                     vert.uv[0] = uvs[i][0];
                     vert.uv[1] = uvs[i][1];
                     return_mesh->get_vertices().push_back(vert);

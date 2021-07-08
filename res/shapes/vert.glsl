@@ -2,6 +2,7 @@
 
 layout(location = 0) in vec3 inPos;
 layout(location = 1) in vec4 inColor;
+layout(location = 2) in vec3 inNormal;
 
 layout(binding = 0) uniform Ubo_Camera {
     mat4 projection;
@@ -20,6 +21,7 @@ layout(binding = 2) uniform Ubo_Rotation {
 ubo_rotation;
 
 layout(location = 0) out vec4 outColor;
+layout(location = 1) out vec3 outNormal;
 
 out gl_PerVertex {
     vec4 gl_Position;
@@ -37,6 +39,7 @@ mat3 make_rotation_matrix(float theta) {
 
 void main() {
     outColor = inColor;
+    outNormal = inNormal;
 
     gl_Position = ubo_camera.projection * ubo_camera.view * ubo_spawn.model
         * vec4(make_rotation_matrix(ubo_rotation.rotation.y) * inPos, 1.0);
