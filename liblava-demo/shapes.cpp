@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
 
     mesh::ptr cube;
     // This cube definition does not have normals:
-    // cube = generic_create_mesh<lava::vertex, float, void, false>(app.device, mesh_type::cube);
+    // cube = create_mesh<lava::vertex, float, void, false>(app.device, mesh_type::cube);
     // This cube definition does have normals:
     cube = create_mesh(app.device, mesh_type::cube);
     if (!cube)
