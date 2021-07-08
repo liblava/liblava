@@ -52,7 +52,10 @@ int main(int argc, char* argv[]) {
     meshes[1] = quad;
 
     generic_mesh<>::ptr cube;
-    cube = generic_create_mesh(app.device, mesh_type::cube);
+    // This cube definition does not have normals:
+    cube = generic_create_mesh<lava::vertex, float, void, false>(app.device, mesh_type::cube);
+    // This cube definition has normals:
+    // cube = generic_create_mesh(app.device, mesh_type::cube);
     if (!cube)
         return error::create_failed;
     meshes[2] = cube;

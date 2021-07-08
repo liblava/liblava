@@ -227,7 +227,7 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
     auto return_mesh = generic_make_mesh<T>();
     switch (type) {
     case mesh_type::cube: {
-        // return_mesh->get_indices().reserve(36);
+        return_mesh->get_indices().reserve(36);
 
         if constexpr (HasNormals) {
             return_mesh->get_vertices().reserve(24);
@@ -300,6 +300,23 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
                     return_mesh->get_vertices().push_back(vert);
                 }
             }
+
+            // clang-format off
+            return_mesh->get_indices() = {
+                0, 1, 2,
+                2, 3, 0,
+                4, 7, 6,
+                6, 5, 4,
+                8, 9, 10,
+                10, 11, 8,
+                12, 13, 14,
+                14, 15, 12,
+                16, 19, 18,
+                18, 17, 16,
+                20, 21, 22,
+                22, 23, 20,
+            };
+            // clang-format on
         } else {
             // A simpler cube can be made if there are no normals.
             return_mesh->get_vertices().reserve(8);
