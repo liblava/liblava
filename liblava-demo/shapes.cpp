@@ -37,25 +37,25 @@ int main(int argc, char* argv[]) {
         return error::create_failed;
 
     // Initialize meshes. By default, these make lava::vertex vertices.
-    std::array<generic_mesh<>::ptr, 3> meshes;
+    std::array<mesh::ptr, 3> meshes;
 
-    generic_mesh<>::ptr triangle;
-    triangle = generic_create_mesh(app.device, mesh_type::triangle);
+    mesh::ptr triangle;
+    triangle = create_mesh(app.device, mesh_type::triangle);
     if (!triangle)
         return error::create_failed;
     meshes[0] = triangle;
 
-    generic_mesh<>::ptr quad;
-    quad = generic_create_mesh(app.device, mesh_type::quad);
+    mesh::ptr quad;
+    quad = create_mesh(app.device, mesh_type::quad);
     if (!quad)
         return error::create_failed;
     meshes[1] = quad;
 
-    generic_mesh<>::ptr cube;
+    mesh::ptr cube;
     // This cube definition does not have normals:
     // cube = generic_create_mesh<lava::vertex, float, void, false>(app.device, mesh_type::cube);
     // This cube definition does have normals:
-    cube = generic_create_mesh(app.device, mesh_type::cube);
+    cube = create_mesh(app.device, mesh_type::cube);
     if (!cube)
         return error::create_failed;
     meshes[2] = cube;

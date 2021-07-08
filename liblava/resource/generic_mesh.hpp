@@ -19,7 +19,7 @@ namespace lava {
  * @tparam T Input vertex struct
  */
 template<typename T = lava::vertex>
-struct generic_mesh_data {
+struct mesh_data {
     /// List of vertices
     std::vector<T> vertices;
 
@@ -63,15 +63,16 @@ public:
  * @tparam T    Input vertex struct
  */
 template<typename T = vertex>
-struct generic_mesh : entity {
-    using ptr = std::shared_ptr<generic_mesh<T>>;
+struct mesh_template : entity {
+    using ptr = std::shared_ptr<mesh_template<T>>;
     using map = std::map<id, ptr>;
     using list = std::vector<ptr>;
     using vertex_list = std::vector<T>;
-    ~generic_mesh() {
+    ~mesh_template() {
         destroy();
     }
-    bool create(device_ptr device, bool mapped = false, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
+    bool create(device_ptr device, bool mapped = false,
+                VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
     void destroy();
     void bind(VkCommandBuffer cmd_buf) const;
     void draw(VkCommandBuffer cmd_buf) const;
@@ -82,13 +83,13 @@ struct generic_mesh : entity {
     bool empty() const {
         return data.vertices.empty();
     }
-    void set_data(generic_mesh_data<T> const& value) {
+    void set_data(mesh_data<T> const& value) {
         data = value;
     }
-    generic_mesh_data<T>& get_data() {
+    mesh_data<T>& get_data() {
         return data;
     }
-    void add_data(generic_mesh_data<T> const& value);
+    void add_data(mesh_data<T> const& value);
     vertex_list& get_vertices() {
         return data.vertices;
     }
@@ -117,7 +118,7 @@ struct generic_mesh : entity {
 
 private:
     device_ptr device = nullptr;
-    generic_mesh_data<T> data;
+    mesh_data<T> data;
     buffer::ptr vertex_buffer;
     buffer::ptr index_buffer;
     bool mapped = false;
@@ -125,7 +126,7 @@ private:
 };
 
 template<typename T>
-void generic_mesh<T>::bind(VkCommandBuffer cmd_buf) const {
+void mesh_template<T>::bind(VkCommandBuffer cmd_buf) const {
     if (vertex_buffer && vertex_buffer->valid()) {
         std::array<VkDeviceSize, 1> const buffer_offsets = { 0 };
         std::array<VkBuffer, 1> const buffers = { vertex_buffer->get() };
@@ -139,7 +140,7 @@ void generic_mesh<T>::bind(VkCommandBuffer cmd_buf) const {
 
 //-----------------------------------------------------------------------------
 template<typename T>
-void generic_mesh<T>::draw(VkCommandBuffer cmd_buf) const {
+void mesh_template<T>::draw(VkCommandBuffer cmd_buf) const {
     if (!data.indices.empty())
         vkCmdDrawIndexed(cmd_buf, to_ui32(data.indices.size()), 1, 0, 0, 0);
     else
@@ -148,7 +149,7 @@ void generic_mesh<T>::draw(VkCommandBuffer cmd_buf) const {
 
 //-----------------------------------------------------------------------------
 template<typename T>
-void generic_mesh<T>::destroy() {
+void mesh_template<T>::destroy() {
     vertex_buffer = nullptr;
     index_buffer = nullptr;
 
@@ -157,7 +158,7 @@ void generic_mesh<T>::destroy() {
 
 //-----------------------------------------------------------------------------
 template<typename T>
-bool generic_mesh<T>::reload() {
+bool mesh_template<T>::reload() {
     auto dev = device;
     destroy();
 
@@ -166,8 +167,8 @@ bool generic_mesh<T>::reload() {
 
 //-----------------------------------------------------------------------------
 template<typename T = lava::vertex>
-inline std::shared_ptr<generic_mesh<T>> generic_make_mesh() {
-    return std::make_shared<generic_mesh<T>>();
+inline std::shared_ptr<mesh_template<T>> make_mesh() {
+    return std::make_shared<mesh_template<T>>();
 }
 
 //-----------------------------------------------------------------------------
@@ -175,12 +176,12 @@ template<typename T = lava::vertex, typename PosType = float,
          typename NormType = float, bool HasNormals = true,
          typename ColType = float, size_t ColorComponentsCount = 4,
          typename UVType = float, bool HasUVs = true>
-std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
-                                                     mesh_type type);
+std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
+                                     mesh_type type);
 
 //-----------------------------------------------------------------------------
 template<typename T>
-bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
+bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
     device = d;
     mapped = m;
     memory_usage = mu;
@@ -216,15 +217,15 @@ bool generic_mesh<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 template<typename T, typename PosType, typename NormType, bool HasNormals,
          typename ColType, size_t ColorComponentsCount, typename UVType,
          bool HasUVs>
-std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
-                                                     mesh_type type) {
+std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
+                                     mesh_type type) {
     auto set_color = [&](T & vert) constexpr {
         for (size_t i = 0; i < ColorComponentsCount; i++) {
             vert.color[i] = 1;
         }
     };
 
-    auto return_mesh = generic_make_mesh<T>();
+    auto return_mesh = make_mesh<T>();
     switch (type) {
     case mesh_type::cube: {
         return_mesh->get_indices().reserve(36);
@@ -428,6 +429,11 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
     return return_mesh;
 }
 
-using mesh = generic_mesh<>;
+// template<>
+// mesh<lava::vertex>::mesh() { /*constructor, specific for int*/
+// }
+// mesh<lava::vertex>::ptr; // = std::shared_ptr<mesh<lava::vertex>>;
+// using mesh = mesh<>;
+using mesh = mesh_template<lava::vertex>;
 
 } // namespace lava

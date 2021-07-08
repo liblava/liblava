@@ -22,8 +22,8 @@ int main(int argc, char* argv[]) {
         return error::not_ready;
 
     // Initialize a lava triangle.
-    generic_mesh<>::ptr lava_triangle;
-    lava_triangle = generic_create_mesh(app.device, mesh_type::triangle);
+    mesh::ptr lava_triangle;
+    lava_triangle = create_mesh(app.device, mesh_type::triangle);
     if (!lava_triangle)
         return error::create_failed;
     auto& lava_triangle_data = lava_triangle->get_data();
@@ -40,9 +40,9 @@ int main(int argc, char* argv[]) {
         std::array<int, 3> position;
         lava::v4 color;
     };
-    generic_mesh<int_vertex>::ptr int_triangle;
-    int_triangle = generic_create_mesh<int_vertex, int, void, false, void, false,
-                                       void, false>(app.device, mesh_type::triangle);
+    mesh_template<int_vertex>::ptr int_triangle;
+    int_triangle = create_mesh<int_vertex, int, void, false, void, false,
+                               void, false>(app.device, mesh_type::triangle);
     if (!int_triangle)
         return error::create_failed;
     auto& int_triangle_data = int_triangle->get_data();
@@ -59,9 +59,9 @@ int main(int argc, char* argv[]) {
         std::array<double, 3> position;
         lava::v4 color;
     };
-    generic_mesh<double_vertex>::ptr double_triangle;
-    double_triangle = generic_create_mesh<double_vertex, double, void, false, void, false,
-                                       void, false>(app.device, mesh_type::triangle);
+    mesh_template<double_vertex>::ptr double_triangle;
+    double_triangle = create_mesh<double_vertex, double, void, false, void, false,
+                                  void, false>(app.device, mesh_type::triangle);
     if (!double_triangle)
         return error::create_failed;
     auto& double_triangle_data = double_triangle->get_data();

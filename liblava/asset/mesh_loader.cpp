@@ -62,7 +62,7 @@ mesh::ptr load_mesh(device_ptr device, name filename) {
         }
 
         if (tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, str(target_file))) {
-            auto mesh = generic_make_mesh();
+            auto mesh = make_mesh();
 
             for (auto const& shape : shapes) {
                 for (auto const& index : shape.mesh.indices) {

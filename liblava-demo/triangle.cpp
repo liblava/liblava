@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     if (!triangle)
         return error::create_failed;
 
-    mesh_data& triangle_data = triangle->get_data();
+    auto& triangle_data = triangle->get_data();
     triangle_data.vertices.at(0).color = v4(1.f, 0.f, 0.f, 1.f);
     triangle_data.vertices.at(1).color = v4(0.f, 1.f, 0.f, 1.f);
     triangle_data.vertices.at(2).color = v4(0.f, 0.f, 1.f, 1.f);
