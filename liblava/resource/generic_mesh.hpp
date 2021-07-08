@@ -359,12 +359,6 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
             // clang-format on
         }
 
-        if constexpr (ColorComponentsCount > 0) {
-            for (auto& vert : return_mesh->get_vertices()) {
-                set_color(vert);
-            }
-        }
-
         break;
     }
 
@@ -376,11 +370,6 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
         vert_two.position = { -1, 1, 0 };
         T vert_three;
         vert_three.position = { 0, -1, 0 };
-        if constexpr (ColorComponentsCount > 0) {
-            set_color(vert_one);
-            set_color(vert_two);
-            set_color(vert_three);
-        }
         if constexpr (HasNormals) {
             vert_one.normal = { 1, 1, 0 };
             vert_two.normal = { -1, 1, 0 };
@@ -403,12 +392,6 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
         vert_three.position = { -1, -1, 0 };
         T vert_four;
         vert_four.position = { 1, -1, 0 };
-        if constexpr (ColorComponentsCount > 0) {
-            set_color(vert_one);
-            set_color(vert_two);
-            set_color(vert_three);
-            set_color(vert_four);
-        }
         if constexpr (HasNormals) {
             vert_one.normal = { 1, 1, 0 };
             vert_two.normal = { -1, 1, 0 };
@@ -431,6 +414,12 @@ std::shared_ptr<generic_mesh<T>> generic_create_mesh(device_ptr& device,
     case mesh_type::none:
     default:
         return nullptr;
+    }
+
+    if constexpr (ColorComponentsCount > 0) {
+        for (auto& vert : return_mesh->get_vertices()) {
+            set_color(vert);
+        }
     }
 
     if (!return_mesh->create(device)) {
