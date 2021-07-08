@@ -177,7 +177,7 @@ template<typename T = lava::vertex, typename PosType = float,
          typename ColType = float, size_t ColorComponentsCount = 4,
          typename UVType = float, bool HasUVs = true>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
-                                     mesh_type type);
+                                              mesh_type type);
 
 //-----------------------------------------------------------------------------
 template<typename T>
@@ -218,7 +218,7 @@ template<typename T, typename PosType, typename NormType, bool HasNormals,
          typename ColType, size_t ColorComponentsCount, typename UVType,
          bool HasUVs>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
-                                     mesh_type type) {
+                                              mesh_type type) {
     auto set_color = [&](T & vert) constexpr {
         for (size_t i = 0; i < ColorComponentsCount; i++) {
             vert.color[i] = 1;
@@ -386,29 +386,35 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         return_mesh->get_vertices().reserve(4);
         return_mesh->get_indices().reserve(6);
         T vert_one;
-        vert_one.position = { -1, 1, 0 };
+        vert_one.position = { 1, 1, 0 };
         T vert_two;
-        vert_two.position = { 1, 1, 0 };
+        vert_two.position = { -1, 1, 0 };
         T vert_three;
         vert_three.position = { -1, -1, 0 };
         T vert_four;
         vert_four.position = { 1, -1, 0 };
-        if constexpr (HasNormals) {
-            vert_one.normal = { 1, 1, 0 };
-            vert_two.normal = { -1, 1, 0 };
-            vert_three.normal = { -1, -1, 0 };
-            vert_four.normal = { 1, -1, 0 };
+        if constexpr (HasUVs) {
+            vert_one.uv = { 1, 1 };
+            vert_two.uv = { 0, 1 };
+            vert_three.uv = { 0, 0 };
+            vert_four.uv = { 1, 0 };
         }
+        if constexpr (HasNormals) {
+            vert_one.normal = { 0, 0, 1 };
+            vert_two.normal = { 0, 0, 1 };
+            vert_three.normal = { 0, 0, 1 };
+            vert_four.normal = { 0, 0, 1 };
+        }
+        // clang-format off
+        return_mesh->get_indices() = {
+            0, 1, 2,
+            2, 3, 0,
+        };
+        // clang-format on
         return_mesh->get_vertices().push_back(vert_one);
         return_mesh->get_vertices().push_back(vert_two);
         return_mesh->get_vertices().push_back(vert_three);
         return_mesh->get_vertices().push_back(vert_four);
-        // clang-format off
-        return_mesh->get_indices() = {
-            0, 1, 2,
-            2, 1, 3,
-        };
-        // clang-format on
         break;
     }
 
