@@ -330,10 +330,12 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
  *
  * @return mesh::ptr    Shared pointer to mesh
  */
+// template<typename T = lava::vertex, typename PosType = float,
+//          typename NormType = float, bool HasNormals = true,
+//          typename ColType = float, size_t ColorComponentsCount = 4,
+//          typename UVType = float, bool HasUVs = true>
 template<typename T = lava::vertex, typename PosType = float,
-         typename NormType = float, bool HasNormals = true,
-         typename ColType = float, size_t ColorComponentsCount = 4,
-         typename UVType = float, bool HasUVs = true>
+         bool HasNormals = true, bool HasColor = true, bool HasUVs = true>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type);
 
@@ -372,33 +374,32 @@ bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T, typename PosType, typename NormType, bool HasNormals,
-         typename ColType, size_t ColorComponentsCount, typename UVType,
-         bool HasUVs>
+template<typename T, typename PosType, bool HasNormals,
+         bool HasColor, bool HasUVs>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type) {
-    auto set_color = [&](T & vert) constexpr {
-        for (size_t i = 0; i < ColorComponentsCount; i++) {
-            vert.color[i] = 1;
-        }
-    };
-
     constexpr bool HasNormals2 = requires(const T& t) {
         t.normal;
     };
     constexpr bool HasColor2 = requires(const T& t) {
         t.color;
     };
-    constexpr bool HasUV2 = requires(const T& t) {
+    constexpr bool HasUVs2 = requires(const T& t) {
         t.uv;
     };
+
+    // using NormType = HasNormals2 ? decltype(void) : void;
+    // using NormType = decltype(std::declval<T::normal[0]>());
+    using NormType = float;
+    using UVType = float;
+    using ColorType = float;
 
     auto return_mesh = make_mesh<T>();
     switch (type) {
     case mesh_type::cube: {
         return_mesh->get_indices().reserve(36);
 
-        if constexpr (HasNormals) {
+        if constexpr (HasNormals && HasNormals2) {
             return_mesh->get_vertices().reserve(24);
 
             // clang-format off
@@ -422,7 +423,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                                                          { -1, 0, 0 }, { 1, 0, 0 },
                                                                          { 0, 1, 0 }, { 0, -1, 0 }, }};
 
-            if constexpr (HasUVs) {
+            if constexpr (HasUVs && HasUVs2) {
                 constexpr std::array<std::array<UVType, 2>, 24> uvs = {{
                     // Front
                     { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
@@ -539,7 +540,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         vert_two.position = { -1, 1, 0 };
         T vert_three;
         vert_three.position = { 0, -1, 0 };
-        if constexpr (HasNormals) {
+        if constexpr (HasNormals && HasNormals2) {
             vert_one.normal = { 1, 1, 0 };
             vert_two.normal = { -1, 1, 0 };
             vert_three.normal = { 0, -1, 0 };
@@ -561,13 +562,13 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         vert_three.position = { -1, -1, 0 };
         T vert_four;
         vert_four.position = { 1, -1, 0 };
-        if constexpr (HasUVs) {
+        if constexpr (HasUVs && HasUVs2) {
             vert_one.uv = { 1, 1 };
             vert_two.uv = { 0, 1 };
             vert_three.uv = { 0, 0 };
             vert_four.uv = { 1, 0 };
         }
-        if constexpr (HasNormals) {
+        if constexpr (HasNormals && HasNormals2) {
             vert_one.normal = { 0, 0, 1 };
             vert_two.normal = { 0, 0, 1 };
             vert_three.normal = { 0, 0, 1 };
@@ -591,9 +592,12 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         return nullptr;
     }
 
-    if constexpr (ColorComponentsCount > 0) {
+    if constexpr (HasColor && HasColor2) {
         for (auto& vert : return_mesh->get_vertices()) {
-            set_color(vert);
+            for (size_t i = 0; i < 4; i++) {
+                // for (size_t i = 0; i < vert.color.size(); i++) {
+                vert.color[i] = 1;
+            }
         }
     }
 
