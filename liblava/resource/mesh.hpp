@@ -383,6 +383,16 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         }
     };
 
+    constexpr bool HasNormals2 = requires(const T& t) {
+        t.normal;
+    };
+    constexpr bool HasColor2 = requires(const T& t) {
+        t.color;
+    };
+    constexpr bool HasUV2 = requires(const T& t) {
+        t.uv;
+    };
+
     auto return_mesh = make_mesh<T>();
     switch (type) {
     case mesh_type::cube: {
