@@ -334,8 +334,8 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
 //          typename NormType = float, bool HasNormals = true,
 //          typename ColType = float, size_t ColorComponentsCount = 4,
 //          typename UVType = float, bool HasUVs = true>
-template<typename T = lava::vertex, typename PosType = float,
-         bool HasNormals = true, bool HasColor = true, bool HasUVs = true>
+template<typename T = lava::vertex, bool HasNormals = true,
+         bool HasColor = true, bool HasUVs = true>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type);
 
@@ -374,10 +374,15 @@ bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T, typename PosType, bool HasNormals,
+template<typename T, bool HasNormals,
          bool HasColor, bool HasUVs>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type) {
+    constexpr bool HasPosition2 = requires(const T& t) {
+        t.position;
+    };
+    static_assert(HasPosition2,
+                  "Vertex struct `T` must contain field `position`");
     constexpr bool HasNormals2 = requires(const T& t) {
         t.normal;
     };
@@ -388,8 +393,16 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         t.uv;
     };
 
-    // using NormType = HasNormals2 ? decltype(void) : void;
-    // using NormType = decltype(std::declval<T::normal[0]>());
+    // using PosType = std::tuple_element<0, decltype(T::position)>;
+    // decltype(std::declval<T::position>()) PosType;
+    // using PosType2 = decltype(std::declval<T::position>()[0]);
+    // auto PosType2 = typeid(typename std::remove_all_extents<T>::type);
+    // decltype(HasUVs2) PosType;
+    // using PosType = std::tuple_element<0, decltype(T::position)>;
+    // using PosType = std::tuple_element<0, decltype(std::declval<T::position>)>;
+    // using PosType = decltype(std::tuple_element<T::position>::type);
+    // using PosType = decltype(std::declval<T::position>()[0]);
+    using PosType2 = typename std::remove_extent<decltype(T::position)>::type;
     using NormType = float;
     using UVType = float;
     using ColorType = float;
@@ -403,7 +416,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
             return_mesh->get_vertices().reserve(24);
 
             // clang-format off
-            constexpr std::array<std::array<PosType, 3>, 24> positions = {{
+            constexpr std::array<PosType2, 24> positions = {{
                 // Front
                 { 1, 1, 1 }, { -1, 1, 1}, { -1, -1, 1 }, { 1, -1, 1 },
                 // Back
@@ -450,9 +463,10 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                     // could be opaque types, so memcpy won't work, and
                     // the types cannot be guaranteed to be trivially
                     // castable to each other, so assignment won't work.
-                    vert.position[0] = positions[i][0];
-                    vert.position[1] = positions[i][1];
-                    vert.position[2] = positions[i][2];
+                    vert.position = positions[i];
+                    // vert.position[0] = positions[i][0];
+                    // vert.position[1] = positions[i][1];
+                    // vert.position[2] = positions[i][2];
                     vert.normal[0] = normals[i / 4][0];
                     vert.normal[1] = normals[i / 4][1];
                     vert.normal[2] = normals[i / 4][2];
@@ -494,9 +508,9 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
             return_mesh->get_vertices().reserve(8);
             return_mesh->get_indices().reserve(36);
             // TODO: There should be a way to evaluate these loops at compile-time.
-            for (PosType i = -1; i <= 1; i += 2) {
-                for (PosType j = -1; j <= 1; j += 2) {
-                    for (PosType k = -1; k <= 1; k += 2) {
+            for (float i = -1; i <= 1; i += 2) {
+                for (float j = -1; j <= 1; j += 2) {
+                    for (float k = -1; k <= 1; k += 2) {
                         T vert;
                         vert.position = { i, j, k };
                         return_mesh->get_vertices().push_back(vert);

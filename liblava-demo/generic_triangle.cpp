@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
         lava::v4 color;
     };
     mesh_template<int_vertex>::ptr int_triangle;
-    int_triangle = create_mesh<int_vertex, int>(app.device, mesh_type::triangle);
+    int_triangle = create_mesh<int_vertex>(app.device, mesh_type::triangle);
     if (!int_triangle)
         return error::create_failed;
     auto& int_triangle_data = int_triangle->get_data();
@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
         lava::v4 color;
     };
     mesh_template<double_vertex>::ptr double_triangle;
-    double_triangle = create_mesh<double_vertex, double>(app.device, mesh_type::triangle);
+    double_triangle = create_mesh<double_vertex>(app.device, mesh_type::triangle);
     if (!double_triangle)
         return error::create_failed;
     auto& double_triangle_data = double_triangle->get_data();
