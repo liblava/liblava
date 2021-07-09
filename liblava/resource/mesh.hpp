@@ -395,18 +395,6 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
 
     using PosType = decltype(T::position);
 
-    // using NormType = typename std::conditional<HasNormals2,
-    //                                            typename T::normal,
-    //                                            void>::type;
-
-    // using ColorType = typename std::conditional<HasColor2,
-    //                                             typename T::color,
-    //                                             void>::type;
-
-    // using UVType = typename std::conditional<HasUVs2,
-    //                                          typename T::uv,
-    //                                          void>::type;
-
     auto return_mesh = make_mesh<T>();
     switch (type) {
     case mesh_type::cube: {
@@ -603,9 +591,14 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
 
     if constexpr (HasColor && HasColor2) {
         for (auto& vert : return_mesh->get_vertices()) {
-            for (size_t i = 0; i < 4; i++) {
-                // for (size_t i = 0; i < vert.color.size(); i++) {
-                // vert.color[i] = 1;
+            if constexpr (std::is_same<decltype(vert.color), glm::vec3>::value) {
+                vert.color = { 1, 1, 1 };
+            } else if constexpr (std::is_same<decltype(vert.color), glm::vec4>::value) {
+                vert.color = { 1, 1, 1, 1 };
+            } else {
+                for (size_t i = 0; i < vert.color.size(); i++) {
+                    vert.color[i] = 1;
+                }
             }
         }
     }
