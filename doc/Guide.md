@@ -62,6 +62,96 @@ buffer::ptr use_buffer_on_heap() {
 }
 ```
 
+### Making meshes
+
+Liblava provides a `mesh` struct that contains a list of vertices and, optionally,
+a list of indices.
+
+By default, vertices in a `mesh` are of type `lava::vertex`, which has the
+following layout:
+
+```c++
+struct vertex {
+    v3 position;
+    v4 color;
+    v2 uv;
+    v3 normal;
+}
+```
+
+It is made like this:
+
+```c++
+mesh::ptr the_mesh;
+mesh::ptr made_mesh = make_mesh();
+the_mesh->add_data( /* Pass in a lava::mesh_data object */ );
+the_mesh->create(device);
+```
+
+Liblava provides a `create_mesh()` function to simplify the creation of primitives. 
+It takes a `lava::mesh_type` argument to specify what kind of primitive to build.
+The values it can be are:
+
+```c++
+none,
+cube,
+triangle,
+quad
+```
+
+The function is called like this:
+
+```c++
+mesh::ptr cube;
+cube = create_mesh(device, mesh_type::cube);
+```
+
+Meshes are templated, and can represent any vertex struct definition.
+
+```c++
+struct int_vertex {
+    std::array<int, 3> position;
+    v4 color;
+};
+mesh_template<int_vertex>::ptr int_triangle;
+```
+
+`create_mesh()` can generate primitives for arbitrary vertex structs too,
+provided that the struct contains an array or vector member named `position`.
+
+```c++
+int_triangle = create_mesh<int_vertex>(device, mesh_type::triangle);
+```
+
+`create_mesh()` may also generate color, normal, and UV data automatically.
+However, it will only generate the data if it finds a corresponding `color`,
+`normal`, and/or `uv` fields in the vertex struct.
+
+If these fields are defined, but generating this data is not desired,
+they can be individually disabled as template arguments, in this order:
+- Color
+- Normal
+- UV
+
+It can be done like this:
+
+```c++
+struct custom_vertex {
+    v3 position;
+    v3 color;
+    v3 normal;
+    v2 uv;
+};
+mesh_template<custom_vertex>::ptr triangle;
+// Generate three vertices with position and UVs, but not color or normals.
+triangle = create_mesh<custom_vertex, false, false, true>
+                      (device, mesh_type::triangle);
+```
+
+Cubes generated this way have a special case. If they are generated with normal
+data, they will be represented by 24 vertices. Otherwise, only 8 vertices will
+be generated.
+
 <br />
 
 ## Command-Line Arguments
