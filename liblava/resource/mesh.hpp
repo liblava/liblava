@@ -327,8 +327,8 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
  * @return mesh::ptr    Shared pointer to mesh
  */
 
-template<typename T = lava::vertex, bool HasColor = true, bool HasNormals = true,
-         bool HasUVs = true>
+template<typename T = lava::vertex, bool generate_color = true, bool generate_normals = true,
+         bool generate_uvs = true>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type);
 
@@ -367,22 +367,22 @@ bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T, bool HasColor, bool HasNormals,
-         bool HasUVs>
+template<typename T, bool generate_color, bool generate_normals,
+         bool generate_uvs>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type) {
-    constexpr bool HasPosition2 = requires(const T& t) {
+    constexpr bool has_position = requires(const T t) {
         t.position;
     };
-    static_assert(HasPosition2,
+    static_assert(has_position,
                   "Vertex struct `T` must contain field `position`");
-    constexpr bool HasNormals2 = requires(const T& t) {
+    constexpr bool has_normals = requires(const T t) {
         t.normal;
     };
-    constexpr bool HasColor2 = requires(const T& t) {
+    constexpr bool has_color = requires(const T t) {
         t.color;
     };
-    constexpr bool HasUVs2 = requires(const T& t) {
+    constexpr bool has_uvs = requires(const T t) {
         t.uv;
     };
 
@@ -393,7 +393,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
     case mesh_type::cube: {
         return_mesh->get_indices().reserve(36);
 
-        if constexpr (HasNormals && HasNormals2) {
+        if constexpr (generate_normals && has_normals) {
             return_mesh->get_vertices().reserve(24);
 
             // clang-format off
@@ -418,7 +418,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                                            { -1, 0, 0 }, { 1, 0, 0 },
                                                            { 0, 1, 0 },  { 0, -1, 0 }, }};
 
-            if constexpr (HasUVs && HasUVs2) {
+            if constexpr (generate_uvs && has_uvs) {
                 using UVType = decltype(T::uv);
                 constexpr std::array<UVType, 24> uvs = {{
                     // Front
@@ -530,7 +530,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         vert_two.position = { -1, 1, 0 };
         T vert_three;
         vert_three.position = { 0, -1, 0 };
-        if constexpr (HasNormals && HasNormals2) {
+        if constexpr (generate_normals && has_normals) {
             vert_one.normal = { 1, 1, 0 };
             vert_two.normal = { -1, 1, 0 };
             vert_three.normal = { 0, -1, 0 };
@@ -552,13 +552,13 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         vert_three.position = { -1, -1, 0 };
         T vert_four;
         vert_four.position = { 1, -1, 0 };
-        if constexpr (HasUVs && HasUVs2) {
+        if constexpr (generate_uvs && has_uvs) {
             vert_one.uv = { 1, 1 };
             vert_two.uv = { 0, 1 };
             vert_three.uv = { 0, 0 };
             vert_four.uv = { 1, 0 };
         }
-        if constexpr (HasNormals && HasNormals2) {
+        if constexpr (generate_normals && has_normals) {
             vert_one.normal = { 0, 0, 1 };
             vert_two.normal = { 0, 0, 1 };
             vert_three.normal = { 0, 0, 1 };
@@ -582,7 +582,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         return nullptr;
     }
 
-    if constexpr (HasColor && HasColor2) {
+    if constexpr (generate_color && has_color) {
         for (auto& vert : return_mesh->get_vertices()) {
             if constexpr (std::is_same<decltype(vert.color), glm::vec3>::value) {
                 vert.color = { 1, 1, 1 };
