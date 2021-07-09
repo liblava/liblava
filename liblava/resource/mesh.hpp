@@ -393,19 +393,19 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         t.uv;
     };
 
-    // using PosType = std::tuple_element<0, decltype(T::position)>;
-    // decltype(std::declval<T::position>()) PosType;
-    // using PosType2 = decltype(std::declval<T::position>()[0]);
-    // auto PosType2 = typeid(typename std::remove_all_extents<T>::type);
-    // decltype(HasUVs2) PosType;
-    // using PosType = std::tuple_element<0, decltype(T::position)>;
-    // using PosType = std::tuple_element<0, decltype(std::declval<T::position>)>;
-    // using PosType = decltype(std::tuple_element<T::position>::type);
-    // using PosType = decltype(std::declval<T::position>()[0]);
-    using PosType2 = typename std::remove_extent<decltype(T::position)>::type;
-    using NormType = float;
-    using UVType = float;
-    using ColorType = float;
+    using PosType = decltype(T::position);
+
+    // using NormType = typename std::conditional<HasNormals2,
+    //                                            typename T::normal,
+    //                                            void>::type;
+
+    // using ColorType = typename std::conditional<HasColor2,
+    //                                             typename T::color,
+    //                                             void>::type;
+
+    // using UVType = typename std::conditional<HasUVs2,
+    //                                          typename T::uv,
+    //                                          void>::type;
 
     auto return_mesh = make_mesh<T>();
     switch (type) {
@@ -416,7 +416,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
             return_mesh->get_vertices().reserve(24);
 
             // clang-format off
-            constexpr std::array<PosType2, 24> positions = {{
+            constexpr std::array<PosType, 24> positions = {{
                 // Front
                 { 1, 1, 1 }, { -1, 1, 1}, { -1, -1, 1 }, { 1, -1, 1 },
                 // Back
@@ -432,12 +432,14 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
             }};
 
             // Front, back, left, right, bottom, and top normals, in that order.
-            constexpr std::array<std::array<NormType, 3>, 6> normals = {{ { 0, 0, 1 },  { 0, 0, -1 },
-                                                                         { -1, 0, 0 }, { 1, 0, 0 },
-                                                                         { 0, 1, 0 }, { 0, -1, 0 }, }};
+            using NormType = decltype(T::normal);
+            constexpr std::array<NormType, 6> normals = {{ { 0, 0, 1 },  { 0, 0, -1 },
+                                                           { -1, 0, 0 }, { 1, 0, 0 },
+                                                           { 0, 1, 0 },  { 0, -1, 0 }, }};
 
             if constexpr (HasUVs && HasUVs2) {
-                constexpr std::array<std::array<UVType, 2>, 24> uvs = {{
+                using UVType = decltype(T::uv);
+                constexpr std::array<UVType, 24> uvs = {{
                     // Front
                     { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
                     // Back
@@ -459,30 +461,16 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                 // Revisit this in the future?
                 for (size_t i = 0; i < 24; i++) {
                     T vert;
-                    // Setting these individually is required because they
-                    // could be opaque types, so memcpy won't work, and
-                    // the types cannot be guaranteed to be trivially
-                    // castable to each other, so assignment won't work.
                     vert.position = positions[i];
-                    // vert.position[0] = positions[i][0];
-                    // vert.position[1] = positions[i][1];
-                    // vert.position[2] = positions[i][2];
-                    vert.normal[0] = normals[i / 4][0];
-                    vert.normal[1] = normals[i / 4][1];
-                    vert.normal[2] = normals[i / 4][2];
-                    vert.uv[0] = uvs[i][0];
-                    vert.uv[1] = uvs[i][1];
+                    vert.normal = normals[i / 4];
+                    vert.uv = uvs[i];
                     return_mesh->get_vertices().push_back(vert);
                 }
             } else { // Does not have UV data
                 for (size_t i = 0; i < 24; i++) {
                     T vert;
-                    vert.position[0] = positions[i][0];
-                    vert.position[1] = positions[i][1];
-                    vert.position[2] = positions[i][2];
-                    vert.normal[0] = normals[i / 6][0];
-                    vert.normal[1] = normals[i / 6][1];
-                    vert.normal[2] = normals[i / 6][2];
+                    vert.position = positions[i];
+                    vert.normal = normals[i / 6];
                     return_mesh->get_vertices().push_back(vert);
                 }
             }
@@ -507,18 +495,19 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
             // A simpler cube can be made if there are no normals.
             return_mesh->get_vertices().reserve(8);
             return_mesh->get_indices().reserve(36);
-            // TODO: There should be a way to evaluate these loops at compile-time.
-            for (float i = -1; i <= 1; i += 2) {
-                for (float j = -1; j <= 1; j += 2) {
-                    for (float k = -1; k <= 1; k += 2) {
-                        T vert;
-                        vert.position = { i, j, k };
-                        return_mesh->get_vertices().push_back(vert);
-                    }
-                }
-            }
 
             // clang-format off
+            std::array<PosType, 8> positions = { {
+                { -1, -1, -1 },
+                { -1, -1, 1 },
+                { -1, 1, -1 },
+                { -1, 1, 1 },
+                { 1, -1, -1 },
+                { 1, -1, 1 },
+                { 1, 1, -1 },
+                { 1, 1, 1 },
+            } };
+
             // Clockwise winding order.
             return_mesh->get_indices() = {
                 // Left
@@ -541,6 +530,12 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                 4, 6, 2,
             };
             // clang-format on
+
+            for (size_t i = 0; i < positions.size(); i++) {
+                T vert;
+                vert.position = positions[i];
+                return_mesh->get_vertices().push_back(vert);
+            }
         }
 
         break;
@@ -610,7 +605,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         for (auto& vert : return_mesh->get_vertices()) {
             for (size_t i = 0; i < 4; i++) {
                 // for (size_t i = 0; i < vert.color.size(); i++) {
-                vert.color[i] = 1;
+                // vert.color[i] = 1;
             }
         }
     }
