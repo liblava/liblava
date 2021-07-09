@@ -437,4 +437,18 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
 
 using mesh = mesh_template<lava::vertex>;
 
+/**
+ * @brief Mesh meta
+ */
+struct mesh_meta {
+    /// Name of file (empty: see type)
+    string filename;
+
+    /// Mesh type
+    mesh_type type = mesh_type::none;
+};
+
+/// Mesh registry
+using mesh_registry = id_registry<mesh, mesh_meta>;
+
 } // namespace lava
