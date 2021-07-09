@@ -320,22 +320,15 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
  * @param type          Mesh type
  *
  * @tparam              Vertex struct typename
- * @tparam              Position coordinate element typename
- * @tparam              Normal vector element typename
- * @tparam              If T contains a field `normal`
- * @tparam              Color vector element typename
- * @tparam              Count of elements contained in a color vector (0 if it does not exist)
- * @tparam              UV vector typename
  * @tparam              If T contains a field `color`
+ * @tparam              If T contains a field `normal`
+ * @tparam              If T contains a field `uv`
  *
  * @return mesh::ptr    Shared pointer to mesh
  */
-// template<typename T = lava::vertex, typename PosType = float,
-//          typename NormType = float, bool HasNormals = true,
-//          typename ColType = float, size_t ColorComponentsCount = 4,
-//          typename UVType = float, bool HasUVs = true>
-template<typename T = lava::vertex, bool HasNormals = true,
-         bool HasColor = true, bool HasUVs = true>
+
+template<typename T = lava::vertex, bool HasColor = true, bool HasNormals = true,
+         bool HasUVs = true>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type);
 
@@ -374,8 +367,8 @@ bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T, bool HasNormals,
-         bool HasColor, bool HasUVs>
+template<typename T, bool HasColor, bool HasNormals,
+         bool HasUVs>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type) {
     constexpr bool HasPosition2 = requires(const T& t) {
