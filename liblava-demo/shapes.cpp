@@ -195,8 +195,10 @@ int main(int argc, char* argv[]) {
                 break;
             case mesh_type::quad:
                 quad->bind_draw(cmd_buf);
+                break;
             case mesh_type::triangle:
                 triangle->bind_draw(cmd_buf);
+                break;
             case mesh_type::none:
                 return false;
             }
