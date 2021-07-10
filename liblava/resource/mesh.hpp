@@ -320,9 +320,9 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
  * @param type          Mesh type
  *
  * @tparam              Vertex struct typename
- * @tparam              If T contains a field `color`
- * @tparam              If T contains a field `normal`
- * @tparam              If T contains a field `uv`
+ * @tparam              If color may be generated
+ * @tparam              If normals may be generated
+ * @tparam              If UVs may be generated
  *
  * @return mesh::ptr    Shared pointer to mesh
  */
