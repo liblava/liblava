@@ -691,6 +691,7 @@ message("=======================================================================
 endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        message("========================================================================")
         message("NOTE: MSVC does not currently support all Liblava features.")
 endif()
 

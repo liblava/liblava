@@ -386,22 +386,22 @@ template<typename T, bool generate_color, bool generate_normals,
          bool generate_uvs>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type) {
-    constexpr bool has_position = requires(const T t) {
-        t.position;
-    };
-    static_assert(has_position,
-                  "Vertex struct `T` must contain field `position`");
     auto return_mesh = make_mesh<T>();
 
 // MSVC cannot compile this code currently.
 // This logic may be removed when that bug is resolved.
 #ifdef IN_MSVC
     // Only auto-generate fields if lava::vertex is used.
-    constexpr bool enable_initialization = std::is_same<T, lava::vertex>();
+    constexpr bool enable_initialization = (typeid(T) == typeid(lava::vertex));
     constexpr bool has_color = enable_initialization;
     constexpr bool has_normals = enable_initialization;
     constexpr bool has_uvs = enable_initialization;
 #else
+    constexpr bool has_position = requires(const T t) {
+        t.position;
+    };
+    static_assert(has_position,
+                  "Vertex struct `T` must contain field `position`");
     constexpr bool has_color = requires(const T t) {
         t.color;
     };
