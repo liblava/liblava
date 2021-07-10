@@ -82,15 +82,14 @@ struct vertex {
 It is made like this:
 
 ```c++
-mesh::ptr the_mesh;
-mesh::ptr made_mesh = make_mesh();
-the_mesh->add_data( /* Pass in a lava::mesh_data object */ );
-the_mesh->create(device);
+mesh::ptr my_mesh = make_mesh();
+my_mesh->add_data( /* Pass in a lava::mesh_data object */ );
+my_mesh->create(device);
 ```
 
 Liblava provides a `create_mesh()` function to simplify the creation of primitives. 
 It takes a `lava::mesh_type` argument to specify what kind of primitive to build.
-The values it can be are:
+Its values are:
 
 ```c++
 none,
@@ -99,7 +98,7 @@ triangle,
 quad
 ```
 
-The function is called like this:
+The function is called in this way:
 
 ```c++
 mesh::ptr cube;
@@ -123,17 +122,18 @@ provided that the struct contains an array or vector member named `position`.
 int_triangle = create_mesh<int_vertex>(device, mesh_type::triangle);
 ```
 
-`create_mesh()` may also generate color, normal, and UV data automatically.
-However, it will only generate the data if it finds a corresponding `color`,
-`normal`, and/or `uv` fields in the vertex struct.
+`create_mesh()` may also initialize color, normal, and UV data automatically.
+However, it will only initialize these if there are correspond `color`,
+`normal`, and/or `uv` fields defined in the vertex struct.
 
-If these fields are defined, but generating this data is not desired,
-they can be individually disabled as template arguments, in this order:
+By default, all data that can be initialized will be, but if generating any 
+of this data is not desired, the fields can be individually disabled by template
+arguments in this order:
 - Color
 - Normal
 - UV
 
-It can be done like this:
+It is done in this way:
 
 ```c++
 struct custom_vertex {
@@ -148,9 +148,9 @@ triangle = create_mesh<custom_vertex, false, false, true>
                       (device, mesh_type::triangle);
 ```
 
-Cubes generated this way have a special case. If they are generated with normal
+Cubes generated this way have a special case. If they are initialized with normal
 data, they will be represented by 24 vertices. Otherwise, only 8 vertices will
-be generated.
+be initialized.
 
 <br />
 
