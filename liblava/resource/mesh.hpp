@@ -376,11 +376,12 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
     };
     static_assert(has_position,
                   "Vertex struct `T` must contain field `position`");
-    constexpr bool has_normals = requires(const T t) {
-        t.normal;
-    };
+
     constexpr bool has_color = requires(const T t) {
         t.color;
+    };
+    constexpr bool has_normals = requires(const T t) {
+        t.normal;
     };
     constexpr bool has_uvs = requires(const T t) {
         t.uv;
@@ -530,6 +531,11 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         vert_two.position = { -1, 1, 0 };
         T vert_three;
         vert_three.position = { 0, -1, 0 };
+        if constexpr (generate_uvs && has_uvs) {
+            vert_one.uv = { 1, 1 };
+            vert_two.uv = { 0, 1 };
+            vert_three.uv = { 0.5, 0 };
+        }
         if constexpr (generate_normals && has_normals) {
             vert_one.normal = { 1, 1, 0 };
             vert_two.normal = { -1, 1, 0 };
