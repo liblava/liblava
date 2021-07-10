@@ -392,7 +392,9 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
 // This logic may be removed when that bug is resolved.
 #ifdef IN_MSVC
     // Only auto-generate fields if lava::vertex is used.
-    constexpr bool enable_initialization = (typeid(T) == typeid(lava::vertex));
+    // is_same fails to compile on MSVC with a templated value as an argument,
+    // due to another MSVC bug.
+    constexpr bool enable_initialization = false; // std::is_name<T, lava::vertex>();
     constexpr bool has_color = enable_initialization;
     constexpr bool has_normals = enable_initialization;
     constexpr bool has_uvs = enable_initialization;
