@@ -510,14 +510,8 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
 
     if constexpr (generate_color && has_color) {
         for (auto& vert : return_mesh->get_vertices()) {
-            if constexpr (std::is_same<decltype(vert.color), glm::vec3>::value) {
-                vert.color = { 1, 1, 1 };
-            } else if constexpr (std::is_same<decltype(vert.color), glm::vec4>::value) {
-                vert.color = { 1, 1, 1, 1 };
-            } else {
-                for (size_t i = 0; i < vert.color.size(); i++) {
-                    vert.color[i] = 1;
-                }
+            for (auto& this_color : vert.color) {
+                vert.color = 1;
             }
         }
     }
