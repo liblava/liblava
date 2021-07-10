@@ -367,6 +367,19 @@ bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 }
 
 //-----------------------------------------------------------------------------
+template<typename PosType, size_t vert_count, bool is_complex>
+constexpr std::array<PosType, vert_count> make_primitive_positions_cube();
+
+template<bool is_complex>
+std::vector<lava::index> make_primitive_indices_cube();
+
+template<typename NormType>
+constexpr std::array<NormType, 6> make_primitive_normals_cube();
+
+template<typename UVType>
+constexpr std::array<UVType, 24> make_primitive_uvs_cube();
+
+//-----------------------------------------------------------------------------
 template<typename T, bool generate_color, bool generate_normals,
          bool generate_uvs>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
@@ -376,6 +389,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
     };
     static_assert(has_position,
                   "Vertex struct `T` must contain field `position`");
+    auto return_mesh = make_mesh<T>();
 
     constexpr bool has_color = requires(const T t) {
         t.color;
@@ -389,137 +403,31 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
 
     using PosType = decltype(T::position);
 
-    auto return_mesh = make_mesh<T>();
     switch (type) {
     case mesh_type::cube: {
         return_mesh->get_indices().reserve(36);
-
-        if constexpr (generate_normals && has_normals) {
-            return_mesh->get_vertices().reserve(24);
-
-            // clang-format off
-            constexpr std::array<PosType, 24> positions = {{
-                // Front
-                { 1, 1, 1 }, { -1, 1, 1}, { -1, -1, 1 }, { 1, -1, 1 },
-                // Back
-                { 1, 1, -1 }, { -1, 1, -1 }, { -1, -1, -1 }, { 1, -1, -1 },
-                // Left
-                { -1, 1, 1 }, { -1, 1, -1 }, { -1, -1, -1 }, { -1, -1, 1 },
-                // Right
-                { 1, 1, 1 }, { 1, -1, 1 }, { 1, -1, -1 }, { 1, 1, -1 },
-                // Bottom
-                { 1, 1, 1 }, { -1, 1, 1 }, { -1, 1, -1 }, { 1, 1, -1 },
-                // Top
-                { 1, -1, 1 }, { -1, -1, 1 }, { -1, -1, -1 }, { 1, -1, -1 },
-            }};
-
-            // Front, back, left, right, bottom, and top normals, in that order.
-            using NormType = decltype(T::normal);
-            constexpr std::array<NormType, 6> normals = {{ { 0, 0, 1 },  { 0, 0, -1 },
-                                                           { -1, 0, 0 }, { 1, 0, 0 },
-                                                           { 0, 1, 0 },  { 0, -1, 0 }, }};
-
+        return_mesh->get_indices() = make_primitive_indices_cube < generate_normals && has_normals > ();
+        constexpr size_t vert_count = (generate_normals && has_normals) ? 24 : 8;
+        return_mesh->get_vertices().reserve(vert_count);
+        auto positions = make_primitive_positions_cube<PosType, vert_count, (generate_normals && has_normals)>();
+        for (size_t i = 0; i < vert_count; i++) {
+            T vert;
+            vert.position = positions[i];
+            if constexpr (generate_normals && has_normals) {
+                // This array is generated inside of every loop because that makes
+                // the scoping rules simplest to follow. My expectation is that a
+                // compiler should be able to trivially optimize this.
+                using NormType = decltype(T::normal);
+                auto normals = make_primitive_normals_cube<NormType>();
+                vert.normal = normals[i / 4];
+            }
             if constexpr (generate_uvs && has_uvs) {
                 using UVType = decltype(T::uv);
-                constexpr std::array<UVType, 24> uvs = {{
-                    // Front
-                    { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
-                    // Back
-                    { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, 0 },
-                    // Left
-                    { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
-                    // Right
-                    { 0, 1 }, { 0, 0 }, { 1, 0 }, { 1, 1 },
-                    // Bottom
-                    { 1, 0 }, { 0, 0 }, { 0, 1 }, { 1, 1 },
-                    // Top
-                    { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
-                }};
-                // clang-format on
-
-                // NOTE: This redundant loop is required for using uv's.
-                // uvs[] cannot be uninitialized in the outer scope
-                // unless -fpermissive is passed to the compiler.
-                // Revisit this in the future?
-                for (size_t i = 0; i < 24; i++) {
-                    T vert;
-                    vert.position = positions[i];
-                    vert.normal = normals[i / 4];
-                    vert.uv = uvs[i];
-                    return_mesh->get_vertices().push_back(vert);
-                }
-            } else { // Does not have UV data
-                for (size_t i = 0; i < 24; i++) {
-                    T vert;
-                    vert.position = positions[i];
-                    vert.normal = normals[i / 6];
-                    return_mesh->get_vertices().push_back(vert);
-                }
+                auto uvs = make_primitive_uvs_cube<UVType>();
+                vert.uv = uvs[i];
             }
-
-            // clang-format off
-            return_mesh->get_indices() = {
-                0, 1, 2,
-                2, 3, 0,
-                4, 7, 6,
-                6, 5, 4,
-                8, 9, 10,
-                10, 11, 8,
-                12, 13, 14,
-                14, 15, 12,
-                16, 19, 18,
-                18, 17, 16,
-                20, 21, 22,
-                22, 23, 20,
-            };
-            // clang-format on
-        } else {
-            // A simpler cube can be made if there are no normals.
-            return_mesh->get_vertices().reserve(8);
-            return_mesh->get_indices().reserve(36);
-
-            // clang-format off
-            std::array<PosType, 8> positions = { {
-                { -1, -1, -1 },
-                { -1, -1, 1 },
-                { -1, 1, -1 },
-                { -1, 1, 1 },
-                { 1, -1, -1 },
-                { 1, -1, 1 },
-                { 1, 1, -1 },
-                { 1, 1, 1 },
-            } };
-
-            // Clockwise winding order.
-            return_mesh->get_indices() = {
-                // Left
-                0, 1, 2,
-                2, 1, 3,
-                // Right
-                4, 5, 6,
-                6, 5, 7,
-                // Top
-                0, 1, 4,
-                4, 1, 5,
-                // Bottom
-                2, 3, 6,
-                6, 3, 7,
-                // Back
-                3, 1, 5,
-                5, 7, 3,
-                // Front
-                2, 0, 4,
-                4, 6, 2,
-            };
-            // clang-format on
-
-            for (size_t i = 0; i < positions.size(); i++) {
-                T vert;
-                vert.position = positions[i];
-                return_mesh->get_vertices().push_back(vert);
-            }
+            return_mesh->get_vertices().push_back(vert);
         }
-
         break;
     }
 
@@ -608,6 +516,121 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
     return return_mesh;
 }
 
+//-----------------------------------------------------------------------------
+template<typename PosType, size_t vert_count, bool is_complex>
+constexpr std::array<PosType, vert_count> make_primitive_positions_cube() {
+    if constexpr (is_complex) {
+        // clang-format off
+        constexpr std::array<PosType, 24> positions = {{
+            // Front
+            { 1, 1, 1 }, { -1, 1, 1}, { -1, -1, 1 }, { 1, -1, 1 },
+            // Back
+            { 1, 1, -1 }, { -1, 1, -1 }, { -1, -1, -1 }, { 1, -1, -1 },
+            // Left
+            { -1, 1, 1 }, { -1, 1, -1 }, { -1, -1, -1 }, { -1, -1, 1 },
+            // Right
+            { 1, 1, 1 }, { 1, -1, 1 }, { 1, -1, -1 }, { 1, 1, -1 },
+            // Bottom
+            { 1, 1, 1 }, { -1, 1, 1 }, { -1, 1, -1 }, { 1, 1, -1 },
+            // Top
+            { 1, -1, 1 }, { -1, -1, 1 }, { -1, -1, -1 }, { 1, -1, -1 },
+        }};
+        return positions;
+    } else {
+        constexpr std::array<PosType, 8> positions = {{
+            { -1, -1, -1 },
+            { -1, -1, 1 },
+            { -1, 1, -1 },
+            { -1, 1, 1 },
+            { 1, -1, -1 },
+            { 1, -1, 1 },
+            { 1, 1, -1 },
+            { 1, 1, 1 },
+        }};
+        return positions;
+    }
+    // clang-format on
+}
+
+template<bool is_complex>
+std::vector<lava::index> make_primitive_indices_cube() {
+    // clang-format off
+    if constexpr (is_complex) {
+        std::vector<lava::index> indices = {
+            0, 1, 2,
+            2, 3, 0,
+            4, 7, 6,
+            6, 5, 4,
+            8, 9, 10,
+            10, 11, 8,
+            12, 13, 14,
+            14, 15, 12,
+            16, 19, 18,
+            18, 17, 16,
+            20, 21, 22,
+            22, 23, 20,
+        };
+        return indices;
+    } else {
+        // Clockwise winding order.
+        std::vector<lava::index> indices = {
+            // Left
+            0, 1, 2,
+            2, 1, 3,
+            // Right
+            4, 5, 6,
+            6, 5, 7,
+            // Top
+            0, 1, 4,
+            4, 1, 5,
+            // Bottom
+            2, 3, 6,
+            6, 3, 7,
+            // Back
+            3, 1, 5,
+            5, 7, 3,
+            // Front
+            2, 0, 4,
+            4, 6, 2,
+        };
+        return indices;
+    }
+    // clang-format on
+}
+
+template<typename NormType>
+constexpr std::array<NormType, 6> make_primitive_normals_cube() {
+    // clang-format off
+    // Front, back, left, right, bottom, and top normals, in that order.
+    constexpr std::array<NormType, 6> normals = {{ { 0, 0, 1 },  { 0, 0, -1 },
+                                                   { -1, 0, 0 }, { 1, 0, 0 },
+                                                   { 0, 1, 0 },  { 0, -1, 0 }, }};
+    // clang-format on
+    return normals;
+}
+
+template<typename UVType>
+constexpr std::array<UVType, 24> make_primitive_uvs_cube() {
+    // clang-format off
+    constexpr std::array<UVType, 24> uvs = {{
+        // Front
+        { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
+        // Back
+        { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, 0 },
+        // Left
+        { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
+        // Right
+        { 0, 1 }, { 0, 0 }, { 1, 0 }, { 1, 1 },
+        // Bottom
+        { 1, 0 }, { 0, 0 }, { 0, 1 }, { 1, 1 },
+        // Top
+        { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
+    }};
+    // clang-format on
+    return uvs;
+}
+
+//-----------------------------------------------------------------------------
 /// A mesh of lava::vertex
 using mesh = mesh_template<lava::vertex>;
 
