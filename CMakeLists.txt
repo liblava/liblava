@@ -79,8 +79,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-        message("NOTE: MSVC does not currently support all Liblava features.")
-        add_compile_definitions(IN_MSVC)
+        target_compile_definitions(lava.core INTERFACE IN_MSVC)
 endif()
 
 set_target_properties(lava.core PROPERTIES FOLDER "lava")
@@ -690,5 +689,10 @@ message("=======================================================================
 
         set_property(TARGET ${NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        message("NOTE: MSVC does not currently support all Liblava features.")
+endif()
+
 
 message("========================================================================")
