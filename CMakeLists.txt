@@ -78,6 +78,11 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_link_options(lava.core INTERFACE "-latomic")
 endif()
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        message("NOTE: MSVC does not currently support all Liblava features.")
+        add_compile_definitions(IN_MSVC)
+endif()
+
 set_target_properties(lava.core PROPERTIES FOLDER "lava")
 set_property(TARGET lava.core PROPERTY EXPORT_NAME core)
 add_library(lava::core ALIAS lava.core)

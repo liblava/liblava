@@ -152,6 +152,10 @@ Cubes generated this way have a special case. If they are initialized with norma
 data, they will be represented by 24 vertices. Otherwise, only 8 vertices will
 be initialized.
 
+Due to a bug in MSVC, these fields can only be initialized by `create_mesh()` if
+the vertex struct is `lava::vertex`. This will be amended when MSVC is more
+stable for C++20 compilation.
+
 <br />
 
 ## Command-Line Arguments

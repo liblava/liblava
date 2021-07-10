@@ -370,6 +370,8 @@ bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 template<typename PosType, size_t vert_count, bool is_complex>
 constexpr std::array<PosType, vert_count> make_primitive_positions_cube();
 
+// NOTE: The C++20 spec allows std::vector<T> to be constexpr.
+// g++ does not currently implement this feature, however.
 template<bool is_complex>
 std::vector<lava::index> make_primitive_indices_cube();
 
@@ -391,6 +393,15 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                   "Vertex struct `T` must contain field `position`");
     auto return_mesh = make_mesh<T>();
 
+// MSVC cannot compile this code currently.
+// This logic may be removed when that bug is resolved.
+#ifdef IN_MSVC
+    // Only auto-generate fields if lava::vertex is used.
+    constexpr bool enable_initialization = std::is_same<T, lava::vertex>();
+    constexpr bool has_color = enable_initialization;
+    constexpr bool has_normals = enable_initialization;
+    constexpr bool has_uvs = enable_initialization;
+#else
     constexpr bool has_color = requires(const T t) {
         t.color;
     };
@@ -400,6 +411,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
     constexpr bool has_uvs = requires(const T t) {
         t.uv;
     };
+#endif
 
     using PosType = decltype(T::position);
 
