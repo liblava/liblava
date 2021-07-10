@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
     };
     mesh_template<int_vertex>::ptr int_triangle;
     // Except for the first one, these template arguments are optional.
-    int_triangle = create_mesh<int_vertex, false, true, false>(app.device, mesh_type::triangle);
+    int_triangle = create_mesh<int_vertex, false, true, false,true,false,false>(app.device, mesh_type::triangle);
     if (!int_triangle)
         return error::create_failed;
     auto& int_triangle_data = int_triangle->get_data();
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
     };
     mesh_template<double_vertex>::ptr double_triangle;
     // Except for the first one, these template arguments are optional.
-    double_triangle = create_mesh<double_vertex, false, true, false>(app.device, mesh_type::triangle);
+    double_triangle = create_mesh<double_vertex, false, true, false, true, false, false>(app.device, mesh_type::triangle);
     if (!double_triangle)
         return error::create_failed;
     auto& double_triangle_data = double_triangle->get_data();

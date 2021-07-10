@@ -323,12 +323,16 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
  * @tparam              If color may be generated
  * @tparam              If normals may be generated
  * @tparam              If UVs may be generated
+ * @tparam              On MSVC, specifies if a `color` field exists.
+ * @tparam              On MSVC, specifies if a `normal` field exists.
+ * @tparam              On MSVC, specifies if a `uv` field exists.
  *
  * @return mesh::ptr    Shared pointer to mesh
  */
 
-template<typename T = lava::vertex, bool generate_color = true, bool generate_normals = true,
-         bool generate_uvs = true>
+template<typename T = lava::vertex, bool generate_color = true,
+         bool generate_normals = true, bool generate_uvs = true,
+         bool has_color = true, bool has_normals = true, bool has_uvs = true>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type);
 
@@ -383,34 +387,31 @@ constexpr std::array<UVType, 24> make_primitive_uvs_cube();
 
 //-----------------------------------------------------------------------------
 template<typename T, bool generate_color, bool generate_normals,
-         bool generate_uvs>
+         bool generate_uvs, bool has_color, bool has_normals, bool has_uvs>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type) {
     auto return_mesh = make_mesh<T>();
 
-// MSVC cannot compile this code currently.
-// This logic may be removed when that bug is resolved.
+// This define is set by CMake.
 #ifdef IN_MSVC
-    // Only auto-generate fields if lava::vertex is used.
-    // is_same fails to compile on MSVC with a templated value as an argument,
-    // due to another MSVC bug.
-    constexpr bool enable_initialization = false; // std::is_name<T, lava::vertex>();
-    constexpr bool has_color = enable_initialization;
-    constexpr bool has_normals = enable_initialization;
-    constexpr bool has_uvs = enable_initialization;
+    constexpr bool auto_color = has_color;
+    constexpr bool auto_normals = has_normals;
+    constexpr bool auto_uvs = has_uvs;
 #else
-    constexpr bool has_position = requires(const T t) {
+    // MSVC cannot compile this code currently.
+    // The above logic may be removed when that bug is resolved.
+    constexpr bool auto_position = requires(const T t) {
         t.position;
     };
-    static_assert(has_position,
+    static_assert(auto_position,
                   "Vertex struct `T` must contain field `position`");
-    constexpr bool has_color = requires(const T t) {
+    constexpr bool auto_color = requires(const T t) {
         t.color;
     };
-    constexpr bool has_normals = requires(const T t) {
+    constexpr bool auto_normals = requires(const T t) {
         t.normal;
     };
-    constexpr bool has_uvs = requires(const T t) {
+    constexpr bool auto_uvs = requires(const T t) {
         t.uv;
     };
 #endif
@@ -420,14 +421,14 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
     switch (type) {
     case mesh_type::cube: {
         return_mesh->get_indices().reserve(36);
-        return_mesh->get_indices() = make_primitive_indices_cube < generate_normals && has_normals > ();
-        constexpr size_t vert_count = (generate_normals && has_normals) ? 24 : 8;
+        return_mesh->get_indices() = make_primitive_indices_cube<(generate_normals && auto_normals)>();
+        constexpr size_t vert_count = (generate_normals && auto_normals) ? 24 : 8;
         return_mesh->get_vertices().reserve(vert_count);
-        auto positions = make_primitive_positions_cube<PosType, vert_count, (generate_normals && has_normals)>();
+        auto positions = make_primitive_positions_cube<PosType, vert_count, (generate_normals && auto_normals)>();
         for (size_t i = 0; i < vert_count; i++) {
             T vert;
             vert.position = positions[i];
-            if constexpr (generate_normals && has_normals) {
+            if constexpr (generate_normals && auto_normals) {
                 // This array is generated inside of every loop because that makes
                 // the scoping rules simplest to follow. My expectation is that a
                 // compiler should be able to trivially optimize this.
@@ -435,7 +436,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                 auto normals = make_primitive_normals_cube<NormType>();
                 vert.normal = normals[i / 4];
             }
-            if constexpr (generate_uvs && has_uvs) {
+            if constexpr (generate_uvs && auto_uvs) {
                 using UVType = decltype(T::uv);
                 auto uvs = make_primitive_uvs_cube<UVType>();
                 vert.uv = uvs[i];
@@ -453,12 +454,12 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         vert_two.position = { -1, 1, 0 };
         T vert_three;
         vert_three.position = { 0, -1, 0 };
-        if constexpr (generate_uvs && has_uvs) {
+        if constexpr (generate_uvs && auto_uvs) {
             vert_one.uv = { 1, 1 };
             vert_two.uv = { 0, 1 };
             vert_three.uv = { 0.5, 0 };
         }
-        if constexpr (generate_normals && has_normals) {
+        if constexpr (generate_normals && auto_normals) {
             vert_one.normal = { 1, 1, 0 };
             vert_two.normal = { -1, 1, 0 };
             vert_three.normal = { 0, -1, 0 };
@@ -480,13 +481,13 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         vert_three.position = { -1, -1, 0 };
         T vert_four;
         vert_four.position = { 1, -1, 0 };
-        if constexpr (generate_uvs && has_uvs) {
+        if constexpr (generate_uvs && auto_uvs) {
             vert_one.uv = { 1, 1 };
             vert_two.uv = { 0, 1 };
             vert_three.uv = { 0, 0 };
             vert_four.uv = { 1, 0 };
         }
-        if constexpr (generate_normals && has_normals) {
+        if constexpr (generate_normals && auto_normals) {
             vert_one.normal = { 0, 0, 1 };
             vert_two.normal = { 0, 0, 1 };
             vert_three.normal = { 0, 0, 1 };
@@ -510,10 +511,22 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         return nullptr;
     }
 
-    if constexpr (generate_color && has_color) {
+    if constexpr (generate_color && auto_color) {
         for (auto& vert : return_mesh->get_vertices()) {
-            for (auto& this_color : vert.color) {
-                vert.color = 1;
+            // This does not work on glm vectors.
+            // for (auto& this_color : vert.color) {
+            //     for (auto& color_component : this_color) {
+            //         color_component = 1;
+            //     }
+            // }
+            if constexpr (std::is_same<decltype(vert.color), glm::vec3>::value) {
+                vert.color = { 1, 1, 1 };
+            } else if constexpr (std::is_same<decltype(vert.color), glm::vec4>::value) {
+                vert.color = { 1, 1, 1, 1 };
+            } else {
+                for (size_t i = 0; i < vert.color.size(); i++) {
+                    vert.color[i] = 1;
+                }
             }
         }
     }

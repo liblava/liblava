@@ -152,9 +152,25 @@ Cubes generated this way have a special case. If they are initialized with norma
 data, they will be represented by 24 vertices. Otherwise, only 8 vertices will
 be initialized.
 
-Due to a bug in MSVC, these fields can only be initialized by `create_mesh()` if
-the vertex struct is `lava::vertex`. This will be amended when MSVC is more
+Due to various bugs in MSVC, these fields can only be initialized by `create_mesh()`
+if the vertex struct is `lava::vertex`. This will be amended when MSVC is more
 stable for C++20 compilation.
+
+To generate them when using MSVC, three additional template arguments are required
+to specify that the fields exist. These follow in the same order as the previous
+arguments. The complete definition of `create_mesh()` is:
+
+```c++
+template<typename T = lava::vertex, bool generate_color = true,
+         bool generate_normals = true, bool generate_uvs = true,
+         bool has_color = true, bool has_normals = true, bool has_uvs = true>
+std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
+                                              mesh_type type);
+```
+
+Because these arguments are `true` by default, to simplify the usage of
+`lava::vertex`, they must be set to `false` at call site if these fields
+do not exist in the struct `T`.
 
 <br />
 
