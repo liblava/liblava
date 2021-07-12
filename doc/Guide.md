@@ -123,7 +123,7 @@ int_triangle = create_mesh<int_vertex>(device, mesh_type::triangle);
 ```
 
 `create_mesh()` may also initialize color, normal, and UV data automatically.
-However, it will only initialize these if there are correspond `color`,
+However, it will only initialize these if there are corresponding `color`,
 `normal`, and/or `uv` fields defined in the vertex struct.
 
 By default, all data that can be initialized will be, but if generating any 
@@ -152,13 +152,12 @@ Cubes generated this way have a special case. If they are initialized with norma
 data, they will be represented by 24 vertices. Otherwise, only 8 vertices will
 be initialized.
 
-Due to various bugs in MSVC, these fields can only be initialized by `create_mesh()`
-if the vertex struct is `lava::vertex`. This will be amended when MSVC is more
-stable for C++20 compilation.
+Due to various bugs in the MSVC compiler, mesh generation is somewhat more
+complicated when using CMake's Visual Studio generator.
 
-To generate them when using MSVC, three additional template arguments are required
-to specify that the fields exist. These follow in the same order as the previous
-arguments. The complete definition of `create_mesh()` is:
+To generate them when building with MSVC, three additional template arguments are
+required to specify that the fields exist. These follow in the same order as the
+previous arguments. The complete definition of `create_mesh()` in this case is:
 
 ```c++
 template<typename T = lava::vertex, bool generate_color = true,
@@ -169,8 +168,8 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
 ```
 
 Because these arguments are `true` by default, to simplify the usage of
-`lava::vertex`, they must be set to `false` at call site if these fields
-do not exist in the struct `T`.
+`lava::vertex`, they only must be set to `false` at call site if these fields
+do **not** exist in the struct `T`. Otherwise, they are no-op.
 
 <br />
 
