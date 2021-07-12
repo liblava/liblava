@@ -398,13 +398,15 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
     constexpr bool auto_normals = has_normals;
     constexpr bool auto_uvs = has_uvs;
 #else
-    // MSVC cannot compile this code currently.
+    // MSVC cannot compile any of this code currently.
     // The above logic may be removed when that bug is resolved.
-    constexpr bool auto_position = requires(const T t) {
-        t.position;
-    };
-    static_assert(auto_position,
-                  "Vertex struct `T` must contain field `position`");
+    {
+        constexpr bool auto_position = requires(const T t) {
+            t.position;
+        };
+        static_assert(auto_position,
+                      "Vertex struct `T` must contain field `position`");
+    }
     constexpr bool auto_color = requires(const T t) {
         t.color;
     };
