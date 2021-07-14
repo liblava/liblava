@@ -1,13 +1,12 @@
 /**
  * @file         liblava/resource/mesh.hpp
- * @brief        Mesh
+ * @brief        Vulkan mesh
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
 
-#include <iostream>
 #include <liblava/resource/buffer.hpp>
 #include <liblava/resource/primitive.hpp>
 
@@ -16,9 +15,9 @@ namespace lava {
 /**
  * @brief Templated mesh data
  *
- * @tparam T Input vertex struct
+ * @tparam T    Input vertex struct
  */
-template<typename T = lava::vertex>
+template<typename T = vertex>
 struct mesh_data {
     /// List of vertices
     std::vector<T> vertices;
@@ -300,37 +299,35 @@ bool mesh_template<T>::reload() {
     return create(dev, mapped, memory_usage);
 }
 
-//-----------------------------------------------------------------------------
 /**
  * @brief Make a new mesh
+ * 
+ * @tparam T                                    Type of vertex struct
  *
- * @tparam              Vertex struct typename
- * @return mesh::ptr    Shared pointer to mesh
+ * @return std::shared_ptr<mesh_template<T>>    Shared pointer to mesh
  */
-template<typename T = lava::vertex>
+template<typename T = vertex>
 inline std::shared_ptr<mesh_template<T>> make_mesh() {
     return std::make_shared<mesh_template<T>>();
 }
 
-//-----------------------------------------------------------------------------
 /**
  * @brief Create a new mesh
+ * 
+ * @tparam T                                    Type of vertex struct
+ * @tparam generate_color                       If color may be generated
+ * @tparam generate_normals                     If normals may be generated
+ * @tparam generate_uvs                         If UVs may be generated
+ * @tparam has_color                            On MSVC, specifies if a `color` field exists
+ * @tparam has_normals                          On MSVC, specifies if a `normal` field exists
+ * @tparam has_uvs                              On MSVC, specifies if a `uv` field exists
  *
- * @param device        Vulkan device
- * @param type          Mesh type
+ * @param device                                Vulkan device
+ * @param type                                  Mesh type
  *
- * @tparam              Vertex struct typename
- * @tparam              If color may be generated
- * @tparam              If normals may be generated
- * @tparam              If UVs may be generated
- * @tparam              On MSVC, specifies if a `color` field exists.
- * @tparam              On MSVC, specifies if a `normal` field exists.
- * @tparam              On MSVC, specifies if a `uv` field exists.
- *
- * @return mesh::ptr    Shared pointer to mesh
+ * @return std::shared_ptr<mesh_template<T>>    Shared pointer to mesh
  */
-
-template<typename T = lava::vertex, bool generate_color = true,
+template<typename T = vertex, bool generate_color = true,
          bool generate_normals = true, bool generate_uvs = true,
          bool has_color = true, bool has_normals = true, bool has_uvs = true>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
@@ -370,18 +367,46 @@ bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
     return true;
 }
 
-//-----------------------------------------------------------------------------
+/**
+ * @brief Make primitive positions for cube
+ * 
+ * @tparam PosType                                      Type of position
+ * @tparam vert_count                                   Number of vertices
+ * @tparam is_complex                                   Complex state
+ * @return constexpr std::array<PosType, vert_count>    Array of positions
+ */
 template<typename PosType, size_t vert_count, bool is_complex>
 constexpr std::array<PosType, vert_count> make_primitive_positions_cube();
 
-// NOTE: The C++20 spec allows std::vector<T> to be constexpr.
-// g++ does not currently implement this feature, however.
-template<bool is_complex>
-std::vector<lava::index> make_primitive_indices_cube();
+//-----------------------------------------------------------------------------
+// NOTE: The C++20 spec allows std::vector<T> to be constexpr
+// g++ does not currently implement this feature, however
+//-----------------------------------------------------------------------------
 
+/**
+ * @brief Make primitive indices for cube
+ * 
+ * @tparam is_complex            Complex state
+ * @return std::vector<index>    Array for indices
+ */
+template<bool is_complex>
+std::vector<index> make_primitive_indices_cube();
+
+/**
+ * @brief Make primitive normals for cube
+ * 
+ * @tparam NormType                             Type of normal
+ * @return constexpr std::array<NormType, 6>    Array of normals
+ */
 template<typename NormType>
 constexpr std::array<NormType, 6> make_primitive_normals_cube();
 
+/**
+ * @brief Make primitive uvs for cube
+ * 
+ * @tparam UVType                              Type of uv
+ * @return constexpr std::array<UVType, 24>    Array of uvs
+ */
 template<typename UVType>
 constexpr std::array<UVType, 24> make_primitive_uvs_cube();
 
@@ -392,14 +417,14 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type) {
     auto return_mesh = make_mesh<T>();
 
-// This define is set by CMake.
+// This define is set by CMake
 #ifdef IN_MSVC
     constexpr bool auto_color = has_color;
     constexpr bool auto_normals = has_normals;
     constexpr bool auto_uvs = has_uvs;
 #else
-    // MSVC cannot compile any of this code currently.
-    // The above logic may be removed when that bug is resolved.
+    // MSVC cannot compile any of this code currently
+    // The above logic may be removed when that bug is resolved
     {
         constexpr bool auto_position = requires(const T t) {
             t.position;
@@ -431,9 +456,8 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
             T vert;
             vert.position = positions[i];
             if constexpr (generate_normals && auto_normals) {
-                // This array is generated inside of every loop because that makes
-                // the scoping rules simplest to follow. My expectation is that a
-                // compiler should be able to trivially optimize this.
+                // This array is generated inside of every loop because that makes the scoping rules simplest to follow
+                // My expectation is that a compiler should be able to trivially optimize this
                 using NormType = decltype(T::normal);
                 auto normals = make_primitive_normals_cube<NormType>();
                 vert.normal = normals[i / 4];
@@ -515,7 +539,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
 
     if constexpr (generate_color && auto_color) {
         for (auto& vert : return_mesh->get_vertices()) {
-            // This does not work on glm vectors.
+            // This does not work on glm vectors
             // for (auto& this_color : vert.color) {
             //     for (auto& color_component : this_color) {
             //         color_component = 1;
@@ -575,11 +599,12 @@ constexpr std::array<PosType, vert_count> make_primitive_positions_cube() {
     // clang-format on
 }
 
+//-----------------------------------------------------------------------------
 template<bool is_complex>
-std::vector<lava::index> make_primitive_indices_cube() {
+std::vector<index> make_primitive_indices_cube() {
     // clang-format off
     if constexpr (is_complex) {
-        std::vector<lava::index> indices = {
+        std::vector<index> indices = {
             0, 1, 2,
             2, 3, 0,
             4, 7, 6,
@@ -595,8 +620,8 @@ std::vector<lava::index> make_primitive_indices_cube() {
         };
         return indices;
     } else {
-        // Clockwise winding order.
-        std::vector<lava::index> indices = {
+        // Clockwise winding order
+        std::vector<index> indices = {
             // Left
             0, 1, 2,
             2, 1, 3,
@@ -621,10 +646,11 @@ std::vector<lava::index> make_primitive_indices_cube() {
     // clang-format on
 }
 
+//-----------------------------------------------------------------------------
 template<typename NormType>
 constexpr std::array<NormType, 6> make_primitive_normals_cube() {
     // clang-format off
-    // Front, back, left, right, bottom, and top normals, in that order.
+    // Front, back, left, right, bottom, and top normals, in that order
     constexpr std::array<NormType, 6> normals = {{ { 0, 0, 1 },  { 0, 0, -1 },
                                                    { -1, 0, 0 }, { 1, 0, 0 },
                                                    { 0, 1, 0 },  { 0, -1, 0 }, }};
@@ -632,6 +658,7 @@ constexpr std::array<NormType, 6> make_primitive_normals_cube() {
     return normals;
 }
 
+//-----------------------------------------------------------------------------
 template<typename UVType>
 constexpr std::array<UVType, 24> make_primitive_uvs_cube() {
     // clang-format off
@@ -653,9 +680,8 @@ constexpr std::array<UVType, 24> make_primitive_uvs_cube() {
     return uvs;
 }
 
-//-----------------------------------------------------------------------------
-/// A mesh of lava::vertex
-using mesh = mesh_template<lava::vertex>;
+/// Mesh with default vertex
+using mesh = mesh_template<vertex>;
 
 /**
  * @brief Mesh meta

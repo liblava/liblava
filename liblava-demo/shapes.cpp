@@ -12,16 +12,16 @@ using namespace lava;
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
-    app app("shapes", { argc, argv });
+    app app("lava shapes", { argc, argv });
 
     if (!app.setup())
         return error::not_ready;
 
-    // Initialize camera.
+    // Initialize camera
     app.camera.position = v3(0.f, -2.f, 4.f);
     app.camera.rotation = v3(-25.f, 0.f, 0.f); // Degrees
 
-    // All shapes will share the same world-space matrix in this example.
+    // All shapes will share the same world-space matrix in this example
     mat4 world_matrix = glm::identity<mat4>();
     v3 rotation_vector = v3{ 0, 0, 0 };
 
@@ -30,13 +30,13 @@ int main(int argc, char* argv[]) {
                                            VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
         return error::create_failed;
 
-    // All shapes will share the same rotation value.
+    // All shapes will share the same rotation value
     buffer rotation_buffer;
     if (!rotation_buffer.create_mapped(app.device, &rotation_vector, sizeof(rotation_vector),
                                        VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
         return error::create_failed;
 
-    // Initialize meshes. By default, these make lava::vertex vertices.
+    // Initialize meshes. By default, these make vertex
     std::array<mesh::ptr, 3> meshes;
 
     mesh::ptr triangle;
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
 
     mesh::ptr cube;
     // This cube definition does not have normals:
-    // cube = create_mesh<lava::vertex, false, false, true>(app.device, mesh_type::cube);
+    // cube = create_mesh<vertex, false, false, true>(app.device, mesh_type::cube);
     // This cube definition does have normals:
     cube = create_mesh(app.device, mesh_type::cube);
     if (!cube)
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
             return error::create_failed;
     }
 
-    // A descriptor is needed for representing the world-space matrix.
+    // A descriptor is needed for representing the world-space matrix
     descriptor::ptr descriptor_layout;
     descriptor::pool::ptr descriptor_pool;
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
@@ -79,23 +79,23 @@ int main(int argc, char* argv[]) {
         pipeline->set_depth_test_and_write();
         pipeline->set_depth_compare_op(VK_COMPARE_OP_LESS_OR_EQUAL);
 
-        // All shapes use the same simple shaders.
-        if (!pipeline->add_shader(file_data("shapes/vert.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        // All shapes use the same simple shaders
+        if (!pipeline->add_shader(file_data("shapes/vertex.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
-        if (!pipeline->add_shader(file_data("shapes/frag.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!pipeline->add_shader(file_data("shapes/fragment.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
-        pipeline->set_vertex_input_binding({ 0, sizeof(lava::vertex), VK_VERTEX_INPUT_RATE_VERTEX });
-        // Only send position and color to shaders for this demo.
-        // TODO: Update this comment.
+        pipeline->set_vertex_input_binding({ 0, sizeof(vertex), VK_VERTEX_INPUT_RATE_VERTEX });
+        // Only send position and color to shaders for this demo
+        // TODO: Update this comment
         pipeline->set_vertex_input_attributes({
-            { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(lava::vertex, position) },
-            { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, offsetof(lava::vertex, color) },
-            { 2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(lava::vertex, normal) },
+            { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(vertex, position) },
+            { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, offsetof(vertex, color) },
+            { 2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(vertex, normal) },
         });
 
         // Descriptor sets must be made to transfer the shapes' world matrix and the camera's
-        // view matrix to the physical device.
+        // view matrix to the physical device
         descriptor_layout = make_descriptor();
         descriptor_layout->add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                                        VK_SHADER_STAGE_VERTEX_BIT); // View matrix
@@ -148,7 +148,7 @@ int main(int argc, char* argv[]) {
         if (!pipeline->create(render_pass->get()))
             return false;
 
-        // Push this render pass to the pipeline.
+        // Push this render pass to the pipeline
         render_pass->add_front(pipeline);
 
         // Return after no errors!
@@ -163,23 +163,23 @@ int main(int argc, char* argv[]) {
         pipeline_layout->destroy();
     };
 
-    mesh_type current_mesh = mesh_type::cube;
-
     app.imgui.on_draw = [&]() {
         ImGui::Begin(app.get_name());
-        if (ImGui::Button("Triangle")) {
+
+        if (ImGui::Button("Triangle"))
             current_mesh = mesh_type::triangle;
-        }
-        if (ImGui::Button("Quad")) {
+
+        if (ImGui::Button("Quad"))
             current_mesh = mesh_type::quad;
-        }
-        if (ImGui::Button("Cube")) {
+
+        if (ImGui::Button("Cube"))
             current_mesh = mesh_type::cube;
-        }
-        if (ImGui::Button("None")) {
+
+        if (ImGui::Button("None"))
             current_mesh = mesh_type::none;
-        }
+
         app.draw_about();
+
         ImGui::End();
     };
 

@@ -1,6 +1,6 @@
 /**
- * @file         liblava/resource/primitives.hpp
- * @brief        Primitives
+ * @file         liblava/resource/primitive.hpp
+ * @brief        Vulkan primitives
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */

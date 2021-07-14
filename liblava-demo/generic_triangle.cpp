@@ -5,14 +5,13 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <cstddef>
 #include <demo.hpp>
 
 using namespace lava;
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
-    app app("generic lava triangle", { argc, argv });
+    app app("lava generic triangle", { argc, argv });
 
     app.manager.on_create_param = [](device::create_param& param) {
         param.features.shaderFloat64 = true;
@@ -21,10 +20,10 @@ int main(int argc, char* argv[]) {
     if (!app.setup())
         return error::not_ready;
 
-    // Initialize a lava triangle.
+    // Initialize a lava triangle
     mesh::ptr lava_triangle;
-    // These template arguments are optional.
-    lava_triangle = create_mesh<lava::vertex, false, true, false>(app.device, mesh_type::triangle);
+    // These template arguments are optional
+    lava_triangle = create_mesh<vertex, false, true, false>(app.device, mesh_type::triangle);
     if (!lava_triangle)
         return error::create_failed;
     auto& lava_triangle_data = lava_triangle->get_data();
@@ -36,13 +35,13 @@ int main(int argc, char* argv[]) {
     if (!lava_triangle->reload())
         return error::create_failed;
 
-    // Initialize an int triangle.
+    // Initialize an int triangle
     struct int_vertex {
         std::array<int, 3> position;
-        lava::v4 color;
+        v4 color;
     };
     mesh_template<int_vertex>::ptr int_triangle;
-    // Except for the first one, these template arguments are optional.
+    // Except for the first one, these template arguments are optional
     int_triangle = create_mesh<int_vertex, false, true, false, true, false, false>(app.device, mesh_type::triangle);
     if (!int_triangle)
         return error::create_failed;
@@ -55,13 +54,13 @@ int main(int argc, char* argv[]) {
     if (!int_triangle->reload())
         return error::create_failed;
 
-    // Initialize a double triangle.
+    // Initialize a double triangle
     struct double_vertex {
         std::array<double, 3> position;
-        lava::v4 color;
+        v4 color;
     };
     mesh_template<double_vertex>::ptr double_triangle;
-    // Except for the first one, these template arguments are optional.
+    // Except for the first one, these template arguments are optional
     double_triangle = create_mesh<double_vertex, false, true, false, true, false, false>(app.device, mesh_type::triangle);
     if (!double_triangle)
         return error::create_failed;
@@ -82,7 +81,7 @@ int main(int argc, char* argv[]) {
     app.on_create = [&]() {
         render_pass::ptr render_pass = app.shading.get_pass();
 
-        // Making a lava triangle pipeline.
+        // Making a lava triangle pipeline
         lava_pipeline = make_graphics_pipeline(app.device);
         lava_pipeline->add_color_blend_attachment();
         pipeline_layout = make_pipeline_layout();
@@ -92,14 +91,14 @@ int main(int argc, char* argv[]) {
             lava_triangle->bind_draw(cmd_buf);
         };
 
-        // Making an int triangle pipeline.
+        // Making an int triangle pipeline
         int_pipeline = make_graphics_pipeline(app.device);
         int_pipeline->add_color_blend_attachment();
         int_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
             int_triangle->bind_draw(cmd_buf);
         };
 
-        // Making an double triangle pipeline.
+        // Making an double triangle pipeline
         double_pipeline = make_graphics_pipeline(app.device);
         double_pipeline->add_color_blend_attachment();
         double_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
@@ -110,21 +109,21 @@ int main(int argc, char* argv[]) {
         if (!shader_stage)
             return false;
 
-        // Describe the lava triangle.
+        // Describe the lava triangle
         if (!lava_pipeline->add_shader(file_data("generic_triangle/lava_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
         lava_pipeline->add(shader_stage);
 
-        lava_pipeline->set_vertex_input_binding({ 0, sizeof(lava::vertex), VK_VERTEX_INPUT_RATE_VERTEX });
+        lava_pipeline->set_vertex_input_binding({ 0, sizeof(vertex), VK_VERTEX_INPUT_RATE_VERTEX });
         lava_pipeline->set_vertex_input_attributes({
-            { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(lava::vertex, position)) },
-            { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(lava::vertex, color)) },
+            { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position)) },
+            { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color)) },
         });
         lava_pipeline->set_layout(pipeline_layout);
         if (!lava_pipeline->create(render_pass->get()))
             return false;
 
-        // Describe the int triangle.
+        // Describe the int triangle
         if (!int_pipeline->add_shader(file_data("generic_triangle/int_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
         int_pipeline->add(shader_stage);
@@ -138,7 +137,7 @@ int main(int argc, char* argv[]) {
         if (!int_pipeline->create(render_pass->get()))
             return false;
 
-        // Describe the double triangle.
+        // Describe the double triangle
         if (!double_pipeline->add_shader(file_data("generic_triangle/double_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
         double_pipeline->add(shader_stage);
@@ -156,7 +155,6 @@ int main(int argc, char* argv[]) {
         render_pass->add_front(double_pipeline);
         render_pass->add_front(int_pipeline);
 
-        // No errors so far!
         return true;
     };
 
