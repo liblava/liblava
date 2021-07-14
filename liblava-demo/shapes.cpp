@@ -65,6 +65,8 @@ int main(int argc, char* argv[]) {
             return error::create_failed;
     }
 
+    mesh_type current_mesh = mesh_type::cube;
+
     // A descriptor is needed for representing the world-space matrix
     descriptor::ptr descriptor_layout;
     descriptor::pool::ptr descriptor_pool;
@@ -151,7 +153,26 @@ int main(int argc, char* argv[]) {
         // Push this render pass to the pipeline
         render_pass->add_front(pipeline);
 
-        // Return after no errors!
+        pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
+            pipeline_layout->bind(cmd_buf, descriptor_set);
+
+            switch (current_mesh) {
+            case mesh_type::cube:
+                cube->bind_draw(cmd_buf);
+                break;
+            case mesh_type::quad:
+                quad->bind_draw(cmd_buf);
+                break;
+            case mesh_type::triangle:
+                triangle->bind_draw(cmd_buf);
+                break;
+            default:
+                break;
+            }
+
+            return true;
+        };
+
         return true;
     };
 
@@ -187,27 +208,8 @@ int main(int argc, char* argv[]) {
         rotation_vector += v3{ 0, 1.f, 0 } * dt;
         memcpy(as_ptr(rotation_buffer.get_mapped_data()), &rotation_vector, sizeof(rotation_vector));
 
-        pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
-            pipeline_layout->bind(cmd_buf, descriptor_set);
-            switch (current_mesh) {
-            case mesh_type::cube:
-                cube->bind_draw(cmd_buf);
-                break;
-            case mesh_type::quad:
-                quad->bind_draw(cmd_buf);
-                break;
-            case mesh_type::triangle:
-                triangle->bind_draw(cmd_buf);
-                break;
-            case mesh_type::none:
-                return false;
-            }
-            return true;
-        };
-
-        if (app.camera.activated()) {
-            app.camera.update_view(dt, app.input.get_mouse_position());
-        }
+        if (app.camera.activated())
+            app.camera.update_view(to_dt(app.run_time.delta), app.input.get_mouse_position());
 
         return true;
     };
