@@ -315,10 +315,10 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
  * @brief Create a new mesh
  * 
  * @tparam T                                    Type of vertex struct
- * @tparam generate_color                       If color may be generated
+ * @tparam generate_colors                      If color may be generated
  * @tparam generate_normals                     If normals may be generated
  * @tparam generate_uvs                         If UVs may be generated
- * @tparam has_color                            On MSVC, specifies if a `color` field exists
+ * @tparam has_colors                           On MSVC, specifies if a `color` field exists
  * @tparam has_normals                          On MSVC, specifies if a `normal` field exists
  * @tparam has_uvs                              On MSVC, specifies if a `uv` field exists
  *
@@ -327,9 +327,9 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
  *
  * @return std::shared_ptr<mesh_template<T>>    Shared pointer to mesh
  */
-template<typename T = vertex, bool generate_color = true,
+template<typename T = vertex, bool generate_colors = true,
          bool generate_normals = true, bool generate_uvs = true,
-         bool has_color = true, bool has_normals = true, bool has_uvs = true>
+         bool has_colors = true, bool has_normals = true, bool has_uvs = true>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type);
 
@@ -411,15 +411,15 @@ template<typename UVType>
 constexpr std::array<UVType, 24> make_primitive_uvs_cube();
 
 //-----------------------------------------------------------------------------
-template<typename T, bool generate_color, bool generate_normals,
-         bool generate_uvs, bool has_color, bool has_normals, bool has_uvs>
+template<typename T, bool generate_colors, bool generate_normals,
+         bool generate_uvs, bool has_colors, bool has_normals, bool has_uvs>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type) {
     auto return_mesh = make_mesh<T>();
 
 // This define is set by CMake
 #ifdef IN_MSVC
-    constexpr bool auto_color = has_color;
+    constexpr bool auto_colors = has_colors;
     constexpr bool auto_normals = has_normals;
     constexpr bool auto_uvs = has_uvs;
 #else
@@ -432,7 +432,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         static_assert(auto_position,
                       "Vertex struct `T` must contain field `position`");
     }
-    constexpr bool auto_color = requires(const T t) {
+    constexpr bool auto_colors = requires(const T t) {
         t.color;
     };
     constexpr bool auto_normals = requires(const T t) {
@@ -537,7 +537,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         return nullptr;
     }
 
-    if constexpr (generate_color && auto_color) {
+    if constexpr (generate_colors && auto_colors) {
         for (auto& vert : return_mesh->get_vertices()) {
             // This does not work on glm vectors
             // for (auto& this_color : vert.color) {
