@@ -91,8 +91,6 @@ struct window;
 struct buffer;
 struct image;
 struct vertex;
-struct mesh_data;
-struct mesh;
 struct mesh_meta;
 struct file_format;
 struct texture;

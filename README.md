@@ -68,6 +68,10 @@
 
 <a href="liblava-demo/triangle.cpp">![triangle](res/triangle/screenshot.png)</a>
 
+##### [generic triangles](liblava-demo/generic_triangle.cpp) ➜ float, double, and int meshes
+
+##### [shapes](liblava-demo/shapes.cpp) ➜ generating primitives
+
 <br />
 
 ### Projects

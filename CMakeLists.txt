@@ -78,6 +78,10 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_link_options(lava.core INTERFACE "-latomic")
 endif()
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        target_compile_definitions(lava.core INTERFACE IN_MSVC)
+endif()
+
 set_target_properties(lava.core PROPERTIES FOLDER "lava")
 set_property(TARGET lava.core PROPERTY EXPORT_NAME core)
 add_library(lava::core ALIAS lava.core)
@@ -204,8 +208,9 @@ add_library(lava.resource STATIC
         ${LIBLAVA_DIR}/resource/format.hpp
         ${LIBLAVA_DIR}/resource/image.cpp
         ${LIBLAVA_DIR}/resource/image.hpp
-        ${LIBLAVA_DIR}/resource/mesh.cpp
+        ${LIBLAVA_DIR}/resource/primitive.hpp
         ${LIBLAVA_DIR}/resource/mesh.hpp
+
         ${LIBLAVA_DIR}/resource/texture.cpp
         ${LIBLAVA_DIR}/resource/texture.hpp
         )
@@ -556,6 +561,44 @@ message("=======================================================================
 
         set_property(TARGET lava-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
+        message(">> lava-generic-triangle")
+
+        set(GENERIC_TRIANGLE_SHADERS
+                res/generic_triangle/triangle.frag
+                res/generic_triangle/lava_triangle.vert
+                res/generic_triangle/int_triangle.vert
+                res/generic_triangle/double_triangle.vert
+                )
+
+        add_executable(lava-generic-triangle
+                ${LIBLAVA_DEMO_DIR}/generic_triangle.cpp
+                ${GENERIC_TRIANGLE_SHADERS}
+                )
+
+        source_group("Shader Files" FILES ${GENERIC_TRIANGLE_SHADERS})
+
+        set_target_properties(lava-generic-triangle PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava-generic-triangle lava::demo)
+
+        set_property(TARGET lava-generic-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
+        message(">> lava-shapes")
+
+        set(SHAPES_SHADERS
+                res/shapes/shapes.frag
+                res/shapes/shapes.vert)
+
+        add_executable(lava-shapes
+                ${LIBLAVA_DEMO_DIR}/shapes.cpp
+                ${SHAPES_SHADERS})
+
+        source_group("Shader Files" FILES ${SHAPES_SHADERS})
+
+        set_target_properties(lava-shapes PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava-shapes lava::demo)
+
+        set_property(TARGET lava-shapes PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
         message(">> lava-lamp")
 
         set(LAMP_SHADERS
@@ -618,6 +661,8 @@ message("=======================================================================
 
         install(TARGETS
                 lava-triangle
+                lava-generic-triangle
+                lava-shapes
                 lava-lamp
                 lava-spawn
                 lava-light
@@ -651,5 +696,11 @@ message("=======================================================================
 
         set_property(TARGET ${NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        message("========================================================================")
+        message("NOTE: MSVC does not currently support all liblava features")
+endif()
+
 
 message("========================================================================")

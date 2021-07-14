@@ -10,7 +10,9 @@
 
 ## lava [demo](../liblava-demo) : app
 
-[![lamp](https://img.shields.io/badge/lava-lamp-brightgreen.svg)](../liblava-demo/lamp.cpp) [![light](https://img.shields.io/badge/lava-light-brightgreen.svg)](../liblava-demo/light.cpp) [![spawn](https://img.shields.io/badge/lava-spawn-brightgreen.svg)](../liblava-demo/spawn.cpp) [![triangle](https://img.shields.io/badge/lava-triangle-brightgreen.svg)](../liblava-demo/triangle.cpp)
+[![lamp](https://img.shields.io/badge/lava-lamp-brightgreen.svg)](../liblava-demo/lamp.cpp) [![light](https://img.shields.io/badge/lava-light-brightgreen.svg)](../liblava-demo/light.cpp) [![shapes](https://img.shields.io/badge/lava-shapes-brightgreen.svg)](../liblava-demo/shapes.cpp) [![spawn](https://img.shields.io/badge/lava-spawn-brightgreen.svg)](../liblava-demo/spawn.cpp)
+
+[![generic_triangle](https://img.shields.io/badge/lava-generic_triangle-brightgreen.svg)](../liblava-demo/generic_triangle.cpp) [![triangle](https://img.shields.io/badge/lava-triangle-brightgreen.svg)](../liblava-demo/triangle.cpp)
 
 <br />
 
@@ -32,7 +34,7 @@
 
 [![frame](https://img.shields.io/badge/lava-frame-red.svg)](../liblava/frame/frame.hpp) [![gamepad](https://img.shields.io/badge/lava-gamepad-red.svg)](../liblava/frame/gamepad.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](../liblava/frame/input.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](../liblava/frame/window.hpp)
 
- [![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](../liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](../liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](../liblava/frame/swapchain.hpp)
+[![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](../liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](../liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](../liblava/frame/swapchain.hpp)
 
 <br />
 
@@ -44,8 +46,9 @@
 
 ## lava [resource](../liblava/resource) : base
 
-[![buffer](https://img.shields.io/badge/lava-buffer-yellowgreen.svg)](../liblava/resource/buffer.hpp) [![format](https://img.shields.io/badge/lava-format-yellowgreen.svg)](../liblava/resource/format.hpp) [![image](https://img.shields.io/badge/lava-image-yellowgreen.svg)](../liblava/resource/image.hpp) [![mesh](https://img.shields.io/badge/lava-mesh-yellowgreen.svg)](../liblava/resource/mesh.hpp) [![texture](https://img.shields.io/badge/lava-texture-yellowgreen.svg)](../liblava/resource/texture.hpp)
+[![buffer](https://img.shields.io/badge/lava-buffer-yellowgreen.svg)](../liblava/resource/buffer.hpp) [![mesh](https://img.shields.io/badge/lava-mesh-yellowgreen.svg)](../liblava/resource/mesh.hpp) [![primitive](https://img.shields.io/badge/lava-primitive-yellowgreen.svg)](../liblava/resource/primitive.hpp)
 
+[![format](https://img.shields.io/badge/lava-format-yellowgreen.svg)](../liblava/resource/format.hpp) [![image](https://img.shields.io/badge/lava-image-yellowgreen.svg)](../liblava/resource/image.hpp) [![texture](https://img.shields.io/badge/lava-texture-yellowgreen.svg)](../liblava/resource/texture.hpp)
 <br />
 
 ## lava [base](../liblava/base) : util

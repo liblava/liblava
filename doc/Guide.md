@@ -8,7 +8,7 @@
 
 # Guide
 
-[Lifetime of an Object](#lifetime-of-an-object) / [Command-Line Arguments](#command-line-arguments)
+[Lifetime of an Object](#lifetime-of-an-object) / [Making meshes](#making-meshes) / [Command-Line Arguments](#command-line-arguments)
 
 ---
 
@@ -61,6 +61,128 @@ buffer::ptr use_buffer_on_heap() {
     return nullptr;
 }
 ```
+
+----
+
+<br />
+
+## Making meshes
+
+**liblava** provides a `mesh` struct that contains a list of vertices and, optionally,
+a list of indices
+
+By default, vertices in a `mesh` are of type `vertex`, which has the following layout:
+
+```c++
+struct vertex {
+    v3 position;
+    v4 color;
+    v2 uv;
+    v3 normal;
+}
+```
+
+It is made like this:
+
+```c++
+mesh::ptr my_mesh = make_mesh();
+my_mesh->add_data( /* Pass in a lava::mesh_data object */ );
+my_mesh->create(device);
+```
+
+**liblava** provides a `create_mesh()` function to simplify the creation of primitives
+
+It takes a `mesh_type` argument to specify what kind of primitive to build
+
+Its values are:
+
+```c++
+none,
+cube,
+triangle,
+quad
+```
+
+The function is called in this way:
+
+```c++
+mesh::ptr cube;
+cube = create_mesh(device, mesh_type::cube);
+```
+
+Meshes are templated, and can represent any vertex struct definition
+
+```c++
+struct int_vertex {
+    std::array<i32, 3> position;
+    v4 color;
+};
+mesh_template<int_vertex>::ptr int_triangle;
+```
+
+`create_mesh()` can generate primitives for arbitrary vertex structs too,
+provided that the struct contains an array or vector member named `position`
+
+```c++
+int_triangle = create_mesh<int_vertex>(device, mesh_type::triangle);
+```
+
+`create_mesh()` may also initialize color, normal, and UV data automatically
+
+However, it will only initialize these if there are corresponding `color`,
+`normal`, and/or `uv` fields defined in the vertex struct
+
+By default, all data that can be initialized will be, but if generating any 
+of this data is not desired, the fields can be individually disabled by template
+arguments in this order:
+
+- Color
+- Normal
+- UV
+
+It is done in this way:
+
+```c++
+struct custom_vertex {
+    v3 position;
+    v3 color;
+    v3 normal;
+    v2 uv;
+};
+mesh_template<custom_vertex>::ptr triangle;
+// Generate three vertices with positions and uvs, but not colors or normals
+triangle = create_mesh<custom_vertex, false, false, true>
+                      (device, mesh_type::triangle);
+```
+
+Cubes generated this way have a special case. If they are initialized with normal
+data, they will be represented by 24 vertices. Otherwise, only 8 vertices will
+be initialized
+
+----
+
+Due to various bugs in the MSVC compiler, mesh generation is somewhat more
+complicated when using CMake's Visual Studio generator
+
+To generate them when building with MSVC, three additional template arguments are
+required to specify that the fields exist. These follow in the same order as the
+previous arguments
+
+The complete definition of `create_mesh()` in this case is:
+
+```c++
+template<typename T = vertex, bool generate_colors = true,
+         bool generate_normals = true, bool generate_uvs = true,
+         bool has_colors = true, bool has_normals = true, bool has_uvs = true>
+std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
+                                              mesh_type type);
+```
+
+Because these arguments are `true` by default, to simplify the usage of
+`vertex`, they only must be set to `false` at call site if these fields
+do **not** exist in the struct `T` - Otherwise, they are no-op!
+
+----
 
 <br />
 
