@@ -8,7 +8,7 @@
 
 # Guide
 
-[Lifetime of an Object](#lifetime-of-an-object) / [Command-Line Arguments](#command-line-arguments)
+[Lifetime of an Object](#lifetime-of-an-object) / [Making meshes](#making-meshes) / [Command-Line Arguments](#command-line-arguments)
 
 ---
 
@@ -62,9 +62,13 @@ buffer::ptr use_buffer_on_heap() {
 }
 ```
 
-### Making meshes
+----
 
-Liblava provides a `mesh` struct that contains a list of vertices and, optionally,
+<br />
+
+## Making meshes
+
+**liblava** provides a `mesh` struct that contains a list of vertices and, optionally,
 a list of indices.
 
 By default, vertices in a `mesh` are of type `lava::vertex`, which has the
@@ -87,7 +91,7 @@ my_mesh->add_data( /* Pass in a lava::mesh_data object */ );
 my_mesh->create(device);
 ```
 
-Liblava provides a `create_mesh()` function to simplify the creation of primitives. 
+**liblava** provides a `create_mesh()` function to simplify the creation of primitives. 
 It takes a `lava::mesh_type` argument to specify what kind of primitive to build.
 Its values are:
 
@@ -170,6 +174,8 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
 Because these arguments are `true` by default, to simplify the usage of
 `lava::vertex`, they only must be set to `false` at call site if these fields
 do **not** exist in the struct `T`. Otherwise, they are no-op.
+
+----
 
 <br />
 
