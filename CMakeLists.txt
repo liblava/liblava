@@ -548,6 +548,21 @@ message("=======================================================================
                 res/triangle/triangle.frag
                 res/triangle/triangle.vert
                 )
+
+        add_executable(lava-triangle 
+                ${LIBLAVA_DEMO_DIR}/triangle.cpp
+                ${TRIANGLE_SHADERS}
+                )
+
+        source_group("Shader Files" FILES ${TRIANGLE_SHADERS})
+
+        set_target_properties(lava-triangle PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava-triangle lava::demo)
+
+        set_property(TARGET lava-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
+        message(">> lava-generic-triangle")
+
         set(GENERIC_TRIANGLE_SHADERS
                 res/generic_triangle/triangle.frag
                 res/generic_triangle/lava_triangle.vert
@@ -555,31 +570,23 @@ message("=======================================================================
                 res/generic_triangle/double_triangle.vert
                 )
 
-        add_executable(lava-triangle 
-                ${LIBLAVA_DEMO_DIR}/triangle.cpp
-                ${TRIANGLE_SHADERS}
-                )
         add_executable(lava-generic-triangle
                 ${LIBLAVA_DEMO_DIR}/generic_triangle.cpp
                 ${GENERIC_TRIANGLE_SHADERS}
                 )
 
-        source_group("Shader Files" FILES ${TRIANGLE_SHADERS})
         source_group("Shader Files" FILES ${GENERIC_TRIANGLE_SHADERS})
 
-        set_target_properties(lava-triangle PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-triangle lava::demo)
         set_target_properties(lava-generic-triangle PROPERTIES FOLDER "lava-demo")
         target_link_libraries(lava-generic-triangle lava::demo)
 
-        set_property(TARGET lava-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
         set_property(TARGET lava-generic-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-        message(">> shapes")
+        message(">> lava-shapes")
 
-        set(SHAPES_SHADER
-                res/shapes/vert.glsl
-                res/shapes/frag.glsl)
+        set(SHAPES_SHADERS
+                res/shapes/shapes.frag
+                res/shapes/shapes.vert)
 
         add_executable(lava-shapes
                 ${LIBLAVA_DEMO_DIR}/shapes.cpp
@@ -692,7 +699,7 @@ endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
         message("========================================================================")
-        message("NOTE: MSVC does not currently support all Liblava features.")
+        message("NOTE: MSVC does not currently support all liblava features")
 endif()
 
 
