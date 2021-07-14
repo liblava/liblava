@@ -28,13 +28,12 @@ out gl_PerVertex {
 };
 
 mat3 make_rotation_matrix(float theta) {
-	float sin_theta = sin(theta);
-	float cos_theta = cos(theta);
-	return mat3(
-		cos_theta, 0.0, -sin_theta,
-		0.0, 1.0, 0.0,
-		sin_theta, 0.0, cos_theta
-	);
+    float sin_theta = sin(theta);
+    float cos_theta = cos(theta);
+    return mat3(
+        cos_theta, 0.0, -sin_theta,
+        0.0, 1.0, 0.0,
+        sin_theta, 0.0, cos_theta);
 }
 
 void main() {
@@ -42,5 +41,5 @@ void main() {
     outNormal = inNormal;
 
     gl_Position = ubo_camera.projection * ubo_camera.view * ubo_spawn.model
-        * vec4(make_rotation_matrix(ubo_rotation.rotation.y) * inPos, 1.0);
+                  * vec4(make_rotation_matrix(ubo_rotation.rotation.y) * inPos, 1.0);
 }
