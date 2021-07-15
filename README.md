@@ -1,4 +1,4 @@
-﻿<a href="https://git.io/liblava"><img align="left" src="https://github.com/liblava.png" width="200" style="margin:0px 40px 0px 0px"></a>
+<a href="https://git.io/liblava"><img align="right" src="https://github.com/liblava.png" width="200" style="margin:0px 40px 0px 0px"></a>
 
 🌋 **[liblava](https://git.io/liblava) &nbsp; A modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
 
@@ -6,9 +6,9 @@
 
 <br />
 
-**C++20** &nbsp; + &nbsp; **Modular** &nbsp; / &nbsp; **Windows** &nbsp; + &nbsp; **Linux** &nbsp; / &nbsp; **[Demos](#demos)** &nbsp; + &nbsp; **[Projects](#projects)**
+**C++20** &nbsp; + &nbsp; **Modular** &nbsp; / &nbsp; **[Demos](#demos)** &nbsp; + &nbsp; **[Projects](#projects)** &nbsp; / &nbsp; **Linux** &nbsp; + &nbsp; **Windows**
 
-[![Version](https://img.shields.io/badge/Version-0.6.3-blue)](https://git.io/liblava) &nbsp; [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) &nbsp; [![CodeFactor](https://www.codefactor.io/repository/github/liblava/liblava/badge)](https://www.codefactor.io/repository/github/liblava/liblava) &nbsp; [![Donate](https://img.shields.io/badge/donate-PayPal-lightgrey.svg)](https://paypal.me/liblava) &nbsp; [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) &nbsp; [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
+[![Version](https://img.shields.io/badge/Version-0.6.3-blue)](https://git.io/liblava) &nbsp; [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) &nbsp; [![CodeFactor](https://www.codefactor.io/repository/github/liblava/liblava/badge)](https://www.codefactor.io/repository/github/liblava/liblava) &nbsp; [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) &nbsp; [![Donate](https://img.shields.io/badge/donate-PayPal-lightgrey.svg)](https://paypal.me/liblava) &nbsp; [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
 
 <br />
 
@@ -22,13 +22,9 @@
 
 <br />
 
-##### ➜ Download latest **<a href="https://github.com/liblava/liblava/releases/latest">demo</a>** (December 20, 2020)
-
-<br />
-
 <a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="res/Vulkan_170px_Dec16.png" width="300"></a>
 
-[Requirements](#requirements) &nbsp; [Build](#build) &nbsp; [Template](#template)
+[Requirements](#requirements) &nbsp; **[Download](https://github.com/liblava/liblava/releases)** &nbsp; [Build](#build) &nbsp; [Template](#template) 
 
 <br />
 
@@ -41,6 +37,10 @@
 ### [Modules](doc/Modules.md)
 
 [![core](https://img.shields.io/badge/lava-core-blue.svg)](liblava/core) [![util](https://img.shields.io/badge/lava-util-blue.svg)](liblava/util) [![file](https://img.shields.io/badge/lava-file-blue.svg)](liblava/file) &nbsp; [![base](https://img.shields.io/badge/lava-base-yellowgreen.svg)](liblava/base) [![resource](https://img.shields.io/badge/lava-resource-yellowgreen.svg)](liblava/resource) [![asset](https://img.shields.io/badge/lava-asset-yellowgreen.svg)](liblava/asset) &nbsp; [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](liblava/block) &nbsp; [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app) [![demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo)
+
+<br />
+
+----
 
 <br />
 
@@ -64,19 +64,21 @@
 
 <br />
 
+##### [lava shapes](liblava-demo/shapes.cpp) ➜ generating primitives
+
+##### [lava generic triangles](liblava-demo/generic_triangle.cpp) ➜ float, double, and int meshes
+
+<br />
+
 ##### [lava triangle](liblava-demo/triangle.cpp) ➜ classic colored mesh
 
 <a href="liblava-demo/triangle.cpp">![triangle](res/triangle/screenshot.png)</a>
-
-##### [generic triangles](liblava-demo/generic_triangle.cpp) ➜ float, double, and int meshes
-
-##### [shapes](liblava-demo/shapes.cpp) ➜ generating primitives
 
 <br />
 
 ### Projects
 
-##### [raytracing cubes](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) ➜ raytraced reflecting cubes ([pezcode/lava-rt](https://github.com/pezcode/lava-rt))
+##### [lava raytracing cubes](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) ➜ raytraced reflecting cubes ([pezcode/lava-rt](https://github.com/pezcode/lava-rt))
 
 <a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp">![cubes](https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png)</a>
 
@@ -139,7 +141,7 @@ If you want to contribute, we suggest the following:
 
 <a href="https://opensource.org" target="_blank"><img align="right" width="90" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png" style="margin:0px 0px 0px 80px"></a>
 
-**liblava** is licensed under [MIT License](LICENSE.md) which allows you to use the software for any purpose you might like, including commercial and for-profit use!
+**liblava** is licensed under [MIT License](LICENSE.md) which allows you to use the software <br />for any purpose you might like, including commercial and for-profit use!
 
 <br />
 
