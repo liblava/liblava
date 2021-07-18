@@ -41,10 +41,6 @@ int main(int argc, char* argv[]) {
         if (!layout->create(app.device))
             return false;
 
-        pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
-            triangle->bind_draw(cmd_buf);
-        };
-
         if (!pipeline->add_shader(file_data("triangle/vertex.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
 
@@ -67,6 +63,10 @@ int main(int argc, char* argv[]) {
             return false;
 
         render_pass->add_front(pipeline);
+
+        pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
+            triangle->bind_draw(cmd_buf);
+        };
 
         return true;
     };

@@ -123,18 +123,18 @@ int main(int argc, char* argv[]) {
 
         app.device->vkUpdateDescriptorSets({ write_desc_ubo_camera, write_desc_ubo_spawn, write_desc_sampler });
 
-        pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
-            layout->bind(cmd_buf, descriptor_set);
-
-            spawn_mesh->bind_draw(cmd_buf);
-        };
-
         render_pass::ptr render_pass = app.shading.get_pass();
 
         if (!pipeline->create(render_pass->get()))
             return false;
 
         render_pass->add_front(pipeline);
+
+        pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
+            layout->bind(cmd_buf, descriptor_set);
+
+            spawn_mesh->bind_draw(cmd_buf);
+        };
 
         return true;
     };

@@ -108,6 +108,13 @@ int main(int argc, char* argv[]) {
         pipeline->set_layout(layout);
         pipeline->set_auto_size(true);
 
+        render_pass::ptr render_pass = app.shading.get_pass();
+
+        if (!pipeline->create(render_pass->get()))
+            return false;
+
+        render_pass->add_front(pipeline);
+
         pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
             VkViewport viewport = pipeline->get_viewport();
 
@@ -129,13 +136,6 @@ int main(int argc, char* argv[]) {
 
             app.device->call().vkCmdDraw(cmd_buf, 3, 1, 0, 0);
         };
-
-        render_pass::ptr render_pass = app.shading.get_pass();
-
-        if (!pipeline->create(render_pass->get()))
-            return false;
-
-        render_pass->add_front(pipeline);
 
         return true;
     };
