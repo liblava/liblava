@@ -164,7 +164,7 @@ bool app::setup() {
     });
 
     add_run_once([&]() {
-        return on_create ? on_create() : true;
+        return on_create ? on_create() : run_continue;
     });
 
     frame_counter = 0;
@@ -243,61 +243,65 @@ void app::handle_input() {
     input.key.listeners.add([&](key_event::ref event) {
         if (imgui.capture_keyboard()) {
             camera.stop();
-            return false;
+            return input_ignore;
         }
 
         if (config.handle_key_events) {
-            if (event.pressed(key::tab))
-                imgui.toggle();
-
-            if (event.pressed(key::escape))
+            if (event.pressed(key::q, mod::control))
                 return shut_down();
+
+            if (event.pressed(key::tab, mod::control)) {
+                imgui.toggle();
+                return input_done;
+            }
 
             if (event.pressed(key::enter, mod::alt)) {
                 window.set_fullscreen(!window.fullscreen());
-                return true;
+                return input_done;
             }
 
             if (event.pressed(key::backspace, mod::alt)) {
                 toggle_v_sync = true;
-                return true;
+                return input_done;
             }
 
-            if (event.pressed(key::space))
+            if (event.pressed(key::space, mod::control)) {
                 run_time.paused = !run_time.paused;
+                return input_done;
+            }
         }
 
         if (camera.activated())
             return camera.handle(event);
 
-        return false;
+        return input_ignore;
     });
 
     input.mouse_button.listeners.add([&](mouse_button_event::ref event) {
         if (imgui.capture_mouse())
-            return false;
+            return input_ignore;
 
         if (camera.activated())
             return camera.handle(event, input.get_mouse_position());
 
-        return false;
+        return input_ignore;
     });
 
     input.scroll.listeners.add([&](scroll_event::ref event) {
         if (imgui.capture_mouse())
-            return false;
+            return input_ignore;
 
         if (camera.activated())
             return camera.handle(event);
 
-        return false;
+        return input_ignore;
     });
 
     add_run([&]() {
         input.handle_events();
         input.set_mouse_position(window.get_mouse_position());
 
-        return true;
+        return run_continue;
     });
 
     add_run_end([&]() {
@@ -343,7 +347,7 @@ void app::handle_window() {
             }
 
             if (!create_target())
-                return false;
+                return run_abort;
 
             return create_imgui();
         }
@@ -355,7 +359,7 @@ void app::handle_window() {
             return window.handle_resize();
         }
 
-        return true;
+        return run_continue;
     });
 }
 
@@ -383,7 +387,7 @@ void app::update() {
         } else
             dt = ms(0);
 
-        return on_update ? on_update(to_delta(dt)) : true;
+        return on_update ? on_update(to_delta(dt)) : run_continue;
     });
 }
 
@@ -392,17 +396,17 @@ void app::render() {
     add_run([&]() {
         if (window.iconified()) {
             sleep(one_ms);
-            return true;
+            return run_continue;
         }
 
         auto frame_index = renderer.begin_frame();
         if (!frame_index)
-            return true;
+            return run_continue;
 
         frame_counter++;
 
         if (!block.process(*frame_index))
-            return false;
+            return run_abort;
 
         return renderer.end_frame(block.get_buffers());
     });
@@ -419,8 +423,8 @@ void app::draw_about(bool separator) const {
 
     ImGui::Text("%s %s", _liblava_, str(version_string()));
 
-    if (ImGui::IsItemHovered())
-        ImGui::SetTooltip("alt + enter = fullscreen\nalt + backspace = v-sync\nspace = pause\ntab = gui");
+    if (config.handle_key_events && ImGui::IsItemHovered())
+        ImGui::SetTooltip("alt + enter = fullscreen\nalt + backspace = v-sync\ncontrol + space = pause\ncontrol + tab = gui");
 
     imgui_left_spacing();
 

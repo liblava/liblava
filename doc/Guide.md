@@ -8,7 +8,9 @@
 
 # Guide
 
-[Lifetime of an Object](#lifetime-of-an-object) / [Making meshes](#making-meshes) / [Command-Line Arguments](#command-line-arguments)
+[Lifetime of an Object](#lifetime-of-an-object) / [Making meshes](#making-meshes)
+
+[Keyboard shortcuts](#keyboard-shortcuts) / [Command-Line Arguments](#command-line-arguments)
 
 ---
 
@@ -186,6 +188,22 @@ do **not** exist in the struct `T` - Otherwise, they are no-op!
 
 <br />
 
+## Keyboard shortcuts
+
+`lava app` defines some useful shortcuts while the application is running:
+
+* *alt + enter* ➜ fullscreen on / off
+* *alt + backspace* ➜ v-sync on / off
+* *control + tab* ➜ gui on / off
+* *control + space* ➜ pause on / off
+* *control + q* ➜ quit application
+
+You can disable these defaults by simply changing: `app.config.handle_key_events = false`
+
+----
+
+<br />
+
 ## Command-Line Arguments
 
 ### lava app
@@ -202,8 +220,8 @@ do **not** exist in the struct `T` - Otherwise, they are no-op!
 --v_sync, -vs {0|1}
 ```
 
-* 0 ➜ vertical sync off
-* 1 ➜ vertical sync on
+* 0 - vertical sync off
+* 1 - vertical sync on
 
 <br />
 
@@ -211,7 +229,7 @@ do **not** exist in the struct `T` - Otherwise, they are no-op!
 --physical_device, -pd {n}
 ```
 
-* n ➜ physical device index
+* n - physical device index
 
 <br />
 
@@ -253,13 +271,13 @@ do **not** exist in the struct `T` - Otherwise, they are no-op!
 --log, -l {0|1|2|3|4|5|6}
 ```
 
-* 0 ➜ trace level
-* 1 ➜ debug level
-* 2 ➜ info level
-* 3 ➜ warn level
-* 4 ➜ error level
-* 5 ➜ critical level
-* 6 ➜ logging off
+* 0 - trace level
+* 1 - debug level
+* 2 - info level
+* 3 - warn level
+* 4 - error level
+* 5 - critical level
+* 6 - logging off
 
 <br />
 
