@@ -18,7 +18,7 @@ namespace lava {
  * @tparam T    Input vertex struct
  */
 template<typename T = vertex>
-struct mesh_data {
+struct mesh_template_data {
     /// List of vertices
     std::vector<T> vertices;
 
@@ -139,7 +139,7 @@ struct mesh_template : entity {
      *
      * @param value    Mesh data
      */
-    void set_data(mesh_data<T> const& value) {
+    void set_data(mesh_template_data<T> const& value) {
         data = value;
     }
 
@@ -148,7 +148,7 @@ struct mesh_template : entity {
      *
      * @return mesh_data&    Mesh data
      */
-    mesh_data<T>& get_data() {
+    mesh_template_data<T>& get_data() {
         return data;
     }
 
@@ -157,7 +157,9 @@ struct mesh_template : entity {
      *
      * @param value    Mesh data to add
      */
-    void add_data(mesh_data<T> const& value);
+    void add_data(mesh_template_data<T> const& value){
+        data = value;
+    }
 
     /**
      * @brief Get the vertices of the mesh
@@ -244,7 +246,7 @@ private:
     device_ptr device = nullptr;
 
     /// Mesh data
-    mesh_data<T> data;
+    mesh_template_data<T> data;
 
     /// Vertex buffer
     buffer::ptr vertex_buffer;
@@ -679,6 +681,9 @@ constexpr std::array<UVType, 24> make_primitive_uvs_cube() {
     // clang-format on
     return uvs;
 }
+
+/// Mesh data with default vertex
+using mesh_data = mesh_template_data<vertex>;
 
 /// Mesh with default vertex
 using mesh = mesh_template<vertex>;
