@@ -166,16 +166,16 @@ void camera::update_projection() {
 }
 
 //-----------------------------------------------------------------------------
-lava::mat4 camera::get_view_matrix() {
+mat4 camera::get_view() const {
     return view;
 }
 //-----------------------------------------------------------------------------
-lava::mat4 camera::get_projection_matrix() {
+mat4 camera::get_projection() const {
     return projection;
 }
 
 //-----------------------------------------------------------------------------
-lava::mat4 camera::get_viewprojection_matrix() {
+mat4 camera::get_view_projection() const {
     return projection * view;
 }
 
