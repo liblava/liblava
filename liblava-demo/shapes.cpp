@@ -68,12 +68,12 @@ int main(int argc, char* argv[]) {
     mesh_type current_mesh = mesh_type::cube;
 
     // A descriptor is needed for representing the world-space matrix
-    descriptor::ptr descriptor_layout;
+    descriptor::ptr descriptor;
     descriptor::pool::ptr descriptor_pool;
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 
     graphics_pipeline::ptr pipeline;
-    pipeline_layout::ptr pipeline_layout;
+    pipeline_layout::ptr layout;
 
     app.on_create = [&]() {
         pipeline = make_graphics_pipeline(app.device);
@@ -98,26 +98,28 @@ int main(int argc, char* argv[]) {
 
         // Descriptor sets must be made to transfer the shapes' world matrix and the camera's
         // view matrix to the physical device
-        descriptor_layout = make_descriptor();
-        descriptor_layout->add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-                                       VK_SHADER_STAGE_VERTEX_BIT); // View matrix
-        descriptor_layout->add_binding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-                                       VK_SHADER_STAGE_VERTEX_BIT); // World matrix
-        descriptor_layout->add_binding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-                                       VK_SHADER_STAGE_VERTEX_BIT); // Rotation vector
-        if (!descriptor_layout->create(app.device))
+        descriptor = make_descriptor();
+        descriptor->add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                                VK_SHADER_STAGE_VERTEX_BIT); // View matrix
+        descriptor->add_binding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                                VK_SHADER_STAGE_VERTEX_BIT); // World matrix
+        descriptor->add_binding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                                VK_SHADER_STAGE_VERTEX_BIT); // Rotation vector
+        if (!descriptor->create(app.device))
             return false;
+
         descriptor_pool = make_descriptor_pool();
         if (!descriptor_pool->create(app.device, { { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 3 } }))
             return false;
 
-        pipeline_layout = make_pipeline_layout();
-        pipeline_layout->add(descriptor_layout);
-        if (!pipeline_layout->create(app.device))
+        layout = make_pipeline_layout();
+        layout->add(descriptor);
+        if (!layout->create(app.device))
             return false;
-        pipeline->set_layout(pipeline_layout);
 
-        descriptor_set = descriptor_layout->allocate(descriptor_pool->get());
+        pipeline->set_layout(layout);
+
+        descriptor_set = descriptor->allocate(descriptor_pool->get());
         VkWriteDescriptorSet const write_desc_ubo_camera{
             .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
             .dstSet = descriptor_set,
@@ -154,7 +156,7 @@ int main(int argc, char* argv[]) {
         render_pass->add_front(pipeline);
 
         pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
-            pipeline_layout->bind(cmd_buf, descriptor_set);
+            layout->bind(cmd_buf, descriptor_set);
 
             switch (current_mesh) {
             case mesh_type::cube:
@@ -177,11 +179,13 @@ int main(int argc, char* argv[]) {
     };
 
     app.on_destroy = [&]() {
-        descriptor_layout->free(descriptor_set, descriptor_pool->get());
+        descriptor->free(descriptor_set, descriptor_pool->get());
+
         descriptor_pool->destroy();
-        descriptor_layout->destroy();
+        descriptor->destroy();
+
         pipeline->destroy();
-        pipeline_layout->destroy();
+        layout->destroy();
     };
 
     app.imgui.on_draw = [&]() {

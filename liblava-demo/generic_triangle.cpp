@@ -26,6 +26,7 @@ int main(int argc, char* argv[]) {
     lava_triangle = create_mesh<vertex, false, true, false>(app.device, mesh_type::triangle);
     if (!lava_triangle)
         return error::create_failed;
+
     auto& lava_triangle_data = lava_triangle->get_data();
     lava_triangle_data.vertices.at(0).color = v4(1.f, 0.f, 0.f, 1.f);
     lava_triangle_data.vertices.at(1).color = v4(0.f, 1.f, 0.f, 1.f);
@@ -45,6 +46,7 @@ int main(int argc, char* argv[]) {
     int_triangle = create_mesh<int_vertex, false, true, false, true, false, false>(app.device, mesh_type::triangle);
     if (!int_triangle)
         return error::create_failed;
+
     auto& int_triangle_data = int_triangle->get_data();
     int_triangle_data.vertices.at(0).color = v4(1.f, 0.5f, 0.5f, 1.f);
     int_triangle_data.vertices.at(1).color = v4(0.5f, 1.f, 0.5f, 1.f);
@@ -64,6 +66,7 @@ int main(int argc, char* argv[]) {
     double_triangle = create_mesh<double_vertex, false, true, false, true, false, false>(app.device, mesh_type::triangle);
     if (!double_triangle)
         return error::create_failed;
+
     auto& double_triangle_data = double_triangle->get_data();
     double_triangle_data.vertices.at(0).color = v4(1.f, 0.f, 0.5f, 1.f);
     double_triangle_data.vertices.at(1).color = v4(0.f, 1.f, 0.5f, 1.f);
@@ -76,17 +79,18 @@ int main(int argc, char* argv[]) {
     graphics_pipeline::ptr lava_pipeline;
     graphics_pipeline::ptr int_pipeline;
     graphics_pipeline::ptr double_pipeline;
-    pipeline_layout::ptr pipeline_layout;
+    pipeline_layout::ptr layout;
 
     app.on_create = [&]() {
         render_pass::ptr render_pass = app.shading.get_pass();
 
+        layout = make_pipeline_layout();
+        if (!layout->create(app.device))
+            return false;
+
         // Making a lava triangle pipeline
         lava_pipeline = make_graphics_pipeline(app.device);
         lava_pipeline->add_color_blend_attachment();
-        pipeline_layout = make_pipeline_layout();
-        if (!pipeline_layout->create(app.device))
-            return false;
         lava_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
             lava_triangle->bind_draw(cmd_buf);
         };
@@ -119,7 +123,7 @@ int main(int argc, char* argv[]) {
             { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position)) },
             { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color)) },
         });
-        lava_pipeline->set_layout(pipeline_layout);
+        lava_pipeline->set_layout(layout);
         if (!lava_pipeline->create(render_pass->get()))
             return false;
 
@@ -133,7 +137,7 @@ int main(int argc, char* argv[]) {
             { 0, 0, VK_FORMAT_R32G32B32_SINT, to_ui32(offsetof(int_vertex, position)) },
             { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(int_vertex, color)) },
         });
-        int_pipeline->set_layout(pipeline_layout);
+        int_pipeline->set_layout(layout);
         if (!int_pipeline->create(render_pass->get()))
             return false;
 
@@ -147,7 +151,7 @@ int main(int argc, char* argv[]) {
             { 0, 0, VK_FORMAT_R64G64B64_SFLOAT, to_ui32(offsetof(double_vertex, position)) },
             { 2, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(double_vertex, color)) },
         });
-        double_pipeline->set_layout(pipeline_layout);
+        double_pipeline->set_layout(layout);
         if (!double_pipeline->create(render_pass->get()))
             return false;
 
@@ -162,7 +166,7 @@ int main(int argc, char* argv[]) {
         lava_pipeline->destroy();
         int_pipeline->destroy();
         double_pipeline->destroy();
-        pipeline_layout->destroy();
+        layout->destroy();
     };
 
     app.add_run_end([&]() {

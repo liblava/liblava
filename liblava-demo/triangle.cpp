@@ -41,6 +41,8 @@ int main(int argc, char* argv[]) {
         if (!layout->create(app.device))
             return false;
 
+        pipeline->set_layout(layout);
+
         if (!pipeline->add_shader(file_data("triangle/vertex.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
 
@@ -56,8 +58,6 @@ int main(int argc, char* argv[]) {
         });
 
         render_pass::ptr render_pass = app.shading.get_pass();
-
-        pipeline->set_layout(layout);
 
         if (!pipeline->create(render_pass->get()))
             return false;
