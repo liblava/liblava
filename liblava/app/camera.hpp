@@ -68,6 +68,27 @@ struct camera : entity {
     void update_view(delta dt, gamepad::ref pad);
 
     /**
+     * @brief Get the camera's 4x4 view matrix
+     *
+     * @return mat4    View matrix
+     */
+    mat4 get_view() const;
+
+    /**
+     * @brief Get the camera's 4x4 projection matrix
+     *
+     * @return mat4    Projection matrix
+     */
+    mat4 get_projection() const;
+
+    /**
+     * @brief Get the camera's combined 4x4 view/projection matrix
+     *
+     * @return mat4    Combined view/projection matrix
+     */
+    mat4 get_view_projection() const;
+
+    /**
      * @brief Handle key event
      * 
      * @param event     Key event

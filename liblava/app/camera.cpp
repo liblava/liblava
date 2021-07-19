@@ -166,6 +166,20 @@ void camera::update_projection() {
 }
 
 //-----------------------------------------------------------------------------
+mat4 camera::get_view() const {
+    return view;
+}
+//-----------------------------------------------------------------------------
+mat4 camera::get_projection() const {
+    return projection;
+}
+
+//-----------------------------------------------------------------------------
+mat4 camera::get_view_projection() const {
+    return projection * view;
+}
+
+//-----------------------------------------------------------------------------
 void camera::upload() {
     memcpy(data->get_mapped_data(), &projection, size);
 }
