@@ -166,6 +166,20 @@ void camera::update_projection() {
 }
 
 //-----------------------------------------------------------------------------
+lava::mat4 camera::get_view_matrix() {
+    return view;
+}
+//-----------------------------------------------------------------------------
+lava::mat4 camera::get_projection_matrix() {
+    return projection;
+}
+
+//-----------------------------------------------------------------------------
+lava::mat4 camera::get_viewprojection_matrix() {
+    return projection * view;
+}
+
+//-----------------------------------------------------------------------------
 void camera::upload() {
     memcpy(data->get_mapped_data(), &projection, size);
 }
