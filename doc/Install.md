@@ -20,6 +20,7 @@ Add this to your *CMakeLists.txt*
 
 ```cmake
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/liblava ${CMAKE_CURRENT_BINARY_DIR}/liblava)
+target_link_libraries(${PROJECT_NAME} PRIVATE lava::app)
 ```
 
 <br />
