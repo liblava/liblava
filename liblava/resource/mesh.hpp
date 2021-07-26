@@ -54,6 +54,22 @@ public:
             }
         }
     }
+
+    /**
+     * @brief Scale mesh data by vector
+     *
+     * @tparam PosType   Coordinate element typename
+     *
+     * @param factors    Array of position scaling factors
+     */
+    template<typename PosType = float>
+    void scale_vector(std::array<PosType, 3> factors) {
+        for (T& vertex : vertices) {
+            for (auto i = 0u; i < 3; ++i) {
+                vertex.position[i] *= factors[i];
+            }
+        }
+    }
 };
 
 /**
@@ -157,7 +173,7 @@ struct mesh_template : entity {
      *
      * @param value    Mesh data to add
      */
-    void add_data(mesh_template_data<T> const& value){
+    void add_data(mesh_template_data<T> const& value) {
         data = value;
     }
 
