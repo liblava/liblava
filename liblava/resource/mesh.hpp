@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <liblava/core/hex.hpp>
 #include <liblava/resource/buffer.hpp>
 #include <liblava/resource/primitive.hpp>
 
@@ -547,6 +548,74 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         return_mesh->get_vertices().push_back(vert_two);
         return_mesh->get_vertices().push_back(vert_three);
         return_mesh->get_vertices().push_back(vert_four);
+        break;
+    }
+
+    case mesh_type::hexagon: {
+        return_mesh->get_vertices().reserve(7);
+        return_mesh->get_indices().reserve(18);
+        hex_layout layout;
+        layout.orientation = hex_layout_point_y;
+        layout.size = { 1, 1 };
+        auto hex_corners = hex_polygon_corners(layout, {});
+        T vert_center;
+        vert_center.position = { 0, 0, 0 };
+        T vert_sw;
+        PosType temp;
+        temp[0] = hex_corners.at(0).x;
+        temp[1] = hex_corners.at(0).y;
+        temp[2] = 0;
+        vert_sw.position = temp;
+        T vert_nw;
+        temp[0] = hex_corners.at(1).x;
+        temp[1] = hex_corners.at(1).y;
+        vert_nw.position = temp;
+        T vert_n;
+        temp[0] = hex_corners.at(2).x;
+        temp[1] = hex_corners.at(2).y;
+        vert_n.position = temp;
+        T vert_ne;
+        temp[0] = hex_corners.at(3).x;
+        temp[1] = hex_corners.at(3).y;
+        vert_ne.position = temp;
+        T vert_se;
+        temp[0] = hex_corners.at(4).x;
+        temp[1] = hex_corners.at(4).y;
+        vert_se.position = temp;
+        T vert_s;
+        temp[0] = hex_corners.at(5).x;
+        temp[1] = hex_corners.at(5).y;
+        vert_s.position = temp;
+        if constexpr (generate_uvs && auto_uvs) {
+            vert_center.uv = { 0, 0 };
+            vert_sw.uv = { 1, 0 };
+            vert_nw.uv = { 0, 1 };
+            vert_n.uv = { 1, 1 };
+            vert_ne.uv = { 1, 0 };
+            vert_se.uv = { 0, 1 };
+            vert_s.uv = { 1, 1 };
+        }
+        if constexpr (generate_normals && auto_normals) {
+            vert_center.normal = { 0, 0, 1 };
+            vert_sw.normal = { 0, 0, 1 };
+            vert_nw.normal = { 0, 0, 1 };
+            vert_n.normal = { 0, 0, 1 };
+            vert_ne.normal = { 0, 0, 1 };
+            vert_se.normal = { 0, 0, 1 };
+            vert_s.normal = { 0, 0, 1 };
+        }
+        // clang-format off
+        return_mesh->get_indices() = {
+            0, 1, 6, 0, 6, 5, 0, 5, 4, 0, 4, 3, 0, 3, 2, 0, 2, 1
+        };
+        // clang-format on
+        return_mesh->get_vertices().push_back(vert_center);
+        return_mesh->get_vertices().push_back(vert_sw);
+        return_mesh->get_vertices().push_back(vert_nw);
+        return_mesh->get_vertices().push_back(vert_n);
+        return_mesh->get_vertices().push_back(vert_ne);
+        return_mesh->get_vertices().push_back(vert_se);
+        return_mesh->get_vertices().push_back(vert_s);
         break;
     }
 

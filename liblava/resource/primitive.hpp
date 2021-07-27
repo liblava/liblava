@@ -50,7 +50,8 @@ enum class mesh_type : type {
     none = 0,
     cube,
     triangle,
-    quad
+    quad,
+    hexagon,
 };
 
 } // namespace lava

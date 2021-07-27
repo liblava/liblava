@@ -73,7 +73,7 @@
 
 ## lava [core](../liblava/core)
 
-[![data](https://img.shields.io/badge/lava-data-blue.svg)](../liblava/core/data.hpp) [![id](https://img.shields.io/badge/lava-id-blue.svg)](../liblava/core/id.hpp) [![math](https://img.shields.io/badge/lava-math-blue.svg)](../liblava/core/math.hpp) [![time](https://img.shields.io/badge/lava-time-blue.svg)](../liblava/core/time.hpp) [![types](https://img.shields.io/badge/lava-types-blue.svg)](../liblava/core/types.hpp) [![version](https://img.shields.io/badge/lava-version-blue.svg)](../liblava/core/version.hpp)
+[![data](https://img.shields.io/badge/lava-data-blue.svg)](../liblava/core/data.hpp) [![hex](https://img.shields.io/badge/lava-hex-blue.svg)](../liblava/core/hex.hpp) [![id](https://img.shields.io/badge/lava-id-blue.svg)](../liblava/core/id.hpp) [![math](https://img.shields.io/badge/lava-math-blue.svg)](../liblava/core/math.hpp) [![time](https://img.shields.io/badge/lava-time-blue.svg)](../liblava/core/time.hpp) [![types](https://img.shields.io/badge/lava-types-blue.svg)](../liblava/core/types.hpp) [![version](https://img.shields.io/badge/lava-version-blue.svg)](../liblava/core/version.hpp)
 
 <br />
 

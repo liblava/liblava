@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
         return error::create_failed;
 
     // Initialize meshes. By default, these make vertex
-    std::array<mesh::ptr, 3> meshes;
+    std::array<mesh::ptr, 4> meshes;
 
     mesh::ptr triangle;
     triangle = create_mesh(app.device, mesh_type::triangle);
@@ -59,6 +59,12 @@ int main(int argc, char* argv[]) {
     if (!cube)
         return error::create_failed;
     meshes[2] = cube;
+
+    mesh::ptr hexagon;
+    hexagon = create_mesh(app.device, mesh_type::hexagon);
+    if (!hexagon)
+        return error::create_failed;
+    meshes[3] = hexagon;
 
     for (auto& shape : meshes) {
         if (!shape->reload())
@@ -159,14 +165,17 @@ int main(int argc, char* argv[]) {
             layout->bind(cmd_buf, descriptor_set);
 
             switch (current_mesh) {
-            case mesh_type::cube:
-                cube->bind_draw(cmd_buf);
+            case mesh_type::triangle:
+                triangle->bind_draw(cmd_buf);
                 break;
             case mesh_type::quad:
                 quad->bind_draw(cmd_buf);
                 break;
-            case mesh_type::triangle:
-                triangle->bind_draw(cmd_buf);
+            case mesh_type::cube:
+                cube->bind_draw(cmd_buf);
+                break;
+            case mesh_type::hexagon:
+                hexagon->bind_draw(cmd_buf);
                 break;
             default:
                 break;
@@ -200,6 +209,9 @@ int main(int argc, char* argv[]) {
         if (ImGui::Button("Cube"))
             current_mesh = mesh_type::cube;
 
+        if (ImGui::Button("Hexagon"))
+            current_mesh = mesh_type::hexagon;
+
         if (ImGui::Button("None"))
             current_mesh = mesh_type::none;
 
@@ -219,7 +231,10 @@ int main(int argc, char* argv[]) {
     };
 
     app.add_run_end([&]() {
+        triangle->destroy();
+        quad->destroy();
         cube->destroy();
+        hexagon->destroy();
     });
 
     return app.run();
