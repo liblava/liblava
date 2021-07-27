@@ -8,6 +8,7 @@
 
 #pragma once
 
+#include <cmath>
 #include <liblava/core/types.hpp>
 #include <numbers>
 
