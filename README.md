@@ -1,14 +1,16 @@
-<a href="https://git.io/liblava"><img align="left" src="https://github.com/liblava.png" width="100" style="margin:0px 20px 0px 0px"></a>
+<a href="https://git.io/liblava"><img align="right" src="https://github.com/liblava.png" width="100" style="margin:0px 20px 0px 0px"></a>
 
 # liblava &nbsp; [![Version](https://img.shields.io/badge/2021-alpha-blue)](#demos)
 
 **A modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
 
-**lava** is a lean framework that provides **essentials** for **low-level graphics** and is specially well suited for **prototyping**, **tooling** and **education** &nbsp; / &nbsp; **C++20** &nbsp; + &nbsp; **Modular** &nbsp; / &nbsp; **Linux** &nbsp; + &nbsp; **Windows**
+**lava** is a lean framework that provides **essentials** for **low-level graphics** and is specially <br />well suited for **prototyping**, **tooling** and **education**
 
 <br />
 
 [![Version](https://img.shields.io/badge/Version-0.6.3-blue)](https://git.io/liblava) &nbsp; [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) &nbsp; [![CodeFactor](https://www.codefactor.io/repository/github/liblava/liblava/badge)](https://www.codefactor.io/repository/github/liblava/liblava) &nbsp; [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) &nbsp; [![Donate](https://img.shields.io/badge/donate-PayPal-lightgrey.svg)](https://paypal.me/liblava) &nbsp; [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
+
+**C++20** &nbsp; + &nbsp; **Modular** &nbsp; / &nbsp; **Linux** &nbsp; + &nbsp; **Windows**
 
 <br />
 
