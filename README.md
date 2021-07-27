@@ -4,13 +4,13 @@
 
 **A modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
 
-**lava** is a lean framework that provides **essentials** for **low-level graphics** and is specially <br />well suited for **prototyping**, **tooling** and **education**
+**lava** is a lean framework that provides **essentials** for **low-level graphics** <br />Specially well suited for **prototyping**, **tooling** and **education**
 
 <br />
 
 [![Version](https://img.shields.io/badge/Version-0.6.3-blue)](https://git.io/liblava) &nbsp; [![License](https://img.shields.io/github/license/liblava/liblava)](LICENSE) &nbsp; [![CodeFactor](https://www.codefactor.io/repository/github/liblava/liblava/badge)](https://www.codefactor.io/repository/github/liblava/liblava) &nbsp; [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) &nbsp; [![Donate](https://img.shields.io/badge/donate-PayPal-lightgrey.svg)](https://paypal.me/liblava) &nbsp; [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/liblava)
 
-**C++20** &nbsp; + &nbsp; **Modular** &nbsp; / &nbsp; **Linux** &nbsp; + &nbsp; **Windows**
+&nbsp; ➜ &nbsp; **C++20** &nbsp; + &nbsp; **Modular** &nbsp; / &nbsp; **Linux** &nbsp; + &nbsp; **Windows**
 
 <br />
 
@@ -44,31 +44,39 @@
 
 ## Demos
 
-##### [lava light](liblava-demo/light.cpp) ➜ deferred shading / offscreen rendering
+### [lava light](liblava-demo/light.cpp)
+deferred shading / offscreen rendering
 
 <a href="liblava-demo/light.cpp">![light](res/light/screenshot.png)</a>
 
 <br />
 
-##### [lava spawn](liblava-demo/spawn.cpp) ➜ uniform buffer camera
+### [lava spawn](liblava-demo/spawn.cpp)
+uniform buffer camera
 
 <a href="liblava-demo/spawn.cpp">![spawn](res/spawn/screenshot.png)</a>
 
 <br />
 
-##### [lava lamp](liblava-demo/lamp.cpp) ➜ push constants to shader
+### [lava lamp](liblava-demo/lamp.cpp)
+push constants to shader
 
 <a href="liblava-demo/lamp.cpp">![lamp](res/lamp/screenshot.png)</a>
 
 <br />
 
-##### [lava shapes](liblava-demo/shapes.cpp) ➜ generating primitives
-
-##### [lava generic triangles](liblava-demo/generic_triangle.cpp) ➜ float, double, and int meshes
+### [lava shapes](liblava-demo/shapes.cpp)
+generating primitives
 
 <br />
 
-##### [lava triangle](liblava-demo/triangle.cpp) ➜ classic colored mesh
+### [lava generic triangles](liblava-demo/generic_triangle.cpp)
+float, double, and int meshes
+
+<br />
+
+### [lava triangle](liblava-demo/triangle.cpp)
+classic colored mesh
 
 <a href="liblava-demo/triangle.cpp">![triangle](res/triangle/screenshot.png)</a>
 
@@ -76,7 +84,8 @@
 
 ## Projects
 
-##### [lava raytracing cubes](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) ➜ raytraced reflecting cubes ([pezcode/lava-rt](https://github.com/pezcode/lava-rt))
+### [lava raytracing cubes](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp)
+raytraced reflecting cubes &nbsp; ➜ &nbsp; [pezcode/lava-rt](https://github.com/pezcode/lava-rt)
 
 <a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp">![cubes](https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png)</a>
 
@@ -113,7 +122,7 @@ make
 
 You can start coding with the **template** project. If you like you can rename it in [CMakeLists](CMakeLists.txt)
 
-➜ Just put your code in the [src](src) folder. Everything you need is in [main.cpp](src/main.cpp)
+&nbsp; ➜ &nbsp; Just put your code in the [src](src) folder. Everything you need is in [main.cpp](src/main.cpp)
 
 <br />
 
@@ -143,7 +152,7 @@ If you want to contribute, we suggest the following:
 
 <br />
 
-However, this library includes several [Third-Party](doc/Third-Party.md) libraries, which are licensed under their own respective **Open Source** licenses ➜ They all allow static linking with closed source software
+However, this library includes several [Third-Party](doc/Third-Party.md) libraries, which are licensed under their own respective **Open Source** licenses &nbsp; ➜ &nbsp; They all allow static linking with closed source software
 
 **All copies of liblava must include a copy of the MIT License terms and the copyright notice**
 

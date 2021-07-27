@@ -76,7 +76,7 @@ struct hex_cell {
     /**
      * @brief Get the pair
      * 
-     * @return pair Hex pair
+     * @return pair    Hex pair
      */
     inline pair to_pair() const {
         return { q, r };
@@ -85,7 +85,7 @@ struct hex_cell {
     /**
      * @brief Add hex cell
      * 
-     * @param cell Another hex cell
+     * @param cell    Another hex cell
      */
     inline void add(hex_cell const& cell) {
         *this = { q + cell.q, r + cell.r, s + cell.s };
@@ -94,7 +94,7 @@ struct hex_cell {
     /**
      * @brief Substract hex cell
      * 
-     * @param cell Another hex cell
+     * @param cell    Another hex cell
      */
     inline void substract(hex_cell const& cell) {
         *this = { q - cell.q, r - cell.r, s - cell.s };
@@ -103,7 +103,7 @@ struct hex_cell {
     /**
      * @brief Scale the hex cell
      * 
-     * @param factor Scaling factor
+     * @param factor    Scaling factor
      */
     inline void scale(i32 factor) {
         *this = { q * factor, r * factor, s * factor };
@@ -127,10 +127,10 @@ struct hex_cell {
 /**
  * @brief Get S axis from Q and R axes
  * 
- * @param q      Q axis
- * @param r      R axis
+ * @param q       Q axis
+ * @param r       R axis
  * 
- * @return i32   S axis
+ * @return i32    S axis
  */
 inline i32 hex_get_s(i32 q, i32 r) {
     return -q - r;
@@ -744,9 +744,9 @@ struct hex_grid {
     /**
      * @brief Get the hex point from hex cell
      * 
-     * @param cell         Hex cell
+     * @param cell          Hex cell
      * 
-     * @return hex_point   Hex point
+     * @return hex_point    Hex point
      */
     hex_point to_pixel(hex_cell const& cell) const {
         return hex_to_pixel(layout, cell);
