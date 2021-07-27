@@ -1,4 +1,4 @@
-<a href="https://git.io/liblava"><img align="right" src="https://github.com/liblava.png" width="100" style="margin:0px 20px 0px 0px"></a>
+<a href="https://git.io/liblava"><img align="right" src="https://github.com/liblava.png" width="200" style="margin:0px 40px 0px 0px"></a>
 
 # liblava &nbsp; [![Version](https://img.shields.io/badge/2021-alpha-blue)](#demos)
 
@@ -14,7 +14,13 @@
 
 <br />
 
+[Requirements](#requirements) &nbsp; **[Download](https://github.com/liblava/liblava/releases)** &nbsp; [Build](#build) &nbsp; [Template](#template) 
+
+<br />
+
 ### [Features](doc/Features.md)
+
+<a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="res/Vulkan_170px_Dec16.png" width="300"></a>
 
 * written in **modern C++** with latest **Vulkan** support
 * **run loop** abstraction for **window** and **input** handling
@@ -24,13 +30,7 @@
 
 <br />
 
-<a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="res/Vulkan_170px_Dec16.png" width="300"></a>
-
-[Requirements](#requirements) &nbsp; **[Download](https://github.com/liblava/liblava/releases)** &nbsp; [Build](#build) &nbsp; [Template](#template) 
-
-<br />
-
-### Docs
+## Docs
 
  **[Tutorial](doc/Tutorial.md)** &nbsp; [Guide](doc/Guide.md) &nbsp; [Reference](doc/Reference.md) &nbsp; [Tests](doc/Tests.md) &nbsp; [Third-Party](doc/Third-Party.md) &nbsp; [Install](doc/Install.md)
 
@@ -42,11 +42,7 @@
 
 <br />
 
-----
-
-<br />
-
-### Demos
+## Demos
 
 ##### [lava light](liblava-demo/light.cpp) ➜ deferred shading / offscreen rendering
 
@@ -78,7 +74,7 @@
 
 <br />
 
-### Projects
+## Projects
 
 ##### [lava raytracing cubes](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) ➜ raytraced reflecting cubes ([pezcode/lava-rt](https://github.com/pezcode/lava-rt))
 
