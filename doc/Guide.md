@@ -8,9 +8,7 @@
 
 # Guide
 
-[Lifetime of an Object](#lifetime-of-an-object) / [Making meshes](#making-meshes)
-
-[Keyboard shortcuts](#keyboard-shortcuts) / [Command-Line Arguments](#command-line-arguments)
+[Lifetime of an Object](#lifetime-of-an-object) &nbsp; &nbsp; [Making meshes](#making-meshes) &nbsp; &nbsp; [Keyboard shortcuts](#keyboard-shortcuts) &nbsp; &nbsp; [Command-Line Arguments](#command-line-arguments)
 
 ---
 
@@ -88,22 +86,18 @@ It is made like this:
 
 ```c++
 mesh::ptr my_mesh = make_mesh();
+
 my_mesh->add_data( /* Pass in a lava::mesh_data object */ );
 my_mesh->create(device);
 ```
+
+<br />
 
 **liblava** provides a `create_mesh()` function to simplify the creation of primitives
 
 It takes a `mesh_type` argument to specify what kind of primitive to build
 
-Its values are:
-
-```c++
-none,
-cube,
-triangle,
-quad
-```
+Its values are: &nbsp; `none` &nbsp; `cube` &nbsp; `triangle` &nbsp; `quad` &nbsp; `hexagon`
 
 The function is called in this way:
 
@@ -111,6 +105,8 @@ The function is called in this way:
 mesh::ptr cube;
 cube = create_mesh(device, mesh_type::cube);
 ```
+
+<br />
 
 Meshes are templated, and can represent any vertex struct definition
 
@@ -129,7 +125,9 @@ provided that the struct contains an array or vector member named `position`
 int_triangle = create_mesh<int_vertex>(device, mesh_type::triangle);
 ```
 
-`create_mesh()` may also initialize color, normal, and UV data automatically
+<br />
+
+`create_mesh()` may also initialize Color, Normal, and UV data automatically
 
 However, it will only initialize these if there are corresponding `color`,
 `normal`, and/or `uv` fields defined in the vertex struct
@@ -152,6 +150,7 @@ struct custom_vertex {
     v2 uv;
 };
 mesh_template<custom_vertex>::ptr triangle;
+
 // Generate three vertices with positions and uvs, but not colors or normals
 triangle = create_mesh<custom_vertex, false, false, true>
                       (device, mesh_type::triangle);
@@ -160,6 +159,8 @@ triangle = create_mesh<custom_vertex, false, false, true>
 Cubes generated this way have a special case. If they are initialized with normal
 data, they will be represented by 24 vertices. Otherwise, only 8 vertices will
 be initialized
+
+<br />
 
 ----
 
@@ -174,8 +175,11 @@ The complete definition of `create_mesh()` in this case is:
 
 ```c++
 template<typename T = vertex, bool generate_colors = true,
-         bool generate_normals = true, bool generate_uvs = true,
-         bool has_colors = true, bool has_normals = true, bool has_uvs = true>
+                              bool generate_normals = true,
+                              bool generate_uvs = true,
+                              bool has_colors = true,
+                              bool has_normals = true,
+                              bool has_uvs = true>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type);
 ```
@@ -190,15 +194,19 @@ do **not** exist in the struct `T` - Otherwise, they are no-op!
 
 ## Keyboard shortcuts
 
-`lava app` defines some useful shortcuts while the application is running:
+`lava app` defines some useful shortcuts
 
-* *alt + enter* ➜ fullscreen on / off
-* *alt + backspace* ➜ v-sync on / off
-* *control + tab* ➜ gui on / off
-* *control + space* ➜ pause on / off
-* *control + q* ➜ quit application
+| Shortcut             |       Action / *default* |
+| :------------------- | -----------------------: |
+| *alt + enter*        |    fullscreen on / *off* |
+| *alt + backspace*    |        v-sync on / *off* |
+| *control + tab*      |           gui *on* / off |
+| *control + space*    |         pause on / *off* |
+| *control + q*        |         quit application |
 
-You can disable these defaults by simply changing: `app.config.handle_key_events = false`
+You can disable these actions by simply turning them off:
+
+`app.config.handle_key_events = false`
 
 ----
 
@@ -271,13 +279,15 @@ You can disable these defaults by simply changing: `app.config.handle_key_events
 --log, -l {0|1|2|3|4|5|6}
 ```
 
-* 0 - trace level
-* 1 - debug level
-* 2 - info level
-* 3 - warn level
-* 4 - error level
-* 5 - critical level
-* 6 - logging off
+* level 0 - trace
+* level 1 - debug
+* level 2 - info
+* level 3 - warn
+* level 4 - error
+* level 5 - critical
+* level 6 - logging off
+
+----
 
 <br />
 
