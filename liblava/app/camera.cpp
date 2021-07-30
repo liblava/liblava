@@ -186,28 +186,37 @@ void camera::upload() {
 
 //-----------------------------------------------------------------------------
 bool camera::handle(key_event::ref event) {
-    switch (event.key) {
-    case key::w: {
-        up = event.active();
-        break;
-    }
-    case key::s: {
-        down = event.active();
-        break;
-    }
-    case key::a: {
-        left = event.active();
-        break;
-    }
-    case key::d: {
-        right = event.active();
-        break;
-    }
-    default:
+    key pressed_key = event.key;
+    auto check_key = [&](key current_key, key testing_key, bool& value) -> bool {
+        if (current_key == testing_key) {
+            value = event.active();
+            return input_done;
+        }
         return input_ignore;
+    };
+
+    for (auto& current_key : up_key) {
+        if (check_key(current_key, pressed_key, up)) {
+            return input_done;
+        }
+    }
+    for (auto& current_key : down_key) {
+        if (check_key(current_key, pressed_key, down)) {
+            return input_done;
+        }
+    }
+    for (auto& current_key : left_key) {
+        if (check_key(current_key, pressed_key, left)) {
+            return input_done;
+        }
+    }
+    for (auto& current_key : right_key) {
+        if (check_key(current_key, pressed_key, right)) {
+            return input_done;
+        }
     }
 
-    return input_done;
+    return input_ignore;
 }
 
 //-----------------------------------------------------------------------------
