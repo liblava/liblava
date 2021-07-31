@@ -182,6 +182,22 @@ struct camera : entity {
         return up || down || left || right;
     }
 
+    /**
+     * @brief Set keys for moving this camera.
+     *
+     * @param up        Up inputs
+     * @param down      Down inputs
+     * @param left      Left inputs
+     * @param right     Right inputs
+     */
+    void set_movement_keys(std::vector<key> up, std::vector<key> down,
+                           std::vector<key> left, std::vector<key> right) {
+        up_key = up;
+        down_key = down;
+        left_key = left;
+        right_key = right;
+    }
+
     /// Camera position
     v3 position = v3(0.f);
 
@@ -255,6 +271,18 @@ private:
 
     /// Scroll position
     r64 scroll_pos = 0.0;
+
+    /// Up input keycodes
+    std::vector<key> up_key = std::vector<key>{ key::w };
+
+    /// Down input keycodes
+    std::vector<key> down_key = std::vector<key>{ key::s };
+
+    /// Left input keycodes
+    std::vector<key> left_key = std::vector<key>{ key::a };
+
+    /// Right input keycodes
+    std::vector<key> right_key = std::vector<key>{ key::d };
 
     /// Vulkan buffer
     buffer::ptr data;
