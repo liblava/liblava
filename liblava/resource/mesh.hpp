@@ -363,7 +363,7 @@ bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
         vertex_buffer = make_buffer();
 
         if (!vertex_buffer->create(device, data.vertices.data(),
-                                   sizeof(vertex) * data.vertices.size(),
+                                   sizeof(T) * data.vertices.size(),
                                    VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                    mapped, memory_usage)) {
             log()->error("create mesh vertex buffer");
