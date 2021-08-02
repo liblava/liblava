@@ -161,6 +161,15 @@ enum class key : i32 {
     last = menu,
 };
 
+/// Reference to key
+using key_ref = key const&;
+
+/// List of keys
+using keys = std::vector<key>;
+
+/// Reference to list of keys
+using keys_ref = keys const&;
+
 /**
  * @brief Input actions
  */
@@ -169,6 +178,9 @@ enum class action : type {
     press,
     repeat
 };
+
+/// Refernece to action
+using action_ref = action const&;
 
 /**
  * @brief Input mods
@@ -181,6 +193,9 @@ enum class mod : c8 {
     caps_lock = 0x10,
     num_lock = 0x20,
 };
+
+/// Reference to mod
+using mod_ref = mod const&;
 
 /**
  * @brief Key event
@@ -221,7 +236,7 @@ struct key_event {
      * @return true     Key is pressed
      * @return false    Key is not pressed
      */
-    bool pressed(lava::key k) const {
+    bool pressed(key_ref k) const {
         return action == action::press && key == k;
     }
 
@@ -233,7 +248,7 @@ struct key_event {
      * @return true     Key is released
      * @return false    Key is not released
      */
-    bool released(lava::key k) const {
+    bool released(key_ref k) const {
         return action == action::release && key == k;
     }
 
@@ -245,7 +260,7 @@ struct key_event {
      * @return true     Key is repeated
      * @return false    Key is not repeated
      */
-    bool repeated(lava::key k) const {
+    bool repeated(key_ref k) const {
         return action == action::repeat && key == k;
     }
 
@@ -268,7 +283,7 @@ struct key_event {
      * @return true     Key is pressed with mod
      * @return false    Key is not pressed with mod
      */
-    bool pressed(lava::key k, lava::mod m) const {
+    bool pressed(key_ref k, mod_ref m) const {
         return pressed(k) && mod == m;
     }
 };
@@ -318,6 +333,9 @@ struct mouse_position {
     r64 y = 0.0;
 };
 
+/// Reference to mouse position
+using mouse_position_ref = mouse_position const&;
+
 /**
  * @brief Mouse move event
  */
@@ -361,6 +379,9 @@ enum class mouse_button : type {
     middle = _3,
 };
 
+/// Reference to mouse button
+using mouse_button_ref = mouse_button const&;
+
 /**
  * @brief Mouse button event
  */
@@ -397,7 +418,7 @@ struct mouse_button_event {
      * @return true     Mouse button is pressed
      * @return false    Mouse button is not pressed
      */
-    bool pressed(mouse_button b) const {
+    bool pressed(mouse_button_ref b) const {
         return action == action::press && button == b;
     }
 
@@ -409,7 +430,7 @@ struct mouse_button_event {
      * @return true     Mouse button is released
      * @return false    Mouse button is not released
      */
-    bool released(mouse_button b) const {
+    bool released(mouse_button_ref b) const {
         return action == action::release && button == b;
     }
 };
@@ -592,9 +613,9 @@ struct input {
     /**
      * @brief Get the mouse position
      * 
-     * @return mouse_position    Current mouse position
+     * @return mouse_position_ref    Current mouse position
      */
-    mouse_position get_mouse_position() const {
+    mouse_position_ref get_mouse_position() const {
         return current_position;
     }
 
@@ -603,7 +624,7 @@ struct input {
      * 
      * @param position    Current mouse position
      */
-    void set_mouse_position(mouse_position const& position) {
+    void set_mouse_position(mouse_position_ref position) {
         current_position = position;
     }
 

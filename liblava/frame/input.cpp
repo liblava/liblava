@@ -23,10 +23,10 @@ namespace lava {
  */
 template<typename T>
 void _handle_events(input_events<T>& events, input_callback::func<T> input_callback) {
-    for (auto& event : events) {
+    for (auto const& event : events) {
         auto handled = false;
 
-        for (auto& listener : events.listeners.get_list()) {
+        for (auto const& listener : events.listeners.get_list()) {
             if (listener.second(event)) {
                 handled = true;
                 break;
@@ -46,7 +46,7 @@ void _handle_events(input_events<T>& events, input_callback::func<T> input_callb
 //-----------------------------------------------------------------------------
 void input::handle_mouse_events() {
     _handle_events<mouse_move_event>(mouse_move, [&](auto& event) {
-        for (auto& callback : callbacks)
+        for (auto const& callback : callbacks)
             if (callback->on_mouse_move_event)
                 if (callback->on_mouse_move_event(event))
                     return true;
@@ -55,7 +55,7 @@ void input::handle_mouse_events() {
     });
 
     _handle_events<mouse_button_event>(mouse_button, [&](auto& event) {
-        for (auto& callback : callbacks)
+        for (auto const& callback : callbacks)
             if (callback->on_mouse_button_event)
                 if (callback->on_mouse_button_event(event))
                     return true;
@@ -64,7 +64,7 @@ void input::handle_mouse_events() {
     });
 
     _handle_events<mouse_active_event>(mouse_active, [&](auto& event) {
-        for (auto& callback : callbacks)
+        for (auto const& callback : callbacks)
             if (callback->on_mouse_active_event)
                 if (callback->on_mouse_active_event(event))
                     return true;
@@ -76,7 +76,7 @@ void input::handle_mouse_events() {
 //-----------------------------------------------------------------------------
 void input::handle_events() {
     _handle_events<key_event>(key, [&](auto& event) {
-        for (auto& callback : callbacks)
+        for (auto const& callback : callbacks)
             if (callback->on_key_event)
                 if (callback->on_key_event(event))
                     return true;
@@ -85,7 +85,7 @@ void input::handle_events() {
     });
 
     _handle_events<scroll_event>(scroll, [&](auto& event) {
-        for (auto& callback : callbacks)
+        for (auto const& callback : callbacks)
             if (callback->on_scroll_event)
                 if (callback->on_scroll_event(event))
                     return true;
@@ -96,7 +96,7 @@ void input::handle_events() {
     handle_mouse_events();
 
     _handle_events<path_drop_event>(path_drop, [&](auto& event) {
-        for (auto& callback : callbacks)
+        for (auto const& callback : callbacks)
             if (callback->on_path_drop_event)
                 if (callback->on_path_drop_event(event))
                     return true;

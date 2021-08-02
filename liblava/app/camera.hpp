@@ -179,23 +179,23 @@ struct camera : entity {
      * @return false    Camera does not move
      */
     bool moving() const {
-        return up || down || left || right;
+        return move_up || move_down || move_left || move_right;
     }
 
     /**
-     * @brief Set keys for moving this camera.
+     * @brief Set keys for moving this camera
      *
-     * @param up        Up inputs
-     * @param down      Down inputs
-     * @param left      Left inputs
-     * @param right     Right inputs
+     * @param up       Up inputs
+     * @param down     Down inputs
+     * @param left     Left inputs
+     * @param right    Right inputs
      */
-    void set_movement_keys(std::vector<key> up, std::vector<key> down,
-                           std::vector<key> left, std::vector<key> right) {
-        up_key = up;
-        down_key = down;
-        left_key = left;
-        right_key = right;
+    void set_movement_keys(keys_ref up, keys_ref down,
+                           keys_ref left, keys_ref right) {
+        up_keys = up;
+        down_keys = down;
+        left_keys = left;
+        right_keys = right;
     }
 
     /// Camera position
@@ -246,16 +246,16 @@ private:
     bool active = true;
 
     /// Up movement
-    bool up = false;
+    bool move_up = false;
 
     /// Down movement
-    bool down = false;
+    bool move_down = false;
 
     /// Left movement
-    bool left = false;
+    bool move_left = false;
 
     /// Right movement
-    bool right = false;
+    bool move_right = false;
 
     /// Rotation state
     bool rotate = false;
@@ -272,17 +272,17 @@ private:
     /// Scroll position
     r64 scroll_pos = 0.0;
 
-    /// Up input keycodes
-    std::vector<key> up_key = std::vector<key>{ key::w };
+    /// Up input keys
+    keys up_keys{ key::w };
 
-    /// Down input keycodes
-    std::vector<key> down_key = std::vector<key>{ key::s };
+    /// Down input keys
+    keys down_keys{ key::s };
 
-    /// Left input keycodes
-    std::vector<key> left_key = std::vector<key>{ key::a };
+    /// Left input keys
+    keys left_keys{ key::a };
 
-    /// Right input keycodes
-    std::vector<key> right_key = std::vector<key>{ key::d };
+    /// Right input keys
+    keys right_keys{ key::d };
 
     /// Vulkan buffer
     buffer::ptr data;

@@ -38,24 +38,24 @@ void camera::move_first_person(delta dt) {
 
     auto speed = dt * movement_speed * 2.f;
 
-    if (up) {
+    if (move_up) {
         if (lock_z)
             position -= glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * speed;
         else
             position -= (front * speed);
     }
 
-    if (down) {
+    if (move_down) {
         if (lock_z)
             position += glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * speed;
         else
             position += (front * speed);
     }
 
-    if (left)
+    if (move_left)
         position += glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f))) * speed;
 
-    if (right)
+    if (move_right)
         position -= glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f))) * speed;
 }
 
@@ -186,8 +186,8 @@ void camera::upload() {
 
 //-----------------------------------------------------------------------------
 bool camera::handle(key_event::ref event) {
-    key pressed_key = event.key;
-    auto check_key = [&](key current_key, key testing_key, bool& value) -> bool {
+    auto pressed_key = event.key;
+    auto check_key = [&](key_ref current_key, key_ref testing_key, bool& value) -> bool {
         if (current_key == testing_key) {
             value = event.active();
             return input_done;
@@ -195,23 +195,23 @@ bool camera::handle(key_event::ref event) {
         return input_ignore;
     };
 
-    for (auto& current_key : up_key) {
-        if (check_key(current_key, pressed_key, up)) {
+    for (auto const& current_key : up_keys) {
+        if (check_key(current_key, pressed_key, move_up)) {
             return input_done;
         }
     }
-    for (auto& current_key : down_key) {
-        if (check_key(current_key, pressed_key, down)) {
+    for (auto const& current_key : down_keys) {
+        if (check_key(current_key, pressed_key, move_down)) {
             return input_done;
         }
     }
-    for (auto& current_key : left_key) {
-        if (check_key(current_key, pressed_key, left)) {
+    for (auto const& current_key : left_keys) {
+        if (check_key(current_key, pressed_key, move_left)) {
             return input_done;
         }
     }
-    for (auto& current_key : right_key) {
-        if (check_key(current_key, pressed_key, right)) {
+    for (auto const& current_key : right_keys) {
+        if (check_key(current_key, pressed_key, move_right)) {
             return input_done;
         }
     }
@@ -243,10 +243,10 @@ bool camera::handle(scroll_event::ref event) {
 
 //-----------------------------------------------------------------------------
 void camera::stop() {
-    up = false;
-    down = false;
-    left = false;
-    right = false;
+    move_up = false;
+    move_down = false;
+    move_left = false;
+    move_right = false;
 
     rotate = false;
     translate = false;
