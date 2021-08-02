@@ -526,7 +526,7 @@ option(LIBLAVA_DEMO "Enable Demo" TRUE)
 if(LIBLAVA_DEMO)
 message("========================================================================")
         
-        message("> lava::demo")
+        message("> lava-demo")
 
         set(LIBLAVA_DEMO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava-demo)
 
@@ -666,7 +666,7 @@ option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
 if(LIBLAVA_TEMPLATE)
 message("========================================================================")
 
-        set(NAME template)
+        set(NAME "template" CACHE STRING "Name of template using liblava")
 
         message("> ${NAME}")
 
