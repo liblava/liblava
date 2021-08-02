@@ -28,7 +28,7 @@
 
 * [IconFontCppHeaders](https://github.com/juliettef/IconFontCppHeaders) / **C, C++ headers and C# classes for icon fonts** / *zlib*
 
-  [![demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](../liblava-demo/demo.hpp)
+  [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](../liblava/app/imgui.cpp)
 
 * [imgui](https://github.com/ocornut/imgui) / **Dear ImGui - Bloat-free Graphical User interface for C++ with minimal dependencies** / *MIT*
 

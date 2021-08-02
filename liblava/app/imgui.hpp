@@ -420,6 +420,13 @@ private:
 void setup_imgui_font(imgui::config& config, imgui::font::ref font);
 
 /**
+ * @brief Set up the imgui font icons
+ * 
+ * @param font    Imgui font
+ */
+void setup_imgui_font_icons(imgui::font& font);
+
+/**
  * @brief ImGui left spacing with top offset
  * 
  * @param top    Top offset

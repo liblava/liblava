@@ -5,8 +5,9 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include <IconsFontAwesome5.h>
 #include <imgui.h>
-#include <demo.hpp>
+#include <liblava/lava.hpp>
 
 using namespace lava;
 

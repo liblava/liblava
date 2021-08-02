@@ -364,6 +364,7 @@ add_library(lava.app STATIC
 
 target_include_directories(lava.app PUBLIC
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/imgui>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/IconFontCppHeaders>
         )
 
 target_link_libraries(lava.app
@@ -467,6 +468,7 @@ set(EXT_INCLUDE_DIRS
         #${LIBLAVA_EXT_DIR}/Catch2
         ${LIBLAVA_EXT_DIR}/argh
         ${LIBLAVA_EXT_DIR}/imgui
+        ${LIBLAVA_EXT_DIR}/IconFontCppHeaders
         )
 
 foreach(DIR ${EXT_INCLUDE_DIRS})
@@ -528,21 +530,6 @@ message("=======================================================================
 
         set(LIBLAVA_DEMO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava-demo)
 
-        add_library(lava.demo STATIC
-                ${LIBLAVA_DEMO_DIR}/demo.cpp
-                ${LIBLAVA_DEMO_DIR}/demo.hpp
-                )
-
-        target_include_directories(lava.demo PUBLIC
-                ${LIBLAVA_DEMO_DIR}
-                ${LIBLAVA_EXT_DIR}/IconFontCppHeaders
-                )
-
-        set_target_properties(lava.demo PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava.demo lava::app)
-
-        add_library(lava::demo ALIAS lava.demo)
-
         message(">> lava-triangle")
 
         set(TRIANGLE_SHADERS
@@ -558,7 +545,7 @@ message("=======================================================================
         source_group("Shader Files" FILES ${TRIANGLE_SHADERS})
 
         set_target_properties(lava-triangle PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-triangle lava::demo)
+        target_link_libraries(lava-triangle lava::app)
 
         set_property(TARGET lava-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
@@ -579,7 +566,7 @@ message("=======================================================================
         source_group("Shader Files" FILES ${GENERIC_TRIANGLE_SHADERS})
 
         set_target_properties(lava-generic-triangle PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-generic-triangle lava::demo)
+        target_link_libraries(lava-generic-triangle lava::app)
 
         set_property(TARGET lava-generic-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
@@ -596,7 +583,7 @@ message("=======================================================================
         source_group("Shader Files" FILES ${SHAPES_SHADERS})
 
         set_target_properties(lava-shapes PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-shapes lava::demo)
+        target_link_libraries(lava-shapes lava::app)
 
         set_property(TARGET lava-shapes PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
@@ -615,7 +602,7 @@ message("=======================================================================
         source_group("Shader Files" FILES ${LAMP_SHADERS})
 
         set_target_properties(lava-lamp PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-lamp lava::demo)
+        target_link_libraries(lava-lamp lava::app)
 
         set_property(TARGET lava-lamp PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
@@ -634,7 +621,7 @@ message("=======================================================================
         source_group("Shader Files" FILES ${SPAWN_SHADERS})
 
         set_target_properties(lava-spawn PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-spawn lava::demo)
+        target_link_libraries(lava-spawn lava::app)
 
         set_property(TARGET lava-spawn PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
@@ -656,7 +643,7 @@ message("=======================================================================
         source_group("Shader Files" FILES ${LIGHT_SHADERS})
 
         set_target_properties(lava-light PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-light lava::demo)
+        target_link_libraries(lava-light lava::app)
 
         set_property(TARGET lava-light PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 

@@ -6,7 +6,7 @@
  */
 
 #include <imgui.h>
-#include <demo.hpp>
+#include <liblava/lava.hpp>
 
 using namespace lava;
 

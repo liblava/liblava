@@ -5,7 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <demo.hpp>
+#include <liblava/lava.hpp>
 
 using namespace lava;
 
