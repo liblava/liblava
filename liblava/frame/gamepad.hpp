@@ -35,6 +35,9 @@ enum class gamepad_id : ui32 {
     last = _16,
 };
 
+/// Reference to gamepad id
+using gamepad_id_ref = gamepad_id const&;
+
 /**
  * @brief Gamepad buttons
  */
@@ -67,6 +70,9 @@ enum class gamepad_button : type {
     triangle = y,
 };
 
+/// Reference to gamepad button
+using gamepad_button_ref = gamepad_button const&;
+
 /**
  * @brief Gamepad axis
  */
@@ -83,6 +89,9 @@ enum class gamepad_axis : type {
     last = right_trigger,
 };
 
+/// Reference to gamepad axis
+using gamepad_axis_ref = gamepad_axis const&;
+
 /**
  * @brief Gamepad
  */
@@ -98,7 +107,7 @@ struct gamepad {
      * 
      * @param id    Gamepad id
      */
-    explicit gamepad(gamepad_id id);
+    explicit gamepad(gamepad_id_ref id);
 
     /**
      * @brief Check if gamepad is active
@@ -124,7 +133,7 @@ struct gamepad {
      * @return true     Button is pressed
      * @return false    Button is not pressed
      */
-    bool pressed(gamepad_button button) const {
+    bool pressed(gamepad_button_ref button) const {
         return state.buttons[to_ui32(button)];
     }
 
@@ -135,16 +144,16 @@ struct gamepad {
      * 
      * @return r32    Axis value
      */
-    r32 value(gamepad_axis axis) const {
+    r32 value(gamepad_axis_ref axis) const {
         return state.axes[to_ui32(axis)];
     }
 
     /**
      * @brief Get the gamepad id
      * 
-     * @return gamepad_id    Gamepad id
+     * @return gamepad_id_ref    Gamepad id
      */
-    gamepad_id get_pad_id() const {
+    gamepad_id_ref get_pad_id() const {
         return id;
     }
 
@@ -173,7 +182,7 @@ private:
      */
     struct state {
         /// Gamepad buttons
-        unsigned char buttons[15];
+        uchar buttons[15];
 
         /// Gamepad axes
         r32 axes[6];

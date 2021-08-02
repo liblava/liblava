@@ -14,7 +14,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-gamepad::gamepad(gamepad_id id)
+gamepad::gamepad(gamepad_id_ref id)
 : id(id) {
     if (ready())
         update();
@@ -38,7 +38,7 @@ bool gamepad::update() {
 //-----------------------------------------------------------------------------
 gamepad_manager::gamepad_manager() {
     glfwSetJoystickCallback([](int jid, int e) {
-        for (auto& event : instance().map)
+        for (auto const& event : instance().map)
             if (event.second(gamepad(gamepad_id(jid)), e == GLFW_CONNECTED))
                 break;
     });
