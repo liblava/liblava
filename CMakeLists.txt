@@ -666,23 +666,23 @@ option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
 if(LIBLAVA_TEMPLATE)
 message("========================================================================")
 
-        set(NAME "template" CACHE STRING "Name of template using liblava")
+        set(LIBLAVA_TEMPLATE_NAME "template" CACHE STRING "Name of template using liblava")
 
-        message("> ${NAME}")
+        message("> ${LIBLAVA_TEMPLATE_NAME}")
 
         set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-        add_executable(${NAME}
+        add_executable(${LIBLAVA_TEMPLATE_NAME}
                 ${SRC_DIR}/main.cpp
                 )
 
-        target_include_directories(${NAME} PUBLIC
+        target_include_directories(${LIBLAVA_TEMPLATE_NAME} PUBLIC
                 ${SRC_DIR}
                 )
 
-        target_link_libraries(${NAME} lava::app)
+        target_link_libraries(${LIBLAVA_TEMPLATE_NAME} lava::app)
 
-        set_property(TARGET ${NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+        set_property(TARGET ${LIBLAVA_TEMPLATE_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")

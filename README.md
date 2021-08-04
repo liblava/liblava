@@ -120,9 +120,15 @@ make
 
 ## Template
 
-You can start coding with the **template** project. If you like you can rename it in [CMakeLists](CMakeLists.txt)
+You can start coding with the **template** project
 
 &nbsp; ➜ &nbsp; Just put your code in the [src](src) folder. Everything you need is in [main.cpp](src/main.cpp)
+
+If you like you can rename it by setting the `LIBLAVA_TEMPLATE_NAME` variable in CMake:
+
+```bash
+cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
+```
 
 <br />
 
