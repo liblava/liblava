@@ -26,7 +26,7 @@
 * **run loop** abstraction for **window** and **input** handling
 * plain **renderer** and **command buffer** model
 * **texture** and **mesh** loading from virtual **file system**
-* **GUI** + **camera** + **logging** + **utils** and much more
+* **camera** / **logger** / **imgui** and much more
 
 <br />
 
