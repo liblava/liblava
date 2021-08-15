@@ -331,7 +331,28 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
 }
 
 /**
- * @brief Create a new mesh
+ * @brief Create a new primitive mesh_data
+ *
+ * @tparam T                                    Type of vertex struct
+ * @tparam generate_colors                      If color may be generated
+ * @tparam generate_normals                     If normals may be generated
+ * @tparam generate_uvs                         If UVs may be generated
+ * @tparam has_colors                           On MSVC, specifies if a `color` field exists
+ * @tparam has_normals                          On MSVC, specifies if a `normal` field exists
+ * @tparam has_uvs                              On MSVC, specifies if a `uv` field exists
+ *
+ * @param device                                Vulkan device
+ * @param type                                  Mesh type
+ *
+ * @return std::shared_ptr<mesh_template<T>>    Shared pointer to mesh data
+ */
+template<typename T = vertex, bool generate_colors = true,
+         bool generate_normals = true, bool generate_uvs = true,
+         bool has_colors = true, bool has_normals = true, bool has_uvs = true>
+mesh_template_data<T> create_mesh_data(mesh_type type);
+
+/**
+ * @brief Create a new primitive mesh
  * 
  * @tparam T                                    Type of vertex struct
  * @tparam generate_colors                      If color may be generated
@@ -434,7 +455,18 @@ template<typename T, bool generate_colors, bool generate_normals,
          bool generate_uvs, bool has_colors, bool has_normals, bool has_uvs>
 std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type) {
-    auto return_mesh = make_mesh<T>();
+    std::shared_ptr<mesh_template<T>> return_mesh = std::make_shared<mesh_template<T>>();
+    return_mesh->add_data(create_mesh_data<T, generate_colors, generate_normals, generate_uvs,
+                                           has_colors, has_normals, has_uvs>(type));
+    return_mesh->create(device);
+    return return_mesh;
+}
+
+//-----------------------------------------------------------------------------
+template<typename T, bool generate_colors, bool generate_normals,
+         bool generate_uvs, bool has_colors, bool has_normals, bool has_uvs>
+mesh_template_data<T> create_mesh_data(mesh_type type) {
+    mesh_template_data<T> return_mesh_data;
 
 // This define is set by CMake
 #ifdef IN_MSVC
@@ -466,10 +498,10 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
 
     switch (type) {
     case mesh_type::cube: {
-        return_mesh->get_indices().reserve(36);
-        return_mesh->get_indices() = make_primitive_indices_cube<(generate_normals && auto_normals)>();
+        return_mesh_data.indices.reserve(36);
+        return_mesh_data.indices = make_primitive_indices_cube<(generate_normals && auto_normals)>();
         constexpr size_t vert_count = (generate_normals && auto_normals) ? 24 : 8;
-        return_mesh->get_vertices().reserve(vert_count);
+        return_mesh_data.vertices.reserve(vert_count);
         auto positions = make_primitive_positions_cube<PosType, vert_count, (generate_normals && auto_normals)>();
         for (size_t i = 0; i < vert_count; i++) {
             T vert;
@@ -486,13 +518,13 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                 auto uvs = make_primitive_uvs_cube<UVType>();
                 vert.uv = uvs[i];
             }
-            return_mesh->get_vertices().push_back(vert);
+            return_mesh_data.vertices.push_back(vert);
         }
         break;
     }
 
     case mesh_type::triangle: {
-        return_mesh->get_vertices().reserve(3);
+        return_mesh_data.vertices.reserve(3);
         T vert_one;
         vert_one.position = { 1, 1, 0 };
         T vert_two;
@@ -509,15 +541,15 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
             vert_two.normal = { -1, 1, 0 };
             vert_three.normal = { 0, -1, 0 };
         }
-        return_mesh->get_vertices().push_back(vert_one);
-        return_mesh->get_vertices().push_back(vert_two);
-        return_mesh->get_vertices().push_back(vert_three);
+        return_mesh_data.vertices.push_back(vert_one);
+        return_mesh_data.vertices.push_back(vert_two);
+        return_mesh_data.vertices.push_back(vert_three);
         break;
     }
 
     case mesh_type::quad: {
-        return_mesh->get_vertices().reserve(4);
-        return_mesh->get_indices().reserve(6);
+        return_mesh_data.vertices.reserve(4);
+        return_mesh_data.indices.reserve(6);
         T vert_one;
         vert_one.position = { 1, 1, 0 };
         T vert_two;
@@ -539,21 +571,21 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
             vert_four.normal = { 0, 0, 1 };
         }
         // clang-format off
-        return_mesh->get_indices() = {
+        return_mesh_data.indices = {
             0, 1, 2,
             2, 3, 0,
         };
         // clang-format on
-        return_mesh->get_vertices().push_back(vert_one);
-        return_mesh->get_vertices().push_back(vert_two);
-        return_mesh->get_vertices().push_back(vert_three);
-        return_mesh->get_vertices().push_back(vert_four);
+        return_mesh_data.vertices.push_back(vert_one);
+        return_mesh_data.vertices.push_back(vert_two);
+        return_mesh_data.vertices.push_back(vert_three);
+        return_mesh_data.vertices.push_back(vert_four);
         break;
     }
 
     case mesh_type::hexagon: {
-        return_mesh->get_vertices().reserve(7);
-        return_mesh->get_indices().reserve(18);
+        return_mesh_data.vertices.reserve(7);
+        return_mesh_data.indices.reserve(18);
         hex_layout layout;
         layout.orientation = hex_layout_point_y;
         layout.size = { 1, 1 };
@@ -605,27 +637,27 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
             vert_s.normal = { 0, 0, 1 };
         }
         // clang-format off
-        return_mesh->get_indices() = {
+        return_mesh_data.indices = {
             0, 1, 6, 0, 6, 5, 0, 5, 4, 0, 4, 3, 0, 3, 2, 0, 2, 1
         };
         // clang-format on
-        return_mesh->get_vertices().push_back(vert_center);
-        return_mesh->get_vertices().push_back(vert_sw);
-        return_mesh->get_vertices().push_back(vert_nw);
-        return_mesh->get_vertices().push_back(vert_n);
-        return_mesh->get_vertices().push_back(vert_ne);
-        return_mesh->get_vertices().push_back(vert_se);
-        return_mesh->get_vertices().push_back(vert_s);
+        return_mesh_data.vertices.push_back(vert_center);
+        return_mesh_data.vertices.push_back(vert_sw);
+        return_mesh_data.vertices.push_back(vert_nw);
+        return_mesh_data.vertices.push_back(vert_n);
+        return_mesh_data.vertices.push_back(vert_ne);
+        return_mesh_data.vertices.push_back(vert_se);
+        return_mesh_data.vertices.push_back(vert_s);
         break;
     }
 
     case mesh_type::none:
     default:
-        return nullptr;
+        break;
     }
 
     if constexpr (generate_colors && auto_colors) {
-        for (auto& vert : return_mesh->get_vertices()) {
+        for (auto& vert : return_mesh_data.vertices) {
             // This does not work on glm vectors
             // for (auto& this_color : vert.color) {
             //     for (auto& color_component : this_color) {
@@ -644,10 +676,7 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
         }
     }
 
-    if (!return_mesh->create(device)) {
-        return nullptr;
-    }
-    return return_mesh;
+    return return_mesh_data;
 }
 
 //-----------------------------------------------------------------------------
