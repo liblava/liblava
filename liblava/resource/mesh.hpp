@@ -349,8 +349,7 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
 template<typename T = vertex, bool generate_colors = true,
          bool generate_normals = true, bool generate_uvs = true,
          bool has_colors = true, bool has_normals = true, bool has_uvs = true>
-mesh_template_data<T> create_mesh_data(device_ptr& device,
-                                       mesh_type type);
+mesh_template_data<T> create_mesh_data(mesh_type type);
 
 /**
  * @brief Create a new primitive mesh
@@ -458,15 +457,15 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
                                               mesh_type type) {
     std::shared_ptr<mesh_template<T>> return_mesh = std::make_shared<mesh_template<T>>();
     return_mesh->add_data(create_mesh_data<T, generate_colors, generate_normals, generate_uvs,
-                                           has_colors, has_normals, has_uvs>(device, type));
+                                           has_colors, has_normals, has_uvs>(type));
+    return_mesh->create(device);
     return return_mesh;
 }
 
 //-----------------------------------------------------------------------------
 template<typename T, bool generate_colors, bool generate_normals,
          bool generate_uvs, bool has_colors, bool has_normals, bool has_uvs>
-mesh_template_data<T> create_mesh_data(device_ptr& device,
-                                       mesh_type type) {
+mesh_template_data<T> create_mesh_data(mesh_type type) {
     mesh_template_data<T> return_mesh_data;
 
 // This define is set by CMake
