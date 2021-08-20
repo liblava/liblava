@@ -68,10 +68,14 @@ push constants to shader
 ### [lava shapes](liblava-demo/shapes.cpp)
 generating primitives
 
+<a href="liblava-demo/shapes.cpp">![triangle](res/shapes/screenshot.png)</a>
+
 <br />
 
 ### [lava generic triangles](liblava-demo/generic_triangle.cpp)
 float, double, and int meshes
+
+<a href="liblava-demo/generic_triangle.cpp">![triangle](res/generic_triangle/screenshot.png)</a>
 
 <br />
 
