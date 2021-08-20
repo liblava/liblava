@@ -341,10 +341,9 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
  * @tparam has_normals                          On MSVC, specifies if a `normal` field exists
  * @tparam has_uvs                              On MSVC, specifies if a `uv` field exists
  *
- * @param device                                Vulkan device
  * @param type                                  Mesh type
  *
- * @return std::shared_ptr<mesh_template<T>>    Shared pointer to mesh data
+ * @return mesh_template_data<T>                Mesh data
  */
 template<typename T = vertex, bool generate_colors = true,
          bool generate_normals = true, bool generate_uvs = true,
