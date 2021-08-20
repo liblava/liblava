@@ -126,6 +126,13 @@ struct physical_device : entity {
     }
 
     /**
+     * @brief Get the device name
+     * 
+     * @return name    Name of device
+     */
+    name get_device_name() const;
+
+    /**
      * @brief Get the device type as string
      * 
      * @return string    String representation of device type

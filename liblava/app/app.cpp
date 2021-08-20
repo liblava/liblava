@@ -120,6 +120,13 @@ bool app::setup() {
             return false;
     }
 
+    auto physical_device = device->get_physical_device();
+
+    auto device_name = trim_copy(physical_device->get_device_name());
+    auto device_type = physical_device->get_device_type_string();
+
+    log()->info("device: {} ({})", str(device_name), str(device_type));
+
     if (!create_target())
         return false;
 

@@ -70,6 +70,11 @@ device::create_param physical_device::create_default_device_param() const {
 }
 
 //-----------------------------------------------------------------------------
+name physical_device::get_device_name() const {
+    return properties.deviceName;
+}
+
+//-----------------------------------------------------------------------------
 string physical_device::get_device_type_string() const {
     string result;
     switch (properties.deviceType) {
