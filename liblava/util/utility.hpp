@@ -71,6 +71,75 @@ inline void append(std::vector<T>& list, std::vector<T>& items) {
 }
 
 /**
+ * @brief Trim string only from start (in place)
+ * 
+ * @param s    String to trim
+ */
+inline void ltrim(string& s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](uchar ch) {
+                return !std::isspace(ch);
+            }));
+}
+
+/**
+ * @brief Trim string only from end (in place)
+ * 
+ * @param s    String to trim
+ */
+inline void rtrim(string& s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](uchar ch) {
+                return !std::isspace(ch);
+            }).base(),
+            s.end());
+}
+
+/**
+ * @brief Trim string from both ends (in place)
+ * 
+ * @param s    String to trim
+ */
+inline void trim(string& s) {
+    ltrim(s);
+    rtrim(s);
+}
+
+/**
+ * @brief Trim string only from start (copying)
+ * 
+ * @param s          String to trim
+ * 
+ * @return string    Trimmed string
+ */
+inline string ltrim_copy(string s) {
+    ltrim(s);
+    return s;
+}
+
+/**
+ * @brief Trim string only from end (copying)
+ * 
+ * @param s          String to trim
+ * 
+ * @return string    Trimmed string
+ */
+inline string rtrim_copy(string s) {
+    rtrim(s);
+    return s;
+}
+
+/**
+ * @brief Trim string from both ends (copying)
+ * 
+ * @param s          String to trim
+ * 
+ * @return string    Trimmed string
+ */
+inline string trim_copy(string s) {
+    trim(s);
+    return s;
+}
+
+/**
  * @brief Reversion Wrapper
  * 
  * @tparam T    Type to iterate
