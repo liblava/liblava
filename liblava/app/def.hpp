@@ -12,6 +12,8 @@
 namespace lava {
 
 constexpr name _reload_ = "reload";
+constexpr name _on_ = "on";
+constexpr name _off_ = "off";
 
 /// config
 

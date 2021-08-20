@@ -338,7 +338,7 @@ void app::handle_window() {
                 if (window_state)
                     window_state->fullscreen = !window.fullscreen();
 
-                log()->debug("{}: {}", _fullscreen_, window_state->fullscreen);
+                log()->debug("{}: {}", _fullscreen_, window_state->fullscreen ? _on_ : _off_);
 
                 if (!window.switch_mode(window_state))
                     return false;
@@ -350,7 +350,7 @@ void app::handle_window() {
                 config.v_sync = !config.v_sync;
                 toggle_v_sync = false;
 
-                log()->debug("{}: {}", _v_sync_, config.v_sync);
+                log()->debug("{}: {}", _v_sync_, config.v_sync ? _on_ : _off_);
             }
 
             if (!create_target())
