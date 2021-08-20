@@ -5,6 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include <imgui.h>
 #include <liblava/lava.hpp>
 
 using namespace lava;
@@ -167,6 +168,17 @@ int main(int argc, char* argv[]) {
         int_pipeline->destroy();
         double_pipeline->destroy();
         layout->destroy();
+    };
+
+    app.imgui.on_draw = [&]() {
+        ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({ 210, 110 }, ImGuiCond_FirstUseEver);
+
+        ImGui::Begin(app.get_name());
+
+        app.draw_about(false);
+
+        ImGui::End();
     };
 
     app.add_run_end([&]() {
