@@ -52,24 +52,6 @@ struct hex_cell {
     /// Hex pair (Q and R)
     using pair = std::pair<i32, i32>;
 
-    /**
-     * @brief Hash for pair
-     */
-    struct pair_hash {
-        static_assert(sizeof(i32) * 2 == sizeof(size_t));
-
-        /**
-         * @brief Hash operator
-         * 
-         * @param p          Hex pair
-         * 
-         * @return size_t    Hash value
-         */
-        size_t operator()(pair p) const noexcept {
-            return size_t(p.first) << 32 | p.second;
-        }
-    };
-
     /// Map of hex cells
     using map = std::unordered_map<pair, index, pair_hash>;
 
