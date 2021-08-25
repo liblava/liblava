@@ -347,7 +347,7 @@ struct interface {
 /**
  * @brief Combine hash seed with value - from boost (functional/hash)
  * 
- * @see http://www.boost.org/doc/libs/1_35_0/doc/html/hash/combine.html
+ * @see http://www.boost.org/doc/libs/1_77_0/doc/html/hash/combine.html
  * 
  * @tparam T      Type of value
  * 
@@ -373,7 +373,7 @@ inline void hash_val(size_t& seed, T const& val) {
 }
 
 /**
- * @see hash_val
+ * @see hash_val<T>()
  */
 template<typename T, typename... Types>
 inline void hash_val(size_t& seed, T const& val, Types const&... args) {
@@ -382,7 +382,7 @@ inline void hash_val(size_t& seed, T const& val, Types const&... args) {
 }
 
 /**
- * @see hash_val
+ * @see hash_val<T>()
  */
 template<typename... Types>
 inline size_t hash_val(Types const&... args) {

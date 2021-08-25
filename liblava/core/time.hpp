@@ -50,7 +50,7 @@ inline delta to_delta(milliseconds ms) {
 }
 
 /**
- * @see to_delta
+ * @see to_delta()
  */
 inline delta to_dt(milliseconds ms) {
     return to_delta(ms);
