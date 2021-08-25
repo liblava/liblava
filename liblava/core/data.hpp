@@ -258,28 +258,10 @@ struct unique_data : data {
      * @param length    Length of data 
      * @param alloc     Allocate data
      */
-    explicit unique_data(size_t length = 0, bool alloc = true) {
+    unique_data(size_t length = 0, bool alloc = true) {
         if (length)
             set(length, alloc);
     }
-
-    /**
-     * @brief Construct a new unique data
-     * 
-     * @param length    Length of data
-     * @param alloc     Allocate data
-     */
-    explicit unique_data(ui32 length, bool alloc = true)
-    : unique_data(to_size_t(length), alloc) {}
-
-    /**
-     * @brief Construct a new unique data
-     * 
-     * @param length    Length of data
-     * @param alloc     Allocate data
-     */
-    explicit unique_data(i64 length, bool alloc = true)
-    : unique_data(to_size_t(length), alloc) {}
 
     /**
      * @brief Construct a new unique data from another data

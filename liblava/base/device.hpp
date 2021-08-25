@@ -150,7 +150,7 @@ struct device : device_table, entity {
     }
 
     /**
-     * @see graphics_queue
+     * @see get_graphics_queue
      */
     queue::ref graphics_queue(index index = 0) const {
         return get_graphics_queue(index);
