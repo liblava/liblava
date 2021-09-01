@@ -19,19 +19,22 @@ descriptor::binding::binding() {
 }
 
 //-----------------------------------------------------------------------------
-bool descriptor::pool::create(device_ptr d, VkDescriptorPoolSizesRef s, ui32 m, VkDescriptorPoolCreateFlags flags) {
-    if (s.empty() || (m == 0))
+bool descriptor::pool::create(device_ptr device, VkDescriptorPoolSizesRef sizes, ui32 max,
+                              VkDescriptorPoolCreateFlags flags) {
+    if (sizes.empty())
         return false;
 
-    device = d;
-    sizes = s;
-    max = m;
+    if (max == 0) {
+        for (VkDescriptorPoolSize size : sizes) {
+            max += size.descriptorCount;
+        }
+    }
 
     VkDescriptorPoolCreateInfo const pool_info{
         .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
         .flags = flags,
         .maxSets = max,
-        .poolSizeCount = to_ui32(s.size()),
+        .poolSizeCount = to_ui32(sizes.size()),
         .pPoolSizes = sizes.data(),
     };
 

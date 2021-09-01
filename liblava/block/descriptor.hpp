@@ -110,7 +110,7 @@ struct descriptor : entity {
          * @return true     Create was successful
          * @return false    Create failed
          */
-        bool create(device_ptr device, VkDescriptorPoolSizesRef sizes, ui32 max = 1,
+        bool create(device_ptr device, VkDescriptorPoolSizesRef sizes, ui32 max = 0,
                     VkDescriptorPoolCreateFlags flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT);
 
         /**
