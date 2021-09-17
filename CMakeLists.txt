@@ -413,6 +413,8 @@ message("=======================================================================
 
         add_executable(lava-unit 
                 ${LIBLAVA_TESTS_DIR}/unit.cpp
+                ${LIBLAVA_TESTS_DIR}/unit.hpp
+                ${LIBLAVA_TESTS_DIR}/unit/queue.hpp
                 )
 
         set_target_properties(lava-unit PROPERTIES FOLDER "lava/tests")
