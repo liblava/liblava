@@ -348,9 +348,10 @@ void app::handle_window() {
 
             if (toggle_v_sync) {
                 config.v_sync = !config.v_sync;
-                toggle_v_sync = false;
 
                 log()->debug("{}: {}", _v_sync_, config.v_sync ? _on_ : _off_);
+
+                toggle_v_sync = false;
             }
 
             if (!create_target())
@@ -407,7 +408,7 @@ void app::render() {
         }
 
         auto frame_index = renderer.begin_frame();
-        if (!frame_index)
+        if (!frame_index.has_value())
             return run_continue;
 
         frame_counter++;
