@@ -48,6 +48,9 @@ struct device : device_table, entity {
         /// List of physical device features to enable
         VkPhysicalDeviceFeatures features{};
 
+        /// Must be true if .next points to a VkPhysicalDevice2 instance
+        bool has_features_2 = false;
+
         /// Create parameter next pointer (pNext)
         void const* next = nullptr;
 
