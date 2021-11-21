@@ -108,7 +108,7 @@ bool device::create(create_param::ref param) {
         .ppEnabledLayerNames = nullptr,
         .enabledExtensionCount = to_ui32(param.extensions.size()),
         .ppEnabledExtensionNames = param.extensions.data(),
-        .pEnabledFeatures = &param.features,
+        .pEnabledFeatures = (param.has_features_2) ? nullptr : &param.features,
     };
 
     if (failed(vkCreateDevice(physical_device->get(), &create_info, memory::alloc(), &vk_device))) {
