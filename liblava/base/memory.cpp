@@ -120,6 +120,8 @@ type memory::find_type(VkPhysicalDevice gpu, VkMemoryPropertyFlags properties, u
 //-----------------------------------------------------------------------------
 bool allocator::create(device_cptr device, VmaAllocatorCreateFlags flags) {
     VmaVulkanFunctions const vulkan_function {
+        .vkGetInstanceProcAddr = vkGetInstanceProcAddr,
+        .vkGetDeviceProcAddr = vkGetDeviceProcAddr,
         .vkGetPhysicalDeviceProperties = vkGetPhysicalDeviceProperties,
         .vkGetPhysicalDeviceMemoryProperties = vkGetPhysicalDeviceMemoryProperties,
         .vkAllocateMemory = device->call().vkAllocateMemory,
