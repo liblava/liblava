@@ -9,6 +9,7 @@
 
 #include <filesystem>
 #include <liblava/core/version.hpp>
+#include <liblava/util/log.hpp>
 
 namespace lava {
 
@@ -132,8 +133,10 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Mount resource directory
+     * 
+     * @param log    Logger
      */
-    void mount_res();
+    void mount_res(logger log);
 
     /**
      * @brief Create data folder

@@ -96,7 +96,7 @@ bool app::setup() {
         return false;
     }
 
-    file_system::instance().mount_res();
+    file_system::instance().mount_res(log());
 
     auto& cmd_line = get_cmd_line();
     if (cmd_line[{ "-c", "--clean" }])
@@ -164,7 +164,9 @@ bool app::setup() {
 
         window.destroy();
 
-        config_file.save();
+        if (!config_file.save())
+            log()->error("cannot save config file {}", config_file.get());
+
         config_file.remove(&config_callback);
 
         file_system::instance().terminate();

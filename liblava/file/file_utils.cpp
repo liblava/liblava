@@ -99,12 +99,7 @@ bool load_file_data(string_ref filename, data& target) {
     if (!target.ptr)
         return false;
 
-    if (file_error(file.read(target.ptr))) {
-        log()->error("read file {}", filename);
-        return false;
-    }
-
-    return true;
+    return !file_error(file.read(target.ptr));
 }
 
 //-----------------------------------------------------------------------------

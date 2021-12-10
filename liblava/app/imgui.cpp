@@ -605,20 +605,28 @@ bool imgui::upload_fonts(texture::ptr texture) {
 
 //-----------------------------------------------------------------------------
 void setup_imgui_font(imgui::config& config, imgui::font::ref font) {
-    if (load_file_data(str(font.file), config.font_data)) {
-        config.font_size = font.size;
+    if (!font.file.empty()) {
+        if (load_file_data(str(font.file), config.font_data)) {
+            config.font_size = font.size;
 
-        log()->debug("load {}", str(font.file));
+            log()->debug("load {}", str(font.file));
+        } else {
+            log()->error("setup_imgui_font - cannot load font file {}", str(font.file));
+        }
     }
 
-    if (load_file_data(str(font.icon_file), config.icon.font_data)) {
-        config.icon.size = font.icon_size;
+    if (!font.icon_file.empty()) {
+        if (load_file_data(str(font.icon_file), config.icon.font_data)) {
+            config.icon.size = font.icon_size;
 
-        config.icon.font_data = config.icon.font_data;
-        config.icon.range_begin = font.icon_range_begin;
-        config.icon.range_end = font.icon_range_end;
+            config.icon.font_data = config.icon.font_data;
+            config.icon.range_begin = font.icon_range_begin;
+            config.icon.range_end = font.icon_range_end;
 
-        log()->debug("load {}", str(font.icon_file));
+            log()->debug("load {}", str(font.icon_file));
+        } else {
+            log()->error("setup_imgui_font - cannot load font icon file {}", str(font.icon_file));
+        }
     }
 }
 

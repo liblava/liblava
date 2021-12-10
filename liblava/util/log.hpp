@@ -19,17 +19,6 @@ namespace lava {
 using logger = std::shared_ptr<spdlog::logger>;
 
 /**
- * @brief Get the logger
- * 
- * @param name       Name of logger
- * 
- * @return logger    Logger
- */
-inline logger log(name name = _lava_) {
-    return spdlog::get(name);
-}
-
-/**
  * @brief Convert id and name to string
  * 
  * @param id         Id to convert
@@ -134,17 +123,19 @@ struct log_config {
 };
 
 /**
- * @brief Set the up logging
+ * @brief Set up logging
  * 
  * @param config    Log configuration
  */
-inline void setup_log(log_config config = {}) {
+inline logger setup_log(log_config config = {}) {
     if (config.debug) {
         auto log = spdlog::stdout_color_mt(config.logger);
         log->set_level((config.level < 0) ? spdlog::level::debug : (spdlog::level::level_enum) config.level);
+        return log;
     } else {
         auto log = spdlog::basic_logger_mt(config.logger, config.file);
         log->set_level((config.level < 0) ? spdlog::level::warn : (spdlog::level::level_enum) config.level);
+        return log;
     }
 }
 

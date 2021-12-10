@@ -20,6 +20,20 @@
 
 namespace lava {
 
+/**
+ * @brief Set global logger
+ * 
+ * @param log    Logger
+ */
+void set_log(logger log);
+
+/**
+ * @brief Get global logger
+ * 
+ * @return logger    Logger
+ */
+logger log();
+
 /// Vulkan object handle
 using VkObjectHandle = ui64;
 

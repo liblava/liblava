@@ -131,7 +131,7 @@ void handle_config(frame_config& config) {
     if (auto log_level = -1; cmd_line({ "-l", "--log" }) >> log_level)
         config.log.level = log_level;
 
-    setup_log(config.log);
+    set_log(setup_log(config.log));
 
     if (internal_version{} != config.info.app_version) {
         log()->info(">>> {} / {} - {} / {} - {} {}", str(version_string()),
@@ -216,9 +216,7 @@ void frame::teardown() {
     glfwTerminate();
 
     log()->info("<<<");
-
     log()->flush();
-    spdlog::drop_all();
 
     frame_initialized = false;
 }

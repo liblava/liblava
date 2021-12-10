@@ -105,7 +105,7 @@ void file_system::terminate() {
 }
 
 //-----------------------------------------------------------------------------
-void file_system::mount_res() {
+void file_system::mount_res(logger log) {
 #if LIBLAVA_DEBUG
     #if _WIN32
     res_path = "../../res/";
@@ -118,18 +118,18 @@ void file_system::mount_res() {
 
     if (fs::exists(str(get_res_dir_str())))
         if (file_system::mount(str(res_path)))
-            log()->debug("mount {}", str(get_res_dir_str()));
+            log->debug("mount {}", str(get_res_dir_str()));
 
     auto cwd_res_dir = fs::current_path().append("res/").lexically_normal().string();
 
     if (fs::exists(cwd_res_dir) && (cwd_res_dir != get_res_dir_str()))
         if (file_system::mount(cwd_res_dir))
-            log()->debug("mount {}", str(cwd_res_dir));
+            log->debug("mount {}", str(cwd_res_dir));
 
     string archive_file = "res.zip";
     if (fs::exists({ archive_file }))
         if (file_system::mount(str(archive_file)))
-            log()->debug("mount {}", str(archive_file));
+            log->debug("mount {}", str(archive_file));
 }
 
 //-----------------------------------------------------------------------------

@@ -44,10 +44,8 @@ bool json_file::load() {
 //-----------------------------------------------------------------------------
 bool json_file::save() {
     file file(str(path), true);
-    if (!file.opened()) {
-        log()->error("save file {}", str(path));
+    if (!file.opened())
         return false;
-    }
 
     json j;
 
