@@ -46,7 +46,7 @@ enum class version_stage {
  */
 struct version {
     /// Version year
-    i32 year = 2021;
+    i32 year = 2022;
 
     /// Version release
     i32 release = 0;
