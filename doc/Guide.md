@@ -162,36 +162,6 @@ be initialized
 
 <br />
 
-----
-
-Due to various bugs in the MSVC compiler, mesh generation is somewhat more
-complicated when using CMake's Visual Studio generator
-
-To generate them when building with MSVC, three additional template arguments are
-required to specify that the fields exist. These follow in the same order as the
-previous arguments
-
-The complete definition of `create_mesh()` in this case is:
-
-```c++
-template<typename T = vertex, bool generate_colors = true,
-                              bool generate_normals = true,
-                              bool generate_uvs = true,
-                              bool has_colors = true,
-                              bool has_normals = true,
-                              bool has_uvs = true>
-std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
-                                              mesh_type type);
-```
-
-Because these arguments are `true` by default, to simplify the usage of
-`vertex`, they only must be set to `false` at call site if these fields
-do **not** exist in the struct `T` - Otherwise, they are no-op!
-
-----
-
-<br />
-
 ## Keyboard shortcuts
 
 `lava app` defines some useful shortcuts

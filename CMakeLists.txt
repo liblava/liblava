@@ -1,4 +1,4 @@
-﻿# file      : CMakeLists.txt
+# file      : CMakeLists.txt
 # copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 # license   : MIT; see accompanying LICENSE file
 
@@ -77,10 +77,6 @@ endif()
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_compile_options(lava.core INTERFACE "-Wno-psabi")
         target_link_options(lava.core INTERFACE "-latomic")
-endif()
-
-if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-        target_compile_definitions(lava.core INTERFACE IN_MSVC)
 endif()
 
 set_target_properties(lava.core PROPERTIES FOLDER "lava")
@@ -685,11 +681,5 @@ message("=======================================================================
 
         set_property(TARGET ${LIBLAVA_TEMPLATE_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 endif()
-
-if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-        message("========================================================================")
-        message("NOTE: MSVC does not currently support all liblava features")
-endif()
-
 
 message("========================================================================")
