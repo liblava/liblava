@@ -1,4 +1,4 @@
-# file      : CMakeLists.txt
+﻿# file      : CMakeLists.txt
 # copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 # license   : MIT; see accompanying LICENSE file
 
@@ -18,7 +18,7 @@ message("  _|  _|  _|    _|      _|      _|    _|        _|  _|        _|    _| 
 message("  _|  _|  _|_|_|        _|        _|_|_|          _|            _|_|_|  ")
 message("                                                                        ")
 message("========================================================================")
-message(" 2021 beta / 0.6.4                                         MIT licensed ")
+message(" 2022 beta / 0.6.4                                         MIT licensed ")
 message("========================================================================")
 message(" https://git.io/liblava                                  lava-block.com ")
 message("========================================================================")

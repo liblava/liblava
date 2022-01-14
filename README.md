@@ -1,6 +1,6 @@
 <a href="https://git.io/liblava"><img align="right" src="https://github.com/liblava.png" width="200" style="margin:0px 40px 0px 0px"></a>
 
-# liblava &nbsp; [![Version](https://img.shields.io/badge/2021-beta-blue)](#demos)
+# liblava &nbsp; [![Version](https://img.shields.io/badge/2022-beta-blue)](#demos)
 
 **A modern and easy-to-use library for the <a href="https://www.khronos.org/vulkan/" target="_blank">Vulkan</a>® API**
 
