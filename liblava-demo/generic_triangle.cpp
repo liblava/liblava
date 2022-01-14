@@ -53,7 +53,6 @@ int main(int argc, char* argv[]) {
     int_triangle_data.vertices.at(1).color = v4(0.5f, 1.f, 0.5f, 1.f);
     int_triangle_data.vertices.at(2).color = v4(0.5f, 0.5f, 1.f, 1.f);
     int_triangle_data.scale(2);
-    int_triangle_data.move({ 2, 0, 0 });
     if (!int_triangle->reload())
         return error::create_failed;
 
@@ -73,7 +72,6 @@ int main(int argc, char* argv[]) {
     double_triangle_data.vertices.at(1).color = v4(0.f, 1.f, 0.5f, 1.f);
     double_triangle_data.vertices.at(2).color = v4(0.f, 0.5f, 1.f, 1.f);
     double_triangle_data.scale(0.854);
-    double_triangle_data.move({ 0.123, 0.345, 0.678 });
     if (!double_triangle->reload())
         return error::create_failed;
 
