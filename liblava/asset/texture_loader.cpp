@@ -15,6 +15,7 @@
     #pragma warning(disable : 4100)
     #pragma warning(disable : 5054)
     #pragma warning(disable : 4244)
+    #pragma warning(disable : 4189)
 #else
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wignored-qualifiers"
