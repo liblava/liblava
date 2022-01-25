@@ -36,9 +36,6 @@
 [submodule "ext/imgui"]
 	path = ext/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "ext/physfs"]
-	path = ext/physfs
-	url = https://github.com/Didstopia/physfs.git
 [submodule "ext/Catch2"]
 	path = ext/Catch2
 	url = https://github.com/catchorg/Catch2.git
