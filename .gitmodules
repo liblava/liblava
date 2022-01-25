@@ -43,3 +43,6 @@
 [submodule "ext/IconFontCppHeaders"]
 	path = ext/IconFontCppHeaders
 	url = https://github.com/juliettef/IconFontCppHeaders.git
+[submodule "ext/physfs"]
+	path = ext/physfs
+	url = https://github.com/icculus/physfs.git
