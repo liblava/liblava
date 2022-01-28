@@ -20,7 +20,7 @@ message("                                                                       
 message("========================================================================")
 message(" 2022 beta / 0.6.4                                         MIT licensed ")
 message("========================================================================")
-message(" https://git.io/liblava                                  lava-block.com ")
+message(" https://git.io/liblava                          https://lava-block.com ")
 message("========================================================================")
 
 message("> module")
