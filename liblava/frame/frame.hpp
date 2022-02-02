@@ -328,6 +328,13 @@ private:
 };
 
 /**
+ * @brief Log command line
+ * 
+ * @param cmd_line    Command line parser
+ */
+void log_command_line(argh::parser const& cmd_line);
+
+/**
  * @brief Handle events
  * 
  * @param wait    Wait for events

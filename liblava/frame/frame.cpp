@@ -8,13 +8,8 @@
 #include <liblava/base/memory.hpp>
 #include <liblava/frame/frame.hpp>
 
-#ifndef LIBLAVA_HIDE_CONSOLE
-    #define LIBLAVA_HIDE_CONSOLE (!LIBLAVA_DEBUG && _WIN32)
-#endif
-
-#if LIBLAVA_HIDE_CONSOLE
+#if _WIN32 && LIBLAVA_DEBUG
     #include <windows.h>
-    #include <iostream>
 #endif
 
 #define GLFW_INCLUDE_NONE
@@ -22,52 +17,6 @@
 #include <GLFW/glfw3.h>
 
 namespace lava {
-
-/**
- * @brief Hide the console
- * 
- * @param program    Name of program
- */
-void hide_console(name program) {
-#if LIBLAVA_HIDE_CONSOLE
-
-    auto version_str = fmt::format("{} {}", _liblava_, str(version_string()));
-    std::cout << version_str.c_str() << std::endl;
-
-    auto const dot_count = 5;
-    auto const sleep_time = ms(to_i32(1. / dot_count * 1000.f));
-
-    for (auto i = 0u; i < dot_count; ++i) {
-        sleep(sleep_time);
-        std::cout << ".";
-    }
-
-    FreeConsole();
-
-#endif
-}
-
-/**
- * @brief Log command line
- * 
- * @param cmd_line    Command line parser
- */
-void log_command_line(argh::parser& cmd_line) {
-    if (!cmd_line.pos_args().empty()) {
-        for (auto& pos_arg : cmd_line.pos_args())
-            log()->info("cmd {}", str(pos_arg));
-    }
-
-    if (!cmd_line.flags().empty()) {
-        for (auto& flag : cmd_line.flags())
-            log()->info("cmd flag {}", str(flag));
-    }
-
-    if (!cmd_line.params().empty()) {
-        for (auto& param : cmd_line.params())
-            log()->info("cmd para {} = {}", str(param.first), str(param.second));
-    }
-}
 
 //-----------------------------------------------------------------------------
 ms now() {
@@ -112,8 +61,6 @@ void handle_config(frame_config& config) {
     config.debug.utils = true;
 #endif
 
-    hide_console(config.info.app_name);
-
     auto cmd_line = config.cmd_line;
 
     if (cmd_line[{ "-d", "--debug" }])
@@ -156,6 +103,10 @@ void handle_config(frame_config& config) {
 bool frame::setup(frame_config c) {
     if (frame_initialized)
         return false;
+
+#if _WIN32 && LIBLAVA_DEBUG
+    AllocConsole();
+#endif
 
     config = c;
     handle_config(config);
@@ -316,6 +267,24 @@ bool frame::remove(id::ref id) {
 void frame::trigger_run_end() {
     for (auto& func : reverse(run_end_map))
         func.second();
+}
+
+//-----------------------------------------------------------------------------
+void log_command_line(argh::parser const& cmd_line) {
+    if (!cmd_line.pos_args().empty()) {
+        for (auto const& pos_arg : cmd_line.pos_args())
+            log()->info("cmd {}", str(pos_arg));
+    }
+
+    if (!cmd_line.flags().empty()) {
+        for (auto const& flag : cmd_line.flags())
+            log()->info("cmd flag {}", str(flag));
+    }
+
+    if (!cmd_line.params().empty()) {
+        for (auto const& param : cmd_line.params())
+            log()->info("cmd para {} = {}", str(param.first), str(param.second));
+    }
 }
 
 //-----------------------------------------------------------------------------

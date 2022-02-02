@@ -74,6 +74,10 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
                 )
 endif()
 
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+endif()
+
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_compile_options(lava.core INTERFACE "-Wno-psabi")
         target_link_options(lava.core INTERFACE "-latomic")
