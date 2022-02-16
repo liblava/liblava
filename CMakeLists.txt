@@ -1,10 +1,10 @@
-# file      : CMakeLists.txt
+﻿# file      : CMakeLists.txt
 # copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 # license   : MIT; see accompanying LICENSE file
 
 cmake_minimum_required(VERSION 3.22)
 
-project(liblava VERSION 0.6.4 LANGUAGES C CXX)
+project(liblava VERSION 0.7.0 LANGUAGES C CXX)
 
 message("")
 message("========================================================================")
@@ -18,7 +18,7 @@ message("  _|  _|  _|    _|      _|      _|    _|        _|  _|        _|    _| 
 message("  _|  _|  _|_|_|        _|        _|_|_|          _|            _|_|_|  ")
 message("                                                                        ")
 message("========================================================================")
-message(" 2022 beta / 0.6.4                                         MIT licensed ")
+message(" 2022 preview / 0.7.0                                      MIT licensed ")
 message("========================================================================")
 message(" https://git.io/liblava                          https://lava-block.com ")
 message("========================================================================")

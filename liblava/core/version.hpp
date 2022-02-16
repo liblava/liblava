@@ -52,7 +52,7 @@ struct version {
     i32 release = 0;
 
     /// Version stage
-    version_stage stage = version_stage::beta;
+    version_stage stage = version_stage::preview;
 
     /// Version revision
     i32 rev = 0;
