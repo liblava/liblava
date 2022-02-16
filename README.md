@@ -98,7 +98,7 @@ raytraced reflecting cubes &nbsp; ➜ &nbsp; [pezcode/lava-rt](https://github.co
 ## Requirements
 
 * **C++20** compatible compiler
-* CMake **3.20+**
+* CMake **3.22+**
 * [Vulkan SDK](https://vulkan.lunarg.com)
 
 <br />
