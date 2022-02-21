@@ -88,7 +88,7 @@ VkSwapchainCreateInfoKHR swapchain::create_info(VkPresentModeKHRs present_modes)
         .imageColorSpace = format.colorSpace,
         .imageExtent = {},
         .imageArrayLayers = 1,
-        .imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT,
+        .imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
         .imageSharingMode = VK_SHARING_MODE_EXCLUSIVE,
         .queueFamilyIndexCount = 0,
         .preTransform = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR,
@@ -101,10 +101,9 @@ VkSwapchainCreateInfoKHR swapchain::create_info(VkPresentModeKHRs present_modes)
     VkSurfaceCapabilitiesKHR cap{};
     check(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device->get_vk_physical_device(), surface, &cap));
 
-    if (cap.maxImageCount > 0)
-        info.minImageCount = (cap.minImageCount + 2 < cap.maxImageCount) ? (cap.minImageCount + 2) : cap.maxImageCount;
-    else
-        info.minImageCount = cap.minImageCount + 2;
+    info.minImageCount = cap.minImageCount + 1;
+    if ((cap.maxImageCount > 0) && (info.minImageCount > cap.maxImageCount))
+        info.minImageCount = cap.maxImageCount;
 
     if (cap.currentExtent.width == 0xffffffff) {
         info.imageExtent.width = size.x;
@@ -117,6 +116,25 @@ VkSwapchainCreateInfoKHR swapchain::create_info(VkPresentModeKHRs present_modes)
     }
 
     info.preTransform = cap.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR ? VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR : cap.currentTransform;
+
+    if (cap.supportedUsageFlags & VK_IMAGE_USAGE_TRANSFER_SRC_BIT)
+        info.imageUsage |= VK_IMAGE_USAGE_TRANSFER_SRC_BIT;
+
+    if (cap.supportedUsageFlags & VK_IMAGE_USAGE_TRANSFER_DST_BIT)
+        info.imageUsage |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
+
+    std::vector<VkCompositeAlphaFlagBitsKHR> compositeAlphaFlags = {
+        VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
+        VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR,
+        VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR,
+        VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR,
+    };
+    for (auto& compositeAlphaFlag : compositeAlphaFlags) {
+        if (cap.supportedCompositeAlpha & compositeAlphaFlag) {
+            info.compositeAlpha = compositeAlphaFlag;
+            break;
+        };
+    }
 
     return info;
 }
