@@ -100,8 +100,6 @@ bool instance::create(create_param& param, debug_config::ref d, instance_info::r
                                                      info.engine_version.minor,
                                                      info.engine_version.patch);
 
-    application_info.apiVersion = VK_API_VERSION_1_0;
-
     switch (info.req_api_version) {
     case api_version::v1_1:
         application_info.apiVersion = VK_API_VERSION_1_1;
@@ -109,6 +107,11 @@ bool instance::create(create_param& param, debug_config::ref d, instance_info::r
     case api_version::v1_2:
         application_info.apiVersion = VK_API_VERSION_1_2;
         break;
+    case api_version::v1_3:
+        application_info.apiVersion = VK_API_VERSION_1_3;
+        break;
+    default:
+        application_info.apiVersion = VK_API_VERSION_1_0;
     }
 
     VkInstanceCreateInfo create_info{

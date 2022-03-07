@@ -22,14 +22,14 @@ namespace lava {
 
 /**
  * @brief Set global logger
- * 
+ *
  * @param log    Logger
  */
 void set_log(logger log);
 
 /**
  * @brief Get global logger
- * 
+ *
  * @return logger    Logger
  */
 logger log();
@@ -126,9 +126,9 @@ using VkPhysicalDevices = std::vector<VkPhysicalDevice>;
 
 /**
  * @brief Check a Vulkan result
- * 
+ *
  * @param result    Result to check
- * 
+ *
  * @return true     No error
  * @return false    Error
  */
@@ -136,9 +136,9 @@ bool check(VkResult result);
 
 /**
  * @brief Check if a Vulkan result failed
- * 
+ *
  * @param result    Result to check
- * 
+ *
  * @return true     Error
  * @return false    No error
  */
@@ -148,18 +148,18 @@ inline bool failed(VkResult result) {
 
 /**
  * @brief Convert a Vulkan result to string
- * 
+ *
  * @param result     Result to convert
- * 
+ *
  * @return string    String of result
  */
 string to_string(VkResult result);
 
 /**
  * @brief Convert a version to string
- * 
+ *
  * @param version    Version to convert
- * 
+ *
  * @return string    String of version
  */
 string version_to_string(ui32 version);
@@ -176,7 +176,7 @@ struct vk_result {
 
     /**
      * @brief Check result state
-     * 
+     *
      * @return true     No error
      * @return false    Error
      */
@@ -250,7 +250,8 @@ static constexpr ui32 const Vk_Limit_UBO_Size = 16 * 1024;
 enum class api_version : type {
     v1_0 = 0,
     v1_1,
-    v1_2
+    v1_2,
+    v1_3
 };
 
 } // namespace lava
