@@ -123,15 +123,15 @@ VkSwapchainCreateInfoKHR swapchain::create_info(VkPresentModeKHRs present_modes)
     if (cap.supportedUsageFlags & VK_IMAGE_USAGE_TRANSFER_DST_BIT)
         info.imageUsage |= VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 
-    std::vector<VkCompositeAlphaFlagBitsKHR> compositeAlphaFlags = {
+    std::vector<VkCompositeAlphaFlagBitsKHR> composite_alpha_flags = {
         VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
         VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR,
         VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR,
         VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR,
     };
-    for (auto& compositeAlphaFlag : compositeAlphaFlags) {
-        if (cap.supportedCompositeAlpha & compositeAlphaFlag) {
-            info.compositeAlpha = compositeAlphaFlag;
+    for (auto& composite_alpha_flag : composite_alpha_flags) {
+        if (cap.supportedCompositeAlpha & composite_alpha_flag) {
+            info.compositeAlpha = composite_alpha_flag;
             break;
         };
     }
