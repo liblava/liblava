@@ -15,7 +15,9 @@ namespace lava {
 //-----------------------------------------------------------------------------
 bool read_file(std::vector<char>& out, name filename) {
     std::ifstream file(filename, std::ios::ate | std::ios::binary);
+#if LIBLAVA_DEBUG_ASSERT
     assert(file.is_open());
+#endif
 
     if (!file.is_open())
         return false;
@@ -36,7 +38,9 @@ bool read_file(std::vector<char>& out, name filename) {
 //-----------------------------------------------------------------------------
 bool write_file(name filename, char const* data, size_t data_size) {
     std::ofstream file(filename, std::ofstream::binary);
+#if LIBLAVA_DEBUG_ASSERT
     assert(file.is_open());
+#endif
 
     if (!file.is_open())
         return false;

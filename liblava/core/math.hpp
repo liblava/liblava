@@ -110,8 +110,10 @@ struct rect {
      * @return uv2    Width and height
      */
     uv2 get_size() const {
+#if LIBLAVA_DEBUG_ASSERT
         assert(left_top.x <= right_bottom.x);
         assert(left_top.y <= right_bottom.y);
+#endif
         return { right_bottom.x - left_top.x, right_bottom.y - left_top.y };
     }
 

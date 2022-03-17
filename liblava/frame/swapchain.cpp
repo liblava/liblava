@@ -48,13 +48,17 @@ bool swapchain::resize(uv2 new_size) {
         return true;
 
     auto result = create_internal();
+#if LIBLAVA_DEBUG_ASSERT
     assert(result);
+#endif
     if (!result)
         return false;
 
     for (auto& callback : reverse(callbacks)) {
         result = callback->on_created();
+#if LIBLAVA_DEBUG_ASSERT
         assert(result);
+#endif
         if (!result)
             return false;
     }

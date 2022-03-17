@@ -52,7 +52,9 @@ namespace lava {
 texture::ptr create_gli_texture_2d(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
     gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                      : gli::load(file.get_path()));
+#if LIBLAVA_DEBUG_ASSERT
     assert(!tex.empty());
+#endif
     if (tex.empty())
         return nullptr;
 
@@ -129,7 +131,9 @@ texture::layer::list create_layer_list(T const& tex, ui32 layer_count) {
 texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
     gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                            : gli::load(file.get_path()));
+#if LIBLAVA_DEBUG_ASSERT
     assert(!tex.empty());
+#endif
     if (tex.empty())
         return nullptr;
 
@@ -160,7 +164,9 @@ texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFor
 texture::ptr create_gli_texture_cube_map(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
     gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                         : gli::load(file.get_path()));
+#if LIBLAVA_DEBUG_ASSERT
     assert(!tex.empty());
+#endif
     if (tex.empty())
         return nullptr;
 

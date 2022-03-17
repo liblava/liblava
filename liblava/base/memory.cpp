@@ -47,7 +47,9 @@ namespace lava {
  * @return void*              Allocated data
  */
 static void* VKAPI_PTR custom_cpu_allocation(void* user_data, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
+#if LIBLAVA_DEBUG_ASSERT
     assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
+#endif
     return alloc_data(size, alignment);
 }
 
@@ -63,7 +65,9 @@ static void* VKAPI_PTR custom_cpu_allocation(void* user_data, size_t size, size_
  * @return void*              Reallocated data
  */
 static void* VKAPI_PTR custom_cpu_reallocation(void* user_data, void* original, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
+#if LIBLAVA_DEBUG_ASSERT
     assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
+#endif
     return realloc_data(original, size, alignment);
 }
 
@@ -74,7 +78,9 @@ static void* VKAPI_PTR custom_cpu_reallocation(void* user_data, void* original, 
  * @param memory       Memory to free
  */
 static void VKAPI_PTR custom_cpu_free(void* user_data, void* memory) {
+#if LIBLAVA_DEBUG_ASSERT
     assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
+#endif
     free_data(memory);
 }
 

@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <cassert>
 #include <cstdint>
 #include <functional>
 #include <liblava/core/def.hpp>
@@ -15,6 +14,10 @@
 #include <string>
 #include <string_view>
 #include <vector>
+
+#if LIBLAVA_DEBUG_ASSERT
+    #include <cassert>
+#endif
 
 namespace lava {
 

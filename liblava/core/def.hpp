@@ -15,6 +15,10 @@
     #define LIBLAVA_DEBUG 1
 #endif
 
+#ifndef LIBLAVA_DEBUG_ASSERT
+    #define LIBLAVA_DEBUG_ASSERT 0
+#endif
+
 #define LIBLAVA_BUILD_DATE __DATE__
 #define LIBLAVA_BUILD_TIME __TIME__
 

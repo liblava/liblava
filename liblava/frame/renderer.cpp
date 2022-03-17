@@ -136,7 +136,9 @@ optional_index renderer::begin_frame() {
 
 //-----------------------------------------------------------------------------
 bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
+#if LIBLAVA_DEBUG_ASSERT
     assert(!cmd_buffers.empty());
+#endif
 
     std::array<VkSemaphore, 1> const wait_semaphores = { image_acquired_semaphores[current_sync] };
     std::array<VkSemaphore, 1> const sync_present_semaphores = { render_complete_semaphores[current_sync] };

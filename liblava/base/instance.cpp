@@ -25,7 +25,9 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL validation_callback(VkDebugUtilsMessageSev
         log()->error(str(message_header));
         log()->error(callback_data->pMessage);
 
+#if LIBLAVA_DEBUG_ASSERT
         assert(!"check validation error");
+#endif
     } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
         log()->warn(str(message_header));
         log()->warn(callback_data->pMessage);

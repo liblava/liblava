@@ -78,7 +78,9 @@ string_list file_system::enumerate_files(name path) {
 
 //-----------------------------------------------------------------------------
 bool file_system::initialize(name argv_0, name o, name a, name e) {
+#if LIBLAVA_DEBUG_ASSERT
     assert(!initialized); // only once
+#endif
     if (initialized)
         return initialized;
 
