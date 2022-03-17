@@ -51,7 +51,7 @@ bool frame::ready() const {
 
 /**
  * @brief Handle config
- * 
+ *
  * @param config    Frame config
  */
 void handle_config(frame_config& config) {

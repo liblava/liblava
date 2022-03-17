@@ -16,10 +16,10 @@ namespace lava {
 
 /**
  * @brief Check if name exists in name list
- * 
+ *
  * @param list      List of names
  * @param item      Item to check
- * 
+ *
  * @return true     Item exists
  * @return false    Item not found
  */
@@ -30,9 +30,9 @@ inline bool exists(names_ref list, name item) {
 
 /**
  * @brief Remove item from list
- * 
+ *
  * @tparam T      Type of list
- * 
+ *
  * @param list    List of items
  * @param item    Item to remove
  */
@@ -43,12 +43,12 @@ inline void remove(std::vector<T>& list, T item) {
 
 /**
  * @brief Check if item is included in list
- * 
+ *
  * @tparam T        Type of list
- * 
+ *
  * @param list      List of items
  * @param item      Item to check
- * 
+ *
  * @return true     Item exists
  * @return false    Item not found
  */
@@ -59,9 +59,9 @@ inline bool contains(std::vector<T>& list, T item) {
 
 /**
  * @brief Append a list of items to another list
- * 
+ *
  * @tparam T       Type of list
- * 
+ *
  * @param list     List of items
  * @param items    Items to append
  */
@@ -72,7 +72,7 @@ inline void append(std::vector<T>& list, std::vector<T>& items) {
 
 /**
  * @brief Trim string only from start (in place)
- * 
+ *
  * @param s    String to trim
  */
 inline void ltrim(string& s) {
@@ -83,7 +83,7 @@ inline void ltrim(string& s) {
 
 /**
  * @brief Trim string only from end (in place)
- * 
+ *
  * @param s    String to trim
  */
 inline void rtrim(string& s) {
@@ -95,7 +95,7 @@ inline void rtrim(string& s) {
 
 /**
  * @brief Trim string from both ends (in place)
- * 
+ *
  * @param s    String to trim
  */
 inline void trim(string& s) {
@@ -105,9 +105,9 @@ inline void trim(string& s) {
 
 /**
  * @brief Trim string only from start (copying)
- * 
+ *
  * @param s          String to trim
- * 
+ *
  * @return string    Trimmed string
  */
 inline string ltrim_copy(string s) {
@@ -117,9 +117,9 @@ inline string ltrim_copy(string s) {
 
 /**
  * @brief Trim string only from end (copying)
- * 
+ *
  * @param s          String to trim
- * 
+ *
  * @return string    Trimmed string
  */
 inline string rtrim_copy(string s) {
@@ -129,9 +129,9 @@ inline string rtrim_copy(string s) {
 
 /**
  * @brief Trim string from both ends (copying)
- * 
+ *
  * @param s          String to trim
- * 
+ *
  * @return string    Trimmed string
  */
 inline string trim_copy(string s) {
@@ -141,7 +141,7 @@ inline string trim_copy(string s) {
 
 /**
  * @brief Reversion Wrapper
- * 
+ *
  * @tparam T    Type to iterate
  */
 template<typename T>
@@ -152,11 +152,11 @@ struct reversion_wrapper {
 
 /**
  * @brief Begin the iterator
- * 
+ *
  * @tparam T       Type of iterable
- * 
+ *
  * @param w        Reversion wrapper
- * 
+ *
  * @return auto    Iterator
  */
 template<typename T>
@@ -166,11 +166,11 @@ inline auto begin(reversion_wrapper<T> w) {
 
 /**
  * @brief End the iterator
- * 
+ *
  * @tparam T       Type of iterable
- * 
+ *
  * @param w        Reversion wrapper
- * 
+ *
  * @return auto    Iterator
  */
 template<typename T>
@@ -180,11 +180,11 @@ inline auto end(reversion_wrapper<T> w) {
 
 /**
  * @brief Reverse iteration
- * 
+ *
  * @tparam T                       Type of iterable
- * 
+ *
  * @param iterable                 Iterable
- * 
+ *
  * @return reversion_wrapper<T>    Wrapper
  */
 template<typename T>

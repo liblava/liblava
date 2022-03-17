@@ -18,7 +18,7 @@ namespace lava {
 struct image_data {
     /**
      * @brief Construct a new image data
-     * 
+     *
      * @param filename    File to load
      */
     explicit image_data(string_ref filename);

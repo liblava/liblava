@@ -21,14 +21,14 @@ namespace lava {
 struct app : frame {
     /**
      * @brief Construct a new app
-     * 
+     *
      * @param config    Frame configuration
      */
     explicit app(frame_config config);
 
     /**
      * @brief Construct a new app
-     * 
+     *
      * @param name        Application name
      * @param cmd_line    Command line arguments
      */
@@ -36,7 +36,7 @@ struct app : frame {
 
     /**
      * @brief Setup the application
-     * 
+     *
      * @return true     Setup was successful
      * @return false    Setup failed
      */
@@ -98,7 +98,7 @@ struct app : frame {
 
     /**
      * @brief V-Sync setting
-     * 
+     *
      * @return true     V-Sync is active
      * @return false    V-Sync is inactive
      */
@@ -108,7 +108,7 @@ struct app : frame {
 
     /**
      * @brief Get the frame counter
-     * 
+     *
      * @return ui32    Number of rendered frames
      */
     ui32 get_frame_counter() const {
@@ -117,7 +117,7 @@ struct app : frame {
 
     /**
      * @brief Draw about information
-     * 
+     *
      * @param separator    Prepend separator
      */
     void draw_about(bool separator = true) const;
@@ -136,7 +136,7 @@ struct app : frame {
 
     /**
      * @brief Get id of the block command
-     * 
+     *
      * @return id::ref    Id to access the command
      */
     id::ref block_cmd() const {
@@ -171,7 +171,7 @@ private:
 
     /**
      * @brief Create ImGui
-     * 
+     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -184,7 +184,7 @@ private:
 
     /**
      * @brief Create a render target
-     * 
+     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -197,7 +197,7 @@ private:
 
     /**
      * @brief Create a block object
-     * 
+     *
      * @return true     Create was successful
      * @return false    Create failed
      */

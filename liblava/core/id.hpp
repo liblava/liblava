@@ -49,7 +49,7 @@ struct id {
 
     /**
      * @brief Check if the id is valid
-     * 
+     *
      * @return true     Id is valid
      * @return false    Id is invalid
      */
@@ -59,9 +59,9 @@ struct id {
 
     /**
      * @brief Convert the id to string
-     * 
+     *
      * @param show_version    Show version in string
-     * 
+     *
      * @return string         String representation of id
      */
     string to_string(bool show_version = false) const {
@@ -82,9 +82,9 @@ struct id {
 
     /**
      * @brief Equal operator
-     * 
+     *
      * @param rhs       Id to compare
-     * 
+     *
      * @return true     Id is equal
      * @return false    Id is not equal
      */
@@ -94,9 +94,9 @@ struct id {
 
     /**
      * @brief Not equal operator
-     * 
+     *
      * @param rhs       Id to compare
-     * 
+     *
      * @return true     Id is not equal
      * @return false    Id is equal
      */
@@ -106,7 +106,7 @@ struct id {
 
     /**
      * @brief Order operator
-     * 
+     *
      * @param rhs       Id to order
      *
      * @return true     Id is smaller
@@ -118,9 +118,9 @@ struct id {
 
     /**
      * @brief Check if id exists in map, if so reassign it from map
-     * 
+     *
      * @param map       Map to check and reassign
-     * 
+     *
      * @return true     Found id in map and reassigned
      * @return false    Id ignored
      */
@@ -148,7 +148,7 @@ constexpr id const undef_id = id();
 struct ids {
     /**
      * @brief Global id factory
-     * 
+     *
      * @return ids&    Singelton factory
      */
     static ids& global() {
@@ -158,7 +158,7 @@ struct ids {
 
     /**
      * @brief Get next id from factory (singleton)
-     * 
+     *
      * @return id    Next id
      */
     static id next() {
@@ -167,7 +167,7 @@ struct ids {
 
     /**
      * @brief Free id in factory (singleton)
-     * 
+     *
      * @param id    Id to free
      */
     static void free(id::ref id) {
@@ -176,7 +176,7 @@ struct ids {
 
     /**
      * @brief Get the next id
-     * 
+     *
      * @return id    Next id
      */
     id get_next() {
@@ -188,7 +188,7 @@ struct ids {
 
     /**
      * @brief Reuse the id
-     * 
+     *
      * @param id    Id to reuse
      */
     void reuse(id::ref id) {
@@ -198,7 +198,7 @@ struct ids {
 
     /**
      * @brief Set the reuse handling
-     * 
+     *
      * @param state    Enable reuse
      */
     void set_reuse(bool state) {
@@ -207,7 +207,7 @@ struct ids {
 
     /**
      * @brief Check if the reuse handling is enabled
-     * 
+     *
      * @return true     Reuse handling is active
      * @return false    Reuse handling is inactive
      */
@@ -217,7 +217,7 @@ struct ids {
 
     /**
      * @brief Get the max id
-     * 
+     *
      * @return type    Max id
      */
     type get_max() const {
@@ -226,7 +226,7 @@ struct ids {
 
     /**
      * @brief Set the max id
-     * 
+     *
      * @param max    Max id
      */
     void set_max(type max) {
@@ -237,7 +237,7 @@ struct ids {
 private:
     /**
      * @brief Get the next locked id
-     * 
+     *
      * @return id    Next id
      */
     id get_next_locked() {
@@ -252,7 +252,7 @@ private:
 
     /**
      * @brief Reuse the id
-     * 
+     *
      * @param id    Id to reuse
      */
     void reuse_locked(id::ref id) {
@@ -275,12 +275,12 @@ private:
 
 /**
  * @brief Add object to id map
- * 
+ *
  * @tparam T        Type of object
- * 
+ *
  * @param object    Object to add
  * @param map       Target map
- * 
+ *
  * @return id       Id of object in map
  */
 template<typename T>
@@ -292,12 +292,12 @@ inline id add_id_map(T const& object, std::map<id, T>& map) {
 
 /**
  * @brief Remove object from id map
- * 
+ *
  * @tparam T        Type of object
- * 
+ *
  * @param object    Object to remove
  * @param map       Target map
- * 
+ *
  * @return true     Found object in map and removed it
  * @return false    Object in map not found
  */
@@ -314,16 +314,16 @@ inline bool remove_id_map(id::ref object, std::map<id, T>& map) {
 
 /**
  * @brief Id listeners
- * 
+ *
  * @tparam T    Listener
  */
 template<typename T>
 struct id_listeners {
     /**
      * @brief Add listener to map
-     * 
+     *
      * @param listener    Target listener
-     * 
+     *
      * @return id         Id of listener
      */
     id add(typename T::func const& listener) {
@@ -332,7 +332,7 @@ struct id_listeners {
 
     /**
      * @brief Remove listener from map by id
-     * 
+     *
      * @param id    Id of listener
      */
     void remove(id& id) {
@@ -342,7 +342,7 @@ struct id_listeners {
 
     /**
      * @brief Get the list
-     * 
+     *
      * @return T::listeners const&    List of listeners
      */
     typename T::listeners const& get_list() const {
@@ -373,7 +373,7 @@ struct entity : no_copy_no_move, interface {
 
     /**
      * @brief Get the id of entity
-     * 
+     *
      * @return id::ref    Entity id
      */
     id::ref get_id() const {
@@ -387,7 +387,7 @@ private:
 
 /**
  * @brief Id registry
- * 
+ *
  * @tparam T       Type of objects hold in registry
  * @tparam Meta    Meta type for object
  */
@@ -404,9 +404,9 @@ struct id_registry {
 
     /**
      * @brief Create a new object in registry
-     * 
+     *
      * @param info    Meta information
-     * 
+     *
      * @return id     Object id
      */
     id create(Meta info = {}) {
@@ -418,7 +418,7 @@ struct id_registry {
 
     /**
      * @brief Add a object with meta to registry
-     * 
+     *
      * @param object    Object to add
      * @param info      Meta of object
      */
@@ -429,9 +429,9 @@ struct id_registry {
 
     /**
      * @brief Check if object exists in registry
-     * 
+     *
      * @param object    Object to check
-     * 
+     *
      * @return true     Object exists
      * @return false    Object does not exist
      */
@@ -441,9 +441,9 @@ struct id_registry {
 
     /**
      * @brief Get the object by id
-     * 
+     *
      * @param object    Object id
-     * 
+     *
      * @return ptr      Shared pointer to object
      */
     ptr get(id::ref object) const {
@@ -452,9 +452,9 @@ struct id_registry {
 
     /**
      * @brief Get the meta by id
-     * 
+     *
      * @param object    Object id
-     * 
+     *
      * @return Meta     Copy of meta
      */
     Meta const& get_meta(id::ref object) const {
@@ -463,7 +463,7 @@ struct id_registry {
 
     /**
      * @brief Get all objects
-     * 
+     *
      * @return map const&    Map with objects
      */
     map const& get_all() const {
@@ -472,7 +472,7 @@ struct id_registry {
 
     /**
      * @brief Get all meta objects
-     * 
+     *
      * @return meta_map const&    Map with metas
      */
     meta_map const& get_all_meta() const {
@@ -481,10 +481,10 @@ struct id_registry {
 
     /**
      * @brief Update meta of object
-     * 
+     *
      * @param object    Object id
      * @param meta      Meta to update
-     * 
+     *
      * @return true     Meta updated
      * @return false    Meta not updated
      */
@@ -498,7 +498,7 @@ struct id_registry {
 
     /**
      * @brief Remove object from registry
-     * 
+     *
      * @param object    Object id
      */
     void remove(id::ref object) {

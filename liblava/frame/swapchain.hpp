@@ -17,13 +17,13 @@ namespace lava {
 struct swapchain : entity {
     /**
      * @brief Create a new swapchain
-     * 
+     *
      * @param device     Vulkan device
      * @param surface    Vulkan surface
      * @param format     Surface format
      * @param size       Size of swapchain
      * @param v_sync     V-Sync enabled
-     * 
+     *
      * @return true      Create was successful
      * @return false     Create failed
      */
@@ -36,9 +36,9 @@ struct swapchain : entity {
 
     /**
      * @brief Resize the swapchain
-     * 
+     *
      * @param new_size    New size of swapchain
-     * 
+     *
      * @return true       Resize was successful
      * @return false      Resize failed
      */
@@ -53,7 +53,7 @@ struct swapchain : entity {
 
     /**
      * @brief Check if reload of the swapchain is requested
-     * 
+     *
      * @return true     Reload is requsted
      * @return false    Reload is not requested
      */
@@ -63,7 +63,7 @@ struct swapchain : entity {
 
     /**
      * @brief Get the device
-     * 
+     *
      * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
@@ -72,7 +72,7 @@ struct swapchain : entity {
 
     /**
      * @brief Get the size of the swapchain
-     * 
+     *
      * @return uv2    Swapchain size
      */
     uv2 get_size() const {
@@ -81,7 +81,7 @@ struct swapchain : entity {
 
     /**
      * @brief Get the format of the swapchain
-     * 
+     *
      * @return VkFormat    Swapchain format
      */
     VkFormat get_format() const {
@@ -90,7 +90,7 @@ struct swapchain : entity {
 
     /**
      * @brief Get the color space of the swapchain
-     * 
+     *
      * @return VkColorSpaceKHR    Swapchain color space
      */
     VkColorSpaceKHR get_color_space() const {
@@ -99,7 +99,7 @@ struct swapchain : entity {
 
     /**
      * @brief Get the swapchain
-     * 
+     *
      * @return VkSwapchainKHR    Vulkan swapchain
      */
     VkSwapchainKHR get() const {
@@ -108,7 +108,7 @@ struct swapchain : entity {
 
     /**
      * @brief Get the backbuffer count
-     * 
+     *
      * @return ui32    Number of backbuffers
      */
     ui32 get_backbuffer_count() const {
@@ -117,7 +117,7 @@ struct swapchain : entity {
 
     /**
      * @brief Get the backbuffers
-     * 
+     *
      * @return image::list const&    List of backbuffer images
      */
     image::list const& get_backbuffers() const {
@@ -146,21 +146,21 @@ struct swapchain : entity {
 
     /**
      * @brief Add callback to swapchain
-     * 
+     *
      * @param cb    Callback to add
      */
     void add_callback(callback* cb);
 
     /**
      * @brief Remove callback from swapchain
-     * 
+     *
      * @param cb    Callback to remove
      */
     void remove_callback(callback* cb);
 
     /**
      * @brief Check if V-Sync is enabled
-     * 
+     *
      * @return true     V-Sync is active
      * @return false    V-Sync is inactive
      */
@@ -170,9 +170,9 @@ struct swapchain : entity {
 
     /**
      * @brief Check if surface is supported by queue family index
-     * 
+     *
      * @param queue_family    Queue family index
-     * 
+     *
      * @return true           Surface is supported by queue family
      * @return false          Surface is not supported queue family
      */
@@ -181,25 +181,25 @@ struct swapchain : entity {
 private:
     /**
      * @brief Choose present mode
-     * 
+     *
      * @param present_modes        List of present modes to choose
-     * 
+     *
      * @return VkPresentModeKHR    Chosen present mode
      */
     VkPresentModeKHR choose_present_mode(VkPresentModeKHRs const& present_modes) const;
 
     /**
      * @brief Create a swapchain create infomation (helper)
-     * 
+     *
      * @param present_modes                List of present modes
-     * 
+     *
      * @return VkSwapchainCreateInfoKHR    Swapchain create information
      */
     VkSwapchainCreateInfoKHR create_info(VkPresentModeKHRs present_modes);
 
     /**
      * @brief Internal create a new swapchain
-     * 
+     *
      * @return true     Internal create was successful
      * @return false    Internal create failed
      */

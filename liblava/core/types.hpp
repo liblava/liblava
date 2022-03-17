@@ -179,9 +179,9 @@ constexpr name _default_ = "default";
 
 /**
  * @brief Get c-string representation of string
- * 
+ *
  * @param value    Source string
- * 
+ *
  * @return name    C-string representation
  */
 inline name str(string_ref value) {
@@ -190,11 +190,11 @@ inline name str(string_ref value) {
 
 /**
  * @brief Convert to r32
- * 
+ *
  * @tparam T       Source type
- * 
+ *
  * @param value    Source value
- * 
+ *
  * @return r32     Converted value
  */
 template<typename T>
@@ -204,11 +204,11 @@ inline r32 to_r32(T value) {
 
 /**
  * @brief Convert to r64
- * 
+ *
  * @tparam T       Source type
- * 
+ *
  * @param value    Source value
- * 
+ *
  * @return r64     Converted value
  */
 template<typename T>
@@ -218,11 +218,11 @@ inline r64 to_r64(T value) {
 
 /**
  * @brief Convert to i32
- * 
+ *
  * @tparam T       Source type
- * 
+ *
  * @param value    Source value
- * 
+ *
  * @return i32     Converted value
  */
 template<typename T>
@@ -232,11 +232,11 @@ inline i32 to_i32(T value) {
 
 /**
  * @brief Convert to i64
- * 
+ *
  * @tparam T       Source type
- * 
+ *
  * @param value    Source value
- * 
+ *
  * @return i64     Converted value
  */
 template<typename T>
@@ -246,11 +246,11 @@ inline i64 to_i64(T value) {
 
 /**
  * @brief Convert to ui32
- * 
+ *
  * @tparam T       Source type
- * 
+ *
  * @param value    Source value
- * 
+ *
  * @return ui32    Converted value
  */
 template<typename T>
@@ -260,11 +260,11 @@ inline ui32 to_ui32(T value) {
 
 /**
  * @brief Convert to ui64
- * 
+ *
  * @tparam T       Source type
- * 
+ *
  * @param value    Source value
- * 
+ *
  * @return ui64    Converted value
  */
 template<typename T>
@@ -274,11 +274,11 @@ inline ui64 to_ui64(T value) {
 
 /**
  * @brief Convert to size_t
- * 
+ *
  * @tparam T         Source type
- * 
+ *
  * @param value      Source value
- * 
+ *
  * @return size_t    Converted value
  */
 template<typename T>
@@ -288,11 +288,11 @@ inline size_t to_size_t(T value) {
 
 /**
  * @brief Convert to index
- * 
+ *
  * @tparam T        Source type
- * 
+ *
  * @param value     Source value
- * 
+ *
  * @return index    Converted value
  */
 template<typename T>
@@ -302,11 +302,11 @@ inline index to_index(T value) {
 
 /**
  * @brief Convert to icon
- * 
+ *
  * @tparam T              Source type
- * 
+ *
  * @param value           Source value
- * 
+ *
  * @return char const*    Converted value
  */
 template<typename T>
@@ -346,11 +346,11 @@ struct interface {
 
 /**
  * @brief Combine hash seed with value - from boost (functional/hash)
- * 
+ *
  * @see http://www.boost.org/doc/libs/1_77_0/doc/html/hash/combine.html
- * 
+ *
  * @tparam T      Type of value
- * 
+ *
  * @param seed    Seed to combine
  * @param val     Value to combine
  */
@@ -361,9 +361,9 @@ inline void hash_combine(size_t& seed, T const& val) {
 
 /**
  * @brief Auxiliary generic functions to create a hash value using a seed
- * 
+ *
  * @tparam T      Type of value
- * 
+ *
  * @param seed    Seed for hash
  * @param val     Hash value
  */
@@ -397,12 +397,12 @@ inline size_t hash_val(Types const&... args) {
 struct pair_hash {
     /**
      * @brief Hash operator
-     * 
+     *
      * @tparam T1       Type of first
      * @tparam T2       Type of second
-     * 
+     *
      * @param p          Hash pair
-     * 
+     *
      * @return size_t    Hash value
      */
     template<class T1, class T2>

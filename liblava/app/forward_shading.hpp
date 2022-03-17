@@ -30,9 +30,9 @@ struct forward_shading {
 
     /**
      * @brief Create a forward shading for a render target
-     * 
+     *
      * @param target    Render target
-     * 
+     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -45,7 +45,7 @@ struct forward_shading {
 
     /**
      * @brief Get the render pass
-     * 
+     *
      * @return render_pass::ptr    Render pass
      */
     render_pass::ptr get_pass() const {
@@ -54,7 +54,7 @@ struct forward_shading {
 
     /**
      * @brief Get the Vulkan render pass
-     * 
+     *
      * @return VkRenderPass    Vulkan Render pass
      */
     VkRenderPass get_vk_pass() const {
@@ -63,7 +63,7 @@ struct forward_shading {
 
     /**
      * @brief Get the depth stencil image
-     * 
+     *
      * @return image::ptr    Depth stencil Image
      */
     image::ptr get_depth_stencil() const {

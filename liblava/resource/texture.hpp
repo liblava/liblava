@@ -83,13 +83,13 @@ struct texture : entity {
 
     /**
      * @brief Create a new texture
-     * 
+     *
      * @param device    Vulkan device
      * @param size      Texture size
      * @param format    Texture format
      * @param layers    List of layers
      * @param type      Texture type
-     * 
+     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -103,10 +103,10 @@ struct texture : entity {
 
     /**
      * @brief Upload data to texture
-     * 
+     *
      * @param data         Data to upload
      * @param data_size    Size of data
-     * 
+     *
      * @return true        Upload was successful
      * @return false       Upload failed
      */
@@ -114,9 +114,9 @@ struct texture : entity {
 
     /**
      * @brief Stage the texture
-     * 
+     *
      * @param cmd_buffer    Command buffer
-     * 
+     *
      * @return true         Stage was successful
      * @return false        Stage failed
      */
@@ -129,7 +129,7 @@ struct texture : entity {
 
     /**
      * @brief Get the descriptor information
-     * 
+     *
      * @return VkDescriptorImageInfo const*    Descriptor image information
      */
     VkDescriptorImageInfo const* get_descriptor_info() const {
@@ -138,7 +138,7 @@ struct texture : entity {
 
     /**
      * @brief Get the image of the texture
-     * 
+     *
      * @return image::ptr    Shared pointer to image
      */
     image::ptr get_image() {
@@ -147,7 +147,7 @@ struct texture : entity {
 
     /**
      * @brief Get the size of the texture
-     * 
+     *
      * @return uv2    Texture size
      */
     uv2 get_size() const {
@@ -156,7 +156,7 @@ struct texture : entity {
 
     /**
      * @brief Get the type of the texture
-     * 
+     *
      * @return texture_type    Texture type
      */
     texture_type get_type() const {
@@ -165,7 +165,7 @@ struct texture : entity {
 
     /**
      * @brief Get the format of the texture
-     * 
+     *
      * @return VkFormat    Texture format
      */
     VkFormat get_format() const {
@@ -194,7 +194,7 @@ private:
 
 /**
  * @brief Make a new texture
- * 
+ *
  * @return texture::ptr    Shared pointer to texture
  */
 inline texture::ptr make_texture() {
@@ -207,7 +207,7 @@ inline texture::ptr make_texture() {
 struct staging {
     /**
      * @brief Add texture for staging
-     * 
+     *
      * @param texture    Texture to stage
      */
     void add(texture::ptr texture) {
@@ -216,10 +216,10 @@ struct staging {
 
     /**
      * @brief Stage textures
-     * 
+     *
      * @param cmd_buf    Command buffer
      * @param frame      Frame index
-     * 
+     *
      * @return true      Stage was successful
      * @return false     Stage failed
      */
@@ -235,7 +235,7 @@ struct staging {
 
     /**
      * @brief Check if staging is busy
-     * 
+     *
      * @return true     Staging is busy
      * @return false    Staging is not busy
      */

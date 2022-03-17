@@ -35,7 +35,7 @@ struct queue {
 
     /**
      * @brief Check if queue is valid
-     * 
+     *
      * @return true     Queue is valid
      * @return false    Queue is invalid
      */
@@ -45,9 +45,9 @@ struct queue {
 
     /**
      * @brief Queue priority compare operator
-     * 
+     *
      * @param other     Queue to compare
-     * 
+     *
      * @return true     Priority of queue is higher
      * @return false    Priority of queue is lower or equal
      */
@@ -88,7 +88,7 @@ struct queue_family_info {
 
     /**
      * @brief Add a queue family information
-     * 
+     *
      * @param flags       Queue flags
      * @param count       Number of queues
      * @param priority    Queue priority
@@ -102,7 +102,7 @@ struct queue_family_info {
 
     /**
      * @brief Get the count of queues
-     * 
+     *
      * @return ui32    Count of queues
      */
     ui32 count() const {
@@ -119,14 +119,14 @@ struct queue_family_info {
 
 /**
  * @brief Set the default queues
- * 
+ *
  * @param list    List of queue family informations
  */
 void set_default_queues(queue_family_info::list& list);
 
 /**
  * @brief Set all queues
- * 
+ *
  * @param list          List of queue family informations
  * @param properties    List of queue family properties
  */
@@ -134,13 +134,13 @@ void set_all_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList c
 
 /**
  * @brief Add queues
- * 
+ *
  * @param list          List of queue family informations
  * @param properties    List of queue family properties
  * @param flags         Queue flags
  * @param count         Number of queues
  * @param priority      Queue priority
- * 
+ *
  * @return true         Add was successful
  * @return false        Add failed
  */
@@ -150,11 +150,11 @@ bool add_queues(queue_family_info::list& list,
 
 /**
  * @brief Add dedicated queues
- * 
+ *
  * @param list          List of queue family informations
  * @param properties    List of queue family properties
  * @param priority      Queue priority
- * 
+ *
  * @return true         Add was successful
  * @return false        Add failed
  */
@@ -178,10 +178,10 @@ enum class verify_queues_result : type {
 
 /**
  * @brief Verify queues
- * 
+ *
  * @param list                     List of queue family informations
  * @param properties               List of queue family properties
- * 
+ *
  * @return verify_queues_result    Verification result
  */
 verify_queues_result verify_queues(queue_family_info::list const& list, VkQueueFamilyPropertiesList const& properties);

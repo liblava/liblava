@@ -12,10 +12,10 @@ namespace lava {
 
 /**
  * @brief Run the driver
- * 
+ *
  * @param argc    Number of command line arguments
  * @param argv    Command line arguments
- * 
+ *
  * @return int    Result code
  */
 int run(int argc, char** argv) {

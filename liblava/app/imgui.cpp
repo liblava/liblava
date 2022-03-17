@@ -38,9 +38,9 @@ static ui32 imgui_frag_shader[] = {
 
 /**
  * @brief Get the clipboard text
- * 
+ *
  * @param user_data    Window handle
- * 
+ *
  * @return name        Clipboard text
  */
 name get_clipboard_text(void* user_data) {
@@ -49,7 +49,7 @@ name get_clipboard_text(void* user_data) {
 
 /**
  * @brief Set the clipboard text
- * 
+ *
  * @param user_data    Window handle
  * @param text         Clipboard text
  */
@@ -272,7 +272,7 @@ void imgui::new_frame() {
     io.DisplayFramebufferScale = ImVec2(w > 0 ? ((r32) display_w / w) : 0, h > 0 ? ((r32) display_h / h) : 0);
 
     auto now = glfwGetTime();
-    io.DeltaTime = current_time > 0.0 ? (r32)(now - current_time) : (1.f / 60.f);
+    io.DeltaTime = current_time > 0.0 ? (r32) (now - current_time) : (1.f / 60.f);
     current_time = now;
 
     update_mouse_pos_and_buttons();
@@ -554,11 +554,11 @@ void imgui::render_draw_lists(VkCommandBuffer cmd_buf) {
             } else {
                 VkRect2D scissor;
                 scissor.offset = {
-                    (i32)(cmd->ClipRect.x) > 0 ? (i32)(cmd->ClipRect.x) : 0,
-                    (i32)(cmd->ClipRect.y) > 0 ? (i32)(cmd->ClipRect.y) : 0
+                    (i32) (cmd->ClipRect.x) > 0 ? (i32) (cmd->ClipRect.x) : 0,
+                    (i32) (cmd->ClipRect.y) > 0 ? (i32) (cmd->ClipRect.y) : 0
                 };
-                scissor.extent = { (ui32)(cmd->ClipRect.z - cmd->ClipRect.x),
-                                   (ui32)(cmd->ClipRect.w - cmd->ClipRect.y + 1) };
+                scissor.extent = { (ui32) (cmd->ClipRect.z - cmd->ClipRect.x),
+                                   (ui32) (cmd->ClipRect.w - cmd->ClipRect.y + 1) };
 
                 std::array<VkRect2D, 1> const scissors = { scissor };
                 device->call().vkCmdSetScissor(cmd_buf, 0, to_ui32(scissors.size()), scissors.data());

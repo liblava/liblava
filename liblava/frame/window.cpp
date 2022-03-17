@@ -17,11 +17,11 @@ namespace lava {
 
 /**
  * @brief Set window attribute
- * 
+ *
  * @tparam attr     Attribute to set
- * 
+ *
  * @param handle    Window handle
- * 
+ *
  * @return int      Result
  */
 template<int attr>
@@ -31,11 +31,11 @@ static int attribute_set(GLFWwindow* handle) {
 
 /**
  * @brief Check attribute of window
- * 
+ *
  * @tparam attr     Attribute to check
- * 
+ *
  * @param handle    Window handle
- * 
+ *
  * @return true     Attribute is set
  * @return false    Attribute is unset
  */

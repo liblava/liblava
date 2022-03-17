@@ -21,7 +21,7 @@ namespace lava {
 
 /**
  * @brief Begin a label for a command buffer
- * 
+ *
  * @param cmd_buf    Vulkan command buffer
  * @param label      Name of label
  * @param color      Color of label
@@ -30,14 +30,14 @@ void begin_label(VkCommandBuffer cmd_buf, name label, v4 color);
 
 /**
  * @brief End the command buffer label
- * 
- * @param cmd_buf    Vulkan command buffer 
+ *
+ * @param cmd_buf    Vulkan command buffer
  */
 void end_label(VkCommandBuffer cmd_buf);
 
 /**
  * @brief Insert a label for a command buffer
- * 
+ *
  * @param cmd_buf    Vulkan command buffer
  * @param label      Name of label
  * @param color      Color of label
@@ -46,7 +46,7 @@ void insert_label(VkCommandBuffer cmd_buf, name label, v4 color);
 
 /**
  * @brief Begin a label for a queue
- * 
+ *
  * @param queue    Vulkan queue
  * @param label    Name of label
  * @param color    Color of label
@@ -55,14 +55,14 @@ void begin_label(VkQueue queue, name label, v4 color);
 
 /**
  * @brief End the queue label
- * 
+ *
  * @param queue    Vulkan queue
  */
 void end_label(VkQueue queue);
 
 /**
  * @brief Insert a label for a queue
- * 
+ *
  * @param queue    Vulkan queue
  * @param label    Name of label
  * @param color    Color of label
@@ -71,7 +71,7 @@ void insert_label(VkQueue queue, name label, v4 color);
 
 /**
  * @brief Set the object name
- * 
+ *
  * @param device    Vulkan device
  * @param type      Object type
  * @param handle    Object handle
@@ -81,7 +81,7 @@ void set_object_name(VkDevice device, VkObjectType type, VkObjectHandle handle, 
 
 /**
  * @brief Set the object tag
- * 
+ *
  * @param device    Vulkan device
  * @param type      Object type
  * @param handle    Object handle
@@ -121,14 +121,14 @@ inline void set_object_tag(VkDevice device, VkObjectType type, VkObjectHandle ha
 
 /**
  * @brief Scoped debug util label
- * 
+ *
  * @tparam T    VkCommandBuffer or VkQueue
  */
 template<typename T>
 struct scoped_label {
     /**
      * @brief Construct a new scoped label
-     * 
+     *
      * @param scope    Scoped label
      * @param label    Name of label
      * @param color    Color of label
@@ -152,9 +152,9 @@ private:
 
 /**
  * @brief Set the object name
- * 
+ *
  * @see https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkObjectType.html
- * 
+ *
  * @param device    Vulkan device
  * @param handle    Object handle
  * @param object    Name of object
@@ -165,9 +165,9 @@ inline void set_name(VkDevice device, VkObjectHandle handle, name object) {
 
 /**
  * @brief Set the object tag
- * 
+ *
  * @see https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkObjectType.html
- * 
+ *
  * @param device    Vulkan device
  * @param handle    Object handle
  * @param name      Name of tag

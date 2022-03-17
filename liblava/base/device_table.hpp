@@ -212,7 +212,7 @@ struct device_table {
     }
 
     /**
-     * @see https://www.khronos.org/registry/vulkan/specs/1.2/html/vkspec.html#vkDestroyImageView 
+     * @see https://www.khronos.org/registry/vulkan/specs/1.2/html/vkspec.html#vkDestroyImageView
      */
     void vkDestroyImageView(VkImageView imageView, const VkAllocationCallbacks* pAllocator = memory::alloc()) {
         table.vkDestroyImageView(vk_device, imageView, pAllocator);
@@ -240,7 +240,7 @@ struct device_table {
     }
 
     /**
-     * @see https://www.khronos.org/registry/vulkan/specs/1.2/html/vkspec.html#vkFreeCommandBuffers 
+     * @see https://www.khronos.org/registry/vulkan/specs/1.2/html/vkspec.html#vkFreeCommandBuffers
      */
     void vkFreeCommandBuffers(VkCommandPool commandPool, uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers) {
         table.vkFreeCommandBuffers(vk_device, commandPool, commandBufferCount, pCommandBuffers);
@@ -295,21 +295,21 @@ struct device_table {
     }
 
     /**
-     * @see https://www.khronos.org/registry/vulkan/specs/1.2/html/vkspec.html#vkUpdateDescriptorSets 
+     * @see https://www.khronos.org/registry/vulkan/specs/1.2/html/vkspec.html#vkUpdateDescriptorSets
      */
     void vkUpdateDescriptorSets(std::initializer_list<VkWriteDescriptorSet> descriptor_writes) {
         vkUpdateDescriptorSets(to_i32(descriptor_writes.size()), descriptor_writes.begin());
     }
 
     /**
-     * @see https://www.khronos.org/registry/vulkan/specs/1.2/html/vkspec.html#vkUpdateDescriptorSets  
+     * @see https://www.khronos.org/registry/vulkan/specs/1.2/html/vkspec.html#vkUpdateDescriptorSets
      */
     void vkUpdateDescriptorSets(std::initializer_list<VkCopyDescriptorSet> descriptor_copies) {
         vkUpdateDescriptorSets(0, nullptr, to_i32(descriptor_copies.size()), descriptor_copies.begin());
     }
 
     /**
-     * @see https://www.khronos.org/registry/vulkan/specs/1.2/html/vkspec.html#vkUpdateDescriptorSets 
+     * @see https://www.khronos.org/registry/vulkan/specs/1.2/html/vkspec.html#vkUpdateDescriptorSets
      */
     void vkUpdateDescriptorSets(std::initializer_list<VkWriteDescriptorSet> descriptor_writes,
                                 std::initializer_list<VkCopyDescriptorSet> descriptor_copies) {

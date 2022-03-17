@@ -18,7 +18,7 @@ namespace lava {
 struct random_generator {
     /**
      * @brief Get singleton
-     * 
+     *
      * @return random_generator&    Random generator
      */
     static random_generator& instance() {
@@ -28,10 +28,10 @@ struct random_generator {
 
     /**
      * @brief Get next random number
-     * 
+     *
      * @param low     Lowest number
      * @param high    Highest number
-     * 
+     *
      * @return i32    Random number
      */
     i32 get(i32 low, i32 high) {
@@ -41,12 +41,12 @@ struct random_generator {
 
     /**
      * @brief Get next real random number
-     * 
+     *
      * @tparam T      Type of number
-     * 
+     *
      * @param low     Lowest number
      * @param high    Highest number
-     * 
+     *
      * @return T      Random number
      */
     template<typename T = real>
@@ -70,12 +70,12 @@ private:
 
 /**
  * @brief Get next random number
- * 
+ *
  * @tparam T      Type of number
- * 
+ *
  * @param low     Lowest number
  * @param high    Highest number
- * 
+ *
  * @return T      Random number
  */
 template<typename T>
@@ -85,11 +85,11 @@ inline T random(T low, T high) {
 
 /**
  * @brief Get next random number (lowest is 0)
- * 
+ *
  * @tparam T      Type of number
- * 
+ *
  * @param high    Highest number
- * 
+ *
  * @return T      Random number
  */
 template<typename T>
@@ -103,7 +103,7 @@ inline T random(T high) {
 struct pseudo_random_generator {
     /**
      * @brief Construct a new pseudo random generator
-     * 
+     *
      * @param seed    Seed for generator
      */
     explicit pseudo_random_generator(ui32 seed)
@@ -111,7 +111,7 @@ struct pseudo_random_generator {
 
     /**
      * @brief Set the seed
-     * 
+     *
      * @param value    Generator seed
      */
     void set_seed(ui32 value) {
@@ -120,7 +120,7 @@ struct pseudo_random_generator {
 
     /**
      * @brief Get next pseudo random number
-     * 
+     *
      * @return ui32    Random number
      */
     ui32 get() {
@@ -133,7 +133,7 @@ private:
 
     /**
      * @brief Generate fast random number
-     * 
+     *
      * @return ui32    Random number
      */
     ui32 generate_fast() {

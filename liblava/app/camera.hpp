@@ -33,9 +33,9 @@ struct camera : entity {
 
     /**
      * @brief Create a camera
-     * 
+     *
      * @param device    Vulkan device
-     * 
+     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -53,7 +53,7 @@ struct camera : entity {
 
     /**
      * @brief Update the view with mouse position
-     * 
+     *
      * @param dt           Delta time
      * @param mouse_pos    Mouse position
      */
@@ -61,7 +61,7 @@ struct camera : entity {
 
     /**
      * @brief Update the view with gamepad
-     * 
+     *
      * @param dt     Delta time
      * @param pad    Gamepad
      */
@@ -90,9 +90,9 @@ struct camera : entity {
 
     /**
      * @brief Handle key event
-     * 
+     *
      * @param event     Key event
-     * 
+     *
      * @return true     Event was handled
      * @return false    Event ignored
      */
@@ -100,10 +100,10 @@ struct camera : entity {
 
     /**
      * @brief Handle mouse button event
-     * 
+     *
      * @param event        Mouse button event
      * @param mouse_pos    Mouse position
-     * 
+     *
      * @return true        Event was handled
      * @return false       Event ignored
      */
@@ -111,9 +111,9 @@ struct camera : entity {
 
     /**
      * @brief Handle scroll event
-     * 
+     *
      * @param event     Scroll event
-     * 
+     *
      * @return true     Event was handled
      * @return false    Event ignored
      */
@@ -121,7 +121,7 @@ struct camera : entity {
 
     /**
      * @brief Check if camera is valid
-     * 
+     *
      * @return true     Camera is valid
      * @return false    Camera is invalid
      */
@@ -131,7 +131,7 @@ struct camera : entity {
 
     /**
      * @brief Get the descriptor buffer info
-     * 
+     *
      * @return VkDescriptorBufferInfo const*    Descriptor buffer info
      */
     VkDescriptorBufferInfo const* get_descriptor_info() const {
@@ -155,7 +155,7 @@ struct camera : entity {
 
     /**
      * @brief Set camera active
-     * 
+     *
      * @param value    Active state
      */
     void set_active(bool value = true) {
@@ -164,7 +164,7 @@ struct camera : entity {
 
     /**
      * @brief Check if camera is activated
-     * 
+     *
      * @return true     Camera is active
      * @return false    Camera is inactive
      */
@@ -174,7 +174,7 @@ struct camera : entity {
 
     /**
      * @brief Check if camera is moving
-     * 
+     *
      * @return true     Camera is moving
      * @return false    Camera does not move
      */
@@ -237,7 +237,7 @@ struct camera : entity {
 private:
     /**
      * @brief Move first person
-     * 
+     *
      * @param dt    Delta time
      */
     void move_first_person(delta dt);

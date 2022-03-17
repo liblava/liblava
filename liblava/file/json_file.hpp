@@ -24,7 +24,7 @@ using json = nlohmann::json;
 struct json_file {
     /**
      * @brief Construct a new json file
-     * 
+     *
      * @param path    Name of file
      */
     explicit json_file(name path = _config_file_);
@@ -48,21 +48,21 @@ struct json_file {
 
     /**
      * @brief Add callback to json file
-     * 
+     *
      * @param callback    Callback to add
      */
     void add(callback* callback);
 
     /**
      * @brief Remove callback from json file
-     * 
+     *
      * @param callback    Callback to remove
      */
     void remove(callback* callback);
 
     /**
      * @brief Set path of the json file
-     * 
+     *
      * @param value    Name of file
      */
     void set(name value) {
@@ -71,7 +71,7 @@ struct json_file {
 
     /**
      * @brief Get path of the json file
-     * 
+     *
      * @return name    Name of file
      */
     name get() const {
@@ -80,7 +80,7 @@ struct json_file {
 
     /**
      * @brief Load the json file
-     * 
+     *
      * @return true     Load was successful
      * @return false    Load failed
      */
@@ -88,7 +88,7 @@ struct json_file {
 
     /**
      * @brief Save the json file
-     * 
+     *
      * @return true     Save was successful
      * @return false    Save failed
      */

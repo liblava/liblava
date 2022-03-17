@@ -31,23 +31,23 @@ struct physical_device : entity {
 
     /**
      * @brief Construct and initialize a new physical device
-     * 
+     *
      * @param vk_physical_device    Vulkan physical device
      */
     physical_device(VkPhysicalDevice vk_physical_device);
 
     /**
      * @brief Initialize the physical device
-     * 
+     *
      * @param vk_physical_device    Vulkan physical device
      */
     void initialize(VkPhysicalDevice vk_physical_device);
 
     /**
      * @brief Check if extension is supported
-     * 
+     *
      * @param extension    Extension to check
-     * 
+     *
      * @return true        Extension is supported
      * @return false       Extension is unsupported
      */
@@ -55,10 +55,10 @@ struct physical_device : entity {
 
     /**
      * @brief Get the queue family
-     * 
+     *
      * @param index     Returned index of queue family
      * @param flags     Queue flags that must be set
-     * 
+     *
      * @return true     Found a queue family
      * @return false    No queue family found
      */
@@ -66,14 +66,14 @@ struct physical_device : entity {
 
     /**
      * @brief Create default device parameters
-     * 
+     *
      * @return device::create_param Device    create parameters
      */
     device::create_param create_default_device_param() const;
 
     /**
      * @brief Get the properties
-     * 
+     *
      * @return VkPhysicalDeviceProperties const&    Physical device properties
      */
     VkPhysicalDeviceProperties const& get_properties() const {
@@ -82,7 +82,7 @@ struct physical_device : entity {
 
     /**
      * @brief Get the features
-     * 
+     *
      * @return VkPhysicalDeviceFeatures const&    Physical device features
      */
     VkPhysicalDeviceFeatures const& get_features() const {
@@ -91,7 +91,7 @@ struct physical_device : entity {
 
     /**
      * @brief Get the memory properties
-     * 
+     *
      * @return VkPhysicalDeviceMemoryProperties const&    Physical device memory properties
      */
     VkPhysicalDeviceMemoryProperties const& get_memory_properties() const {
@@ -100,7 +100,7 @@ struct physical_device : entity {
 
     /**
      * @brief Get the queue family properties
-     * 
+     *
      * @return VkQueueFamilyPropertiesList const&    List of queue family properties
      */
     VkQueueFamilyPropertiesList const& get_queue_family_properties() const {
@@ -109,7 +109,7 @@ struct physical_device : entity {
 
     /**
      * @brief Get the extension properties
-     * 
+     *
      * @return VkExtensionPropertiesList const&    List of extension properties
      */
     VkExtensionPropertiesList const& get_extension_properties() const {
@@ -118,7 +118,7 @@ struct physical_device : entity {
 
     /**
      * @brief Get the Vulkan physical device
-     * 
+     *
      * @return VkPhysicalDevice    Vulkan physical device
      */
     VkPhysicalDevice get() const {
@@ -127,21 +127,21 @@ struct physical_device : entity {
 
     /**
      * @brief Get the device name
-     * 
+     *
      * @return name    Name of device
      */
     name get_device_name() const;
 
     /**
      * @brief Get the device type as string
-     * 
+     *
      * @return string    String representation of device type
      */
     string get_device_type_string() const;
 
     /**
      * @brief Check if swapchain is supported
-     * 
+     *
      * @return true     Swapchain is supported
      * @return false    Swapchain is unsupported
      */
@@ -149,10 +149,10 @@ struct physical_device : entity {
 
     /**
      * @brief Check if surface is supported
-     * 
+     *
      * @param queue_family    Index of queue family
      * @param surface         Vulkan surface
-     * 
+     *
      * @return true           Surface is supported
      * @return false          Surface is unsupported
      */

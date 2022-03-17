@@ -32,7 +32,7 @@ struct descriptor : entity {
 
         /**
          * @brief Get the Vulkan descriptor set layout binding
-         * 
+         *
          * @return VkDescriptorSetLayoutBinding const&    Vulkan binding
          */
         VkDescriptorSetLayoutBinding const& get() const {
@@ -41,7 +41,7 @@ struct descriptor : entity {
 
         /**
          * @brief Det the binding index
-         * 
+         *
          * @param index    Binding index
          */
         void set(index index) {
@@ -50,7 +50,7 @@ struct descriptor : entity {
 
         /**
          * @brief Set the type
-         * 
+         *
          * @param descriptor_type    Descriptor type
          */
         void set_type(VkDescriptorType descriptor_type) {
@@ -59,7 +59,7 @@ struct descriptor : entity {
 
         /**
          * @brief Set the count
-         * 
+         *
          * @param descriptor_count    Descriptor count
          */
         void set_count(ui32 descriptor_count) {
@@ -68,7 +68,7 @@ struct descriptor : entity {
 
         /**
          * @brief Set the stage flags
-         * 
+         *
          * @param stage_flags    Shader stage flags
          */
         void set_stage_flags(VkShaderStageFlags stage_flags) {
@@ -77,7 +77,7 @@ struct descriptor : entity {
 
         /**
          * @brief Set the samplers
-         * 
+         *
          * @param immutable_samplers    Pointer to immutable samplers
          */
         void set_samplers(VkSampler const* immutable_samplers) {
@@ -101,12 +101,12 @@ struct descriptor : entity {
 
         /**
          * @brief Create a new pool
-         * 
+         *
          * @param device    Vulkan device
          * @param sizes     Descriptor pool sizes
          * @param max       Number of pools
          * @param flags     Create flags
-         * 
+         *
          * @return true     Create was successful
          * @return false    Create failed
          */
@@ -120,7 +120,7 @@ struct descriptor : entity {
 
         /**
          * @brief Get the descriptor pool
-         * 
+         *
          * @return VkDescriptorPool    Vulkan descriptor pool
          */
         VkDescriptorPool get() const {
@@ -129,7 +129,7 @@ struct descriptor : entity {
 
         /**
          * @brief Get the device
-         * 
+         *
          * @return device_ptr    Vulkan device
          */
         device_ptr get_device() {
@@ -138,7 +138,7 @@ struct descriptor : entity {
 
         /**
          * @brief Get the sizes
-         * 
+         *
          * @return VkDescriptorPoolSizes const&    Descriptor pool sizes
          */
         VkDescriptorPoolSizes const& get_sizes() const {
@@ -147,7 +147,7 @@ struct descriptor : entity {
 
         /**
          * @brief Get the max
-         * 
+         *
          * @return ui32    Number of pools
          */
         ui32 get_max() const {
@@ -176,7 +176,7 @@ struct descriptor : entity {
 
     /**
      * @brief Add binding
-     * 
+     *
      * @param binding            Index of binding
      * @param descriptor_type    Descriptor type
      * @param stage_flags        Shader stage flags
@@ -192,7 +192,7 @@ struct descriptor : entity {
 
     /**
      * @brief Add binding
-     * 
+     *
      * @param binding    Descriptor binding
      */
     void add(binding::ptr const& binding) {
@@ -201,9 +201,9 @@ struct descriptor : entity {
 
     /**
      * @brief Create a new descriptor
-     * 
+     *
      * @param device    Vulkan device
-     * 
+     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -216,7 +216,7 @@ struct descriptor : entity {
 
     /**
      * @brief Get the binding count
-     * 
+     *
      * @return ui32    Number of bindings
      */
     ui32 get_binding_count() const {
@@ -225,7 +225,7 @@ struct descriptor : entity {
 
     /**
      * @brief Get the bindings
-     * 
+     *
      * @return binding::list const&    List of bindings
      */
     binding::list const& get_bindings() {
@@ -234,7 +234,7 @@ struct descriptor : entity {
 
     /**
      * @brief Get descriptor set layout
-     * 
+     *
      * @return VkDescriptorSetLayout    Vulkan descriptor set layout
      */
     VkDescriptorSetLayout get() const {
@@ -243,7 +243,7 @@ struct descriptor : entity {
 
     /**
      * @brief Get the device
-     * 
+     *
      * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
@@ -252,7 +252,7 @@ struct descriptor : entity {
 
     /**
      * @brief Allocate descriptor set
-     * 
+     *
      * @param pool                Descriptor pool
      * @return VkDescriptorSet    Descriptor set
      */
@@ -267,10 +267,10 @@ struct descriptor : entity {
 
     /**
      * @brief Free descriptor set
-     * 
+     *
      * @param descriptor_set    Descriptor set
      * @param pool              Descriptor pool
-     * 
+     *
      * @return true             Free was successful
      * @return false            Free failed
      */
@@ -285,10 +285,10 @@ struct descriptor : entity {
 
     /**
      * @brief Allocate descriptor sets
-     * 
+     *
      * @param size                 Number of sets
      * @param pool                 Descriptor pool
-     * 
+     *
      * @return VkDescriptorSets    List of descriptor sets
      */
     VkDescriptorSets allocate_sets(ui32 size, VkDescriptorPool pool);
@@ -302,10 +302,10 @@ struct descriptor : entity {
 
     /**
      * @brief Free descriptor sets
-     * 
+     *
      * @param descriptor_sets    List of descriptor sets
      * @param pool               Descriptor pool
-     * 
+     *
      * @return true              Free was successful
      * @return false             Free failed
      */
@@ -331,7 +331,7 @@ private:
 
 /**
  * @brief Make a new descriptor
- * 
+ *
  * @return descriptor::ptr    Shared pointer to descriptor
  */
 inline descriptor::ptr make_descriptor() {
@@ -340,16 +340,16 @@ inline descriptor::ptr make_descriptor() {
 
 /**
  * @brief Make a new descriptor binding
- * 
+ *
  * @param index                        Binding index
- * 
+ *
  * @return descriptor::binding::ptr    Shared pointer to descriptor binding
  */
 descriptor::binding::ptr make_descriptor_binding(index index);
 
 /**
  * @brief Make a new descriptor pool
- * 
+ *
  * @return descriptor::pool::ptr    Shared pointer to descriptor pool
  */
 inline descriptor::pool::ptr make_descriptor_pool() {

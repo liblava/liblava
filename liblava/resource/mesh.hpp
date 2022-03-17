@@ -320,7 +320,7 @@ bool mesh_template<T>::reload() {
 
 /**
  * @brief Make a new mesh
- * 
+ *
  * @tparam T                                    Type of vertex struct
  *
  * @return std::shared_ptr<mesh_template<T>>    Shared pointer to mesh
@@ -352,7 +352,7 @@ mesh_template_data<T> create_mesh_data(mesh_type type);
 
 /**
  * @brief Create a new primitive mesh
- * 
+ *
  * @tparam T                                    Type of vertex struct
  * @tparam generate_colors                      If color may be generated
  * @tparam generate_normals                     If normals may be generated
@@ -408,7 +408,7 @@ bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
 
 /**
  * @brief Make primitive positions for cube
- * 
+ *
  * @tparam PosType                                      Type of position
  * @tparam vert_count                                   Number of vertices
  * @tparam is_complex                                   Complex state
@@ -424,7 +424,7 @@ constexpr std::array<PosType, vert_count> make_primitive_positions_cube();
 
 /**
  * @brief Make primitive indices for cube
- * 
+ *
  * @tparam is_complex            Complex state
  * @return std::vector<index>    Array for indices
  */
@@ -433,7 +433,7 @@ std::vector<index> make_primitive_indices_cube();
 
 /**
  * @brief Make primitive normals for cube
- * 
+ *
  * @tparam NormType                             Type of normal
  * @return constexpr std::array<NormType, 6>    Array of normals
  */
@@ -442,7 +442,7 @@ constexpr std::array<NormType, 6> make_primitive_normals_cube();
 
 /**
  * @brief Make primitive uvs for cube
- * 
+ *
  * @tparam UVType                              Type of uv
  * @return constexpr std::array<UVType, 24>    Array of uvs
  */

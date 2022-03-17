@@ -18,7 +18,7 @@ namespace lava {
 
 /**
  * @brief Sleep for milliseconds
- * 
+ *
  * @param time    Milliseconds to sleep
  */
 inline void sleep(ms time) {
@@ -27,7 +27,7 @@ inline void sleep(ms time) {
 
 /**
  * @brief Sleep for seconds
- * 
+ *
  * @param time    Seconds to sleep
  */
 inline void sleep(seconds time) {
@@ -43,7 +43,7 @@ struct thread_pool {
 
     /**
      * @brief Set up the thread pool
-     * 
+     *
      * @param count    Number of threads
      */
     void setup(ui32 count = 2) {
@@ -66,9 +66,9 @@ struct thread_pool {
 
     /**
      * @brief Enqueue a task
-     * 
+     *
      * @tparam F    Type of task function
-     * 
+     *
      * @param f     Task function
      */
     template<typename F>
@@ -87,7 +87,7 @@ private:
     struct worker {
         /**
          * @brief Construct a new worker
-         * 
+         *
          * @param pool    Thread pool
          */
         explicit worker(thread_pool& pool)

@@ -13,7 +13,7 @@ namespace lava {
 
 /**
  * @brief Load mesh from file
- * 
+ *
  * @param device        Vulkan device
  * @param filename      File to load
  * @return mesh::ptr    Loaded mesh

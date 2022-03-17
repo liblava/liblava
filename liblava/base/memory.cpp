@@ -38,12 +38,12 @@ namespace lava {
 
 /**
  * @brief Custom CPU allocation callback
- * 
+ *
  * @param user_data           User data
  * @param size                Size to allocate
  * @param alignment           Memory alignment
  * @param allocation_scope    System allocation scope
- * 
+ *
  * @return void*              Allocated data
  */
 static void* VKAPI_PTR custom_cpu_allocation(void* user_data, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
@@ -53,13 +53,13 @@ static void* VKAPI_PTR custom_cpu_allocation(void* user_data, size_t size, size_
 
 /**
  * @brief Custom CPU reallocation callback
- * 
+ *
  * @param user_data           User data
  * @param original            Pointer to original data
  * @param size                Size to reallocate
  * @param alignment           Memory alignment
  * @param allocation_scope    System allocation scope
- * 
+ *
  * @return void*              Reallocated data
  */
 static void* VKAPI_PTR custom_cpu_reallocation(void* user_data, void* original, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
@@ -69,7 +69,7 @@ static void* VKAPI_PTR custom_cpu_reallocation(void* user_data, void* original, 
 
 /**
  * @brief Custom CPU free callback
- * 
+ *
  * @param user_data    User data
  * @param memory       Memory to free
  */

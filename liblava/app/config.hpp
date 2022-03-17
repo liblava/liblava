@@ -44,23 +44,23 @@ struct app_config {
 
 /**
  * @brief Load window state from file
- * 
+ *
  * @param save_name    Name of the saved window
- * 
+ *
  * @return window::state::optional    Window state if available
  */
 window::state::optional load_window_state(name save_name);
 
 /**
  * @brief Save window state to file
- * 
+ *
  * @param window    Window to save
  */
 void save_window_file(window::ref window);
 
 /**
  * @brief Set the window icon
- * 
+ *
  * @param window       Target window
  * @param icon_file    Icon file
  */

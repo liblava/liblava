@@ -26,7 +26,7 @@ struct image : entity {
 
     /**
      * @brief Construct a new image
-     * 
+     *
      * @param format      Image format
      * @param vk_image    Vulkan image
      */
@@ -34,12 +34,12 @@ struct image : entity {
 
     /**
      * @brief Create a new image
-     * 
+     *
      * @param device                   Vulkan device
      * @param size                     Image size
      * @param memory_usage             Memory usage
      * @param mip_levels_generation    Enable mip levels generation
-     * 
+     *
      * @return true                    Create was successful
      * @return false                   Create failed
      */
@@ -47,7 +47,7 @@ struct image : entity {
 
     /**
      * @brief Destroy the image
-     * 
+     *
      * @param view_only    Destroy only the image view
      */
     void destroy(bool view_only = false);
@@ -61,7 +61,7 @@ struct image : entity {
 
     /**
      * @brief Get the device
-     * 
+     *
      * @return device_ptr    Vulkan device
      */
     device_ptr get_device() {
@@ -70,7 +70,7 @@ struct image : entity {
 
     /**
      * @brief Get the format of the image
-     * 
+     *
      * @return VkFormat    Image format
      */
     VkFormat get_format() const {
@@ -79,7 +79,7 @@ struct image : entity {
 
     /**
      * @brief Get the size of the image
-     * 
+     *
      * @return uv2    Image size
      */
     uv2 get_size() const {
@@ -88,7 +88,7 @@ struct image : entity {
 
     /**
      * @brief Get the depth of the image
-     * 
+     *
      * @return ui32    Image depth
      */
     ui32 get_depth() const {
@@ -97,7 +97,7 @@ struct image : entity {
 
     /**
      * @brief Get the image
-     * 
+     *
      * @return VkImage    Vulkan image
      */
     VkImage get() const {
@@ -106,7 +106,7 @@ struct image : entity {
 
     /**
      * @brief Get the image view
-     * 
+     *
      * @return VkImageView    Vulkan image view
      */
     VkImageView get_view() const {
@@ -115,7 +115,7 @@ struct image : entity {
 
     /**
      * @brief Get the image create information
-     * 
+     *
      * @return VkImageCreateInfo const&    Image create information
      */
     VkImageCreateInfo const& get_info() const {
@@ -124,7 +124,7 @@ struct image : entity {
 
     /**
      * @brief Get the image view create information
-     * 
+     *
      * @return VkImageViewCreateInfo const&    Image view create information
      */
     VkImageViewCreateInfo const& get_view_info() const {
@@ -133,7 +133,7 @@ struct image : entity {
 
     /**
      * @brief Get the subresource range of the image
-     * 
+     *
      * @return VkImageSubresourceRange const&    Image subresource range
      */
     VkImageSubresourceRange const& get_subresource_range() const {
@@ -142,7 +142,7 @@ struct image : entity {
 
     /**
      * @brief Set the image create flags
-     * 
+     *
      * @param flags    Image create flag bits
      */
     void set_flags(VkImageCreateFlagBits flags) {
@@ -151,7 +151,7 @@ struct image : entity {
 
     /**
      * @brief Set the image tiling
-     * 
+     *
      * @param tiling    Image tiling
      */
     void set_tiling(VkImageTiling tiling) {
@@ -160,7 +160,7 @@ struct image : entity {
 
     /**
      * @brief Set the image usage
-     * 
+     *
      * @param usage    Image usage flags
      */
     void set_usage(VkImageUsageFlags usage) {
@@ -169,7 +169,7 @@ struct image : entity {
 
     /**
      * @brief Set the initial layout of the image
-     * 
+     *
      * @param initial    Initial image layout
      */
     void set_layout(VkImageLayout initial) {
@@ -178,7 +178,7 @@ struct image : entity {
 
     /**
      * @brief Set the aspect mask of the image
-     * 
+     *
      * @param aspectMask    Image aspect flags
      */
     void set_aspect_mask(VkImageAspectFlags aspectMask) {
@@ -187,7 +187,7 @@ struct image : entity {
 
     /**
      * @brief Set the level count of the image
-     * 
+     *
      * @param levels    Number of levels
      */
     void set_level_count(ui32 levels) {
@@ -197,7 +197,7 @@ struct image : entity {
 
     /**
      * @brief Set the layer count of the image
-     * 
+     *
      * @param layers    Number of layers
      */
     void set_layer_count(ui32 layers) {
@@ -207,7 +207,7 @@ struct image : entity {
 
     /**
      * @brief Set the component mapping of the image
-     * 
+     *
      * @param mapping    Component mapping
      */
     void set_component(VkComponentMapping mapping = {}) {
@@ -216,7 +216,7 @@ struct image : entity {
 
     /**
      * @brief Set the view type of the image
-     * 
+     *
      * @param type    Image view type
      */
     void set_view_type(VkImageViewType type) {
@@ -248,22 +248,22 @@ private:
 
 /**
  * @brief Create a new image
- * 
+ *
  * @param format         Image format
  * @param vk_image       Vulkan image
- * 
+ *
  * @return image::ptr    Shared pointer to image
  */
 image::ptr make_image(VkFormat format, VkImage vk_image = 0);
 
 /**
  * @brief Make a new image
- * 
+ *
  * @param format         Image format
  * @param device         Vulkan device
  * @param size           Image size
  * @param vk_image       Vulkan image
- * 
+ *
  * @return image::ptr    Shared pointer to image
  */
 image::ptr make_image(VkFormat format, device_ptr device, uv2 size, VkImage vk_image = 0);

@@ -51,7 +51,7 @@ struct test {
 
     /**
      * @brief Construct a new test
-     * 
+     *
      * @param id       Test id
      * @param descr    Test description
      * @param func     Test function
@@ -74,7 +74,7 @@ struct test {
 struct driver {
     /**
      * @brief Get driver singleton
-     * 
+     *
      * @return driver&    Test driver
      */
     static driver& instance() {
@@ -84,7 +84,7 @@ struct driver {
 
     /**
      * @brief Add a test
-     * 
+     *
      * @param test    Test to add
      */
     void add_test(test* test) {
@@ -93,7 +93,7 @@ struct driver {
 
     /**
      * @brief Get all tests
-     * 
+     *
      * @return test::map const&    Map of tests
      */
     test::map const& get() const {

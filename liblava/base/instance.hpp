@@ -73,8 +73,8 @@ struct instance : no_copy_no_move {
     };
 
     /**
-     * @brief Instance singeton 
-     * 
+     * @brief Instance singeton
+     *
      * @return instance&    Instance
      */
     static instance& singleton() {
@@ -84,11 +84,11 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Create a new instance
-     * 
+     *
      * @param param     Create parameters
      * @param debug     Debug configuration
      * @param info      Instance information
-     * 
+     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -101,23 +101,23 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Enumerate enabled layer properties
-     * 
+     *
      * @return VkLayerPropertiesList    List of layer properties
      */
     static VkLayerPropertiesList enumerate_layer_properties();
 
     /**
      * @brief Enumerate enabled extension properties
-     * 
+     *
      * @param layer_name                    Name of layer
-     * 
+     *
      * @return VkExtensionPropertiesList    List of extension properties
      */
     static VkExtensionPropertiesList enumerate_extension_properties(name layer_name = nullptr);
 
     /**
      * @brief Get the physical devices
-     * 
+     *
      * @return physical_device::list const&    List of physical devices
      */
     physical_device::list const& get_physical_devices() const {
@@ -126,7 +126,7 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Get the first physical device
-     * 
+     *
      * @return physical_device::ref    Physcial device
      */
     static physical_device::ref get_first_physical_device() {
@@ -135,7 +135,7 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Get the Vulkan instance
-     * 
+     *
      * @return VkInstance    Vulkan instance
      */
     static VkInstance get() {
@@ -144,14 +144,14 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Get the version
-     * 
+     *
      * @return internal_version    Version
      */
     static internal_version get_version();
 
     /**
      * @brief Get the debug configuration
-     * 
+     *
      * @return debug_config::ref    Debug configuration
      */
     debug_config::ref get_debug_config() const {
@@ -160,7 +160,7 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Get the instance information
-     * 
+     *
      * @return instance_info::ref    Instance information
      */
     instance_info::ref get_info() const {
@@ -180,9 +180,9 @@ private:
 
     /**
      * @brief Check the debug configuration and create parameters
-     * 
+     *
      * @param param     Create parameters
-     * 
+     *
      * @return true     Check was successful
      * @return false    Check failed
      */
@@ -190,7 +190,7 @@ private:
 
     /**
      * @brief Enumerate all available physical devices
-     * 
+     *
      * @return true     Enumerate was successful
      * @return false    Enumerate failed
      */
@@ -198,7 +198,7 @@ private:
 
     /**
      * @brief Create a validation report
-     * 
+     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -227,9 +227,9 @@ private:
 
 /**
  * @brief Check instance create parameters
- * 
+ *
  * @param param     Create parameters
- * 
+ *
  * @return true     Check was successful
  * @return false    Check failed
  */

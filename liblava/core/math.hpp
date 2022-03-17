@@ -52,7 +52,7 @@ struct rect {
 
     /**
      * @brief Construct a new rectangle
-     * 
+     *
      * @param left      Left position
      * @param top       Top position
      * @param width     Rectangle width
@@ -65,7 +65,7 @@ struct rect {
 
     /**
      * @brief Construct a new rectangle
-     * 
+     *
      * @param left_top    Left top position
      * @param width       Rectangle width
      * @param height      Rectangle height
@@ -77,7 +77,7 @@ struct rect {
 
     /**
      * @brief Construct a new rectangle
-     * 
+     *
      * @param left_top    Left top position
      * @param size        Size of rectangle
      */
@@ -88,7 +88,7 @@ struct rect {
 
     /**
      * @brief Get the origin
-     * 
+     *
      * @return iv2 const&    Left top position
      */
     iv2 const& get_origin() const {
@@ -97,7 +97,7 @@ struct rect {
 
     /**
      * @brief Get the end point
-     * 
+     *
      * @return iv2 const&    Right bottom position
      */
     iv2 const& get_end_point() const {
@@ -106,7 +106,7 @@ struct rect {
 
     /**
      * @brief Get the size
-     * 
+     *
      * @return uv2    Width and height
      */
     uv2 get_size() const {
@@ -117,7 +117,7 @@ struct rect {
 
     /**
      * @brief Set the size
-     * 
+     *
      * @param size    Width and height
      */
     void set_size(uv2 const& size) {
@@ -127,7 +127,7 @@ struct rect {
 
     /**
      * @brief Move the rectangle
-     * 
+     *
      * @param offset    Offset to move
      */
     void move(iv2 const& offset) {
@@ -137,9 +137,9 @@ struct rect {
 
     /**
      * @brief Check if point is inside the rectangle
-     * 
+     *
      * @param point     Point to check
-     * 
+     *
      * @return true     Point is inside
      * @return false    Point is outside
      */
@@ -157,12 +157,12 @@ private:
 
 /**
  * @brief Ceiling of division
- * 
+ *
  * @tparam T    Target type
- * 
+ *
  * @param x     X value
  * @param y     Y value
- * 
+ *
  * @return T    Result of division
  */
 template<typename T>
@@ -175,11 +175,11 @@ constexpr v3 const default_color = v3{ 0.8118f, 0.0627f, 0.1255f };
 
 /**
  * @brief Calculate perspective matrix
- * 
+ *
  * @param size         Size for aspect ratio
  * @param fov          Field of view
  * @param far_plane    Far plane
- * 
+ *
  * @return mat4        Calculated matrix
  */
 inline mat4 perspective_matrix(uv2 size, float fov = 90.f, float far_plane = 5.f) {

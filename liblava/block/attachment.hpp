@@ -23,7 +23,7 @@ struct attachment {
 
     /**
      * @brief Construct a new attachment
-     * 
+     *
      * @param format     Attachment format
      * @param samples    Sample count flag bits
      */
@@ -41,7 +41,7 @@ struct attachment {
 
     /**
      * @brief Get the description
-     * 
+     *
      * @return VkAttachmentDescription const&    Attachment description
      */
     VkAttachmentDescription const& get_description() const {
@@ -50,7 +50,7 @@ struct attachment {
 
     /**
      * @brief Set the format
-     * 
+     *
      * @param format    Attachment format
      */
     void set_format(VkFormat format) {
@@ -59,7 +59,7 @@ struct attachment {
 
     /**
      * @brief Set the samples
-     * 
+     *
      * @param samples    Attachment sample count flag bits
      */
     void set_samples(VkSampleCountFlagBits samples) {
@@ -68,7 +68,7 @@ struct attachment {
 
     /**
      * @brief Set the op
-     * 
+     *
      * @param load_op     Attachment load op
      * @param store_op    Attachment store op
      */
@@ -79,7 +79,7 @@ struct attachment {
 
     /**
      * @brief Set the load op
-     * 
+     *
      * @param load_op    Attachment load op
      */
     void set_load_op(VkAttachmentLoadOp load_op) {
@@ -88,7 +88,7 @@ struct attachment {
 
     /**
      * @brief Set the store op
-     * 
+     *
      * @param store_op    Attachment store op
      */
     void set_store_op(VkAttachmentStoreOp store_op) {
@@ -97,7 +97,7 @@ struct attachment {
 
     /**
      * @brief Set the stencil op
-     * 
+     *
      * @param load_op     Attachment load op
      * @param store_op    Attachment store op
      */
@@ -108,7 +108,7 @@ struct attachment {
 
     /**
      * @brief Set the stencil load op
-     * 
+     *
      * @param load_op    Attachment load op
      */
     void set_stencil_load_op(VkAttachmentLoadOp load_op) {
@@ -117,7 +117,7 @@ struct attachment {
 
     /**
      * @brief Set the stencil store op
-     * 
+     *
      * @param store_op    Attachment store op
      */
     void set_stencil_store_op(VkAttachmentStoreOp store_op) {
@@ -126,7 +126,7 @@ struct attachment {
 
     /**
      * @brief Set the layouts
-     * 
+     *
      * @param initial    Initial image layout
      * @param final      Final image layout
      */
@@ -137,7 +137,7 @@ struct attachment {
 
     /**
      * @brief Set the initial layout
-     * 
+     *
      * @param layout    Image layout
      */
     void set_initial_layout(VkImageLayout layout) {
@@ -146,7 +146,7 @@ struct attachment {
 
     /**
      * @brief Set the final layout
-     * 
+     *
      * @param layout    Image layout
      */
     void set_final_layout(VkImageLayout layout) {
@@ -160,10 +160,10 @@ private:
 
 /**
  * @brief Make a new attachment
- * 
+ *
  * @param format              Attachment format
  * @param samples             Sample count flag bits
- * 
+ *
  * @return attachment::ptr    Shared pointer to attachment
  */
 inline attachment::ptr make_attachment(VkFormat format = VK_FORMAT_UNDEFINED,
