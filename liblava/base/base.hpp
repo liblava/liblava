@@ -165,6 +165,43 @@ string to_string(VkResult result);
 string version_to_string(ui32 version);
 
 /**
+ * @brief Convert a version to internal version
+ *
+ * @param version              Version to convert
+ *
+ * @return internal_version    Converted version
+ */
+internal_version to_version(ui32 version);
+
+/**
+ * @brief Convert a version to Vulkan version
+ *
+ * @param version    Internal version to convert
+ *
+ * @return ui32      Converted Vulkan version
+ */
+ui32 to_version(internal_version version);
+
+/**
+ * @brief Vulkan api versions
+ */
+enum class api_version : type {
+    v1_0 = 0,
+    v1_1,
+    v1_2,
+    v1_3
+};
+
+/**
+ * @brief Convert a version to Vulkan API version
+ *
+ * @param version         Vulkan version to convert
+ *
+ * @return api_version    Converted API version
+ */
+api_version to_api_version(ui32 version);
+
+/**
  * @brief Vulkan result
  */
 struct vk_result {
@@ -243,15 +280,5 @@ static constexpr ui32 const Vk_Limit_PushConstant_Size = 128;
 
 /// Limit of Vulkan UBO size
 static constexpr ui32 const Vk_Limit_UBO_Size = 16 * 1024;
-
-/**
- * @brief Vulkan api versions
- */
-enum class api_version : type {
-    v1_0 = 0,
-    v1_1,
-    v1_2,
-    v1_3
-};
 
 } // namespace lava

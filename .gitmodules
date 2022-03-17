@@ -46,3 +46,6 @@
 [submodule "ext/physfs"]
 	path = ext/physfs
 	url = https://github.com/icculus/physfs.git
+[submodule "ext/Vulkan-Profiles"]
+	path = ext/Vulkan-Profiles
+	url = https://github.com/KhronosGroup/Vulkan-Profiles.git

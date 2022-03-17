@@ -111,9 +111,29 @@ bool device::create(create_param::ref param) {
         .pEnabledFeatures = (param.has_features_2) ? nullptr : &param.features,
     };
 
-    if (failed(vkCreateDevice(physical_device->get(), &create_info, memory::alloc(), &vk_device))) {
-        log()->error("create device");
-        return false;
+    if (instance::singleton().has_profile()) {
+        auto profile_info = instance::singleton().get_profile();
+        auto profile_properties = profile_info.get();
+
+        create_info.enabledExtensionCount = 0;
+        create_info.ppEnabledExtensionNames = nullptr;
+        create_info.pNext = nullptr;
+        create_info.pEnabledFeatures = nullptr;
+
+        VpDeviceCreateInfo vp_create_info{
+            vp_create_info.pCreateInfo = &create_info,
+            vp_create_info.pProfile = &profile_properties,
+        };
+
+        if (failed(vpCreateDevice(physical_device->get(), &vp_create_info, memory::alloc(), &vk_device))) {
+            log()->error("create device with profile");
+            return false;
+        }
+    } else {
+        if (failed(vkCreateDevice(physical_device->get(), &create_info, memory::alloc(), &vk_device))) {
+            log()->error("create device");
+            return false;
+        }
     }
 
     features = param.features;

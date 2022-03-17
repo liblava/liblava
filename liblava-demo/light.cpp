@@ -95,7 +95,11 @@ render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& att
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
-    app app("lava light", { argc, argv });
+    frame_config config("lava light", { argc, argv });
+    // config.profile = profile_roadmap_2022();
+    config.profile = profile_desktop_portability_2021();
+
+    app app(config);
     if (!app.setup())
         return error::not_ready;
 

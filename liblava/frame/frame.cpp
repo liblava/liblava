@@ -138,12 +138,24 @@ bool frame::setup(frame_config c) {
 
     log()->info("vulkan {}", str(to_string(instance::get_version())));
 
+    // check profile
+    if (!config.profile.empty()) {
+        auto profile_properties = config.profile.get();
+
+        if (!profile_supported(profile_properties)) {
+            log()->error("profile support at instance level: {} - version: {}", profile_properties.profileName, profile_properties.specVersion);
+            return false;
+        }
+
+        log()->info("profile: {} - version: {}", profile_properties.profileName, profile_properties.specVersion);
+    }
+
     auto glfw_extensions_count = 0u;
     auto glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
     for (auto i = 0u; i < glfw_extensions_count; ++i)
         config.param.extensions.push_back(glfw_extensions[i]);
 
-    if (!instance::singleton().create(config.param, config.debug, config.info)) {
+    if (!instance::singleton().create(config.param, config.debug, config.info, config.profile)) {
         log()->error("create instance");
         return false;
     }

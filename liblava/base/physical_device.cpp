@@ -5,6 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include <liblava/base/instance.hpp>
 #include <liblava/base/physical_device.hpp>
 
 namespace lava {
@@ -107,8 +108,20 @@ bool physical_device::swapchain_supported() const {
 
 //-----------------------------------------------------------------------------
 bool physical_device::surface_supported(index queue_family, VkSurfaceKHR surface) const {
-    VkBool32 res = VK_FALSE;
-    if (failed(vkGetPhysicalDeviceSurfaceSupportKHR(vk_physical_device, queue_family, surface, &res)))
+    auto res = VK_FALSE;
+    if (failed(vkGetPhysicalDeviceSurfaceSupportKHR(vk_physical_device,
+                                                    queue_family, surface, &res)))
+        return false;
+
+    return res == VK_TRUE;
+}
+
+//-----------------------------------------------------------------------------
+bool physical_device::profile_supported(VpProfileProperties profile) const {
+    auto res = VK_FALSE;
+    if (failed(vpGetPhysicalDeviceProfileSupport(instance::singleton().get(),
+                                                 vk_physical_device,
+                                                 &profile, &res)))
         return false;
 
     return res == VK_TRUE;

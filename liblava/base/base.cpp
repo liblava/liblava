@@ -94,4 +94,28 @@ string version_to_string(ui32 version) {
     return fmt::format("{}.{}.{}", VK_VERSION_MAJOR(version), VK_VERSION_MINOR(version), VK_VERSION_PATCH(version));
 }
 
+//-----------------------------------------------------------------------------
+internal_version to_version(ui32 version) {
+    return { (i32) VK_VERSION_MAJOR(version), (i32) VK_VERSION_MINOR(version), (i32) VK_VERSION_PATCH(version) };
+}
+
+//-----------------------------------------------------------------------------
+ui32 to_version(internal_version version) {
+    return VK_MAKE_VERSION(version.major, version.minor, version.patch);
+}
+
+//-----------------------------------------------------------------------------
+api_version to_api_version(ui32 version) {
+    switch (to_version(version).minor) {
+    case 1:
+        return api_version::v1_1;
+    case 2:
+        return api_version::v1_2;
+    case 3:
+        return api_version::v1_3;
+    default:
+        return api_version::v1_0;
+    }
+}
+
 } // namespace lava

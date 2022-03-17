@@ -80,40 +80,40 @@ bool instance::check_debug(create_param& param) const {
 }
 
 //-----------------------------------------------------------------------------
-bool instance::create(create_param& param, debug_config::ref d, instance_info::ref i) {
+bool instance::create(create_param& param, debug_config::ref d, instance_info::ref i, profile_info p) {
     debug = d;
     info = i;
+    profile = p;
 
     if (!check_debug(param))
         return false;
 
-    ui32 app_version = VK_MAKE_VERSION(info.app_version.major,
-                                       info.app_version.minor,
-                                       info.app_version.patch);
-
     VkApplicationInfo application_info{
         .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
         .pApplicationName = info.app_name,
-        .applicationVersion = app_version,
+        .applicationVersion = to_version(info.app_version),
         .pEngineName = info.engine_name,
+        .engineVersion = to_version(info.engine_version),
     };
 
-    application_info.engineVersion = VK_MAKE_VERSION(info.engine_version.major,
-                                                     info.engine_version.minor,
-                                                     info.engine_version.patch);
-
-    switch (info.req_api_version) {
-    case api_version::v1_1:
-        application_info.apiVersion = VK_API_VERSION_1_1;
-        break;
-    case api_version::v1_2:
-        application_info.apiVersion = VK_API_VERSION_1_2;
-        break;
-    case api_version::v1_3:
-        application_info.apiVersion = VK_API_VERSION_1_3;
-        break;
-    default:
-        application_info.apiVersion = VK_API_VERSION_1_0;
+    if (!profile.empty()) {
+        auto min_api_version = profile.get_min_api_version();
+        application_info.apiVersion = min_api_version;
+        info.req_api_version = to_api_version(min_api_version);
+    } else {
+        switch (info.req_api_version) {
+        case api_version::v1_1:
+            application_info.apiVersion = VK_API_VERSION_1_1;
+            break;
+        case api_version::v1_2:
+            application_info.apiVersion = VK_API_VERSION_1_2;
+            break;
+        case api_version::v1_3:
+            application_info.apiVersion = VK_API_VERSION_1_3;
+            break;
+        default:
+            application_info.apiVersion = VK_API_VERSION_1_0;
+        }
     }
 
     VkInstanceCreateInfo create_info{
@@ -125,9 +125,20 @@ bool instance::create(create_param& param, debug_config::ref d, instance_info::r
         .ppEnabledExtensionNames = param.extensions.data(),
     };
 
-    auto result = vkCreateInstance(&create_info, memory::alloc(), &vk_instance);
-    if (failed(result))
-        return false;
+    if (!profile.empty()) {
+        auto profile_properties = profile.get();
+
+        VpInstanceCreateInfo vp_create_info{
+            .pCreateInfo = &create_info,
+            .pProfile = &profile_properties,
+        };
+
+        if (failed(vpCreateInstance(&vp_create_info, memory::alloc(), &vk_instance)))
+            return false;
+    } else {
+        if (failed(vkCreateInstance(&create_info, memory::alloc(), &vk_instance)))
+            return false;
+    }
 
     volkLoadInstance(vk_instance);
 

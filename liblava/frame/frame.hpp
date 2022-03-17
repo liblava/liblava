@@ -50,6 +50,9 @@ struct frame_config {
 
     /// Intance debug configuration
     instance::debug_config debug;
+
+    /// Profile information
+    profile_info profile;
 };
 
 /**

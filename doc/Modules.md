@@ -53,7 +53,7 @@
 
 ## lava [base](../liblava/base) : util
 
-[![base](https://img.shields.io/badge/lava-base-yellowgreen.svg)](../liblava/base/base.hpp) [![instance](https://img.shields.io/badge/lava-instance-yellowgreen.svg)](../liblava/base/instance.hpp)  [![physical_device](https://img.shields.io/badge/lava-physical_device-yellowgreen.svg)](../liblava/base/physical_device.hpp)
+[![base](https://img.shields.io/badge/lava-base-yellowgreen.svg)](../liblava/base/base.hpp) [![instance](https://img.shields.io/badge/lava-instance-yellowgreen.svg)](../liblava/base/instance.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-yellowgreen.svg)](../liblava/base/physical_device.hpp) [![profile](https://img.shields.io/badge/lava-profile-yellowgreen.svg)](../liblava/base/profile.hpp)
 
 [![device](https://img.shields.io/badge/lava-device-yellowgreen.svg)](../liblava/base/device.hpp) [![memory](https://img.shields.io/badge/lava-memory-yellowgreen.svg)](../liblava/base/memory.hpp) [![queue](https://img.shields.io/badge/lava-queue-yellowgreen.svg)](../liblava/base/queue.hpp)
 

@@ -179,6 +179,7 @@ add_library(lava.base STATIC
         ${LIBLAVA_DIR}/base/memory.hpp
         ${LIBLAVA_DIR}/base/physical_device.cpp
         ${LIBLAVA_DIR}/base/physical_device.hpp
+        ${LIBLAVA_DIR}/base/profile.hpp
         ${LIBLAVA_DIR}/base/queue.cpp
         ${LIBLAVA_DIR}/base/queue.hpp
         ${LIBLAVA_EXT_DIR}/volk/volk.c
@@ -186,6 +187,7 @@ add_library(lava.base STATIC
 
 target_include_directories(lava.base PUBLIC
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/Vulkan-Headers/include>
+        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/Vulkan-Profiles/library/include>
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/include>
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/volk>
         )
@@ -460,6 +462,7 @@ set(EXT_INCLUDE_DIRS
         ${LIBLAVA_EXT_DIR}/json/single_include
         ${LIBLAVA_EXT_DIR}/spdlog/include
         ${LIBLAVA_EXT_DIR}/Vulkan-Headers/include
+        ${LIBLAVA_EXT_DIR}/Vulkan-Profiles/library/include
         ${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/include
         ${LIBLAVA_EXT_DIR}/volk
         #${LIBLAVA_EXT_DIR}/stb
