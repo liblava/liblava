@@ -118,7 +118,7 @@ struct log_config {
     /// Log level
     i32 level = -1;
 
-    /// Debug state
+    /// Log to console, else file
     bool debug = false;
 };
 

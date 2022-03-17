@@ -261,6 +261,10 @@ texture::ptr load_texture(device_ptr device, file_format file_format, texture_ty
         case texture_type::cube_map: {
             return create_gli_texture_cube_map(device, file, file_format.format, temp_data);
         }
+
+        case texture_type::none: {
+            return nullptr;
+        }
         }
     } else {
         return create_stbi_texture(device, file, temp_data);

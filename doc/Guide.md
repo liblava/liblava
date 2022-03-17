@@ -166,13 +166,13 @@ be initialized
 
 `lava app` defines some useful shortcuts
 
-| Shortcut             |       Action / *default* |
-| :------------------- | -----------------------: |
-| *alt + enter*        |    fullscreen on / *off* |
-| *alt + backspace*    |        v-sync on / *off* |
-| *control + tab*      |           gui *on* / off |
-| *control + space*    |         pause on / *off* |
-| *control + q*        |         quit application |
+| Shortcut             |               Action |   Default   | config.json |  window.json |
+| :------------------- | -------------------: | :---------: | ----------: | -----------: |
+| *alt + enter*        |  fullscreen on / off |   **off**   |             |   fullscreen |
+| *alt + backspace*    |      v-sync on / off |   **off**   |      v-sync |              |
+| *control + tab*      |         gui on / off |   **on**    |       imgui |              |
+| *control + space*    |       pause on / off |   **off**   |      paused |              |
+| *control + q*        |     quit application |             |             |              |
 
 You can disable these actions by simply turning them off:
 
@@ -207,7 +207,7 @@ You can disable these actions by simply turning them off:
 --physical_device, -pd {n}
 ```
 
-* n - physical device index
+* n - physical device index | *default = 0*
 
 <br />
 
