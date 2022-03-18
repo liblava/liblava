@@ -13,9 +13,6 @@
 
 namespace lava {
 
-/// Std file system
-namespace fs = std::filesystem;
-
 /**
  * @brief File system
  */

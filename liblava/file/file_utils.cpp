@@ -74,7 +74,7 @@ bool extension(name filename, names extensions) {
 
 //-----------------------------------------------------------------------------
 string get_filename_from(string_ref path, bool with_extension) {
-    fs::path target(path);
+    std::filesystem::path target(path);
     return with_extension ? target.filename().string() : target.stem().string();
 }
 
@@ -109,7 +109,7 @@ bool load_file_data(string_ref filename, data& target) {
 //-----------------------------------------------------------------------------
 file_remover::~file_remover() {
     if (remove)
-        fs::remove(filename);
+        std::filesystem::remove(filename);
 }
 
 } // namespace lava

@@ -40,7 +40,7 @@ string file_system::get_res_dir_str() {
     res_dir += instance().res_path;
     string_ref const_res_dir = res_dir;
 
-    return fs::path(const_res_dir).lexically_normal().string();
+    return std::filesystem::path(const_res_dir).lexically_normal().string();
 }
 
 //-----------------------------------------------------------------------------
@@ -118,37 +118,37 @@ void file_system::mount_res(logger log) {
     res_path = "res/";
 #endif
 
-    if (fs::exists(str(get_res_dir_str())))
+    if (std::filesystem::exists(str(get_res_dir_str())))
         if (file_system::mount(str(res_path)))
             log->debug("mount {}", str(get_res_dir_str()));
 
-    auto cwd_res_dir = fs::current_path().append("res/").lexically_normal().string();
+    auto cwd_res_dir = std::filesystem::current_path().append("res/").lexically_normal().string();
 
-    if (fs::exists(cwd_res_dir) && (cwd_res_dir != get_res_dir_str()))
+    if (std::filesystem::exists(cwd_res_dir) && (cwd_res_dir != get_res_dir_str()))
         if (file_system::mount(cwd_res_dir))
             log->debug("mount {}", str(cwd_res_dir));
 
     string archive_file = "res.zip";
-    if (fs::exists({ archive_file }))
+    if (std::filesystem::exists({ archive_file }))
         if (file_system::mount(str(archive_file)))
             log->debug("mount {}", str(archive_file));
 }
 
 //-----------------------------------------------------------------------------
 bool file_system::create_data_folder() {
-    fs::path data_path = fs::current_path();
-    data_path += fs::path::preferred_separator;
+    std::filesystem::path data_path = std::filesystem::current_path();
+    data_path += std::filesystem::path::preferred_separator;
     data_path += "data";
 
-    if (!fs::exists(data_path))
-        fs::create_directories(data_path);
+    if (!std::filesystem::exists(data_path))
+        std::filesystem::create_directories(data_path);
 
-    return fs::exists(data_path);
+    return std::filesystem::exists(data_path);
 }
 
 //-----------------------------------------------------------------------------
 void file_system::clean_pref_dir() {
-    fs::remove_all(get_pref_dir());
+    std::filesystem::remove_all(get_pref_dir());
 }
 
 } // namespace lava

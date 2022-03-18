@@ -409,7 +409,7 @@ bool imgui::capture_keyboard() const {
 }
 
 //-----------------------------------------------------------------------------
-void imgui::set_ini_file(fs::path dir) {
+void imgui::set_ini_file(std::filesystem::path dir) {
     dir.append(_imgui_file_);
 
     ini_file = dir.string();

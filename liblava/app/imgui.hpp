@@ -111,7 +111,7 @@ struct imgui {
         icon_font icon;
 
         /// ImGui state file path
-        fs::path ini_file_dir;
+        std::filesystem::path ini_file_dir;
     };
 
     /**
@@ -259,15 +259,15 @@ struct imgui {
      *
      * @param dir    Path for file
      */
-    void set_ini_file(fs::path dir);
+    void set_ini_file(std::filesystem::path dir);
 
     /**
      * @brief Get the ini file
      *
      * @return fs::path    Path of file
      */
-    fs::path get_ini_file() const {
-        return fs::path(ini_file);
+    std::filesystem::path get_ini_file() const {
+        return std::filesystem::path(ini_file);
     }
 
     /**
