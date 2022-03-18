@@ -5,7 +5,6 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <IconsFontAwesome5.h>
 #include <imgui.h>
 #include <liblava/lava.hpp>
 
@@ -14,8 +13,6 @@ using namespace lava;
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
     app app("lava triangle", { argc, argv });
-
-    setup_imgui_font_icons(app.config.imgui_font);
 
     if (!app.setup())
         return error::not_ready;

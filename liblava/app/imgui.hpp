@@ -422,9 +422,12 @@ void setup_imgui_font(imgui::config& config, imgui::font::ref font);
 /**
  * @brief Set up the imgui font icons
  *
- * @param font    Imgui font
+ * @param font        Imgui font
+ * @param filename    Font icon file name
+ * @param min         Min range
+ * @param max         Max range
  */
-void setup_imgui_font_icons(imgui::font& font);
+void setup_imgui_font_icons(imgui::font& font, string filename, ui16 min, ui16 max);
 
 /**
  * @brief ImGui left spacing with top offset

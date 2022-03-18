@@ -76,7 +76,8 @@ struct dimmer {
 int main(int argc, char* argv[]) {
     app app("lava lamp", { argc, argv });
 
-    setup_imgui_font_icons(app.config.imgui_font);
+    setup_imgui_font_icons(app.config.imgui_font,
+                           FONT_ICON_FILE_NAME_FAS, ICON_MIN_FA, ICON_MAX_FA);
 
     if (!app.setup())
         return error::not_ready;

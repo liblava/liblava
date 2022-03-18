@@ -5,7 +5,6 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <IconsFontAwesome5.h>
 #include <liblava/app/def.hpp>
 #include <liblava/app/imgui.hpp>
 #include <liblava/base/debug_utils.hpp>
@@ -187,14 +186,14 @@ void imgui::setup(GLFWwindow* w, config config) {
     if (config.icon.font_data.ptr) {
         static const ImWchar icons_ranges[] = { config.icon.range_begin, config.icon.range_end, 0 };
 
-        ImFontConfig icons_config;
-        icons_config.MergeMode = true;
-        icons_config.GlyphMinAdvanceX = config.icon.size;
-        icons_config.PixelSnapH = true;
-        icons_config.FontDataOwnedByAtlas = false;
+        ImFontConfig icon_config;
+        icon_config.MergeMode = true;
+        icon_config.GlyphMinAdvanceX = config.icon.size;
+        icon_config.PixelSnapH = true;
+        icon_config.FontDataOwnedByAtlas = false;
 
         io.Fonts->AddFontFromMemoryTTF(config.icon.font_data.ptr, to_i32(config.icon.font_data.size),
-                                       config.icon.size, &icons_config, icons_ranges);
+                                       config.icon.size, &icon_config, icons_ranges);
     }
 
     io.SetClipboardTextFn = set_clipboard_text;
@@ -633,11 +632,11 @@ void setup_imgui_font(imgui::config& config, imgui::font::ref font) {
 }
 
 //-----------------------------------------------------------------------------
-void setup_imgui_font_icons(imgui::font& font) {
-    font.icon_file = fmt::format("{}{}", _font_icon_path_, FONT_ICON_FILE_NAME_FAS);
+void setup_imgui_font_icons(imgui::font& font, string filename, ui16 min, ui16 max) {
+    font.icon_file = fmt::format("{}{}", _font_icon_path_, str(filename));
 
-    font.icon_range_begin = ICON_MIN_FA;
-    font.icon_range_end = ICON_MAX_FA;
+    font.icon_range_begin = min;
+    font.icon_range_end = max;
 }
 
 //-----------------------------------------------------------------------------
