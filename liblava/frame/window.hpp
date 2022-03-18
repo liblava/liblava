@@ -502,22 +502,22 @@ struct window : entity {
     }
 
     /**
-     * @brief Show the debug title in the window
+     * @brief Show the save title in the window
      *
-     * @param value    Debug title state
+     * @param value    Save title state
      */
-    void set_debug_title(bool value = true) {
-        debug_title_active = value;
+    void show_save_title(bool value = true) {
+        save_title_active = value;
     }
 
     /**
-     * @brief Check show debug title state
+     * @brief Check the show save title state
      *
-     * @return true     Debug title is active
-     * @return false    Debug title is inactive
+     * @return true     Save title is active
+     * @return false    Save title is inactive
      */
-    bool debug_title() const {
-        return debug_title_active;
+    bool save_title() const {
+        return save_title_active;
     }
 
     /**
@@ -580,8 +580,8 @@ private:
     /// Fullscreen state
     bool fullscreen_active = false;
 
-    /// Debug title state
-    bool debug_title_active = false;
+    /// Save title state
+    bool save_title_active = false;
 
     /// Switch mode request state
     bool switch_mode_request_active = false;

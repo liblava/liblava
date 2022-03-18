@@ -12,10 +12,12 @@ Run the `lava` executable to test our [Tutorial](../tests/tests.cpp) examples
 
 <br />
 
-### List all tests:
+## List all tests
 
 ```bash
-lava -t
+lava -ts
+
+lava --tests
 ```
 
 1. [frame init](Tutorial.md/#1-frame-init)
@@ -29,19 +31,22 @@ lava -t
 
 <br />
 
-### Run *window input* test for example:
+### Run *window input* test
 
 ```bash
-lava 3
+lava -t=3
+
+lava --test=3
 ```
 
-If you *do not* specify a number, the *last test* will be started
+
+If you run `lava` without arguments - the *last* will be started
 
 <br />
 
 ## Unit testing
 
-In addition run `lava-unit` to check parts of the library with [Catch2](https://github.com/catchorg/Catch2) test framework
+In addition run `lava-unit` to check some parts of the library with [Catch2](https://github.com/catchorg/Catch2) framework
 
 <br />
 

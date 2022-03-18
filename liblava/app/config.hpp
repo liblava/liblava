@@ -40,6 +40,9 @@ struct app_config {
 
     /// ImGui font settings
     imgui::font imgui_font;
+
+    /// Identification
+    i32 id = 0;
 };
 
 /**

@@ -15,6 +15,9 @@
 
 namespace lava {
 
+/// Save title format
+constexpr name _fmt_save_title_ = "{} [{}]";
+
 /**
  * @brief Set window attribute
  *
@@ -50,8 +53,8 @@ bool window::create(state::optional state) {
     auto mode = glfwGetVideoMode(monitor);
 
     string default_title = title;
-    if (debug_title_active)
-        default_title = fmt::format("%s [%s]", str(title), str(save_name));
+    if (save_title_active)
+        default_title = fmt::format(_fmt_save_title_, str(title), str(save_name));
 
     if (state) {
         fullscreen_active = state->fullscreen;
@@ -164,8 +167,8 @@ void window::set_title(name text) {
     if (!handle)
         return;
 
-    if (debug_title_active)
-        glfwSetWindowTitle(handle, str(fmt::format("%s [%s]", str(title), str(save_name))));
+    if (save_title_active)
+        glfwSetWindowTitle(handle, str(fmt::format(_fmt_save_title_, str(title), str(save_name))));
     else
         glfwSetWindowTitle(handle, str(title));
 }

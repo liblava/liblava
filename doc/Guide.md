@@ -195,19 +195,27 @@ You can disable these actions by simply turning them off:
 <br />
 
 ```
---v_sync, -vs {0|1}
+--v_sync={0|1}, -vs={0|1}
 ```
 
-* 0 - vertical sync off
-* 1 - vertical sync on
+* **0** = vertical sync off
+* **1** = vertical sync on
 
 <br />
 
 ```
---physical_device, -pd {n}
+--physical_device={n}, -pd={n}
 ```
 
-* n - physical device index | *default = 0*
+* **n** = physical device index | *default: n = 0*
+
+<br />
+
+```
+--identification={n}, -id={n}
+```
+
+* **n** = window save name | *only numbers*
 
 <br />
 
@@ -246,16 +254,16 @@ You can disable these actions by simply turning them off:
 <br />
 
 ```
---log, -l {0|1|2|3|4|5|6}
+--log={0|...|6}, -l={0|...|6}
 ```
 
-* level 0 - trace
-* level 1 - debug
-* level 2 - info
-* level 3 - warn
-* level 4 - error
-* level 5 - critical
-* level 6 - logging off
+* level **0** = trace
+* level **1** = debug
+* level **2** = info
+* level **3** = warn
+* level **4** = error
+* level **5** = critical
+* level **6** = logging *off*
 
 ----
 

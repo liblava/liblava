@@ -23,28 +23,21 @@ int run(int argc, char** argv) {
 
     argh::parser cmd_line(argc, argv);
 
-    if (cmd_line[{ "-t", "--tests" }]) {
+    if (cmd_line[{ "-ts", "--tests" }]) {
         for (auto& t : tests)
-            std::cout << t.first << " - " << t.second->descr << std::endl;
+            std::cout << t.first << " = " << t.second->descr << std::endl;
 
         return to_i32(tests.size());
     }
 
-    if (cmd_line.pos_args().size() > 1) {
-        char* end_ptr = nullptr;
-        auto selected = std::strtol(str(cmd_line.pos_args().at(1)), &end_ptr, 10);
-        if (*end_ptr != '\0') {
-            std::cerr << "wrong arguments" << std::endl;
-            return test_result::wrong_arguments;
-        }
-
-        if (!tests.count(selected)) {
-            std::cerr << "test " << selected << " not found" << std::endl;
+    if (auto test = -1; cmd_line({ "-t", "--test" }) >> test) {
+        if (!tests.count(test)) {
+            std::cerr << "test " << test << " not found" << std::endl;
             return test_result::not_found;
         }
 
-        if (tests.count(selected))
-            return tests.at(selected)->on_func(cmd_line);
+        if (tests.count(test))
+            return tests.at(test)->on_func(cmd_line);
     }
 
     for (auto& t : reverse(tests)) {

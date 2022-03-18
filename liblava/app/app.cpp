@@ -107,6 +107,11 @@ bool app::setup() {
     cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
     cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
 
+    if (cmd_line({ "-id", "--identification" }) >> config.id) {
+        window.set_save_name(str(std::to_string(config.id)));
+        window.show_save_title();
+    }
+
     if (!window.create(load_window_state(window.get_save_name())))
         return false;
 
