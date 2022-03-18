@@ -439,7 +439,7 @@ void app::draw_about(bool separator) const {
     ImGui::Text("%s %s", _liblava_, str(version_string()));
 
     if (config.handle_key_events && ImGui::IsItemHovered())
-        ImGui::SetTooltip("alt + enter = fullscreen\nalt + backspace = v-sync\ncontrol + space = pause\ncontrol + tab = gui");
+        ImGui::SetTooltip("pause = control + space\ngui = control + tab\nv-sync = alt + backspace\nfullscreen = alt + enter");
 
     imgui_left_spacing();
 
