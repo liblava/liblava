@@ -14,6 +14,9 @@
 
 namespace lava {
 
+/// Punctuation marks
+constexpr name _punctuation_marks_ = "\"\'";
+
 /**
  * @brief Check if name exists in name list
  *
@@ -137,6 +140,88 @@ inline string rtrim_copy(string s) {
 inline string trim_copy(string s) {
     trim(s);
     return s;
+}
+
+/**
+ * @brief Remove chars in string
+ *
+ * @param s           Target string
+ * @param chars       Chars to remove
+ *
+ * @return string&    Cleared string
+ */
+inline string& remove_chars(string& s, string_ref chars) {
+    s.erase(remove_if(s.begin(), s.end(), [&chars](name_ref c) {
+                return chars.find(c) != string::npos;
+            }),
+            s.end());
+    return s;
+}
+
+/**
+ * @brief Remove chars in string (copying)
+ *
+ * @param s          Target string
+ * @param chars      Chars to remove
+ *
+ * @return string    Cleared string
+ */
+inline string remove_chars_copy(string s, string_ref chars) {
+    return remove_chars(s, chars);
+}
+
+/**
+ * @brief Remove all non digit chars in string
+ *
+ * @param s           Target string
+ *
+ * @return string&    Cleared string
+ */
+inline string& remove_nondigit(string& s) {
+    s.erase(remove_if(s.begin(), s.end(), [](name_ref c) {
+                return !isdigit(c);
+            }),
+            s.end());
+    return s;
+}
+
+/**
+ * @brief Remove all non digit chars in string (copying)
+ *
+ * @param s          Target string
+ *
+ * @return string    Cleared string
+ */
+inline string remove_nondigit_copy(string s) {
+    return remove_nondigit(s);
+}
+
+/**
+ * @brief Remove all chars in string which are not allowed
+ *
+ * @param s           Target string
+ * @param allowed     Allowed chars
+ *
+ * @return string&    Cleared string
+ */
+inline string& remove_chars_if_not(string& s, string_ref allowed) {
+    s.erase(remove_if(s.begin(), s.end(), [&allowed](name_ref c) {
+                return allowed.find(c) == string::npos;
+            }),
+            s.end());
+    return s;
+}
+
+/**
+ * @brief Remove all chars in string which are not allowed (copying)
+ *
+ * @param s          Target string
+ * @param allowed    Allowed chars
+ *
+ * @return string    Cleared string
+ */
+inline string remove_chars_if_not_copy(string s, string_ref allowed) {
+    return remove_chars_if_not(s, allowed);
 }
 
 /**

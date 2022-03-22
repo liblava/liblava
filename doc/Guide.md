@@ -212,7 +212,10 @@ You can disable these actions by simply turning them off:
 <br />
 
 ```
---identification={n}, -id={n}
+--identification={str}, -id={str}
+```
+
+* **str** = window save name | *supports punctuation marks*
 ```
 
 * **n** = window save name | *only numbers*
