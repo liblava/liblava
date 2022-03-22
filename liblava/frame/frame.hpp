@@ -74,6 +74,9 @@ enum error {
  */
 ms now();
 
+/// Command line
+using cmd_line = argh::parser const&;
+
 /// Run abort result
 constexpr bool const run_abort = false;
 
@@ -208,9 +211,9 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Get the command line arguments
      *
-     * @return argh::parser const&    Command line arguments
+     * @return cmd_line    Command line arguments
      */
-    argh::parser const& get_cmd_line() const {
+    cmd_line get_cmd_line() const {
         return config.cmd_line;
     }
 
@@ -335,7 +338,7 @@ private:
  *
  * @param cmd_line    Command line parser
  */
-void log_command_line(argh::parser const& cmd_line);
+void log_command_line(cmd_line cmd_line);
 
 /**
  * @brief Handle events

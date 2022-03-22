@@ -266,7 +266,9 @@ You can disable these actions by simply turning them off:
 * level **3** = warn
 * level **4** = error
 * level **5** = critical
-* level **6** = logging *off*
+* level **6** = *logging off*
+
+<br />
 
 ----
 

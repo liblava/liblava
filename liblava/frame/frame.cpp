@@ -282,7 +282,7 @@ void frame::trigger_run_end() {
 }
 
 //-----------------------------------------------------------------------------
-void log_command_line(argh::parser const& cmd_line) {
+void log_command_line(cmd_line cmd_line) {
     if (!cmd_line.pos_args().empty()) {
         for (auto const& pos_arg : cmd_line.pos_args())
             log()->info("cmd {}", str(pos_arg));
