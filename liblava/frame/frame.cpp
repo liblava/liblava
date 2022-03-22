@@ -228,7 +228,8 @@ bool frame::run_step() {
         if (!func.second(func.first))
             return false;
 
-    trigger_run_remove();
+    if (!run_remove_list.empty())
+        trigger_run_remove();
 
     return true;
 }
