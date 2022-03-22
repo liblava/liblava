@@ -18,19 +18,19 @@
 
 Before you create new objects or use existing ones, you should get familiar with the lifetime of objects
 
-It is basically possible to create all objects in **liblava** on the stack or on the heap
+It is basically possible to create all objects in &nbsp; **liblava** &nbsp; on the stack or on the heap
 
 But be careful. You have to take care of the lifetime yourself
 
-### make ➜ create ➜ destroy
+### make &nbsp; ➜ &nbsp; create &nbsp; ➜ &nbsp; destroy
 
 This is the general pattern that is used in this library:
 
-1. **make** - Use constructor or factory method *(static function to get a shared pointer)*
-2. **create** - Build the respective object
-3. **destroy** - Discard it after your use
+1. **make** &nbsp; =  &nbsp; Use constructor or factory method *(static function to get a shared pointer)*
+2. **create** &nbsp; = &nbsp; Build the respective object
+3. **destroy** &nbsp; = &nbsp; Discard it after your use
 
-The destructor calls the **destroy** method if it was not called before
+The destructor calls the &nbsp; **destroy** &nbsp; method if it was not called before
 
 ### For example: buffer object
 
@@ -68,7 +68,7 @@ buffer::ptr use_buffer_on_heap() {
 
 ## Making meshes
 
-**liblava** provides a `mesh` struct that contains a list of vertices and, optionally,
+**liblava** &nbsp; provides a `mesh` struct that contains a list of vertices and, optionally,
 a list of indices
 
 By default, vertices in a `mesh` are of type `vertex`, which has the following layout:
@@ -93,7 +93,7 @@ my_mesh->create(device);
 
 <br />
 
-**liblava** provides a `create_mesh()` function to simplify the creation of primitives
+**liblava** &nbsp; provides a `create_mesh()` function to simplify the creation of primitives
 
 It takes a `mesh_type` argument to specify what kind of primitive to build
 
@@ -160,6 +160,8 @@ Cubes generated this way have a special case. If they are initialized with norma
 data, they will be represented by 24 vertices. Otherwise, only 8 vertices will
 be initialized
 
+----
+
 <br />
 
 ## Keyboard shortcuts
@@ -174,7 +176,9 @@ be initialized
 | *control + space*    |       pause on / off |   **off**   |      paused |              |
 | *control + q*        |     quit application |             |             |              |
 
-You can disable these actions by simply turning them off:
+<br />
+
+**NOTE** &nbsp; You can disable these actions by simply turning them off:
 
 `app.config.handle_key_events = false`
 

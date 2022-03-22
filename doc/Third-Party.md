@@ -20,7 +20,7 @@
 
 * [gli](https://github.com/g-truc/gli) / **OpenGL Image (GLI)** / *MIT*
 
-  [![texture_loader](https://img.shields.io/badge/lava-texture_loader-yellowgreen.svg)](../liblava/asset/texture_loader.cpp)
+  [![texture_loader](https://img.shields.io/badge/lava-texture_loader-red.svg)](../liblava/asset/texture_loader.cpp)
 
 * [glm](https://github.com/g-truc/glm) / **OpenGL Mathematics (GLM)** / *MIT*
 
@@ -48,11 +48,11 @@
 
 * [stb](https://github.com/nothings/stb) / **Single-file public domain libraries for C/C++** / *MIT*
 
-  [![image_data](https://img.shields.io/badge/lava-image_data-yellowgreen.svg)](../liblava/asset/image_data.cpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-yellowgreen.svg)](../liblava/asset/texture_loader.cpp)
+  [![image_data](https://img.shields.io/badge/lava-image_data-red.svg)](../liblava/asset/image_data.cpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-red.svg)](../liblava/asset/texture_loader.cpp)
 
 * [tinyobjloader](https://github.com/syoyo/tinyobjloader) / **Tiny but powerful single file wavefront obj loader** / *MIT*
 
-  [![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-yellowgreen.svg)](../liblava/asset/mesh_loader.hpp)
+  [![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-red.svg)](../liblava/asset/mesh_loader.hpp)
 
 * [volk](https://github.com/zeux/volk) / **Meta loader for Vulkan API** / *MIT*
 
