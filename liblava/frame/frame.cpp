@@ -228,6 +228,8 @@ bool frame::run_step() {
         if (!func.second(func.first))
             return false;
 
+    trigger_run_remove();
+
     return true;
 }
 
@@ -259,20 +261,31 @@ id frame::add_run_end(run_end_func_ref func) {
 
 //-----------------------------------------------------------------------------
 bool frame::remove(id::ref id) {
-    auto result = false;
+    if (contains(run_remove_list, id))
+        return false;
 
-    if (run_map.count(id)) {
-        run_map.erase(id);
-        result = true;
-    } else if (run_end_map.count(id)) {
-        run_end_map.erase(id);
-        result = true;
+    run_remove_list.push_back(id);
+    return true;
+}
+
+//-----------------------------------------------------------------------------
+void frame::trigger_run_remove() {
+    for (auto& id : run_remove_list) {
+        auto result = false;
+
+        if (run_map.count(id)) {
+            run_map.erase(id);
+            result = true;
+        } else if (run_end_map.count(id)) {
+            run_end_map.erase(id);
+            result = true;
+        }
+
+        if (result)
+            ids::free(id);
     }
 
-    if (result)
-        ids::free(id);
-
-    return result;
+    run_remove_list.clear();
 }
 
 //-----------------------------------------------------------------------------

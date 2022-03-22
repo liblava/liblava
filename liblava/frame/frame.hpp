@@ -298,6 +298,11 @@ private:
     bool run_step();
 
     /**
+     * @brief Trigger run remove
+     */
+    void trigger_run_remove();
+
+    /**
      * @brief Trigger run end
      */
     void trigger_run_end();
@@ -331,6 +336,9 @@ private:
 
     /// Map of run once functions
     run_once_func_list run_once_list;
+
+    /// List of run ids to remove
+    id::list run_remove_list;
 };
 
 /**
