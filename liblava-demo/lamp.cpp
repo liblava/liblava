@@ -5,7 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <IconsFontAwesome5.h>
+#include <IconsFontAwesome6.h>
 #include <imgui.h>
 #include <liblava/lava.hpp>
 
