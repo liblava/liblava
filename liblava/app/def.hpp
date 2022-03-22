@@ -39,4 +39,16 @@ constexpr name _lava_texture_staging_ = "lava texture staging";
 constexpr name _font_path_ = "font/";
 constexpr name _font_icon_path_ = "font/icon/";
 
+/// benchmark
+
+constexpr name _benchmark_ = "benchmark";
+constexpr name _time_ = "time";
+constexpr name _offset_ = "offset";
+constexpr name _count_ = "count";
+constexpr name _min_ = "min";
+constexpr name _max_ = "max";
+constexpr name _avg_ = "avg";
+constexpr name _frames_ = "frames";
+constexpr name _frames_json_ = "frames.json";
+
 } // namespace lava

@@ -1,4 +1,4 @@
-﻿# file      : CMakeLists.txt
+# file      : CMakeLists.txt
 # copyright : Copyright (c) 2018-present, Lava Block OÜ and contributors
 # license   : MIT; see accompanying LICENSE file
 
@@ -350,6 +350,8 @@ source_group("Shader Files" FILES ${APP_SHADERS})
 add_library(lava.app STATIC
         ${LIBLAVA_DIR}/app/app.cpp
         ${LIBLAVA_DIR}/app/app.hpp
+        ${LIBLAVA_DIR}/app/benchmark.cpp
+        ${LIBLAVA_DIR}/app/benchmark.hpp
         ${LIBLAVA_DIR}/app/camera.cpp
         ${LIBLAVA_DIR}/app/camera.hpp
         ${LIBLAVA_DIR}/app/config.cpp

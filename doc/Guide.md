@@ -174,6 +174,7 @@ be initialized
 | *alt + backspace*    |      v-sync on / off |   **off**   |      v-sync |              |
 | *control + tab*      |         gui on / off |   **on**    |       imgui |              |
 | *control + space*    |       pause on / off |   **off**   |      paused |              |
+| *control + b*        |        run benchmark |             |             |              |
 | *control + q*        |     quit application |             |             |              |
 
 <br />
@@ -220,9 +221,92 @@ be initialized
 ```
 
 * **str** = window save name | *supports punctuation marks*
+
+<br />
+
+#### Benchmark
+
+**liblava** &nbsp; can write frame times *(in ms)* into a `json` file to analyze them further in automated workflows like benchmarks
+
+```json
+{
+    "benchmark": {
+        "avg": 16.02839111337229,
+        "count": 622,
+        "max": 45,
+        "min": 12,
+        "offset": 5000,
+        "time": 10000
+    },
+    "frames": [
+        12,
+        23,
+        34,
+        45,
+        ...
+    ]
+}
 ```
 
-* **n** = window save name | *only numbers*
+**NOTE** &nbsp; These are *not* frame durations - The values are *timestamps* of a benchmark that starts each run at *0 ms* <br />
+&nbsp; ➜ &nbsp; To calculate the actually duration of a frame simply subtract the previous value from the current value
+
+<br />
+
+```
+--frames, -fs
+```
+
+* activate benchmark mode
+
+<br />
+
+```
+--frames_time={n}, -fst={n}
+```
+
+* **n** = benchmark duration in milliseconds | *default: n = 10000 ms = 10 sec*
+
+<br />
+
+```
+--frames_offset={n}, -fso={n}
+```
+
+* **n** = warm up time in milliseconds | *default: n = 5000 ms = 5 sec*
+
+<br />
+
+```
+--frames_file={str}, -fsf={str}
+```
+
+* **str** = output file | *default: str = frames.json*
+
+<br />
+
+```
+--frames_path={str}, -fsp={str}
+```
+
+* **str** = output path | *default: preferences folder*
+
+<br />
+
+```
+--frames_exit={0|1}, -fsx={0|1}
+```
+
+* **0** = keep running after benchmark
+* **1** = close app after benchmark | *default*
+
+<br />
+
+```
+--frames_buffer={n}, -fsb={n}
+```
+
+* **n** = pre-allocated buffer size for results | *default: n = 100000*
 
 <br />
 

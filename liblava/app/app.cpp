@@ -157,6 +157,9 @@ bool app::setup() {
     update();
     render();
 
+    if (parse(cmd_line, frames))
+        benchmark(*this, frames);
+
     add_run_end([&]() {
         camera.destroy();
 
@@ -268,6 +271,12 @@ void app::handle_input() {
 
             if (event.pressed(key::tab, mod::control)) {
                 imgui.toggle();
+                return input_done;
+            }
+
+            if (event.pressed(key::b, mod::control)) {
+                frames.exit = false;
+                benchmark(*this, frames);
                 return input_done;
             }
 

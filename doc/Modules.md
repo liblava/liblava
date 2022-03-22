@@ -18,7 +18,9 @@
 
 ## lava [app](../liblava/app) &nbsp; ➜ *block + frame + asset*
 
-[![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](../liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](../liblava/app/camera.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](../liblava/app/config.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](../liblava/app/forward_shading.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](../liblava/app/imgui.hpp)
+[![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](../liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](../liblava/app/camera.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](../liblava/app/forward_shading.hpp)
+
+[![benchmark](https://img.shields.io/badge/lava-benchmark-brightgreen.svg)](../liblava/app/benchmark.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](../liblava/app/config.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](../liblava/app/imgui.hpp)
 
 <br />
 

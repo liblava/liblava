@@ -11,6 +11,7 @@ namespace lava {
 
 // liblava/app.hpp
 struct app;
+struct benchmark_data;
 struct camera;
 struct forward_shading;
 struct imgui;

@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <liblava/app/benchmark.hpp>
 #include <liblava/app/camera.hpp>
 #include <liblava/app/config.hpp>
 #include <liblava/app/forward_shading.hpp>
@@ -217,6 +218,9 @@ private:
 
     /// Block command id
     id block_command;
+
+    /// Benchmark frames
+    benchmark_data frames;
 };
 
 } // namespace lava
