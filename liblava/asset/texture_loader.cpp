@@ -236,7 +236,7 @@ texture::ptr load_texture(device_ptr device, file_format file_format, texture_ty
         return nullptr;
 
     file file(str(file_format.path));
-    unique_data temp_data(file.get_size(), false);
+    unique_data temp_data(file.get_size(), data_mode::no_alloc);
 
     if (file.opened()) {
         if (!temp_data.allocate())

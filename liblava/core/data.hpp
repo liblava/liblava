@@ -152,6 +152,14 @@ inline void* realloc_data(void* data, size_t size, size_t alignment) {
 }
 
 /**
+ * @brief Data modes
+ */
+enum class data_mode : type {
+    alloc = 0,
+    no_alloc
+};
+
+/**
  * @brief Data wrapper
  */
 struct data {
@@ -173,13 +181,13 @@ struct data {
      * @brief Set and allocate data by length
      *
      * @param length   Length of data
-     * @param alloc    Allocate data
+     * @param mode     Data mode
      */
-    void set(size_t length, bool alloc = true) {
+    void set(size_t length, data_mode mode = data_mode::alloc) {
         size = length;
         alignment = align<data_ptr>();
 
-        if (alloc)
+        if (mode == data_mode::alloc)
             allocate();
     }
 
@@ -256,11 +264,11 @@ struct unique_data : data {
      * @brief Construct a new unique data
      *
      * @param length    Length of data
-     * @param alloc     Allocate data
+     * @param mode      Data mode
      */
-    unique_data(size_t length = 0, bool alloc = true) {
+    unique_data(size_t length = 0, data_mode mode = data_mode::alloc) {
         if (length)
-            set(length, alloc);
+            set(length, mode);
     }
 
     /**

@@ -12,7 +12,7 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 image_data::image_data(string_ref filename)
-: image_file(str(filename)), file_data(image_file.get_size(), false) {
+: image_file(str(filename)), file_data(image_file.get_size(), data_mode::no_alloc) {
     if (image_file.opened()) {
         if (!file_data.allocate())
             return;
