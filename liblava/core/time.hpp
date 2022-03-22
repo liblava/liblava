@@ -153,7 +153,7 @@ struct run_time {
 #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
 
 /**
- * @brief Convert time stamp to string
+ * @brief Convert timestamp to string
  *
  * @tparam CLOCK_TYPE    Clock type
  *
@@ -163,7 +163,7 @@ struct run_time {
  * @return string        Converted string
  */
 template<typename CLOCK_TYPE = std::chrono::system_clock>
-inline string time_stamp(const typename CLOCK_TYPE::time_point& time_point, string_ref format = "%Y-%m-%d %H-%M-%S") {
+inline string timestamp(const typename CLOCK_TYPE::time_point& time_point, string_ref format = "%Y-%m-%d %H-%M-%S") {
     auto ms = std::chrono::duration_cast<milliseconds>(time_point.time_since_epoch()) % 1000;
 
     auto const t = CLOCK_TYPE::to_time_t(time_point);
@@ -181,9 +181,27 @@ inline string time_stamp(const typename CLOCK_TYPE::time_point& time_point, stri
  */
 inline string get_current_time_and_date() {
     auto now = std::chrono::system_clock::now();
-    return time_stamp(now);
+    return timestamp(now);
 }
 
 #pragma warning(pop)
+
+/**
+ * @brief Get the current timestamp in milliseconds
+ *
+ * @return ms    Timestamp in ms
+ */
+inline ms get_current_timestamp_ms() {
+    return std::chrono::duration_cast<ms>(clock::now().time_since_epoch());
+}
+
+/**
+ * @brief Get the current timestamp in milliseconds (uint)
+ *
+ * @return ui64    Timestamp in ms (uint)
+ */
+inline ui64 get_current_timestamp() {
+    return get_current_timestamp_ms().count();
+}
 
 } // namespace lava

@@ -165,6 +165,9 @@ using string_view = std::string_view;
 /// Name
 using name = char const*;
 
+/// Reference to name
+using name_ref = char const&;
+
 /// List of names
 using names = std::vector<name>;
 
