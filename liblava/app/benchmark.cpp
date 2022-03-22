@@ -41,6 +41,59 @@ bool parse(argh::parser const& cmd_line, benchmark_data& data) {
 }
 
 //-----------------------------------------------------------------------------
+bool write_frames_json(benchmark_data& data) {
+    json j;
+
+    j[_benchmark_][_time_] = data.time.count();
+    j[_benchmark_][_offset_] = data.offset.count();
+
+    auto frame_count = data.current;
+    j[_benchmark_][_count_] = frame_count;
+
+    auto results = benchmark_data::list{ data.values.begin(),
+                                         data.values.begin() + frame_count };
+
+    j[_frames_] = results;
+
+    benchmark_data::list frame_durations;
+    frame_durations.resize(frame_count);
+    {
+        auto last = 0;
+        for (auto i = 0u; i < frame_count; ++i) {
+            if (i > 0)
+                last = data.values.at(i - 1);
+
+            auto value = data.values.at(i);
+            frame_durations.at(i) = value - last;
+        }
+    }
+
+    j[_benchmark_][_min_] = *std::min_element(frame_durations.begin(), frame_durations.end());
+    j[_benchmark_][_max_] = *std::max_element(frame_durations.begin(), frame_durations.end());
+    j[_benchmark_][_avg_] = std::accumulate(frame_durations.begin(), frame_durations.end(), 0) / (r32) frame_count;
+
+    auto file_path = std::filesystem::path(data.file);
+
+    if (!data.path.empty()) {
+        file_path = data.path;
+        file_path /= data.file;
+    }
+
+    file file(str(file_path.string()), file_mode::write);
+    if (!file.opened()) {
+        log()->error("save benchmark ({}) - {}", str(file_path.string()), str(j.dump()));
+        return false;
+    }
+
+    auto jString = j.dump(4);
+
+    file.write(jString.data(), jString.size());
+
+    log()->info("save benchmark ({}) - {}", str(file_path.string()), str(j.dump()));
+    return true;
+}
+
+//-----------------------------------------------------------------------------
 void benchmark(frame& frame, benchmark_data& data) {
     auto& cmd_line = frame.get_cmd_line();
 
@@ -71,54 +124,8 @@ void benchmark(frame& frame, benchmark_data& data) {
         frame.remove(run);
 
         frame.add_run_once([&]() {
-            json j;
-
-            j[_benchmark_][_time_] = data.time.count();
-            j[_benchmark_][_offset_] = data.offset.count();
-
-            auto frame_count = data.current;
-            j[_benchmark_][_count_] = frame_count;
-
-            auto results = benchmark_data::list{ data.values.begin(),
-                                                 data.values.begin() + frame_count };
-
-            j[_frames_] = results;
-
-            benchmark_data::list frame_durations;
-            frame_durations.resize(frame_count);
-            {
-                auto last = 0;
-                for (auto i = 0u; i < frame_count; ++i) {
-                    if (i > 0)
-                        last = data.values.at(i - 1);
-
-                    auto value = data.values.at(i);
-                    frame_durations.at(i) = value - last;
-                }
-            }
-
-            j[_benchmark_][_min_] = *std::min_element(frame_durations.begin(), frame_durations.end());
-            j[_benchmark_][_max_] = *std::max_element(frame_durations.begin(), frame_durations.end());
-            j[_benchmark_][_avg_] = std::accumulate(frame_durations.begin(), frame_durations.end(), 0) / (r32) frame_count;
-
-            auto file_path = std::filesystem::path(data.file);
-
-            if (!data.path.empty()) {
-                file_path = data.path;
-                file_path /= data.file;
-            }
-
-            file file(str(file_path), file_mode::write);
-            if (!file.opened()) {
-                log()->error("save benchmark ({}) - {}", str(file_path), str(j.dump()));
+            if (!write_frames_json(data))
                 return run_abort;
-            }
-
-            auto jString = j.dump(4);
-
-            file.write(jString.data(), jString.size());
-
-            log()->info("save benchmark ({}) - {}", str(file_path), str(j.dump()));
 
             if (data.exit)
                 frame.shut_down();
