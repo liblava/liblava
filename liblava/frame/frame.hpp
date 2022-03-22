@@ -133,7 +133,7 @@ struct frame : interface, no_copy_no_move {
     bool shut_down();
 
     /// Run function
-    using run_func = std::function<bool()>;
+    using run_func = std::function<bool(id::ref)>;
 
     /// Reference to run function
     using run_func_ref = run_func const&;

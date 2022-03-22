@@ -225,7 +225,7 @@ bool frame::run_step() {
     }
 
     for (auto& func : run_map)
-        if (!func.second())
+        if (!func.second(func.first))
             return false;
 
     return true;

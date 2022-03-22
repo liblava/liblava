@@ -24,7 +24,7 @@ LAVA_TEST(2, "run loop") {
 
     ui32 count = 0;
 
-    frame.add_run([&]() {
+    frame.add_run([&](id::ref run) {
         sleep(one_second);
         count++;
 
@@ -59,7 +59,7 @@ LAVA_TEST(3, "window input") {
         return input_ignore;
     });
 
-    frame.add_run([&]() {
+    frame.add_run([&](id::ref run) {
         input.handle_events();
 
         if (window.close_request())
@@ -165,7 +165,7 @@ LAVA_TEST(4, "clear color") {
     render_target->on_swapchain_start = build_cmd_bufs;
     render_target->on_swapchain_stop = clean_cmd_bufs;
 
-    frame.add_run([&]() {
+    frame.add_run([&](id::ref run) {
         input.handle_events();
 
         if (window.close_request())
@@ -254,7 +254,7 @@ LAVA_TEST(5, "color block") {
                                     VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT, image_range);
     });
 
-    frame.add_run([&]() {
+    frame.add_run([&](id::ref run) {
         input.handle_events();
 
         if (window.close_request())
@@ -330,7 +330,7 @@ LAVA_TEST(6, "forward shading") {
     if (!renderer.create(render_target->get_swapchain()))
         return error::create_failed;
 
-    frame.add_run([&]() {
+    frame.add_run([&](id::ref run) {
         input.handle_events();
 
         if (window.close_request())
@@ -390,7 +390,7 @@ LAVA_TEST(7, "gamepad") {
 
     log()->info("Waiting some seconds for gamepads...");
 
-    frame.add_run([&]() {
+    frame.add_run([&](id::ref run) {
         sleep(one_second);
 
         if (frame.get_running_time_sec() > 10.)

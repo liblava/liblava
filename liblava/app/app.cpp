@@ -311,7 +311,7 @@ void app::handle_input() {
         return input_ignore;
     });
 
-    add_run([&]() {
+    add_run([&](id::ref run) {
         input.handle_events();
         input.set_mouse_position(window.get_mouse_position());
 
@@ -325,7 +325,7 @@ void app::handle_input() {
 
 //-----------------------------------------------------------------------------
 void app::handle_window() {
-    add_run([&]() {
+    add_run([&](id::ref run) {
         if (window.close_request())
             return shut_down();
 
@@ -382,7 +382,7 @@ void app::handle_window() {
 void app::update() {
     run_time.system = now();
 
-    add_run([&]() {
+    add_run([&](id::ref run) {
         auto dt = ms(0);
         auto time = now();
 
@@ -408,7 +408,7 @@ void app::update() {
 
 //-----------------------------------------------------------------------------
 void app::render() {
-    add_run([&]() {
+    add_run([&](id::ref run) {
         if (window.iconified()) {
             sleep(one_ms);
             return run_continue;
