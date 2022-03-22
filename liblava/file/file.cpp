@@ -11,8 +11,8 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-file::file(name p, bool write) {
-    open(p, write);
+file::file(name p, file_mode m) {
+    open(p, m);
 }
 
 //-----------------------------------------------------------------------------
@@ -21,7 +21,7 @@ file::~file() {
 }
 
 //-----------------------------------------------------------------------------
-bool file::open(name p, bool write) {
+bool file::open(name p, file_mode m) {
     if (!p)
         return false;
 
@@ -29,9 +29,9 @@ bool file::open(name p, bool write) {
         return false;
 
     path = p;
-    write_mode = write;
+    mode = m;
 
-    if (write_mode)
+    if (mode == file_mode::write)
         fs_file = PHYSFS_openWrite(path);
     else
         fs_file = PHYSFS_openRead(path);
@@ -39,7 +39,7 @@ bool file::open(name p, bool write) {
     if (fs_file) {
         type = file_type::fs;
     } else {
-        if (write) {
+        if (mode == file_mode::write) {
             o_stream = std::ofstream(path, std::ofstream::binary);
             if (o_stream.is_open())
                 type = file_type::f_stream;
@@ -58,7 +58,7 @@ void file::close() {
     if (type == file_type::fs) {
         PHYSFS_close(fs_file);
     } else if (type == file_type::f_stream) {
-        if (write_mode)
+        if (mode == file_mode::write)
             o_stream.close();
         else
             i_stream.close();
@@ -70,7 +70,7 @@ bool file::opened() const {
     if (type == file_type::fs) {
         return fs_file != nullptr;
     } else if (type == file_type::f_stream) {
-        if (write_mode)
+        if (mode == file_mode::write)
             return o_stream.is_open();
         else
             return i_stream.is_open();
@@ -84,7 +84,7 @@ i64 file::get_size() const {
     if (type == file_type::fs) {
         return PHYSFS_fileLength(fs_file);
     } else if (type == file_type::f_stream) {
-        if (write_mode) {
+        if (mode == file_mode::write) {
             auto current = o_stream.tellp();
             o_stream.seekp(0, std::ostream::end);
             auto result = o_stream.tellp();
@@ -104,7 +104,7 @@ i64 file::get_size() const {
 
 //-----------------------------------------------------------------------------
 i64 file::read(data_ptr data, ui64 size) {
-    if (write_mode)
+    if (mode == file_mode::write)
         return file_error_result;
 
     if (type == file_type::fs) {
@@ -120,7 +120,7 @@ i64 file::read(data_ptr data, ui64 size) {
 
 //-----------------------------------------------------------------------------
 i64 file::write(data_cptr data, ui64 size) {
-    if (!write_mode)
+    if (mode != file_mode::write)
         return file_error_result;
 
     if (type == file_type::fs) {
@@ -138,7 +138,7 @@ i64 file::seek(ui64 position) {
     if (type == file_type::fs) {
         return PHYSFS_seek(fs_file, position);
     } else if (type == file_type::f_stream) {
-        if (write_mode)
+        if (mode == file_mode::write)
             o_stream.seekp(position, std::ostream::cur);
         else
             i_stream.seekg(position, std::ostream::cur);
@@ -154,7 +154,7 @@ i64 file::tell() const {
     if (type == file_type::fs) {
         return PHYSFS_tell(fs_file);
     } else if (type == file_type::f_stream) {
-        if (write_mode)
+        if (mode == file_mode::write)
             return to_i64(o_stream.tellp());
         else
             return to_i64(i_stream.tellg());

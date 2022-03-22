@@ -43,16 +43,24 @@ inline bool file_error(i64 result) {
 }
 
 /**
+ * @brief File modes
+ */
+enum class file_mode : type {
+    read = 0,
+    write
+};
+
+/**
  * @brief File
  */
 struct file : no_copy_no_move {
     /**
      * @brief Construct a new file
      *
-     * @param path     Name of file
-     * @param write    Write mode
+     * @param path    Name of file
+     * @param mode    File mode
      */
-    explicit file(name path = nullptr, bool write = false);
+    explicit file(name path = nullptr, file_mode mode = file_mode::read);
 
     /**
      * @brief Destroy the file
@@ -63,12 +71,12 @@ struct file : no_copy_no_move {
      * @brief Open the file
      *
      * @param path      Name of file
-     * @param write     Write mode
+     * @param mode      File mode
      *
      * @return true     Open was successful
      * @return false    Open failed
      */
-    bool open(name path, bool write = false);
+    bool open(name path, file_mode mode = file_mode::read);
 
     /**
      * @brief Close the file
@@ -144,7 +152,7 @@ struct file : no_copy_no_move {
      * @return false    File is only readable
      */
     bool writable() const {
-        return write_mode;
+        return mode == file_mode::write;
     }
 
     /**
@@ -169,8 +177,8 @@ private:
     /// File type
     file_type type = file_type::none;
 
-    /// Write mode state
-    bool write_mode = false;
+    /// File mode
+    file_mode mode = file_mode::read;
 
     /// File path
     name path = nullptr;

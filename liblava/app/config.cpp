@@ -118,7 +118,7 @@ void save_window_file(window::ref window) {
         j[index] = state;
     }
 
-    file file(str(_window_file_), true);
+    file file(str(_window_file_), file_mode::write);
     if (!file.opened()) {
         log()->error("save window {}", str(j.dump()));
         return;

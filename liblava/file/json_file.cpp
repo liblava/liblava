@@ -43,7 +43,7 @@ bool json_file::load() {
 
 //-----------------------------------------------------------------------------
 bool json_file::save() {
-    file file(str(path), true);
+    file file(str(path), file_mode::write);
     if (!file.opened())
         return false;
 
