@@ -47,26 +47,34 @@ bool write_frames_json(benchmark_data& data) {
     j[_benchmark_][_time_] = data.time.count();
     j[_benchmark_][_offset_] = data.offset.count();
 
-    auto frame_count = data.current;
-    j[_benchmark_][_count_] = frame_count;
+    auto timestamp_count = data.current;
 
-    auto results = benchmark_data::list{ data.values.begin(),
-                                         data.values.begin() + frame_count };
+    auto timestamps = benchmark_data::list{ data.values.begin(),
+                                            data.values.begin() + timestamp_count };
 
-    j[_frames_] = results;
+    j[_timestamps_] = timestamps;
+
+    auto frame_count = timestamp_count - 1; // ignore first timestamp
 
     benchmark_data::list frame_durations;
     frame_durations.resize(frame_count);
+
     {
         auto last = 0;
-        for (auto i = 0u; i < frame_count; ++i) {
-            if (i > 0)
-                last = data.values.at(i - 1);
+        for (auto i = 0u; i < timestamp_count; ++i) {
+            if (i == 0) {
+                last = timestamps.at(i);
+                continue;
+            }
 
-            auto value = data.values.at(i);
-            frame_durations.at(i) = value - last;
+            auto timestamp = timestamps.at(i);
+            frame_durations.at(i - 1) = timestamp - last;
+            last = timestamp;
         }
     }
+
+    j[_benchmark_][_count_] = frame_count;
+    j[_frames_] = frame_durations;
 
     j[_benchmark_][_min_] = *std::min_element(frame_durations.begin(), frame_durations.end());
     j[_benchmark_][_max_] = *std::max_element(frame_durations.begin(), frame_durations.end());

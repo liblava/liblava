@@ -230,26 +230,29 @@ be initialized
 
 ```json
 {
-    "benchmark": {
-        "avg": 16.02839111337229,
-        "count": 622,
-        "max": 45,
-        "min": 12,
-        "offset": 5000,
-        "time": 10000
-    },
-    "frames": [
-        12,
-        23,
-        34,
-        45,
-        ...
-    ]
+  "benchmark": {
+    "avg": 16.02839111337229,
+    "count": 622,
+    "max": 45,
+    "min": 12,
+    "offset": 5000,
+    "time": 10000
+  },
+  "frames": [
+    12,
+    14,
+    16,
+    16
+  ],
+  "timestamps": [
+    5,
+    17,
+    31,
+    47,
+    63
+  ]
 }
 ```
-
-**NOTE** &nbsp; These are *not* frame durations - The values are *timestamps* of a benchmark that starts each run at *0 ms* <br />
-&nbsp; ➜ &nbsp; To calculate the actually duration of a frame simply subtract the previous value from the current value
 
 <br />
 

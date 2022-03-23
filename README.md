@@ -142,7 +142,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 Use the [issue tracker](https://github.com/liblava/liblava/issues) to report any bug or compatibility issue
 
-:heart: Thanks to all &nbsp; **[contributors](https://github.com/liblava/liblava/graphs/contributors)** &nbsp; making &nbsp; **liblava** &nbsp; flow...
+:heart: &nbsp; Thanks to all &nbsp; **[contributors](https://github.com/liblava/liblava/graphs/contributors)** &nbsp; making &nbsp; **liblava** &nbsp; flow...
 
 <br />
 
