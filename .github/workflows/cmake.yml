@@ -1,6 +1,6 @@
 name: CMake
 
-on: [push, pull_request]
+on: [push, pull_request, repository_dispatch, workflow_dispatch]
 
 env:
   BUILD_TYPE: Release
@@ -23,7 +23,7 @@ jobs:
     - name: Prepare (ubuntu)
       run: |
            sudo apt-get update
-           sudo apt-get install -y gcc-10 g++-10
+           sudo apt-get install -y gcc-11 g++-11
            sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
       if: matrix.os == 'ubuntu-latest'
 
@@ -31,18 +31,18 @@ jobs:
       run: |
             sudo dpkg --add-architecture i386
             sudo apt-get update
-            sudo apt-get install -y gcc-10-multilib lib32stdc++-10-dev libc6:i386 libx11-dev:i386
+            sudo apt-get install -y gcc-11-multilib lib32stdc++-11-dev libc6:i386 libx11-dev:i386
             cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_{C,CXX}_FLAGS=-m32
       env:
-        CC:   gcc-10
-        CXX:  g++-10
+        CC:   gcc-11
+        CXX:  g++-11
       if: matrix.os == 'ubuntu-latest' && matrix.arch == 'x86'
 
     - name: Configure (ubuntu / x64)
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCMAKE_VERBOSE_MAKEFILE=ON
       env:
-        CC:   gcc-10
-        CXX:  g++-10
+        CC:   gcc-11
+        CXX:  g++-11
       if: matrix.os == 'ubuntu-latest' && matrix.arch == 'x64'
 
     - name: Configure (windows / x86)
