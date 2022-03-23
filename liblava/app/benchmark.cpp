@@ -11,7 +11,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool parse(argh::parser const& cmd_line, benchmark_data& data) {
+bool parse(cmd_line cmd_line, benchmark_data& data) {
     if (!(cmd_line[{ "-fs", "--frames" }]))
         return false;
 
@@ -38,6 +38,53 @@ bool parse(argh::parser const& cmd_line, benchmark_data& data) {
     cmd_line({ "-fsb", "--frames_buffer" }) >> data.buffer_size;
 
     return true;
+}
+
+//-----------------------------------------------------------------------------
+void benchmark(frame& frame, benchmark_data& data) {
+    auto& cmd_line = frame.get_cmd_line();
+
+    data.values.resize(data.buffer_size);
+
+    frame.add_run([&](id::ref run) {
+        auto current = get_current_timestamp_ms();
+
+        auto pre = data.start_timestamp + data.offset;
+        if (pre > current)
+            return run_continue;
+
+        auto bench = data.start_timestamp + data.offset;
+        auto end = bench + data.time;
+        if (current <= end) {
+            if (data.current >= data.buffer_size) {
+                log()->error("benchmark buffer overflow: {}", data.buffer_size);
+                return run_abort;
+            }
+
+            data.values.at(data.current) = (current - bench).count();
+
+            data.current++;
+
+            return run_continue;
+        }
+
+        frame.remove(run);
+
+        frame.add_run_once([&]() {
+            if (!write_frames_json(data))
+                return run_abort;
+
+            if (data.exit)
+                frame.shut_down();
+
+            return run_continue;
+        });
+
+        return run_continue;
+    });
+
+    data.current = 0;
+    data.start_timestamp = get_current_timestamp_ms();
 }
 
 //-----------------------------------------------------------------------------
@@ -99,53 +146,6 @@ bool write_frames_json(benchmark_data& data) {
 
     log()->info("save benchmark ({}) - {}", str(file_path.string()), str(j.dump()));
     return true;
-}
-
-//-----------------------------------------------------------------------------
-void benchmark(frame& frame, benchmark_data& data) {
-    auto& cmd_line = frame.get_cmd_line();
-
-    data.values.resize(data.buffer_size);
-
-    frame.add_run([&](id::ref run) {
-        auto current = get_current_timestamp_ms();
-
-        auto pre = data.start_timestamp + data.offset;
-        if (pre > current)
-            return run_continue;
-
-        auto bench = data.start_timestamp + data.offset;
-        auto end = bench + data.time;
-        if (current <= end) {
-            if (data.current >= data.buffer_size) {
-                log()->error("benchmark buffer size overflow: {}", data.buffer_size);
-                return run_abort;
-            }
-
-            data.values.at(data.current) = (current - bench).count();
-
-            data.current++;
-
-            return run_continue;
-        }
-
-        frame.remove(run);
-
-        frame.add_run_once([&]() {
-            if (!write_frames_json(data))
-                return run_abort;
-
-            if (data.exit)
-                frame.shut_down();
-
-            return run_continue;
-        });
-
-        return run_continue;
-    });
-
-    data.current = 0;
-    data.start_timestamp = get_current_timestamp_ms();
 }
 
 } // namespace lava

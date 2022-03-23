@@ -66,4 +66,14 @@ bool parse(cmd_line cmd_line, benchmark_data& data);
  */
 void benchmark(frame& frame, benchmark_data& data);
 
+/**
+ * @brief Write frames to json file
+ *
+ * @param data     Benchmark data setting
+ *
+ * @return true    Write was successful
+ * @return false   Write failed
+ */
+bool write_frames_json(benchmark_data& data);
+
 } // namespace lava
