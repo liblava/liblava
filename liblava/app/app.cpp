@@ -89,6 +89,32 @@ bool app::setup() {
     if (!frame::ready())
         return false;
 
+    auto& cmd_line = get_cmd_line();
+
+    if (!setup_file_system(cmd_line))
+        return false;
+
+    handle_config();
+
+    if (!setup_window(cmd_line))
+        return false;
+
+    if (!setup_device(cmd_line))
+        return false;
+
+    if (!setup_render())
+        return false;
+
+    setup_run();
+
+    if (parse(cmd_line, frames))
+        benchmark(*this, frames);
+
+    return true;
+}
+
+//-----------------------------------------------------------------------------
+bool app::setup_file_system(cmd_line cmd_line) {
     log()->debug("physfs {}", str(to_string(file_system::get_version())));
 
     if (!file_system::instance().initialize(str(get_cmd_line()[0]), config.org, get_name(), config.ext)) {
@@ -98,15 +124,14 @@ bool app::setup() {
 
     file_system::instance().mount_res(log());
 
-    auto& cmd_line = get_cmd_line();
     if (cmd_line[{ "-c", "--clean" }])
         file_system::instance().clean_pref_dir();
 
-    handle_config();
+    return true;
+}
 
-    cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
-    cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
-
+//-----------------------------------------------------------------------------
+bool app::setup_window(cmd_line cmd_line) {
     if (auto id = cmd_line({ "-id", "--identification" })) {
         config.id = id.str();
         remove_chars(config.id, _punctuation_marks_);
@@ -121,6 +146,14 @@ bool app::setup() {
 
     set_window_icon(window);
 
+    return true;
+}
+
+//-----------------------------------------------------------------------------
+bool app::setup_device(cmd_line cmd_line) {
+    cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
+    cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
+
     if (!device) {
         device = create_device(config.physical_device);
         if (!device)
@@ -134,6 +167,11 @@ bool app::setup() {
 
     log()->info("device: {} ({})", str(device_name), str(device_type));
 
+    return true;
+}
+
+//-----------------------------------------------------------------------------
+bool app::setup_render() {
     if (!create_target())
         return false;
 
@@ -148,17 +186,16 @@ bool app::setup() {
     if (!create_imgui())
         return false;
 
-    if (!create_block())
-        return false;
+    return create_block();
+}
 
+//-----------------------------------------------------------------------------
+void app::setup_run() {
     handle_input();
     handle_window();
 
     update();
     render();
-
-    if (parse(cmd_line, frames))
-        benchmark(*this, frames);
 
     add_run_end([&]() {
         camera.destroy();
@@ -187,8 +224,6 @@ bool app::setup() {
     });
 
     frame_counter = 0;
-
-    return true;
 }
 
 //-----------------------------------------------------------------------------

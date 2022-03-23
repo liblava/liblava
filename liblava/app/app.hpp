@@ -146,6 +146,52 @@ struct app : frame {
 
 private:
     /**
+     * @brief Setup file system
+     *
+     * @param cmd_line    Command line arguments
+     *
+     * @return true       Setup was successful
+     * @return false      Setup failed
+     */
+    bool setup_file_system(cmd_line cmd_line);
+
+    /**
+     * @brief Setup window
+     *
+     * @param cmd_line    Command line arguments
+     *
+     * @return true       Setup was successful
+     * @return false      Setup failed
+     */
+    bool setup_window(cmd_line cmd_line);
+
+    /**
+     * @brief Setup device
+     *
+     * @param cmd_line    Command line arguments
+     *
+     * @return true       Setup was successful
+     * @return false      Setup failed
+     */
+    bool setup_device(cmd_line cmd_line);
+
+    /**
+     * @brief Setup render
+     *
+     * @return true       Setup was successful
+     * @return false      Setup failed
+     */
+    bool setup_render();
+
+    /**
+     * @brief Setup run
+     *
+     * @return true       Setup was successful
+     * @return false      Setup failed
+     */
+    void setup_run();
+
+    /**
      * @brief Handle configuration file
      */
     void handle_config();
