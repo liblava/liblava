@@ -1,4 +1,4 @@
-<a href="https://git.io/liblava"><img align="right" src="https://github.com/liblava.png" width="200" style="margin:0px 40px 0px 0px"></a>
+<a href="https://git.io/liblava"><img align="right" src="res/doc/liblava_logo_200px.png" width="200" style="margin:0px 40px 0px 0px"></a>
 
 # liblava &nbsp; [![Version](https://img.shields.io/badge/2022-preview-blue)](#demos)
 
@@ -20,7 +20,7 @@
 
 ### [Features](doc/Features.md)
 
-<a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="res/Vulkan_170px_Dec16.png" width="300"></a>
+<a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="res/doc/Vulkan_170px_Dec16.png" width="300"></a>
 
 * written in &nbsp; **modern C++** &nbsp; with latest &nbsp; **Vulkan support**
 * **run loop** &nbsp; abstraction for &nbsp; **window** &nbsp; and &nbsp; **input** &nbsp; handling
@@ -158,7 +158,7 @@ If you want to contribute - we suggest the following:
 
 ## License
 
-<a href="https://opensource.org" target="_blank"><img align="right" width="90" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png" style="margin:0px 0px 0px 80px"></a>
+<a href="https://opensource.org" target="_blank"><img align="right" width="90" src="res/doc/OSI-Approved-License-100x137.png" style="margin:0px 0px 0px 80px"></a>
 
 **liblava** &nbsp; is licensed under [MIT License](LICENSE.md) which allows you to use the software <br />for any purpose you might like (including commercial and for-profit use!)
 
@@ -175,4 +175,4 @@ However - this library includes several **[Third-Party](doc/Third-Party.md)** li
 
 <br />
 
-<a href="https://git.io/liblava"><img src="https://github.com/liblava.png" width="50"></a>
+<a href="https://git.io/liblava"><img src="res/doc/liblava_logo_200px.png" width="50"></a>

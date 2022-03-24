@@ -1,4 +1,4 @@
-<a href="https://git.io/liblava"><img align="left" src="https://github.com/liblava.png" width="100" style="margin:0px 20px 0px 0px"></a>
+<a href="https://git.io/liblava"><img align="left" src="../res/doc/liblava_logo_200px.png" width="100" style="margin:0px 20px 0px 0px"></a>
 
 # liblava docs &nbsp; [![Version](https://img.shields.io/badge/Version-0.7.1-blue)](https://git.io/liblava)
 
@@ -8,7 +8,7 @@
 
 # Tutorial
 
-<a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="../res/Vulkan_170px_Dec16.png" width="300"></a>
+<a href="https://www.khronos.org/vulkan/" target="_blank"><img align="right" hspace="20" src="../res/doc/Vulkan_170px_Dec16.png" width="300"></a>
 
 Let's write **Hello World** in Vulkan...
 
@@ -367,4 +367,4 @@ int main(int argc, char* argv[]) {
 
 <br />
 
-<a href="https://git.io/liblava"><img src="https://github.com/liblava.png" width="50"></a>
+<a href="https://git.io/liblava"><img src="../res/doc/liblava_logo_200px.png" width="50"></a>

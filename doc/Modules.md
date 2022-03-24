@@ -1,4 +1,4 @@
-<a href="https://git.io/liblava"><img align="left" src="https://github.com/liblava.png" width="100" style="margin:0px 20px 0px 0px"></a>
+<a href="https://git.io/liblava"><img align="left" src="../res/doc/liblava_logo_200px.png" width="100" style="margin:0px 20px 0px 0px"></a>
 
 # liblava docs &nbsp; [![Version](https://img.shields.io/badge/Version-0.7.1-blue)](https://git.io/liblava)
 
@@ -79,4 +79,4 @@
 
 <br />
 
-<a href="https://git.io/liblava"><img src="https://github.com/liblava.png" width="50"></a>
+<a href="https://git.io/liblava"><img src="../res/doc/liblava_logo_200px.png" width="50"></a>
