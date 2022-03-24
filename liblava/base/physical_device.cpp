@@ -102,6 +102,11 @@ string physical_device::get_device_type_string() const {
 }
 
 //-----------------------------------------------------------------------------
+internal_version physical_device::get_driver_version() const {
+    return to_version(properties.driverVersion);
+}
+
+//-----------------------------------------------------------------------------
 bool physical_device::swapchain_supported() const {
     return supported(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 }

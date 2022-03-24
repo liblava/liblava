@@ -164,8 +164,10 @@ bool app::setup_device(cmd_line cmd_line) {
 
     auto device_name = trim_copy(physical_device->get_device_name());
     auto device_type = physical_device->get_device_type_string();
+    auto device_driver_version = physical_device->get_driver_version();
 
-    log()->info("device: {} ({})", str(device_name), str(device_type));
+    log()->info("device: {} ({}) - driver: {}",
+                str(device_name), str(device_type), str(to_string(device_driver_version)));
 
     return true;
 }
