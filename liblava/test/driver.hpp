@@ -1,5 +1,5 @@
 /**
- * @file         tests/driver.hpp
+ * @file         liblava/test/driver.hpp
  * @brief        Test driver
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
@@ -112,12 +112,19 @@ private:
 
 } // namespace lava
 
+/// Test prefix
 #define OBJ test_
+
+/// Test postfix
 #define FUNC _test
 
+/// String concatenation
 #define STR_(n, m) n##m
+
+/// String concatenation
 #define STR(n, m) STR_(n, m)
 
+/// Lava test macro
 #define LAVA_TEST(ID, NAME) \
     i32 STR(FUNC, ID)(argh::parser argh); \
     lava::test STR(OBJ, ID)(ID, NAME, ::STR(FUNC, ID)); \

@@ -388,17 +388,15 @@ message("=======================================================================
 
         message("> tests")
 
-        set(LIBLAVA_TESTS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
-
         message(">> lava")
 
-        add_executable(lava 
-                ${LIBLAVA_TESTS_DIR}/driver.cpp
-                ${LIBLAVA_TESTS_DIR}/driver.hpp
-                ${LIBLAVA_TESTS_DIR}/tests.cpp
+        add_executable(lava
+                ${LIBLAVA_DIR}/test/driver.cpp
+                ${LIBLAVA_DIR}/test/driver.hpp
+                ${LIBLAVA_DIR}/test/tutorial.cpp
                 )
 
-        set_target_properties(lava PROPERTIES FOLDER "lava/tests")
+        set_target_properties(lava PROPERTIES FOLDER "lava/test")
 
         target_link_libraries(lava lava::app)
 
@@ -409,26 +407,29 @@ message("=======================================================================
                 RUNTIME DESTINATION bin
                 )
 
-        message(">> lava-unit (Catch2)")
+        message(">> lava-test (Catch2)")
 
         add_subdirectory(${LIBLAVA_EXT_DIR}/Catch2 Catch2 EXCLUDE_FROM_ALL)
         set_target_properties(Catch2 PROPERTIES FOLDER "lava/ext")
         set_target_properties(Catch2WithMain PROPERTIES FOLDER "lava/ext")
 
-        add_executable(lava-unit 
-                ${LIBLAVA_TESTS_DIR}/unit.cpp
-                ${LIBLAVA_TESTS_DIR}/unit.hpp
-                ${LIBLAVA_TESTS_DIR}/unit/queue.hpp
+        set(UNIT_TESTS
+                ${LIBLAVA_DIR}/base/test/queue.cpp
+        )
+
+        add_executable(lava-test
+                ${LIBLAVA_DIR}/test/unit.hpp
+                ${UNIT_TESTS}
                 )
 
-        set_target_properties(lava-unit PROPERTIES FOLDER "lava/tests")
+        set_target_properties(lava-test PROPERTIES FOLDER "lava/test")
 
-        target_link_libraries(lava-unit lava::app Catch2::Catch2 Catch2::Catch2WithMain)
+        target_link_libraries(lava-test lava::app Catch2::Catch2 Catch2::Catch2WithMain)
 
-        set_property(TARGET lava-unit PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+        set_property(TARGET lava-test PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         install(TARGETS
-                lava-unit
+                lava-test
                 RUNTIME DESTINATION bin
                 )
 endif()

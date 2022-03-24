@@ -8,7 +8,7 @@
 
 # Tests
 
-Run the `lava` executable to test our [Tutorial](../tests/tests.cpp) examples
+Run the `lava` executable to test our [Tutorial](../liblava/test/tutorial.cpp) examples
 
 <br />
 
@@ -46,7 +46,7 @@ If you run `lava` without arguments - the *last* will be started
 
 ## Unit testing
 
-In addition run `lava-unit` to check some parts of the library with [Catch2](https://github.com/catchorg/Catch2) framework
+In addition run `lava-test` to check some parts of the library with [Catch2](https://github.com/catchorg/Catch2) framework
 
 <br />
 

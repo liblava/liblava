@@ -1,12 +1,12 @@
 /**
- * @file         tests/driver.cpp
+ * @file         liblava/test/driver.cpp
  * @brief        Test driver
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #include <iostream>
-#include <tests/driver.hpp>
+#include <liblava/test/driver.hpp>
 
 namespace lava {
 

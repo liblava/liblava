@@ -1,11 +1,11 @@
 /**
- * @file         tests/tests.hpp
- * @brief        Test cases
+ * @file         liblava/test/tutorial.hpp
+ * @brief        Tutorial test cases
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <tests/driver.hpp>
+#include <liblava/test/driver.hpp>
 
 using namespace lava;
 

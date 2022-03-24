@@ -1,16 +1,15 @@
 /**
- * @file         tests/unit/queue.hpp
+ * @file         liblava/base/test/queue.cpp
  * @brief        Queue unit tests
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <tests/unit.hpp>
+#include <liblava/test/unit.hpp>
 
+// https://vulkan.gpuinfo.org/listreports.php?devicename=GeForce+GTX+1060
 //-----------------------------------------------------------------------------
 TEST_CASE("queue setup - GeForce GTX 1060", "[queue]") {
-    // http://vulkan.gpuinfo.org/listreports.php?devicename=GeForce+GTX+1060
-
     VkQueueFamilyPropertiesList properties{
         { VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 16 },
         { VK_QUEUE_TRANSFER_BIT, 2 },
@@ -52,10 +51,9 @@ TEST_CASE("queue setup - GeForce GTX 1060", "[queue]") {
     REQUIRE(verify_queues(list, properties) == verify_queues_result::ok);
 }
 
+// https://vulkan.gpuinfo.org/listreports.php?devicename=Radeon+RX+580+Series
 //-----------------------------------------------------------------------------
 TEST_CASE("queue setup - Radeon RX 580 Series", "[queue]") {
-    // http://vulkan.gpuinfo.org/listreports.php?devicename=Radeon+RX+580+Series
-
     VkQueueFamilyPropertiesList properties{
         { VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 1 },
         { VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 2 },
@@ -92,10 +90,9 @@ TEST_CASE("queue setup - Radeon RX 580 Series", "[queue]") {
     REQUIRE(verify_queues(list, properties) == verify_queues_result::ok);
 }
 
+// https://vulkan.gpuinfo.org/listreports.php?devicename=Intel%28R%29+HD+Graphics+620
 //-----------------------------------------------------------------------------
 TEST_CASE("queue setup - Intel(R) HD Graphics 620", "[queue]") {
-    // http://vulkan.gpuinfo.org/listreports.php?devicename=Intel%28R%29+HD+Graphics+620
-
     VkQueueFamilyPropertiesList properties{
         { VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 1 }
     };
