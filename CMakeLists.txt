@@ -556,26 +556,26 @@ message("=======================================================================
 
         set_property(TARGET lava-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-        message(">> lava-generic-triangle")
+        message(">> lava-generics")
 
-        set(GENERIC_TRIANGLE_SHADERS
-                res/generic_triangle/triangle.frag
-                res/generic_triangle/lava_triangle.vert
-                res/generic_triangle/int_triangle.vert
-                res/generic_triangle/double_triangle.vert
+        set(GENERICS_SHADERS
+                res/generics/triangle.frag
+                res/generics/lava_triangle.vert
+                res/generics/int_triangle.vert
+                res/generics/double_triangle.vert
                 )
 
-        add_executable(lava-generic-triangle
-                ${LIBLAVA_DEMO_DIR}/generic_triangle.cpp
-                ${GENERIC_TRIANGLE_SHADERS}
+        add_executable(lava-generics
+                ${LIBLAVA_DEMO_DIR}/generics.cpp
+                ${GENERICS_SHADERS}
                 )
 
-        source_group("Shader Files" FILES ${GENERIC_TRIANGLE_SHADERS})
+        source_group("Shader Files" FILES ${GENERICS_SHADERS})
 
-        set_target_properties(lava-generic-triangle PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-generic-triangle lava::app)
+        set_target_properties(lava-generics PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava-generics lava::app)
 
-        set_property(TARGET lava-generic-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+        set_property(TARGET lava-generics PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         message(">> lava-shapes")
 
@@ -656,7 +656,7 @@ message("=======================================================================
 
         install(TARGETS
                 lava-triangle
-                lava-generic-triangle
+                lava-generics
                 lava-shapes
                 lava-lamp
                 lava-spawn

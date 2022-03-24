@@ -1,6 +1,6 @@
 /**
- * @file         liblava-demo/generic_triangle.cpp
- * @brief        Generic triangle demo
+ * @file         liblava-demo/generics.cpp
+ * @brief        Generics demo
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
@@ -12,7 +12,7 @@ using namespace lava;
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
-    app app("lava generic triangle", { argc, argv });
+    app app("lava generics", { argc, argv });
 
     app.manager.on_create_param = [](device::create_param& param) {
         param.features.shaderFloat64 = true;
@@ -108,12 +108,12 @@ int main(int argc, char* argv[]) {
             double_triangle->bind_draw(cmd_buf);
         };
 
-        pipeline::shader_stage::ptr shader_stage = create_pipeline_shader_stage(app.device, file_data("generic_triangle/triangle_frag.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT);
+        pipeline::shader_stage::ptr shader_stage = create_pipeline_shader_stage(app.device, file_data("generics/triangle_frag.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT);
         if (!shader_stage)
             return false;
 
         // Describe the lava triangle
-        if (!lava_pipeline->add_shader(file_data("generic_triangle/lava_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!lava_pipeline->add_shader(file_data("generics/lava_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
         lava_pipeline->add(shader_stage);
 
@@ -127,7 +127,7 @@ int main(int argc, char* argv[]) {
             return false;
 
         // Describe the int triangle
-        if (!int_pipeline->add_shader(file_data("generic_triangle/int_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!int_pipeline->add_shader(file_data("generics/int_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
         int_pipeline->add(shader_stage);
 
@@ -141,7 +141,7 @@ int main(int argc, char* argv[]) {
             return false;
 
         // Describe the double triangle
-        if (!double_pipeline->add_shader(file_data("generic_triangle/double_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!double_pipeline->add_shader(file_data("generics/double_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
         double_pipeline->add(shader_stage);
 

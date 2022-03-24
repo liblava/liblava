@@ -12,7 +12,7 @@
 
 [![lamp](https://img.shields.io/badge/lava-lamp-brightgreen.svg)](../liblava-demo/lamp.cpp) [![light](https://img.shields.io/badge/lava-light-brightgreen.svg)](../liblava-demo/light.cpp) [![shapes](https://img.shields.io/badge/lava-shapes-brightgreen.svg)](../liblava-demo/shapes.cpp) [![spawn](https://img.shields.io/badge/lava-spawn-brightgreen.svg)](../liblava-demo/spawn.cpp)
 
-[![generic_triangle](https://img.shields.io/badge/lava-generic_triangle-brightgreen.svg)](../liblava-demo/generic_triangle.cpp) [![triangle](https://img.shields.io/badge/lava-triangle-brightgreen.svg)](../liblava-demo/triangle.cpp)
+[![generics](https://img.shields.io/badge/lava-generics-brightgreen.svg)](../liblava-demo/generics.cpp) [![triangle](https://img.shields.io/badge/lava-triangle-brightgreen.svg)](../liblava-demo/triangle.cpp)
 
 <br />
 

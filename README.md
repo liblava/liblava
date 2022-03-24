@@ -72,10 +72,10 @@ generating &nbsp; primitives
 
 <br />
 
-### [lava generic triangle](liblava-demo/generic_triangle.cpp)
+### [lava generics](liblava-demo/generics.cpp)
 float &nbsp; double &nbsp; & &nbsp; int &nbsp; meshes
 
-<a href="liblava-demo/generic_triangle.cpp">![generic triangle](res/generic_triangle/screenshot.png)</a>
+<a href="liblava-demo/generics.cpp">![generics](res/generics/screenshot.png)</a>
 
 <br />
 
