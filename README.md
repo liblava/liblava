@@ -1,18 +1,33 @@
+<br />
+
 <a href="https://git.io/liblava">
-    <img align="left" src="res/doc/liblava_logo_200px.png" width="100">
+    <img align="left" src="res/doc/liblava_logo_200px.png" width="160">
 </a>
 
-<img src="res/doc/liblava.svg" style="margin:21px 15px 0px 0px">
+<a href="https://git.io/liblava"><img src="res/doc/liblava.svg"></a> &nbsp; [![version](https://img.shields.io/badge/2022_preview-0.7.1-cf1020)](https://git.io/liblava) 
 
 **A modern and easy-to-use library for the Vulkan® API**
 
-[![version](https://img.shields.io/badge/2022_preview-0.7.1-cf1020)](https://git.io/liblava) [![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JHWEUZ7ZTTV2G) [![Twitter Follow](https://img.shields.io/twitter/follow/liblava?style=flat&color=00acee)](https://twitter.com/liblava)
+<br />
+
+[![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JHWEUZ7ZTTV2G) [![Twitter Follow](https://img.shields.io/twitter/follow/liblava?style=flat&color=00acee)](https://twitter.com/liblava)
+
+<br />
 
 **lava** is a lean framework that provides **essentials** for **low-level graphics** - specially well suited for **prototyping**, **tooling**, **profiling** and **education**. It is written in **modern C++20** and strives for a **modular rolling release** as far as possible. We don't want to promise too much, but it runs really smoothly on **Windows** and **Linux**.
 
-➜ **[Download](https://github.com/liblava/liblava/releases)** &nbsp; [Tutorial](#tutorial) &nbsp; [Guide](#guide) &nbsp; [Build](#build) &nbsp; [Install](#install) &nbsp; [Collaborate](#collaborate) &nbsp; [Third-Party](#third-party)
+<br />
+
+➜ &nbsp; **[Download](https://github.com/liblava/liblava/releases)** &nbsp; [Tutorial](#tutorial) &nbsp; [Guide](#guide) &nbsp; [Test](#test) &nbsp; [Build](#build) &nbsp; [Install](#install) &nbsp; [Collaborate](#collaborate) &nbsp; [Third-Party](#third-party)
+
+<br />
+
+**Modules**
 
 [![core](https://img.shields.io/badge/lava-core-blue.svg)](#lava-core) [![util](https://img.shields.io/badge/lava-util-blue.svg)](#lava-util) [![file](https://img.shields.io/badge/lava-file-orange.svg)](#lava-file) [![base](https://img.shields.io/badge/lava-base-orange.svg)](#lava-base) [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](#lava-resource) [![asset](https://img.shields.io/badge/lava-asset-red.svg)](#lava-asset) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](#lava-frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](#lava-block) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](#lava-app) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](#lava-engine)
+
+<br />
+
 # Demos
 
 | lava light | lava spawn | 
@@ -48,7 +63,7 @@
 # In a nutshell
 
 <a href="https://git.io/liblava">
-    <img align="right" src="res/doc/liblava_logo_200px.png" width="170"  style="margin:-30px 100px 0px 0px">
+    <img align="right" src="res/doc/liblava_logo_200px.png" width="120">
 </a>
 
 * written in **modern C++** with latest **Vulkan support**
@@ -61,7 +76,7 @@
 
 # Tutorial
 
-<a href="https://www.vulkan.org/" target="_blank"><img align="right" hspace="20" src="res/doc/Vulkan_170px_Dec16.png" width="300" style="margin:0px 50px 0px 0px"></a>
+<a href="https://www.vulkan.org/" target="_blank"><img align="right" hspace="20" src="res/doc/Vulkan_170px_Dec16.png" width="300"></a>
 
 **Hello World** in **Vulkan**? &nbsp; ➜  Let's go!
 
@@ -300,24 +315,24 @@ Welcome on **Planet Vulkan** - That's a lot to display a colored window!
  
 Take a closer look at the `build_cmd_bufs` function:
 
-* We **create** a **command pool** and **command buffers** for each **frame** of the **render target**
-* And **set** each **command buffer** to **clear the frame image** with some **random color**
-
-<br />
+* We create a **command pool** and **command buffers** for each **frame** of the **render target**
+* And set each **command buffer** to clear the **frame image** with some random color
 
 `clean_cmd_bufs` **frees all buffers** and **destroys** the **command pool**.
 
-In case of **swap chain** restoration we simply **recreate command buffers** with a **new random color** - This happens for example on `window` resize.
+<br />
+
+**NOTE** &nbsp; In case of **swap chain** restoration we simply **recreate command buffers** with a new random color - This happens for example on `window` resize.
+
+<br />
 
 The flag *VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT* specifies the usage of **command buffers** in such a way that it can *no longer* be changed. And therefore it is a very *static* example.
-
----
 
 **Vulkan** supports a more *dynamic* and common usage by **resetting a command pool** before **recording new commands**.
 
 <br />
 
-Ok, it's time for ➜ `lava block`
+Ok, it's time for `lava block`
 
 ## 5. color block
 
@@ -359,11 +374,11 @@ This is much more simpler than before!
 
 <br />
 
-We create a `lava block` with a `lava command` that only **clears** the **current frame image**.
+➜ We create a `lava block` with a `lava command` that **clears** the **current frame image**.
 
 <br />
 
-All we need to do now is to process the `lava block` in the run loop:
+All we need to do now is to process the `lava block` in the **run** loop:
 
 ```c++
 if (!block.process(*current_frame))
@@ -376,12 +391,13 @@ And call the `renderer` with our recorded **command buffers**.
 
 <br />
 
-**NOTE** &nbsp; Don't forget to *clean* it up when the **run ends**:
+**NOTE** &nbsp; Don't forget to *clean* it up when the **run** ends:
 
 ```c++
 block.destroy();
 ```
 
+<br />
 <br />
 
 **New to Vulkan?** Take a look at this [Vulkan Guide](https://github.com/KhronosGroup/Vulkan-Guide)
@@ -414,14 +430,11 @@ int main(int argc, char* argv[]) {
 
 **What's next?** ➜ Check some [demo](liblava-demo) or use the [template](#template) to try it out!
 
-
 <br />
 
 # Guide
 
 [Lifetime of an Object](#lifetime-of-an-object) &nbsp; &nbsp; [Making meshes](#making-meshes) &nbsp; &nbsp; [Keyboard shortcuts](#keyboard-shortcuts) &nbsp; &nbsp; [Command-Line Arguments](#command-line-arguments)
-
----
 
 <br />
 
@@ -435,7 +448,7 @@ But be careful. You have to take care of the lifetime yourself.
 
 <br />
 
-### make &nbsp; ➜ &nbsp; create &nbsp; ➜ &nbsp; destroy
+**make &nbsp; ➜ &nbsp; create &nbsp; ➜ &nbsp; destroy**
 
 This is the general pattern that is used in this library:
 
@@ -447,7 +460,7 @@ The destructor calls the **destroy** method if it was *not* called before.
 
 <br />
 
-### For example: buffer object
+### Example: buffer object
 
 ```c++
 void use_buffer_on_stack() {
@@ -530,8 +543,7 @@ struct int_vertex {
 mesh_template<int_vertex>::ptr int_triangle;
 ```
 
-`create_mesh()` can generate primitives for arbitrary vertex structs too,
-provided that the struct contains an array or vector member named `position`:
+`create_mesh()` can generate primitives for arbitrary vertex structs too, provided that the struct contains an array or vector member named `position`:
 
 ```c++
 int_triangle = create_mesh<int_vertex>(device, mesh_type::triangle);
@@ -541,11 +553,9 @@ int_triangle = create_mesh<int_vertex>(device, mesh_type::triangle);
 
 `create_mesh()` may also initialize **Color**, **Normal**, and **UV** data automatically.
 
-However, it will only initialize these if there are corresponding `color`,
-`normal`, and/or `uv` fields defined in the vertex struct.
+However, it will only initialize these if there are corresponding `color`, `normal`, and/or `uv` fields defined in the vertex struct.
 
-By default, all data that can be initialized will be, but if generating any 
-of this data is not desired, the fields can be individually disabled by template arguments in this order:
+By default, all data that can be initialized will be, but if generating any of this data is not desired, the fields can be individually disabled by template arguments in this order:
 
 - **Color**
 - **Normal**
@@ -768,6 +778,10 @@ Cubes generated this way have a special case. If they are initialized with norma
 
 <br />
 
+If you need any help, please feel free to ask us on ➜ [Discord](https://discord.lava-block.com)
+
+<br />
+
 # Modules
 
 ## lava [engine](liblava/engine)
@@ -828,21 +842,19 @@ Cubes generated this way have a special case. If they are initialized with norma
 
 <br />
 
----
+# Reference
 
-| [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JHWEUZ7ZTTV2G) | [![GitHub Stars](https://img.shields.io/github/stars/liblava/liblava?style=social)](https://github.com/liblava/liblava/stargazers) &nbsp; [![Twitter URL](https://img.shields.io/twitter/follow/liblava?style=social)](https://twitter.com/liblava) |
-|:---------|---------:|
-| **liblava** needs help for **maintenance**, **support** and further **development**  |  even *without* spending anything, **we would be very happy about a star or follow**  | 
+To generate the documentation with [Doxygen](https://www.doxygen.nl) run:
 
-<br />
+```bash
+doxygen doxygen.conf
+```
 
-<center>:heart: &nbsp; Thank you very much!</center>
-
----
+Here you can find the **latest** ➜ [doc.lava-block.com](https://doc.lava-block.com)
 
 <br />
 
-# Tests
+# Test
 
 Run the `lava` executable to test our [Tutorial](#tutorial) examples ➜ so called [stages](liblava/engine/tutorial.cpp).
 
@@ -875,7 +887,6 @@ lava -s=3
 lava --stage=3
 ```
 
-
 **NOTE** &nbsp; If you run `lava` without arguments - the *last* stage will be started.
 
 <br />
@@ -886,13 +897,10 @@ In addition run `lava-test` to check some **unit tests** with [Catch2](https://g
 
 <br />
 
-If you need any help, please feel free to ask us on ➜ [Discord](https://discord.lava-block.com)
-
-<br />
-
 # Build
 
 [![CMake (Linux, Windows)](https://github.com/liblava/liblava/actions/workflows/cmake.yml/badge.svg)](https://github.com/liblava/liblava/actions/workflows/cmake.yml)
+
 ## Requirements
 
 * **C++20** compatible compiler
@@ -996,18 +1004,6 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 <br />
 
-# Reference
-
-To generate the documentation with [Doxygen](https://www.doxygen.nl) run:
-
-```bash
-doxygen doxygen.conf
-```
-
-Here you can find the **latest** ➜ [doc.lava-block.com](https://doc.lava-block.com)
-
-<br />
-
 # Collaborate
 
 Use the [issue tracker](https://github.com/liblava/liblava/issues) to report any bug or compatibility issue.
@@ -1023,6 +1019,12 @@ If you want to contribute - we suggest the following:
 1. Fork the [official repository](https://github.com/liblava/liblava/fork)
 2. Apply your changes to your fork
 3. Submit a [pull request](https://github.com/liblava/liblava/pulls) describing the changes you have made
+
+<br />
+
+| [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JHWEUZ7ZTTV2G) | [![GitHub Stars](https://img.shields.io/github/stars/liblava/liblava?style=social)](https://github.com/liblava/liblava/stargazers) &nbsp; [![Twitter URL](https://img.shields.io/twitter/follow/liblava?style=social)](https://twitter.com/liblava) |
+|:---------|---------:|
+| **liblava** needs help for **maintenance**, **support** and further **development**  |  even *without* spending anything, **we would be very happy about a star or follow**  | 
 
 <br />
 
@@ -1096,30 +1098,10 @@ If you want to contribute - we suggest the following:
 
 You can find the demonstration projects in the `liblava-demo` folder.
 
-## Roboto
-
-[GitHub](https://github.com/google/fonts/tree/main/apache/roboto) &nbsp; [Website](https://fonts.google.com/specimen/Roboto) &nbsp; *Apache License, Version 2.0*
-
-* [Roboto-Regular.ttf](res/font/Roboto-Regular.ttf)
-
-## Font Awesome
-
-[GitHub](https://github.com/FortAwesome/Font-Awesome) &nbsp; [Website](https://fontawesome.com) &nbsp; *Font Awesome Free License*
-
-* [fa-solid-900.ttf](res/font/icon/fa-solid-900.ttf)
-
-## Barbarella
-
-[Website](https://www.shadertoy.com/view/XdfGDr) &nbsp; *Shader by Weyland Yutani*
-
-* [lamp.frag](res/lamp/lamp.frag)
-
-## Spawn Model
-
-[Website](https://opengameart.org/content/lava-spawn) &nbsp; *CC BY-SA 3.0*
-
-* [lava-spawn-game.mtl](res/spawn/lava-spawn-game.mtl)
-* [lava-spawn-game.obj](res/spawn/lava-spawn-game.obj)
+- **Roboto** &nbsp; ➜ &nbsp; [GitHub](https://github.com/google/fonts/tree/main/apache/roboto) &nbsp; [Website](https://fonts.google.com/specimen/Roboto) &nbsp; *Apache License, Version 2.0* &nbsp; [Roboto-Regular.ttf](res/font/Roboto-Regular.ttf)
+- **Font Awesome** &nbsp; ➜ &nbsp; [GitHub](https://github.com/FortAwesome/Font-Awesome) &nbsp; [Website](https://fontawesome.com) &nbsp; *Font Awesome Free License* &nbsp; [fa-solid-900.ttf](res/font/icon/fa-solid-900.ttf)
+- **Barbarella** &nbsp; ➜ &nbsp; [Website](https://www.shadertoy.com/view/XdfGDr) &nbsp; *Shader by Weyland Yutani* &nbsp; [lamp.frag](res/lamp/lamp.frag)
+- **Spawn Model** &nbsp; ➜ &nbsp; [Website](https://opengameart.org/content/lava-spawn) &nbsp; *CC BY-SA 3.0* &nbsp; [lava-spawn-game.mtl](res/spawn/lava-spawn-game.mtl) &nbsp; [lava-spawn-game.obj](res/spawn/lava-spawn-game.obj)
 
 <br />
 
@@ -1127,7 +1109,7 @@ You can find the demonstration projects in the `liblava-demo` folder.
 
 <a href="https://opensource.org" target="_blank"><img align="right" width="90" src="res/doc/OSI-Approved-License-100x137.png" style="margin:0px 0px 0px 80px"></a>
 
-**liblava** is licensed under [MIT License](LICENSE) which allows you to use the software <br />for any purpose you might like - including commercial and for-profit use.
+**liblava** is licensed under [MIT License](LICENSE) which allows you to use the software for any purpose you might like - including commercial and for-profit use.
 
 <br />
 
