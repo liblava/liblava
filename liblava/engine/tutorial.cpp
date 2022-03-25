@@ -1,23 +1,24 @@
 /**
- * @file         liblava/test/tutorial.hpp
- * @brief        Tutorial test cases
+ * @file         liblava/engine/tutorial.hpp
+ * @brief        Tutorial stages
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/test/driver.hpp>
+#include <imgui.h>
+#include <liblava/lava.hpp>
 
 using namespace lava;
 
 //-----------------------------------------------------------------------------
-LAVA_TEST(1, "frame init") {
+LAVA_STAGE(1, "frame init") {
     frame frame(argh);
 
     return frame.ready() ? 0 : error::not_ready;
 }
 
 //-----------------------------------------------------------------------------
-LAVA_TEST(2, "run loop") {
+LAVA_STAGE(2, "run loop") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
@@ -40,7 +41,7 @@ LAVA_TEST(2, "run loop") {
 }
 
 //-----------------------------------------------------------------------------
-LAVA_TEST(3, "window input") {
+LAVA_STAGE(3, "window input") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
@@ -72,7 +73,7 @@ LAVA_TEST(3, "window input") {
 }
 
 //-----------------------------------------------------------------------------
-LAVA_TEST(4, "clear color") {
+LAVA_STAGE(4, "clear color") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
@@ -192,7 +193,7 @@ LAVA_TEST(4, "clear color") {
 }
 
 //-----------------------------------------------------------------------------
-LAVA_TEST(5, "color block") {
+LAVA_STAGE(5, "color block") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
@@ -284,7 +285,7 @@ LAVA_TEST(5, "color block") {
 }
 
 //-----------------------------------------------------------------------------
-LAVA_TEST(6, "forward shading") {
+LAVA_STAGE(6, "forward shading") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
@@ -369,7 +370,7 @@ LAVA_TEST(6, "forward shading") {
 }
 
 //-----------------------------------------------------------------------------
-LAVA_TEST(7, "gamepad") {
+LAVA_STAGE(7, "gamepad") {
     frame frame(argh);
     if (!frame.ready())
         return error::not_ready;
@@ -402,10 +403,8 @@ LAVA_TEST(7, "gamepad") {
     return frame.run();
 }
 
-#include <imgui.h>
-
 //-----------------------------------------------------------------------------
-LAVA_TEST(8, "imgui demo") {
+LAVA_STAGE(8, "imgui demo") {
     app app("imgui demo", argh);
     if (!app.setup())
         return error::not_ready;

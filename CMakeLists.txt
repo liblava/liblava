@@ -382,32 +382,31 @@ set_target_properties(lava.app PROPERTIES FOLDER "lava")
 set_property(TARGET lava.app PROPERTY EXPORT_NAME app)
 add_library(lava::app ALIAS lava.app)
 
-option(LIBLAVA_TESTS "Enable Tests" TRUE)
-if(LIBLAVA_TESTS)
 message("========================================================================")
 
-        message("> tests")
+message("> lava")
 
-        message(">> lava")
+add_executable(lava
+        ${LIBLAVA_DIR}/engine/driver.cpp
+        ${LIBLAVA_DIR}/engine/driver.hpp
+        ${LIBLAVA_DIR}/engine/main.cpp
+        ${LIBLAVA_DIR}/engine/tutorial.cpp
+        )
 
-        add_executable(lava
-                ${LIBLAVA_DIR}/test/driver.cpp
-                ${LIBLAVA_DIR}/test/driver.hpp
-                ${LIBLAVA_DIR}/test/tutorial.cpp
-                )
+target_link_libraries(lava lava::app)
 
-        set_target_properties(lava PROPERTIES FOLDER "lava/test")
+set_property(TARGET lava PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-        target_link_libraries(lava lava::app)
+install(TARGETS
+        lava
+        RUNTIME DESTINATION bin
+        )
 
-        set_property(TARGET lava PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+option(LIBLAVA_TEST "Enable Test" TRUE)
+if(LIBLAVA_TEST)
+message("========================================================================")
 
-        install(TARGETS
-                lava
-                RUNTIME DESTINATION bin
-                )
-
-        message(">> lava-test (Catch2)")
+        message("> lava-test")
 
         add_subdirectory(${LIBLAVA_EXT_DIR}/Catch2 Catch2 EXCLUDE_FROM_ALL)
         set_target_properties(Catch2 PROPERTIES FOLDER "lava/ext")
@@ -415,14 +414,12 @@ message("=======================================================================
 
         set(UNIT_TESTS
                 ${LIBLAVA_DIR}/base/test/queue.cpp
-        )
-
-        add_executable(lava-test
-                ${LIBLAVA_DIR}/test/unit.hpp
-                ${UNIT_TESTS}
                 )
 
-        set_target_properties(lava-test PROPERTIES FOLDER "lava/test")
+        add_executable(lava-test
+                ${LIBLAVA_DIR}/test.hpp
+                ${UNIT_TESTS}
+                )
 
         target_link_libraries(lava-test lava::app Catch2::Catch2 Catch2::Catch2WithMain)
 

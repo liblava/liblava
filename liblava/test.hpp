@@ -1,5 +1,5 @@
 /**
- * @file         liblava/test/unit.hpp
+ * @file         liblava/test.hpp
  * @brief        Unit tests
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
