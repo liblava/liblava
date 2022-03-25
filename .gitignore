@@ -2,6 +2,5 @@
 /out
 /.vscode
 /.vs
-/doc/build
 /CMakeSettings.json
 /.cache
