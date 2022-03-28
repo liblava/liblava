@@ -6,6 +6,7 @@
  */
 
 #include <liblava/app/config.hpp>
+#include <liblava/app/icon.hpp>
 #include <liblava/asset/image_data.hpp>
 
 namespace lava {
@@ -134,8 +135,12 @@ void save_window_file(window::ref window) {
 //-----------------------------------------------------------------------------
 void set_window_icon(window& window, string_ref icon_file) {
     image_data icon(icon_file);
-    if (icon.ready)
-        window.set_icon(icon.data, icon.size);
+    if (icon.ready()) {
+        window.set_icon(icon.get(), icon.get_dimensions());
+    } else {
+        image_data default_icon({ icon_png, icon_png_len });
+        window.set_icon(default_icon.get(), default_icon.get_dimensions());
+    }
 }
 
 } // namespace lava

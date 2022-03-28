@@ -540,7 +540,7 @@ struct window : entity {
      * @param data    Image data
      * @param size    Image size
      */
-    void set_icon(data_ptr data, uv2 size);
+    void set_icon(data_cptr data, uv2 size);
 
     /**
      * @brief Get the monitor index of the window

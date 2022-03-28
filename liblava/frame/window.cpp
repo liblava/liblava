@@ -427,7 +427,7 @@ VkSurfaceKHR window::create_surface() {
 }
 
 //-----------------------------------------------------------------------------
-void window::set_icon(data_ptr data, uv2 size) {
+void window::set_icon(data_cptr data, uv2 size) {
     GLFWimage images[1];
     images[0].width = size.x;
     images[0].height = size.y;

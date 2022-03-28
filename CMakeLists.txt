@@ -358,6 +358,7 @@ add_library(lava.app STATIC
         ${LIBLAVA_DIR}/app/def.hpp
         ${LIBLAVA_DIR}/app/forward_shading.cpp
         ${LIBLAVA_DIR}/app/forward_shading.hpp
+        ${LIBLAVA_DIR}/app/icon.hpp
         ${LIBLAVA_DIR}/app/imgui.cpp
         ${LIBLAVA_DIR}/app/imgui.hpp
         ${IMGUI_FILES}

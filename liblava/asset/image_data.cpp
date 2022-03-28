@@ -1,6 +1,6 @@
 /**
  * @file         liblava/asset/image_data.cpp
- * @brief        Load image data from file
+ * @brief        Load image data from file and memory
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
@@ -11,20 +11,22 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-image_data::image_data(string_ref filename)
-: image_file(str(filename)), file_data(image_file.get_size(), data_mode::no_alloc) {
+image_data::image_data(string_ref filename) {
+    file image_file(str(filename));
+    unique_data data_guard(image_file.get_size(), data_mode::no_alloc);
+
     if (image_file.opened()) {
-        if (!file_data.allocate())
+        if (!data_guard.allocate())
             return;
 
-        if (file_error(image_file.read(file_data.ptr)))
+        if (file_error(image_file.read(data_guard.ptr)))
             return;
     }
 
     i32 tex_width, tex_height, tex_channels = 0;
 
     if (image_file.opened())
-        data = as_ptr(stbi_load_from_memory((stbi_uc const*) file_data.ptr, to_i32(file_data.size),
+        data = as_ptr(stbi_load_from_memory((stbi_uc const*) data_guard.ptr, to_i32(data_guard.size),
                                             &tex_width, &tex_height, &tex_channels, STBI_rgb_alpha));
     else
         data = as_ptr(stbi_load(str(filename), &tex_width, &tex_height, &tex_channels, STBI_rgb_alpha));
@@ -32,9 +34,22 @@ image_data::image_data(string_ref filename)
     if (!data)
         return;
 
-    size = { tex_width, tex_height };
+    dimensions = { tex_width, tex_height };
     channels = tex_channels;
-    ready = true;
+}
+
+//-----------------------------------------------------------------------------
+image_data::image_data(cdata const& image) {
+    i32 tex_width, tex_height, tex_channels = 0;
+
+    data = as_ptr(stbi_load_from_memory((stbi_uc const*) image.ptr, to_i32(image.size),
+                                        &tex_width, &tex_height, &tex_channels, STBI_rgb_alpha));
+
+    if (!data)
+        return;
+
+    dimensions = { tex_width, tex_height };
+    channels = tex_channels;
 }
 
 //-----------------------------------------------------------------------------
