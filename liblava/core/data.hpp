@@ -238,7 +238,7 @@ struct cdata {
      * @param ptr       Pointer to data
      * @param length    Length of data
      */
-    cdata(const void* ptr, size_t length)
+    cdata(void const* ptr, size_t length)
     : ptr(as_ptr(ptr)), size(length) {}
 
     /**
