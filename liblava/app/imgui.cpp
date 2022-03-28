@@ -26,12 +26,12 @@
 namespace lava {
 
 /// ImGui vertex shader
-static ui32 imgui_vert_shader[] = {
+ui32 imgui_vert_shader[] = {
 #include "res/imgui/imgui.vert.u32"
 };
 
 /// ImGui fragment shader
-static ui32 imgui_frag_shader[] = {
+ui32 imgui_frag_shader[] = {
 #include "res/imgui/imgui.frag.u32"
 };
 

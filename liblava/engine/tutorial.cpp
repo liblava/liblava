@@ -11,7 +11,7 @@
 using namespace lava;
 
 //-----------------------------------------------------------------------------
-LAVA_STAGE(1, "frame init") {
+LAVA_STAGE(1, "frame") {
     frame frame(argh);
 
     return frame.ready() ? 0 : error::not_ready;
