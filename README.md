@@ -15,7 +15,7 @@
 [![version](https://img.shields.io/badge/2022_preview-0.7.1-cf1020)](https://github.com/liblava/liblava/tags)  [![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JHWEUZ7ZTTV2G) [![Twitter Follow](https://img.shields.io/twitter/follow/liblava?style=flat&color=00acee)](https://twitter.com/liblava)
 
 
-**lava** is a lean framework that provides **essentials** for **low-level graphics** - specially well suited for **prototyping**, **tooling**, **profiling** and **education**. It is written in **modern C++20** and strives for a **modular rolling release** as far as possible. We don't want to promise too much, but it runs really smoothly on **Windows** and **Linux**.
+**lava** is a lean framework that provides **essentials** for **low-level graphics** - specially well suited for **prototyping**, **tooling**, **profiling** and **education**. This library is written in **modern C++20** and strives for a **modular rolling release** as far as possible. We don't want to promise too much, but it runs really smoothly on **Windows** and **Linux**.
 
 <br />
 
@@ -488,12 +488,9 @@ But be careful. You have to take care of the lifetime yourself.
 
 This is the general pattern that is used in this library:
 
-1. **make**
-    - Use constructor or factory method *(static function to get a shared pointer)*
-2. **create**
-    - Build the respective object
-3. **destroy**
-    - Discard it after your use
+1. **make** &nbsp; Use constructor or factory method *(static function to get a shared pointer)*
+2. **create** &nbsp; Build the respective object
+3. **destroy** &nbsp; Discard it after your use
 
 The destructor calls the **destroy** method if it was *not* called before.
 
@@ -630,7 +627,7 @@ Cubes generated this way have a special case. If they are initialized with norma
 
 ### lava [app](liblava/app)
 
-*require* [block](#lava-block) + [frame](#lava-frame) + [block](#lava-resource)
+*require* [block](#lava-block) + [frame](#lava-frame) + [asset](#lava-asset)
 
 [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](liblava/app/camera.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](liblava/app/forward_shading.hpp)
 
@@ -1180,7 +1177,9 @@ You can find the demonstration projects in the `liblava-demo` folder.
 
 <a href="https://opensource.org" target="_blank"><img align="right" width="90" src="res/doc/OSI-Approved-License-100x137.png" style="margin:0px 0px 0px 80px"></a>
 
-**liblava** is licensed under [MIT License](LICENSE) which allows you to use the software for any purpose you might like - including commercial and for-profit use.
+**liblava** is licensed under [MIT License](LICENSE) which allows you to use the software
+<br />
+for any purpose you might like - including commercial and for-profit use.
 
 <br />
 
