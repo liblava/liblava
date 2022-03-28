@@ -33,24 +33,24 @@
 
 # Demos
 
-| lava light | lava spawn | 
+| deferred shading + offscreen rendering | uniform buffer + camera | 
 |:---------|---------:|
 | <a href="liblava-demo/light.cpp">![light](res/light/screenshot.png)</a> | <a href="liblava-demo/spawn.cpp">![spawn](res/spawn/screenshot.png)</a> | 
-| deferred shading + offscreen rendering | uniform buffer + camera | 
+| lava light | lava spawn | 
 
 <br />
 
-| lava lamp | lava shapes | 
+| push constants ➜ shader | generating primitives | 
 |:---------|---------:|
 | <a href="liblava-demo/lamp.cpp">![lamp](res/lamp/screenshot.png)</a> | <a href="liblava-demo/shapes.cpp">![shapes](res/shapes/screenshot.png)</a> | 
-| push constants ➜ shader | generating primitives | 
+| lava lamp | lava shapes | 
 
 <br />
 
-| lava generics | lava spawn | 
+| float, double & int meshes | unique classic mesh | 
 |:---------|---------:|
 | <a href="liblava-demo/generics.cpp">![generics](res/generics/screenshot.png)</a> | <a href="liblava-demo/triangle.cpp">![triangle](res/triangle/screenshot.png)</a> | 
-| float, double & int meshes | unique classic mesh | 
+| lava generics | lava triangle | 
 
 <br />
 
@@ -58,10 +58,10 @@
 
 # Projects
 
-| lava raytracing cubes | 
+| raytraced reflecting cubes ➜ [pezcode/lava-rt](https://github.com/pezcode/lava-rt) | 
 |:---------|
 | <a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp">![generics](https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png)</a> | 
-| raytraced reflecting cubes ➜ [pezcode/lava-rt](https://github.com/pezcode/lava-rt) |
+| lava raytracing cubes |
 
 <br />
 
