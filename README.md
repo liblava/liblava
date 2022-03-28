@@ -1,30 +1,33 @@
 <br />
 
 <a href="https://git.io/liblava">
-    <img align="left" src="res/doc/liblava_logo_200px.png" width="160">
+    <img align="left" src="res/doc/liblava_logo_200px.png" width="110">
 </a>
 
-<a href="https://git.io/liblava"><img src="res/doc/liblava.svg"></a> &nbsp; [![version](https://img.shields.io/badge/2022_preview-0.7.1-cf1020)](https://git.io/liblava) 
+<br />
+
+<a href="https://git.io/liblava"><img src="res/doc/liblava.svg"></a>
 
 **A modern and easy-to-use library for the Vulkan® API**
 
 <br />
 
-[![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JHWEUZ7ZTTV2G) [![Twitter Follow](https://img.shields.io/twitter/follow/liblava?style=flat&color=00acee)](https://twitter.com/liblava)
+[![version](https://img.shields.io/badge/2022_preview-0.7.1-cf1020)](https://github.com/liblava/liblava/tags)  [![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JHWEUZ7ZTTV2G) [![Twitter Follow](https://img.shields.io/twitter/follow/liblava?style=flat&color=00acee)](https://twitter.com/liblava)
 
-<br />
 
 **lava** is a lean framework that provides **essentials** for **low-level graphics** - specially well suited for **prototyping**, **tooling**, **profiling** and **education**. It is written in **modern C++20** and strives for a **modular rolling release** as far as possible. We don't want to promise too much, but it runs really smoothly on **Windows** and **Linux**.
 
 <br />
 
-➜ &nbsp; **[Download](https://github.com/liblava/liblava/releases)** &nbsp; [Tutorial](#tutorial) &nbsp; [Guide](#guide) &nbsp; [Test](#test) &nbsp; [Build](#build) &nbsp; [Install](#install) &nbsp; [Collaborate](#collaborate) &nbsp; [Third-Party](#third-party)
+ ➜ &nbsp; **[Download](https://github.com/liblava/liblava/releases)** &nbsp; • &nbsp; [Introduction](#in-a-nutshell) &nbsp; • &nbsp; [Guide](#guide) &nbsp; • &nbsp; [Build](#build) &nbsp; • &nbsp; [Collaborate](#collaborate) &nbsp; • &nbsp; [Third-Party](#third-party)
 
 <br />
 
 **Modules**
 
 [![core](https://img.shields.io/badge/lava-core-blue.svg)](#lava-core) [![util](https://img.shields.io/badge/lava-util-blue.svg)](#lava-util) [![file](https://img.shields.io/badge/lava-file-orange.svg)](#lava-file) [![base](https://img.shields.io/badge/lava-base-orange.svg)](#lava-base) [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](#lava-resource) [![asset](https://img.shields.io/badge/lava-asset-red.svg)](#lava-asset) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](#lava-frame) [![block](https://img.shields.io/badge/lava-block-red.svg)](#lava-block) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](#lava-app) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](#lava-engine)
+
+<br />
 
 <br />
 
@@ -51,6 +54,8 @@
 
 <br />
 
+<br />
+
 # Projects
 
 | lava raytracing cubes | 
@@ -60,9 +65,11 @@
 
 <br />
 
+<br />
+
 # In a nutshell
 
-<a href="https://git.io/liblava">
+<a href="#3-modules">
     <img align="right" src="res/doc/liblava_logo_200px.png" width="120">
 </a>
 
@@ -74,11 +81,17 @@
 
 <br />
 
-# Tutorial
+# Introduction
+
+*WIP*
+
+<br />
+
+## Tutorial
 
 <a href="https://www.vulkan.org/" target="_blank"><img align="right" hspace="20" src="res/doc/Vulkan_170px_Dec16.png" width="300"></a>
 
-**Hello World** in **Vulkan**? &nbsp; ➜  Let's go!
+**Hello World** in **Vulkan**? &nbsp; Let's go!
 
 *a simple app that renders a colored window*
 
@@ -92,6 +105,18 @@ All we need is a `window` + `device` and `renderer`
 
 The good news is that **liblava** can help you.
 
+<br />
+
+<br />
+
+**New to Vulkan?** ➜ Take a look at this [Vulkan Guide](https://github.com/KhronosGroup/Vulkan-Guide)
+
+Check [Awesome Vulkan ecosystem](http://www.vinjn.com/awesome-vulkan/) for tutorials, samples and books
+
+<br />
+
+<br />
+
 ```c++
 #include <liblava/lava.hpp>
 
@@ -99,11 +124,11 @@ using namespace lava;
 ```
 <br />
 
-Here are a few **examples** to get to know `lava`:
+Here are a few **examples** to get to know `lava`
 
 <br />
 
-## 1. frame init
+### 1. frame
 
 ```c++
 int main(int argc, char* argv[]) {
@@ -118,7 +143,7 @@ This is how to initialize `lava frame` with command line arguments.
 
 <br />
 
-## 2. run loop
+### 2. run loop
 
 ```c++
 lava::frame frame(argh);
@@ -146,9 +171,9 @@ The last line performs a loop with the **run** we added before - If *count* reac
 
 <br />
 
-## 3. window input
+### 3. window input
 
-Here is another example that shows how to create a `lava window` and handle `lava input`:
+Here is another example that shows how to create a `lava window` and handle `lava input`
 
 ```c++
 lava::frame frame(argh);
@@ -185,7 +210,9 @@ return frame.run();
 
 Straightforward ➜ With this knowledge in hand let's write our **Hello World**...
 
-## 4. clear color
+<br />
+
+### 4. clear color
 
 ```c++
 lava::frame frame(argh);
@@ -309,6 +336,8 @@ frame.add_run_end([&]() {
 return frame.run();
 ```
 
+<br />
+
 Welcome on **Planet Vulkan** - That's a lot to display a colored window!
 
 <br />
@@ -334,7 +363,9 @@ The flag *VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT* specifies the usage of *
 
 Ok, it's time for `lava block`
 
-## 5. color block
+<br />
+
+### 5. color block
 
 ```c++
 lava::block block;
@@ -370,6 +401,8 @@ block.add_command([&](VkCommandBuffer cmd_buf) {
 });
 ```
 
+<br />
+
 This is much more simpler than before!
 
 <br />
@@ -398,15 +431,8 @@ block.destroy();
 ```
 
 <br />
-<br />
 
-**New to Vulkan?** Take a look at this [Vulkan Guide](https://github.com/KhronosGroup/Vulkan-Guide)
-
-Check [Awesome Vulkan ecosystem](http://www.vinjn.com/awesome-vulkan/) for tutorials, samples and books
-
-<br />
-
-## 8. imgui demo
+### 8. imgui demo
 
 Out of blocks, `lava app` supports [Dear ImGui](https://github.com/ocornut/imgui) for **tooling** and **easy prototyping**.
 
@@ -428,17 +454,27 @@ int main(int argc, char* argv[]) {
 
 <br />
 
+<br />
+
 **What's next?** ➜ Check some [demo](liblava-demo) or use the [template](#template) to try it out!
+
+<br />
 
 <br />
 
 # Guide
 
-[Lifetime of an Object](#lifetime-of-an-object) &nbsp; &nbsp; [Making meshes](#making-meshes) &nbsp; &nbsp; [Keyboard shortcuts](#keyboard-shortcuts) &nbsp; &nbsp; [Command-Line Arguments](#command-line-arguments)
+1. [Lifetime of an Object](#1-lifetime-of-an-object)
+2. [Making meshes](#2-making-meshes)
+3. [Modules](#3-modules)
+4. [Reference](#4-reference)
+5. [Test](#5-test)
+6. [Keyboard shortcuts](#6-keyboard-shortcuts)
+7. [Command-Line Arguments](#7-command-line-arguments)
 
 <br />
 
-## Lifetime of an Object
+## 1. Lifetime of an Object
 
 Before you create new objects or use existing ones, you should get familiar with the lifetime of objects.
 
@@ -452,9 +488,12 @@ But be careful. You have to take care of the lifetime yourself.
 
 This is the general pattern that is used in this library:
 
-1. **make** &nbsp; Use constructor or factory method *(static function to get a shared pointer)*
-2. **create** &nbsp; Build the respective object
-3. **destroy** &nbsp; Discard it after your use
+1. **make**
+    - Use constructor or factory method *(static function to get a shared pointer)*
+2. **create**
+    - Build the respective object
+3. **destroy**
+    - Discard it after your use
 
 The destructor calls the **destroy** method if it was *not* called before.
 
@@ -492,7 +531,7 @@ buffer::ptr use_buffer_on_heap() {
 
 <br />
 
-## Making meshes
+## 2. Making meshes
 
 **liblava** provides a `mesh` struct that contains a list of vertices and, optionally, a list of indices.
 
@@ -581,9 +620,156 @@ Cubes generated this way have a special case. If they are initialized with norma
 
 <br />
 
-## Keyboard shortcuts
+## 3. Modules
 
-`lava app` defines some **shortcuts** for practical and common **actions**:
+### lava [engine](liblava/engine)
+
+*require* [app](#lava-app)
+
+[![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp)
+
+### lava [app](liblava/app)
+
+*require* [block](#lava-block) + [frame](#lava-frame) + [block](#lava-resource)
+
+[![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](liblava/app/camera.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](liblava/app/forward_shading.hpp)
+
+[![benchmark](https://img.shields.io/badge/lava-benchmark-brightgreen.svg)](liblava/app/benchmark.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](liblava/app/config.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.hpp)
+
+<br />
+
+### lava [block](liblava/block)
+
+*require* [base](#lava-base)
+
+[![attachment](https://img.shields.io/badge/lava-attachment-red.svg)](liblava/block/attachment.hpp) [![block](https://img.shields.io/badge/lava-block-red.svg)](liblava/block/block.hpp) [![descriptor](https://img.shields.io/badge/lava-descriptor-red.svg)](liblava/block/descriptor.hpp) [![render_pass](https://img.shields.io/badge/lava-render_pass-red.svg)](liblava/block/render_pass.hpp) [![subpass](https://img.shields.io/badge/lava-subpass-red.svg)](liblava/block/subpass.hpp)
+
+[![compute_pipeline](https://img.shields.io/badge/lava-compute_pipeline-red.svg)](liblava/block/compute_pipeline.hpp) [![graphics_pipeline](https://img.shields.io/badge/lava-graphics_pipeline-red.svg)](liblava/block/graphics_pipeline.hpp) [![pipeline](https://img.shields.io/badge/lava-pipeline-red.svg)](liblava/block/pipeline.hpp) [![pipeline_layout](https://img.shields.io/badge/lava-pipeline_layout-red.svg)](liblava/block/pipeline_layout.hpp)
+
+### lava [frame](liblava/frame)
+
+*require* [resource](#lava-resource)
+
+[![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp) [![gamepad](https://img.shields.io/badge/lava-gamepad-red.svg)](liblava/frame/gamepad.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp)
+
+[![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](liblava/frame/swapchain.hpp)
+
+### lava [asset](liblava/asset)
+
+*require* [resource](#lava-resource) + [file](#lava-file)
+
+[![image_data](https://img.shields.io/badge/lava-image_data-red.svg)](liblava/asset/image_data.hpp) [![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-red.svg)](liblava/asset/mesh_loader.hpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-red.svg)](liblava/asset/texture_loader.hpp)
+
+<br />
+
+### lava [resource](liblava/resource)
+
+*require* [base](#lava-base)
+
+[![buffer](https://img.shields.io/badge/lava-buffer-orange.svg)](liblava/resource/buffer.hpp) [![mesh](https://img.shields.io/badge/lava-mesh-orange.svg)](liblava/resource/mesh.hpp) [![primitive](https://img.shields.io/badge/lava-primitive-orange.svg)](liblava/resource/primitive.hpp)
+
+[![format](https://img.shields.io/badge/lava-format-orange.svg)](liblava/resource/format.hpp) [![image](https://img.shields.io/badge/lava-image-orange.svg)](liblava/resource/image.hpp) [![texture](https://img.shields.io/badge/lava-texture-orange.svg)](liblava/resource/texture.hpp)
+
+### lava [base](liblava/base)
+
+*require* [util](#lava-util)
+
+[![base](https://img.shields.io/badge/lava-base-orange.svg)](liblava/base/base.hpp) [![instance](https://img.shields.io/badge/lava-instance-orange.svg)](liblava/base/instance.hpp) [![profile](https://img.shields.io/badge/lava-profile-orange.svg)](liblava/base/profile.hpp) [![memory](https://img.shields.io/badge/lava-memory-orange.svg)](liblava/base/memory.hpp)
+
+[![device](https://img.shields.io/badge/lava-device-orange.svg)](liblava/base/device.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-orange.svg)](liblava/base/physical_device.hpp) [![queue](https://img.shields.io/badge/lava-queue-orange.svg)](liblava/base/queue.hpp)
+
+### lava [file](liblava/file)
+
+*require* [util](#lava-util)
+
+[![file](https://img.shields.io/badge/lava-file-orange.svg)](liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-orange.svg)](liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-orange.svg)](liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-orange.svg)](liblava/file/json_file.hpp)
+
+<br />
+
+### lava [util](liblava/util)
+
+*require* [core](#lava-core)
+
+[![log](https://img.shields.io/badge/lava-log-blue.svg)](liblava/util/log.hpp) [![random](https://img.shields.io/badge/lava-random-blue.svg)](liblava/util/random.hpp) [![telegram](https://img.shields.io/badge/lava-telegram-blue.svg)](liblava/util/telegram.hpp) [![thread](https://img.shields.io/badge/lava-thread-blue.svg)](liblava/util/thread.hpp) [![utility](https://img.shields.io/badge/lava-utility-blue.svg)](liblava/util/utility.hpp)
+
+### lava [core](liblava/core)
+
+[![data](https://img.shields.io/badge/lava-data-blue.svg)](liblava/core/data.hpp) [![hex](https://img.shields.io/badge/lava-hex-blue.svg)](liblava/core/hex.hpp) [![id](https://img.shields.io/badge/lava-id-blue.svg)](liblava/core/id.hpp) [![math](https://img.shields.io/badge/lava-math-blue.svg)](liblava/core/math.hpp) [![time](https://img.shields.io/badge/lava-time-blue.svg)](liblava/core/time.hpp) [![types](https://img.shields.io/badge/lava-types-blue.svg)](liblava/core/types.hpp) [![version](https://img.shields.io/badge/lava-version-blue.svg)](liblava/core/version.hpp)
+
+<br />
+
+## 4. Reference
+
+To generate the documentation with [Doxygen](https://www.doxygen.nl) run:
+
+```bash
+doxygen doxygen.conf
+```
+
+Here you can find the **latest** ➜ [doc.lava-block.com](https://doc.lava-block.com)
+
+<br />
+
+## 5. Test
+
+Run the `lava` executable to test our [Tutorial](#tutorial) examples ➜ so called [stages](liblava/engine/tutorial.cpp)
+
+<br />
+
+### List all stages
+
+```bash
+lava -ls
+
+lava --stages
+```
+
+1. [frame](#1-frame)
+2. [run loop](#2-run-loop)
+3. [window input](#3-window-input)
+4. [clear color](#4-clear-color)
+5. [color block](#5-color-block)
+6. forward shading
+7. gamepad
+8. [imgui demo](#8-imgui-demo)
+
+<br />
+
+#### Run *window input* example
+
+```bash
+lava -s=3
+
+lava --stage=3
+```
+
+**NOTE** &nbsp; If you run `lava` without arguments - the *last* stage will be started.
+
+<br />
+
+### Unit testing
+
+In addition run `lava-test` to check some **unit tests** with [Catch2](https://github.com/catchorg/Catch2)
+
+<br />
+
+### Template
+
+Put your code in the [src](src) folder and begin to code in [main.cpp](src/main.cpp)
+
+<br />
+
+**NOTE** &nbsp; You can change the project name in **CMake** ➜ `LIBLAVA_TEMPLATE_NAME` 
+
+```bash
+cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
+```
+
+<br />
+
+## 6. Keyboard shortcuts
+
+`lava app` defines some *shortcuts* for common **actions**:
 
 <br />
 
@@ -604,7 +790,7 @@ Cubes generated this way have a special case. If they are initialized with norma
 
 <br />
 
-## Command-Line Arguments
+## 7. Command-Line Arguments
 
 ### app
 
@@ -778,122 +964,11 @@ Cubes generated this way have a special case. If they are initialized with norma
 
 <br />
 
-If you need any help, please feel free to ask us on ➜ [Discord](https://discord.lava-block.com)
-
 <br />
 
-# Modules
-
-## lava [engine](liblava/engine)
-
-[![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp)
-
-## lava [app](liblava/app)
-
-[![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](liblava/app/camera.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](liblava/app/forward_shading.hpp)
-
-[![benchmark](https://img.shields.io/badge/lava-benchmark-brightgreen.svg)](liblava/app/benchmark.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](liblava/app/config.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.hpp)
+**Need help?** &nbsp; Please feel free to ask us on ➜ [Discord](https://discord.lava-block.com)
 
 <br />
-
-## lava [block](liblava/block)
-
-[![attachment](https://img.shields.io/badge/lava-attachment-red.svg)](liblava/block/attachment.hpp) [![block](https://img.shields.io/badge/lava-block-red.svg)](liblava/block/block.hpp) [![descriptor](https://img.shields.io/badge/lava-descriptor-red.svg)](liblava/block/descriptor.hpp) [![render_pass](https://img.shields.io/badge/lava-render_pass-red.svg)](liblava/block/render_pass.hpp) [![subpass](https://img.shields.io/badge/lava-subpass-red.svg)](liblava/block/subpass.hpp)
-
-[![compute_pipeline](https://img.shields.io/badge/lava-compute_pipeline-red.svg)](liblava/block/compute_pipeline.hpp) [![graphics_pipeline](https://img.shields.io/badge/lava-graphics_pipeline-red.svg)](liblava/block/graphics_pipeline.hpp) [![pipeline](https://img.shields.io/badge/lava-pipeline-red.svg)](liblava/block/pipeline.hpp) [![pipeline_layout](https://img.shields.io/badge/lava-pipeline_layout-red.svg)](liblava/block/pipeline_layout.hpp)
-
-## lava [frame](liblava/frame)
-
-[![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp) [![gamepad](https://img.shields.io/badge/lava-gamepad-red.svg)](liblava/frame/gamepad.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp)
-
-[![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](liblava/frame/swapchain.hpp)
-
-## lava [asset](liblava/asset)
-
-[![image_data](https://img.shields.io/badge/lava-image_data-red.svg)](liblava/asset/image_data.hpp) [![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-red.svg)](liblava/asset/mesh_loader.hpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-red.svg)](liblava/asset/texture_loader.hpp)
-
-<br />
-
-## lava [resource](liblava/resource)
-
-[![buffer](https://img.shields.io/badge/lava-buffer-orange.svg)](liblava/resource/buffer.hpp) [![mesh](https://img.shields.io/badge/lava-mesh-orange.svg)](liblava/resource/mesh.hpp) [![primitive](https://img.shields.io/badge/lava-primitive-orange.svg)](liblava/resource/primitive.hpp)
-
-[![format](https://img.shields.io/badge/lava-format-orange.svg)](liblava/resource/format.hpp) [![image](https://img.shields.io/badge/lava-image-orange.svg)](liblava/resource/image.hpp) [![texture](https://img.shields.io/badge/lava-texture-orange.svg)](liblava/resource/texture.hpp)
-
-## lava [base](liblava/base)
-
-[![base](https://img.shields.io/badge/lava-base-orange.svg)](liblava/base/base.hpp) [![instance](https://img.shields.io/badge/lava-instance-orange.svg)](liblava/base/instance.hpp) [![profile](https://img.shields.io/badge/lava-profile-orange.svg)](liblava/base/profile.hpp) [![memory](https://img.shields.io/badge/lava-memory-orange.svg)](liblava/base/memory.hpp)
-
-[![device](https://img.shields.io/badge/lava-device-orange.svg)](liblava/base/device.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-orange.svg)](liblava/base/physical_device.hpp) [![queue](https://img.shields.io/badge/lava-queue-orange.svg)](liblava/base/queue.hpp)
-
-## lava [file](liblava/file)
-
-[![file](https://img.shields.io/badge/lava-file-orange.svg)](liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-orange.svg)](liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-orange.svg)](liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-orange.svg)](liblava/file/json_file.hpp)
-
-<br />
-
-## lava [util](liblava/util)
-
-[![log](https://img.shields.io/badge/lava-log-blue.svg)](liblava/util/log.hpp) [![random](https://img.shields.io/badge/lava-random-blue.svg)](liblava/util/random.hpp) [![telegram](https://img.shields.io/badge/lava-telegram-blue.svg)](liblava/util/telegram.hpp) [![thread](https://img.shields.io/badge/lava-thread-blue.svg)](liblava/util/thread.hpp) [![utility](https://img.shields.io/badge/lava-utility-blue.svg)](liblava/util/utility.hpp)
-
-## lava [core](liblava/core)
-
-[![data](https://img.shields.io/badge/lava-data-blue.svg)](liblava/core/data.hpp) [![hex](https://img.shields.io/badge/lava-hex-blue.svg)](liblava/core/hex.hpp) [![id](https://img.shields.io/badge/lava-id-blue.svg)](liblava/core/id.hpp) [![math](https://img.shields.io/badge/lava-math-blue.svg)](liblava/core/math.hpp) [![time](https://img.shields.io/badge/lava-time-blue.svg)](liblava/core/time.hpp) [![types](https://img.shields.io/badge/lava-types-blue.svg)](liblava/core/types.hpp) [![version](https://img.shields.io/badge/lava-version-blue.svg)](liblava/core/version.hpp)
-
-<br />
-
-# Reference
-
-To generate the documentation with [Doxygen](https://www.doxygen.nl) run:
-
-```bash
-doxygen doxygen.conf
-```
-
-Here you can find the **latest** ➜ [doc.lava-block.com](https://doc.lava-block.com)
-
-<br />
-
-# Test
-
-Run the `lava` executable to test our [Tutorial](#tutorial) examples ➜ so called [stages](liblava/engine/tutorial.cpp).
-
-<br />
-
-## List all stages
-
-```bash
-lava -ls
-
-lava --stages
-```
-
-1. [frame init](#1-frame-init)
-2. [run loop](#2-run-loop)
-3. [window input](#3-window-input)
-4. [clear color](#4-clear-color)
-5. [color block](#5-color-block)
-6. forward shading
-7. gamepad
-8. [imgui demo](#8-imgui-demo)
-
-<br />
-
-### Run *window input* example
-
-```bash
-lava -s=3
-
-lava --stage=3
-```
-
-**NOTE** &nbsp; If you run `lava` without arguments - the *last* stage will be started.
-
-<br />
-
-## Unit testing
-
-In addition run `lava-test` to check some **unit tests** with [Catch2](https://github.com/catchorg/Catch2).
 
 <br />
 
@@ -905,7 +980,7 @@ In addition run `lava-test` to check some **unit tests** with [Catch2](https://g
 
 * **C++20** compatible compiler
 * CMake **3.22+**
-* [Vulkan SDK](https://vulkan.lunarg.com)
+* [Vulkan SDK](https://vulkan.lunarg.com) &nbsp; *debug only*
 
 <br />
 
@@ -919,12 +994,12 @@ mkdir build
 cd build
 
 cmake ..
-make
+cmake --build . --parallel
 ```
 
 <br />
 
-# Install
+## Install
 
 You can use **liblava** as a *git submodule* in your project:
 
@@ -943,7 +1018,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE lava::app)
 
 <br />
 
-## Package setup
+### Package setup
 
 Alternatively ➜ compile and install a specific version for multiple projects:
 
@@ -952,7 +1027,7 @@ mkdir build
 cd build
 
 cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=../lava-install ..
-cmake --build . --config Release --target install
+cmake --build . --config Release --target install --parallel
 ```
 
 First find the package in your `CMakeLists.txt`
@@ -973,34 +1048,22 @@ mkdir build
 cd build
 
 cmake -D lava_DIR=path/to/lava-install/lib/cmake/lava ..
-cmake --build .
+cmake --build . --parallel
 ```
 
 <br />
 
-## Installing and using Vcpkg
+### Installing and using Vcpkg
 
-[Vcpkg](https://github.com/microsoft/vcpkg) integration with 2 options ➜ use this [registry and port](https://github.com/liblava/vcpkg-liblava).
-
-<br />
-
-## Conan Package Manager
-
-If you are familiar with [Conan](https://conan.io/) ➜ build this [package recipe](https://github.com/liblava/conan-liblava).
+[Vcpkg](https://github.com/microsoft/vcpkg) integration with 2 options ➜ use this [registry and port](https://github.com/liblava/vcpkg-liblava)
 
 <br />
 
-# Template
+### Conan Package Manager
 
-Put your code in the [src](src) folder and begin to code in [main.cpp](src/main.cpp).
+If you are familiar with [Conan](https://conan.io/) ➜ build this [package recipe](https://github.com/liblava/conan-liblava)
 
 <br />
-
-**NOTE** &nbsp; You can change the project name in **CMake** ➜ `LIBLAVA_TEMPLATE_NAME` 
-
-```bash
-cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
-```
 
 <br />
 
@@ -1012,8 +1075,6 @@ Use the [issue tracker](https://github.com/liblava/liblava/issues) to report any
 
 <br />
 
-## Support
-
 If you want to contribute - we suggest the following:
 
 1. Fork the [official repository](https://github.com/liblava/liblava/fork)
@@ -1022,9 +1083,15 @@ If you want to contribute - we suggest the following:
 
 <br />
 
-| [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JHWEUZ7ZTTV2G) | [![GitHub Stars](https://img.shields.io/github/stars/liblava/liblava?style=social)](https://github.com/liblava/liblava/stargazers) &nbsp; [![Twitter URL](https://img.shields.io/twitter/follow/liblava?style=social)](https://twitter.com/liblava) |
+## Support
+
+<br />
+
+| [![paypal](https://www.paypalobjects.com/en_US/i/btn//btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JHWEUZ7ZTTV2G) | [![GitHub Stars](https://img.shields.io/github/stars/liblava/liblava?style=social)](https://github.com/liblava/liblava/stargazers) &nbsp; [![Twitter URL](https://img.shields.io/twitter/follow/liblava?style=social)](https://twitter.com/liblava) |
 |:---------|---------:|
-| **liblava** needs help for **maintenance**, **support** and further **development**  |  even *without* spending anything, **we would be very happy about a star or follow**  | 
+| **liblava** needs **maintenance** and further **development**  | we are happy about **every star** or **follow**  | 
+
+<br />
 
 <br />
 
@@ -1032,7 +1099,7 @@ If you want to contribute - we suggest the following:
 
 * [argh](https://github.com/adishavit/argh) &nbsp; **Argh! A minimalist argument handler** &nbsp; *3-clause BSD*
 
-  [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp)
+  [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp) [![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp)
 
 * [Catch2](https://github.com/catchorg/Catch2) &nbsp; **A modern, C++-native, header-only, test framework for unit-tests, TDD and BDD** &nbsp; *BSL 1.0*
 
@@ -1094,14 +1161,18 @@ If you want to contribute - we suggest the following:
 
 <br />
 
-# Demo
+## Demo
 
 You can find the demonstration projects in the `liblava-demo` folder.
 
-- **Roboto** &nbsp; ➜ &nbsp; [GitHub](https://github.com/google/fonts/tree/main/apache/roboto) &nbsp; [Website](https://fonts.google.com/specimen/Roboto) &nbsp; *Apache License, Version 2.0* &nbsp; [Roboto-Regular.ttf](res/font/Roboto-Regular.ttf)
-- **Font Awesome** &nbsp; ➜ &nbsp; [GitHub](https://github.com/FortAwesome/Font-Awesome) &nbsp; [Website](https://fontawesome.com) &nbsp; *Font Awesome Free License* &nbsp; [fa-solid-900.ttf](res/font/icon/fa-solid-900.ttf)
+<br />
+
+- **Roboto** &nbsp; ➜ &nbsp; [Website](https://fonts.google.com/specimen/Roboto) &nbsp; • &nbsp; [GitHub](https://github.com/google/fonts/tree/main/apache/roboto) &nbsp; *Apache License, Version 2.0* &nbsp; [Roboto-Regular.ttf](res/font/Roboto-Regular.ttf)
+- **Font Awesome** &nbsp; ➜ &nbsp; [Website](https://fontawesome.com) &nbsp; • &nbsp; [GitHub](https://github.com/FortAwesome/Font-Awesome) &nbsp; *Font Awesome Free License* &nbsp; [fa-solid-900.ttf](res/font/icon/fa-solid-900.ttf)
 - **Barbarella** &nbsp; ➜ &nbsp; [Website](https://www.shadertoy.com/view/XdfGDr) &nbsp; *Shader by Weyland Yutani* &nbsp; [lamp.frag](res/lamp/lamp.frag)
-- **Spawn Model** &nbsp; ➜ &nbsp; [Website](https://opengameart.org/content/lava-spawn) &nbsp; *CC BY-SA 3.0* &nbsp; [lava-spawn-game.mtl](res/spawn/lava-spawn-game.mtl) &nbsp; [lava-spawn-game.obj](res/spawn/lava-spawn-game.obj)
+- **Spawn Model** &nbsp; ➜ &nbsp; [Website](https://opengameart.org/content/lava-spawn) &nbsp; *CC BY-SA 3.0* &nbsp; [lava-spawn-game.mtl](res/spawn/lava-spawn-game.mtl) &nbsp; • &nbsp; [lava-spawn-game.obj](res/spawn/lava-spawn-game.obj)
+
+<br />
 
 <br />
 
@@ -1121,7 +1192,7 @@ However - this library includes several [Third-Party](doc/Third-Party.md) librar
 
 Vulkan and the Vulkan logo are trademarks of the <a href="http://www.khronos.org" target="_blank">Khronos Group Inc.</a>
 
-Copyright (c) 2018-present - <a href="https://lava-block.com">Lava Block OÜ</a> and [contributors](https://github.com/liblava/liblava/graphs/contributors)
+Copyright (c) 2018-present • <a href="https://lava-block.com">Lava Block OÜ</a> and [contributors](https://github.com/liblava/liblava/graphs/contributors)
 
 <br />
 
