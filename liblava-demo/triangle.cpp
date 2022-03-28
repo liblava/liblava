@@ -10,6 +10,16 @@
 
 using namespace lava;
 
+/// Vertex shader
+ui32 vert_shader[] = {
+#include "res/triangle/vertex.u32"
+};
+
+/// Fragment shader
+ui32 frag_shader[] = {
+#include "res/triangle/fragment.u32"
+};
+
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
     app app("lava triangle", { argc, argv });
@@ -41,10 +51,10 @@ int main(int argc, char* argv[]) {
 
         pipeline->set_layout(layout);
 
-        if (!pipeline->add_shader(file_data("triangle/vertex.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!pipeline->add_shader({ vert_shader, sizeof(vert_shader) }, VK_SHADER_STAGE_VERTEX_BIT))
             return false;
 
-        if (!pipeline->add_shader(file_data("triangle/fragment.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!pipeline->add_shader({ frag_shader, sizeof(frag_shader) }, VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         pipeline->add_color_blend_attachment();

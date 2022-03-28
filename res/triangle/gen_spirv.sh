@@ -1,4 +1,4 @@
 #!/bin/bash
 
-glslangValidator -V -o fragment.spirv triangle.frag
-glslangValidator -V -o vertex.spirv triangle.vert
+glslangValidator -V -x -o fragment.u32 triangle.frag
+glslangValidator -V -x -o vertex.u32 triangle.vert
