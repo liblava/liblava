@@ -12,10 +12,10 @@
 
 <br />
 
-[![version](https://img.shields.io/badge/2022_preview-0.7.1-cf1020)](https://github.com/liblava/liblava/tags)  [![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JHWEUZ7ZTTV2G) [![Twitter Follow](https://img.shields.io/twitter/follow/liblava?style=flat&color=00acee)](https://twitter.com/liblava)
+[![version](https://img.shields.io/badge/2022_preview-0.7.1-cf1020)](https://github.com/liblava/liblava/tags) [![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://donate.lava-block.com) [![Twitter Follow](https://img.shields.io/twitter/follow/liblava?style=flat&color=00acee)](https://twitter.com/liblava)
 
 
-**lava** is a lean framework that provides **essentials** for **low-level graphics** - specially well suited for **prototyping**, **tooling**, **profiling** and **education**. This library is written in **modern C++20** and strives for a **modular rolling release** as far as possible. We don't want to promise too much, but it runs really smoothly on **Windows** and **Linux**.
+`lava` is a lean framework that provides **essentials** for **low-level graphics** - specially well suited for **prototyping**, **tooling**, **profiling** and **education**. This library is written in **modern C++20** and strives for a **modular rolling release** as far as possible. We don't want to promise too much, but it runs really smoothly on **Windows** and **Linux**.
 
 <br />
 
@@ -338,7 +338,7 @@ return frame.run();
 
 <br />
 
-Welcome on **Planet Vulkan** - That's a lot to display a colored window!
+Welcome on **Planet Vulkan** - That's a lot to display a colored `window`
 
 <br />
  
@@ -351,11 +351,11 @@ Take a closer look at the `build_cmd_bufs` function:
 
 <br />
 
-**NOTE** &nbsp; In case of **swap chain** restoration we simply **recreate command buffers** with a new random color - This happens for example on `window` resize.
+**Note:** &nbsp; In case of **swap chain** restoration we simply **recreate command buffers** with a new random color - This happens for example on `window` resize.
 
 <br />
 
-The flag *VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT* specifies the usage of **command buffers** in such a way that it can *no longer* be changed. And therefore it is a very *static* example.
+The flag *VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT* specifies the usage of **command buffers** in such a way that they can *no longer* be changed - And therefore it is a very *static* example.
 
 **Vulkan** supports a more *dynamic* and common usage by **resetting a command pool** before **recording new commands**.
 
@@ -424,7 +424,7 @@ And call the `renderer` with our recorded **command buffers**.
 
 <br />
 
-**NOTE** &nbsp; Don't forget to *clean* it up when the **run** ends:
+**Note:** &nbsp; Don't forget to *clean* it up when the **run** ends:
 
 ```c++
 block.destroy();
@@ -432,7 +432,7 @@ block.destroy();
 
 <br />
 
-### 8. imgui demo
+### 6. imgui demo
 
 Out of blocks, `lava app` supports [Dear ImGui](https://github.com/ocornut/imgui) for **tooling** and **easy prototyping**.
 
@@ -465,11 +465,11 @@ int main(int argc, char* argv[]) {
 # Guide
 
 1. [Lifetime of an Object](#1-lifetime-of-an-object)
-2. [Making meshes](#2-making-meshes)
+2. [Making Meshes](#2-making-meshes)
 3. [Modules](#3-modules)
 4. [Reference](#4-reference)
 5. [Test](#5-test)
-6. [Keyboard shortcuts](#6-keyboard-shortcuts)
+6. [Keyboard Shortcuts](#6-keyboard-shortcuts)
 7. [Command-Line Arguments](#7-command-line-arguments)
 
 <br />
@@ -528,22 +528,11 @@ buffer::ptr use_buffer_on_heap() {
 
 <br />
 
-## 2. Making meshes
+## 2. Making Meshes
 
-**liblava** provides a `mesh` struct that contains a list of vertices and, optionally, a list of indices.
+**liblava** provides a `mesh` struct that contains a list of vertices and *optionally* a list of indices.
 
-By default, vertices in a `mesh` are of type `vertex`, which has the following **layout**:
-
-```c++
-struct vertex {
-    v3 position;
-    v4 color;
-    v2 uv;
-    v3 normal;
-}
-```
-
-It is made like this:
+It is made this way:
 
 ```c++
 mesh::ptr my_mesh = make_mesh();
@@ -554,11 +543,13 @@ my_mesh->create(device);
 
 <br />
 
-**liblava** provides a `create_mesh()` function to simplify the **creation of primitives**.
+**liblava** prepares a `create_mesh()` function to simplify the **creation of primitives**.
 
-It takes a `mesh_type` argument to specify what kind of primitive to build - Its values are:
+It takes a `mesh_type` argument to specify what kind of primitive to build:
 
-`none` &nbsp; `cube` &nbsp; `triangle` &nbsp; `quad` &nbsp; `hexagon`
+`cube` &nbsp; `triangle` &nbsp; `quad` &nbsp; `hexagon` &nbsp; `none`
+
+<br />
 
 The function is called in this way:
 
@@ -569,7 +560,20 @@ cube = create_mesh(device, mesh_type::cube);
 
 <br />
 
-**Meshes** are templated, and can represent **any vertex struct** definition.
+By default, vertices in a `mesh` are of type `vertex` which has the following **layout**:
+
+```c++
+struct vertex {
+    v3 position;
+    v4 color;
+    v2 uv;
+    v3 normal;
+}
+```
+
+<br />
+
+**Meshes** are templated and can represent **any vertex struct** definition, like here:
 
 ```c++
 struct int_vertex {
@@ -579,7 +583,9 @@ struct int_vertex {
 mesh_template<int_vertex>::ptr int_triangle;
 ```
 
-`create_mesh()` can generate primitives for arbitrary vertex structs too, provided that the struct contains an array or vector member named `position`:
+<br />
+
+`create_mesh()` can generate primitives for arbitrary vertex structs too. Provided that the struct contains an array or vector member named `position`:
 
 ```c++
 int_triangle = create_mesh<int_vertex>(device, mesh_type::triangle);
@@ -591,13 +597,11 @@ int_triangle = create_mesh<int_vertex>(device, mesh_type::triangle);
 
 However, it will only initialize these if there are corresponding `color`, `normal`, and/or `uv` fields defined in the vertex struct.
 
-By default, all data that can be initialized will be, but if generating any of this data is not desired, the fields can be individually disabled by template arguments in this order:
+By default, it will initialize everything automatically. But if generating any of this data is not desired, the fields can be individually disabled by **template arguments** in this order:
 
-- **Color**
-- **Normal**
-- **UV**
-
-It is done in this way:
+1. **Color**
+2. **Normal**
+3. **UV**
 
 ```c++
 struct custom_vertex {
@@ -613,7 +617,7 @@ triangle = create_mesh<custom_vertex, false, false, true>
                       (device, mesh_type::triangle);
 ```
 
-Cubes generated this way have a special case. If they are initialized with normal data, they will be represented by 24 vertices. Otherwise, only 8 vertices will be initialized.
+**Note:** &nbsp; Cubes generated this way have a special case. If they are initialized with normal data, they will be represented by 24 vertices. Otherwise, only 8 vertices will be initialized.
 
 <br />
 
@@ -623,7 +627,7 @@ Cubes generated this way have a special case. If they are initialized with norma
 
 *require* [app](#lava-app)
 
-[![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp)
+[![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](liblava/engine/engine.hpp) [![property](https://img.shields.io/badge/lava-property-brightgreen.svg)](liblava/engine/property.hpp)
 
 ### lava [app](liblava/app)
 
@@ -632,8 +636,6 @@ Cubes generated this way have a special case. If they are initialized with norma
 [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](liblava/app/camera.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](liblava/app/forward_shading.hpp)
 
 [![benchmark](https://img.shields.io/badge/lava-benchmark-brightgreen.svg)](liblava/app/benchmark.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](liblava/app/config.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.hpp)
-
-<br />
 
 ### lava [block](liblava/block)
 
@@ -647,7 +649,7 @@ Cubes generated this way have a special case. If they are initialized with norma
 
 *require* [resource](#lava-resource)
 
-[![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp) [![gamepad](https://img.shields.io/badge/lava-gamepad-red.svg)](liblava/frame/gamepad.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp)
+[![argh](https://img.shields.io/badge/lava-argh-red.svg)](liblava/frame/argh.hpp) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp) [![gamepad](https://img.shields.io/badge/lava-gamepad-red.svg)](liblava/frame/gamepad.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp)
 
 [![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](liblava/frame/swapchain.hpp)
 
@@ -656,8 +658,6 @@ Cubes generated this way have a special case. If they are initialized with norma
 *require* [resource](#lava-resource) + [file](#lava-file)
 
 [![image_data](https://img.shields.io/badge/lava-image_data-red.svg)](liblava/asset/image_data.hpp) [![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-red.svg)](liblava/asset/mesh_loader.hpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-red.svg)](liblava/asset/texture_loader.hpp)
-
-<br />
 
 ### lava [resource](liblava/resource)
 
@@ -679,9 +679,7 @@ Cubes generated this way have a special case. If they are initialized with norma
 
 *require* [util](#lava-util)
 
-[![file](https://img.shields.io/badge/lava-file-orange.svg)](liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-orange.svg)](liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-orange.svg)](liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-orange.svg)](liblava/file/json_file.hpp)
-
-<br />
+[![file](https://img.shields.io/badge/lava-file-orange.svg)](liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-orange.svg)](liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-orange.svg)](liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-orange.svg)](liblava/file/json_file.hpp) [![json](https://img.shields.io/badge/lava-json-orange.svg)](liblava/file/json.hpp)
 
 ### lava [util](liblava/util)
 
@@ -709,7 +707,7 @@ Here you can find the **latest** ➜ [doc.lava-block.com](https://doc.lava-block
 
 ## 5. Test
 
-Run the `lava` executable to test our [Tutorial](#tutorial) examples ➜ so called [stages](liblava/engine/tutorial.cpp)
+Run the `lava` executable to test our [Tutorial](#tutorial) examples ➜ so called **stages**
 
 <br />
 
@@ -726,9 +724,13 @@ lava --stages
 3. [window input](#3-window-input)
 4. [clear color](#4-clear-color)
 5. [color block](#5-color-block)
-6. forward shading
-7. gamepad
-8. [imgui demo](#8-imgui-demo)
+6. [imgui demo](#6-imgui-demo)
+7. **forward shading**
+8. **gamepad**
+
+<br />
+
+[Here](liblava/engine/tutorial.cpp) you can find the complete source code for the tutorials - The last **stages** in this list are further [examples](liblava/engine/examples.cpp)
 
 <br />
 
@@ -740,7 +742,7 @@ lava -s=3
 lava --stage=3
 ```
 
-**NOTE** &nbsp; If you run `lava` without arguments - the *last* stage will be started.
+**Note:** &nbsp; If you run `lava` without arguments - the *last* stage will be started.
 
 <br />
 
@@ -756,7 +758,7 @@ Put your code in the [src](src) folder and begin to code in [main.cpp](src/main.
 
 <br />
 
-**NOTE** &nbsp; You can change the project name in **CMake** ➜ `LIBLAVA_TEMPLATE_NAME` 
+**Note:** &nbsp; You can change the project name in **CMake** ➜ `LIBLAVA_TEMPLATE_NAME` 
 
 ```bash
 cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
@@ -764,7 +766,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 <br />
 
-## 6. Keyboard shortcuts
+## 6. Keyboard Shortcuts
 
 `lava app` defines some *shortcuts* for common **actions**:
 
@@ -781,7 +783,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 <br />
 
-**NOTE** &nbsp; You can disable these actions by simply turning them off:
+**Note:** &nbsp; You can disable these actions by simply turning them off:
 
 `app.config.handle_key_events = false;`
 
@@ -826,7 +828,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 #### Benchmark
 
-**liblava** can write frame times into a `json` file to analyze them further in automated workflows like benchmarks:
+`lava app` writes frame times *(durations in milliseconds)* into a `json` file to analyze them further for automated workflows like benchmarks:
 
 ```json
 {
@@ -915,6 +917,10 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 ### frame
 
+You need the [Vulkan SDK](https://vulkan.lunarg.com) installed for debugging.
+
+<br />
+
 ```
 --debug, -d
 ```
@@ -929,7 +935,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 * **enable** debug utils extension &nbsp; *[VK_EXT_debug_utils](https://www.lunarg.com/wp-content/uploads/2018/05/Vulkan-Debug-Utils_05_18_v1.pdf)*
 
-<br />
+<br/>
 
 ```
 --renderdoc, -r
@@ -940,24 +946,16 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 <br />
 
 ```
---verbose, -v
-```
-
-*  **enable** verbose logging
-
-<br />
-
-```
 --log={0|...|6}, -l={0|...|6}
 ```
 
-* level **0** &nbsp; trace
+* level **0** &nbsp; trace &nbsp; *verbose logging*
 * level **1** &nbsp; debug
 * level **2** &nbsp; info
 * level **3** &nbsp; warn
 * level **4** &nbsp; error
 * level **5** &nbsp; critical
-* level **6** &nbsp; *logging off*
+* level **6** &nbsp; off &nbsp; *logging disabled*
 
 <br />
 
@@ -977,7 +975,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 * **C++20** compatible compiler
 * CMake **3.22+**
-* [Vulkan SDK](https://vulkan.lunarg.com) &nbsp; *debug only*
+* [Vulkan SDK](https://vulkan.lunarg.com) &nbsp; *for debugging only*
 
 <br />
 
@@ -1010,7 +1008,10 @@ Add this to your `CMakeLists.txt`
 
 ```cmake
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/liblava ${CMAKE_CURRENT_BINARY_DIR}/liblava)
-target_link_libraries(${PROJECT_NAME} PRIVATE lava::app)
+
+...
+
+target_link_libraries(${PROJECT_NAME} PRIVATE lava::engine)
 ```
 
 <br />
@@ -1034,8 +1035,7 @@ find_package(lava 0.7.1 REQUIRED)
 
 ...
 
-add_executable(test main.cpp)
-target_link_libraries(test lava::app)
+target_link_libraries(${PROJECT_NAME} PRIVATE lava::engine)
 ```
 
 And then build your project with install path ➜ *lava_DIR*
@@ -1084,9 +1084,9 @@ If you want to contribute - we suggest the following:
 
 <br />
 
-| [![paypal](https://www.paypalobjects.com/en_US/i/btn//btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JHWEUZ7ZTTV2G) | [![GitHub Stars](https://img.shields.io/github/stars/liblava/liblava?style=social)](https://github.com/liblava/liblava/stargazers) &nbsp; [![Twitter URL](https://img.shields.io/twitter/follow/liblava?style=social)](https://twitter.com/liblava) |
+| [![paypal](https://www.paypalobjects.com/en_US/i/btn//btn_donate_SM.gif)](https://donate.lava-block.com) | [![GitHub Stars](https://img.shields.io/github/stars/liblava/liblava?style=social)](https://github.com/liblava/liblava/stargazers) &nbsp; [![Twitter URL](https://img.shields.io/twitter/follow/liblava?style=social)](https://twitter.com/liblava) |
 |:---------|---------:|
-| **liblava** needs **maintenance** and further **development**  | we are happy about **every star** or **follow**  | 
+| **liblava** needs **maintenance** and further **development**  | `lava` is happy about **every star** or **follow**  | 
 
 <br />
 
@@ -1096,7 +1096,7 @@ If you want to contribute - we suggest the following:
 
 * [argh](https://github.com/adishavit/argh) &nbsp; **Argh! A minimalist argument handler** &nbsp; *3-clause BSD*
 
-  [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp) [![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp)
+  [![argh](https://img.shields.io/badge/lava-argh-red.svg)](liblava/frame/argh.hpp) [![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp)
 
 * [Catch2](https://github.com/catchorg/Catch2) &nbsp; **A modern, C++-native, header-only, test framework for unit-tests, TDD and BDD** &nbsp; *BSL 1.0*
 
@@ -1122,7 +1122,7 @@ If you want to contribute - we suggest the following:
 
 * [json](https://github.com/nlohmann/json) &nbsp; **JSON for Modern C++** &nbsp; *MIT*
 
-  [![json_file](https://img.shields.io/badge/lava-json_file-orange.svg)](liblava/file/json_file.hpp)
+  [![json](https://img.shields.io/badge/lava-json-orange.svg)](liblava/file/json.hpp)
 
 * [physfs](https://github.com/icculus/physfs) &nbsp; **A portable, flexible file i/o abstraction** &nbsp; *zlib*
 
