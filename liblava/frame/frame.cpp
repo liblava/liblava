@@ -49,18 +49,21 @@ bool frame::ready() const {
     return frame_initialized;
 }
 
+//-----------------------------------------------------------------------------
+void frame_config::set_default() {
+#if LIBLAVA_DEBUG_CONFIG
+    log.debug = true;
+    debug.validation = true;
+    debug.utils = true;
+#endif
+}
+
 /**
  * @brief Handle config
  *
  * @param config    Frame config
  */
 void handle_config(frame_config& config) {
-#if LIBLAVA_DEBUG
-    config.log.debug = true;
-    config.debug.validation = true;
-    config.debug.utils = true;
-#endif
-
     auto cmd_line = config.cmd_line;
 
     if (cmd_line[{ "-d", "--debug" }])

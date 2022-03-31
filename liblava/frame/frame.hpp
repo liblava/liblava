@@ -23,7 +23,9 @@ struct frame_config {
     /**
      * @brief Construct a new frame configuration
      */
-    explicit frame_config() = default;
+    explicit frame_config() {
+        set_default();
+    }
 
     /**
      * @brief Construct a new frame configuration
@@ -34,7 +36,13 @@ struct frame_config {
     explicit frame_config(name app_name, argh::parser cl)
     : cmd_line(cl) {
         info.app_name = app_name;
+        set_default();
     }
+
+    /**
+     * @brief Set default settings
+     */
+    void set_default();
 
     /// Command line arguments
     argh::parser cmd_line;
