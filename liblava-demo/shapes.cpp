@@ -12,7 +12,10 @@ using namespace lava;
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
-    app app("lava shapes", { argc, argv });
+    engine app("lava shapes", { argc, argv });
+
+    app.prop.add(_vertex_, "shapes/vertex.spirv");
+    app.prop.add(_fragment_, "shapes/fragment.spirv");
 
     if (!app.setup())
         return error::not_ready;
@@ -88,9 +91,9 @@ int main(int argc, char* argv[]) {
         pipeline->set_depth_compare_op(VK_COMPARE_OP_LESS_OR_EQUAL);
 
         // All shapes use the same simple shaders
-        if (!pipeline->add_shader(file_data("shapes/vertex.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!pipeline->add_shader(app.prop(_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
-        if (!pipeline->add_shader(file_data("shapes/fragment.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!pipeline->add_shader(app.prop(_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         pipeline->set_vertex_input_binding({ 0, sizeof(vertex), VK_VERTEX_INPUT_RATE_VERTEX });

@@ -74,10 +74,15 @@ struct dimmer {
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
-    app app("lava lamp", { argc, argv });
+    engine app("lava lamp", { argc, argv });
+
+    app.prop.add(_vertex_, "lamp/vertex.spirv");
+    app.prop.add(_fragment_, "lamp/fragment.spirv");
 
     setup_imgui_font_icons(app.config.imgui_font,
-                           FONT_ICON_FILE_NAME_FAS, ICON_MIN_FA, ICON_MAX_FA);
+                           FONT_ICON_FILE_NAME_FAS,
+                           ICON_MIN_FA, ICON_MAX_FA);
+    app.prop.add(_font_icon_, app.config.imgui_font.icon_file);
 
     if (!app.setup())
         return error::not_ready;
@@ -90,10 +95,10 @@ int main(int argc, char* argv[]) {
 
     app.on_create = [&]() {
         pipeline = make_graphics_pipeline(app.device);
-        if (!pipeline->add_shader(file_data("lamp/vertex.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!pipeline->add_shader(app.prop(_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
 
-        if (!pipeline->add_shader(file_data("lamp/fragment.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!pipeline->add_shader(app.prop(_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         pipeline->add_color_blend_attachment();

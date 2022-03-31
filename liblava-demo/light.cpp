@@ -94,12 +94,28 @@ light_array const g_lights = {
 render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments);
 
 //-----------------------------------------------------------------------------
+name _tex_normal_ = "tex_normal";
+name _tex_roughness_ = "tex_roughness";
+name _gbuffer_vertex_ = "gbuffer_vertex";
+name _gbuffer_fragment_ = "gbuffer_fragment";
+name _lighting_vertex_ = "lighting_vertex";
+name _lighting_fragment_ = "lighting_fragment";
+
+//-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
     frame_config config("lava light", { argc, argv });
     // config.profile = profile_roadmap_2022();
     config.profile = profile_desktop_portability_2021();
 
-    app app(config);
+    engine app(config);
+
+    app.prop.add(_tex_normal_, "light/normal.png");
+    app.prop.add(_tex_roughness_, "light/roughness.png");
+    app.prop.add(_gbuffer_vertex_, "light/gbuffer.vertex.spirv");
+    app.prop.add(_gbuffer_fragment_, "light/gbuffer.fragment.spirv");
+    app.prop.add(_lighting_vertex_, "light/lighting.vertex.spirv");
+    app.prop.add(_lighting_fragment_, "light/lighting.fragment.spirv");
+
     if (!app.setup())
         return error::not_ready;
 
@@ -116,8 +132,8 @@ int main(int argc, char* argv[]) {
     using object_array = std::array<mat4, 2>;
     object_array object_instances;
 
-    texture::ptr tex_normal = load_texture(app.device, "light/normal.png");
-    texture::ptr tex_roughness = load_texture(app.device, "light/roughness.png");
+    texture::ptr tex_normal = load_texture(app.device, app.prop.get_filename(_tex_normal_));
+    texture::ptr tex_roughness = load_texture(app.device, app.prop.get_filename(_tex_roughness_));
     if (!tex_normal || !tex_roughness)
         return error::create_failed;
 
@@ -205,9 +221,9 @@ int main(int argc, char* argv[]) {
             .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT
         };
 
-        if (!gbuffer_pipeline->add_shader(file_data("light/gbuffer.vertex.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!gbuffer_pipeline->add_shader(app.prop(_gbuffer_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
-        if (!gbuffer_pipeline->add_shader(file_data("light/gbuffer.fragment.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!gbuffer_pipeline->add_shader(app.prop(_gbuffer_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         for (auto i = 0u; i < g_attachments.size() - 1; ++i) {
@@ -271,9 +287,9 @@ int main(int argc, char* argv[]) {
             .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT
         };
 
-        if (!lighting_pipeline->add_shader(file_data("light/lighting.vertex.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!lighting_pipeline->add_shader(app.prop(_lighting_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
-        if (!lighting_pipeline->add_shader(file_data("light/lighting.fragment.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!lighting_pipeline->add_shader(app.prop(_lighting_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         lighting_pipeline->add_color_blend_attachment(lighting_blend_state);

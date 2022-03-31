@@ -608,7 +608,7 @@ message("=======================================================================
         source_group("Shader Files" FILES ${SHAPES_SHADERS})
 
         set_target_properties(lava-shapes PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-shapes lava::app)
+        target_link_libraries(lava-shapes lava::engine)
 
         set_property(TARGET lava-shapes PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
@@ -627,7 +627,7 @@ message("=======================================================================
         source_group("Shader Files" FILES ${LAMP_SHADERS})
 
         set_target_properties(lava-lamp PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-lamp lava::app)
+        target_link_libraries(lava-lamp lava::engine)
 
         set_property(TARGET lava-lamp PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
@@ -646,7 +646,7 @@ message("=======================================================================
         source_group("Shader Files" FILES ${SPAWN_SHADERS})
 
         set_target_properties(lava-spawn PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-spawn lava::app)
+        target_link_libraries(lava-spawn lava::engine)
 
         set_property(TARGET lava-spawn PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
@@ -668,7 +668,7 @@ message("=======================================================================
         source_group("Shader Files" FILES ${LIGHT_SHADERS})
 
         set_target_properties(lava-light PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-light lava::app)
+        target_link_libraries(lava-light lava::engine)
 
         set_property(TARGET lava-light PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 

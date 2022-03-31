@@ -124,6 +124,12 @@ using VkExtensionPropertiesList = std::vector<VkExtensionProperties>;
 /// List of Vulkan physical devices
 using VkPhysicalDevices = std::vector<VkPhysicalDevice>;
 
+/// Vertex shader name (default)
+constexpr name _vertex_ = "vertex";
+
+/// Fragment shader name (default)
+constexpr name _fragment_ = "fragment";
+
 /**
  * @brief Check a Vulkan result
  *
