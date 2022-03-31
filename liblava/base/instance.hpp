@@ -66,7 +66,7 @@ struct instance : no_copy_no_move {
         /// Renderdoc
         bool render_doc = false;
 
-        /// Verbose
+        /// Verbose logging
         bool verbose = false;
 
         /// Debug utils

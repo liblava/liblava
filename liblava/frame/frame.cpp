@@ -69,14 +69,15 @@ void handle_config(frame_config& config) {
     if (cmd_line[{ "-r", "--renderdoc" }])
         config.debug.render_doc = true;
 
-    if (cmd_line[{ "-v", "--verbose" }])
-        config.debug.verbose = true;
-
     if (cmd_line[{ "-u", "--utils" }])
         config.debug.utils = true;
 
-    if (auto log_level = -1; cmd_line({ "-l", "--log" }) >> log_level)
+    if (auto log_level = -1; cmd_line({ "-l", "--log" }) >> log_level) {
         config.log.level = log_level;
+
+        if (log_level == SPDLOG_LEVEL_TRACE)
+            config.debug.verbose = true;
+    }
 
     set_log(setup_log(config.log));
 
