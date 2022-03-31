@@ -40,7 +40,7 @@ void to_json(json& j, window::state const& w) {
  * @param j    Json object
  * @param w    Window state
  */
-void from_json(json const& j, window::state& w) {
+void from_json(json_ref j, window::state& w) {
     if (j.count(_x_))
         w.x = j.at(_x_).get<int>();
     if (j.count(_y_))

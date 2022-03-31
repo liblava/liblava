@@ -126,6 +126,7 @@ add_library(lava.file STATIC
         ${LIBLAVA_DIR}/file/file_utils.hpp
         ${LIBLAVA_DIR}/file/json_file.cpp
         ${LIBLAVA_DIR}/file/json_file.hpp
+        ${LIBLAVA_DIR}/file/json.hpp
         )
 
 target_include_directories(lava.file PUBLIC

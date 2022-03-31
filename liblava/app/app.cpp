@@ -24,37 +24,46 @@ app::app(name name, argh::parser cmd_line)
 void app::handle_config() {
     config_file.add(&config_callback);
 
-    config_callback.on_load = [&](json& j) {
-        if (j.count(_paused_))
-            run_time.paused = j[_paused_];
+    config_callback.on_load = [&](json_ref j) {
+        if (!j.count(config.id))
+            return;
 
-        if (j.count(_speed_))
-            run_time.speed = j[_speed_];
+        auto j_config = j[config.id];
 
-        if (j.count(_fixed_delta_))
-            run_time.use_fix_delta = j[_fixed_delta_];
+        if (j_config.count(_paused_))
+            run_time.paused = j_config[_paused_];
 
-        if (j.count(_delta_))
-            run_time.fix_delta = ms(j[_delta_]);
+        if (j_config.count(_speed_))
+            run_time.speed = j_config[_speed_];
 
-        if (j.count(_imgui_))
-            imgui.set_active(j[_imgui_]);
+        if (j_config.count(_fixed_delta_))
+            run_time.use_fix_delta = j_config[_fixed_delta_];
 
-        if (j.count(_v_sync_))
-            config.v_sync = j[_v_sync_];
+        if (j_config.count(_delta_))
+            run_time.fix_delta = ms(j_config[_delta_]);
 
-        if (j.count(_physical_device_))
-            config.physical_device = j[_physical_device_];
+        if (j_config.count(_imgui_))
+            imgui.set_active(j_config[_imgui_]);
+
+        if (j_config.count(_v_sync_))
+            config.v_sync = j_config[_v_sync_];
+
+        if (j_config.count(_physical_device_))
+            config.physical_device = j_config[_physical_device_];
     };
 
-    config_callback.on_save = [&](json& j) {
-        j[_paused_] = run_time.paused;
-        j[_speed_] = run_time.speed;
-        j[_fixed_delta_] = run_time.use_fix_delta;
-        j[_delta_] = run_time.fix_delta.count();
-        j[_imgui_] = imgui.activated();
-        j[_v_sync_] = config.v_sync;
-        j[_physical_device_] = config.physical_device;
+    config_callback.on_save = [&]() {
+        json j;
+
+        j[config.id][_paused_] = run_time.paused;
+        j[config.id][_speed_] = run_time.speed;
+        j[config.id][_fixed_delta_] = run_time.use_fix_delta;
+        j[config.id][_delta_] = run_time.fix_delta.count();
+        j[config.id][_imgui_] = imgui.activated();
+        j[config.id][_v_sync_] = config.v_sync;
+        j[config.id][_physical_device_] = config.physical_device;
+
+        return j;
     };
 
     config_file.load();
@@ -216,7 +225,7 @@ void app::setup_run() {
         if (!config_file.save())
             log()->error("cannot save config file {}", config_file.get());
 
-        config_file.remove(&config_callback);
+        config_file.clear();
 
         file_system::instance().terminate();
     });

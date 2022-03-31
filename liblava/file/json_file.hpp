@@ -8,15 +8,12 @@
 #pragma once
 
 #include <liblava/core/types.hpp>
-#include <nlohmann/json.hpp>
+#include <liblava/file/json.hpp>
 
 namespace lava {
 
 /// Configuration json file
 constexpr name _config_file_ = "config.json";
-
-/// Json
-using json = nlohmann::json;
 
 /**
  * @brief Json file
@@ -36,14 +33,17 @@ struct json_file {
         /// List of callbacks
         using list = std::vector<callback*>;
 
-        /// Callback function
-        using func = std::function<void(json&)>;
+        /// Load function
+        using load_func = std::function<void(json_ref)>;
 
         /// Called on load
-        func on_load;
+        load_func on_load;
+
+        /// Save function
+        using save_func = std::function<json()>;
 
         /// Called on save
-        func on_save;
+        save_func on_save;
     };
 
     /**
@@ -59,6 +59,13 @@ struct json_file {
      * @param callback    Callback to remove
      */
     void remove(callback* callback);
+
+    /**
+     * @brief Clear all callbacks
+     */
+    void clear() {
+        callbacks.clear();
+    }
 
     /**
      * @brief Set path of the json file
