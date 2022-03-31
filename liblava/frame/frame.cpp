@@ -291,26 +291,8 @@ void frame::trigger_run_remove() {
 
 //-----------------------------------------------------------------------------
 void frame::trigger_run_end() {
-    for (auto& func : reverse(run_end_map))
-        func.second();
-}
-
-//-----------------------------------------------------------------------------
-void log_command_line(cmd_line cmd_line) {
-    if (!cmd_line.pos_args().empty()) {
-        for (auto const& pos_arg : cmd_line.pos_args())
-            log()->info("cmd {}", str(pos_arg));
-    }
-
-    if (!cmd_line.flags().empty()) {
-        for (auto const& flag : cmd_line.flags())
-            log()->info("cmd flag {}", str(flag));
-    }
-
-    if (!cmd_line.params().empty()) {
-        for (auto const& param : cmd_line.params())
-            log()->info("cmd para {} = {}", str(param.first), str(param.second));
-    }
+    for (auto& [id, func] : reverse(run_end_map))
+        func();
 }
 
 //-----------------------------------------------------------------------------

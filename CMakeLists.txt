@@ -254,6 +254,7 @@ add_library(lava::asset ALIAS lava.asset)
 message(">> lava::frame")
 
 add_library(lava.frame STATIC
+        ${LIBLAVA_DIR}/frame/argh.hpp
         ${LIBLAVA_DIR}/frame/frame.cpp
         ${LIBLAVA_DIR}/frame/frame.hpp
         ${LIBLAVA_DIR}/frame/gamepad.cpp

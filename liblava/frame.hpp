@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <liblava/frame/argh.hpp>
 #include <liblava/frame/frame.hpp>
 #include <liblava/frame/gamepad.hpp>
 #include <liblava/frame/input.hpp>

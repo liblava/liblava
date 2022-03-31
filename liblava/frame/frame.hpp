@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include <argh.h>
 #include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
+#include <liblava/frame/argh.hpp>
 
 namespace lava {
 
@@ -73,9 +73,6 @@ enum error {
  * @return ms    Current milliseconds
  */
 ms now();
-
-/// Command line
-using cmd_line = argh::parser const&;
 
 /// Run abort result
 constexpr bool const run_abort = false;
@@ -340,13 +337,6 @@ private:
     /// List of run ids to remove
     id::list run_remove_list;
 };
-
-/**
- * @brief Log command line
- *
- * @param cmd_line    Command line parser
- */
-void log_command_line(cmd_line cmd_line);
 
 /**
  * @brief Handle events
