@@ -100,10 +100,18 @@ bool app::setup() {
 
     auto& cmd_line = get_cmd_line();
 
+    if (auto id = cmd_line({ "-id", "--identification" })) {
+        config.id = id.str();
+        remove_chars(config.id, _punctuation_marks_);
+    }
+
     if (!setup_file_system(cmd_line))
         return false;
 
     handle_config();
+
+    if (on_setup && !on_setup())
+        return false;
 
     if (!setup_window(cmd_line))
         return false;
@@ -141,9 +149,7 @@ bool app::setup_file_system(cmd_line cmd_line) {
 
 //-----------------------------------------------------------------------------
 bool app::setup_window(cmd_line cmd_line) {
-    if (auto id = cmd_line({ "-id", "--identification" })) {
-        config.id = id.str();
-        remove_chars(config.id, _punctuation_marks_);
+    if (config.id != _default_) {
         window.set_save_name(str(config.id));
         window.show_save_title();
     }

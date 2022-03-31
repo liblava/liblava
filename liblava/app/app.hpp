@@ -41,7 +41,7 @@ struct app : frame {
      * @return true     Setup was successful
      * @return false    Setup failed
      */
-    bool setup();
+    virtual bool setup();
 
     /// Main window
     lava::window window;
@@ -143,6 +143,12 @@ struct app : frame {
     id::ref block_cmd() const {
         return block_command;
     }
+
+    /// Setup function
+    using setup_func = std::function<bool()>;
+
+    /// Function called on application setup
+    setup_func on_setup;
 
 private:
     /**

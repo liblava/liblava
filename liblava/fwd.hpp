@@ -67,6 +67,12 @@ struct interface;
 struct internal_version;
 struct version;
 
+// liblava/engine.hpp
+struct stage;
+struct driver;
+struct engine;
+struct property;
+
 // liblava/file.hpp
 struct file_guard;
 struct file_system;

@@ -8,3 +8,5 @@
 #pragma once
 
 #include <liblava/engine/driver.hpp>
+#include <liblava/engine/engine.hpp>
+#include <liblava/engine/property.hpp>

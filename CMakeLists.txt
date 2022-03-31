@@ -384,6 +384,25 @@ set_target_properties(lava.app PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.app PROPERTY EXPORT_NAME app)
 add_library(lava::app ALIAS lava.app)
 
+message(">> lava::engine")
+
+add_library(lava.engine STATIC
+        ${LIBLAVA_DIR}/engine/driver.cpp
+        ${LIBLAVA_DIR}/engine/driver.hpp
+        ${LIBLAVA_DIR}/engine/engine.cpp
+        ${LIBLAVA_DIR}/engine/engine.hpp
+        ${LIBLAVA_DIR}/engine/property.cpp
+        ${LIBLAVA_DIR}/engine/property.hpp
+        )
+
+target_link_libraries(lava.engine
+        lava::app
+        )
+
+set_target_properties(lava.engine PROPERTIES FOLDER "liblava")
+set_property(TARGET lava.engine PROPERTY EXPORT_NAME engine)
+add_library(lava::engine ALIAS lava.engine)
+
 message("========================================================================")
 
 message("> lava")
@@ -394,7 +413,7 @@ add_executable(lava
         ${LIBLAVA_DIR}/engine/tutorial.cpp
         )
 
-target_link_libraries(lava lava::app)
+target_link_libraries(lava lava::engine)
 
 set_property(TARGET lava PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
@@ -422,7 +441,7 @@ message("=======================================================================
                 ${UNIT_TESTS}
                 )
 
-        target_link_libraries(lava-test lava::app Catch2::Catch2 Catch2::Catch2WithMain)
+        target_link_libraries(lava-test lava::engine Catch2::Catch2 Catch2::Catch2WithMain)
 
         set_property(TARGET lava-test PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
@@ -442,6 +461,7 @@ install(TARGETS
         lava.frame
         lava.block
         lava.app
+        lava.engine
         spdlog
         physfs-static
         glfw
@@ -685,7 +705,7 @@ message("=======================================================================
                 ${SRC_DIR}
                 )
 
-        target_link_libraries(${LIBLAVA_TEMPLATE_NAME} lava::app)
+        target_link_libraries(${LIBLAVA_TEMPLATE_NAME} lava::engine)
 
         set_property(TARGET ${LIBLAVA_TEMPLATE_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 endif()
