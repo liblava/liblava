@@ -54,6 +54,9 @@ enum class file_mode : type {
  * @brief File
  */
 struct file : no_copy_no_move {
+    /// Reference to file
+    using ref = file const&;
+
     /**
      * @brief Construct a new file
      *

@@ -26,8 +26,8 @@ void _handle_events(input_events<T>& events, input_callback::func<T> input_callb
     for (auto const& event : events) {
         auto handled = false;
 
-        for (auto const& listener : events.listeners.get_list()) {
-            if (listener.second(event)) {
+        for (auto const& [id, listener] : events.listeners.get_list()) {
+            if (listener(event)) {
                 handled = true;
                 break;
             }

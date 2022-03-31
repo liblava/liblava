@@ -35,7 +35,7 @@ struct compute_pipeline : pipeline {
     void bind(VkCommandBuffer cmdBuffer) override;
 
     /**
-     * @brief Set the shader stage
+     * @brief Set shader stage
      *
      * @param data      Shader data
      * @param stage     Shader stage flag bits
@@ -43,7 +43,7 @@ struct compute_pipeline : pipeline {
      * @return true     Set was successful
      * @return false    Set failed
      */
-    bool set_shader_stage(cdata const& data, VkShaderStageFlagBits stage);
+    bool set_shader_stage(cdata::ref data, VkShaderStageFlagBits stage);
 
     /**
      * @brief Set shader stage

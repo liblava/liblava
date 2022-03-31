@@ -16,8 +16,9 @@ namespace lava {
  *
  * @param device        Vulkan device
  * @param filename      File to load
+ *
  * @return mesh::ptr    Loaded mesh
  */
-mesh::ptr load_mesh(device_ptr device, name filename);
+mesh::ptr load_mesh(device_ptr device, string_ref filename);
 
 } // namespace lava

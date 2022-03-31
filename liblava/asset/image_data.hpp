@@ -28,7 +28,7 @@ struct image_data {
      *
      * @param image    Memory data to load
      */
-    explicit image_data(cdata const& image);
+    explicit image_data(cdata::ref image);
 
     /**
      * @brief Destroy the image data

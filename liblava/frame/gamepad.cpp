@@ -38,8 +38,8 @@ bool gamepad::update() {
 //-----------------------------------------------------------------------------
 gamepad_manager::gamepad_manager() {
     glfwSetJoystickCallback([](int jid, int e) {
-        for (auto const& event : instance().map)
-            if (event.second(gamepad(gamepad_id(jid)), e == GLFW_CONNECTED))
+        for (auto const& [id, event] : instance().map)
+            if (event(gamepad(gamepad_id(jid)), e == GLFW_CONNECTED))
                 break;
     });
 }

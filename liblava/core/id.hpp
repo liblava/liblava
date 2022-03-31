@@ -435,7 +435,7 @@ struct id_registry {
      * @return true     Object exists
      * @return false    Object does not exist
      */
-    bool has(id::ref object) const {
+    bool exists(id::ref object) const {
         return objects.count(object);
     }
 
@@ -489,7 +489,7 @@ struct id_registry {
      * @return false    Meta not updated
      */
     bool update(id::ref object, Meta const& meta) {
-        if (!has(object))
+        if (!exists(object))
             return false;
 
         meta.at(object) = meta;

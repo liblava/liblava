@@ -92,6 +92,12 @@ bool load_file_data(string_ref filename, data& target);
  * @brief File data
  */
 struct file_data : unique_data {
+    /// Reference to file data
+    using ref = file_data const&;
+
+    /// Unique data constructors
+    using unique_data::unique_data;
+
     /**
      * @brief Construct a new file data
      *

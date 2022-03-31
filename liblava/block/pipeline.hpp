@@ -200,7 +200,7 @@ struct pipeline : entity {
          * @return true                  Create was successful
          * @return false                 Create failed
          */
-        bool create(device_ptr device, cdata const& shader_data, cdata const& specialization_data = data());
+        bool create(device_ptr device, cdata::ref shader_data, cdata::ref specialization_data = data());
 
         /**
          * @brief Destroy the shader stage
@@ -271,6 +271,7 @@ private:
  * @brief Make a new pipline shader stage
  *
  * @param stage                           Shader stage flag bits
+ *
  * @return pipeline::shader_stage::ptr    Shared pointer to shader stage
  */
 pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits stage);
@@ -281,8 +282,9 @@ pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits sta
  * @param device                          Vulkan device
  * @param data                            Shader data
  * @param stage                           Shader stage flag bits
+ *
  * @return pipeline::shader_stage::ptr    Shared pointer to pipeline shader stage
  */
-pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, cdata const& data, VkShaderStageFlagBits stage);
+pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, cdata::ref data, VkShaderStageFlagBits stage);
 
 } // namespace lava

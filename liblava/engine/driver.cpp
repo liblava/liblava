@@ -16,8 +16,8 @@ i32 driver::run(argh::parser cmd_line) {
     auto& stages = driver::instance().get_stages();
 
     if (cmd_line[{ "-ls", "--stages" }]) {
-        for (auto& stage : stages)
-            std::cout << stage.first << " = " << stage.second->descr << std::endl;
+        for (auto& [id, stage] : stages)
+            std::cout << id << " = " << stage->descr << std::endl;
 
         return to_i32(stages.size());
     }
@@ -35,9 +35,9 @@ i32 driver::run(argh::parser cmd_line) {
         }
     }
 
-    for (auto& stage : reverse(stages)) {
-        std::cout << "stage " << stage.first << " - " << stage.second->descr << std::endl;
-        return stage.second->on_func(cmd_line);
+    for (auto& [id, stage] : reverse(stages)) {
+        std::cout << "stage " << id << " - " << stage->descr << std::endl;
+        return stage->on_func(cmd_line);
     }
 
     std::cerr << "no stages" << std::endl;

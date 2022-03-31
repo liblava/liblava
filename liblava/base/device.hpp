@@ -440,7 +440,7 @@ using device_ptr = device*;
  *
  * @return VkShaderModule    Shader module
  */
-VkShaderModule create_shader_module(device_ptr device, cdata const& data);
+VkShaderModule create_shader_module(device_ptr device, cdata::ref data);
 
 /// One time command function
 using one_time_command_func = std::function<void(VkCommandBuffer)>;

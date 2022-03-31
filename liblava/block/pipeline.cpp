@@ -65,7 +65,7 @@ void pipeline::shader_stage::add_specialization_entry(VkSpecializationMapEntry c
 }
 
 //-----------------------------------------------------------------------------
-bool pipeline::shader_stage::create(device_ptr d, cdata const& shader_data, cdata const& specialization_data) {
+bool pipeline::shader_stage::create(device_ptr d, cdata::ref shader_data, cdata::ref specialization_data) {
     device = d;
 
     if (specialization_data.size > 0) {
@@ -102,7 +102,7 @@ pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits sta
 }
 
 //-----------------------------------------------------------------------------
-pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, cdata const& data, VkShaderStageFlagBits stage) {
+pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, cdata::ref data, VkShaderStageFlagBits stage) {
     auto shaderStage = make_pipeline_shader_stage(stage);
 
     if (!shaderStage->create(device, data))

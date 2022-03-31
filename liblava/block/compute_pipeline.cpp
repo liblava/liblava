@@ -15,7 +15,7 @@ void compute_pipeline::bind(VkCommandBuffer cmd_buf) {
 }
 
 //-----------------------------------------------------------------------------
-bool compute_pipeline::set_shader_stage(cdata const& data, VkShaderStageFlagBits stage) {
+bool compute_pipeline::set_shader_stage(cdata::ref data, VkShaderStageFlagBits stage) {
     if (!data.ptr) {
         log()->error("compute pipeline shader stage data");
         return false;

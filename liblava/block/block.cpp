@@ -55,8 +55,8 @@ bool block::create(device_ptr d, index frame_count, index queue_family) {
         }
     }
 
-    for (auto& command : commands)
-        if (!command.second->create(device, frame_count, cmd_pools))
+    for (auto& [id, command] : commands)
+        if (!command->create(device, frame_count, cmd_pools))
             return false;
 
     return true;
@@ -64,8 +64,8 @@ bool block::create(device_ptr d, index frame_count, index queue_family) {
 
 //-----------------------------------------------------------------------------
 void block::destroy() {
-    for (auto& command : commands)
-        command.second->destroy(device, cmd_pools);
+    for (auto& [id, command] : commands)
+        command->destroy(device, cmd_pools);
 
     for (auto i = 0u; i < cmd_pools.size(); ++i)
         device->call().vkDestroyCommandPool(device->get(), cmd_pools.at(i), memory::alloc());

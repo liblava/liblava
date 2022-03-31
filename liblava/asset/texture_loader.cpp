@@ -49,7 +49,7 @@ namespace lava {
  *
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_gli_texture_2d(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
+texture::ptr create_gli_texture_2d(device_ptr device, file::ref file, VkFormat format, unique_data::ref temp_data) {
     gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                      : gli::load(file.get_path()));
 #if LIBLAVA_DEBUG_ASSERT
@@ -128,7 +128,7 @@ texture::layer::list create_layer_list(T const& tex, ui32 layer_count) {
  *
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
+texture::ptr create_gli_texture_array(device_ptr device, file::ref file, VkFormat format, unique_data::ref temp_data) {
     gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                            : gli::load(file.get_path()));
 #if LIBLAVA_DEBUG_ASSERT
@@ -161,7 +161,7 @@ texture::ptr create_gli_texture_array(device_ptr device, file const& file, VkFor
  *
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_gli_texture_cube_map(device_ptr device, file const& file, VkFormat format, unique_data const& temp_data) {
+texture::ptr create_gli_texture_cube_map(device_ptr device, file::ref file, VkFormat format, unique_data::ref temp_data) {
     gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                         : gli::load(file.get_path()));
 #if LIBLAVA_DEBUG_ASSERT
@@ -193,7 +193,7 @@ texture::ptr create_gli_texture_cube_map(device_ptr device, file const& file, Vk
  *
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_stbi_texture(device_ptr device, file const& file, unique_data const& temp_data) {
+texture::ptr create_stbi_texture(device_ptr device, file::ref file, unique_data::ref temp_data) {
     i32 tex_width = 0, tex_height = 0;
     stbi_uc* data = nullptr;
 

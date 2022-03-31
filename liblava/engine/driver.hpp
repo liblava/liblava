@@ -5,6 +5,8 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#pragma once
+
 #include <argh.h>
 #include <liblava/core/types.hpp>
 
@@ -89,6 +91,17 @@ private:
     /// Map of stages
     stage::map stages;
 };
+
+/**
+ * @brief Run lava (driver)
+ *
+ * @param cmd_line    Command line arguments
+ *
+ * @return i32        Result code
+ */
+inline i32 run(argh::parser cmd_line = {}) {
+    return driver::instance().run(cmd_line);
+}
 
 } // namespace lava
 

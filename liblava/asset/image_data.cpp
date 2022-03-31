@@ -39,7 +39,7 @@ image_data::image_data(string_ref filename) {
 }
 
 //-----------------------------------------------------------------------------
-image_data::image_data(cdata const& image) {
+image_data::image_data(cdata::ref image) {
     i32 tex_width, tex_height, tex_channels = 0;
 
     data = as_ptr(stbi_load_from_memory((stbi_uc const*) image.ptr, to_i32(image.size),

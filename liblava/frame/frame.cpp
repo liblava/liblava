@@ -224,8 +224,8 @@ bool frame::run_step() {
         run_once_list.clear();
     }
 
-    for (auto& func : run_map)
-        if (!func.second(func.first))
+    for (auto& [id, func] : run_map)
+        if (!func(id))
             return false;
 
     if (!run_remove_list.empty())

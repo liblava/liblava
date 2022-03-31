@@ -27,19 +27,19 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-mesh::ptr load_mesh(device_ptr device, name filename) {
-    if (extension(filename, "OBJ")) {
+mesh::ptr load_mesh(device_ptr device, string_ref filename) {
+    if (extension(str(filename), "OBJ")) {
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
         std::vector<tinyobj::material_t> materials;
         std::string err;
         std::string warn;
 
-        string target_file = filename;
+        auto target_file = filename;
 
         file_remover temp_file_remover;
         {
-            file file(filename);
+            file file(str(filename));
             if (file.opened() && file.get_type() == file_type::fs) {
                 string temp_file;
                 temp_file = file_system::get_pref_dir();

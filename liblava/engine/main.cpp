@@ -9,5 +9,5 @@
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
-    return lava::driver::instance().run({ argc, argv });
+    return lava::run({ argc, argv });
 }

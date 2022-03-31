@@ -274,7 +274,7 @@ void device_manager::clear() {
 }
 
 //-----------------------------------------------------------------------------
-VkShaderModule create_shader_module(device_ptr device, cdata const& data) {
+VkShaderModule create_shader_module(device_ptr device, cdata::ref data) {
     VkShaderModuleCreateInfo shader_module_create_info{
         .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
         .codeSize = data.size,

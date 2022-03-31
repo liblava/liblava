@@ -254,7 +254,7 @@ struct graphics_pipeline : pipeline {
      * @return true     Add was successful
      * @return false    Add failed
      */
-    bool add_shader_stage(cdata const& data, VkShaderStageFlagBits stage);
+    bool add_shader_stage(cdata::ref data, VkShaderStageFlagBits stage);
 
     /**
      * @brief Add shader
@@ -265,7 +265,7 @@ struct graphics_pipeline : pipeline {
      * @return true     Add was successful
      * @return false    Add failed
      */
-    bool add_shader(cdata const& data, VkShaderStageFlagBits stage) {
+    bool add_shader(cdata::ref data, VkShaderStageFlagBits stage) {
         return add_shader_stage(data, stage);
     }
 

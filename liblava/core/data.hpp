@@ -163,6 +163,9 @@ enum class data_mode : type {
  * @brief Data wrapper
  */
 struct data {
+    /// Reference to data wrapper
+    using ref = data const&;
+
     /**
      * @brief Construct a new data
      */
@@ -227,6 +230,9 @@ struct data {
  * @brief Const data wrapper
  */
 struct cdata {
+    /// Reference to const data wrapper
+    using ref = cdata const&;
+
     /**
      * @brief Construct a new const data
      */
@@ -246,7 +252,7 @@ struct cdata {
      *
      * @param data    Source data
      */
-    cdata(data const& data)
+    cdata(data::ref data)
     : cdata(data.ptr, data.size) {}
 
     /// Const data pointer
@@ -260,6 +266,9 @@ struct cdata {
  * @brief Unique data wrapper
  */
 struct unique_data : data {
+    /// Reference to unique data wrapper
+    using ref = unique_data const&;
+
     /**
      * @brief Construct a new unique data
      *
@@ -276,7 +285,7 @@ struct unique_data : data {
      *
      * @param data    Source data
      */
-    explicit unique_data(data const& data) {
+    explicit unique_data(data::ref data) {
         ptr = data.ptr;
         size = data.size;
         alignment = data.alignment;
