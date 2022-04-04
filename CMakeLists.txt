@@ -25,6 +25,10 @@ message("=======================================================================
 
 message("> module")
 
+# ---- Add dependencies via CPM ----
+# see https://github.com/CPM-cmake/CPM.cmake for more info
+include(cmake/CPM.cmake)
+
 set(LIBLAVA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava)
 set(LIBLAVA_EXT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ext)
 set(LIBLAVA_RES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res)
@@ -329,14 +333,19 @@ set_property(TARGET lava.block PROPERTY EXPORT_NAME block)
 add_library(lava::block ALIAS lava.block)
 
 message(">> lava::app")
-
+option(IMGUI_DOCKING "Imgui with docking " ON)
+if(IMGUI_DOCKING)
+ CPMAddPackage("gh:ocornut/imgui#377b864")
+else()
+ CPMAddPackage("gh:ocornut/imgui#f5c5926")
+endif()
 set(IMGUI_FILES
-        ${LIBLAVA_EXT_DIR}/imgui/imgui.cpp
-        ${LIBLAVA_EXT_DIR}/imgui/imgui.h
-        ${LIBLAVA_EXT_DIR}/imgui/imgui_draw.cpp
-        ${LIBLAVA_EXT_DIR}/imgui/imgui_tables.cpp
-        ${LIBLAVA_EXT_DIR}/imgui/imgui_widgets.cpp
-        ${LIBLAVA_EXT_DIR}/imgui/imgui_demo.cpp
+        ${imgui_SOURCE_DIR}/imgui.cpp
+        ${imgui_SOURCE_DIR}/imgui.h
+        ${imgui_SOURCE_DIR}/imgui_draw.cpp
+        ${imgui_SOURCE_DIR}/imgui_tables.cpp
+        ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+        ${imgui_SOURCE_DIR}/imgui_demo.cpp
         )
 
 source_group("imgui Files" FILES ${IMGUI_FILES})
@@ -368,7 +377,7 @@ add_library(lava.app STATIC
         )
 
 target_include_directories(lava.app PUBLIC
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/imgui>
+        $<BUILD_INTERFACE:${imgui_SOURCE_DIR}>
         $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/IconFontCppHeaders>
         )
 
@@ -492,7 +501,7 @@ set(EXT_INCLUDE_DIRS
         #${LIBLAVA_EXT_DIR}/glfw/include
         #${LIBLAVA_EXT_DIR}/Catch2
         ${LIBLAVA_EXT_DIR}/argh
-        ${LIBLAVA_EXT_DIR}/imgui
+        ${imgui_SOURCE_DIR}
         ${LIBLAVA_EXT_DIR}/IconFontCppHeaders
         )
 
