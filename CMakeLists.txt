@@ -22,10 +22,15 @@ message(" 2022 preview / 0.7.1                                      MIT licensed
 message("========================================================================")
 message(" https://git.io/liblava                          https://lava-block.com ")
 message("========================================================================")
+message("> Making lava flow...")
 
-message("> module")
+option(IMGUI_DOCKING "Dear ImGui with docking" FALSE)
 
-include(cmake/CPM.cmake)
+option(LIBLAVA_TEST "Enable Test" TRUE)
+option(LIBLAVA_DEMO "Enable Demo" TRUE)
+
+option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
+set(LIBLAVA_TEMPLATE_NAME "template" CACHE STRING "Name of template project")
 
 set(LIBLAVA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava)
 set(LIBLAVA_EXT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ext)
@@ -38,6 +43,151 @@ endif()
 if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
         set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
 endif()
+
+message("========================================================================")
+message("> CPM.cmake")
+
+include(cmake/CPM.cmake)
+
+CPMAddPackage(
+        NAME argh
+        GITHUB_REPOSITORY adishavit/argh
+        GIT_TAG d17062c870b5919f6d1eae7fe12879869a893b32
+        DOWNLOAD_ONLY YES
+        )
+
+CPMAddPackage(
+        NAME glfw
+        GITHUB_REPOSITORY glfw/glfw
+        GIT_TAG 4cb36872a5fe448c205d0b46f0e8c8b57530cfe0
+        OPTIONS
+                "GLFW_INSTALL OFF"
+                "GLFW_BUILD_DOCS OFF"
+                "GLFW_BUILD_TESTS OFF"
+                "GLFW_BUILD_EXAMPLES OFF"
+        )
+
+CPMAddPackage(
+        NAME gli
+        GITHUB_REPOSITORY g-truc/gli
+        GIT_TAG 779b99ac6656e4d30c3b24e96e0136a59649a869
+        DOWNLOAD_ONLY YES
+        )
+
+CPMAddPackage(
+        NAME glm
+        GITHUB_REPOSITORY g-truc/glm
+        GIT_TAG 6ad79aae3eb5bf809c30bf1168171e9e55857e45
+        DOWNLOAD_ONLY YES
+        )
+
+CPMAddPackage(
+        NAME physfs
+        GITHUB_REPOSITORY icculus/physfs
+        GIT_TAG a0dfe220ffb97eef2c78fef2b8971995f221b18d
+        OPTIONS
+                "PHYSFS_ARCHIVE_ZIP ON"
+                "PHYSFS_ARCHIVE_7Z OFF"
+                "PHYSFS_ARCHIVE_GRP OFF"
+                "PHYSFS_ARCHIVE_WAD OFF"
+                "PHYSFS_ARCHIVE_HOG OFF"
+                "PHYSFS_ARCHIVE_MVL OFF"
+                "PHYSFS_ARCHIVE_QPAK OFF"
+                "PHYSFS_ARCHIVE_SLB OFF"
+                "PHYSFS_ARCHIVE_ISO9660 OFF"
+                "PHYSFS_ARCHIVE_VDF OFF"
+                "PHYSFS_BUILD_SHARED OFF"
+                "PHYSFS_BUILD_TEST OFF"
+        )
+
+CPMAddPackage(
+        NAME json
+        GITHUB_REPOSITORY nlohmann/json
+        GIT_TAG ab5cecb34feb18f5a030517547b0ead1148d05fc
+        DOWNLOAD_ONLY YES
+        )
+
+CPMAddPackage(
+        NAME spdlog
+        GITHUB_REPOSITORY gabime/spdlog
+        GIT_TAG 76fb40d95455f249bd70824ecfcae7a8f0930fa3
+        )
+
+CPMAddPackage(
+        NAME stb
+        GITHUB_REPOSITORY nothings/stb
+        GIT_TAG af1a5bc352164740c1cc1354942b1c6b72eacb8a
+        DOWNLOAD_ONLY YES
+        )
+
+CPMAddPackage(
+        NAME tinyobjloader
+        GITHUB_REPOSITORY syoyo/tinyobjloader
+        GIT_TAG 8322e00ae685ea623ab6ac5a6cebcfa2d22fbf93
+        DOWNLOAD_ONLY YES
+        )
+
+CPMAddPackage(
+        NAME Vulkan-Headers
+        GITHUB_REPOSITORY KhronosGroup/Vulkan-Headers
+        GIT_TAG 76f00ef6cbb1886eb1162d1fa39bee8b51e22ee8
+        DOWNLOAD_ONLY YES
+        )
+
+CPMAddPackage(
+        NAME Vulkan-Profiles
+        GITHUB_REPOSITORY KhronosGroup/Vulkan-Profiles
+        GIT_TAG f9f4983fbf146e354c669f320b533e87fa07a4ee
+        DOWNLOAD_ONLY YES
+        )
+
+CPMAddPackage(
+        NAME volk
+        GITHUB_REPOSITORY zeux/volk
+        GIT_TAG 92ba7c9f112a82cecf452ebf4b7c46f149a5799e
+        DOWNLOAD_ONLY YES
+        )
+
+CPMAddPackage(
+        NAME VulkanMemoryAllocator
+        GITHUB_REPOSITORY GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator
+        GIT_TAG df7648061c702f9d949c2ba4d95c6e4b06d744a8
+        DOWNLOAD_ONLY YES
+        )
+
+CPMAddPackage(
+        NAME IconFontCppHeaders
+        GITHUB_REPOSITORY juliettef/IconFontCppHeaders
+        GIT_TAG 40cffaf2c729182e597c3d925aa90a501bc00fd5
+        DOWNLOAD_ONLY YES
+        )
+
+if(IMGUI_DOCKING)
+        CPMAddPackage(
+                NAME imgui
+                GITHUB_REPOSITORY ocornut/imgui
+                GIT_TAG 505f19e3b00d54623566dda354980c7f3410f2b5
+                DOWNLOAD_ONLY YES
+                )
+else()
+        CPMAddPackage(
+                NAME imgui
+                GITHUB_REPOSITORY ocornut/imgui
+                GIT_TAG 2c03aac6d30720d8f717dcd9cbb8b9a6799396b8
+                DOWNLOAD_ONLY YES
+                )
+endif()
+
+if(LIBLAVA_TEST)
+        CPMAddPackage(
+                NAME Catch2
+                GITHUB_REPOSITORY catchorg/Catch2
+                GIT_TAG a51fd07bd006101c90662317c98de0ebe9e97312
+                )
+endif()
+
+message("========================================================================")
+message("> module")
 
 message(">> lava::core")
 
@@ -59,7 +209,7 @@ add_library(lava.core STATIC
 
 target_include_directories(lava.core INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/glm>
+        $<BUILD_INTERFACE:${glm_SOURCE_DIR}>
         )
 
 target_compile_features(lava.core INTERFACE 
@@ -100,14 +250,6 @@ add_library(lava.util STATIC
         ${LIBLAVA_DIR}/util/utility.hpp
         )
 
-message(">>> spdlog")
-
-add_subdirectory(${LIBLAVA_EXT_DIR}/spdlog spdlog EXCLUDE_FROM_ALL)
-
-set_target_properties(spdlog PROPERTIES FOLDER "liblava/ext")
-
-message("<<< spdlog")
-
 target_link_libraries(lava.util INTERFACE
         lava::core
         spdlog
@@ -132,30 +274,9 @@ add_library(lava.file STATIC
         )
 
 target_include_directories(lava.file PUBLIC
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/physfs/src>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/json/single_include>
+        $<BUILD_INTERFACE:${physfs_SOURCE_DIR}/src>
+        $<BUILD_INTERFACE:${json_SOURCE_DIR}/single_include>
         )
-
-message(">>> physfs")
-
-set(PHYSFS_ARCHIVE_ZIP ON CACHE BOOL "" FORCE)
-set(PHYSFS_ARCHIVE_7Z OFF CACHE BOOL "" FORCE)
-set(PHYSFS_ARCHIVE_GRP OFF CACHE BOOL "" FORCE)
-set(PHYSFS_ARCHIVE_WAD OFF CACHE BOOL "" FORCE)
-set(PHYSFS_ARCHIVE_HOG OFF CACHE BOOL "" FORCE)
-set(PHYSFS_ARCHIVE_MVL OFF CACHE BOOL "" FORCE)
-set(PHYSFS_ARCHIVE_QPAK OFF CACHE BOOL "" FORCE)
-set(PHYSFS_ARCHIVE_SLB OFF CACHE BOOL "" FORCE)
-set(PHYSFS_ARCHIVE_ISO9660 OFF CACHE BOOL "" FORCE)
-set(PHYSFS_ARCHIVE_VDF OFF CACHE BOOL "" FORCE)
-
-set(PHYSFS_BUILD_SHARED OFF CACHE BOOL "" FORCE)
-set(PHYSFS_BUILD_TEST OFF CACHE BOOL "" FORCE)
-add_subdirectory(${LIBLAVA_EXT_DIR}/physfs physfs EXCLUDE_FROM_ALL)
-
-set_target_properties(physfs-static PROPERTIES FOLDER "liblava/ext")
-
-message("<<< physfs")
 
 target_link_libraries(lava.file
         lava::util
@@ -185,14 +306,14 @@ add_library(lava.base STATIC
         ${LIBLAVA_DIR}/base/profile.hpp
         ${LIBLAVA_DIR}/base/queue.cpp
         ${LIBLAVA_DIR}/base/queue.hpp
-        ${LIBLAVA_EXT_DIR}/volk/volk.c
+        ${volk_SOURCE_DIR}/volk.c
         )
 
 target_include_directories(lava.base PUBLIC
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/Vulkan-Headers/include>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/Vulkan-Profiles/library/include>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/include>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/volk>
+        $<BUILD_INTERFACE:${Vulkan-Headers_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${Vulkan-Profiles_SOURCE_DIR}/library/include>
+        $<BUILD_INTERFACE:${VulkanMemoryAllocator_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${volk_SOURCE_DIR}>
         )
 
 target_link_libraries(lava.base
@@ -239,9 +360,9 @@ add_library(lava.asset STATIC
         )
 
 target_include_directories(lava.asset PUBLIC
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/stb>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/gli>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/tinyobjloader>
+        $<BUILD_INTERFACE:${stb_SOURCE_DIR}>
+        $<BUILD_INTERFACE:${gli_SOURCE_DIR}>
+        $<BUILD_INTERFACE:${tinyobjloader_SOURCE_DIR}>
         )
 
 target_link_libraries(lava.asset
@@ -274,21 +395,9 @@ add_library(lava.frame STATIC
         )
 
 target_include_directories(lava.frame PUBLIC
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/glfw/include>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/argh>
+        $<BUILD_INTERFACE:${glfw_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${argh_SOURCE_DIR}>
         )
-
-message(">>> glfw")
-
-set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory(${LIBLAVA_EXT_DIR}/glfw glfw EXCLUDE_FROM_ALL)
-
-set_target_properties(glfw PROPERTIES FOLDER "liblava/ext")
-
-message("<<< glfw")
 
 target_link_libraries(lava.frame
         lava::resource
@@ -332,13 +441,6 @@ add_library(lava::block ALIAS lava.block)
 
 message(">> lava::app")
 
-option(IMGUI_DOCKING "Imgui with docking" FALSE)
-if(IMGUI_DOCKING)
-        CPMAddPackage("gh:ocornut/imgui#377b864")
-else()
-        CPMAddPackage("gh:ocornut/imgui#c521883")
-endif()
-
 set(IMGUI_FILES
         ${imgui_SOURCE_DIR}/imgui.cpp
         ${imgui_SOURCE_DIR}/imgui.h
@@ -378,7 +480,7 @@ add_library(lava.app STATIC
 
 target_include_directories(lava.app PUBLIC
         $<BUILD_INTERFACE:${imgui_SOURCE_DIR}>
-        $<BUILD_INTERFACE:${LIBLAVA_EXT_DIR}/IconFontCppHeaders>
+        $<BUILD_INTERFACE:${IconFontCppHeaders_SOURCE_DIR}>
         )
 
 target_link_libraries(lava.app
@@ -413,7 +515,6 @@ set_property(TARGET lava.engine PROPERTY EXPORT_NAME engine)
 add_library(lava::engine ALIAS lava.engine)
 
 message("========================================================================")
-
 message("> lava")
 
 add_executable(lava
@@ -431,15 +532,10 @@ install(TARGETS
         RUNTIME DESTINATION bin
         )
 
-option(LIBLAVA_TEST "Enable Test" TRUE)
+
 if(LIBLAVA_TEST)
 message("========================================================================")
-
         message("> lava-test")
-
-        add_subdirectory(${LIBLAVA_EXT_DIR}/Catch2 Catch2 EXCLUDE_FROM_ALL)
-        set_target_properties(Catch2 PROPERTIES FOLDER "liblava/ext")
-        set_target_properties(Catch2WithMain PROPERTIES FOLDER "liblava/ext")
 
         set(UNIT_TESTS
                 ${LIBLAVA_DIR}/base/test/queue.cpp
@@ -487,22 +583,22 @@ install(DIRECTORY
         )
 
 set(EXT_INCLUDE_DIRS
-        ${LIBLAVA_EXT_DIR}/glm
-        #${LIBLAVA_EXT_DIR}/physfs/src
-        ${LIBLAVA_EXT_DIR}/json/single_include
-        ${LIBLAVA_EXT_DIR}/spdlog/include
-        ${LIBLAVA_EXT_DIR}/Vulkan-Headers/include
-        ${LIBLAVA_EXT_DIR}/Vulkan-Profiles/library/include
-        ${LIBLAVA_EXT_DIR}/VulkanMemoryAllocator/include
-        ${LIBLAVA_EXT_DIR}/volk
-        #${LIBLAVA_EXT_DIR}/stb
-        #${LIBLAVA_EXT_DIR}/gli
-        #${LIBLAVA_EXT_DIR}/tinyobjloader
-        #${LIBLAVA_EXT_DIR}/glfw/include
-        #${LIBLAVA_EXT_DIR}/Catch2
-        ${LIBLAVA_EXT_DIR}/argh
+        ${glm_SOURCE_DIR}
+        #${physfs_SOURCE_DIR}/src
+        ${json_SOURCE_DIR}/single_include
+        ${spdlog_SOURCE_DIR}/include
+        ${Vulkan-Headers_SOURCE_DIR}/include
+        ${Vulkan-Profiles_SOURCE_DIR}/library/include
+        ${VulkanMemoryAllocator_SOURCE_DIR}/include
+        ${volk_SOURCE_DIR}
+        #${stb_SOURCE_DIR}
+        #${gli_SOURCE_DIR}
+        #${tinyobjloader_SOURCE_DIR}
+        #${glfw_SOURCE_DIR}/include
+        #${Catch2_SOURCE_DIR}
+        ${argh_SOURCE_DIR}
         ${imgui_SOURCE_DIR}
-        ${LIBLAVA_EXT_DIR}/IconFontCppHeaders
+        ${IconFontCppHeaders_SOURCE_DIR}
         )
 
 foreach(DIR ${EXT_INCLUDE_DIRS})
@@ -556,10 +652,8 @@ install(FILES
         DESTINATION ${CONFIG_PATH}
         )
 
-option(LIBLAVA_DEMO "Enable Demo" TRUE)
 if(LIBLAVA_DEMO)
 message("========================================================================")
-        
         message("> lava-demo")
 
         set(LIBLAVA_DEMO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava-demo)
@@ -696,12 +790,8 @@ message("=======================================================================
         )
 endif()
 
-option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
 if(LIBLAVA_TEMPLATE)
 message("========================================================================")
-
-        set(LIBLAVA_TEMPLATE_NAME "template" CACHE STRING "Name of template using liblava")
-
         message("> ${LIBLAVA_TEMPLATE_NAME}")
 
         set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
