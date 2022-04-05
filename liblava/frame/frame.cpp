@@ -134,25 +134,15 @@ bool frame::setup(frame_config c) {
     glfwDefaultWindowHints();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
-    auto result = volkInitialize();
-    if (failed(result)) {
+    if (failed(volkInitialize())) {
         log()->error("init volk");
         return false;
     }
 
     log()->info("vulkan {}", str(to_string(instance::get_version())));
 
-    // check profile
-    if (!config.profile.empty()) {
-        auto profile_properties = config.profile.get();
-
-        if (!profile_supported(profile_properties)) {
-            log()->error("profile support at instance level: {} - version: {}", profile_properties.profileName, profile_properties.specVersion);
-            return false;
-        }
-
-        log()->info("profile: {} - version: {}", profile_properties.profileName, profile_properties.specVersion);
-    }
+    if (!check_profile())
+        return false;
 
     auto glfw_extensions_count = 0u;
     auto glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
@@ -297,6 +287,23 @@ void frame::trigger_run_remove() {
 void frame::trigger_run_end() {
     for (auto& [id, func] : reverse(run_end_map))
         func();
+}
+
+//-----------------------------------------------------------------------------
+bool frame::check_profile() const {
+    if (env.profile.empty())
+        return true;
+
+    auto profile_properties = env.profile.get();
+
+    if (!profile_supported(profile_properties)) {
+        log()->error("profile support at instance level: {} - version: {}",
+                     profile_properties.profileName, profile_properties.specVersion);
+        return false;
+    }
+
+    log()->info("profile: {} - version: {}", profile_properties.profileName, profile_properties.specVersion);
+    return true;
 }
 
 //-----------------------------------------------------------------------------

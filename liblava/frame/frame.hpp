@@ -312,8 +312,13 @@ private:
      */
     void trigger_run_end();
 
-    /// Framework configuration
-    frame_config config;
+    /**
+     * @brief Check Vulkan profile support
+     *
+     * @return true     Profile supported
+     * @return false    Profile not supported
+     */
+    bool check_profile() const;
 
     /// Running state
     bool running = false;
