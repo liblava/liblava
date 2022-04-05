@@ -136,11 +136,8 @@ struct run_time {
     /// Delta milliseconds
     ms delta{ 0 };
 
-    /// Use fix delta
-    bool use_fix_delta = false;
-
-    /// Fix delta milliseconds
-    ms fix_delta{ 20 };
+    /// Fix delta milliseconds (0 = deactivated)
+    ms fix_delta{ 0 };
 
     /// Speed factor
     r32 speed = 1.f;

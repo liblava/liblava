@@ -13,6 +13,7 @@ namespace lava {
 struct app;
 struct benchmark_data;
 struct camera;
+struct app_config;
 struct forward_shading;
 struct imgui;
 
@@ -82,7 +83,7 @@ struct file_callback;
 struct json_file;
 
 // liblava/frame.hpp
-struct frame_config;
+struct frame_env;
 struct frame;
 struct key_event;
 struct scroll_offset;

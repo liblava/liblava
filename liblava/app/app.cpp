@@ -13,59 +13,32 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-app::app(frame_config config)
-: frame(config), window(config.info.app_name) {}
+app::app(frame_env env)
+: frame(env), window(env.info.app_name) {}
 
 //-----------------------------------------------------------------------------
 app::app(name name, argh::parser cmd_line)
-: frame(frame_config(name, cmd_line)), window(name) {}
+: frame(frame_env(name, cmd_line)), window(name) {}
 
 //-----------------------------------------------------------------------------
 void app::handle_config() {
-    config_file.add(&config_callback);
+    config.context = this;
 
     config_callback.on_load = [&](json_ref j) {
         if (!j.count(config.id))
-            return;
+            return false;
 
-        auto j_config = j[config.id];
-
-        if (j_config.count(_paused_))
-            run_time.paused = j_config[_paused_];
-
-        if (j_config.count(_speed_))
-            run_time.speed = j_config[_speed_];
-
-        if (j_config.count(_fixed_delta_))
-            run_time.use_fix_delta = j_config[_fixed_delta_];
-
-        if (j_config.count(_delta_))
-            run_time.fix_delta = ms(j_config[_delta_]);
-
-        if (j_config.count(_imgui_))
-            imgui.set_active(j_config[_imgui_]);
-
-        if (j_config.count(_v_sync_))
-            config.v_sync = j_config[_v_sync_];
-
-        if (j_config.count(_physical_device_))
-            config.physical_device = j_config[_physical_device_];
+        config.set_config(j[config.id]);
+        return true;
     };
 
     config_callback.on_save = [&]() {
         json j;
-
-        j[config.id][_paused_] = run_time.paused;
-        j[config.id][_speed_] = run_time.speed;
-        j[config.id][_fixed_delta_] = run_time.use_fix_delta;
-        j[config.id][_delta_] = run_time.fix_delta.count();
-        j[config.id][_imgui_] = imgui.activated();
-        j[config.id][_v_sync_] = config.v_sync;
-        j[config.id][_physical_device_] = config.physical_device;
-
+        j[config.id] = config.get_config();
         return j;
     };
 
+    config_file.add(&config_callback);
     config_file.load();
 }
 
@@ -141,8 +114,10 @@ bool app::setup_file_system(cmd_line cmd_line) {
 
     file_system::instance().mount_res(log());
 
-    if (cmd_line[{ "-c", "--clean" }])
+    if (cmd_line[{ "-c", "--clean" }]) {
         file_system::instance().clean_pref_dir();
+        log()->info("clean preferences");
+    }
 
     return true;
 }
@@ -154,10 +129,12 @@ bool app::setup_window(cmd_line cmd_line) {
         window.show_save_title();
     }
 
-    if (!window.create(load_window_state(window.get_save_name())))
+    if (!window.create(config.window_state))
         return false;
 
-    log()->trace("{}: {}", _fullscreen_, window.fullscreen());
+    config.update_window_state();
+
+    log()->trace("{}: {}", _fullscreen_, config.window_state->fullscreen);
 
     set_window_icon(window);
 
@@ -215,6 +192,13 @@ void app::setup_run() {
     render();
 
     add_run_end([&]() {
+        config.update_window_state();
+
+        if (!config_file.save())
+            log()->error("save config file {}", config_file.get());
+
+        config_file.clear();
+
         camera.destroy();
 
         destroy_imgui();
@@ -223,15 +207,7 @@ void app::setup_run() {
 
         destroy_target();
 
-        if (config.save_window)
-            save_window_file(window);
-
         window.destroy();
-
-        if (!config_file.save())
-            log()->error("cannot save config file {}", config_file.get());
-
-        config_file.clear();
 
         file_system::instance().terminate();
     });
@@ -401,17 +377,16 @@ void app::handle_window() {
             destroy_imgui();
 
             if (window.switch_mode_request()) {
-                if (config.save_window)
-                    save_window_file(window);
+                config.update_window_state();
 
-                auto window_state = load_window_state(window.get_save_name());
-                if (window_state)
-                    window_state->fullscreen = !window.fullscreen();
+                config.window_state->fullscreen = !config.window_state->fullscreen;
 
-                log()->debug("{}: {}", _fullscreen_, window_state->fullscreen ? _on_ : _off_);
+                log()->debug("{}: {}", _fullscreen_, config.window_state->fullscreen ? _on_ : _off_);
 
-                if (!window.switch_mode(window_state))
+                if (!window.switch_mode(config.window_state))
                     return false;
+
+                config.update_window_state();
 
                 set_window_icon(window);
             }
@@ -457,7 +432,7 @@ void app::update() {
         run_time.delta = dt;
 
         if (!run_time.paused) {
-            if (run_time.use_fix_delta)
+            if (run_time.fix_delta != ms(0))
                 dt = run_time.fix_delta;
 
             dt = to_ms(to_sec(dt) * run_time.speed);

@@ -5,24 +5,12 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include <liblava/app/app.hpp>
 #include <liblava/app/config.hpp>
 #include <liblava/app/icon.hpp>
 #include <liblava/asset/image_data.hpp>
 
 namespace lava {
-
-/// Save file for window states
-constexpr name _window_file_ = "window.json";
-
-/**
- * @brief Check if window state file exists
- *
- * @return true     State file exists
- * @return false    State file does not exist
- */
-bool window_file() {
-    return file_system::exists(_window_file_);
-}
 
 /**
  * @brief Window state to Json
@@ -30,8 +18,17 @@ bool window_file() {
  * @param j    Json object
  * @param w    Window state
  */
-void to_json(json& j, window::state const& w) {
-    j = json{ { _x_, w.x }, { _y_, w.y }, { _width_, w.width }, { _height_, w.height }, { _fullscreen_, w.fullscreen }, { _floating_, w.floating }, { _resizable_, w.resizable }, { _decorated_, w.decorated }, { _maximized_, w.maximized }, { _monitor_, w.monitor } };
+void to_json(json& j, window::state::ref w) {
+    j = json{ { _x_, w.x },
+              { _y_, w.y },
+              { _width_, w.width },
+              { _height_, w.height },
+              { _fullscreen_, w.fullscreen },
+              { _floating_, w.floating },
+              { _resizable_, w.resizable },
+              { _decorated_, w.decorated },
+              { _maximized_, w.maximized },
+              { _monitor_, w.monitor } };
 }
 
 /**
@@ -42,94 +39,75 @@ void to_json(json& j, window::state const& w) {
  */
 void from_json(json_ref j, window::state& w) {
     if (j.count(_x_))
-        w.x = j.at(_x_).get<int>();
+        w.x = j[_x_];
     if (j.count(_y_))
-        w.y = j.at(_y_).get<int>();
+        w.y = j[_y_];
     if (j.count(_width_))
-        w.width = j.at(_width_).get<int>();
+        w.width = j[_width_];
     if (j.count(_height_))
-        w.height = j.at(_height_).get<int>();
+        w.height = j[_height_];
     if (j.count(_fullscreen_))
-        w.fullscreen = j.at(_fullscreen_).get<bool>();
+        w.fullscreen = j[_fullscreen_];
     if (j.count(_floating_))
-        w.floating = j.at(_floating_).get<bool>();
+        w.floating = j[_floating_];
     if (j.count(_resizable_))
-        w.resizable = j.at(_resizable_).get<bool>();
+        w.resizable = j[_resizable_];
     if (j.count(_decorated_))
-        w.decorated = j.at(_decorated_).get<bool>();
+        w.decorated = j[_decorated_];
     if (j.count(_maximized_))
-        w.maximized = j.at(_maximized_).get<bool>();
+        w.maximized = j[_maximized_];
     if (j.count(_monitor_))
-        w.monitor = j.at(_monitor_).get<int>();
-}
-
-/**
- * @brief Load window file by save name
- *
- * @param state        Window state
- * @param save_name    Save name of window
- *
- * @return true        Loading was successful
- * @return false       Loading failed
- */
-bool load_window_file(window::state& state, name save_name) {
-    unique_data data;
-    if (!load_file_data(_window_file_, data))
-        return false;
-
-    auto j = json::parse(data.ptr, data.ptr + data.size);
-
-    if (!j.count(save_name))
-        return false;
-
-    log()->trace("load window {}", str(j.dump()));
-
-    state = j[save_name];
-    return true;
+        w.monitor = j[_monitor_];
 }
 
 //-----------------------------------------------------------------------------
-window::state::optional load_window_state(name save_name) {
-    if (!window_file())
-        return {};
+void app_config::set_config(json_ref j) {
+    if (j.count(_app_)) {
+        auto j_app = j[_app_];
 
-    window::state window_state;
-    if (!load_window_file(window_state, save_name))
-        return {};
+        if (j_app.count(_paused_))
+            context->run_time.paused = j_app[_paused_];
 
-    return window_state;
+        if (j_app.count(_speed_))
+            context->run_time.speed = j_app[_speed_];
+
+        if (j_app.count(_delta_))
+            context->run_time.fix_delta = ms(j_app[_delta_]);
+
+        if (j_app.count(_imgui_))
+            context->imgui.set_active(j_app[_imgui_]);
+
+        if (j_app.count(_v_sync_))
+            v_sync = j_app[_v_sync_];
+
+        if (j_app.count(_physical_device_))
+            physical_device = j_app[_physical_device_];
+    }
+
+    if (j.count(_window_) && save_window)
+        window_state = j[_window_];
 }
 
 //-----------------------------------------------------------------------------
-void save_window_file(window::ref window) {
-    auto state = window.get_state();
-    auto index = window.get_save_name();
-
+json app_config::get_config() const {
     json j;
 
-    unique_data data;
-    if (load_file_data(_window_file_, data)) {
-        j = json::parse(data.ptr, data.ptr + data.size);
+    j[_app_][_paused_] = context->run_time.paused;
+    j[_app_][_speed_] = context->run_time.speed;
+    j[_app_][_delta_] = context->run_time.fix_delta.count();
+    j[_app_][_imgui_] = context->imgui.activated();
+    j[_app_][_v_sync_] = v_sync;
+    j[_app_][_physical_device_] = physical_device;
 
-        json d;
-        d[index] = state;
+    if (window_state.has_value())
+        j[_window_] = window_state.value();
 
-        j.merge_patch(d);
-    } else {
-        j[index] = state;
-    }
+    return j;
+}
 
-    file file(str(_window_file_), file_mode::write);
-    if (!file.opened()) {
-        log()->error("save window {}", str(j.dump()));
-        return;
-    }
-
-    auto jString = j.dump(4);
-
-    file.write(jString.data(), jString.size());
-
-    log()->trace("save window {}", str(j.dump()));
+//-----------------------------------------------------------------------------
+void app_config::update_window_state() {
+    window_state = context->window.get_state();
 }
 
 //-----------------------------------------------------------------------------

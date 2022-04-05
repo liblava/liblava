@@ -28,15 +28,14 @@ static bool frame_initialized = false;
 
 //-----------------------------------------------------------------------------
 frame::frame(argh::parser cmd_line) {
-    frame_config c;
-    c.cmd_line = cmd_line;
-
-    setup(c);
+    env.cmd_line = cmd_line;
+    setup();
 }
 
 //-----------------------------------------------------------------------------
-frame::frame(frame_config c) {
-    setup(c);
+frame::frame(frame_env env)
+: env(env) {
+    setup();
 }
 
 //-----------------------------------------------------------------------------
@@ -50,7 +49,7 @@ bool frame::ready() const {
 }
 
 //-----------------------------------------------------------------------------
-void frame_config::set_default() {
+void frame_env::set_default() {
 #if LIBLAVA_DEBUG_CONFIG
     log.debug = true;
     debug.validation = true;
@@ -59,52 +58,52 @@ void frame_config::set_default() {
 }
 
 /**
- * @brief Handle config
+ * @brief Handle environment
  *
- * @param config    Frame config
+ * @param env    Frame environment
  */
-void handle_config(frame_config& config) {
-    auto cmd_line = config.cmd_line;
+void handle_env(frame_env& env) {
+    auto cmd_line = env.cmd_line;
 
     if (cmd_line[{ "-d", "--debug" }])
-        config.debug.validation = true;
+        env.debug.validation = true;
 
     if (cmd_line[{ "-r", "--renderdoc" }])
-        config.debug.render_doc = true;
+        env.debug.render_doc = true;
 
     if (cmd_line[{ "-u", "--utils" }])
-        config.debug.utils = true;
+        env.debug.utils = true;
 
     if (auto log_level = -1; cmd_line({ "-l", "--log" }) >> log_level) {
-        config.log.level = log_level;
+        env.log.level = log_level;
 
         if (log_level == SPDLOG_LEVEL_TRACE)
-            config.debug.verbose = true;
+            env.debug.verbose = true;
     }
 
-    set_log(setup_log(config.log));
+    set_log(setup_log(env.log));
 
-    if (internal_version{} != config.info.app_version) {
+    if (internal_version{} != env.info.app_version) {
         log()->info(">>> {} / {} - {} / {} - {} {}", str(version_string()),
                     str(internal_version_string()),
-                    config.info.app_name,
-                    str(to_string(config.info.app_version)),
+                    env.info.app_name,
+                    str(to_string(env.info.app_version)),
                     _build_date, _build_time);
     } else {
         log()->info(">>> {} / {} - {} - {} {}", str(version_string()),
                     str(internal_version_string()),
-                    config.info.app_name,
+                    env.info.app_name,
                     _build_date, _build_time);
     }
 
     log_command_line(cmd_line);
 
-    if (config.log.level >= 0)
-        log()->info("log {}", spdlog::level::to_string_view((spdlog::level::level_enum) config.log.level));
+    if (env.log.level >= 0)
+        log()->info("log {}", spdlog::level::to_string_view((spdlog::level::level_enum) env.log.level));
 }
 
 //-----------------------------------------------------------------------------
-bool frame::setup(frame_config c) {
+bool frame::setup() {
     if (frame_initialized)
         return false;
 
@@ -112,8 +111,7 @@ bool frame::setup(frame_config c) {
     AllocConsole();
 #endif
 
-    config = c;
-    handle_config(config);
+    handle_env(env);
 
     glfwSetErrorCallback([](i32 error, name description) {
         log()->error("glfw {} - {}", error, description);
@@ -147,9 +145,9 @@ bool frame::setup(frame_config c) {
     auto glfw_extensions_count = 0u;
     auto glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
     for (auto i = 0u; i < glfw_extensions_count; ++i)
-        config.param.extensions.push_back(glfw_extensions[i]);
+        env.param.extensions.push_back(glfw_extensions[i]);
 
-    if (!instance::singleton().create(config.param, config.debug, config.info, config.profile)) {
+    if (!instance::singleton().create(env.param, env.debug, env.info, env.profile)) {
         log()->error("create instance");
         return false;
     }

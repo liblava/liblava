@@ -9,6 +9,7 @@
 
 #include <liblava/app/imgui.hpp>
 #include <liblava/frame/window.hpp>
+#include <liblava/fwd.hpp>
 #include <liblava/resource/format.hpp>
 
 namespace lava {
@@ -16,7 +17,10 @@ namespace lava {
 /**
  * @brief Application configuration
  */
-struct app_config {
+struct app_config : configurable {
+    /// Application
+    app* context = nullptr;
+
     /// Organization name
     name org = _liblava_;
 
@@ -43,23 +47,29 @@ struct app_config {
 
     /// Identification
     string id = _default_;
+
+    /**
+     * @brief Set config
+     *
+     * @param j    Json file
+     */
+    void set_config(json_ref j) override;
+
+    /**
+     * @brief Get config
+     *
+     * @return json    Json file
+     */
+    json get_config() const override;
+
+    /**
+     * @brief Update window state
+     */
+    void update_window_state();
+
+    /// Window state if available
+    window::state::optional window_state;
 };
-
-/**
- * @brief Load window state from file
- *
- * @param save_name    Name of the saved window
- *
- * @return window::state::optional    Window state if available
- */
-window::state::optional load_window_state(name save_name);
-
-/**
- * @brief Save window state to file
- *
- * @param window    Window to save
- */
-void save_window_file(window::ref window);
 
 /**
  * @brief Set the window icon

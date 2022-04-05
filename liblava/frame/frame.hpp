@@ -14,26 +14,26 @@
 namespace lava {
 
 /**
- * @brief Framework configuration
+ * @brief Framework environment
  */
-struct frame_config {
-    /// Reference to frame configuration
-    using ref = frame_config const&;
+struct frame_env {
+    /// Reference to frame environment
+    using ref = frame_env const&;
 
     /**
-     * @brief Construct a new frame configuration
+     * @brief Construct a new frame environment
      */
-    explicit frame_config() {
+    explicit frame_env() {
         set_default();
     }
 
     /**
-     * @brief Construct a new frame configuration
+     * @brief Construct a new frame environment
      *
      * @param app_name    Name of application
      * @param cl          Command line arguments
      */
-    explicit frame_config(name app_name, argh::parser cl)
+    explicit frame_env(name app_name, argh::parser cl)
     : cmd_line(cl) {
         info.app_name = app_name;
         set_default();
@@ -105,9 +105,9 @@ struct frame : interface, no_copy_no_move {
     /**
      * @brief Construct a new framework
      *
-     * @param config    Framework configuration
+     * @param env    Framework environment
      */
-    explicit frame(frame_config config);
+    explicit frame(frame_env env);
 
     /**
      * @brief Destroy the framework
@@ -219,16 +219,16 @@ struct frame : interface, no_copy_no_move {
      * @return cmd_line    Command line arguments
      */
     cmd_line get_cmd_line() const {
-        return config.cmd_line;
+        return env.cmd_line;
     }
 
     /**
-     * @brief Get the framework configuration
+     * @brief Get the framework environment
      *
-     * @return frame_config::ref    Framework configuration
+     * @return frame_env::ref    Framework environment
      */
-    frame_config::ref get_config() const {
-        return config;
+    frame_env::ref get_env() const {
+        return env;
     }
 
     /**
@@ -237,7 +237,7 @@ struct frame : interface, no_copy_no_move {
      * @return name    Name of application
      */
     name get_name() const {
-        return config.info.app_name;
+        return env.info.app_name;
     }
 
     /**
@@ -282,12 +282,10 @@ private:
     /**
      * @brief Set up the framework
      *
-     * @param config    Framework configuration
-     *
      * @return true     Setup was successful
      * @return false    Setup failed
      */
-    bool setup(frame_config config);
+    bool setup();
 
     /**
      * @brief Tear down the framework
@@ -319,6 +317,9 @@ private:
      * @return false    Profile not supported
      */
     bool check_profile() const;
+
+    /// Framework environment
+    frame_env env;
 
     /// Running state
     bool running = false;

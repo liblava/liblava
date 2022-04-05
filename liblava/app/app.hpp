@@ -23,9 +23,9 @@ struct app : frame {
     /**
      * @brief Construct a new app
      *
-     * @param config    Frame configuration
+     * @param env    Frame environment
      */
-    explicit app(frame_config config);
+    explicit app(frame_env env);
 
     /**
      * @brief Construct a new app

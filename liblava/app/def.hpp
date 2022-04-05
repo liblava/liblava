@@ -17,16 +17,25 @@ constexpr name _off_ = "off";
 
 /// config
 
-constexpr name _paused_ = "paused";
-constexpr name _speed_ = "speed";
-constexpr name _auto_save_ = "auto save";
-constexpr name _save_interval_ = "save interval";
-constexpr name _auto_load_ = "auto load";
-constexpr name _fixed_delta_ = "fixed delta";
+constexpr name _app_ = "app";
 constexpr name _delta_ = "delta";
 constexpr name _imgui_ = "imgui";
-constexpr name _v_sync_ = "v-sync";
+constexpr name _paused_ = "paused";
 constexpr name _physical_device_ = "physical device";
+constexpr name _speed_ = "speed";
+constexpr name _v_sync_ = "v-sync";
+
+constexpr name _window_ = "window";
+constexpr name _decorated_ = "decorated";
+constexpr name _floating_ = "floating";
+constexpr name _fullscreen_ = "fullscreen";
+constexpr name _height_ = "height";
+constexpr name _maximized_ = "maximized";
+constexpr name _monitor_ = "monitor";
+constexpr name _resizable_ = "resizable";
+constexpr name _width_ = "width";
+constexpr name _x_ = "x";
+constexpr name _y_ = "y";
 
 /// debug utils
 

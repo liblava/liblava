@@ -103,11 +103,11 @@ name _lighting_fragment_ = "lighting_fragment";
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
-    frame_config config("lava light", { argc, argv });
-    // config.profile = profile_roadmap_2022();
-    config.profile = profile_desktop_portability_2021();
+    frame_env env("lava light", { argc, argv });
+    // env.profile = profile_roadmap_2022();
+    env.profile = profile_desktop_portability_2021();
 
-    engine app(config);
+    engine app(env);
 
     app.prop.add(_tex_normal_, "light/normal.png");
     app.prop.add(_tex_roughness_, "light/roughness.png");

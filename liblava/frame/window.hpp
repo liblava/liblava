@@ -20,44 +20,17 @@ struct GLFWwindow;
 
 namespace lava {
 
-/// X position
-constexpr name _x_ = "x";
-
-/// Y position
-constexpr name _y_ = "y";
-
-/// Width
-constexpr name _width_ = "width";
-
-/// Height
-constexpr name _height_ = "height";
-
-/// Fullscreen
-constexpr name _fullscreen_ = "fullscreen";
-
-/// Floating
-constexpr name _floating_ = "floating";
-
-/// Resizable
-constexpr name _resizable_ = "resizable";
-
-/// Decorated
-constexpr name _decorated_ = "decorated";
-
-/// Maximized
-constexpr name _maximized_ = "maximized";
-
-/// Monitor
-constexpr name _monitor_ = "monitor";
-
 /**
  * @brief Window
  */
 struct window : entity {
     /**
-     * @brief Windoe state
+     * @brief Window state
      */
     struct state {
+        /// Reference to window state
+        using ref = state const&;
+
         /// Optional window state
         using optional = std::optional<window::state>;
 
