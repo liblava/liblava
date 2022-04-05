@@ -25,8 +25,6 @@ message("=======================================================================
 
 message("> module")
 
-# ---- Add dependencies via CPM ----
-# see https://github.com/CPM-cmake/CPM.cmake for more info
 include(cmake/CPM.cmake)
 
 set(LIBLAVA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava)
@@ -333,12 +331,14 @@ set_property(TARGET lava.block PROPERTY EXPORT_NAME block)
 add_library(lava::block ALIAS lava.block)
 
 message(">> lava::app")
-option(IMGUI_DOCKING "Imgui with docking " ON)
+
+option(IMGUI_DOCKING "Imgui with docking" FALSE)
 if(IMGUI_DOCKING)
- CPMAddPackage("gh:ocornut/imgui#377b864")
+        CPMAddPackage("gh:ocornut/imgui#377b864")
 else()
- CPMAddPackage("gh:ocornut/imgui#f5c5926")
+        CPMAddPackage("gh:ocornut/imgui#c521883")
 endif()
+
 set(IMGUI_FILES
         ${imgui_SOURCE_DIR}/imgui.cpp
         ${imgui_SOURCE_DIR}/imgui.h

@@ -1100,6 +1100,8 @@ If you want to contribute - we suggest the following:
 
 * [Catch2](https://github.com/catchorg/Catch2) &nbsp; **A modern, C++-native, header-only, test framework for unit-tests, TDD and BDD** &nbsp; *BSL 1.0*
 
+* [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) &nbsp; **A small CMake script for setup-free, cross-platform, reproducible dependency management** &nbsp; *MIT*
+
 * [glfw](https://github.com/glfw/glfw) &nbsp; **A multi-platform library for OpenGL, OpenGL ES, Vulkan, window and input** &nbsp; *zlib*
 
   [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.cpp) [![gamepad](https://img.shields.io/badge/lava-gamepad-red.svg)](liblava/frame/gamepad.cpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.cpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.cpp)

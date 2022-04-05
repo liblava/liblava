@@ -42,10 +42,6 @@
 	path = ext/VulkanMemoryAllocator
 	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
 	branch = master
-[submodule "ext/imgui"]
-	path = ext/imgui
-	url = https://github.com/ocornut/imgui.git
-	branch = master
 [submodule "ext/Catch2"]
 	path = ext/Catch2
 	url = https://github.com/catchorg/Catch2.git
