@@ -447,7 +447,7 @@ struct id_registry {
      * @return ptr      Shared pointer to object
      */
     ptr get(id::ref object) const {
-        return objects.at(object).get();
+        return objects.at(object);
     }
 
     /**
@@ -455,10 +455,10 @@ struct id_registry {
      *
      * @param object    Object id
      *
-     * @return Meta     Copy of meta
+     * @return Meta     Meta object
      */
     Meta const& get_meta(id::ref object) const {
-        return meta.at(object).get();
+        return meta.at(object);
     }
 
     /**

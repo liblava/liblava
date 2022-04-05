@@ -36,7 +36,10 @@ bool json_file::load() {
     if (data.size == 0)
         return false;
 
-    auto j = json::parse(data.ptr, data.ptr + data.size);
+    if (!json::accept(data.ptr, data.end()))
+        return false;
+
+    auto j = json::parse(data.ptr, data.end());
 
     for (auto callback : callbacks)
         callback->on_load(j);
@@ -49,8 +52,9 @@ bool json_file::save() {
     json j;
 
     unique_data data;
-    if (load_file_data(path, data) && (data.size != 0))
-        j = json::parse(data.ptr, data.ptr + data.size);
+    if (load_file_data(path, data) && (data.size > 0))
+        if (json::accept(data.ptr, data.end()))
+            j = json::parse(data.ptr, data.end());
 
     for (auto callback : callbacks) {
         auto d = callback->on_save();
@@ -64,9 +68,9 @@ bool json_file::save() {
     if (!file.opened())
         return false;
 
-    auto jString = j.dump(4);
+    auto string = j.dump(4);
 
-    file.write(jString.data(), jString.size());
+    file.write(string.data(), string.size());
 
     return true;
 }

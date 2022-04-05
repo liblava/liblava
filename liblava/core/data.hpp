@@ -174,10 +174,13 @@ struct data {
     /**
      * @brief Construct a new data
      *
+     * @tparam T      Type of data
+     *
      * @param ptr     Data pointer
      * @param size    Size of data
      */
-    data(void* ptr, size_t size)
+    template<typename T>
+    data(T* ptr, size_t size)
     : ptr(as_ptr(ptr)), size(size) {}
 
     /**
@@ -214,6 +217,15 @@ struct data {
 
         free_data(ptr);
         ptr = nullptr;
+    }
+
+    /**
+     * @brief Pointer to end of data
+     *
+     * @return data_ptr    Pointer to end
+     */
+    data_ptr end() const {
+        return ptr + size;
     }
 
     /// Pointer to data

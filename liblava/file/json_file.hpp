@@ -34,7 +34,7 @@ struct json_file {
         using list = std::vector<callback*>;
 
         /// Load function
-        using load_func = std::function<void(json_ref)>;
+        using load_func = std::function<bool(json_ref)>;
 
         /// Called on load
         load_func on_load;

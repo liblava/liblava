@@ -21,7 +21,7 @@ void property::add(string_ref name, string_ref filename) {
 //-----------------------------------------------------------------------------
 cdata property::operator()(string_ref name) {
     auto& prop = map.at(name);
-    if (prop.data.ptr != nullptr)
+    if (prop.data.ptr)
         return { prop.data.ptr, prop.data.size };
 
     if (!load_file_data(prop.filename, prop.data)) {
@@ -50,7 +50,7 @@ bool property::check() {
 //-----------------------------------------------------------------------------
 bool property::load(string_ref name) {
     auto& prop = map.at(name);
-    if (prop.data.ptr != nullptr)
+    if (prop.data.ptr)
         prop.data = {}; // reload
 
     if (!load_file_data(prop.filename, prop.data)) {
