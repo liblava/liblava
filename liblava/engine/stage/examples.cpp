@@ -1,5 +1,5 @@
 /**
- * @file         liblava/engine/examples.hpp
+ * @file         liblava/engine/stage/examples.hpp
  * @brief        Example stages
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License

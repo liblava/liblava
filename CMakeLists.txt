@@ -417,9 +417,9 @@ message("=======================================================================
 message("> lava")
 
 add_executable(lava
-        ${LIBLAVA_DIR}/engine/examples.cpp
+        ${LIBLAVA_DIR}/engine/stage/examples.cpp
+        ${LIBLAVA_DIR}/engine/stage/tutorial.cpp
         ${LIBLAVA_DIR}/engine/main.cpp
-        ${LIBLAVA_DIR}/engine/tutorial.cpp
         )
 
 target_link_libraries(lava lava::engine)

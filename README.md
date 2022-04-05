@@ -730,7 +730,7 @@ lava --stages
 
 <br />
 
-[Here](liblava/engine/tutorial.cpp) you can find the complete source code for the tutorials - The last **stages** in this list are further [examples](liblava/engine/examples.cpp)
+[Here](liblava/engine/stage/tutorial.cpp) you can find the complete source code for the tutorials - The last **stages** in this list are further [examples](liblava/engine/stage/examples.cpp)
 
 <br />
 
