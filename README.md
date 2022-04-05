@@ -983,8 +983,6 @@ You need the [Vulkan SDK](https://vulkan.lunarg.com) installed for debugging.
 git clone https://github.com/liblava/liblava.git
 cd liblava
 
-git submodule update --init --recursive
-
 mkdir build
 cd build
 
@@ -1000,8 +998,6 @@ You can use **liblava** as a *git submodule* in your project:
 
 ```bash
 git submodule add https://github.com/liblava/liblava.git
-
-git submodule update --init --recursive
 ```
 
 Add this to your `CMakeLists.txt`
