@@ -84,7 +84,7 @@ void app_config::set_config(json_ref j) {
             physical_device = j_app[_physical_device_];
     }
 
-    if (j.count(_window_) && save_window)
+    if (j.count(_window_))
         window_state = j[_window_];
 }
 
@@ -99,7 +99,7 @@ json app_config::get_config() const {
     j[_app_][_v_sync_] = v_sync;
     j[_app_][_physical_device_] = physical_device;
 
-    if (window_state.has_value())
+    if (window_state.has_value() && save_window)
         j[_window_] = window_state.value();
 
     return j;
