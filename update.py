@@ -22,7 +22,7 @@ with open("ext.json", "r") as ext_file:
             response = requests.get(url)
             info = json.loads(response.text)
 
-            tag = info["commit"]["sha"];
+            tag = info["commit"]["sha"]
             print(" ---- " + tag)
             
             version_file.write("set(" + name + "_GITHUB " + github + ")\n")
