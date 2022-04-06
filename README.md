@@ -36,21 +36,21 @@
 | deferred shading + offscreen rendering | uniform buffer + camera | 
 |:---------|---------:|
 | <a href="liblava-demo/light.cpp">![light](res/light/screenshot.png)</a> | <a href="liblava-demo/spawn.cpp">![spawn](res/spawn/screenshot.png)</a> | 
-| lava light | lava spawn | 
+| [![light](https://img.shields.io/badge/lava-light-brightgreen.svg)](liblava-demo/light.cpp) | [![spawn](https://img.shields.io/badge/lava-spawn-brightgreen.svg)](liblava-demo/spawn.cpp)  | 
 
 <br />
 
 | push constants ➜ shader | generating primitives | 
 |:---------|---------:|
 | <a href="liblava-demo/lamp.cpp">![lamp](res/lamp/screenshot.png)</a> | <a href="liblava-demo/shapes.cpp">![shapes](res/shapes/screenshot.png)</a> | 
-| lava lamp | lava shapes | 
+| [![lamp](https://img.shields.io/badge/lava-lamp-brightgreen.svg)](liblava-demo/lamp.cpp) | [![shapes](https://img.shields.io/badge/lava-shapes-brightgreen.svg)](liblava-demo/shapes.cpp) | 
 
 <br />
 
 | float, double & int meshes | unique classic mesh | 
 |:---------|---------:|
 | <a href="liblava-demo/generics.cpp">![generics](res/generics/screenshot.png)</a> | <a href="liblava-demo/triangle.cpp">![triangle](res/triangle/screenshot.png)</a> | 
-| lava generics | lava triangle | 
+| [![generics](https://img.shields.io/badge/lava-generics-brightgreen.svg)](liblava-demo/generics.cpp) | [![triangle](https://img.shields.io/badge/lava-triangle-brightgreen.svg)](liblava-demo/triangle.cpp) | 
 
 <br />
 
@@ -61,7 +61,7 @@
 | raytraced reflecting cubes ➜ [pezcode/lava-rt](https://github.com/pezcode/lava-rt) | 
 |:---------|
 | <a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp">![generics](https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png)</a> | 
-| lava raytracing cubes |
+| [![rt cubes](https://img.shields.io/badge/lava-rt_cubes-brightgreen.svg)](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) |
 
 <br />
 
@@ -111,7 +111,7 @@ The good news is that **liblava** can help you.
 
 **New to Vulkan?** ➜ Take a look at this [Vulkan Guide](https://github.com/KhronosGroup/Vulkan-Guide)
 
-Check [Awesome Vulkan ecosystem](http://www.vinjn.com/awesome-vulkan/) for tutorials, samples and books
+Check [Awesome Vulkan ecosystem](http://www.vinjn.com/awesome-vulkan/) for tutorials, samples and books.
 
 <br />
 
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
 }
 ```
 
-This is how to initialize `lava frame` with command line arguments.
+This is how to initialize [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp) with command line arguments.
 
 <br />
 
@@ -173,7 +173,7 @@ The last line performs a loop with the **run** we added before - If *count* reac
 
 ### 3. window input
 
-Here is another example that shows how to create a `lava window` and handle `lava input`
+Here is another example that shows how to create a [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp) and handle [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.hpp)
 
 ```c++
 lava::frame frame(argh);
@@ -361,7 +361,7 @@ The flag *VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT* specifies the usage of *
 
 <br />
 
-Ok, it's time for `lava block`
+Ok, it's time for [![block](https://img.shields.io/badge/lava-block-red.svg)](liblava/block/block.hpp)
 
 <br />
 
@@ -407,11 +407,11 @@ This is much more simpler than before!
 
 <br />
 
-➜ We create a `lava block` with a `lava command` that **clears** the **current frame image**.
+➜ We create a `block` with a `command` that **clears** the **current frame image**.
 
 <br />
 
-All we need to do now is to process the `lava block` in the **run** loop:
+All we need to do now is to process that `block` in the **run** loop:
 
 ```c++
 if (!block.process(*current_frame))
@@ -434,7 +434,7 @@ block.destroy();
 
 ### 6. imgui demo
 
-Out of blocks, `lava app` supports [Dear ImGui](https://github.com/ocornut/imgui) for **tooling** and **easy prototyping**.
+[![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app/app.hpp) supports [Dear ImGui](https://github.com/ocornut/imgui) for **tooling** and **easy prototyping**.
 
 ```c++
 int main(int argc, char* argv[]) {
@@ -627,7 +627,7 @@ triangle = create_mesh<custom_vertex, false, false, true>
 
 *require* [app](#lava-app)
 
-[![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](liblava/engine/engine.hpp) [![property](https://img.shields.io/badge/lava-property-brightgreen.svg)](liblava/engine/property.hpp)
+[![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](liblava/engine/engine.hpp) [![producer](https://img.shields.io/badge/lava-producer-brightgreen.svg)](liblava/engine/producer.hpp) [![property](https://img.shields.io/badge/lava-property-brightgreen.svg)](liblava/engine/property.hpp)
 
 ### lava [app](liblava/app)
 
@@ -707,7 +707,7 @@ Here you can find the **latest** ➜ [doc.lava-block.com](https://doc.lava-block
 
 ## 5. Test
 
-Run the `lava` executable to test our [Tutorial](#tutorial) examples ➜ so called **stages**
+Run the `lava` executable to test our [Tutorial](#tutorial) examples ➜ so called **stages**.
 
 <br />
 
@@ -730,7 +730,7 @@ lava --stages
 
 <br />
 
-[Here](liblava/engine/stage/tutorial.cpp) you can find the complete source code for the tutorials - The last **stages** in this list are further [examples](liblava/engine/stage/examples.cpp)
+[Here](liblava/engine/stage/tutorial.cpp) you can find the complete source code for the tutorials - The **last stages** in this list are further [examples](liblava/engine/stage/examples.cpp)
 
 <br />
 
@@ -768,7 +768,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 ## 6. Keyboard Shortcuts
 
-`lava app` defines some *shortcuts* for common **actions**:
+[![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app/app.hpp) defines some *shortcuts* for common **actions**:
 
 <br />
 
@@ -828,7 +828,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 #### Benchmark
 
-`lava app` writes frame times *(durations in milliseconds)* into a `json` file to analyze them further for automated workflows like benchmarks:
+[![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app/app.hpp)  writes frame times *(durations in milliseconds)* into a `json` file to analyze them further for automated workflows like benchmarks:
 
 ```json
 {
@@ -1185,7 +1185,7 @@ However - this library includes several [Third-Party](doc/Third-Party.md) librar
 
 <br />
 
-**All copies of liblava must include a copy of the MIT License terms and the copyright notice**
+**All copies of liblava must include a copy of the MIT License terms and the copyright notice.**
 
 Vulkan and the Vulkan logo are trademarks of the <a href="http://www.khronos.org" target="_blank">Khronos Group Inc.</a>
 
