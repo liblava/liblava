@@ -123,22 +123,19 @@ int main(int argc, char* argv[]) {
     app.target->add_callback(&resize_callback);
 
     // create global immutable resources
-    // destroyed in app.add_run_end
+    // destroyed in app.producer
 
-    mesh::ptr object = create_mesh(app.device, mesh_type::quad);
+    mesh::ptr object = app.producer.create_mesh(mesh_type::quad);
     if (!object)
         return error::create_failed;
 
     using object_array = std::array<mat4, 2>;
     object_array object_instances;
 
-    texture::ptr tex_normal = load_texture(app.device, app.prop.get_filename(_tex_normal_));
-    texture::ptr tex_roughness = load_texture(app.device, app.prop.get_filename(_tex_roughness_));
+    texture::ptr tex_normal = app.producer.get_texture(_tex_normal_);
+    texture::ptr tex_roughness = app.producer.get_texture(_tex_roughness_);
     if (!tex_normal || !tex_roughness)
         return error::create_failed;
-
-    app.staging.add(tex_normal);
-    app.staging.add(tex_roughness);
 
     buffer ubo_buffer;
     if (!ubo_buffer.create_mapped(app.device, nullptr, sizeof(g_ubo), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
@@ -457,11 +454,6 @@ int main(int argc, char* argv[]) {
 
         light_buffer.destroy();
         ubo_buffer.destroy();
-
-        tex_roughness->destroy();
-        tex_normal->destroy();
-
-        object->destroy();
     });
 
     return app.run();

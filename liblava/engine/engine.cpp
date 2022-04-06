@@ -29,6 +29,12 @@ bool engine::setup() {
         return run_continue;
     });
 
+    add_run_end([&]() {
+        producer.destroy();
+    });
+
+    producer.context = this;
+
     return true;
 }
 

@@ -30,17 +30,15 @@ int main(int argc, char* argv[]) {
 
     timer load_timer;
 
-    mesh::ptr spawn_mesh = load_mesh(app.device, app.prop.get_filename("spawn"));
+    mesh::ptr spawn_mesh = app.producer.get_mesh("spawn");
     if (!spawn_mesh)
         return error::create_failed;
 
     ms mesh_load_time = load_timer.elapsed();
 
-    texture::ptr default_texture = create_default_texture(app.device, { 4096, 4096 });
+    texture::ptr default_texture = app.producer.create_texture({ 4096, 4096 });
     if (!default_texture)
         return error::create_failed;
-
-    app.staging.add(default_texture);
 
     app.camera.position = v3(0.832f, 0.036f, 2.304f);
     app.camera.rotation = v3(8.42f, -29.73f, 0.f);
@@ -303,9 +301,6 @@ int main(int argc, char* argv[]) {
 
     app.add_run_end([&]() {
         spawn_model_buffer.destroy();
-
-        default_texture->destroy();
-        spawn_mesh->destroy();
     });
 
     return app.run();

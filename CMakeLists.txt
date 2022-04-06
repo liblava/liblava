@@ -504,6 +504,8 @@ add_library(lava.engine STATIC
         ${LIBLAVA_DIR}/engine/driver.hpp
         ${LIBLAVA_DIR}/engine/engine.cpp
         ${LIBLAVA_DIR}/engine/engine.hpp
+        ${LIBLAVA_DIR}/engine/producer.cpp
+        ${LIBLAVA_DIR}/engine/producer.hpp
         ${LIBLAVA_DIR}/engine/property.cpp
         ${LIBLAVA_DIR}/engine/property.hpp
         )

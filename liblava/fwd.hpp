@@ -72,6 +72,7 @@ struct version;
 struct stage;
 struct driver;
 struct engine;
+struct producer;
 struct property;
 
 // liblava/file.hpp

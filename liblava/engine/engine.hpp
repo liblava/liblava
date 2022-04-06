@@ -8,6 +8,7 @@
 #pragma once
 
 #include <liblava/app/app.hpp>
+#include <liblava/engine/producer.hpp>
 #include <liblava/engine/property.hpp>
 
 namespace lava {
@@ -29,6 +30,9 @@ struct engine : app {
 
     /// Property master
     property prop;
+
+    /// Producer
+    lava::producer producer;
 
 private:
     /**
