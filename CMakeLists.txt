@@ -44,6 +44,8 @@ if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
         set(CMAKE_SUPPRESS_DEVELOPER_WARNINGS 1 CACHE INTERNAL "No dev warnings")
 endif()
 
+include(cmake/version.cmake)
+
 message("========================================================================")
 message("> CPM.cmake")
 
@@ -51,15 +53,15 @@ include(cmake/CPM.cmake)
 
 CPMAddPackage(
         NAME argh
-        GITHUB_REPOSITORY adishavit/argh
-        GIT_TAG d17062c870b5919f6d1eae7fe12879869a893b32
+        GITHUB_REPOSITORY ${argh_GITHUB}
+        GIT_TAG ${argh_TAG}
         DOWNLOAD_ONLY YES
         )
 
 CPMAddPackage(
         NAME glfw
-        GITHUB_REPOSITORY glfw/glfw
-        GIT_TAG 4cb36872a5fe448c205d0b46f0e8c8b57530cfe0
+        GITHUB_REPOSITORY ${glfw_GITHUB}
+        GIT_TAG ${glfw_TAG}
         OPTIONS
                 "GLFW_INSTALL OFF"
                 "GLFW_BUILD_DOCS OFF"
@@ -69,22 +71,22 @@ CPMAddPackage(
 
 CPMAddPackage(
         NAME gli
-        GITHUB_REPOSITORY g-truc/gli
-        GIT_TAG 779b99ac6656e4d30c3b24e96e0136a59649a869
+        GITHUB_REPOSITORY ${gli_GITHUB}
+        GIT_TAG ${gli_TAG}
         DOWNLOAD_ONLY YES
         )
 
 CPMAddPackage(
         NAME glm
-        GITHUB_REPOSITORY g-truc/glm
-        GIT_TAG 6ad79aae3eb5bf809c30bf1168171e9e55857e45
+        GITHUB_REPOSITORY ${glm_GITHUB}
+        GIT_TAG ${glm_TAG}
         DOWNLOAD_ONLY YES
         )
 
 CPMAddPackage(
         NAME physfs
-        GITHUB_REPOSITORY icculus/physfs
-        GIT_TAG a0dfe220ffb97eef2c78fef2b8971995f221b18d
+        GITHUB_REPOSITORY ${physfs_GITHUB}
+        GIT_TAG ${physfs_TAG}
         OPTIONS
                 "PHYSFS_ARCHIVE_ZIP ON"
                 "PHYSFS_ARCHIVE_7Z OFF"
@@ -102,78 +104,78 @@ CPMAddPackage(
 
 CPMAddPackage(
         NAME json
-        GITHUB_REPOSITORY nlohmann/json
-        GIT_TAG ab5cecb34feb18f5a030517547b0ead1148d05fc
+        GITHUB_REPOSITORY ${json_GITHUB}
+        GIT_TAG ${json_TAG}
         DOWNLOAD_ONLY YES
         )
 
 CPMAddPackage(
         NAME spdlog
-        GITHUB_REPOSITORY gabime/spdlog
-        GIT_TAG 76fb40d95455f249bd70824ecfcae7a8f0930fa3
+        GITHUB_REPOSITORY ${spdlog_GITHUB}
+        GIT_TAG ${spdlog_TAG}
         )
 
 CPMAddPackage(
         NAME stb
-        GITHUB_REPOSITORY nothings/stb
-        GIT_TAG af1a5bc352164740c1cc1354942b1c6b72eacb8a
+        GITHUB_REPOSITORY ${stb_GITHUB}
+        GIT_TAG ${stb_TAG}
         DOWNLOAD_ONLY YES
         )
 
 CPMAddPackage(
         NAME tinyobjloader
-        GITHUB_REPOSITORY syoyo/tinyobjloader
-        GIT_TAG 8322e00ae685ea623ab6ac5a6cebcfa2d22fbf93
+        GITHUB_REPOSITORY ${tinyobjloader_GITHUB}
+        GIT_TAG ${tinyobjloader_TAG}
         DOWNLOAD_ONLY YES
         )
 
 CPMAddPackage(
         NAME Vulkan-Headers
-        GITHUB_REPOSITORY KhronosGroup/Vulkan-Headers
-        GIT_TAG 76f00ef6cbb1886eb1162d1fa39bee8b51e22ee8
+        GITHUB_REPOSITORY ${Vulkan-Headers_GITHUB}
+        GIT_TAG ${Vulkan-Headers_TAG}
         DOWNLOAD_ONLY YES
         )
 
 CPMAddPackage(
         NAME Vulkan-Profiles
-        GITHUB_REPOSITORY KhronosGroup/Vulkan-Profiles
-        GIT_TAG f9f4983fbf146e354c669f320b533e87fa07a4ee
+        GITHUB_REPOSITORY ${Vulkan-Profiles_GITHUB}
+        GIT_TAG ${Vulkan-Profiles_TAG}
         DOWNLOAD_ONLY YES
         )
 
 CPMAddPackage(
         NAME volk
-        GITHUB_REPOSITORY zeux/volk
-        GIT_TAG 92ba7c9f112a82cecf452ebf4b7c46f149a5799e
+        GITHUB_REPOSITORY ${volk_GITHUB}
+        GIT_TAG ${volk_TAG}
         DOWNLOAD_ONLY YES
         )
 
 CPMAddPackage(
         NAME VulkanMemoryAllocator
-        GITHUB_REPOSITORY GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator
-        GIT_TAG df7648061c702f9d949c2ba4d95c6e4b06d744a8
+        GITHUB_REPOSITORY ${VulkanMemoryAllocator_GITHUB}
+        GIT_TAG ${VulkanMemoryAllocator_TAG}
         DOWNLOAD_ONLY YES
         )
 
 CPMAddPackage(
         NAME IconFontCppHeaders
-        GITHUB_REPOSITORY juliettef/IconFontCppHeaders
-        GIT_TAG 40cffaf2c729182e597c3d925aa90a501bc00fd5
+        GITHUB_REPOSITORY ${IconFontCppHeaders_GITHUB}
+        GIT_TAG ${IconFontCppHeaders_TAG}
         DOWNLOAD_ONLY YES
         )
 
 if(IMGUI_DOCKING)
         CPMAddPackage(
                 NAME imgui
-                GITHUB_REPOSITORY ocornut/imgui
-                GIT_TAG 505f19e3b00d54623566dda354980c7f3410f2b5
+                GITHUB_REPOSITORY ${imgui_docking_GITHUB}
+                GIT_TAG ${imgui_docking_TAG}
                 DOWNLOAD_ONLY YES
                 )
 else()
         CPMAddPackage(
                 NAME imgui
-                GITHUB_REPOSITORY ocornut/imgui
-                GIT_TAG 2c03aac6d30720d8f717dcd9cbb8b9a6799396b8
+                GITHUB_REPOSITORY ${imgui_GITHUB}
+                GIT_TAG ${imgui_TAG}
                 DOWNLOAD_ONLY YES
                 )
 endif()
@@ -181,8 +183,8 @@ endif()
 if(LIBLAVA_TEST)
         CPMAddPackage(
                 NAME Catch2
-                GITHUB_REPOSITORY catchorg/Catch2
-                GIT_TAG a51fd07bd006101c90662317c98de0ebe9e97312
+                GITHUB_REPOSITORY ${Catch2_GITHUB}
+                GIT_TAG ${Catch2_TAG}
                 )
 endif()
 

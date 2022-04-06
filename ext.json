@@ -1,0 +1,70 @@
+{
+	"argh": {
+		"github": "adishavit/argh",
+		"branch": "master"
+	},
+	"glfw": {
+		"github": "glfw/glfw",
+		"branch": "master"
+	},
+	"gli": {
+		"github": "g-truc/gli",
+		"branch": "master"
+	},
+	"glm": {
+		"github": "g-truc/glm",
+		"branch": "master"
+	},
+	"physfs": {
+		"github": "icculus/physfs",
+		"branch": "main"
+	},
+	"json": {
+		"github": "nlohmann/json",
+		"branch": "develop"
+	},
+	"spdlog": {
+		"github": "gabime/spdlog",
+		"branch": "v1.x"
+	},
+	"stb": {
+		"github": "nothings/stb",
+		"branch": "master"
+	},
+	"tinyobjloader": {
+		"github": "syoyo/tinyobjloader",
+		"branch": "master"
+	},
+	"Vulkan-Headers": {
+		"github": "KhronosGroup/Vulkan-Headers",
+		"branch": "main"
+	},
+	"Vulkan-Profiles": {
+		"github": "KhronosGroup/Vulkan-Profiles",
+		"branch": "master"
+	},
+	"volk": {
+		"github": "zeux/volk",
+		"branch": "master"
+	},
+	"VulkanMemoryAllocator": {
+		"github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
+		"branch": "master"
+	},
+	"IconFontCppHeaders": {
+		"github": "juliettef/IconFontCppHeaders",
+		"branch": "main"
+	},
+	"imgui": {
+		"github": "ocornut/imgui",
+		"branch": "master"
+	},
+	"imgui_docking": {
+		"github": "ocornut/imgui",
+		"branch": "docking"
+	},
+	"Catch2": {
+		"github": "catchorg/Catch2",
+		"branch": "devel"
+	}
+}
