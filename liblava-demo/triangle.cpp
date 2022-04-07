@@ -39,16 +39,15 @@ int main(int argc, char* argv[]) {
     if (!triangle->reload())
         return error::create_failed;
 
-    graphics_pipeline::ptr pipeline;
     pipeline_layout::ptr layout;
+    graphics_pipeline::ptr pipeline;
 
     app.on_create = [&]() {
-        pipeline = make_graphics_pipeline(app.device);
-
         layout = make_pipeline_layout();
         if (!layout->create(app.device))
             return false;
 
+        pipeline = make_graphics_pipeline(app.device);
         pipeline->set_layout(layout);
 
         if (!pipeline->add_shader({ vert_shader, sizeof(vert_shader) }, VK_SHADER_STAGE_VERTEX_BIT))
@@ -65,16 +64,16 @@ int main(int argc, char* argv[]) {
             { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color)) },
         });
 
+        pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
+            triangle->bind_draw(cmd_buf);
+        };
+
         render_pass::ptr render_pass = app.shading.get_pass();
 
         if (!pipeline->create(render_pass->get()))
             return false;
 
         render_pass->add_front(pipeline);
-
-        pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
-            triangle->bind_draw(cmd_buf);
-        };
 
         return true;
     };

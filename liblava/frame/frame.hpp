@@ -32,10 +32,10 @@ struct frame_env {
      * @brief Construct a new frame environment
      *
      * @param app_name    Name of application
-     * @param cl          Command line arguments
+     * @param cmd_line    Command line arguments
      */
-    explicit frame_env(name app_name, argh::parser cl)
-    : cmd_line(cl) {
+    explicit frame_env(name app_name, argh::parser cmd_line)
+    : cmd_line(cmd_line) {
         info.app_name = app_name;
         set_default();
     }
