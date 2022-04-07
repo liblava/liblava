@@ -139,18 +139,4 @@ inline logger setup_log(log_config config = {}) {
     }
 }
 
-/**
- * @brief Convert icon text to string
- *
- * @tparam T         Type to convert
- *
- * @param value      Value to convert
- *
- * @return string    String representation
- */
-template<typename T>
-inline string icon_text(T value) {
-    return fmt::format("{}", icon(value));
-}
-
 } // namespace lava
