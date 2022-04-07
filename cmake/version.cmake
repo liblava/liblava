@@ -14,7 +14,7 @@ set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG a0dfe220ffb97eef2c78fef2b8971995f221b18d)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG 52e16a9f9c540a2de963a7b847e3f1611c71567f)
+set(json_TAG 15fa6a342af7b51cb51a22599026e01f1d81957b)
 
 set(spdlog_GITHUB gabime/spdlog)
 set(spdlog_TAG 76fb40d95455f249bd70824ecfcae7a8f0930fa3)
@@ -29,7 +29,7 @@ set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG 76f00ef6cbb1886eb1162d1fa39bee8b51e22ee8)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG f9f4983fbf146e354c669f320b533e87fa07a4ee)
+set(Vulkan-Profiles_TAG f7d6dd6c3d92874c2f334832fe8b6565c1e34f6f)
 
 set(volk_GITHUB zeux/volk)
 set(volk_TAG 92ba7c9f112a82cecf452ebf4b7c46f149a5799e)
@@ -47,5 +47,5 @@ set(imgui_docking_GITHUB ocornut/imgui)
 set(imgui_docking_TAG 505f19e3b00d54623566dda354980c7f3410f2b5)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG a51fd07bd006101c90662317c98de0ebe9e97312)
+set(Catch2_TAG 4b7815798107b4226b5e00b6f49e4be5848328e6)
 
