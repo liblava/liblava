@@ -24,13 +24,17 @@ struct image_data;
 struct target_callback;
 struct vk_result;
 struct device_table;
-struct device_manager;
 struct device;
 struct instance_info;
 struct instance;
 struct allocator;
 struct memory;
 struct physical_device;
+struct platform;
+struct profile_info;
+struct queue;
+struct queue_info;
+struct queue_family_info;
 
 // liblava/block.hpp
 struct attachment;

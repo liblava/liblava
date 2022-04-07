@@ -221,59 +221,6 @@ VkPhysicalDeviceProperties const& device::get_properties() const {
 }
 
 //-----------------------------------------------------------------------------
-device::ptr device_manager::create(index pd) {
-    auto physical_device = &instance::get_first_physical_device();
-
-    if (pd > 0) {
-        if (pd >= instance::singleton().get_physical_devices().size()) {
-            log()->error("create device - no physical device {}", pd);
-            return nullptr;
-        }
-
-        physical_device = instance::singleton().get_physical_devices().at(pd).get();
-    }
-
-    if (!physical_device->swapchain_supported())
-        return nullptr;
-
-    auto param = physical_device->create_default_device_param();
-    if (on_create_param)
-        on_create_param(param);
-
-    return create(param);
-}
-
-//-----------------------------------------------------------------------------
-device::ptr device_manager::create(device::create_param::ref param) {
-    auto result = std::make_shared<device>();
-    if (!result->create(param))
-        return nullptr;
-
-    auto allocator = create_allocator(result.get(), param.vma_flags);
-    if (!allocator)
-        return nullptr;
-
-    result->set_allocator(allocator);
-
-    list.push_back(result);
-    return result;
-}
-
-//-----------------------------------------------------------------------------
-void device_manager::wait_idle() {
-    for (auto& device : list)
-        device->wait_for_idle();
-}
-
-//-----------------------------------------------------------------------------
-void device_manager::clear() {
-    for (auto& device : list)
-        device->destroy();
-
-    list.clear();
-}
-
-//-----------------------------------------------------------------------------
 VkShaderModule create_shader_module(device_ptr device, cdata::ref data) {
     VkShaderModuleCreateInfo shader_module_create_info{
         .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,

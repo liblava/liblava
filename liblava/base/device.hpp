@@ -10,11 +10,15 @@
 #include <liblava/base/device_table.hpp>
 #include <liblava/base/queue.hpp>
 #include <liblava/core/data.hpp>
+#include <liblava/fwd.hpp>
 
 namespace lava {
 
-/// fwd
-struct physical_device;
+/// Pointer to device
+using device_ptr = device*;
+
+/// Const pointer to device
+using device_cptr = device const*;
 
 /// Const pointer to a physical device
 using physical_device_cptr = physical_device const*;
@@ -376,61 +380,6 @@ private:
     /// Device allocator
     allocator::ptr mem_allocator;
 };
-
-/**
- * @brief Device manager
- */
-struct device_manager {
-    /**
-     * @brief Create a new device from a physical device
-     *
-     * @param physical_device    Index of physical device
-     *
-     * @return device::ptr       Vulkan device
-     */
-    device::ptr create(index physical_device = 0);
-
-    /**
-     * @brief Create a new device with create parameters
-     *
-     * @param param           Create parameters
-     *
-     * @return device::ptr    Vulkan device
-     */
-    device::ptr create(device::create_param::ref param);
-
-    /**
-     * @brief Get the all devices
-     *
-     * @return device::list const&    List of devices
-     */
-    device::list const& get_all() const {
-        return list;
-    }
-
-    /**
-     * @brief Wait for idle on all managed devices
-     */
-    void wait_idle();
-
-    /**
-     * @brief Clear all managed devices
-     */
-    void clear();
-
-    /// Create parameter function
-    using create_param_func = std::function<void(device::create_param&)>;
-
-    /// Called on create to adjust the create parameters
-    create_param_func on_create_param;
-
-private:
-    /// List of managed devices
-    device::list list;
-};
-
-/// Pointer to device
-using device_ptr = device*;
 
 /**
  * @brief Create a shader module

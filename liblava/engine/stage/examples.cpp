@@ -29,7 +29,7 @@ LAVA_STAGE(7, "forward shading") {
         return input_ignore;
     });
 
-    device_ptr device = frame.create_device();
+    device_ptr device = frame.platform.create_device();
     if (!device)
         return error::create_failed;
 

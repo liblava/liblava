@@ -10,14 +10,12 @@
 // clang-format off
 
 #include <liblava/base/base.hpp>
+#include <liblava/fwd.hpp>
 #include <vk_mem_alloc.h>
 
 // clang-format on
 
 namespace lava {
-
-/// fwd
-struct device;
 
 /// Const pointer to device
 using device_cptr = device const*;

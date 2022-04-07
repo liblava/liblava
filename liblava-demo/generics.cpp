@@ -14,7 +14,7 @@ using namespace lava;
 int main(int argc, char* argv[]) {
     app app("lava generics", { argc, argv });
 
-    app.manager.on_create_param = [](device::create_param& param) {
+    app.platform.on_create_param = [](device::create_param& param) {
         param.features.shaderFloat64 = true;
     };
 

@@ -233,7 +233,7 @@ input.key.listeners.add([&](key_event::ref event) {
     return input_ignore;
 });
 
-lava::device_ptr device = frame.create_device();
+lava::device_ptr device = frame.platform.create_device();
 if (!device)
     return error::create_failed;
 
@@ -673,7 +673,7 @@ triangle = create_mesh<custom_vertex, false, false, true>
 
 [![base](https://img.shields.io/badge/lava-base-orange.svg)](liblava/base/base.hpp) [![instance](https://img.shields.io/badge/lava-instance-orange.svg)](liblava/base/instance.hpp) [![profile](https://img.shields.io/badge/lava-profile-orange.svg)](liblava/base/profile.hpp) [![memory](https://img.shields.io/badge/lava-memory-orange.svg)](liblava/base/memory.hpp)
 
-[![device](https://img.shields.io/badge/lava-device-orange.svg)](liblava/base/device.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-orange.svg)](liblava/base/physical_device.hpp) [![queue](https://img.shields.io/badge/lava-queue-orange.svg)](liblava/base/queue.hpp)
+[![platform](https://img.shields.io/badge/lava-platform-orange.svg)](liblava/base/platform.hpp) [![device](https://img.shields.io/badge/lava-device-orange.svg)](liblava/base/device.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-orange.svg)](liblava/base/physical_device.hpp) [![queue](https://img.shields.io/badge/lava-queue-orange.svg)](liblava/base/queue.hpp)
 
 ### lava [file](liblava/file)
 

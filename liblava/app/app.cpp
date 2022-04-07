@@ -147,7 +147,7 @@ bool app::setup_device(cmd_line cmd_line) {
     cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
 
     if (!device) {
-        device = create_device(config.physical_device);
+        device = platform.create_device(config.physical_device);
         if (!device)
             return false;
     }

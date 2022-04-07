@@ -164,7 +164,7 @@ void frame::teardown() {
     if (!frame_initialized)
         return;
 
-    manager.clear();
+    platform.clear();
 
     instance::singleton().destroy();
 
@@ -189,7 +189,7 @@ frame::result frame::run() {
             break;
     }
 
-    manager.wait_idle();
+    platform.wait_idle();
 
     trigger_run_end();
 

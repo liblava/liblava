@@ -92,7 +92,7 @@ LAVA_STAGE(4, "clear color") {
         return input_ignore;
     });
 
-    device_ptr device = frame.create_device();
+    device_ptr device = frame.platform.create_device();
     if (!device)
         return error::create_failed;
 
@@ -212,7 +212,7 @@ LAVA_STAGE(5, "color block") {
         return input_ignore;
     });
 
-    device_ptr device = frame.create_device();
+    device_ptr device = frame.platform.create().get();
     if (!device)
         return error::create_failed;
 

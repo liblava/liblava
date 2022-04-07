@@ -9,6 +9,7 @@
 
 #include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
+#include <liblava/base/platform.hpp>
 #include <liblava/frame/argh.hpp>
 
 namespace lava {
@@ -259,24 +260,8 @@ struct frame : interface, no_copy_no_move {
         wait_for_events = value;
     }
 
-    /**
-     * @brief Create a new device
-     *
-     * @param physical_device    Physical device
-     *
-     * @return device_ptr        Shared pointer to device
-     */
-    device_ptr create_device(index physical_device = 0) {
-        auto device = manager.create(physical_device);
-        if (!device)
-            return nullptr;
-
-        auto ptr = device.get();
-        return ptr;
-    }
-
-    /// Device manager
-    device_manager manager;
+    /// Stage platform
+    lava::platform platform;
 
 private:
     /**

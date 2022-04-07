@@ -305,6 +305,8 @@ add_library(lava.base STATIC
         ${LIBLAVA_DIR}/base/memory.hpp
         ${LIBLAVA_DIR}/base/physical_device.cpp
         ${LIBLAVA_DIR}/base/physical_device.hpp
+        ${LIBLAVA_DIR}/base/platform.cpp
+        ${LIBLAVA_DIR}/base/platform.hpp
         ${LIBLAVA_DIR}/base/profile.hpp
         ${LIBLAVA_DIR}/base/queue.cpp
         ${LIBLAVA_DIR}/base/queue.hpp
