@@ -15,6 +15,7 @@
     #pragma warning(disable : 4100) // unreferenced formal parameter
     #pragma warning(disable : 4189) // local variable is initialized but not referenced
     #pragma warning(disable : 4324) // structure was padded due to alignment specifier
+    #pragma warning(disable : 4244) // conversion, possible loss of data
 #else
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
