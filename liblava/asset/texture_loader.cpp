@@ -88,15 +88,12 @@ texture::ptr create_gli_texture_2d(device_ptr device, file::ref file, VkFormat f
 /**
  * @brief Create a layer list for a texture
  *
- * @tparam T                       Texture type
- *
  * @param tex                      Target texture
  * @param layer_count              Number of layers
  *
  * @return texture::layer::list    List of texture layers
  */
-template<typename T>
-texture::layer::list create_layer_list(T const& tex, ui32 layer_count) {
+texture::layer::list create_layer_list(auto const& tex, ui32 layer_count) {
     texture::layer::list layers;
 
     auto const mip_levels = to_ui32(tex.levels());

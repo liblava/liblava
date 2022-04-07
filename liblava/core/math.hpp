@@ -160,15 +160,12 @@ private:
 /**
  * @brief Ceiling of division
  *
- * @tparam T    Target type
+ * @param x        X value
+ * @param y        Y value
  *
- * @param x     X value
- * @param y     Y value
- *
- * @return T    Result of division
+ * @return auto    Result
  */
-template<typename T>
-inline T ceil_div(T x, T y) {
+inline auto ceil_div(auto x, auto y) {
     return (x + y - 1) / y;
 }
 

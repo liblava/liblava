@@ -67,12 +67,9 @@ struct thread_pool {
     /**
      * @brief Enqueue a task
      *
-     * @tparam F    Type of task function
-     *
-     * @param f     Task function
+     * @param f    Task function
      */
-    template<typename F>
-    void enqueue(F f) {
+    void enqueue(auto f) {
         {
             std::unique_lock<std::mutex> lock(queue_mutex);
             tasks.push_back(task(f));

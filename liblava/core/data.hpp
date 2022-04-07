@@ -50,30 +50,24 @@ struct data_provider {
 /**
  * @brief Cast to data pointer
  *
- * @tparam T           Type to cast
- *
  * @param value        Value to cast
  *
  * @return data_ptr    Data pointer
  */
-template<typename T>
-inline data_ptr as_ptr(T* value) {
+inline data_ptr as_ptr(auto* value) {
     return (data_ptr) value;
 }
 
 /**
  * @brief Align value up
  *
- * @tparam T       Type of value
- *
  * @param value    Value to align
  * @param align    Target alignment
  *
- * @return T       Aligned value
+ * @return auto    Aligned value
  */
-template<typename T>
-inline T align_up(T value, T align) {
-    return (value + align - T(1)) / align * align;
+inline auto align_up(auto value, auto align) {
+    return (value + align - 1) / align * align;
 }
 
 /**
@@ -174,13 +168,10 @@ struct data {
     /**
      * @brief Construct a new data
      *
-     * @tparam T      Type of data
-     *
      * @param ptr     Data pointer
      * @param size    Size of data
      */
-    template<typename T>
-    data(T* ptr, size_t size)
+    data(auto* ptr, size_t size)
     : ptr(as_ptr(ptr)), size(size) {}
 
     /**

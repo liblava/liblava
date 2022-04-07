@@ -71,29 +71,23 @@ private:
 /**
  * @brief Get next random number
  *
- * @tparam T      Type of number
+ * @param low      Lowest number
+ * @param high     Highest number
  *
- * @param low     Lowest number
- * @param high    Highest number
- *
- * @return T      Random number
+ * @return auto    Random number
  */
-template<typename T>
-inline T random(T low, T high) {
+inline auto random(auto low, auto high) {
     return random_generator::instance().get(low, high);
 }
 
 /**
  * @brief Get next random number (lowest is 0)
  *
- * @tparam T      Type of number
+ * @param high     Highest number
  *
- * @param high    Highest number
- *
- * @return T      Random number
+ * @return auto    Random number
  */
-template<typename T>
-inline T random(T high) {
+inline auto random(auto high) {
     return random_generator::instance().get({}, high);
 }
 
