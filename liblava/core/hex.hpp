@@ -364,8 +364,8 @@ inline hex_cell::list hex_line(hex_cell const& a, hex_cell const& b) {
     auto a_nudge = hex_frac_cell{ a.q + 0.000001f, a.r + 0.000001f, a.s - 0.000002f };
     auto b_nudge = hex_frac_cell{ b.q + 0.000001f, b.r + 0.000001f, b.s - 0.000002f };
 
-    auto n = hex_distance(a, b);
-    auto step = 1.0 / std::max(n, 1);
+    ui32 n = hex_distance(a, b);
+    auto step = 1.0 / std::max(n, 1u);
 
     hex_cell::list results;
     for (auto i = 0u; i <= n; ++i)

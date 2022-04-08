@@ -146,8 +146,10 @@ struct run_time {
     bool paused = false;
 };
 
-#pragma warning(push)
-#pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
+#ifdef _WIN32
+    #pragma warning(push)
+    #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
+#endif
 
 /**
  * @brief Convert timestamp to string
@@ -181,7 +183,9 @@ inline string get_current_time_and_date() {
     return timestamp(now);
 }
 
-#pragma warning(pop)
+#ifdef _WIN32
+    #pragma warning(pop)
+#endif
 
 /**
  * @brief Get the current timestamp in milliseconds
