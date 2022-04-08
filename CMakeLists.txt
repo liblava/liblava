@@ -32,6 +32,8 @@ option(LIBLAVA_DEMO "Enable Demo" TRUE)
 option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
 set(LIBLAVA_TEMPLATE_NAME "template" CACHE STRING "Name of template project")
 
+option(LIBLAVA_WARNING_AS_ERROR "Enable build warnings as errors" FALSE)
+
 set(LIBLAVA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava)
 set(LIBLAVA_EXT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ext)
 set(LIBLAVA_RES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/res)
@@ -235,6 +237,13 @@ endif()
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         target_compile_options(lava.core INTERFACE "-Wno-psabi")
         target_link_options(lava.core INTERFACE "-latomic")
+endif()
+
+if(LIBLAVA_WARNING_AS_ERROR)
+        target_compile_options(lava.core INTERFACE
+                $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+                $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+                )
 endif()
 
 set_target_properties(lava.core PROPERTIES FOLDER "liblava")
