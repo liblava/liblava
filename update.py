@@ -6,24 +6,30 @@ import requests
 with open("ext.json", "r") as ext_file:
     ext = json.load(ext_file)
     with open('cmake/version.cmake', 'w') as version_file:
+        output = []
+
         for module in ext:
-            name = module
-            print(name)
+            name = module["name"]
 
-            github = ext[module]["github"]
-            print(" - " + github)
-
-            branch = ext[module]["branch"]
-            print(" -- " + branch)
-
+            github = module["github"]
+            branch = module["branch"]
             url = "https://api.github.com/repos/" + github + "/branches/" + branch
-            print(" --- " + url)
-            
+
             response = requests.get(url)
             info = json.loads(response.text)
 
             tag = info["commit"]["sha"]
-            print(" ---- " + tag)
+
+            item = { 
+                "name" : name,
+                "github" : github,
+                "branch" : branch,
+                "tag" : tag
+            }
+
+            output.append(item)
             
             version_file.write("set(" + name + "_GITHUB " + github + ")\n")
             version_file.write("set(" + name + "_TAG " + tag + ")\n\n")
+        
+        print(json.dumps(output, indent=4))
