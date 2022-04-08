@@ -14,7 +14,7 @@ set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG a0dfe220ffb97eef2c78fef2b8971995f221b18d)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG 15fa6a342af7b51cb51a22599026e01f1d81957b)
+set(json_TAG 261cc4e509c51d53c57d0c266abd4a78f134e6a4)
 
 set(spdlog_GITHUB gabime/spdlog)
 set(spdlog_TAG 76fb40d95455f249bd70824ecfcae7a8f0930fa3)
@@ -41,7 +41,7 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 40cffaf2c729182e597c3d925aa90a501bc00fd5)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 2c03aac6d30720d8f717dcd9cbb8b9a6799396b8)
+set(imgui_TAG f7f30476d5c1fc4e8d155c8ea094778eed94d4f9)
 
 set(imgui_docking_GITHUB ocornut/imgui)
 set(imgui_docking_TAG 505f19e3b00d54623566dda354980c7f3410f2b5)
