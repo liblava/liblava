@@ -119,6 +119,13 @@ bool app::setup_file_system(cmd_line cmd_line) {
         log()->info("clean preferences");
     }
 
+    if (cmd_line[{ "-cc", "--clean_cache" }]) {
+        string pref_dir = file_system::instance().get_pref_dir();
+        std::filesystem::remove_all(pref_dir + "cache/");
+
+        log()->info("clean cache");
+    }
+
     return true;
 }
 

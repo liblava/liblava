@@ -96,6 +96,7 @@ render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& att
 //-----------------------------------------------------------------------------
 name _tex_normal_ = "tex_normal";
 name _tex_roughness_ = "tex_roughness";
+
 name _gbuffer_vertex_ = "gbuffer_vertex";
 name _gbuffer_fragment_ = "gbuffer_fragment";
 name _lighting_vertex_ = "lighting_vertex";
@@ -111,10 +112,11 @@ int main(int argc, char* argv[]) {
 
     app.prop.add(_tex_normal_, "light/normal.png");
     app.prop.add(_tex_roughness_, "light/roughness.png");
-    app.prop.add(_gbuffer_vertex_, "light/gbuffer.vertex.spirv");
-    app.prop.add(_gbuffer_fragment_, "light/gbuffer.fragment.spirv");
-    app.prop.add(_lighting_vertex_, "light/lighting.vertex.spirv");
-    app.prop.add(_lighting_fragment_, "light/lighting.fragment.spirv");
+
+    app.prop.add(_gbuffer_vertex_, "light/gbuffer.vert");
+    app.prop.add(_gbuffer_fragment_, "light/gbuffer.frag");
+    app.prop.add(_lighting_vertex_, "light/lighting.vert");
+    app.prop.add(_lighting_fragment_, "light/lighting.frag");
 
     if (!app.setup())
         return error::not_ready;
@@ -218,9 +220,9 @@ int main(int argc, char* argv[]) {
             .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT
         };
 
-        if (!gbuffer_pipeline->add_shader(app.prop(_gbuffer_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!gbuffer_pipeline->add_shader(app.producer.get_shader(_gbuffer_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
-        if (!gbuffer_pipeline->add_shader(app.prop(_gbuffer_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!gbuffer_pipeline->add_shader(app.producer.get_shader(_gbuffer_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         for (auto i = 0u; i < g_attachments.size() - 1; ++i) {
@@ -284,9 +286,9 @@ int main(int argc, char* argv[]) {
             .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT
         };
 
-        if (!lighting_pipeline->add_shader(app.prop(_lighting_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!lighting_pipeline->add_shader(app.producer.get_shader(_lighting_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
-        if (!lighting_pipeline->add_shader(app.prop(_lighting_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!lighting_pipeline->add_shader(app.producer.get_shader(_lighting_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         lighting_pipeline->add_color_blend_attachment(lighting_blend_state);

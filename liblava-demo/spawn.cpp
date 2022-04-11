@@ -15,8 +15,8 @@ using namespace lava;
 int main(int argc, char* argv[]) {
     engine app("lava spawn", { argc, argv });
 
-    app.prop.add(_vertex_, "spawn/vertex.spirv");
-    app.prop.add(_fragment_, "spawn/fragment.spirv");
+    app.prop.add(_vertex_, "spawn/spawn.vert");
+    app.prop.add(_fragment_, "spawn/spawn.frag");
 
     setup_imgui_font_icons(app.config.imgui_font,
                            FONT_ICON_FILE_NAME_FAS,
@@ -58,10 +58,10 @@ int main(int argc, char* argv[]) {
 
     app.on_create = [&]() {
         pipeline = make_graphics_pipeline(app.device);
-        if (!pipeline->add_shader(app.prop(_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!pipeline->add_shader(app.producer.get_shader(_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
 
-        if (!pipeline->add_shader(app.prop(_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!pipeline->add_shader(app.producer.get_shader(_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         pipeline->add_color_blend_attachment();
@@ -174,7 +174,7 @@ int main(int argc, char* argv[]) {
 
         ImGui::SameLine(0.f, 15.f);
 
-        ImGui::Text("(load %.3f sec)", to_sec(mesh_load_time));
+        ImGui::Text("load: %.3f sec", to_sec(mesh_load_time));
 
         ImGui::Spacing();
 

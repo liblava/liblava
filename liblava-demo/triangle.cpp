@@ -85,9 +85,16 @@ int main(int argc, char* argv[]) {
 
     app.imgui.on_draw = [&]() {
         ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize({ 210, 110 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({ 260, 135 }, ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
+
+        uv2 target_size = app.target->get_size();
+        ImGui::Text("target: %d x %d", target_size.x, target_size.y);
+
+        ImGui::SameLine();
+
+        ImGui::Text("frames: %d", app.target->get_frame_count());
 
         app.draw_about(false);
 

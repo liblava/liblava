@@ -80,6 +80,26 @@
 		"branch": "docking"
 	},
 	{
+		"name": "SPIRV-Headers",
+		"github": "KhronosGroup/SPIRV-Headers",
+		"branch": "master"
+	},
+	{
+		"name": "SPIRV-Tools",
+		"github": "KhronosGroup/SPIRV-Tools",
+		"branch": "master"
+	},
+	{
+		"name": "glslang",
+		"github": "KhronosGroup/glslang",
+		"branch": "master"
+	},
+	{
+		"name": "shaderc",
+		"github": "google/shaderc",
+		"branch": "main"
+	},
+	{
 		"name": "Catch2",
 		"github": "catchorg/Catch2",
 		"branch": "devel"

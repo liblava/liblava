@@ -76,15 +76,36 @@ struct producer {
     bool add_texture(texture::ptr product);
 
     /**
+     * @brief Generate shader by prop name
+     *
+     * @param name      Name of shader
+     *
+     * @return cdata    Shader data
+     */
+    cdata get_shader(string_ref name);
+
+    /**
      * @brief Destroy all products
      */
     void destroy();
+
+    /**
+     * @brief Clear all products
+     */
+    void clear();
 
     /// Mesh products
     id_registry<mesh, string> meshes;
 
     /// Texture products
     id_registry<texture, string> textures;
+
+private:
+    /// Map of shader products
+    using shader_map = std::map<string, data>;
+
+    /// Shader products
+    shader_map shaders;
 };
 
 } // namespace lava

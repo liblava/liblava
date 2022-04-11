@@ -136,12 +136,14 @@ struct file_system : no_copy_no_move {
     void mount_res(logger log);
 
     /**
-     * @brief Create data folder
+     * @brief Create a folder in the preferences directory (default: data)
      *
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @param name      Name of folder
+     *
+     * @return true     Folder created
+     * @return false    Folder not created
      */
-    bool create_data_folder();
+    bool create_folder(name name = "data");
 
     /**
      * @brief Clean preferences directory
