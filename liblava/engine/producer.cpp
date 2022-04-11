@@ -126,7 +126,7 @@ public:
         auto file_path = path;
         file_path.replace_filename(name);
 
-        file_data file_data(file_path.lexically_normal());
+        file_data file_data(file_path.lexically_normal().string());
         if (!file_data.ptr)
             return nullptr;
 
