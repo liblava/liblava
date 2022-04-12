@@ -243,10 +243,13 @@ data compile_shader(cdata product, string_ref name, string_ref filename) {
 }
 
 //-----------------------------------------------------------------------------
-cdata producer::get_shader(string_ref name) {
-    for (auto& [prop, shader] : shaders) {
-        if (prop == name)
-            return shaders.at(prop);
+cdata producer::get_shader(string_ref name, bool reload) {
+    if (shaders.count(name)) {
+        if (!reload)
+            return shaders.at(name);
+
+        shaders.at(name).free();
+        shaders.erase(name);
     }
 
     string pref_dir = file_system::get_pref_dir();
@@ -254,19 +257,24 @@ cdata producer::get_shader(string_ref name) {
     string shader_path = "cache/shader/";
     auto path = pref_dir + shader_path + name + ".spirv";
 
-    file_data file_data(path);
-    if (file_data.ptr) {
-        data module_data;
+    if (!reload) {
+        file_data file_data(path);
+        if (file_data.ptr) {
+            data module_data;
 
-        module_data.set(file_data.size);
-        memcpy(module_data.ptr, file_data.ptr, file_data.size);
+            module_data.set(file_data.size);
+            memcpy(module_data.ptr, file_data.ptr, file_data.size);
 
-        shaders.emplace(name, module_data);
+            shaders.emplace(name, module_data);
 
-        log()->info("shader cache: {} - {} bytes", name, file_data.size);
+            log()->info("shader cache: {} - {} bytes", name, file_data.size);
 
-        return module_data;
+            return module_data;
+        }
     }
+
+    if (reload)
+        context->prop.unload(name);
 
     auto product = context->prop(name);
     if (!product.ptr)

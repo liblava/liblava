@@ -79,10 +79,22 @@ struct producer {
      * @brief Generate shader by prop name
      *
      * @param name      Name of shader
+     * @param reload    Reload shader
      *
      * @return cdata    Shader data
      */
-    cdata get_shader(string_ref name);
+    cdata get_shader(string_ref name, bool reload = false);
+
+    /**
+     * @brief Regenerate shader by prop name
+     *
+     * @param name      Name of shader
+     *
+     * @return cdata    Shader data
+     */
+    cdata reload_shader(string_ref name) {
+        return get_shader(name, true);
+    }
 
     /**
      * @brief Destroy all products
