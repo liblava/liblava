@@ -6,6 +6,7 @@
  */
 
 #include <liblava/asset.hpp>
+#include <liblava/base/instance.hpp>
 #include <liblava/engine/engine.hpp>
 #include <liblava/engine/producer.hpp>
 #include <liblava/file/file_system.hpp>
@@ -201,18 +202,59 @@ shaderc_shader_kind get_shader_kind(string_ref filename) {
 /**
  * @brief Compile shader product
  *
- * @param product     Product data
- * @param name        Product name
- * @param filename    Product filename
+ * @param product         Product data
+ * @param name            Product name
+ * @param filename        Product filename
+ * @param shader_opt      Shader optimization level
+ * @param shader_lang     Shader source language
+ * @param shader_debug    Shader debug information
  *
- * @return data       Compiled shader data
+ * @return data           Compiled shader data
  */
-data compile_shader(cdata product, string_ref name, string_ref filename) {
+data compile_shader(cdata product, string_ref name, string_ref filename,
+                    producer::shader_optimization shader_opt,
+                    producer::shader_language shader_lang,
+                    bool shader_debug) {
     shaderc::Compiler compiler;
     shaderc::CompileOptions options;
     options.SetIncluder(std::make_unique<shader_includer>(filename));
 
     auto shader_type = get_shader_kind(filename);
+
+    auto opt_level = shaderc_optimization_level_zero;
+    if (shader_opt == producer::shader_optimization::size)
+        opt_level = shaderc_optimization_level_size;
+    else if (shader_opt == producer::shader_optimization::performance)
+        opt_level = shaderc_optimization_level_performance;
+
+    options.SetOptimizationLevel(opt_level);
+
+    auto source_lang = shaderc_source_language::shaderc_source_language_glsl;
+    if (shader_lang == producer::shader_language::hlsl)
+        source_lang = shaderc_source_language::shaderc_source_language_hlsl;
+
+    options.SetSourceLanguage(source_lang);
+
+    if (shader_debug)
+        options.SetGenerateDebugInfo();
+
+    switch (instance::singleton().get_info().req_api_version) {
+    case api_version::v1_1:
+        options.SetTargetEnvironment(shaderc_target_env_default, shaderc_env_version_vulkan_1_1);
+        options.SetTargetSpirv(shaderc_spirv_version_1_3);
+        break;
+    case api_version::v1_2:
+        options.SetTargetEnvironment(shaderc_target_env_default, shaderc_env_version_vulkan_1_2);
+        options.SetTargetSpirv(shaderc_spirv_version_1_5);
+        break;
+    case api_version::v1_3:
+        options.SetTargetEnvironment(shaderc_target_env_default, shaderc_env_version_vulkan_1_3);
+        options.SetTargetSpirv(shaderc_spirv_version_1_6);
+        break;
+    default:
+        options.SetTargetEnvironment(shaderc_target_env_default, shaderc_env_version_vulkan_1_0);
+        options.SetTargetSpirv(shaderc_spirv_version_1_0);
+    }
 
     shaderc::PreprocessedSourceCompilationResult result =
         compiler.PreprocessGlsl({ product.ptr, product.size }, shader_type, str(name), options);
@@ -280,7 +322,8 @@ cdata producer::get_shader(string_ref name, bool reload) {
     if (!product.ptr)
         return {};
 
-    auto module_data = compile_shader(product, name, context->prop.get_filename(name));
+    auto module_data = compile_shader(product, name, context->prop.get_filename(name),
+                                      shader_opt, shader_lang, shader_debug);
     if (!module_data.ptr)
         return {};
 

@@ -112,6 +112,32 @@ struct producer {
     /// Texture products
     id_registry<texture, string> textures;
 
+    /**
+     * @brief Shader optimization level
+     */
+    enum shader_optimization : type {
+        none = 0,
+        size,
+        performance
+    };
+
+    /// Shader optimization level
+    shader_optimization shader_opt = shader_optimization::performance;
+
+    /**
+     * @brief Shader source language
+     */
+    enum shader_language : type {
+        glsl = 0,
+        hlsl
+    };
+
+    /// Shader source language
+    shader_language shader_lang = shader_language::glsl;
+
+    /// Shader debug information
+    bool shader_debug = false;
+
 private:
     /// Map of shader products
     using shader_map = std::map<string, data>;
