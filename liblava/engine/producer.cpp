@@ -300,16 +300,11 @@ cdata producer::get_shader(string_ref name, bool reload) {
     auto path = pref_dir + shader_path + name + ".spirv";
 
     if (!reload) {
-        file_data file_data(path);
-        if (file_data.ptr) {
-            data module_data;
-
-            module_data.set(file_data.size);
-            memcpy(module_data.ptr, file_data.ptr, file_data.size);
-
+        data module_data;
+        if (load_file_data(path, module_data)) {
             shaders.emplace(name, module_data);
 
-            log()->info("shader cache: {} - {} bytes", name, file_data.size);
+            log()->info("shader cache: {} - {} bytes", name, module_data.size);
 
             return module_data;
         }
