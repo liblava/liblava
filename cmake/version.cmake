@@ -41,7 +41,7 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG aa9da698177727051eef093d461a669a43c9411e)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG fc203c7d763e7417b80238d33fbb761a549ad6c6)
+set(imgui_TAG 088487a3d44dc75db73ed4aff9bbd224604102ac)
 
 set(imgui_docking_GITHUB ocornut/imgui)
 set(imgui_docking_TAG 505f19e3b00d54623566dda354980c7f3410f2b5)
@@ -59,5 +59,5 @@ set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG 96b1dd72a827304817470274a470c4d3b2293451)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG f25236ff430d98b3cba5495cc68235d1d7701b98)
+set(Catch2_TAG 9934b7de13ef303e0d7b1bccf519422be73c6a03)
 

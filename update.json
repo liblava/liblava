@@ -87,7 +87,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "fc203c7d763e7417b80238d33fbb761a549ad6c6"
+        "tag": "088487a3d44dc75db73ed4aff9bbd224604102ac"
     },
     {
         "name": "imgui_docking",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "f25236ff430d98b3cba5495cc68235d1d7701b98"
+        "tag": "9934b7de13ef303e0d7b1bccf519422be73c6a03"
     }
 ]
