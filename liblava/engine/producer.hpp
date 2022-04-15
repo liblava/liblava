@@ -76,15 +76,74 @@ struct producer {
     bool add_texture(texture::ptr product);
 
     /**
+     * @brief Generate shader by prop name
+     *
+     * @param name      Name of shader
+     * @param reload    Reload shader
+     *
+     * @return cdata    Shader data
+     */
+    cdata get_shader(string_ref name, bool reload = false);
+
+    /**
+     * @brief Regenerate shader by prop name
+     *
+     * @param name      Name of shader
+     *
+     * @return cdata    Shader data
+     */
+    cdata reload_shader(string_ref name) {
+        return get_shader(name, true);
+    }
+
+    /**
      * @brief Destroy all products
      */
     void destroy();
+
+    /**
+     * @brief Clear all products
+     */
+    void clear();
 
     /// Mesh products
     id_registry<mesh, string> meshes;
 
     /// Texture products
     id_registry<texture, string> textures;
+
+    /**
+     * @brief Shader optimization level
+     */
+    enum shader_optimization : type {
+        none = 0,
+        size,
+        performance
+    };
+
+    /// Shader optimization level
+    shader_optimization shader_opt = shader_optimization::performance;
+
+    /**
+     * @brief Shader source language
+     */
+    enum shader_language : type {
+        glsl = 0,
+        hlsl
+    };
+
+    /// Shader source language
+    shader_language shader_lang = shader_language::glsl;
+
+    /// Shader debug information
+    bool shader_debug = false;
+
+private:
+    /// Map of shader products
+    using shader_map = std::map<string, data>;
+
+    /// Shader products
+    shader_map shaders;
 };
 
 } // namespace lava

@@ -135,15 +135,15 @@ void file_system::mount_res(logger log) {
 }
 
 //-----------------------------------------------------------------------------
-bool file_system::create_data_folder() {
-    std::filesystem::path data_path = std::filesystem::current_path();
-    data_path += std::filesystem::path::preferred_separator;
-    data_path += "data";
+bool file_system::create_folder(name name) {
+    std::filesystem::path path = file_system::get_pref_dir();
+    path += std::filesystem::path::preferred_separator;
+    path += name;
 
-    if (!std::filesystem::exists(data_path))
-        std::filesystem::create_directories(data_path);
+    if (!std::filesystem::exists(path))
+        std::filesystem::create_directories(path);
 
-    return std::filesystem::exists(data_path);
+    return std::filesystem::exists(path);
 }
 
 //-----------------------------------------------------------------------------

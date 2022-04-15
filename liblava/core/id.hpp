@@ -506,6 +506,14 @@ struct id_registry {
         meta.erase(object);
     }
 
+    /**
+     * @brief Clear the registry
+     */
+    void clear() {
+        objects.clear();
+        meta.clear();
+    }
+
 private:
     /// Map of objects
     map objects;

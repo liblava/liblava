@@ -22,7 +22,8 @@ message(" 2022 preview / 0.7.1                                      MIT licensed
 message("========================================================================")
 message(" https://git.io/liblava                          https://lava-block.com ")
 message("========================================================================")
-message("> Making lava flow...")
+message("> Making lava flow...                                                   ")
+message("-- (may take a little longer the first time - so be patient)            ")
 
 option(IMGUI_DOCKING "Dear ImGui with docking" FALSE)
 
@@ -181,6 +182,43 @@ else()
                 DOWNLOAD_ONLY YES
                 )
 endif()
+
+CPMAddPackage(
+        NAME SPIRV-Headers
+        GITHUB_REPOSITORY ${SPIRV-Headers_GITHUB}
+        GIT_TAG ${SPIRV-Headers_TAG}
+        DOWNLOAD_ONLY YES
+        )
+
+CPMAddPackage(
+        NAME SPIRV-Tools
+        GITHUB_REPOSITORY ${SPIRV-Tools_GITHUB}
+        GIT_TAG ${SPIRV-Tools_TAG}
+        OPTIONS
+                "SKIP_SPIRV_TOOLS_INSTALL ON"
+                "SPIRV_SKIP_TESTS ON"
+                "SPIRV_SKIP_EXECUTABLES ON"
+        )
+
+CPMAddPackage(
+        NAME glslang
+        GITHUB_REPOSITORY ${glslang_GITHUB}
+        GIT_TAG ${glslang_TAG}
+        OPTIONS
+                "ENABLE_CTEST OFF"
+                "SKIP_GLSLANG_INSTALL ON"
+        )
+
+CPMAddPackage(
+        NAME shaderc
+        GITHUB_REPOSITORY ${shaderc_GITHUB}
+        GIT_TAG ${shaderc_TAG}
+        OPTIONS
+                "SHADERC_SKIP_TESTS ON"
+                "SHADERC_SKIP_EXAMPLES ON"
+                "SHADERC_SKIP_INSTALL ON"
+                "SHADERC_SKIP_COPYRIGHT_CHECK ON"
+        )
 
 if(LIBLAVA_TEST)
         CPMAddPackage(
@@ -521,8 +559,13 @@ add_library(lava.engine STATIC
         ${LIBLAVA_DIR}/engine/property.hpp
         )
 
+target_include_directories(lava.engine PUBLIC
+        $<BUILD_INTERFACE:${shaderc_SOURCE_DIR}/libshaderc/include>
+        )
+
 target_link_libraries(lava.engine
         lava::app
+        shaderc
         )
 
 set_target_properties(lava.engine PROPERTIES FOLDER "liblava")
@@ -581,10 +624,12 @@ install(TARGETS
         lava.frame
         lava.block
         lava.app
-        lava.engine
+        #lava.engine
         spdlog
         physfs-static
         glfw
+        #shaderc
+        #shaderc_util
         EXPORT LavaTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
@@ -614,6 +659,7 @@ set(EXT_INCLUDE_DIRS
         ${argh_SOURCE_DIR}
         ${imgui_SOURCE_DIR}
         ${IconFontCppHeaders_SOURCE_DIR}
+        #${shaderc_SOURCE_DIR}/libshaderc/include
         )
 
 foreach(DIR ${EXT_INCLUDE_DIRS})
@@ -709,7 +755,7 @@ message("=======================================================================
         source_group("Shader Files" FILES ${GENERICS_SHADERS})
 
         set_target_properties(lava-generics PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-generics lava::app)
+        target_link_libraries(lava-generics lava::engine)
 
         set_property(TARGET lava-generics PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 

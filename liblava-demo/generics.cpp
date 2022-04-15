@@ -11,12 +11,23 @@
 using namespace lava;
 
 //-----------------------------------------------------------------------------
+name _triangle_frag_ = "triangle_frag";
+name _lava_triangle_ = "lava_triangle";
+name _int_triangle_ = "int_triangle";
+name _double_triangle_ = "double_triangle";
+
+//-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
-    app app("lava generics", { argc, argv });
+    engine app("lava generics", { argc, argv });
 
     app.platform.on_create_param = [](device::create_param& param) {
         param.features.shaderFloat64 = true;
     };
+
+    app.prop.add(_triangle_frag_, "generics/triangle.frag");
+    app.prop.add(_lava_triangle_, "generics/lava_triangle.vert");
+    app.prop.add(_int_triangle_, "generics/int_triangle.vert");
+    app.prop.add(_double_triangle_, "generics/double_triangle.vert");
 
     if (!app.setup())
         return error::not_ready;
@@ -108,12 +119,12 @@ int main(int argc, char* argv[]) {
             double_triangle->bind_draw(cmd_buf);
         };
 
-        pipeline::shader_stage::ptr shader_stage = create_pipeline_shader_stage(app.device, file_data("generics/triangle_frag.spirv"), VK_SHADER_STAGE_FRAGMENT_BIT);
+        pipeline::shader_stage::ptr shader_stage = create_pipeline_shader_stage(app.device, app.producer.get_shader(_triangle_frag_), VK_SHADER_STAGE_FRAGMENT_BIT);
         if (!shader_stage)
             return false;
 
         // Describe the lava triangle
-        if (!lava_pipeline->add_shader(file_data("generics/lava_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!lava_pipeline->add_shader(app.producer.get_shader(_lava_triangle_), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
         lava_pipeline->add(shader_stage);
 
@@ -127,7 +138,7 @@ int main(int argc, char* argv[]) {
             return false;
 
         // Describe the int triangle
-        if (!int_pipeline->add_shader(file_data("generics/int_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!int_pipeline->add_shader(app.producer.get_shader(_int_triangle_), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
         int_pipeline->add(shader_stage);
 
@@ -141,7 +152,7 @@ int main(int argc, char* argv[]) {
             return false;
 
         // Describe the double triangle
-        if (!double_pipeline->add_shader(file_data("generics/double_triangle.spirv"), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!double_pipeline->add_shader(app.producer.get_shader(_double_triangle_), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
         double_pipeline->add(shader_stage);
 
@@ -170,9 +181,21 @@ int main(int argc, char* argv[]) {
 
     app.imgui.on_draw = [&]() {
         ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize({ 210, 110 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({ 220, 200 }, ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
+
+        bool lava_active = lava_pipeline->activated();
+        if (ImGui::Checkbox("lava triangle", &lava_active))
+            lava_pipeline->toggle();
+
+        bool int_active = int_pipeline->activated();
+        if (ImGui::Checkbox("int triangle", &int_active))
+            int_pipeline->toggle();
+
+        bool double_active = double_pipeline->activated();
+        if (ImGui::Checkbox("double triangle", &double_active))
+            double_pipeline->toggle();
 
         app.draw_about(false);
 

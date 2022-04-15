@@ -802,6 +802,14 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 <br />
 
 ```
+--clean_cache, -cc
+```
+
+* **clean** cache folder
+
+<br />
+
+```
 --v_sync={0|1}, -vs={0|1}
 ```
 
@@ -1110,6 +1118,8 @@ If you want to contribute - we suggest the following:
 
   [![math](https://img.shields.io/badge/lava-math-blue.svg)](liblava/core/math.hpp)
 
+* [glslang](https://github.com/KhronosGroup/glslang) &nbsp; **Khronos-reference front end for GLSL/ESSL, partial front end for HLSL, and a SPIR-V generator** &nbsp; *3-clause BSD*
+
 * [IconFontCppHeaders](https://github.com/juliettef/IconFontCppHeaders) &nbsp; **C, C++ headers and C# classes for icon fonts** &nbsp; *zlib*
 
   [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.cpp)
@@ -1126,9 +1136,17 @@ If you want to contribute - we suggest the following:
 
   [![file](https://img.shields.io/badge/lava-file-orange.svg)](liblava/file/file.cpp) [![file_system](https://img.shields.io/badge/lava-file_system-orange.svg)](liblava/file/file_system.cpp)
 
+* [shaderc](https://github.com/google/shaderc) &nbsp; **A collection of tools, libraries, and tests for Vulkan shader compilation** &nbsp; *Apache 2.0*
+
+  [![producer](https://img.shields.io/badge/lava-producer-brightgreen.svg)](liblava/engine/producer.cpp)
+
 * [spdlog](https://github.com/gabime/spdlog) &nbsp; **Fast C++ logging library** &nbsp; *MIT*
 
   [![log](https://img.shields.io/badge/lava-log-blue.svg)](liblava/util/log.hpp)
+
+* [SPIRV-Headers](https://github.com/KhronosGroup/SPIRV-Headers) &nbsp; **SPIRV-Headers** &nbsp; *MIT*
+
+* [SPIRV-Tools](https://github.com/KhronosGroup/SPIRV-Tools) &nbsp; **SPIRV-Tools** &nbsp; *Apache 2.0*
 
 * [stb](https://github.com/nothings/stb) &nbsp; **Single-file public domain libraries for C/C++** &nbsp; *MIT*
 

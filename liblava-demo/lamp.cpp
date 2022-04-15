@@ -76,8 +76,8 @@ struct dimmer {
 int main(int argc, char* argv[]) {
     engine app("lava lamp", { argc, argv });
 
-    app.prop.add(_vertex_, "lamp/vertex.spirv");
-    app.prop.add(_fragment_, "lamp/fragment.spirv");
+    app.prop.add(_vertex_, "lamp/lamp.vert");
+    app.prop.add(_fragment_, "lamp/lamp.frag");
 
     setup_imgui_font_icons(app.config.imgui_font,
                            FONT_ICON_FILE_NAME_FAS,
@@ -95,10 +95,10 @@ int main(int argc, char* argv[]) {
 
     app.on_create = [&]() {
         pipeline = make_graphics_pipeline(app.device);
-        if (!pipeline->add_shader(app.prop(_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!pipeline->add_shader(app.producer.get_shader(_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
             return false;
 
-        if (!pipeline->add_shader(app.prop(_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!pipeline->add_shader(app.producer.get_shader(_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         pipeline->add_color_blend_attachment();
@@ -172,17 +172,10 @@ int main(int argc, char* argv[]) {
 
         ImGui::Begin(app.get_name());
 
-        imgui_left_spacing(2);
-
-        ImGui::TextUnformatted(icon(ICON_FA_LIGHTBULB));
-
-        ImGui::SameLine(0.f, 15.f);
-
-        bool lamp_active = pipeline->activated();
-        if (ImGui::Checkbox("active", &lamp_active))
+        if (ImGui::Button(pipeline->activated() ? icon(ICON_FA_LIGHTBULB) : icon(ICON_FA_POWER_OFF)))
             pipeline->toggle();
 
-        ImGui::SameLine(0.f, 17.f);
+        ImGui::SameLine(0.f, 20.f);
 
         if (ImGui::Button(auto_play ? icon(ICON_FA_PLAY) : icon(ICON_FA_PAUSE)))
             auto_play = !auto_play;
