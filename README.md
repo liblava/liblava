@@ -983,6 +983,7 @@ You need the [Vulkan SDK](https://vulkan.lunarg.com) installed for debugging.
 
 * **C++20** compatible compiler
 * CMake **3.22+**
+* [Python 3](http://www.python.org) &nbsp; *for utility scripts*
 * [Vulkan SDK](https://vulkan.lunarg.com) &nbsp; *for debugging only*
 
 <br />
@@ -1098,6 +1099,14 @@ If you want to contribute - we suggest the following:
 
 # Third-Party
 
+You can update all **external modules** by running the script:
+
+```bash
+python update.py > update.json
+```
+
+<br />
+
 * [argh](https://github.com/adishavit/argh) &nbsp; **Argh! A minimalist argument handler** &nbsp; *3-clause BSD*
 
   [![argh](https://img.shields.io/badge/lava-argh-red.svg)](liblava/frame/argh.hpp) [![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp)
@@ -1199,7 +1208,7 @@ for any purpose you might like - including commercial and for-profit use.
 
 <br />
 
-However - this library includes several [Third-Party](doc/Third-Party.md) libraries which are licensed under their own respective **Open Source** licenses ➜ They all allow static linking with closed source software.
+However - this library includes several [Third-Party](#third-party) libraries which are licensed under their own respective **Open Source** licenses ➜ They all allow static linking with closed source software.
 
 <br />
 
