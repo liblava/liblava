@@ -53,11 +53,11 @@ set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
 set(SPIRV-Tools_TAG cb96abbf7affd986016f17dd09f9f971138a922b)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG 48fd6c82b3fefb38e59dd799d8b12fddddf8e63c)
+set(glslang_TAG 06ac14141222bc059f48609b9a4a68fdb6fc4814)
 
 set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG 96b1dd72a827304817470274a470c4d3b2293451)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG a243cbae52d5599ccce07b36cfe8b2e3308d4108)
+set(Catch2_TAG b5202576766c63a29275a8386a8e3c0439089382)
 

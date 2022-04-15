@@ -111,7 +111,7 @@
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "48fd6c82b3fefb38e59dd799d8b12fddddf8e63c"
+        "tag": "06ac14141222bc059f48609b9a4a68fdb6fc4814"
     },
     {
         "name": "shaderc",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "a243cbae52d5599ccce07b36cfe8b2e3308d4108"
+        "tag": "b5202576766c63a29275a8386a8e3c0439089382"
     }
 ]
