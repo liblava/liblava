@@ -195,6 +195,7 @@ CPMAddPackage(
         GITHUB_REPOSITORY ${SPIRV-Tools_GITHUB}
         GIT_TAG ${SPIRV-Tools_TAG}
         OPTIONS
+                "SKIP_SPIRV_TOOLS_INSTALL ON"
                 "SPIRV_SKIP_TESTS ON"
                 "SPIRV_SKIP_EXECUTABLES ON"
         )
@@ -205,6 +206,7 @@ CPMAddPackage(
         GIT_TAG ${glslang_TAG}
         OPTIONS
                 "ENABLE_CTEST OFF"
+                "SKIP_GLSLANG_INSTALL ON"
         )
 
 CPMAddPackage(
@@ -214,8 +216,8 @@ CPMAddPackage(
         OPTIONS
                 "SHADERC_SKIP_TESTS ON"
                 "SHADERC_SKIP_EXAMPLES ON"
+                "SHADERC_SKIP_INSTALL ON"
                 "SHADERC_SKIP_COPYRIGHT_CHECK ON"
-                #"SHADERC_ENABLE_INSTALL ON"
         )
 
 if(LIBLAVA_TEST)
@@ -555,6 +557,10 @@ add_library(lava.engine STATIC
         ${LIBLAVA_DIR}/engine/producer.hpp
         ${LIBLAVA_DIR}/engine/property.cpp
         ${LIBLAVA_DIR}/engine/property.hpp
+        )
+
+target_include_directories(lava.engine PUBLIC
+        $<BUILD_INTERFACE:${shaderc_SOURCE_DIR}/libshaderc/include>
         )
 
 target_link_libraries(lava.engine
