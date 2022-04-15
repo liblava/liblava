@@ -23,7 +23,7 @@ message("=======================================================================
 message(" https://git.io/liblava                          https://lava-block.com ")
 message("========================================================================")
 message("> Making lava flow...                                                   ")
-message("-- (may take a little longer the first time - so be patient)            ")
+message(">> Configuring may take a little longer the first time - so be patient! ")
 
 option(IMGUI_DOCKING "Dear ImGui with docking" FALSE)
 
@@ -206,6 +206,8 @@ CPMAddPackage(
         GIT_TAG ${glslang_TAG}
         OPTIONS
                 "ENABLE_CTEST OFF"
+                "ENABLE_GLSLANG_BINARIES OFF"
+                "BUILD_EXTERNAL OFF"
                 "SKIP_GLSLANG_INSTALL ON"
         )
 
