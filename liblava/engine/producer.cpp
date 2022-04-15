@@ -93,6 +93,57 @@ bool producer::add_texture(texture::ptr product) {
     return true;
 }
 
+//-----------------------------------------------------------------------------
+cdata producer::get_shader(string_ref name, bool reload) {
+    if (shaders.count(name)) {
+        if (!reload)
+            return shaders.at(name);
+
+        shaders.at(name).free();
+        shaders.erase(name);
+    }
+
+    string pref_dir = file_system::get_pref_dir();
+
+    string shader_path = "cache/shader/";
+    auto path = pref_dir + shader_path + name + ".spirv";
+
+    if (!reload) {
+        data module_data;
+        if (load_file_data(path, module_data)) {
+            shaders.emplace(name, module_data);
+
+            log()->info("shader cache: {} - {} bytes", name, module_data.size);
+
+            return module_data;
+        }
+    }
+
+    if (reload)
+        context->prop.unload(name);
+
+    auto product = context->prop(name);
+    if (!product.ptr)
+        return {};
+
+    auto module_data = compile_shader(product, name, context->prop.get_filename(name));
+    if (!module_data.ptr)
+        return {};
+
+    context->prop.unload(name);
+
+    file_system::instance().create_folder(str(shader_path));
+
+    file file(str(path), file_mode::write);
+    if (file.opened())
+        if (!file.write(module_data.ptr, module_data.size))
+            log()->warn("shader not cached: {}", path);
+
+    shaders.emplace(name, module_data);
+
+    return module_data;
+}
+
 /**
  * @brief Shader includer
  */
@@ -108,7 +159,7 @@ public:
     }
 
     /**
-     * @brief Handles include get data result
+     * @brief Handle include result data
      *
      * @param requested_source            Requested source
      * @param type                        Include type
@@ -149,7 +200,7 @@ public:
     };
 
     /**
-     * @brief Handles include release result
+     * @brief Handle include result release
      *
      * @param data    Include result
      */
@@ -199,22 +250,8 @@ shaderc_shader_kind get_shader_kind(string_ref filename) {
     return shaderc_glsl_infer_from_source;
 }
 
-/**
- * @brief Compile shader product
- *
- * @param product         Product data
- * @param name            Product name
- * @param filename        Product filename
- * @param shader_opt      Shader optimization level
- * @param shader_lang     Shader source language
- * @param shader_debug    Shader debug information
- *
- * @return data           Compiled shader data
- */
-data compile_shader(cdata product, string_ref name, string_ref filename,
-                    producer::shader_optimization shader_opt,
-                    producer::shader_language shader_lang,
-                    bool shader_debug) {
+//-----------------------------------------------------------------------------
+data producer::compile_shader(cdata product, string_ref name, string_ref filename) const {
     shaderc::Compiler compiler;
     shaderc::CompileOptions options;
     options.SetIncluder(std::make_unique<shader_includer>(filename));
@@ -280,58 +317,6 @@ data compile_shader(cdata product, string_ref name, string_ref filename,
     data module_data;
     module_data.set(data_size);
     memcpy(module_data.ptr, module_result.data(), data_size);
-
-    return module_data;
-}
-
-//-----------------------------------------------------------------------------
-cdata producer::get_shader(string_ref name, bool reload) {
-    if (shaders.count(name)) {
-        if (!reload)
-            return shaders.at(name);
-
-        shaders.at(name).free();
-        shaders.erase(name);
-    }
-
-    string pref_dir = file_system::get_pref_dir();
-
-    string shader_path = "cache/shader/";
-    auto path = pref_dir + shader_path + name + ".spirv";
-
-    if (!reload) {
-        data module_data;
-        if (load_file_data(path, module_data)) {
-            shaders.emplace(name, module_data);
-
-            log()->info("shader cache: {} - {} bytes", name, module_data.size);
-
-            return module_data;
-        }
-    }
-
-    if (reload)
-        context->prop.unload(name);
-
-    auto product = context->prop(name);
-    if (!product.ptr)
-        return {};
-
-    auto module_data = compile_shader(product, name, context->prop.get_filename(name),
-                                      shader_opt, shader_lang, shader_debug);
-    if (!module_data.ptr)
-        return {};
-
-    context->prop.unload(name);
-
-    file_system::instance().create_folder(str(shader_path));
-
-    file file(str(path), file_mode::write);
-    if (file.opened())
-        if (!file.write(module_data.ptr, module_data.size))
-            log()->warn("shader not cached: {}", path);
-
-    shaders.emplace(name, module_data);
 
     return module_data;
 }

@@ -97,6 +97,17 @@ struct producer {
     }
 
     /**
+     * @brief Compile shader
+     *
+     * @param product         Shader data
+     * @param name            Shader name
+     * @param filename        Shader filename
+     *
+     * @return data           Compiled shader data
+     */
+    data compile_shader(cdata product, string_ref name, string_ref filename) const;
+
+    /**
      * @brief Destroy all products
      */
     void destroy();
