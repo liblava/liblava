@@ -27,7 +27,7 @@
         "name": "physfs",
         "github": "icculus/physfs",
         "branch": "main",
-        "tag": "a0dfe220ffb97eef2c78fef2b8971995f221b18d"
+        "tag": "14691399cd55e2e6408b2b2d07084881885a30bb"
     },
     {
         "name": "json",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "b5202576766c63a29275a8386a8e3c0439089382"
+        "tag": "7b93a2014cb417d277339e3d679cac64bfac237b"
     }
 ]

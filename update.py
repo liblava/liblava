@@ -35,7 +35,7 @@ with open('ext.json', 'r') as ext_file:
 
             output.append(item)
             
-            version_file.write('set(' + name + '_GITHUB ' + github + ')\n')
-            version_file.write('set(' + name + '_TAG ' + tag + ')\n\n')
+            version_file.write('\nset(' + name + '_GITHUB ' + github + ')\n')
+            version_file.write('set(' + name + '_TAG ' + tag + ')\n')
         
         print(json.dumps(output, indent=4))

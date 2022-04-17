@@ -1,3 +1,4 @@
+
 set(argh_GITHUB adishavit/argh)
 set(argh_TAG d17062c870b5919f6d1eae7fe12879869a893b32)
 
@@ -11,7 +12,7 @@ set(glm_GITHUB g-truc/glm)
 set(glm_TAG 6ad79aae3eb5bf809c30bf1168171e9e55857e45)
 
 set(physfs_GITHUB icculus/physfs)
-set(physfs_TAG a0dfe220ffb97eef2c78fef2b8971995f221b18d)
+set(physfs_TAG 14691399cd55e2e6408b2b2d07084881885a30bb)
 
 set(json_GITHUB nlohmann/json)
 set(json_TAG a94430615d8360272151f602b8c9eeb58509ecde)
@@ -59,5 +60,4 @@ set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG 96b1dd72a827304817470274a470c4d3b2293451)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG b5202576766c63a29275a8386a8e3c0439089382)
-
+set(Catch2_TAG 7b93a2014cb417d277339e3d679cac64bfac237b)
