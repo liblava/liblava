@@ -60,7 +60,7 @@
 
 | raytraced reflecting cubes ➜ [pezcode/lava-rt](https://github.com/pezcode/lava-rt) | 
 |:---------|
-| <a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp">![generics](https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png)</a> | 
+| <a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp"> <img src="https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png" width="50%"></a> | 
 | [![rt cubes](https://img.shields.io/badge/lava-rt_cubes-brightgreen.svg)](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) |
 
 <br />
