@@ -163,7 +163,7 @@ struct render_pass : entity {
      *
      * @param value    Clear color
      */
-    void set_clear_color(v3 value = v3(0.086f, 0.086f, 0.094f));
+    void set_clear_color(v3 value = {});
 
     /**
      * @brief Get the clear color
