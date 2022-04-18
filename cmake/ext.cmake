@@ -142,7 +142,7 @@ CPMAddPackage(
         GITHUB_REPOSITORY ${SPIRV-Tools_GITHUB}
         GIT_TAG ${SPIRV-Tools_TAG}
         OPTIONS
-                "SKIP_SPIRV_TOOLS_INSTALL ON"
+                #"SKIP_SPIRV_TOOLS_INSTALL ON"
                 "SPIRV_SKIP_TESTS ON"
                 "SPIRV_SKIP_EXECUTABLES ON"
         )
@@ -155,7 +155,7 @@ CPMAddPackage(
                 "ENABLE_CTEST OFF"
                 "ENABLE_GLSLANG_BINARIES OFF"
                 "BUILD_EXTERNAL OFF"
-                "SKIP_GLSLANG_INSTALL ON"
+                #"SKIP_GLSLANG_INSTALL ON"
         )
 
 CPMAddPackage(
@@ -165,7 +165,7 @@ CPMAddPackage(
         OPTIONS
                 "SHADERC_SKIP_TESTS ON"
                 "SHADERC_SKIP_EXAMPLES ON"
-                "SHADERC_SKIP_INSTALL ON"
+                #"SHADERC_SKIP_INSTALL ON"
                 "SHADERC_SKIP_COPYRIGHT_CHECK ON"
         )
 
