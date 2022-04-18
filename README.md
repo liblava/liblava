@@ -60,7 +60,7 @@
 
 | raytraced reflecting cubes ➜ [pezcode/lava-rt](https://github.com/pezcode/lava-rt) | 
 |:---------|
-| <a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp"> <img src="https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png" width="50%"></a> | 
+| <a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp"> <img src="https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png" width="70%"></a> | 
 | [![rt cubes](https://img.shields.io/badge/lava-rt_cubes-brightgreen.svg)](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) |
 
 <br />
@@ -772,14 +772,14 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 <br />
 
-| shortcut             |               action |   default   | config.json |  window.json |
-| :------------------- | -------------------: | :---------: | ----------: | -----------: |
-| *alt + enter*        |       **fullscreen** |     off     |             | "fullscreen" |
-| *alt + backspace*    |           **v-sync** |     off     |    "v-sync" |              |
-| *control + tab*      |              **gui** |     on      |     "imgui" |              |
-| *control + space*    |            **pause** |     off     |    "paused" |              |
-| *control + b*        |    **run benchmark** |             |             |              |
-| *control + q*        | **quit application** |             |             |              |
+| shortcut             |               action | default   |         config.json |
+| :------------------- | -------------------: | :-------- | ------------------: |
+| *alt + enter*        |       **fullscreen** | off       | "window/fullscreen" |
+| *alt + backspace*    |           **v-sync** | off       |        "app/v-sync" |
+| *control + tab*      |              **gui** | on        |         "app/imgui" |
+| *control + space*    |            **pause** | off       |        "app/paused" |
+| *control + b*        |    **run benchmark** |           |                     |
+| *control + q*        | **quit application** |           |                     |
 
 <br />
 
