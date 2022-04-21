@@ -698,7 +698,7 @@ triangle = create_mesh<custom_vertex, false, false, true>
 To generate the documentation with [Doxygen](https://www.doxygen.nl) run:
 
 ```bash
-doxygen doxygen.conf
+doxygen tool/doxygen.conf
 ```
 
 Here you can find the **latest** ➜ [doc.lava-block.com](https://doc.lava-block.com)
@@ -1102,7 +1102,7 @@ If you want to contribute - we suggest the following:
 You can update all **external modules** by running the script:
 
 ```bash
-python update.py > update.json
+python tool/update.py > tool/update.json
 ```
 
 <br />

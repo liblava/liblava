@@ -1,9 +1,13 @@
 # Update all external modules to latest GIT_TAG in CPM.cmake
 
 import json
+import os
 import requests
 
-with open('ext.json', 'r') as ext_file:
+real_path = os.path.realpath(__file__)
+dir_path = os.path.dirname(real_path)
+
+with open(dir_path + '/ext.json', 'r') as ext_file:
     ext = json.load(ext_file)
     with open('cmake/version.cmake', 'w') as version_file:
         output = []

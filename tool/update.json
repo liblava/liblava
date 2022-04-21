@@ -21,7 +21,7 @@
         "name": "glm",
         "github": "g-truc/glm",
         "branch": "master",
-        "tag": "6ad79aae3eb5bf809c30bf1168171e9e55857e45"
+        "tag": "cc98465e3508535ba8c7f6208df934c156a018dc"
     },
     {
         "name": "physfs",
@@ -39,7 +39,7 @@
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "4ccbb5a71a014c9ac56baa7831faa4b04a121231"
+        "tag": "b3ce5ed379ed01d9147b079e605e84dd408a0c19"
     },
     {
         "name": "stb",
@@ -57,7 +57,7 @@
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "76f00ef6cbb1886eb1162d1fa39bee8b51e22ee8"
+        "tag": "8ba8294c86d0e99fcb457bedbd573dd678ccc9b3"
     },
     {
         "name": "Vulkan-Profiles",
@@ -75,7 +75,7 @@
         "name": "VulkanMemoryAllocator",
         "github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
         "branch": "master",
-        "tag": "a88bc520a08d574b5b5363e56d6a5b4d106b77bc"
+        "tag": "7de5cc00de50e71a3aab22dea52fbb7ff4efceb6"
     },
     {
         "name": "IconFontCppHeaders",
@@ -99,13 +99,13 @@
         "name": "SPIRV-Headers",
         "github": "KhronosGroup/SPIRV-Headers",
         "branch": "master",
-        "tag": "82becc8a8a92e509d3d8d635889da0a3c17d0606"
+        "tag": "46b7918218d02b678b9405da538928a0f2c286bb"
     },
     {
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "cb96abbf7affd986016f17dd09f9f971138a922b"
+        "tag": "671f6e633f4233a6e02e66a0b4d54ee1e67fa045"
     },
     {
         "name": "glslang",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "7b93a2014cb417d277339e3d679cac64bfac237b"
+        "tag": "f526ff0fc37ae00ff2c0dc8f6550bf8209c30afc"
     }
 ]
