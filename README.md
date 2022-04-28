@@ -1102,7 +1102,7 @@ If you want to contribute - we suggest the following:
 You can update all **external modules** by running the script:
 
 ```bash
-python tool/update.py > tool/update.json
+python tool/update.py > tool/version.json
 ```
 
 <br />

@@ -33,13 +33,13 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "a94430615d8360272151f602b8c9eeb58509ecde"
+        "tag": "a6ee8bf9d94ef783f21f955d4125d5f3924d2c8e"
     },
     {
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "b3ce5ed379ed01d9147b079e605e84dd408a0c19"
+        "tag": "173d06578f4cfecc94de1746b101240c93f8b45b"
     },
     {
         "name": "stb",
@@ -63,7 +63,7 @@
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "27096f61656840d493a22d57e901ffbc4793b7d8"
+        "tag": "6b2f54fc2da5fe8fae637650036a63e4284c7c3d"
     },
     {
         "name": "volk",
@@ -75,7 +75,7 @@
         "name": "VulkanMemoryAllocator",
         "github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
         "branch": "master",
-        "tag": "7de5cc00de50e71a3aab22dea52fbb7ff4efceb6"
+        "tag": "5ab8c1752ab9720b7a38a3bc72ebcf17ef3ce6f1"
     },
     {
         "name": "IconFontCppHeaders",
@@ -87,13 +87,13 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "eda7792b151d138e15df951578253b821ceed5a3"
+        "tag": "e54db4ee708b99e24348f31847e8032921913989"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "505f19e3b00d54623566dda354980c7f3410f2b5"
+        "tag": "ec48681455694c85982861dfa3f304fd544d3137"
     },
     {
         "name": "SPIRV-Headers",
@@ -111,7 +111,7 @@
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "06ac14141222bc059f48609b9a4a68fdb6fc4814"
+        "tag": "e3bca2add61a83cc87b0db199c1fbd45690dbf0b"
     },
     {
         "name": "shaderc",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "f526ff0fc37ae00ff2c0dc8f6550bf8209c30afc"
+        "tag": "9dc229693d7035b2a09057d578a69d97afc8e572"
     }
 ]
