@@ -1016,7 +1016,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/liblava ${CMAKE_CURRENT_BINARY_DIR}
 
 ...
 
-target_link_libraries(${PROJECT_NAME} PRIVATE lava::engine)
+target_link_libraries(${PROJECT_NAME} PRIVATE lava::engine ${LIBLAVA_ENGINE_LIBRARIES})
 ```
 
 <br />
@@ -1040,7 +1040,7 @@ find_package(lava 0.7.1 REQUIRED)
 
 ...
 
-target_link_libraries(${PROJECT_NAME} PRIVATE lava::engine)
+target_link_libraries(${PROJECT_NAME} PRIVATE lava::engine ${LIBLAVA_ENGINE_LIBRARIES})
 ```
 
 And then build your project with install path ➜ *lava_DIR*
