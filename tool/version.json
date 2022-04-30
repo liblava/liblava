@@ -9,7 +9,7 @@
         "name": "glfw",
         "github": "glfw/glfw",
         "branch": "master",
-        "tag": "4cb36872a5fe448c205d0b46f0e8c8b57530cfe0"
+        "tag": "7dfd84c458dfa12b351c932b8281b13faf7b50b9"
     },
     {
         "name": "gli",
@@ -33,7 +33,7 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "a6ee8bf9d94ef783f21f955d4125d5f3924d2c8e"
+        "tag": "5352856f04730204123285ed928fc720ee8348b3"
     },
     {
         "name": "spdlog",
@@ -87,7 +87,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "e54db4ee708b99e24348f31847e8032921913989"
+        "tag": "709bc03d6f07467fe10f892f9198913f0298b58e"
     },
     {
         "name": "imgui_docking",
@@ -105,7 +105,7 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "671f6e633f4233a6e02e66a0b4d54ee1e67fa045"
+        "tag": "46492aa45ae5da92eb1ec8a8051d6a4a98df70af"
     },
     {
         "name": "glslang",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "9dc229693d7035b2a09057d578a69d97afc8e572"
+        "tag": "332de39cd4ba410e9dd9de670ea87a7c0dc7a8dd"
     }
 ]
