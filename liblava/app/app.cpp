@@ -83,6 +83,14 @@ bool app::setup() {
 
     handle_config();
 
+    if (auto paused = -1; cmd_line({ "-p", "--paused" }) >> paused)
+        run_time.paused = paused == 1;
+
+    if (auto delta = -1; cmd_line({ "-d", "--delta" }) >> delta)
+        run_time.fix_delta = ms(delta);
+
+    cmd_line({ "-s", "--speed" }) >> run_time.speed;
+
     if (on_setup && !on_setup())
         return false;
 
@@ -136,6 +144,21 @@ bool app::setup_window(cmd_line cmd_line) {
         window.show_save_title();
     }
 
+    if (auto fullscreen = -1; cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)
+        config.window_state->fullscreen = fullscreen == 1;
+
+    if (auto x_pos = -1; cmd_line({ "-wx", "--x_pos" }) >> x_pos)
+        config.window_state->x = x_pos;
+
+    if (auto y_pos = -1; cmd_line({ "-wy", "--y_pos" }) >> y_pos)
+        config.window_state->y = y_pos;
+
+    if (auto width = -1; cmd_line({ "-ww", "--width" }) >> width)
+        config.window_state->width = width;
+
+    if (auto height = -1; cmd_line({ "-wh", "--height" }) >> height)
+        config.window_state->height = height;
+
     if (!window.create(config.window_state))
         return false;
 
@@ -144,6 +167,9 @@ bool app::setup_window(cmd_line cmd_line) {
     log()->trace("{}: {}", _fullscreen_, config.window_state->fullscreen);
 
     set_window_icon(window);
+
+    if (cmd_line[{ "-wc", "--center" }])
+        window.center();
 
     return true;
 }
@@ -252,6 +278,9 @@ bool app::create_imgui() {
         return false;
 
     staging.add(imgui_fonts);
+
+    if (auto imgui_active = -1; get_cmd_line()({ "-ig", "--imgui" }) >> imgui_active)
+        imgui.set_active(imgui_active == 1);
 
     return true;
 }

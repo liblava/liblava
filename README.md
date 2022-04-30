@@ -834,6 +834,90 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 <br />
 
+```
+--paused={0|1}, -p={0|1}
+```
+
+* **0** &nbsp; running
+* **1** &nbsp; paused
+
+<br />
+
+```
+--delta={n}, -d={n}
+```
+
+* **n** &nbsp; fixed delta in milliseconds &nbsp; *disable: n = 0*
+
+<br />
+
+```
+--speed={n}, -s={n}
+```
+
+* **n** &nbsp; runtime speed &nbsp; *default: n = 1.0*
+
+<br />
+
+```
+--imgui={0|1}, -ig={0|1}
+```
+
+* **0** &nbsp; hide imgui
+* **1** &nbsp; show imgui
+
+
+<br />
+
+```
+--fullscreen={0|1}, -wf={0|1}
+```
+
+* **0** &nbsp; windowed mode
+* **1** &nbsp; fullscreen mode
+
+<br />
+
+```
+--x_pos={n}, -wx={n}
+```
+
+* **n** &nbsp; window x position
+
+<br />
+
+```
+--y_pos={n}, -wy={n}
+```
+
+* **n** &nbsp; window y position
+
+<br />
+
+```
+--width={n}, -ww={n}
+```
+
+* **n** &nbsp; window width
+
+<br />
+
+```
+--height={n}, -wh={n}
+```
+
+* **n** &nbsp; window height
+
+<br />
+
+```
+--center, -wc
+```
+
+* **center** window on the monitor
+
+<br />
+
 #### Benchmark
 
 [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app/app.hpp)  writes frame times *(durations in milliseconds)* into a `json` file to analyze them further for automated workflows like benchmarks:
