@@ -257,6 +257,8 @@ message(">> lava::frame")
 
 add_library(lava.frame STATIC
         ${LIBLAVA_DIR}/frame/argh.hpp
+        ${LIBLAVA_DIR}/frame/driver.cpp
+        ${LIBLAVA_DIR}/frame/driver.hpp
         ${LIBLAVA_DIR}/frame/frame.cpp
         ${LIBLAVA_DIR}/frame/frame.hpp
         ${LIBLAVA_DIR}/frame/gamepad.cpp
@@ -377,16 +379,12 @@ add_library(lava::app ALIAS lava.app)
 message(">> lava::engine")
 
 add_library(lava.engine STATIC
-        ${LIBLAVA_DIR}/engine/driver.cpp
-        ${LIBLAVA_DIR}/engine/driver.hpp
         ${LIBLAVA_DIR}/engine/engine.cpp
         ${LIBLAVA_DIR}/engine/engine.hpp
         ${LIBLAVA_DIR}/engine/producer.cpp
         ${LIBLAVA_DIR}/engine/producer.hpp
         ${LIBLAVA_DIR}/engine/property.cpp
         ${LIBLAVA_DIR}/engine/property.hpp
-        ${LIBLAVA_DIR}/engine/stage.cpp
-        ${LIBLAVA_DIR}/engine/stage.hpp
         )
 
 target_include_directories(lava.engine PUBLIC

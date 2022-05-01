@@ -5,7 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/engine/driver.hpp>
+#include <liblava/frame/driver.hpp>
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {

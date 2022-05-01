@@ -627,7 +627,7 @@ triangle = create_mesh<custom_vertex, false, false, true>
 
 *require* [app](#lava-app)
 
-[![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](liblava/engine/engine.hpp) [![producer](https://img.shields.io/badge/lava-producer-brightgreen.svg)](liblava/engine/producer.hpp) [![property](https://img.shields.io/badge/lava-property-brightgreen.svg)](liblava/engine/property.hpp) [![stage](https://img.shields.io/badge/lava-stage-brightgreen.svg)](liblava/engine/stage.hpp)
+[![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](liblava/engine/engine.hpp) [![producer](https://img.shields.io/badge/lava-producer-brightgreen.svg)](liblava/engine/producer.hpp) [![property](https://img.shields.io/badge/lava-property-brightgreen.svg)](liblava/engine/property.hpp)
 
 ### lava [app](liblava/app)
 
@@ -649,7 +649,7 @@ triangle = create_mesh<custom_vertex, false, false, true>
 
 *require* [resource](#lava-resource)
 
-[![argh](https://img.shields.io/badge/lava-argh-red.svg)](liblava/frame/argh.hpp) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp) [![gamepad](https://img.shields.io/badge/lava-gamepad-red.svg)](liblava/frame/gamepad.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp)
+[![argh](https://img.shields.io/badge/lava-argh-red.svg)](liblava/frame/argh.hpp) [![driver](https://img.shields.io/badge/lava-driver-red.svg)](liblava/frame/driver.hpp) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](liblava/frame/frame.hpp) [![gamepad](https://img.shields.io/badge/lava-gamepad-red.svg)](liblava/frame/gamepad.hpp) [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp)
 
 [![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](liblava/frame/swapchain.hpp)
 
@@ -1193,7 +1193,7 @@ python tool/update.py > tool/version.json
 
 * [argh](https://github.com/adishavit/argh) &nbsp; **Argh! A minimalist argument handler** &nbsp; *3-clause BSD*
 
-  [![argh](https://img.shields.io/badge/lava-argh-red.svg)](liblava/frame/argh.hpp) [![stage](https://img.shields.io/badge/lava-stage-brightgreen.svg)](liblava/engine/stage.hpp)
+  [![argh](https://img.shields.io/badge/lava-argh-red.svg)](liblava/frame/argh.hpp)
 
 * [Catch2](https://github.com/catchorg/Catch2) &nbsp; **A modern, C++-native, header-only, test framework for unit-tests, TDD and BDD** &nbsp; *BSL 1.0*
 
@@ -1237,9 +1237,9 @@ python tool/update.py > tool/version.json
 
   [![log](https://img.shields.io/badge/lava-log-blue.svg)](liblava/util/log.hpp)
 
-* [SPIRV-Headers](https://github.com/KhronosGroup/SPIRV-Headers) &nbsp; **SPIRV-Headers** &nbsp; *MIT*
+* [SPIRV-Headers](https://github.com/KhronosGroup/SPIRV-Headers) &nbsp; **SPIRV Headers** &nbsp; *MIT*
 
-* [SPIRV-Tools](https://github.com/KhronosGroup/SPIRV-Tools) &nbsp; **SPIRV-Tools** &nbsp; *Apache 2.0*
+* [SPIRV-Tools](https://github.com/KhronosGroup/SPIRV-Tools) &nbsp; **SPIRV Tools** &nbsp; *Apache 2.0*
 
 * [stb](https://github.com/nothings/stb) &nbsp; **Single-file public domain libraries for C/C++** &nbsp; *MIT*
 

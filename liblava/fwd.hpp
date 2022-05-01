@@ -73,8 +73,6 @@ struct internal_version;
 struct version;
 
 // liblava/engine.hpp
-struct stage;
-struct driver;
 struct engine;
 struct producer;
 struct property;
@@ -88,6 +86,8 @@ struct file_callback;
 struct json_file;
 
 // liblava/frame.hpp
+struct stage;
+struct driver;
 struct frame_env;
 struct frame;
 struct key_event;

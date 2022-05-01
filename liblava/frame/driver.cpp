@@ -1,12 +1,12 @@
 /**
- * @file         liblava/engine/driver.cpp
+ * @file         liblava/frame/driver.cpp
  * @brief        Stage driver
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #include <iostream>
-#include <liblava/engine/driver.hpp>
+#include <liblava/frame/driver.hpp>
 #include <liblava/util/utility.hpp>
 
 namespace lava {
@@ -40,6 +40,12 @@ i32 driver::run(argh::parser cmd_line) {
 
     std::cerr << "no stages" << std::endl;
     return -1;
+}
+
+//-----------------------------------------------------------------------------
+stage::stage(ui32 id, name descr, func func)
+: id(id), descr(descr), on_func(func) {
+    driver::instance().add_stage(this);
 }
 
 } // namespace lava
