@@ -15,7 +15,7 @@ set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG 14691399cd55e2e6408b2b2d07084881885a30bb)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG 5352856f04730204123285ed928fc720ee8348b3)
+set(json_TAG 0c698b75ccb81c2218e0b0b3ae8e9e60ba97c6bb)
 
 set(spdlog_GITHUB gabime/spdlog)
 set(spdlog_TAG 173d06578f4cfecc94de1746b101240c93f8b45b)

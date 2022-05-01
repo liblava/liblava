@@ -33,7 +33,7 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "5352856f04730204123285ed928fc720ee8348b3"
+        "tag": "0c698b75ccb81c2218e0b0b3ae8e9e60ba97c6bb"
     },
     {
         "name": "spdlog",
