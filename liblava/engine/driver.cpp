@@ -13,8 +13,6 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 i32 driver::run(argh::parser cmd_line) {
-    auto& stages = driver::instance().get_stages();
-
     if (cmd_line[{ "-ls", "--stages" }]) {
         for (auto& [id, stage] : stages)
             std::cout << id << " = " << stage->descr << std::endl;
@@ -42,12 +40,6 @@ i32 driver::run(argh::parser cmd_line) {
 
     std::cerr << "no stages" << std::endl;
     return -1;
-}
-
-//-----------------------------------------------------------------------------
-stage::stage(ui32 id, name descr, func func)
-: id(id), descr(descr), on_func(func) {
-    driver::instance().add_stage(this);
 }
 
 } // namespace lava

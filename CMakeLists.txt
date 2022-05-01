@@ -385,6 +385,8 @@ add_library(lava.engine STATIC
         ${LIBLAVA_DIR}/engine/producer.hpp
         ${LIBLAVA_DIR}/engine/property.cpp
         ${LIBLAVA_DIR}/engine/property.hpp
+        ${LIBLAVA_DIR}/engine/stage.cpp
+        ${LIBLAVA_DIR}/engine/stage.hpp
         )
 
 target_include_directories(lava.engine PUBLIC
@@ -406,10 +408,12 @@ add_library(lava::engine ALIAS lava.engine)
 message("========================================================================")
 message("> lava")
 
+set(LIBLAVA_STAGE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava-stage)
+
 add_executable(lava
-        ${LIBLAVA_DIR}/engine/stage/examples.cpp
-        ${LIBLAVA_DIR}/engine/stage/tutorial.cpp
-        ${LIBLAVA_DIR}/engine/main.cpp
+        ${LIBLAVA_STAGE_DIR}/examples.cpp
+        ${LIBLAVA_STAGE_DIR}/main.cpp
+        ${LIBLAVA_STAGE_DIR}/tutorial.cpp
         )
 
 target_link_libraries(lava 

@@ -1,5 +1,5 @@
 /**
- * @file         liblava/engine/stage/tutorial.hpp
+ * @file         liblava-stage/tutorial.hpp
  * @brief        Tutorial stages
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License

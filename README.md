@@ -627,7 +627,7 @@ triangle = create_mesh<custom_vertex, false, false, true>
 
 *require* [app](#lava-app)
 
-[![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](liblava/engine/engine.hpp) [![producer](https://img.shields.io/badge/lava-producer-brightgreen.svg)](liblava/engine/producer.hpp) [![property](https://img.shields.io/badge/lava-property-brightgreen.svg)](liblava/engine/property.hpp)
+[![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp) [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](liblava/engine/engine.hpp) [![producer](https://img.shields.io/badge/lava-producer-brightgreen.svg)](liblava/engine/producer.hpp) [![property](https://img.shields.io/badge/lava-property-brightgreen.svg)](liblava/engine/property.hpp) [![stage](https://img.shields.io/badge/lava-stage-brightgreen.svg)](liblava/engine/stage.hpp)
 
 ### lava [app](liblava/app)
 
@@ -730,7 +730,7 @@ lava --stages
 
 <br />
 
-[Here](liblava/engine/stage/tutorial.cpp) you can find the complete source code for the tutorials - The **last stages** in this list are further [examples](liblava/engine/stage/examples.cpp)
+[Here](liblava-stage/tutorial.cpp) you can find the complete source code for the tutorial - The **last stages** in this list are further [examples](liblava-stage/examples.cpp)
 
 <br />
 
@@ -1193,7 +1193,7 @@ python tool/update.py > tool/version.json
 
 * [argh](https://github.com/adishavit/argh) &nbsp; **Argh! A minimalist argument handler** &nbsp; *3-clause BSD*
 
-  [![argh](https://img.shields.io/badge/lava-argh-red.svg)](liblava/frame/argh.hpp) [![driver](https://img.shields.io/badge/lava-driver-brightgreen.svg)](liblava/engine/driver.hpp)
+  [![argh](https://img.shields.io/badge/lava-argh-red.svg)](liblava/frame/argh.hpp) [![stage](https://img.shields.io/badge/lava-stage-brightgreen.svg)](liblava/engine/stage.hpp)
 
 * [Catch2](https://github.com/catchorg/Catch2) &nbsp; **A modern, C++-native, header-only, test framework for unit-tests, TDD and BDD** &nbsp; *BSL 1.0*
 
