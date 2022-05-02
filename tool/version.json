@@ -33,7 +33,7 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "0c698b75ccb81c2218e0b0b3ae8e9e60ba97c6bb"
+        "tag": "b205361d8652759b6d850a37b227c8d57ee19005"
     },
     {
         "name": "spdlog",
@@ -87,7 +87,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "709bc03d6f07467fe10f892f9198913f0298b58e"
+        "tag": "3e5dde9a2606addd702726b4769c7f93314bf7ac"
     },
     {
         "name": "imgui_docking",
