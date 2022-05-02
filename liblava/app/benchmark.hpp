@@ -23,7 +23,7 @@ struct benchmark_data {
     ms offset = ms{ 5000 };
 
     /// Output file
-    string file = _frames_json_;
+    string file = _benchmark_json_;
 
     /// Output path (empty: pref_dir)
     string path;

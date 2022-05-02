@@ -59,6 +59,6 @@ constexpr name _max_ = "max";
 constexpr name _avg_ = "avg";
 constexpr name _frames_ = "frames";
 constexpr name _timestamps_ = "timestamps";
-constexpr name _frames_json_ = "frames.json";
+constexpr name _benchmark_json_ = "benchmark.json";
 
 } // namespace lava

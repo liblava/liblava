@@ -951,7 +951,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 <br />
 
 ```
---frames, -fs
+--benchmark, -bm
 ```
 
 * **activate** benchmark mode
@@ -959,7 +959,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 <br />
 
 ```
---frames_time={n}, -fst={n}
+--benchmark_time={n}, -bmt={n}
 ```
 
 * **n** &nbsp; benchmark duration in milliseconds &nbsp; *default: n = 10000 ms*
@@ -967,7 +967,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 <br />
 
 ```
---frames_offset={n}, -fso={n}
+--benchmark_offset={n}, -bmo={n}
 ```
 
 * **n** &nbsp; warm up time in milliseconds &nbsp; *default: n = 5000 ms*
@@ -975,15 +975,15 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 <br />
 
 ```
---frames_file={str}, -fsf={str}
+--benchmark_file={str}, -bmf={str}
 ```
 
-* **str** &nbsp; output file &nbsp; *default: str = frames.json*
+* **str** &nbsp; output file &nbsp; *default: str = benchmark.json*
 
 <br />
 
 ```
---frames_path={str}, -fsp={str}
+--benchmark_path={str}, -bmp={str}
 ```
 
 * **str** &nbsp; output path &nbsp; *default: preferences folder*
@@ -991,7 +991,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 <br />
 
 ```
---frames_exit={0|1}, -fsx={0|1}
+--benchmark_exit={0|1}, -bmx={0|1}
 ```
 
 * **0** &nbsp; keep running after benchmark
@@ -1000,7 +1000,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 <br />
 
 ```
---frames_buffer={n}, -fsb={n}
+--benchmark_buffer={n}, -bmb={n}
 ```
 
 * **n** &nbsp; pre-allocated buffer size for results &nbsp; *default: n = 100000*

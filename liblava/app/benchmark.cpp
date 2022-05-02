@@ -12,30 +12,30 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 bool parse(cmd_line cmd_line, benchmark_data& data) {
-    if (!(cmd_line[{ "-fs", "--frames" }]))
+    if (!(cmd_line[{ "-bm", "--benchmark" }]))
         return false;
 
     data = {};
 
-    if (auto time = -1; cmd_line({ "-fst", "--frames_time" }) >> time)
+    if (auto time = -1; cmd_line({ "-bmt", "--benchmark_time" }) >> time)
         data.time = ms{ time };
 
-    if (auto offset = -1; cmd_line({ "-fso", "--frames_offset" }) >> offset)
+    if (auto offset = -1; cmd_line({ "-bmo", "--benchmark_offset" }) >> offset)
         data.offset = ms{ offset };
 
-    if (auto file = cmd_line({ "-fsf", "--frames_file" })) {
+    if (auto file = cmd_line({ "-bmf", "--benchmark_file" })) {
         data.file = file.str();
         remove_chars(data.file, _punctuation_marks_);
     }
 
-    if (auto path = cmd_line({ "-fsp", "--frames_path" })) {
+    if (auto path = cmd_line({ "-bmp", "--benchmark_path" })) {
         data.path = path.str();
         remove_chars(data.path, _punctuation_marks_);
     }
 
-    cmd_line({ "-fsx", "--frames_exit" }) >> data.exit;
+    cmd_line({ "-bmx", "--benchmark_exit" }) >> data.exit;
 
-    cmd_line({ "-fsb", "--frames_buffer" }) >> data.buffer_size;
+    cmd_line({ "-bmb", "--benchmark_buffer" }) >> data.buffer_size;
 
     return true;
 }
