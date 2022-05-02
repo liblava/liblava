@@ -173,7 +173,7 @@ The last line performs a loop with the **run** we added before - If *count* reac
 
 ### 3. window input
 
-Here is another example that shows how to create a [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp) and handle [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.hpp)
+Here is another example that shows how to create [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp) and handle [![input](https://img.shields.io/badge/lava-input-red.svg)](liblava/frame/input.hpp)
 
 ```c++
 lava::frame frame(argh);
@@ -730,11 +730,11 @@ lava --stages
 
 <br />
 
-[Here](liblava-stage/tutorial.cpp) you can find the complete source code for the tutorial - The **last stages** in this list are further [examples](liblava-stage/examples.cpp)
+[Here](liblava-stage/tutorial.cpp) you can find the complete source code - The **last stages** in this list are further [examples](liblava-stage/examples.cpp)
 
 <br />
 
-#### Run *window input* example
+#### Run example *window input*
 
 ```bash
 lava -s=3
@@ -742,7 +742,7 @@ lava -s=3
 lava --stage=3
 ```
 
-**Note:** &nbsp; If you run `lava` without arguments - the *last* stage will be started.
+**Note:** &nbsp; If you run `lava` without arguments - the *last stage* will be started.
 
 <br />
 
@@ -1038,7 +1038,7 @@ You need the [Vulkan SDK](https://vulkan.lunarg.com) installed for debugging.
 <br />
 
 ```
---log={0|...|6}, -l={0|...|6}
+--log={0|1|2|3|4|5|6}, -l={0|1|2|3|4|5|6}
 ```
 
 * level **0** &nbsp; trace &nbsp; *verbose logging*
@@ -1175,7 +1175,7 @@ If you want to contribute - we suggest the following:
 
 | [![paypal](https://www.paypalobjects.com/en_US/i/btn//btn_donate_SM.gif)](https://donate.lava-block.com) | [![GitHub Stars](https://img.shields.io/github/stars/liblava/liblava?style=social)](https://github.com/liblava/liblava/stargazers) &nbsp; [![Twitter URL](https://img.shields.io/twitter/follow/liblava?style=social)](https://twitter.com/liblava) |
 |:---------|---------:|
-| **liblava** needs **maintenance** and further **development**  | `lava` is happy about **every star** or **follow**  | 
+| help **maintenance** and further **development**  | **every star** and **follow** motivates | 
 
 <br />
 
