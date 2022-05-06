@@ -1,9 +1,9 @@
 
 set(argh_GITHUB adishavit/argh)
-set(argh_TAG d17062c870b5919f6d1eae7fe12879869a893b32)
+set(argh_TAG ebdd61801b5ef019dc9107a4e760351ca4853b99)
 
 set(glfw_GITHUB glfw/glfw)
-set(glfw_TAG 7dfd84c458dfa12b351c932b8281b13faf7b50b9)
+set(glfw_TAG 62e175ef9fae75335575964c845a302447c012c7)
 
 set(gli_GITHUB g-truc/gli)
 set(gli_TAG 779b99ac6656e4d30c3b24e96e0136a59649a869)
@@ -30,34 +30,34 @@ set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG 8ba8294c86d0e99fcb457bedbd573dd678ccc9b3)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG 6b2f54fc2da5fe8fae637650036a63e4284c7c3d)
+set(Vulkan-Profiles_TAG 10669276ba64569cb4eef1ccc367862f3fdf7594)
 
 set(volk_GITHUB zeux/volk)
-set(volk_TAG 695b58e71c628d6d50b28d0ab737f110ea696e04)
+set(volk_TAG 2784718c913433d718561f9a9488996b4c05c2ff)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
 set(VulkanMemoryAllocator_TAG 5ab8c1752ab9720b7a38a3bc72ebcf17ef3ce6f1)
 
 set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
-set(IconFontCppHeaders_TAG aa9da698177727051eef093d461a669a43c9411e)
+set(IconFontCppHeaders_TAG f2c4fb56023b0cddbdbcd028ee821ad3b715120e)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 3e5dde9a2606addd702726b4769c7f93314bf7ac)
+set(imgui_TAG 9779cc2fe273c4ea96b9763fcd54f14b8cbae561)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG ec48681455694c85982861dfa3f304fd544d3137)
+set(imgui_docking_TAG d666a1d4737739274449dbe0e8558454bba82ec4)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
-set(SPIRV-Headers_TAG 46b7918218d02b678b9405da538928a0f2c286bb)
+set(SPIRV-Headers_TAG b765c355f488837ca4c77980ba69484f3ff277f5)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 46492aa45ae5da92eb1ec8a8051d6a4a98df70af)
+set(SPIRV-Tools_TAG ffc8f2d45566329bb9e21170f9e2a34ed8a65e0a)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG e3bca2add61a83cc87b0db199c1fbd45690dbf0b)
+set(glslang_TAG 14f6e2730457bac14a64cb3d962d0a3da8c15ae4)
 
 set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG 96b1dd72a827304817470274a470c4d3b2293451)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG 332de39cd4ba410e9dd9de670ea87a7c0dc7a8dd)
+set(Catch2_TAG d9b0a38f81df4bd5876888ba7937f5750b59b5a5)
