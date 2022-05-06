@@ -81,7 +81,7 @@ void renderer::destroy() {
 //-----------------------------------------------------------------------------
 optional_index renderer::begin_frame() {
     if (!active)
-        return {};
+        return std::nullopt;
 
     std::array<VkFence, 1> const wait_fences = { fences[current_sync] };
 
@@ -95,11 +95,11 @@ optional_index renderer::begin_frame() {
 
         if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
             target->request_reload();
-            return {};
+            return std::nullopt;
         }
 
         if (!result)
-            return {};
+            return std::nullopt;
     }
 
     auto current_semaphore = image_acquired_semaphores[current_sync];
@@ -107,7 +107,7 @@ optional_index renderer::begin_frame() {
     auto result = device->vkAcquireNextImageKHR(target->get(), UINT64_MAX, current_semaphore, 0, &current_frame);
     if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
         target->request_reload();
-        return {};
+        return std::nullopt;
     }
 
     // because frames might not come in sequential order current frame might still be locked
@@ -116,20 +116,20 @@ optional_index renderer::begin_frame() {
 
         if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
             target->request_reload();
-            return {};
+            return std::nullopt;
         }
 
         if (!result)
-            return {};
+            return std::nullopt;
     }
 
     fences_in_use[current_frame] = fences[current_sync];
 
     if (!result)
-        return {};
+        return std::nullopt;
 
     if (!device->vkResetFences(to_ui32(wait_fences.size()), wait_fences.data()))
-        return {};
+        return std::nullopt;
 
     return get_frame();
 }

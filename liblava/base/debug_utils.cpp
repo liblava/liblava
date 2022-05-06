@@ -25,7 +25,7 @@ using optional_label = std::optional<VkDebugUtilsLabelEXT>;
  */
 optional_label create_label_info(name label, v4 color) {
     if (!instance::singleton().get_debug_config().utils)
-        return {};
+        return std::nullopt;
 
     VkDebugUtilsLabelEXT info{
         .sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_LABEL_EXT,
