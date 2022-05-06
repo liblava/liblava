@@ -830,7 +830,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 --identification={str}, -id={str}
 ```
 
-* **str** &nbsp; window save name &nbsp; *supports punctuation marks*
+* **str** &nbsp; config save name &nbsp; *supports punctuation marks*
 
 <br />
 
