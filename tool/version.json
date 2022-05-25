@@ -27,19 +27,19 @@
         "name": "physfs",
         "github": "icculus/physfs",
         "branch": "main",
-        "tag": "14691399cd55e2e6408b2b2d07084881885a30bb"
+        "tag": "6925c1067de2c9e39d626bcba84db0113f8395f2"
     },
     {
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "a8a547d7a212a6a39943bbd5b4220be504a1a33e"
+        "tag": "ede66678580596028bcd6e18871a35a54bac01d7"
     },
     {
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "0d8197cc9d935e0c5116de551bec63cd35f3c0ef"
+        "tag": "9e8e52c0488706986c76eeb4225286ac02fb1ee9"
     },
     {
         "name": "stb",
@@ -57,13 +57,13 @@
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "33d4dd987fc8fc6475ff9ca2b4f0c3cc6e793337"
+        "tag": "245d25ce8c3337919dc7916d0e62e31a0d8748ab"
     },
     {
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "af44f5ca31b7142e31878425c1f7a32016171ee8"
+        "tag": "a6bf4518b57dd56c6c740e031ac6ecfedfc6eb04"
     },
     {
         "name": "volk",
@@ -87,31 +87,31 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "60bea052a92cbb4a93b221002fdf04f0da3698e1"
+        "tag": "697ce2d67ba7c684747ab1cce2b7d897e3e698c0"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "2fa60bec27999fd0b9e2291dd4dbcc4646e2fab4"
+        "tag": "250333d895b1067533533dcfab137512745b9689"
     },
     {
         "name": "SPIRV-Headers",
         "github": "KhronosGroup/SPIRV-Headers",
         "branch": "master",
-        "tag": "b765c355f488837ca4c77980ba69484f3ff277f5"
+        "tag": "5a121866927a16ab9d49bed4788b532c7fcea766"
     },
     {
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "98340ec500e92a534dc8384d5c45d2f488e40f6a"
+        "tag": "c26712784629f54c71b84b07bf161eabc0342ebe"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "2f5bc0b7414f5d063b9c2fcf231469aec1e549d3"
+        "tag": "abc87e98fd6049d878f8addb319f470c1dc3c70a"
     },
     {
         "name": "shaderc",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "fc3d11b1d1090a5bcbcc9e410a460f9bf6a1f474"
+        "tag": "85c00eb946b04a55a41aa131fb3f2050fa2f8b44"
     }
 ]
