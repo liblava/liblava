@@ -99,10 +99,10 @@ image::ptr make_image(VkFormat format, VkImage vk_image) {
 }
 
 //-----------------------------------------------------------------------------
-image::ptr make_image(VkFormat format, device_ptr device, uv2 size, VkImage vk_image) {
+image::ptr create_image(device_ptr device, VkFormat format, uv2 size, VkImage vk_image) {
     auto result = make_image(format, vk_image);
 
-    if (!result->create(device, size))
+    if (!result->create(device, size, VMA_MEMORY_USAGE_AUTO))
         return nullptr;
 
     return result;

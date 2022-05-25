@@ -41,12 +41,12 @@ bool parse(cmd_line cmd_line, benchmark_data& data) {
 }
 
 //-----------------------------------------------------------------------------
-void benchmark(frame& frame, benchmark_data& data) {
-    auto& cmd_line = frame.get_cmd_line();
+void benchmark(frame& app, benchmark_data& data) {
+    auto& cmd_line = app.get_cmd_line();
 
     data.values.resize(data.buffer_size);
 
-    frame.add_run([&](id::ref run) {
+    app.add_run([&](id::ref run) {
         auto current = get_current_timestamp_ms();
 
         auto pre = data.start_timestamp + data.offset;
@@ -68,14 +68,14 @@ void benchmark(frame& frame, benchmark_data& data) {
             return run_continue;
         }
 
-        frame.remove(run);
+        app.remove(run);
 
-        frame.add_run_once([&]() {
+        app.add_run_once([&]() {
             if (!write_frames_json(data))
                 return run_abort;
 
             if (data.exit)
-                frame.shut_down();
+                app.shut_down();
 
             return run_continue;
         });

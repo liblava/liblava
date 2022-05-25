@@ -137,7 +137,7 @@ cdata producer::get_shader(string_ref name, bool reload) {
     file file(str(path), file_mode::write);
     if (file.opened())
         if (!file.write(module_data.ptr, module_data.size))
-            log()->warn("shader not cached: {}", path);
+            log()->warn("shader not cached: {}", str(path));
 
     shaders.emplace(name, module_data);
 

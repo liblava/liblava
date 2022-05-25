@@ -61,10 +61,10 @@ bool parse(cmd_line cmd_line, benchmark_data& data);
 /**
  * @brief Start a benchmark run
  *
- * @param frame    Frame to benchmark
- * @param data     Benchmark data setting
+ * @param app     App to benchmark
+ * @param data    Benchmark data setting
  */
-void benchmark(frame& frame, benchmark_data& data);
+void benchmark(frame& app, benchmark_data& data);
 
 /**
  * @brief Write frames to json file

@@ -43,7 +43,9 @@ struct image : entity {
      * @return true                    Create was successful
      * @return false                   Create failed
      */
-    bool create(device_ptr device, uv2 size, VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY, bool mip_levels_generation = false);
+    bool create(device_ptr device, uv2 size,
+                VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY,
+                bool mip_levels_generation = false);
 
     /**
      * @brief Destroy the image
@@ -257,15 +259,15 @@ private:
 image::ptr make_image(VkFormat format, VkImage vk_image = 0);
 
 /**
- * @brief Make a new image
+ * @brief Create a new image
  *
- * @param format         Image format
  * @param device         Vulkan device
+ * @param format         Image format
  * @param size           Image size
  * @param vk_image       Vulkan image
  *
  * @return image::ptr    Shared pointer to image
  */
-image::ptr make_image(VkFormat format, device_ptr device, uv2 size, VkImage vk_image = 0);
+image::ptr create_image(device_ptr device, VkFormat format, uv2 size, VkImage vk_image = 0);
 
 } // namespace lava

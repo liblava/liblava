@@ -395,7 +395,7 @@ VkShaderModule create_shader_module(device_ptr device, cdata::ref data);
 using one_time_command_func = std::function<void(VkCommandBuffer)>;
 
 /**
- * @brief Run an one time command function
+ * @brief Run one time command function
  *
  * @param device      Vulkan device
  * @param pool        Command pool

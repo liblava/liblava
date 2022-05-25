@@ -174,11 +174,11 @@ inline string timestamp(const typename CLOCK_TYPE::time_point& time_point, strin
 }
 
 /**
- * @brief Get the current time and date as string
+ * @brief Get the current time as string
  *
  * @return string    Time and date representation
  */
-inline string get_current_time_and_date() {
+inline string get_current_time() {
     auto now = std::chrono::system_clock::now();
     return timestamp(now);
 }
