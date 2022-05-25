@@ -429,7 +429,7 @@ int main(int argc, char* argv[]) {
 
         ImGui::Begin(app.get_name());
 
-        app.draw_about(false);
+        app.draw_about(draw_without_separator);
 
         ImGui::End();
     };

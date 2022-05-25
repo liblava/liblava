@@ -197,7 +197,7 @@ int main(int argc, char* argv[]) {
         if (ImGui::Checkbox("double triangle", &double_active))
             double_pipeline->toggle();
 
-        app.draw_about(false);
+        app.draw_about(draw_without_separator);
 
         ImGui::End();
     };

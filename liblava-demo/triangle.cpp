@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
 
         ImGui::Text("frames: %d", app.target->get_frame_count());
 
-        app.draw_about(false);
+        app.draw_about(draw_without_separator);
 
         ImGui::End();
     };

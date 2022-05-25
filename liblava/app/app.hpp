@@ -16,6 +16,12 @@
 
 namespace lava {
 
+/// Draw with separator
+constexpr bool const draw_with_separator = true;
+
+/// Draw without separator
+constexpr bool const draw_without_separator = false;
+
 /**
  * @brief Application with basic functionality
  */
@@ -121,7 +127,7 @@ struct app : frame {
      *
      * @param separator    Prepend separator
      */
-    void draw_about(bool separator = true) const;
+    void draw_about(bool separator = draw_with_separator) const;
 
     /// Application configuration
     app_config config;
