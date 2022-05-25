@@ -90,12 +90,6 @@ target_link_libraries(lava.core INTERFACE
         Threads::Threads
         )
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-        target_link_libraries(lava.core INTERFACE 
-                stdc++fs
-                )
-endif()
-
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
 endif()
