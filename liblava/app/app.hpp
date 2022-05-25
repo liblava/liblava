@@ -156,6 +156,33 @@ struct app : frame {
     /// Function called on application setup
     setup_func on_setup;
 
+    /**
+     * @brief Add a tooltip
+     *
+     * @param n    Name of tooltip
+     * @param k    Input key
+     * @param m    Input mod (default: none)
+     */
+    void add_tooltip(name n, key k, mod m = mod::none) {
+        tooltips.emplace_back(n, k, m);
+    }
+
+    /**
+     * @brief Clear tooltips
+     */
+    void clear_tooltips() {
+        tooltips.clear();
+    }
+
+    /**
+     * @brief Get tooltips
+     *
+     * @return tooltip::list    List of tooltips
+     */
+    tooltip::list get_tooltips() const {
+        return tooltips;
+    }
+
 private:
     /**
      * @brief Setup file system
@@ -279,6 +306,9 @@ private:
 
     /// Benchmark frames
     benchmark_data frames;
+
+    /// List of tooltips
+    tooltip::list tooltips;
 };
 
 } // namespace lava

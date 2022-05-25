@@ -25,6 +25,10 @@ int main(int argc, char* argv[]) {
 
     app.prop.add("spawn", "spawn/lava-spawn-game.obj");
 
+    app.add_tooltip("first person", key::enter);
+    app.add_tooltip("lock rotation", key::r);
+    app.add_tooltip("lock z", key::z);
+
     if (!app.setup())
         return error::not_ready;
 
@@ -247,9 +251,6 @@ int main(int argc, char* argv[]) {
         }
 
         app.draw_about();
-
-        if (ImGui::IsItemHovered())
-            ImGui::SetTooltip("enter = first person\nr = lock rotation\nz = lock z");
 
         ImGui::End();
     };

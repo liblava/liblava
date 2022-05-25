@@ -323,6 +323,14 @@ void app::destroy_target() {
 void app::handle_input() {
     input.add(&imgui.get_input_callback());
 
+    add_tooltip(_pause_, key::space, mod::control);
+    add_tooltip(_imgui_, key::tab, mod::control);
+    add_tooltip(_v_sync_, key::backspace, mod::alt);
+    add_tooltip(_fullscreen_, key::enter, mod::alt);
+    add_tooltip(_benchmark_, key::b, mod::control);
+    add_tooltip(_screenshot_, key::p, mod::control);
+    add_tooltip(_quit_, key::q, mod::control);
+
     input.key.listeners.add([&](key_event::ref event) {
         if (imgui.capture_keyboard()) {
             camera.stop();
@@ -512,8 +520,24 @@ void app::draw_about(bool separator) const {
 
     ImGui::Text("%s %s", _liblava_, str(version_string()));
 
-    if (config.handle_key_events && ImGui::IsItemHovered())
-        ImGui::SetTooltip("pause = control + space\ngui = control + tab\nv-sync = alt + backspace\nfullscreen = alt + enter");
+    if (config.handle_key_events && ImGui::IsItemHovered()) {
+        string tt;
+
+        auto skip_first = true;
+        for (auto& tooltip : tooltips) {
+            if (skip_first)
+                skip_first = false;
+            else
+                tt += "\n";
+
+            if (tooltip.mod == mod::none)
+                tt += fmt::format("{} = {}", str(tooltip.name), str(to_string(tooltip.key)));
+            else
+                tt += fmt::format("{} = {} + {}", str(tooltip.name), str(to_string(tooltip.mod)), str(to_string(tooltip.key)));
+        }
+
+        ImGui::SetTooltip("%s", str(tt));
+    }
 
     imgui_left_spacing();
 

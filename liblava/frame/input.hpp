@@ -171,6 +171,24 @@ using keys = std::vector<key>;
 using keys_ref = keys const&;
 
 /**
+ * @brief Convert input key to string
+ *
+ * @param k          Input key
+ *
+ * @return string    String representation
+ */
+string to_string(key k);
+
+/**
+ * @brief Get scancode based on key
+ *
+ * @param key     Input key
+ *
+ * @return i32    Input scan code
+ */
+i32 get_scancode(key key);
+
+/**
  * @brief Input actions
  */
 enum class action : type {
@@ -185,17 +203,42 @@ using action_ref = action const&;
 /**
  * @brief Input mods
  */
-enum class mod : c8 {
-    shift = 0x01,
-    control = 0x02,
-    alt = 0x04,
-    super = 0x08,
-    caps_lock = 0x10,
-    num_lock = 0x20,
+enum class mod : type {
+    none = 0 << 0,
+    shift = 1 << 0,
+    control = 1 << 1,
+    alt = 1 << 2,
+    super = 1 << 3,
+    caps_lock = 1 << 4,
+    num_lock = 1 << 5,
 };
+
+ENUM_FLAG_OPERATORS(mod)
+
+/**
+ * @brief Check if mod is active
+ *
+ * @param m         Target mod
+ * @param c         Mod to check
+ *
+ * @return true     Mod is active
+ * @return false    Mod is not active
+ */
+inline bool check_mod(mod m, mod c) {
+    return (m & c) != mod::none;
+}
 
 /// Reference to mod
 using mod_ref = mod const&;
+
+/**
+ * @brief Convert input mod to string
+ *
+ * @param m          Input mod
+ *
+ * @return string    String representation
+ */
+string to_string(mod m);
 
 /**
  * @brief Key event
@@ -237,7 +280,7 @@ struct key_event {
      * @return false    Key is not pressed
      */
     bool pressed(key_ref k) const {
-        return action == action::press && key == k;
+        return (action == action::press) && (key == k);
     }
 
     /**
@@ -249,7 +292,7 @@ struct key_event {
      * @return false    Key is not released
      */
     bool released(key_ref k) const {
-        return action == action::release && key == k;
+        return (action == action::release) && (key == k);
     }
 
     /**
@@ -261,7 +304,7 @@ struct key_event {
      * @return false    Key is not repeated
      */
     bool repeated(key_ref k) const {
-        return action == action::repeat && key == k;
+        return (action == action::repeat) && (key == k);
     }
 
     /**
@@ -271,20 +314,20 @@ struct key_event {
      * @return false    Key is not active
      */
     bool active() const {
-        return action == action::press || action == action::repeat;
+        return (action == action::press) || (action == action::repeat);
     }
 
     /**
      * @brief Check if key is pressed with mod
      *
      * @param k         Key to check
-     * @param m         Mod to check
+     * @param m         Mods to check
      *
      * @return true     Key is pressed with mod
      * @return false    Key is not pressed with mod
      */
     bool pressed(key_ref k, mod_ref m) const {
-        return pressed(k) && mod == m;
+        return pressed(k) && (mod == m);
     }
 };
 
@@ -639,6 +682,23 @@ private:
 
     /// List of input callbacks
     input_callback::clist callbacks;
+};
+
+/**
+ * @brief Tooltip
+ */
+struct tooltip {
+    /// List of tooltips
+    using list = std::vector<tooltip>;
+
+    /// Name of tooltip
+    string name;
+
+    /// Input key
+    lava::key key;
+
+    /// Input mod
+    lava::mod mod;
 };
 
 } // namespace lava

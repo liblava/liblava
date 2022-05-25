@@ -11,6 +11,9 @@
 
 namespace lava {
 
+constexpr name _pause_ = "pause";
+constexpr name _screenshot_ = "screenshot";
+constexpr name _quit_ = "quit";
 constexpr name _reload_ = "reload";
 constexpr name _on_ = "on";
 constexpr name _off_ = "off";
