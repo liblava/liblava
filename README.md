@@ -302,8 +302,10 @@ auto build_cmd_bufs = [&]() {
                                     frame_image,
                                     VK_ACCESS_TRANSFER_WRITE_BIT,
                                     VK_ACCESS_MEMORY_READ_BIT,
-                                    VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
-                                    VK_PIPELINE_STAGE_TRANSFER_BIT,VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+                                    VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                    VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+                                    VK_PIPELINE_STAGE_TRANSFER_BIT,
+                                    VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
                                     image_range);
 
         if (failed(device->call().vkEndCommandBuffer(cmd_buf)))
