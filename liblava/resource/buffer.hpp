@@ -59,7 +59,11 @@ struct buffer : entity {
      * @return true           Create was successful
      * @return false          Create failed
      */
-    bool create(device_ptr device, void const* data, size_t size, VkBufferUsageFlags usage, bool mapped = false,
+    bool create(device_p device,
+                void const* data,
+                size_t size,
+                VkBufferUsageFlags usage,
+                bool mapped = false,
                 VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY);
 
     /**
@@ -74,7 +78,10 @@ struct buffer : entity {
      * @return true           Create was successful
      * @return false          Create failed
      */
-    bool create_mapped(device_ptr device, void const* data, size_t size, VkBufferUsageFlags usage,
+    bool create_mapped(device_p device,
+                       void const* data,
+                       size_t size,
+                       VkBufferUsageFlags usage,
                        VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
 
     /**
@@ -85,9 +92,9 @@ struct buffer : entity {
     /**
      * @brief Get the device
      *
-     * @return device_ptr    Vulkan device
+     * @return device_p    Vulkan device
      */
-    device_ptr get_device() {
+    device_p get_device() {
         return device;
     }
 
@@ -159,7 +166,8 @@ struct buffer : entity {
      * @param offset    Offset device size
      * @param size      Data device size
      */
-    void flush(VkDeviceSize offset = 0, VkDeviceSize size = VK_WHOLE_SIZE);
+    void flush(VkDeviceSize offset = 0,
+               VkDeviceSize size = VK_WHOLE_SIZE);
 
     /**
      * @brief Get the allocation
@@ -181,7 +189,7 @@ struct buffer : entity {
 
 private:
     /// Vulkan device
-    device_ptr device = nullptr;
+    device_p device = nullptr;
 
     /// Vulkan buffer
     VkBuffer vk_buffer = VK_NULL_HANDLE;

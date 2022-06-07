@@ -93,8 +93,11 @@ struct texture : entity {
      * @return true     Create was successful
      * @return false    Create failed
      */
-    bool create(device_ptr device, uv2 size, VkFormat format,
-                layer::list const& layers = {}, texture_type type = texture_type::tex_2d);
+    bool create(device_p device,
+                uv2 size,
+                VkFormat format,
+                layer::list const& layers = {},
+                texture_type type = texture_type::tex_2d);
 
     /**
      * @brief Destroy the texture
@@ -110,7 +113,8 @@ struct texture : entity {
      * @return true        Upload was successful
      * @return false       Upload failed
      */
-    bool upload(void const* data, size_t data_size);
+    bool upload(void const* data,
+                size_t data_size);
 
     /**
      * @brief Stage the texture
@@ -223,7 +227,8 @@ struct staging {
      * @return true      Stage was successful
      * @return false     Stage failed
      */
-    bool stage(VkCommandBuffer cmd_buf, index frame);
+    bool stage(VkCommandBuffer cmd_buf,
+               index frame);
 
     /**
      * @brief Clear staging
@@ -253,6 +258,9 @@ private:
     /// Map of staged textures
     frame_stage_map staged;
 };
+
+/// Staging type
+using staging_t = staging;
 
 /// Texture registry
 using texture_registry = id_registry<texture, file_format>;

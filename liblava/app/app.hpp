@@ -42,7 +42,7 @@ struct app : frame {
     explicit app(name name, argh::parser cmd_line = {});
 
     /**
-     * @brief Setup the application
+     * @brief Set up the application
      *
      * @return true     Setup was successful
      * @return false    Setup failed
@@ -50,31 +50,31 @@ struct app : frame {
     virtual bool setup();
 
     /// Main window
-    lava::window window;
+    window_t window;
 
     /// Window input
-    lava::input input;
+    input_t input;
 
     /// ImGui handling
-    lava::imgui imgui;
+    imgui_t imgui;
 
     /// ImGui configuration
     imgui::config imgui_config;
 
     /// Vulkan device
-    device_ptr device = nullptr;
+    device_p device = nullptr;
 
     /// Main camera
-    lava::camera camera;
+    camera_t camera;
 
     /// Texture staging
-    lava::staging staging;
+    staging_t staging;
 
     /// Basic block
-    lava::block block;
+    block_t block;
 
     /// Plain renderer
-    lava::renderer renderer;
+    renderer_t renderer;
 
     /// Forward shading
     forward_shading shading;
@@ -83,7 +83,7 @@ struct app : frame {
     render_target::ptr target;
 
     /// Run time
-    lava::run_time run_time;
+    run_time_t run_time;
 
     /// Update function
     using update_func = std::function<bool(delta)>;

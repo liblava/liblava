@@ -83,7 +83,8 @@ struct producer {
      *
      * @return cdata    Shader data
      */
-    cdata get_shader(string_ref name, bool reload = false);
+    cdata get_shader(string_ref name,
+                     bool reload = false);
 
     /**
      * @brief Regenerate shader by prop name
@@ -105,7 +106,9 @@ struct producer {
      *
      * @return data           Compiled shader data
      */
-    data compile_shader(cdata product, string_ref name, string_ref filename) const;
+    data compile_shader(cdata product,
+                        string_ref name,
+                        string_ref filename) const;
 
     /**
      * @brief Destroy all products
@@ -156,5 +159,8 @@ private:
     /// Shader products
     shader_map shaders;
 };
+
+/// Producer type
+using producer_t = producer;
 
 } // namespace lava

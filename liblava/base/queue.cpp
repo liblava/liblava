@@ -18,13 +18,16 @@ void set_default_queues(queue_family_info::list& list) {
 }
 
 //-----------------------------------------------------------------------------
-void set_all_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList const& properties) {
+void set_all_queues(queue_family_info::list& list,
+                    VkQueueFamilyPropertiesList const& properties) {
     list.clear();
 
     for (auto& queue_family : properties) {
         queue_family_info family_info;
         family_info.family_index = list.size();
-        for (auto queue_count = 0; queue_count < queue_family.queueCount; ++queue_count) {
+        for (auto queue_count = 0;
+             queue_count < queue_family.queueCount;
+             ++queue_count) {
             queue_info info{ queue_family.queueFlags, 1.f };
             family_info.queues.push_back(info);
         }
@@ -34,7 +37,11 @@ void set_all_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList c
 }
 
 //-----------------------------------------------------------------------------
-void add_queues(queue_family_info::list& list, index family_index, VkQueueFlags flags, ui32 count, r32 priority) {
+void add_queues(queue_family_info::list& list,
+                index family_index,
+                VkQueueFlags flags,
+                ui32 count,
+                r32 priority) {
     for (auto& family_info : list) {
         if (family_info.family_index == family_index) {
             family_info.add(flags, count, priority);
@@ -49,13 +56,18 @@ void add_queues(queue_family_info::list& list, index family_index, VkQueueFlags 
 }
 
 //-----------------------------------------------------------------------------
-bool add_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList const& properties, VkQueueFlags flags, ui32 count, r32 priority) {
+bool add_queues(queue_family_info::list& list,
+                VkQueueFamilyPropertiesList const& properties,
+                VkQueueFlags flags,
+                ui32 count,
+                r32 priority) {
     VkQueueFamilyPropertiesList free_properties;
     for (auto family_index = 0u; family_index < properties.size(); ++family_index) {
         auto family_properties = properties.at(family_index);
         for (auto& family_info : list) {
             if (family_info.family_index == family_index) {
-                family_properties.queueCount = properties.at(family_index).queueCount - family_info.count();
+                family_properties.queueCount =
+                    properties.at(family_index).queueCount - family_info.count();
                 break;
             }
         }
@@ -65,7 +77,9 @@ bool add_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList const
 
     // first look for a free family with the same flags (in reverse order)
     i32 family_index_count = free_properties.size();
-    for (auto family_index = family_index_count - 1; family_index >= 0; --family_index) {
+    for (auto family_index = family_index_count - 1;
+         family_index >= 0;
+         --family_index) {
         auto const& queue_family = free_properties.at(family_index);
 
         auto queue_family_flags = queue_family.queueFlags & ~VK_QUEUE_SPARSE_BINDING_BIT; // ignore
@@ -80,7 +94,8 @@ bool add_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList const
         auto const& queue_family = free_properties.at(family_index);
 
         auto queue_family_flags = queue_family.queueFlags & ~VK_QUEUE_SPARSE_BINDING_BIT; // ignore
-        if (((queue_family_flags & flags) == flags) && (queue_family.queueCount >= count)) {
+        if (((queue_family_flags & flags) == flags)
+            && (queue_family.queueCount >= count)) {
             add_queues(list, family_index, flags, count, priority);
             return true;
         }
@@ -90,7 +105,9 @@ bool add_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList const
 }
 
 //-----------------------------------------------------------------------------
-bool add_dedicated_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList const& properties, r32 priority) {
+bool add_dedicated_queues(queue_family_info::list& list,
+                          VkQueueFamilyPropertiesList const& properties,
+                          r32 priority) {
     if (properties.size() < 2)
         return false;
 
@@ -109,7 +126,8 @@ bool add_dedicated_queues(queue_family_info::list& list, VkQueueFamilyProperties
 }
 
 //-----------------------------------------------------------------------------
-verify_queues_result verify_queues(queue_family_info::list const& list, VkQueueFamilyPropertiesList const& properties) {
+verify_queues_result verify_queues(queue_family_info::list const& list,
+                                   VkQueueFamilyPropertiesList const& properties) {
     if (list.empty())
         return verify_queues_result::empty_list;
 

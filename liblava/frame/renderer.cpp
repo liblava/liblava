@@ -48,10 +48,12 @@ bool renderer::create(swapchain* t) {
                 .sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO,
             };
 
-            if (!device->vkCreateSemaphore(&create_info, &image_acquired_semaphores[i]))
+            if (!device->vkCreateSemaphore(&create_info,
+                                           &image_acquired_semaphores[i]))
                 return false;
 
-            if (!device->vkCreateSemaphore(&create_info, &render_complete_semaphores[i]))
+            if (!device->vkCreateSemaphore(&create_info,
+                                           &render_complete_semaphores[i]))
                 return false;
         }
     }
@@ -86,7 +88,10 @@ optional_index renderer::begin_frame() {
     std::array<VkFence, 1> const wait_fences = { fences[current_sync] };
 
     for (;;) {
-        auto result = device->vkWaitForFences(to_ui32(wait_fences.size()), wait_fences.data(), VK_TRUE, 100);
+        auto result = device->vkWaitForFences(to_ui32(wait_fences.size()),
+                                              wait_fences.data(),
+                                              VK_TRUE,
+                                              100);
         if (result)
             break;
 
@@ -104,15 +109,24 @@ optional_index renderer::begin_frame() {
 
     auto current_semaphore = image_acquired_semaphores[current_sync];
 
-    auto result = device->vkAcquireNextImageKHR(target->get(), UINT64_MAX, current_semaphore, 0, &current_frame);
+    auto result = device->vkAcquireNextImageKHR(target->get(),
+                                                UINT64_MAX,
+                                                current_semaphore,
+                                                0,
+                                                &current_frame);
     if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
         target->request_reload();
         return std::nullopt;
     }
 
-    // because frames might not come in sequential order current frame might still be locked
-    if ((fences_in_use[current_frame] != 0) && (fences_in_use[current_frame] != fences[current_sync])) {
-        auto result = device->vkWaitForFences(1, &fences_in_use[current_frame], VK_TRUE, UINT64_MAX);
+    // because frames might not come in sequential order
+    // current frame might still be locked
+    if ((fences_in_use[current_frame] != 0)
+        && (fences_in_use[current_frame] != fences[current_sync])) {
+        auto result = device->vkWaitForFences(1,
+                                              &fences_in_use[current_frame],
+                                              VK_TRUE,
+                                              UINT64_MAX);
 
         if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
             target->request_reload();
@@ -128,7 +142,8 @@ optional_index renderer::begin_frame() {
     if (!result)
         return std::nullopt;
 
-    if (!device->vkResetFences(to_ui32(wait_fences.size()), wait_fences.data()))
+    if (!device->vkResetFences(to_ui32(wait_fences.size()),
+                               wait_fences.data()))
         return std::nullopt;
 
     return get_frame();
@@ -140,10 +155,15 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
     assert(!cmd_buffers.empty());
 #endif
 
-    std::array<VkSemaphore, 1> const wait_semaphores = { image_acquired_semaphores[current_sync] };
-    std::array<VkSemaphore, 1> const sync_present_semaphores = { render_complete_semaphores[current_sync] };
+    std::array<VkSemaphore, 1> const wait_semaphores = {
+        image_acquired_semaphores[current_sync]
+    };
+    std::array<VkSemaphore, 1> const sync_present_semaphores = {
+        render_complete_semaphores[current_sync]
+    };
 
-    VkPipelineStageFlags const wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    VkPipelineStageFlags const wait_stage =
+        VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
 
     VkSubmitInfo const submit_info{
         .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
@@ -159,7 +179,10 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
     std::array<VkSubmitInfo, 1> const submit_infos = { submit_info };
     VkFence current_fence = fences[current_sync];
 
-    if (!device->vkQueueSubmit(graphics_queue.vk_queue, to_ui32(submit_infos.size()), submit_infos.data(), current_fence))
+    if (!device->vkQueueSubmit(graphics_queue.vk_queue,
+                               to_ui32(submit_infos.size()),
+                               submit_infos.data(),
+                               current_fence))
         return false;
 
     std::array<VkSwapchainKHR, 1> const swapchains = { target->get() };

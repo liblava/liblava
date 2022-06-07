@@ -10,12 +10,14 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool camera::create(device_ptr device) {
+bool camera::create(device_p device) {
     update_projection();
 
     data = make_buffer();
 
-    return data->create_mapped(device, &projection, size, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT);
+    return data->create_mapped(device,
+                               &projection, size,
+                               VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT);
 }
 
 //-----------------------------------------------------------------------------
@@ -40,23 +42,27 @@ void camera::move_first_person(delta dt) {
 
     if (move_up) {
         if (lock_z)
-            position -= glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * speed;
+            position -= glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f)))
+                        * speed;
         else
             position -= (front * speed);
     }
 
     if (move_down) {
         if (lock_z)
-            position += glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * speed;
+            position += glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f)))
+                        * speed;
         else
             position += (front * speed);
     }
 
     if (move_left)
-        position += glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f))) * speed;
+        position += glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f)))
+                    * speed;
 
     if (move_right)
-        position -= glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f))) * speed;
+        position -= glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f)))
+                    * speed;
 }
 
 //-----------------------------------------------------------------------------
@@ -125,15 +131,18 @@ void camera::update_view(delta dt, gamepad::ref pad) {
         if (fabsf(axis_left_y) > dead_zone) {
             auto pos = (fabsf(axis_left_y) - dead_zone) / range;
             if (lock_z)
-                position -= glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f))) * ((axis_left_y < 0.f) ? 1.f : -1.f) * movement_factor;
+                position -= glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f)))
+                            * ((axis_left_y < 0.f) ? 1.f : -1.f) * movement_factor;
             else
-                position -= front * pos * ((axis_left_y < 0.f) ? 1.f : -1.f) * movement_factor;
+                position -= front * pos * ((axis_left_y < 0.f) ? 1.f : -1.f)
+                            * movement_factor;
         }
 
         auto axis_left_x = pad.value(gamepad_axis::left_x);
         if (fabsf(axis_left_x) > dead_zone) {
             auto pos = (fabsf(axis_left_x) - dead_zone) / range;
-            position += glm::normalize(glm::cross(front, glm::vec3(0.f, 1.f, 0.f))) * pos * ((axis_left_x < 0.f) ? 1.f : -1.f) * movement_factor;
+            position += glm::normalize(glm::cross(front, glm::vec3(0.f, 1.f, 0.f)))
+                        * pos * ((axis_left_x < 0.f) ? 1.f : -1.f) * movement_factor;
         }
     }
 
@@ -187,7 +196,7 @@ void camera::upload() {
 //-----------------------------------------------------------------------------
 bool camera::handle(key_event::ref event) {
     auto pressed_key = event.key;
-    auto check_key = [&](key_ref current_key, key_ref testing_key, bool& value) -> bool {
+    const auto check_key = [&](key_ref current_key, key_ref testing_key, bool& value) -> bool {
         if (current_key == testing_key) {
             value = event.active();
             return input_done;
@@ -196,24 +205,20 @@ bool camera::handle(key_event::ref event) {
     };
 
     for (auto const& current_key : up_keys) {
-        if (check_key(current_key, pressed_key, move_up)) {
+        if (check_key(current_key, pressed_key, move_up))
             return input_done;
-        }
     }
     for (auto const& current_key : down_keys) {
-        if (check_key(current_key, pressed_key, move_down)) {
+        if (check_key(current_key, pressed_key, move_down))
             return input_done;
-        }
     }
     for (auto const& current_key : left_keys) {
-        if (check_key(current_key, pressed_key, move_left)) {
+        if (check_key(current_key, pressed_key, move_left))
             return input_done;
-        }
     }
     for (auto const& current_key : right_keys) {
-        if (check_key(current_key, pressed_key, move_right)) {
+        if (check_key(current_key, pressed_key, move_right))
             return input_done;
-        }
     }
 
     return input_ignore;

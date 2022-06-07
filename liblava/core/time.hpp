@@ -112,7 +112,8 @@ struct timer {
      * @return ms    Elapsed milliseconds
      */
     ms elapsed() const {
-        return std::chrono::duration_cast<ms>(clock::now() - start_time);
+        return std::chrono::duration_cast<ms>(clock::now()
+                                              - start_time);
     }
 
 private:
@@ -146,6 +147,9 @@ struct run_time {
     bool paused = false;
 };
 
+/// Run time type
+using run_time_t = run_time;
+
 #ifdef _WIN32
     #pragma warning(push)
     #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS
@@ -162,14 +166,18 @@ struct run_time {
  * @return string        Converted string
  */
 template<typename CLOCK_TYPE = std::chrono::system_clock>
-inline string timestamp(const typename CLOCK_TYPE::time_point& time_point, string_ref format = "%Y-%m-%d %H-%M-%S") {
-    auto ms = std::chrono::duration_cast<milliseconds>(time_point.time_since_epoch()) % 1000;
+inline string timestamp(const typename CLOCK_TYPE::time_point& time_point,
+                        string_ref format = "%Y-%m-%d %H-%M-%S") {
+    auto ms = std::chrono::duration_cast<milliseconds>(
+                  time_point.time_since_epoch())
+              % 1000;
 
     auto const t = CLOCK_TYPE::to_time_t(time_point);
     auto const tm = *std::localtime(std::addressof(t));
 
     std::ostringstream stm;
-    stm << std::put_time(std::addressof(tm), str(format)) << '.' << std::setfill('0') << std::setw(3) << ms.count();
+    stm << std::put_time(std::addressof(tm), str(format))
+        << '.' << std::setfill('0') << std::setw(3) << ms.count();
     return stm.str();
 }
 
@@ -193,7 +201,8 @@ inline string get_current_time() {
  * @return ms    Timestamp in ms
  */
 inline ms get_current_timestamp_ms() {
-    return std::chrono::duration_cast<ms>(clock::now().time_since_epoch());
+    return std::chrono::duration_cast<ms>(
+        clock::now().time_since_epoch());
 }
 
 /**

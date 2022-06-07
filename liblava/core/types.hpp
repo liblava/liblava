@@ -124,10 +124,10 @@ using real = r64;
 using delta = r32;
 
 /// Void pointer
-using void_ptr = void*;
+using void_p = void*;
 
 /// Const void pointer
-using void_cptr = void const*;
+using void_cp = void const*;
 
 /// Type
 using type = ui32;
@@ -140,6 +140,9 @@ constexpr type const undef = 0;
 
 /// Index
 using index = type;
+
+/// Index type
+using index_t = index;
 
 /// No index
 constexpr index const no_index = no_type;
@@ -334,8 +337,10 @@ struct interface {
  * @param val     Value to combine
  */
 template<typename T>
-inline void hash_combine(size_t& seed, T const& val) {
-    seed ^= std::hash<T>()(val) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+inline void hash_combine(size_t& seed,
+                         T const& val) {
+    seed ^= std::hash<T>()(val) + 0x9e3779b9
+            + (seed << 6) + (seed >> 2);
 }
 
 /**
@@ -347,7 +352,8 @@ inline void hash_combine(size_t& seed, T const& val) {
  * @param val     Hash value
  */
 template<typename T>
-inline void hash_val(size_t& seed, T const& val) {
+inline void hash_val(size_t& seed,
+                     T const& val) {
     hash_combine(seed, val);
 }
 
@@ -355,7 +361,9 @@ inline void hash_val(size_t& seed, T const& val) {
  * @see hash_val<T>()
  */
 template<typename T, typename... Types>
-inline void hash_val(size_t& seed, T const& val, Types const&... args) {
+inline void hash_val(size_t& seed,
+                     T const& val,
+                     Types const&... args) {
     hash_combine(seed, val);
     hash_val(seed, args...);
 }

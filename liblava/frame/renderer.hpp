@@ -78,9 +78,9 @@ struct renderer : entity {
     /**
      * @brief Get the device
      *
-     * @return device_ptr    Vulkan device
+     * @return device_p    Vulkan device
      */
-    device_ptr get_device() {
+    device_p get_device() {
         return device;
     }
 
@@ -95,7 +95,7 @@ struct renderer : entity {
 
 private:
     /// Vulkan device
-    device_ptr device = nullptr;
+    device_p device = nullptr;
 
     /// Graphics queue
     queue graphics_queue;
@@ -124,5 +124,8 @@ private:
     /// List of render complete semaphores
     VkSemaphores render_complete_semaphores = {};
 };
+
+/// Renderer type
+using renderer_t = renderer;
 
 } // namespace lava

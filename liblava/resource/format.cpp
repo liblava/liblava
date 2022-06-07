@@ -135,7 +135,9 @@ VkImageAspectFlags format_aspect_mask(VkFormat format) {
 }
 
 //-----------------------------------------------------------------------------
-void format_block_dim(VkFormat format, ui32& width, ui32& height) {
+void format_block_dim(VkFormat format,
+                      ui32& width,
+                      ui32& height) {
 #define fmt(x, w, h) \
     case VK_FORMAT_##x: \
         width = w; \
@@ -202,7 +204,9 @@ void format_block_dim(VkFormat format, ui32& width, ui32& height) {
 }
 
 //-----------------------------------------------------------------------------
-void format_align_dim(VkFormat format, ui32& width, ui32& height) {
+void format_align_dim(VkFormat format,
+                      ui32& width,
+                      ui32& height) {
     ui32 align_width, align_height;
     format_block_dim(format, align_width, align_height);
     width = ((width + align_width - 1) / align_width) * align_width;
@@ -210,7 +214,9 @@ void format_align_dim(VkFormat format, ui32& width, ui32& height) {
 }
 
 //-----------------------------------------------------------------------------
-void format_num_blocks(VkFormat format, ui32& width, ui32& height) {
+void format_num_blocks(VkFormat format,
+                       ui32& width,
+                       ui32& height) {
     ui32 align_width, align_height;
     format_block_dim(format, align_width, align_height);
     width = (width + align_width - 1) / align_width;
@@ -411,22 +417,32 @@ ui32 format_block_size(VkFormat format) {
 
 //-----------------------------------------------------------------------------
 VkFormat_optional get_supported_depth_format(VkPhysicalDevice physical_device) {
-    static const VkFormat depth_formats[] = { VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D32_SFLOAT, VK_FORMAT_D24_UNORM_S8_UINT, VK_FORMAT_D16_UNORM_S8_UINT, VK_FORMAT_D16_UNORM };
+    static const VkFormat depth_formats[] = {
+        VK_FORMAT_D32_SFLOAT_S8_UINT,
+        VK_FORMAT_D32_SFLOAT,
+        VK_FORMAT_D24_UNORM_S8_UINT,
+        VK_FORMAT_D16_UNORM_S8_UINT,
+        VK_FORMAT_D16_UNORM
+    };
 
     for (auto& format : depth_formats) {
         VkFormatProperties format_props;
-        vkGetPhysicalDeviceFormatProperties(physical_device, format, &format_props);
+        vkGetPhysicalDeviceFormatProperties(physical_device,
+                                            format,
+                                            &format_props);
 
-        if (format_props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) {
+        if (format_props.optimalTilingFeatures
+            & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)
             return { format };
-        }
     }
 
     return std::nullopt;
 }
 
 //-----------------------------------------------------------------------------
-VkFormat_optional get_supported_format(VkPhysicalDevice physical_device, VkFormats const& possible_formats, VkImageUsageFlags usage) {
+VkFormat_optional get_supported_format(VkPhysicalDevice physical_device,
+                                       VkFormats const& possible_formats,
+                                       VkImageUsageFlags usage) {
     VkFormatFeatureFlags features = 0;
     if (usage & VK_IMAGE_USAGE_TRANSFER_SRC_BIT)
         features |= VK_FORMAT_FEATURE_TRANSFER_SRC_BIT;
@@ -443,18 +459,21 @@ VkFormat_optional get_supported_format(VkPhysicalDevice physical_device, VkForma
 
     for (auto& format : possible_formats) {
         VkFormatProperties format_props;
-        vkGetPhysicalDeviceFormatProperties(physical_device, format, &format_props);
+        vkGetPhysicalDeviceFormatProperties(physical_device,
+                                            format,
+                                            &format_props);
 
-        if ((format_props.optimalTilingFeatures & features) == features) {
+        if ((format_props.optimalTilingFeatures & features) == features)
             return { format };
-        }
     }
 
     return std::nullopt;
 }
 
 //-----------------------------------------------------------------------------
-VkImageMemoryBarrier image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout) {
+VkImageMemoryBarrier image_memory_barrier(VkImage image,
+                                          VkImageLayout old_layout,
+                                          VkImageLayout new_layout) {
     return {
         .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
         .pNext = nullptr,
@@ -470,7 +489,8 @@ VkImageMemoryBarrier image_memory_barrier(VkImage image, VkImageLayout old_layou
 }
 
 //-----------------------------------------------------------------------------
-void set_src_access_mask(VkImageMemoryBarrier& barrier, VkImageLayout image_layout) {
+void set_src_access_mask(VkImageMemoryBarrier& barrier,
+                         VkImageLayout image_layout) {
     switch (image_layout) {
     case VK_IMAGE_LAYOUT_UNDEFINED:
         barrier.srcAccessMask = 0;
@@ -505,7 +525,8 @@ void set_src_access_mask(VkImageMemoryBarrier& barrier, VkImageLayout image_layo
 }
 
 //-----------------------------------------------------------------------------
-void set_dst_access_mask(VkImageMemoryBarrier& barrier, VkImageLayout image_layout) {
+void set_dst_access_mask(VkImageMemoryBarrier& barrier,
+                         VkImageLayout image_layout) {
     switch (image_layout) {
     case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
         barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
@@ -520,12 +541,14 @@ void set_dst_access_mask(VkImageMemoryBarrier& barrier, VkImageLayout image_layo
         break;
 
     case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-        barrier.dstAccessMask = barrier.dstAccessMask | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
+        barrier.dstAccessMask = barrier.dstAccessMask
+                                | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
         break;
 
     case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
         if (barrier.srcAccessMask == 0)
-            barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
+            barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT
+                                    | VK_ACCESS_TRANSFER_WRITE_BIT;
 
         barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
         break;
@@ -535,20 +558,43 @@ void set_dst_access_mask(VkImageMemoryBarrier& barrier, VkImageLayout image_layo
 }
 
 //-----------------------------------------------------------------------------
-void set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout, VkImageLayout new_image_layout,
-                      VkImageSubresourceRange subresource_range, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
-    auto barrier = image_memory_barrier(image, old_image_layout, new_image_layout);
+void set_image_layout(device_p device,
+                      VkCommandBuffer cmd_buffer,
+                      VkImage image,
+                      VkImageLayout old_image_layout,
+                      VkImageLayout new_image_layout,
+                      VkImageSubresourceRange subresource_range,
+                      VkPipelineStageFlags src_stage_mask,
+                      VkPipelineStageFlags dst_stage_mask) {
+    auto barrier = image_memory_barrier(image,
+                                        old_image_layout,
+                                        new_image_layout);
     barrier.subresourceRange = subresource_range;
 
     set_src_access_mask(barrier, old_image_layout);
     set_dst_access_mask(barrier, new_image_layout);
 
-    device->call().vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
+    device->call().vkCmdPipelineBarrier(cmd_buffer,
+                                        src_stage_mask,
+                                        dst_stage_mask,
+                                        0,
+                                        0,
+                                        nullptr,
+                                        0,
+                                        nullptr,
+                                        1,
+                                        &barrier);
 }
 
 //-----------------------------------------------------------------------------
-void set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageAspectFlags aspect_mask, VkImageLayout old_image_layout,
-                      VkImageLayout new_image_layout, VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask) {
+void set_image_layout(device_p device,
+                      VkCommandBuffer cmd_buffer,
+                      VkImage image,
+                      VkImageAspectFlags aspect_mask,
+                      VkImageLayout old_image_layout,
+                      VkImageLayout new_image_layout,
+                      VkPipelineStageFlags src_stage_mask,
+                      VkPipelineStageFlags dst_stage_mask) {
     VkImageSubresourceRange subresource_range{
         .aspectMask = aspect_mask,
         .baseMipLevel = 0,
@@ -557,32 +603,66 @@ void set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage ima
         .layerCount = 1,
     };
 
-    set_image_layout(device, cmd_buffer, image, old_image_layout, new_image_layout, subresource_range, src_stage_mask, dst_stage_mask);
+    set_image_layout(device,
+                     cmd_buffer,
+                     image,
+                     old_image_layout,
+                     new_image_layout,
+                     subresource_range,
+                     src_stage_mask,
+                     dst_stage_mask);
 }
 
 //-----------------------------------------------------------------------------
-void insert_image_memory_barrier(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkAccessFlags src_access_mask, VkAccessFlags dst_access_mask,
-                                 VkImageLayout old_image_layout, VkImageLayout new_image_layout,
-                                 VkPipelineStageFlags src_stage_mask, VkPipelineStageFlags dst_stage_mask, VkImageSubresourceRange subresource_range) {
-    auto barrier = image_memory_barrier(image, old_image_layout, new_image_layout);
+void insert_image_memory_barrier(device_p device,
+                                 VkCommandBuffer cmd_buffer,
+                                 VkImage image,
+                                 VkAccessFlags src_access_mask,
+                                 VkAccessFlags dst_access_mask,
+                                 VkImageLayout old_image_layout,
+                                 VkImageLayout new_image_layout,
+                                 VkPipelineStageFlags src_stage_mask,
+                                 VkPipelineStageFlags dst_stage_mask,
+                                 VkImageSubresourceRange subresource_range) {
+    auto barrier = image_memory_barrier(image,
+                                        old_image_layout,
+                                        new_image_layout);
 
     barrier.srcAccessMask = src_access_mask;
     barrier.dstAccessMask = dst_access_mask;
     barrier.subresourceRange = subresource_range;
 
-    device->call().vkCmdPipelineBarrier(cmd_buffer, src_stage_mask, dst_stage_mask, 0, 0, nullptr, 0, nullptr, 1, &barrier);
+    device->call().vkCmdPipelineBarrier(cmd_buffer,
+                                        src_stage_mask,
+                                        dst_stage_mask,
+                                        0,
+                                        0,
+                                        nullptr,
+                                        0,
+                                        nullptr,
+                                        1,
+                                        &barrier);
 }
 
 //-----------------------------------------------------------------------------
-VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device, VkSurfaceKHR surface, surface_format_request request) {
+VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device,
+                                      VkSurfaceKHR surface,
+                                      surface_format_request request) {
     auto count = 0u;
-    check(vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &count, nullptr));
+    check(vkGetPhysicalDeviceSurfaceFormatsKHR(device,
+                                               surface,
+                                               &count,
+                                               nullptr));
 
     std::vector<VkSurfaceFormatKHR> formats(count);
-    check(vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &count, formats.data()));
+    check(vkGetPhysicalDeviceSurfaceFormatsKHR(device,
+                                               surface,
+                                               &count,
+                                               formats.data()));
 
     if (count == 1) {
-        if (formats[0].format == VK_FORMAT_UNDEFINED && !request.formats.empty())
+        if ((formats[0].format == VK_FORMAT_UNDEFINED)
+            && !request.formats.empty())
             return { request.formats.front(), request.color_space };
         else
             return formats[0];
@@ -590,12 +670,34 @@ VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device, VkSurfaceKHR surf
 
     for (auto& request_format : request.formats) {
         for (auto i = 0u; i < count; ++i) {
-            if ((formats[i].format == request_format) && (formats[i].colorSpace == request.color_space))
+            if ((formats[i].format == request_format)
+                && (formats[i].colorSpace == request.color_space))
                 return formats[i];
         }
     }
 
     return formats[0];
+}
+
+//-----------------------------------------------------------------------------
+bool support_blit(device_p device,
+                  VkFormat format) {
+    auto pyhsical_device = device->get_vk_physical_device();
+
+    VkFormatProperties format_props;
+    vkGetPhysicalDeviceFormatProperties(pyhsical_device,
+                                        format,
+                                        &format_props);
+    if (!(format_props.optimalTilingFeatures & VK_FORMAT_FEATURE_BLIT_SRC_BIT))
+        return false;
+
+    vkGetPhysicalDeviceFormatProperties(pyhsical_device,
+                                        VK_FORMAT_R8G8B8A8_UNORM,
+                                        &format_props);
+    if (!(format_props.linearTilingFeatures & VK_FORMAT_FEATURE_BLIT_DST_BIT))
+        return false;
+
+    return true;
 }
 
 } // namespace lava

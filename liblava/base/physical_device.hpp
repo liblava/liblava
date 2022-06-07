@@ -164,7 +164,8 @@ struct physical_device : entity {
      * @return true           Surface is supported
      * @return false          Surface is unsupported
      */
-    bool surface_supported(index queue_family, VkSurfaceKHR surface) const;
+    bool surface_supported(index queue_family,
+                           VkSurfaceKHR surface) const;
 
     /**
      * @brief Check if profile is supported

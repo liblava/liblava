@@ -62,7 +62,8 @@ struct graphics_pipeline : pipeline {
      * @param device            Vulkan device
      * @param pipeline_cache    Pipeline cache
      */
-    explicit graphics_pipeline(device_ptr device, VkPipelineCache pipeline_cache);
+    explicit graphics_pipeline(device_p device,
+                               VkPipelineCache pipeline_cache);
 
     /**
      * @brief Bind the pipeline
@@ -77,7 +78,8 @@ struct graphics_pipeline : pipeline {
      * @param cmd_buf    Command buffer
      * @param size       Viewport and scissor size
      */
-    void set_viewport_and_scissor(VkCommandBuffer cmd_buf, uv2 size);
+    void set_viewport_and_scissor(VkCommandBuffer cmd_buf,
+                                  uv2 size);
 
     /**
      * @brief Set the render pass
@@ -177,7 +179,8 @@ struct graphics_pipeline : pipeline {
      * @param test_enable     Enable depth test
      * @param write_enable    Enable depth write
      */
-    void set_depth_test_and_write(bool test_enable = true, bool write_enable = true);
+    void set_depth_test_and_write(bool test_enable = true,
+                                  bool write_enable = true);
 
     /**
      * @brief Set the depth compare operation
@@ -219,7 +222,8 @@ struct graphics_pipeline : pipeline {
      *
      * @param attachment    Pipeline color blend attachment state
      */
-    void add_color_blend_attachment(VkPipelineColorBlendAttachmentState const& attachment = create_color_blend_attachment());
+    void add_color_blend_attachment(
+        VkPipelineColorBlendAttachmentState const& attachment = create_color_blend_attachment());
 
     /**
      * @brief Clear color blend attachment
@@ -254,7 +258,8 @@ struct graphics_pipeline : pipeline {
      * @return true     Add was successful
      * @return false    Add failed
      */
-    bool add_shader_stage(cdata::ref data, VkShaderStageFlagBits stage);
+    bool add_shader_stage(cdata::ref data,
+                          VkShaderStageFlagBits stage);
 
     /**
      * @brief Add shader
@@ -265,7 +270,8 @@ struct graphics_pipeline : pipeline {
      * @return true     Add was successful
      * @return false    Add failed
      */
-    bool add_shader(cdata::ref data, VkShaderStageFlagBits stage) {
+    bool add_shader(cdata::ref data,
+                    VkShaderStageFlagBits stage) {
         return add_shader_stage(data, stage);
     }
 
@@ -445,17 +451,17 @@ struct graphics_pipeline : pipeline {
 
 private:
     /**
-     * @brief Internal create a new graphics pipeline
+     * @brief Set up the graphics pipeline
      *
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return true     Setup was successful
+     * @return false    Setup failed
      */
-    bool create_internal() override;
+    bool setup() override;
 
     /**
-     * @brief Internal destroy the graphics pipeline
+     * @brief Tear down the graphics pipeline
      */
-    void destroy_internal() override;
+    void teardown() override;
 
     /// Vulkan render pass
     VkRenderPass render_pass = VK_NULL_HANDLE;
@@ -514,7 +520,8 @@ private:
  *
  * @return graphics_pipeline::ptr    Shared pointer to graphics pipeline
  */
-inline graphics_pipeline::ptr make_graphics_pipeline(device_ptr device, VkPipelineCache pipeline_cache = 0) {
+inline graphics_pipeline::ptr make_graphics_pipeline(device_p device,
+                                                     VkPipelineCache pipeline_cache = 0) {
     return std::make_shared<graphics_pipeline>(device, pipeline_cache);
 }
 

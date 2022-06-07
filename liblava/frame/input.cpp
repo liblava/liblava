@@ -22,7 +22,8 @@ namespace lava {
  * @param input_callback    Input callback
  */
 template<typename T>
-void _handle_events(input_events<T>& events, input_callback::func<T> input_callback) {
+void _handle_events(input_events<T>& events,
+                    input_callback::func<T> input_callback) {
     for (auto const& event : events) {
         auto handled = false;
 

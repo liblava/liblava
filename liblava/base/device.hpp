@@ -15,13 +15,13 @@
 namespace lava {
 
 /// Pointer to device
-using device_ptr = device*;
+using device_p = device*;
 
 /// Const pointer to device
-using device_cptr = device const*;
+using device_cp = device const*;
 
 /// Const pointer to a physical device
-using physical_device_cptr = physical_device const*;
+using physical_device_cp = physical_device const*;
 
 /**
  * @brief Vulkan device
@@ -41,7 +41,7 @@ struct device : device_table, entity {
         using ref = create_param const&;
 
         /// Physical device
-        physical_device_cptr physical_device = nullptr;
+        physical_device_cp physical_device = nullptr;
 
         /// Vma flags
         VmaAllocatorCreateFlags vma_flags = 0;
@@ -89,7 +89,8 @@ struct device : device_table, entity {
          * @return true       Add was successful
          * @return false      Add failed
          */
-        bool add_queue(VkQueueFlags flags, r32 priority = 1.f) {
+        bool add_queue(VkQueueFlags flags,
+                       r32 priority = 1.f) {
             return add_queues(flags, 1, priority);
         }
 
@@ -103,7 +104,9 @@ struct device : device_table, entity {
          * @return true       Add was successful
          * @return false      Add failed
          */
-        bool add_queues(VkQueueFlags flags, ui32 count, r32 priority = 1.f);
+        bool add_queues(VkQueueFlags flags,
+                        ui32 count,
+                        r32 priority = 1.f);
 
         /**
          * @brief Add all dedicated queues
@@ -294,9 +297,9 @@ struct device : device_table, entity {
     /**
      * @brief Get the physical device
      *
-     * @return physical_device_cptr    Physical device
+     * @return physical_device_cp    Physical device
      */
-    physical_device_cptr get_physical_device() const {
+    physical_device_cp get_physical_device() const {
         return physical_device;
     }
 
@@ -355,12 +358,14 @@ struct device : device_table, entity {
      * @return VmaAllocator    Vma allocator
      */
     VmaAllocator alloc() const {
-        return mem_allocator != nullptr ? mem_allocator->get() : nullptr;
+        return mem_allocator != nullptr
+                   ? mem_allocator->get()
+                   : nullptr;
     }
 
 private:
     /// Physical device
-    physical_device_cptr physical_device = nullptr;
+    physical_device_cp physical_device = nullptr;
 
     /// List of qraphics queues
     queue::list graphics_queue_list;
@@ -389,7 +394,8 @@ private:
  *
  * @return VkShaderModule    Shader module
  */
-VkShaderModule create_shader_module(device_ptr device, cdata::ref data);
+VkShaderModule create_shader_module(device_p device,
+                                    cdata::ref data);
 
 /// One time command function
 using one_time_command_func = std::function<void(VkCommandBuffer)>;
@@ -405,6 +411,9 @@ using one_time_command_func = std::function<void(VkCommandBuffer)>;
  * @return true       Run was successful
  * @return false      Run failed
  */
-bool one_time_command_buffer(device_ptr device, VkCommandPool pool, queue::ref queue, one_time_command_func callback);
+bool one_time_command_buffer(device_p device,
+                             VkCommandPool pool,
+                             queue::ref queue,
+                             one_time_command_func callback);
 
 } // namespace lava

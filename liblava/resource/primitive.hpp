@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "liblava/core/math.hpp"
+#include <liblava/core/math.hpp>
 
 namespace lava {
 
@@ -39,7 +39,10 @@ struct vertex {
      * @return false    Another vertex is unequal
      */
     bool operator==(vertex const& other) const {
-        return position == other.position && color == other.color && uv == other.uv && normal == other.normal;
+        return position == other.position
+               && color == other.color
+               && uv == other.uv
+               && normal == other.normal;
     }
 };
 

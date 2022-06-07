@@ -27,7 +27,8 @@ constexpr name _punctuation_marks_ = "\"\'";
  * @return false    Item not found
  */
 inline bool exists(names_ref list, name item) {
-    auto itr = std::find_if(list.begin(), list.end(), [&](name entry) { return strcmp(entry, item) == 0; });
+    auto itr = std::find_if(list.begin(), list.end(),
+                            [&](name entry) { return strcmp(entry, item) == 0; });
     return itr != list.end();
 }
 

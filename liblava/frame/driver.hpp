@@ -28,7 +28,9 @@ struct stage {
      * @param descr    Stage description
      * @param func     Stage function
      */
-    explicit stage(ui32 id, name descr, func func);
+    explicit stage(ui32 id,
+                   name descr,
+                   func func);
 
     /// Stage id
     index id = 0;

@@ -45,7 +45,8 @@ struct property : configurable {
      * @param name        Name of prop
      * @param filename    File name of prop
      */
-    void add(string_ref name, string_ref filename);
+    void add(string_ref name,
+             string_ref filename);
 
     /**
      * @brief Get prop data
@@ -73,7 +74,8 @@ struct property : configurable {
      * @param name        Name of prop
      * @param filename    File name
      */
-    void set_filename(string_ref name, string_ref filename) {
+    void set_filename(string_ref name,
+                      string_ref filename) {
         map.at(name).filename = filename;
     }
 

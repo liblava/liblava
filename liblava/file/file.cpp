@@ -40,11 +40,13 @@ bool file::open(name p, file_mode m) {
         type = file_type::fs;
     } else {
         if (mode == file_mode::write) {
-            o_stream = std::ofstream(path, std::ofstream::binary);
+            o_stream = std::ofstream(path,
+                                     std::ofstream::binary);
             if (o_stream.is_open())
                 type = file_type::f_stream;
         } else {
-            i_stream = std::ifstream(path, std::ios::binary | std::ios::ate);
+            i_stream = std::ifstream(path,
+                                     std::ios::binary | std::ios::ate);
             if (i_stream.is_open())
                 type = file_type::f_stream;
         }

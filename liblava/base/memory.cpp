@@ -47,7 +47,10 @@ namespace lava {
  *
  * @return void*              Allocated data
  */
-static void* VKAPI_PTR custom_cpu_allocation(void* user_data, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
+static void* VKAPI_PTR custom_cpu_allocation(void* user_data,
+                                             size_t size,
+                                             size_t alignment,
+                                             VkSystemAllocationScope allocation_scope) {
 #if LIBLAVA_DEBUG_ASSERT
     assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
 #endif
@@ -65,7 +68,11 @@ static void* VKAPI_PTR custom_cpu_allocation(void* user_data, size_t size, size_
  *
  * @return void*              Reallocated data
  */
-static void* VKAPI_PTR custom_cpu_reallocation(void* user_data, void* original, size_t size, size_t alignment, VkSystemAllocationScope allocation_scope) {
+static void* VKAPI_PTR custom_cpu_reallocation(void* user_data,
+                                               void* original,
+                                               size_t size,
+                                               size_t alignment,
+                                               VkSystemAllocationScope allocation_scope) {
 #if LIBLAVA_DEBUG_ASSERT
     assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
 #endif
@@ -78,7 +85,8 @@ static void* VKAPI_PTR custom_cpu_reallocation(void* user_data, void* original, 
  * @param user_data    User data
  * @param memory       Memory to free
  */
-static void VKAPI_PTR custom_cpu_free(void* user_data, void* memory) {
+static void VKAPI_PTR custom_cpu_free(void* user_data,
+                                      void* memory) {
 #if LIBLAVA_DEBUG_ASSERT
     assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
 #endif
@@ -91,13 +99,18 @@ memory::memory() {
         return;
 
     vk_callbacks.pUserData = LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA;
-    vk_callbacks.pfnAllocation = reinterpret_cast<PFN_vkAllocationFunction>(&custom_cpu_allocation);
-    vk_callbacks.pfnReallocation = reinterpret_cast<PFN_vkReallocationFunction>(&custom_cpu_reallocation);
+
+    vk_callbacks.pfnAllocation = reinterpret_cast<PFN_vkAllocationFunction>(
+        &custom_cpu_allocation);
+    vk_callbacks.pfnReallocation = reinterpret_cast<PFN_vkReallocationFunction>(
+        &custom_cpu_reallocation);
     vk_callbacks.pfnFree = reinterpret_cast<PFN_vkFreeFunction>(&custom_cpu_free);
 }
 
 //-----------------------------------------------------------------------------
-type memory::find_type_with_properties(VkPhysicalDeviceMemoryProperties properties, ui32 type_bits, VkMemoryPropertyFlags required_properties) {
+type memory::find_type_with_properties(VkPhysicalDeviceMemoryProperties properties,
+                                       ui32 type_bits,
+                                       VkMemoryPropertyFlags required_properties) {
     auto bits = type_bits;
     auto len = std::min(properties.memoryTypeCount, 32u);
 
@@ -113,12 +126,15 @@ type memory::find_type_with_properties(VkPhysicalDeviceMemoryProperties properti
 }
 
 //-----------------------------------------------------------------------------
-type memory::find_type(VkPhysicalDevice gpu, VkMemoryPropertyFlags properties, ui32 type_bits) {
+type memory::find_type(VkPhysicalDevice gpu,
+                       VkMemoryPropertyFlags properties,
+                       ui32 type_bits) {
     VkPhysicalDeviceMemoryProperties prop{};
     vkGetPhysicalDeviceMemoryProperties(gpu, &prop);
 
     for (auto i = 0u; i < prop.memoryTypeCount; ++i)
-        if ((prop.memoryTypes[i].propertyFlags & properties) == properties && type_bits & (1 << i))
+        if (((prop.memoryTypes[i].propertyFlags & properties) == properties)
+            && (type_bits & (1 << i)))
             return i;
 
     return no_type;
@@ -147,8 +163,10 @@ bool allocator::create(device_cptr device, VmaAllocatorCreateFlags flags) {
         .vkDestroyImage = device->call().vkDestroyImage,
         .vkCmdCopyBuffer = device->call().vkCmdCopyBuffer,
 #if VMA_DEDICATED_ALLOCATION
-        .vkGetBufferMemoryRequirements2KHR = device->call().vkGetBufferMemoryRequirements2KHR,
-        .vkGetImageMemoryRequirements2KHR = device->call().vkGetImageMemoryRequirements2KHR,
+        .vkGetBufferMemoryRequirements2KHR =
+            device->call().vkGetBufferMemoryRequirements2KHR,
+        .vkGetImageMemoryRequirements2KHR =
+            device->call().vkGetImageMemoryRequirements2KHR,
 #endif
 #if VMA_BIND_MEMORY2
         .vkBindBufferMemory2KHR = device->call().vkBindBufferMemory2KHR,

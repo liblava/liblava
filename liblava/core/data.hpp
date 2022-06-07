@@ -66,7 +66,8 @@ inline data_ptr as_ptr(auto* value) {
  *
  * @return auto    Aligned value
  */
-inline auto align_up(auto value, auto align) {
+inline auto align_up(auto value,
+                     auto align) {
     return (value + align - 1) / align * align;
 }
 
@@ -78,7 +79,8 @@ inline auto align_up(auto value, auto align) {
  *
  * @return size_t    Aligned size
  */
-inline size_t align(size_t size, size_t min = 0) {
+inline size_t align(size_t size,
+                    size_t min = 0) {
     if (min == 0)
         return align_up(size, sizeof(void*));
 
@@ -107,7 +109,8 @@ inline size_t align(size_t min = 0) {
  *
  * @return void*       Allocated data
  */
-inline void* alloc_data(size_t size, size_t alignment = sizeof(c8)) {
+inline void* alloc_data(size_t size,
+                        size_t alignment = sizeof(c8)) {
 #if _WIN32
     return _aligned_malloc(size, alignment);
 #else
@@ -137,7 +140,9 @@ inline void free_data(void* data) {
  *
  * @return void*       Reallocated data
  */
-inline void* realloc_data(void* data, size_t size, size_t alignment) {
+inline void* realloc_data(void* data,
+                          size_t size,
+                          size_t alignment) {
 #if _WIN32
     return _aligned_realloc(data, size, alignment);
 #else
@@ -180,7 +185,8 @@ struct data {
      * @param length   Length of data
      * @param mode     Data mode
      */
-    void set(size_t length, data_mode mode = data_mode::alloc) {
+    void set(size_t length,
+             data_mode mode = data_mode::alloc) {
         size = length;
         alignment = align<data_ptr>();
 
@@ -247,7 +253,8 @@ struct cdata {
      * @param ptr       Pointer to data
      * @param length    Length of data
      */
-    cdata(void const* ptr, size_t length)
+    cdata(void const* ptr,
+          size_t length)
     : ptr(as_ptr(ptr)), size(length) {}
 
     /**
@@ -278,7 +285,8 @@ struct unique_data : data {
      * @param length    Length of data
      * @param mode      Data mode
      */
-    unique_data(size_t length = 0, data_mode mode = data_mode::alloc) {
+    unique_data(size_t length = 0,
+                data_mode mode = data_mode::alloc) {
         if (length)
             set(length, mode);
     }

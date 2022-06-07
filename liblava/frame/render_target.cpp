@@ -12,8 +12,16 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool render_target::create(device_ptr device, VkSurfaceKHR surface, VkSurfaceFormatKHR format, uv2 size, bool v_sync) {
-    if (!target.create(device, surface, format, size, v_sync))
+bool render_target::create(device_p device,
+                           VkSurfaceKHR surface,
+                           VkSurfaceFormatKHR format,
+                           uv2 size,
+                           bool v_sync) {
+    if (!target.create(device,
+                       surface,
+                       format,
+                       size,
+                       v_sync))
         return false;
 
     swapchain_callback.on_created = [&]() {
@@ -21,7 +29,8 @@ bool render_target::create(device_ptr device, VkSurfaceKHR surface, VkSurfaceFor
             auto target_attachments = on_create_attachments();
 
             for (auto& callback : target_callbacks)
-                if (!callback->on_created(target_attachments, { {}, get_size() }))
+                if (!callback->on_created(target_attachments,
+                                          { {}, get_size() }))
                     return false;
         }
 
@@ -57,7 +66,10 @@ void render_target::destroy() {
 }
 
 //-----------------------------------------------------------------------------
-render_target::ptr create_target(window* window, device_ptr device, bool v_sync, surface_format_request request) {
+render_target::ptr create_target(window* window,
+                                 device_p device,
+                                 bool v_sync,
+                                 surface_format_request request) {
     auto surface = window->create_surface();
     if (!surface)
         return nullptr;
@@ -65,9 +77,14 @@ render_target::ptr create_target(window* window, device_ptr device, bool v_sync,
     if (!device->surface_supported(surface))
         return nullptr;
 
-    auto surface_format = get_surface_format(device->get_vk_physical_device(), surface, request);
+    auto surface_format = get_surface_format(device->get_vk_physical_device(),
+                                             surface,
+                                             request);
+
     if (surface_format.format == VK_FORMAT_UNDEFINED) {
-        vkDestroySurfaceKHR(instance::get(), surface, memory::alloc());
+        vkDestroySurfaceKHR(instance::get(),
+                            surface,
+                            memory::alloc());
         return nullptr;
     }
 
@@ -76,12 +93,19 @@ render_target::ptr create_target(window* window, device_ptr device, bool v_sync,
     window->get_framebuffer_size(width, height);
 
     auto target = std::make_shared<render_target>();
-    if (!target->create(device, surface, surface_format, { width, height }, v_sync))
+    if (!target->create(device,
+                        surface,
+                        surface_format,
+                        { width, height },
+                        v_sync))
         return nullptr;
 
     auto target_ptr = target.get();
 
-    window->on_resize = [&, target_ptr](ui32 new_width, ui32 new_height) { return target_ptr->resize({ new_width, new_height }); };
+    window->on_resize =
+        [&, target_ptr](ui32 new_width, ui32 new_height) {
+            return target_ptr->resize({ new_width, new_height });
+        };
 
     return target;
 }

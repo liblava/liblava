@@ -49,7 +49,8 @@ struct allocator {
      * @return true     Create was successfal
      * @return false    Create failed
      */
-    bool create(device_cptr device, VmaAllocatorCreateFlags flags = 0);
+    bool create(device_cptr device,
+                VmaAllocatorCreateFlags flags = 0);
 
     /**
      * @brief Destroy the allocator
@@ -97,7 +98,8 @@ inline allocator::ptr make_allocator() {
  *
  * @return allocator::ptr    Allocator
  */
-inline allocator::ptr create_allocator(device_cptr device, VmaAllocatorCreateFlags flags = 0) {
+inline allocator::ptr create_allocator(device_cptr device,
+                                       VmaAllocatorCreateFlags flags = 0) {
     auto result = make_allocator();
     if (!result->create(device, flags))
         return nullptr;
@@ -140,7 +142,8 @@ struct memory : no_copy_no_move {
      *
      * @return type                  Result type
      */
-    static type find_type_with_properties(VkPhysicalDeviceMemoryProperties properties, ui32 type_bits,
+    static type find_type_with_properties(VkPhysicalDeviceMemoryProperties properties,
+                                          ui32 type_bits,
                                           VkMemoryPropertyFlags required_properties);
 
     /**
@@ -152,7 +155,9 @@ struct memory : no_copy_no_move {
      *
      * @return type         Result type
      */
-    static type find_type(VkPhysicalDevice gpu, VkMemoryPropertyFlags properties, ui32 type_bits);
+    static type find_type(VkPhysicalDevice gpu,
+                          VkMemoryPropertyFlags properties,
+                          ui32 type_bits);
 
     /**
      * @brief Set the callbacks object
@@ -181,7 +186,7 @@ private:
     /// Use custom cpu callbacks
     bool use_custom_cpu_callbacks = true;
 
-    /// @see https://www.khronos.org/registry/vulkan/specs/1.2-extensions/man/html/VkAllocationCallbacks.html
+    /// @see https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/VkAllocationCallbacks.html
     VkAllocationCallbacks vk_callbacks = {};
 };
 

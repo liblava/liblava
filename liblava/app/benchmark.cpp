@@ -123,9 +123,13 @@ bool write_frames_json(benchmark_data& data) {
     j[_benchmark_][_count_] = frame_count;
     j[_frames_] = frame_durations;
 
-    j[_benchmark_][_min_] = *std::min_element(frame_durations.begin(), frame_durations.end());
-    j[_benchmark_][_max_] = *std::max_element(frame_durations.begin(), frame_durations.end());
-    j[_benchmark_][_avg_] = std::accumulate(frame_durations.begin(), frame_durations.end(), 0) / (r32) frame_count;
+    j[_benchmark_][_min_] = *std::min_element(frame_durations.begin(),
+                                              frame_durations.end());
+    j[_benchmark_][_max_] = *std::max_element(frame_durations.begin(),
+                                              frame_durations.end());
+    j[_benchmark_][_avg_] = std::accumulate(frame_durations.begin(),
+                                            frame_durations.end(), 0)
+                            / (r32) frame_count;
 
     auto file_path = std::filesystem::path(data.file);
 
@@ -136,7 +140,8 @@ bool write_frames_json(benchmark_data& data) {
 
     file file(str(file_path.string()), file_mode::write);
     if (!file.opened()) {
-        log()->error("save benchmark ({}) - {}", str(file_path.string()), str(j.dump()));
+        log()->error("save benchmark ({}) - {}",
+                     str(file_path.string()), str(j.dump()));
         return false;
     }
 
@@ -144,7 +149,8 @@ bool write_frames_json(benchmark_data& data) {
 
     file.write(jString.data(), jString.size());
 
-    log()->info("save benchmark ({}) - {}", str(file_path.string()), str(j.dump()));
+    log()->info("save benchmark ({}) - {}",
+                str(file_path.string()), str(j.dump()));
     return true;
 }
 

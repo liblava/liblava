@@ -233,7 +233,7 @@ input.key.listeners.add([&](key_event::ref event) {
     return input_ignore;
 });
 
-lava::device_ptr device = frame.platform.create_device();
+lava::device_p device = frame.platform.create_device();
 if (!device)
     return error::create_failed;
 
@@ -262,7 +262,9 @@ auto build_cmd_bufs = [&]() {
         .flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT,
     };
 
-    VkClearColorValue const clear_color = { random(1.f), random(1.f), random(1.f), 0.f };
+    VkClearColorValue const clear_color = { 
+        random(1.f), random(1.f), random(1.f), 0.f 
+    };
 
     VkImageSubresourceRange const image_range{
         .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
@@ -277,19 +279,31 @@ auto build_cmd_bufs = [&]() {
         if (failed(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
             return build_failed;
 
-        insert_image_memory_barrier(device, cmd_buf, frame_image,
-                                    VK_ACCESS_MEMORY_READ_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
-                                    VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                                    VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
+        insert_image_memory_barrier(device,
+                                    cmd_buf,
+                                    frame_image,
+                                    VK_ACCESS_MEMORY_READ_BIT,
+                                    VK_ACCESS_TRANSFER_WRITE_BIT,
+                                    VK_IMAGE_LAYOUT_UNDEFINED,
+                                    VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                    VK_PIPELINE_STAGE_TRANSFER_BIT,
+                                    VK_PIPELINE_STAGE_TRANSFER_BIT,
                                     image_range);
 
-        device->call().vkCmdClearColorImage(cmd_buf, frame_image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                                            &clear_color, 1, &image_range);
+        device->call().vkCmdClearColorImage(cmd_buf,
+                                            frame_image,
+                                            VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                            &clear_color,
+                                            1,
+                                            &image_range);
 
-        insert_image_memory_barrier(device, cmd_buf, frame_image,
-                                    VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_MEMORY_READ_BIT,
-                                    VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
-                                    VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+        insert_image_memory_barrier(device,
+                                    cmd_buf,
+                                    frame_image,
+                                    VK_ACCESS_TRANSFER_WRITE_BIT,
+                                    VK_ACCESS_MEMORY_READ_BIT,
+                                    VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+                                    VK_PIPELINE_STAGE_TRANSFER_BIT,VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
                                     image_range);
 
         if (failed(device->call().vkEndCommandBuffer(cmd_buf)))
@@ -374,7 +388,9 @@ if (!block.create(device, frame_count, device->graphics_queue().family))
     return error::create_failed;
 
 block.add_command([&](VkCommandBuffer cmd_buf) {
-    VkClearColorValue const clear_color = { random(1.f), random(1.f), random(1.f), 0.f };
+    VkClearColorValue const clear_color = {
+        random(1.f), random(1.f), random(1.f), 0.f
+    };
 
     VkImageSubresourceRange const image_range{
         .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
@@ -384,19 +400,33 @@ block.add_command([&](VkCommandBuffer cmd_buf) {
 
     VkImage frame_image = render_target->get_image(block.get_current_frame());
 
-    insert_image_memory_barrier(device, cmd_buf, frame_image,
-                                VK_ACCESS_MEMORY_READ_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
-                                VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                                VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
+    insert_image_memory_barrier(device,
+                                cmd_buf,
+                                frame_image,
+                                VK_ACCESS_MEMORY_READ_BIT,
+                                VK_ACCESS_TRANSFER_WRITE_BIT,
+                                VK_IMAGE_LAYOUT_UNDEFINED,
+                                VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                VK_PIPELINE_STAGE_TRANSFER_BIT,
+                                VK_PIPELINE_STAGE_TRANSFER_BIT,
                                 image_range);
 
-    device->call().vkCmdClearColorImage(cmd_buf, frame_image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                                        &clear_color, 1, &image_range);
+    device->call().vkCmdClearColorImage(cmd_buf,
+                                        frame_image,
+                                        VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                        &clear_color,
+                                        1,
+                                        &image_range);
 
-    insert_image_memory_barrier(device, cmd_buf, frame_image,
-                                VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_MEMORY_READ_BIT,
-                                VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
-                                VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+    insert_image_memory_barrier(device,
+                                cmd_buf,
+                                frame_image,
+                                VK_ACCESS_TRANSFER_WRITE_BIT,
+                                VK_ACCESS_MEMORY_READ_BIT,
+                                VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+                                VK_PIPELINE_STAGE_TRANSFER_BIT,
+                                VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
                                 image_range);
 });
 ```

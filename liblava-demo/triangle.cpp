@@ -50,15 +50,18 @@ int main(int argc, char* argv[]) {
         pipeline = make_graphics_pipeline(app.device);
         pipeline->set_layout(layout);
 
-        if (!pipeline->add_shader({ vert_shader, sizeof(vert_shader) }, VK_SHADER_STAGE_VERTEX_BIT))
+        if (!pipeline->add_shader({ vert_shader, sizeof(vert_shader) },
+                                  VK_SHADER_STAGE_VERTEX_BIT))
             return false;
 
-        if (!pipeline->add_shader({ frag_shader, sizeof(frag_shader) }, VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!pipeline->add_shader({ frag_shader, sizeof(frag_shader) },
+                                  VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         pipeline->add_color_blend_attachment();
 
         pipeline->set_vertex_input_binding({ 0, sizeof(vertex), VK_VERTEX_INPUT_RATE_VERTEX });
+
         pipeline->set_vertex_input_attributes({
             { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position)) },
             { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color)) },

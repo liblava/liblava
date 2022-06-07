@@ -53,22 +53,30 @@ void log_verify_queues_failed(verify_queues_result result) {
 
 //-----------------------------------------------------------------------------
 void device::create_param::set_all_queues() {
-    lava::set_all_queues(queue_family_infos, physical_device->get_queue_family_properties());
+    lava::set_all_queues(queue_family_infos,
+                         physical_device->get_queue_family_properties());
 }
 
 //-----------------------------------------------------------------------------
 bool device::create_param::add_queues(VkQueueFlags flags, ui32 count, r32 priority) {
-    return lava::add_queues(queue_family_infos, physical_device->get_queue_family_properties(), flags, count, priority);
+    return lava::add_queues(queue_family_infos,
+                            physical_device->get_queue_family_properties(),
+                            flags,
+                            count,
+                            priority);
 }
 
 //-----------------------------------------------------------------------------
 bool device::create_param::add_dedicated_queues(r32 priority) {
-    return lava::add_dedicated_queues(queue_family_infos, physical_device->get_queue_family_properties(), priority);
+    return lava::add_dedicated_queues(queue_family_infos,
+                                      physical_device->get_queue_family_properties(),
+                                      priority);
 }
 
 //-----------------------------------------------------------------------------
 verify_queues_result device::create_param::verify_queues() const {
-    return lava::verify_queues(queue_family_infos, physical_device->get_queue_family_properties());
+    return lava::verify_queues(queue_family_infos,
+                               physical_device->get_queue_family_properties());
 }
 
 //-----------------------------------------------------------------------------
@@ -83,7 +91,8 @@ bool device::create(create_param::ref param) {
         return false;
     }
 
-    std::vector<VkDeviceQueueCreateInfo> queue_create_info_list(param.queue_family_infos.size());
+    std::vector<VkDeviceQueueCreateInfo> queue_create_info_list(
+        param.queue_family_infos.size());
 
     std::vector<std::vector<r32>> priorities;
     priorities.resize(param.queue_family_infos.size());
@@ -108,7 +117,9 @@ bool device::create(create_param::ref param) {
         .ppEnabledLayerNames = nullptr,
         .enabledExtensionCount = to_ui32(param.extensions.size()),
         .ppEnabledExtensionNames = param.extensions.data(),
-        .pEnabledFeatures = (param.has_features_2) ? nullptr : &param.features,
+        .pEnabledFeatures = (param.has_features_2)
+                                ? nullptr
+                                : &param.features,
     };
 
     if (instance::singleton().has_profile()) {
@@ -125,12 +136,18 @@ bool device::create(create_param::ref param) {
             vp_create_info.pProfile = &profile_properties,
         };
 
-        if (failed(vpCreateDevice(physical_device->get(), &vp_create_info, memory::alloc(), &vk_device))) {
+        if (failed(vpCreateDevice(physical_device->get(),
+                                  &vp_create_info,
+                                  memory::alloc(),
+                                  &vk_device))) {
             log()->error("create device with profile");
             return false;
         }
     } else {
-        if (failed(vkCreateDevice(physical_device->get(), &create_info, memory::alloc(), &vk_device))) {
+        if (failed(vkCreateDevice(physical_device->get(),
+                                  &create_info,
+                                  memory::alloc(),
+                                  &vk_device))) {
             log()->error("create device");
             return false;
         }
@@ -147,11 +164,17 @@ bool device::create(create_param::ref param) {
 
     for (auto i = 0u; i != queue_create_info_list.size(); ++i) {
         auto queue_family_index = queue_create_info_list[i].queueFamilyIndex;
-        auto queue_family_flags = physical_device->get_queue_family_properties().at(queue_family_index).queueFlags;
+        auto queue_family_flags =
+            physical_device->get_queue_family_properties().at(queue_family_index).queueFlags;
 
-        for (auto queue_index = 0u; queue_index != queue_create_info_list[i].queueCount; ++queue_index) {
+        for (auto queue_index = 0u;
+             queue_index != queue_create_info_list[i].queueCount;
+             ++queue_index) {
             VkQueue vk_queue = nullptr;
-            call().vkGetDeviceQueue(vk_device, queue_family_index, queue_index, &vk_queue);
+            call().vkGetDeviceQueue(vk_device,
+                                    queue_family_index,
+                                    queue_index,
+                                    &vk_queue);
 
             auto flags = param.queue_family_infos[i].queues.at(queue_index).flags;
             auto priority = queue_create_info_list[i].pQueuePriorities[queue_index];
@@ -221,7 +244,7 @@ VkPhysicalDeviceProperties const& device::get_properties() const {
 }
 
 //-----------------------------------------------------------------------------
-VkShaderModule create_shader_module(device_ptr device, cdata::ref data) {
+VkShaderModule create_shader_module(device_p device, cdata::ref data) {
     VkShaderModuleCreateInfo shader_module_create_info{
         .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
         .codeSize = data.size,
@@ -229,23 +252,32 @@ VkShaderModule create_shader_module(device_ptr device, cdata::ref data) {
     };
 
     VkShaderModule result;
-    if (!device->vkCreateShaderModule(&shader_module_create_info, memory::alloc(), &result))
+    if (!device->vkCreateShaderModule(&shader_module_create_info,
+                                      memory::alloc(),
+                                      &result))
         return 0;
 
     return result;
 }
 
 //-----------------------------------------------------------------------------
-bool one_time_command_buffer(device_ptr device, VkCommandPool pool, queue::ref queue, one_time_command_func callback) {
+bool one_time_command_buffer(device_p device,
+                             VkCommandPool pool,
+                             queue::ref queue,
+                             one_time_command_func callback) {
     if (!callback)
         return false;
 
     VkCommandBuffer cmd_buf = nullptr;
-    if (!device->vkAllocateCommandBuffers(pool, 1, &cmd_buf, VK_COMMAND_BUFFER_LEVEL_PRIMARY))
+    if (!device->vkAllocateCommandBuffers(pool, 1,
+                                          &cmd_buf,
+                                          VK_COMMAND_BUFFER_LEVEL_PRIMARY))
         return false;
 
-    VkCommandBufferBeginInfo const begin_info = { .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
-                                                  .flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT };
+    VkCommandBufferBeginInfo const begin_info = {
+        .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
+        .flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT
+    };
     if (!check(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
         return false;
 
@@ -254,7 +286,9 @@ bool one_time_command_buffer(device_ptr device, VkCommandPool pool, queue::ref q
     device->call().vkEndCommandBuffer(cmd_buf);
 
     VkFence fence = VK_NULL_HANDLE;
-    VkFenceCreateInfo const fence_info = { .sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO };
+    VkFenceCreateInfo const fence_info = {
+        .sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO
+    };
     if (!device->vkCreateFence(&fence_info, &fence))
         return false;
 
@@ -266,7 +300,7 @@ bool one_time_command_buffer(device_ptr device, VkCommandPool pool, queue::ref q
         return false;
     }
 
-    device->vkWaitForFences(1, &fence, VK_TRUE, ~0);
+    device->vkWaitForFences(1, &fence, VK_TRUE, UINT64_MAX);
     device->vkDestroyFence(fence);
 
     device->vkFreeCommandBuffers(pool, 1, &cmd_buf);

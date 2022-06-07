@@ -11,7 +11,11 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool texture::create(device_ptr device, uv2 size, VkFormat format, layer::list const& l, texture_type t) {
+bool texture::create(device_p device,
+                     uv2 size,
+                     VkFormat format,
+                     layer::list const& l,
+                     texture_type t) {
     layers = l;
     type = t;
 
@@ -59,11 +63,10 @@ bool texture::create(device_ptr device, uv2 size, VkFormat format, layer::list c
         img->set_flags(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
 
     auto view_type = VK_IMAGE_VIEW_TYPE_2D;
-    if (type == texture_type::array) {
+    if (type == texture_type::array)
         view_type = VK_IMAGE_VIEW_TYPE_2D_ARRAY;
-    } else if (type == texture_type::cube_map) {
+    else if (type == texture_type::cube_map)
         view_type = VK_IMAGE_VIEW_TYPE_CUBE;
-    }
 
     img->set_level_count(to_ui32(layers.front().levels.size()));
     img->set_layer_count(to_ui32(layers.size()));
@@ -105,10 +108,16 @@ void texture::destroy_upload_buffer() {
 }
 
 //-----------------------------------------------------------------------------
-bool texture::upload(void const* data, size_t data_size) {
+bool texture::upload(void const* data,
+                     size_t data_size) {
     upload_buffer = make_buffer();
 
-    return upload_buffer->create(img->get_device(), data, data_size, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, false, VMA_MEMORY_USAGE_CPU_TO_GPU);
+    return upload_buffer->create(img->get_device(),
+                                 data,
+                                 data_size,
+                                 VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+                                 false,
+                                 VMA_MEMORY_USAGE_CPU_TO_GPU);
 }
 
 //-----------------------------------------------------------------------------
@@ -128,7 +137,8 @@ bool texture::stage(VkCommandBuffer cmd_buf) {
 
     auto device = img->get_device();
 
-    set_image_layout(device, cmd_buf, img->get(), VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range,
+    set_image_layout(device, cmd_buf, img->get(), VK_IMAGE_LAYOUT_UNDEFINED,
+                     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range,
                      VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
 
     std::vector<VkBufferImageCopy> regions;
@@ -137,7 +147,9 @@ bool texture::stage(VkCommandBuffer cmd_buf) {
         auto offset = 0u;
 
         for (auto layer = 0u; layer < layers.size(); ++layer) {
-            for (auto level = 0u; level < to_ui32(layers.front().levels.size()); ++level) {
+            for (auto level = 0u;
+                 level < to_ui32(layers.front().levels.size());
+                 ++level) {
                 VkImageSubresourceLayers image_subresource{
                     .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
                     .mipLevel = level,
@@ -184,19 +196,30 @@ bool texture::stage(VkCommandBuffer cmd_buf) {
         regions.push_back(region);
     }
 
-    device->call().vkCmdCopyBufferToImage(cmd_buf, upload_buffer->get(), img->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                                          to_ui32(regions.size()), regions.data());
+    device->call().vkCmdCopyBufferToImage(cmd_buf,
+                                          upload_buffer->get(),
+                                          img->get(),
+                                          VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                          to_ui32(regions.size()),
+                                          regions.data());
 
-    set_image_layout(device, cmd_buf, img->get(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                     VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, subresource_range,
-                     VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+    set_image_layout(device,
+                     cmd_buf,
+                     img->get(),
+                     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                     VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
+                     subresource_range,
+                     VK_PIPELINE_STAGE_TRANSFER_BIT,
+                     VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
 
     return true;
 }
 
 //-----------------------------------------------------------------------------
-bool staging::stage(VkCommandBuffer cmd_buf, index frame) {
-    if (!staged.empty() && staged.count(frame) && !staged.at(frame).empty()) {
+bool staging::stage(VkCommandBuffer cmd_buf,
+                    index frame) {
+    if (!staged.empty() && staged.count(frame)
+        && !staged.at(frame).empty()) {
         for (auto& texture : staged.at(frame))
             texture->destroy_upload_buffer();
 

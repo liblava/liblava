@@ -37,30 +37,23 @@ struct file_system : no_copy_no_move {
     /**
      * @brief Get the base directory
      *
-     * @return name    Base directory
-     */
-    static name get_base_dir();
-
-    /**
-     * @brief Get the base directory as string
-     *
      * @return string    Base directory
      */
-    static string get_base_dir_str();
+    static string get_base_dir();
 
     /**
      * @brief Get the preferences directory
      *
      * @return name    Preferences directory
      */
-    static name get_pref_dir();
+    static string get_pref_dir();
 
     /**
-     * @brief Get the resource directory as string
+     * @brief Get the resource directory
      *
      * @return string    Resource directory
      */
-    static string get_res_dir_str();
+    static string get_res_dir();
 
     /**
      * @brief Mount path
@@ -121,7 +114,10 @@ struct file_system : no_copy_no_move {
      * @return true     Initialize was successful
      * @return false    Initialize failed
      */
-    bool initialize(name argv_0, name org, name app, name ext);
+    bool initialize(name argv_0,
+                    name org,
+                    name app,
+                    name ext);
 
     /**
      * @brief Terminate the file system

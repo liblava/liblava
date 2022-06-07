@@ -58,7 +58,8 @@ void set_clipboard_text(void* user_data, name text) {
 
 //-----------------------------------------------------------------------------
 void imgui::handle_mouse_button_event(i32 button, i32 action, i32 mods) {
-    if (action == GLFW_PRESS && button >= 0 && button < IM_ARRAYSIZE(mouse_just_pressed))
+    if (action == GLFW_PRESS && button >= 0
+        && button < IM_ARRAYSIZE(mouse_just_pressed))
         mouse_just_pressed[button] = true;
 }
 
@@ -79,10 +80,14 @@ void imgui::handle_key_event(i32 key, i32 scancode, i32 action, i32 mods) {
     if (action == GLFW_RELEASE)
         io.KeysDown[key] = false;
 
-    io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
-    io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
-    io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
-    io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+    io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL]
+                 || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+    io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT]
+                  || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+    io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT]
+                || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+    io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER]
+                  || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
 }
 
 //-----------------------------------------------------------------------------
@@ -90,7 +95,8 @@ void imgui::update_mouse_pos_and_buttons() {
     auto& io = ImGui::GetIO();
 
     for (auto i = 0; i < IM_ARRAYSIZE(io.MouseDown); ++i) {
-        io.MouseDown[i] = mouse_just_pressed[i] || glfwGetMouseButton(window, i) != 0;
+        io.MouseDown[i] = mouse_just_pressed[i]
+                          || glfwGetMouseButton(window, i) != 0;
         mouse_just_pressed[i] = false;
     }
 
@@ -99,7 +105,8 @@ void imgui::update_mouse_pos_and_buttons() {
 
     if (glfwGetWindowAttrib(window, GLFW_FOCUSED)) {
         if (io.WantSetMousePos) {
-            glfwSetCursorPos(window, (double) mouse_pos_backup.x, (double) mouse_pos_backup.y);
+            glfwSetCursorPos(window,
+                             (double) mouse_pos_backup.x, (double) mouse_pos_backup.y);
         } else {
             double mouse_x, mouse_y;
             glfwGetCursorPos(window, &mouse_x, &mouse_y);
@@ -111,14 +118,17 @@ void imgui::update_mouse_pos_and_buttons() {
 //-----------------------------------------------------------------------------
 void imgui::update_mouse_cursor() {
     auto& io = ImGui::GetIO();
-    if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange) || glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED)
+    if ((io.ConfigFlags & ImGuiConfigFlags_NoMouseCursorChange)
+        || glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED)
         return;
 
     auto const imgui_cursor = ImGui::GetMouseCursor();
     if (imgui_cursor == ImGuiMouseCursor_None || io.MouseDrawCursor) {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     } else {
-        glfwSetCursor(window, mouse_cursors[imgui_cursor] ? mouse_cursors[imgui_cursor] : mouse_cursors[ImGuiMouseCursor_Arrow]);
+        glfwSetCursor(window, mouse_cursors[imgui_cursor]
+                                  ? mouse_cursors[imgui_cursor]
+                                  : mouse_cursors[ImGuiMouseCursor_Arrow]);
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
 }
@@ -178,13 +188,17 @@ void imgui::setup(GLFWwindow* w, config config) {
         ImFontConfig font_config;
         font_config.FontDataOwnedByAtlas = false;
 
-        io.Fonts->AddFontFromMemoryTTF(config.font_data.ptr, to_i32(config.font_data.size), config.font_size, &font_config);
+        io.Fonts->AddFontFromMemoryTTF(config.font_data.ptr,
+                                       to_i32(config.font_data.size),
+                                       config.font_size,
+                                       &font_config);
     } else {
         io.Fonts->AddFontDefault();
     }
 
     if (config.icon.font_data.ptr) {
-        static const ImWchar icons_ranges[] = { config.icon.range_begin, config.icon.range_end, 0 };
+        static const ImWchar icons_ranges[] = { config.icon.range_begin,
+                                                config.icon.range_end, 0 };
 
         ImFontConfig icon_config;
         icon_config.MergeMode = true;
@@ -192,8 +206,11 @@ void imgui::setup(GLFWwindow* w, config config) {
         icon_config.PixelSnapH = true;
         icon_config.FontDataOwnedByAtlas = false;
 
-        io.Fonts->AddFontFromMemoryTTF(config.icon.font_data.ptr, to_i32(config.icon.font_data.size),
-                                       config.icon.size, &icon_config, icons_ranges);
+        io.Fonts->AddFontFromMemoryTTF(config.icon.font_data.ptr,
+                                       to_i32(config.icon.font_data.size),
+                                       config.icon.size,
+                                       &icon_config,
+                                       icons_ranges);
     }
 
     io.SetClipboardTextFn = set_clipboard_text;
@@ -222,7 +239,10 @@ void imgui::setup(GLFWwindow* w, config config) {
 
     callback.on_key_event = [&](key_event const& event) {
         if (activated())
-            handle_key_event(to_i32(event.key), event.scancode, to_i32(event.action), to_i32(event.mod));
+            handle_key_event(to_i32(event.key),
+                             event.scancode,
+                             to_i32(event.action),
+                             to_i32(event.mod));
 
         return capture_keyboard();
     };
@@ -236,7 +256,9 @@ void imgui::setup(GLFWwindow* w, config config) {
 
     callback.on_mouse_button_event = [&](mouse_button_event const& event) {
         if (activated())
-            handle_mouse_button_event(to_i32(event.button), to_i32(event.action), to_i32(event.mod));
+            handle_mouse_button_event(to_i32(event.button),
+                                      to_i32(event.action),
+                                      to_i32(event.mod));
 
         return capture_mouse();
     };
@@ -270,10 +292,17 @@ void imgui::new_frame() {
     glfwGetWindowSize(window, &w, &h);
     glfwGetFramebufferSize(window, &display_w, &display_h);
     io.DisplaySize = ImVec2((r32) w, (r32) h);
-    io.DisplayFramebufferScale = ImVec2(w > 0 ? ((r32) display_w / w) : 0, h > 0 ? ((r32) display_h / h) : 0);
+    io.DisplayFramebufferScale = ImVec2(w > 0
+                                            ? ((r32) display_w / w)
+                                            : 0,
+                                        h > 0
+                                            ? ((r32) display_h / h)
+                                            : 0);
 
     auto now = glfwGetTime();
-    io.DeltaTime = current_time > 0.0 ? (r32) (now - current_time) : (1.f / 60.f);
+    io.DeltaTime = current_time > 0.0
+                       ? (r32) (now - current_time)
+                       : (1.f / 60.f);
     current_time = now;
 
     update_mouse_pos_and_buttons();
@@ -333,21 +362,26 @@ bool imgui::create(graphics_pipeline::ptr p, index mf) {
         { 2, 0, VK_FORMAT_R8G8B8A8_UNORM, to_ui32(offsetof(ImDrawVert, col)) },
     });
 
-    if (!pipeline->add_shader({ imgui_vert_shader, sizeof(imgui_vert_shader) }, VK_SHADER_STAGE_VERTEX_BIT))
+    if (!pipeline->add_shader({ imgui_vert_shader, sizeof(imgui_vert_shader) },
+                              VK_SHADER_STAGE_VERTEX_BIT))
         return false;
 
-    if (!pipeline->add_shader({ imgui_frag_shader, sizeof(imgui_frag_shader) }, VK_SHADER_STAGE_FRAGMENT_BIT))
+    if (!pipeline->add_shader({ imgui_frag_shader, sizeof(imgui_frag_shader) },
+                              VK_SHADER_STAGE_FRAGMENT_BIT))
         return false;
 
     pipeline->add_color_blend_attachment();
 
     descriptor = make_descriptor();
-    descriptor->add_binding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
+    descriptor->add_binding(0,
+                            VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                            VK_SHADER_STAGE_FRAGMENT_BIT);
     if (!descriptor->create(device))
         return false;
 
     descriptor_pool = make_descriptor_pool();
-    if (!descriptor_pool->create(device, { { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1 } }))
+    if (!descriptor_pool->create(device,
+                                 { { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1 } }))
         return false;
 
     layout = make_pipeline_layout();
@@ -371,7 +405,9 @@ bool imgui::create(graphics_pipeline::ptr p, index mf) {
         if (on_draw)
             on_draw();
 
-        scoped_label label(cmd_buf, _lava_gui_, { 0.9f, 0.75f, 0.f, 1.f });
+        scoped_label label(cmd_buf,
+                           _lava_gui_,
+                           { 0.9f, 0.75f, 0.f, 1.f });
 
         render(cmd_buf);
     };
@@ -455,22 +491,34 @@ void imgui::render(VkCommandBuffer cmd_buf) {
 //-----------------------------------------------------------------------------
 void imgui::prepare_draw_lists(ImDrawData* draw_data) {
     auto vertex_size = draw_data->TotalVtxCount * sizeof(ImDrawVert);
-    if (!vertex_buffers[frame]->valid() || vertex_buffers[frame]->get_size() < vertex_size) {
+    if (!vertex_buffers[frame]->valid()
+        || vertex_buffers[frame]->get_size() < vertex_size) {
         if (vertex_buffers[frame]->valid())
             vertex_buffers[frame]->destroy();
 
-        if (!vertex_buffers[frame]->create(device, nullptr, ((vertex_size - 1) / buffer_memory_alignment + 1) * buffer_memory_alignment,
-                                           VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, true, VMA_MEMORY_USAGE_CPU_TO_GPU))
+        if (!vertex_buffers[frame]->create(device,
+                                           nullptr,
+                                           ((vertex_size - 1) / buffer_memory_alignment + 1)
+                                               * buffer_memory_alignment,
+                                           VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+                                           true,
+                                           VMA_MEMORY_USAGE_CPU_TO_GPU))
             return;
     }
 
     auto index_size = draw_data->TotalIdxCount * sizeof(ImDrawIdx);
-    if (!index_buffers[frame]->valid() || index_buffers[frame]->get_size() < index_size) {
+    if (!index_buffers[frame]->valid()
+        || index_buffers[frame]->get_size() < index_size) {
         if (index_buffers[frame]->valid())
             index_buffers[frame]->destroy();
 
-        if (!index_buffers[frame]->create(device, nullptr, ((index_size - 1) / buffer_memory_alignment + 1) * buffer_memory_alignment,
-                                          VK_BUFFER_USAGE_INDEX_BUFFER_BIT, true, VMA_MEMORY_USAGE_CPU_TO_GPU))
+        if (!index_buffers[frame]->create(device,
+                                          nullptr,
+                                          ((index_size - 1) / buffer_memory_alignment + 1)
+                                              * buffer_memory_alignment,
+                                          VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
+                                          true,
+                                          VMA_MEMORY_USAGE_CPU_TO_GPU))
             return;
     }
 
@@ -480,8 +528,10 @@ void imgui::prepare_draw_lists(ImDrawData* draw_data) {
     for (auto i = 0; i < draw_data->CmdListsCount; ++i) {
         auto const* cmd_list = draw_data->CmdLists[i];
 
-        memcpy(vtx_dst, cmd_list->VtxBuffer.Data, cmd_list->VtxBuffer.Size * sizeof(ImDrawVert));
-        memcpy(idx_dst, cmd_list->IdxBuffer.Data, cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx));
+        memcpy(vtx_dst, cmd_list->VtxBuffer.Data,
+               cmd_list->VtxBuffer.Size * sizeof(ImDrawVert));
+        memcpy(idx_dst, cmd_list->IdxBuffer.Data,
+               cmd_list->IdxBuffer.Size * sizeof(ImDrawIdx));
 
         vtx_dst += cmd_list->VtxBuffer.Size;
         idx_dst += cmd_list->IdxBuffer.Size;
@@ -502,7 +552,9 @@ void imgui::prepare_draw_lists(ImDrawData* draw_data) {
     };
 
     std::array<VkMappedMemoryRange, 2> const ranges = { vertex_range, index_range };
-    check(device->call().vkFlushMappedMemoryRanges(device->get(), to_ui32(ranges.size()), ranges.data()));
+    check(device->call().vkFlushMappedMemoryRanges(device->get(),
+                                                   to_ui32(ranges.size()),
+                                                   ranges.data()));
 }
 
 //-----------------------------------------------------------------------------
@@ -517,9 +569,16 @@ void imgui::render_draw_lists(VkCommandBuffer cmd_buf) {
 
     std::array<VkDeviceSize, 1> const vertex_offset = { 0 };
     std::array<VkBuffer, 1> const buffers = { vertex_buffers[frame]->get() };
-    device->call().vkCmdBindVertexBuffers(cmd_buf, 0, to_ui32(buffers.size()), buffers.data(), vertex_offset.data());
+    device->call().vkCmdBindVertexBuffers(cmd_buf,
+                                          0,
+                                          to_ui32(buffers.size()),
+                                          buffers.data(),
+                                          vertex_offset.data());
 
-    device->call().vkCmdBindIndexBuffer(cmd_buf, index_buffers[frame]->get(), 0, VK_INDEX_TYPE_UINT16);
+    device->call().vkCmdBindIndexBuffer(cmd_buf,
+                                        index_buffers[frame]->get(),
+                                        0,
+                                        VK_INDEX_TYPE_UINT16);
 
     VkViewport viewport;
     viewport.x = 0;
@@ -530,19 +589,32 @@ void imgui::render_draw_lists(VkCommandBuffer cmd_buf) {
     viewport.maxDepth = 1.f;
 
     std::array<VkViewport, 1> const viewports = { viewport };
-    device->call().vkCmdSetViewport(cmd_buf, 0, to_ui32(viewports.size()), viewports.data());
+    device->call().vkCmdSetViewport(cmd_buf,
+                                    0,
+                                    to_ui32(viewports.size()),
+                                    viewports.data());
 
     auto& io = ImGui::GetIO();
 
     float scale[2];
     scale[0] = 2.f / io.DisplaySize.x;
     scale[1] = 2.f / io.DisplaySize.y;
-    device->call().vkCmdPushConstants(cmd_buf, layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 0, sizeof(float) * 2, scale);
+    device->call().vkCmdPushConstants(cmd_buf,
+                                      layout->get(),
+                                      VK_SHADER_STAGE_VERTEX_BIT,
+                                      sizeof(float) * 0,
+                                      sizeof(float) * 2,
+                                      scale);
 
     float translate[2];
     translate[0] = -1.f;
     translate[1] = -1.f;
-    device->call().vkCmdPushConstants(cmd_buf, layout->get(), VK_SHADER_STAGE_VERTEX_BIT, sizeof(float) * 2, sizeof(float) * 2, translate);
+    device->call().vkCmdPushConstants(cmd_buf,
+                                      layout->get(),
+                                      VK_SHADER_STAGE_VERTEX_BIT,
+                                      sizeof(float) * 2,
+                                      sizeof(float) * 2,
+                                      translate);
 
     auto vtx_offset = 0u;
     auto idx_offset = 0u;
@@ -555,16 +627,28 @@ void imgui::render_draw_lists(VkCommandBuffer cmd_buf) {
             } else {
                 VkRect2D scissor;
                 scissor.offset = {
-                    (i32) (cmd->ClipRect.x) > 0 ? (i32) (cmd->ClipRect.x) : 0,
-                    (i32) (cmd->ClipRect.y) > 0 ? (i32) (cmd->ClipRect.y) : 0
+                    (i32) (cmd->ClipRect.x) > 0
+                        ? (i32) (cmd->ClipRect.x)
+                        : 0,
+                    (i32) (cmd->ClipRect.y) > 0
+                        ? (i32) (cmd->ClipRect.y)
+                        : 0
                 };
                 scissor.extent = { (ui32) (cmd->ClipRect.z - cmd->ClipRect.x),
                                    (ui32) (cmd->ClipRect.w - cmd->ClipRect.y + 1) };
 
                 std::array<VkRect2D, 1> const scissors = { scissor };
-                device->call().vkCmdSetScissor(cmd_buf, 0, to_ui32(scissors.size()), scissors.data());
+                device->call().vkCmdSetScissor(cmd_buf,
+                                               0,
+                                               to_ui32(scissors.size()),
+                                               scissors.data());
 
-                device->call().vkCmdDrawIndexed(cmd_buf, cmd->ElemCount, 1, idx_offset, vtx_offset, 0);
+                device->call().vkCmdDrawIndexed(cmd_buf,
+                                                cmd->ElemCount,
+                                                1,
+                                                idx_offset,
+                                                vtx_offset,
+                                                0);
             }
 
             idx_offset += cmd->ElemCount;
@@ -612,7 +696,8 @@ void setup_imgui_font(imgui::config& config, imgui::font::ref font) {
 
             log()->debug("load {}", str(font.file));
         } else {
-            log()->error("setup_imgui_font - cannot load font file {}", str(font.file));
+            log()->error("setup_imgui_font - cannot load font file {}",
+                         str(font.file));
         }
     }
 
@@ -626,7 +711,8 @@ void setup_imgui_font(imgui::config& config, imgui::font::ref font) {
 
             log()->debug("load {}", str(font.icon_file));
         } else {
-            log()->error("setup_imgui_font - cannot load font icon file {}", str(font.icon_file));
+            log()->error("setup_imgui_font - cannot load font icon file {}",
+                         str(font.icon_file));
         }
     }
 }

@@ -32,10 +32,12 @@ int main(int argc, char* argv[]) {
     if (!app.setup())
         return error::not_ready;
 
-    // Initialize a lava triangle
+    // initialize a lava triangle
     mesh::ptr lava_triangle;
-    // These template arguments are optional
-    lava_triangle = create_mesh<vertex, false, true, false>(app.device, mesh_type::triangle);
+    // these template arguments are optional
+    lava_triangle = create_mesh<vertex,
+                                false, true, false>(app.device,
+                                                    mesh_type::triangle);
     if (!lava_triangle)
         return error::create_failed;
 
@@ -48,14 +50,17 @@ int main(int argc, char* argv[]) {
     if (!lava_triangle->reload())
         return error::create_failed;
 
-    // Initialize an int triangle
+    // initialize an int triangle
     struct int_vertex {
         std::array<int, 3> position;
         v4 color;
     };
     mesh_template<int_vertex>::ptr int_triangle;
-    // Except for the first one, these template arguments are optional
-    int_triangle = create_mesh<int_vertex, false, true, false, true, false, false>(app.device, mesh_type::triangle);
+    // except for the first one, these template arguments are optional
+    int_triangle = create_mesh<int_vertex,
+                               false, true, false,
+                               true, false, false>(app.device,
+                                                   mesh_type::triangle);
     if (!int_triangle)
         return error::create_failed;
 
@@ -67,14 +72,17 @@ int main(int argc, char* argv[]) {
     if (!int_triangle->reload())
         return error::create_failed;
 
-    // Initialize a double triangle
+    // initialize a double triangle
     struct double_vertex {
         std::array<double, 3> position;
         v4 color;
     };
     mesh_template<double_vertex>::ptr double_triangle;
-    // Except for the first one, these template arguments are optional
-    double_triangle = create_mesh<double_vertex, false, true, false, true, false, false>(app.device, mesh_type::triangle);
+    // except for the first one, these template arguments are optional
+    double_triangle = create_mesh<double_vertex,
+                                  false, true, false,
+                                  true, false, false>(app.device,
+                                                      mesh_type::triangle);
     if (!double_triangle)
         return error::create_failed;
 
@@ -98,37 +106,43 @@ int main(int argc, char* argv[]) {
         if (!layout->create(app.device))
             return false;
 
-        // Making a lava triangle pipeline
+        // making a lava triangle pipeline
         lava_pipeline = make_graphics_pipeline(app.device);
         lava_pipeline->add_color_blend_attachment();
         lava_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
             lava_triangle->bind_draw(cmd_buf);
         };
 
-        // Making an int triangle pipeline
+        // making an int triangle pipeline
         int_pipeline = make_graphics_pipeline(app.device);
         int_pipeline->add_color_blend_attachment();
         int_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
             int_triangle->bind_draw(cmd_buf);
         };
 
-        // Making an double triangle pipeline
+        // making an double triangle pipeline
         double_pipeline = make_graphics_pipeline(app.device);
         double_pipeline->add_color_blend_attachment();
         double_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
             double_triangle->bind_draw(cmd_buf);
         };
 
-        pipeline::shader_stage::ptr shader_stage = create_pipeline_shader_stage(app.device, app.producer.get_shader(_triangle_frag_), VK_SHADER_STAGE_FRAGMENT_BIT);
+        pipeline::shader_stage::ptr shader_stage = create_pipeline_shader_stage(
+            app.device,
+            app.producer.get_shader(_triangle_frag_),
+            VK_SHADER_STAGE_FRAGMENT_BIT);
         if (!shader_stage)
             return false;
 
-        // Describe the lava triangle
-        if (!lava_pipeline->add_shader(app.producer.get_shader(_lava_triangle_), VK_SHADER_STAGE_VERTEX_BIT))
+        // describe the lava triangle
+        if (!lava_pipeline->add_shader(app.producer.get_shader(_lava_triangle_),
+                                       VK_SHADER_STAGE_VERTEX_BIT))
             return false;
+
         lava_pipeline->add(shader_stage);
 
-        lava_pipeline->set_vertex_input_binding({ 0, sizeof(vertex), VK_VERTEX_INPUT_RATE_VERTEX });
+        lava_pipeline->set_vertex_input_binding({ 0, sizeof(vertex),
+                                                  VK_VERTEX_INPUT_RATE_VERTEX });
         lava_pipeline->set_vertex_input_attributes({
             { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position)) },
             { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color)) },
@@ -137,12 +151,16 @@ int main(int argc, char* argv[]) {
         if (!lava_pipeline->create(render_pass->get()))
             return false;
 
-        // Describe the int triangle
-        if (!int_pipeline->add_shader(app.producer.get_shader(_int_triangle_), VK_SHADER_STAGE_VERTEX_BIT))
+        // describe the int triangle
+        if (!int_pipeline->add_shader(app.producer.get_shader(_int_triangle_),
+                                      VK_SHADER_STAGE_VERTEX_BIT))
             return false;
+
         int_pipeline->add(shader_stage);
 
-        int_pipeline->set_vertex_input_binding({ 0, sizeof(int_vertex), VK_VERTEX_INPUT_RATE_VERTEX });
+        int_pipeline->set_vertex_input_binding({ 0,
+                                                 sizeof(int_vertex),
+                                                 VK_VERTEX_INPUT_RATE_VERTEX });
         int_pipeline->set_vertex_input_attributes({
             { 0, 0, VK_FORMAT_R32G32B32_SINT, to_ui32(offsetof(int_vertex, position)) },
             { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(int_vertex, color)) },
@@ -151,16 +169,23 @@ int main(int argc, char* argv[]) {
         if (!int_pipeline->create(render_pass->get()))
             return false;
 
-        // Describe the double triangle
-        if (!double_pipeline->add_shader(app.producer.get_shader(_double_triangle_), VK_SHADER_STAGE_VERTEX_BIT))
+        // describe the double triangle
+        if (!double_pipeline->add_shader(app.producer.get_shader(_double_triangle_),
+                                         VK_SHADER_STAGE_VERTEX_BIT))
             return false;
+
         double_pipeline->add(shader_stage);
 
-        double_pipeline->set_vertex_input_binding({ 0, sizeof(double_vertex), VK_VERTEX_INPUT_RATE_VERTEX });
+        double_pipeline->set_vertex_input_binding({ 0,
+                                                    sizeof(double_vertex),
+                                                    VK_VERTEX_INPUT_RATE_VERTEX });
         double_pipeline->set_vertex_input_attributes({
-            { 0, 0, VK_FORMAT_R64G64B64_SFLOAT, to_ui32(offsetof(double_vertex, position)) },
-            { 2, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(double_vertex, color)) },
+            { 0, 0, VK_FORMAT_R64G64B64_SFLOAT,
+              to_ui32(offsetof(double_vertex, position)) },
+            { 2, 0, VK_FORMAT_R32G32B32A32_SFLOAT,
+              to_ui32(offsetof(double_vertex, color)) },
         });
+
         double_pipeline->set_layout(layout);
         if (!double_pipeline->create(render_pass->get()))
             return false;

@@ -50,7 +50,7 @@ device::ptr platform::create(device::create_param::ref param) {
 }
 
 //-----------------------------------------------------------------------------
-device_ptr platform::create_device(index pd) {
+device_p platform::create_device(index pd) {
     auto device = create(pd);
     if (!device)
         return nullptr;

@@ -58,7 +58,8 @@ struct rect {
      * @param width     Rectangle width
      * @param height    Rectangle height
      */
-    rect(i32 left, i32 top, ui32 width, ui32 height)
+    rect(i32 left, i32 top,
+         ui32 width, ui32 height)
     : left_top({ left, top }) {
         set_size({ width, height });
     }
@@ -70,7 +71,8 @@ struct rect {
      * @param width       Rectangle width
      * @param height      Rectangle height
      */
-    rect(iv2 const& left_top, ui32 width, ui32 height)
+    rect(iv2 const& left_top,
+         ui32 width, ui32 height)
     : left_top(left_top) {
         set_size({ width, height });
     }
@@ -81,7 +83,8 @@ struct rect {
      * @param left_top    Left top position
      * @param size        Size of rectangle
      */
-    rect(iv2 const& left_top, uv2 const& size)
+    rect(iv2 const& left_top,
+         uv2 const& size)
     : left_top(left_top) {
         set_size(size);
     }
@@ -114,7 +117,8 @@ struct rect {
         assert(left_top.x <= right_bottom.x);
         assert(left_top.y <= right_bottom.y);
 #endif
-        return { right_bottom.x - left_top.x, right_bottom.y - left_top.y };
+        return { right_bottom.x - left_top.x,
+                 right_bottom.y - left_top.y };
     }
 
     /**
@@ -146,7 +150,10 @@ struct rect {
      * @return false    Point is outside
      */
     bool contains(iv2 point) const {
-        return (left_top.x < point.x) && (left_top.y < point.y) && (right_bottom.x > point.x) && (right_bottom.y > point.y);
+        return (left_top.x < point.x)
+               && (left_top.y < point.y)
+               && (right_bottom.x > point.x)
+               && (right_bottom.y > point.y);
     }
 
 private:
@@ -181,10 +188,14 @@ constexpr v3 const default_color = v3{ 0.8118f, 0.0627f, 0.1255f };
  *
  * @return mat4        Calculated matrix
  */
-inline mat4 perspective_matrix(uv2 size, float fov = 90.f, float far_plane = 5.f) {
+inline mat4 perspective_matrix(uv2 size,
+                               float fov = 90.f,
+                               float far_plane = 5.f) {
     // Vulkan NDC is right-handed with Y pointing down
     // we flip Y which makes it left-handed
-    return glm::scale(glm::identity<glm::mat4>(), { 1.f, -1.f, 1.f }) * glm::perspectiveLH_ZO(glm::radians(fov), float(size.x) / size.y, 0.1f, far_plane);
+    return glm::scale(glm::identity<glm::mat4>(), { 1.f, -1.f, 1.f })
+           * glm::perspectiveLH_ZO(
+               glm::radians(fov), float(size.x) / size.y, 0.1f, far_plane);
 }
 
 } // namespace lava

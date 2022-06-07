@@ -10,9 +10,11 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipeline_cache)
-: pipeline(device_, pipeline_cache) {
-    info.vertex_input_state.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+graphics_pipeline::graphics_pipeline(device_p d,
+                                     VkPipelineCache pipeline_cache)
+: pipeline(d, pipeline_cache) {
+    info.vertex_input_state.sType =
+        VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
     info.vertex_input_state.pNext = nullptr;
     info.vertex_input_state.flags = 0;
     info.vertex_input_state.vertexBindingDescriptionCount = 0;
@@ -20,13 +22,15 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     info.vertex_input_state.vertexAttributeDescriptionCount = 0;
     info.vertex_input_state.pVertexAttributeDescriptions = nullptr;
 
-    info.input_assembly_state.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+    info.input_assembly_state.sType =
+        VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
     info.input_assembly_state.pNext = nullptr;
     info.input_assembly_state.flags = 0;
     info.input_assembly_state.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
     info.input_assembly_state.primitiveRestartEnable = VK_FALSE;
 
-    info.viewport_state.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+    info.viewport_state.sType =
+        VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
     info.viewport_state.pNext = nullptr;
     info.viewport_state.flags = 0;
     info.viewport_state.viewportCount = 1;
@@ -34,7 +38,8 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     info.viewport_state.scissorCount = 1;
     info.viewport_state.pScissors = nullptr;
 
-    info.multisample_state.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+    info.multisample_state.sType =
+        VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
     info.multisample_state.pNext = nullptr;
     info.multisample_state.flags = 0;
     info.multisample_state.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
@@ -44,7 +49,8 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     info.multisample_state.alphaToCoverageEnable = VK_FALSE;
     info.multisample_state.alphaToOneEnable = VK_FALSE;
 
-    info.depth_stencil_state.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+    info.depth_stencil_state.sType =
+        VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
     info.depth_stencil_state.pNext = nullptr;
     info.depth_stencil_state.flags = 0;
     info.depth_stencil_state.depthTestEnable = VK_FALSE;
@@ -57,7 +63,8 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     info.depth_stencil_state.minDepthBounds = 0.f;
     info.depth_stencil_state.maxDepthBounds = 0.f;
 
-    info.rasterization_state.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+    info.rasterization_state.sType =
+        VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
     info.rasterization_state.pNext = nullptr;
     info.rasterization_state.flags = 0;
     info.rasterization_state.depthClampEnable = VK_FALSE;
@@ -71,7 +78,8 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     info.rasterization_state.depthBiasSlopeFactor = 0.f;
     info.rasterization_state.lineWidth = 1.f;
 
-    color_blend_state.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+    color_blend_state.sType =
+        VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
     color_blend_state.pNext = nullptr;
     color_blend_state.flags = 0;
     color_blend_state.logicOpEnable = VK_FALSE;
@@ -83,7 +91,8 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
     color_blend_state.blendConstants[2] = 0.f;
     color_blend_state.blendConstants[3] = 0.f;
 
-    dynamic_state.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+    dynamic_state.sType =
+        VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
     dynamic_state.pNext = nullptr;
     dynamic_state.flags = 0;
     dynamic_state.dynamicStateCount = 0;
@@ -93,7 +102,8 @@ graphics_pipeline::graphics_pipeline(device_ptr device_, VkPipelineCache pipelin
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_vertex_input_binding(VkVertexInputBindingDescription const& description) {
+void graphics_pipeline::set_vertex_input_binding(
+    VkVertexInputBindingDescription const& description) {
     VkVertexInputBindingDescriptions descriptions;
     descriptions.push_back(description);
 
@@ -101,15 +111,19 @@ void graphics_pipeline::set_vertex_input_binding(VkVertexInputBindingDescription
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_vertex_input_bindings(VkVertexInputBindingDescriptions const& descriptions) {
+void graphics_pipeline::set_vertex_input_bindings(
+    VkVertexInputBindingDescriptions const& descriptions) {
     vertex_input_bindings = descriptions;
 
-    info.vertex_input_state.vertexBindingDescriptionCount = to_ui32(vertex_input_bindings.size());
-    info.vertex_input_state.pVertexBindingDescriptions = vertex_input_bindings.data();
+    info.vertex_input_state.vertexBindingDescriptionCount =
+        to_ui32(vertex_input_bindings.size());
+    info.vertex_input_state.pVertexBindingDescriptions =
+        vertex_input_bindings.data();
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_vertex_input_attribute(VkVertexInputAttributeDescription const& attribute) {
+void graphics_pipeline::set_vertex_input_attribute(
+    VkVertexInputAttributeDescription const& attribute) {
     VkVertexInputAttributeDescriptions attributes;
     attributes.push_back(attribute);
 
@@ -117,11 +131,14 @@ void graphics_pipeline::set_vertex_input_attribute(VkVertexInputAttributeDescrip
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_vertex_input_attributes(VkVertexInputAttributeDescriptions const& attributes) {
+void graphics_pipeline::set_vertex_input_attributes(
+    VkVertexInputAttributeDescriptions const& attributes) {
     vertex_input_attributes = attributes;
 
-    info.vertex_input_state.vertexAttributeDescriptionCount = to_ui32(vertex_input_attributes.size());
-    info.vertex_input_state.pVertexAttributeDescriptions = vertex_input_attributes.data();
+    info.vertex_input_state.vertexAttributeDescriptionCount =
+        to_ui32(vertex_input_attributes.size());
+    info.vertex_input_state.pVertexAttributeDescriptions =
+        vertex_input_attributes.data();
 }
 
 //-----------------------------------------------------------------------------
@@ -130,9 +147,14 @@ void graphics_pipeline::set_input_topology(VkPrimitiveTopology const& topology) 
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_depth_test_and_write(bool enable_test, bool enable_write) {
-    info.depth_stencil_state.depthTestEnable = enable_test ? VK_TRUE : VK_FALSE;
-    info.depth_stencil_state.depthWriteEnable = enable_write ? VK_TRUE : VK_FALSE;
+void graphics_pipeline::set_depth_test_and_write(bool enable_test,
+                                                 bool enable_write) {
+    info.depth_stencil_state.depthTestEnable = enable_test
+                                                   ? VK_TRUE
+                                                   : VK_FALSE;
+    info.depth_stencil_state.depthWriteEnable = enable_write
+                                                    ? VK_TRUE
+                                                    : VK_FALSE;
 }
 
 //-----------------------------------------------------------------------------
@@ -165,12 +187,16 @@ VkPipelineColorBlendAttachmentState graphics_pipeline::create_color_blend_attach
         .srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
         .dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO,
         .alphaBlendOp = VK_BLEND_OP_ADD,
-        .colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT,
+        .colorWriteMask = VK_COLOR_COMPONENT_R_BIT
+                          | VK_COLOR_COMPONENT_G_BIT
+                          | VK_COLOR_COMPONENT_B_BIT
+                          | VK_COLOR_COMPONENT_A_BIT,
     };
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::add_color_blend_attachment(VkPipelineColorBlendAttachmentState const& attachment) {
+void graphics_pipeline::add_color_blend_attachment(
+    VkPipelineColorBlendAttachmentState const& attachment) {
     color_blend_attachment_states.push_back(attachment);
 
     color_blend_state.attachmentCount = to_ui32(color_blend_attachment_states.size());
@@ -208,13 +234,16 @@ void graphics_pipeline::clear_dynamic_states() {
 }
 
 //-----------------------------------------------------------------------------
-bool graphics_pipeline::add_shader_stage(cdata::ref data, VkShaderStageFlagBits stage) {
+bool graphics_pipeline::add_shader_stage(cdata::ref data,
+                                         VkShaderStageFlagBits stage) {
     if (!data.ptr) {
         log()->error("graphics pipeline shader stage data");
         return false;
     }
 
-    auto shader_stage = create_pipeline_shader_stage(device, data, stage);
+    auto shader_stage = create_pipeline_shader_stage(device,
+                                                     data,
+                                                     stage);
     if (!shader_stage) {
         log()->error("create graphics pipeline shader stage");
         return false;
@@ -240,11 +269,9 @@ void graphics_pipeline::copy_to(graphics_pipeline* target) const {
 }
 
 //-----------------------------------------------------------------------------
-bool graphics_pipeline::create_internal() {
-    if (on_create) {
-        if (!on_create(info))
-            return false;
-    }
+bool graphics_pipeline::setup() {
+    if (on_create && !on_create(info))
+        return false;
 
     VkPipelineShaderStageCreateInfos stages;
 
@@ -273,23 +300,29 @@ bool graphics_pipeline::create_internal() {
 
     std::array<VkGraphicsPipelineCreateInfo, 1> const vk_info = { vk_create_info };
 
-    return check(device->call().vkCreateGraphicsPipelines(device->get(), pipeline_cache,
-                                                          to_ui32(vk_info.size()), vk_info.data(),
-                                                          memory::alloc(), &vk_pipeline));
+    return check(device->call().vkCreateGraphicsPipelines(device->get(),
+                                                          pipeline_cache,
+                                                          to_ui32(vk_info.size()),
+                                                          vk_info.data(),
+                                                          memory::alloc(),
+                                                          &vk_pipeline));
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::destroy_internal() {
+void graphics_pipeline::teardown() {
     clear();
 }
 
 //-----------------------------------------------------------------------------
 void graphics_pipeline::bind(VkCommandBuffer cmd_buf) {
-    vkCmdBindPipeline(cmd_buf, VK_PIPELINE_BIND_POINT_GRAPHICS, vk_pipeline);
+    vkCmdBindPipeline(cmd_buf,
+                      VK_PIPELINE_BIND_POINT_GRAPHICS,
+                      vk_pipeline);
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf, uv2 size) {
+void graphics_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf,
+                                                 uv2 size) {
     VkViewport viewportParam;
     viewportParam.x = 0.f;
     viewportParam.y = 0.f;
@@ -321,10 +354,16 @@ void graphics_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf, uv2 si
     }
 
     std::array<VkViewport, 1> const viewports = { viewportParam };
-    vkCmdSetViewport(cmd_buf, 0, to_ui32(viewports.size()), viewports.data());
+    vkCmdSetViewport(cmd_buf,
+                     0,
+                     to_ui32(viewports.size()),
+                     viewports.data());
 
     std::array<VkRect2D, 1> const scissors = { scissorParam };
-    vkCmdSetScissor(cmd_buf, 0, to_ui32(scissors.size()), scissors.data());
+    vkCmdSetScissor(cmd_buf,
+                    0,
+                    to_ui32(scissors.size()),
+                    scissors.data());
 }
 
 } // namespace lava

@@ -27,7 +27,8 @@ struct attachment {
      * @param format     Attachment format
      * @param samples    Sample count flag bits
      */
-    explicit attachment(VkFormat format = VK_FORMAT_UNDEFINED, VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
+    explicit attachment(VkFormat format = VK_FORMAT_UNDEFINED,
+                        VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
         description.flags = 0;
         description.format = format;
         description.samples = samples;
@@ -101,7 +102,8 @@ struct attachment {
      * @param load_op     Attachment load op
      * @param store_op    Attachment store op
      */
-    void set_stencil_op(VkAttachmentLoadOp load_op, VkAttachmentStoreOp store_op) {
+    void set_stencil_op(VkAttachmentLoadOp load_op,
+                        VkAttachmentStoreOp store_op) {
         set_stencil_load_op(load_op);
         set_stencil_store_op(store_op);
     }
@@ -130,7 +132,8 @@ struct attachment {
      * @param initial    Initial image layout
      * @param final      Final image layout
      */
-    void set_layouts(VkImageLayout initial, VkImageLayout final) {
+    void set_layouts(VkImageLayout initial,
+                     VkImageLayout final) {
         set_initial_layout(initial);
         set_final_layout(final);
     }

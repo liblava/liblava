@@ -17,7 +17,8 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 mesh::ptr producer::create_mesh(mesh_type mesh_type) {
-    auto product = lava::create_mesh(context->device, mesh_type);
+    auto product = lava::create_mesh(context->device,
+                                     mesh_type);
     if (!add_mesh(product))
         return nullptr;
 
@@ -31,7 +32,8 @@ mesh::ptr producer::get_mesh(string_ref name) {
             return meshes.get(id);
     }
 
-    auto product = load_mesh(context->device, context->prop.get_filename(name));
+    auto product = load_mesh(context->device,
+                             context->prop.get_filename(name));
     if (!product)
         return nullptr;
 
@@ -55,7 +57,8 @@ bool producer::add_mesh(mesh::ptr product) {
 
 //-----------------------------------------------------------------------------
 texture::ptr producer::create_texture(uv2 size) {
-    auto product = create_default_texture(context->device, size);
+    auto product = create_default_texture(context->device,
+                                          size);
     if (!add_texture(product))
         return nullptr;
 
@@ -69,7 +72,8 @@ texture::ptr producer::get_texture(string_ref name) {
             return textures.get(id);
     }
 
-    auto product = load_texture(context->device, context->prop.get_filename(name));
+    auto product = load_texture(context->device,
+                                context->prop.get_filename(name));
     if (!product)
         return nullptr;
 
@@ -94,7 +98,8 @@ bool producer::add_texture(texture::ptr product) {
 }
 
 //-----------------------------------------------------------------------------
-cdata producer::get_shader(string_ref name, bool reload) {
+cdata producer::get_shader(string_ref name,
+                           bool reload) {
     if (shaders.count(name)) {
         if (!reload)
             return shaders.at(name);
@@ -113,7 +118,8 @@ cdata producer::get_shader(string_ref name, bool reload) {
         if (load_file_data(path, module_data)) {
             shaders.emplace(name, module_data);
 
-            log()->info("shader cache: {} - {} bytes", name, module_data.size);
+            log()->info("shader cache: {} - {} bytes",
+                        name, module_data.size);
 
             return module_data;
         }
@@ -126,7 +132,9 @@ cdata producer::get_shader(string_ref name, bool reload) {
     if (!product.ptr)
         return {};
 
-    auto module_data = compile_shader(product, name, context->prop.get_filename(name));
+    auto module_data = compile_shader(product,
+                                      name,
+                                      context->prop.get_filename(name));
     if (!module_data.ptr)
         return {};
 
@@ -251,7 +259,8 @@ shaderc_shader_kind get_shader_kind(string_ref filename) {
 }
 
 //-----------------------------------------------------------------------------
-data producer::compile_shader(cdata product, string_ref name, string_ref filename) const {
+data producer::compile_shader(cdata product,
+                              string_ref name, string_ref filename) const {
     shaderc::Compiler compiler;
     shaderc::CompileOptions options;
     options.SetIncluder(std::make_unique<shader_includer>(filename));
@@ -277,24 +286,31 @@ data producer::compile_shader(cdata product, string_ref name, string_ref filenam
 
     switch (instance::singleton().get_info().req_api_version) {
     case api_version::v1_1:
-        options.SetTargetEnvironment(shaderc_target_env_default, shaderc_env_version_vulkan_1_1);
+        options.SetTargetEnvironment(shaderc_target_env_default,
+                                     shaderc_env_version_vulkan_1_1);
         options.SetTargetSpirv(shaderc_spirv_version_1_3);
         break;
     case api_version::v1_2:
-        options.SetTargetEnvironment(shaderc_target_env_default, shaderc_env_version_vulkan_1_2);
+        options.SetTargetEnvironment(shaderc_target_env_default,
+                                     shaderc_env_version_vulkan_1_2);
         options.SetTargetSpirv(shaderc_spirv_version_1_5);
         break;
     case api_version::v1_3:
-        options.SetTargetEnvironment(shaderc_target_env_default, shaderc_env_version_vulkan_1_3);
+        options.SetTargetEnvironment(shaderc_target_env_default,
+                                     shaderc_env_version_vulkan_1_3);
         options.SetTargetSpirv(shaderc_spirv_version_1_6);
         break;
     default:
-        options.SetTargetEnvironment(shaderc_target_env_default, shaderc_env_version_vulkan_1_0);
+        options.SetTargetEnvironment(shaderc_target_env_default,
+                                     shaderc_env_version_vulkan_1_0);
         options.SetTargetSpirv(shaderc_spirv_version_1_0);
     }
 
     shaderc::PreprocessedSourceCompilationResult result =
-        compiler.PreprocessGlsl({ product.ptr, product.size }, shader_type, str(name), options);
+        compiler.PreprocessGlsl({ product.ptr, product.size },
+                                shader_type,
+                                str(name),
+                                options);
 
     if (result.GetCompilationStatus() != shaderc_compilation_status_success) {
         log()->error("preprocess shader: {} - {}", name, result.GetErrorMessage());
@@ -302,21 +318,27 @@ data producer::compile_shader(cdata product, string_ref name, string_ref filenam
     }
 
     shaderc::SpvCompilationResult module =
-        compiler.CompileGlslToSpv({ result.cbegin(), result.cend() }, shader_type, str(name), options);
+        compiler.CompileGlslToSpv({ result.cbegin(), result.cend() },
+                                  shader_type,
+                                  str(name),
+                                  options);
 
     if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
         log()->error("compile shader: {} - {}", name, module.GetErrorMessage());
         return {};
     }
 
-    std::vector<ui32> const module_result = { module.cbegin(), module.cend() };
+    std::vector<ui32> const module_result = { module.cbegin(),
+                                              module.cend() };
 
     auto data_size = module_result.size() * sizeof(ui32);
     log()->info("shader compiled: {} - {} bytes", name, data_size);
 
     data module_data;
     module_data.set(data_size);
-    memcpy(module_data.ptr, module_result.data(), data_size);
+    memcpy(module_data.ptr,
+           module_result.data(),
+           data_size);
 
     return module_data;
 }

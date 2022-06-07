@@ -38,9 +38,9 @@ struct platform {
      *
      * @param physical_device    Physical device
      *
-     * @return device_ptr        Pointer to device
+     * @return device_p          Pointer to device
      */
-    device_ptr create_device(index physical_device = 0);
+    device_p create_device(index physical_device = 0);
 
     /**
      * @brief Get the all devices
@@ -71,5 +71,8 @@ private:
     /// List of managed devices
     device::list list;
 };
+
+/// Platform type
+using platform_t = platform;
 
 } // namespace lava

@@ -154,7 +154,7 @@ struct imgui {
      * @return true         Create was successful
      * @return false        Create failed
      */
-    bool create(device_ptr device, index max_frames) {
+    bool create(device_p device, index max_frames) {
         return create(make_graphics_pipeline(device), max_frames);
     }
 
@@ -168,7 +168,7 @@ struct imgui {
      * @return true         Create was successful
      * @return false        Create failed
      */
-    bool create(device_ptr device, index max_frames, VkRenderPass pass) {
+    bool create(device_p device, index max_frames, VkRenderPass pass) {
         if (!create(device, max_frames))
             return false;
 
@@ -357,7 +357,7 @@ private:
     void render(VkCommandBuffer cmd_buf);
 
     /// Vulkan device
-    device_ptr device = nullptr;
+    device_p device = nullptr;
 
     // Initialized state
     bool initialized = false;
@@ -384,10 +384,10 @@ private:
     buffer::list index_buffers;
 
     /// Vulkan descriptor
-    lava::descriptor::ptr descriptor;
+    descriptor_ptr descriptor;
 
     /// Vulkan descriptor pool
-    lava::descriptor::pool::ptr descriptor_pool;
+    descriptor::pool::ptr descriptor_pool;
 
     /// Vulkan descriptor set
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
@@ -414,13 +414,17 @@ private:
     input_callback callback;
 };
 
+/// Imgui type
+using imgui_t = imgui;
+
 /**
  * @brief Set the up ImGui font
  *
  * @param config    ImGui configuration
  * @param font      ImGui font
  */
-void setup_imgui_font(imgui::config& config, imgui::font::ref font);
+void setup_imgui_font(imgui::config& config,
+                      imgui::font::ref font);
 
 /**
  * @brief Set up the imgui font icons
@@ -430,7 +434,9 @@ void setup_imgui_font(imgui::config& config, imgui::font::ref font);
  * @param min         Min range
  * @param max         Max range
  */
-void setup_imgui_font_icons(imgui::font& font, string filename, ui16 min, ui16 max);
+void setup_imgui_font_icons(imgui::font& font,
+                            string filename,
+                            ui16 min, ui16 max);
 
 /**
  * @brief ImGui left spacing with top offset

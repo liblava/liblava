@@ -32,7 +32,11 @@ struct render_target : entity {
      * @return true      Create was successful
      * @return false     Create failed
      */
-    bool create(device_ptr device, VkSurfaceKHR surface, VkSurfaceFormatKHR format, uv2 size, bool v_sync = false);
+    bool create(device_p device,
+                VkSurfaceKHR surface,
+                VkSurfaceFormatKHR format,
+                uv2 size,
+                bool v_sync = false);
 
     /**
      * @brief Destroy the render target
@@ -89,9 +93,9 @@ struct render_target : entity {
     /**
      * @brief Get the device
      *
-     * @return device_ptr    Vulkan device
+     * @return device_p    Vulkan device
      */
-    device_ptr get_device() {
+    device_p get_device() {
         return target.get_device();
     }
 
@@ -219,7 +223,10 @@ private:
  *
  * @return render_target::ptr    Shared pointer to render target
  */
-render_target::ptr create_target(window* window, device_ptr device, bool v_sync = false, surface_format_request request = {});
+render_target::ptr create_target(window* window,
+                                 device_p device,
+                                 bool v_sync = false,
+                                 surface_format_request request = {});
 
 /**
  * @brief Create a new render target with V-Sync enabled
@@ -230,8 +237,13 @@ render_target::ptr create_target(window* window, device_ptr device, bool v_sync 
  *
  * @return render_target::ptr    Shared pointer to render target
  */
-inline render_target::ptr create_target_v_sync(window* window, device_ptr device, surface_format_request request = {}) {
-    return create_target(window, device, true, request);
+inline render_target::ptr create_target_v_sync(window* window,
+                                               device_p device,
+                                               surface_format_request request = {}) {
+    return create_target(window,
+                         device,
+                         true,
+                         request);
 }
 
 } // namespace lava

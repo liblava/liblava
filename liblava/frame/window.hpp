@@ -444,7 +444,8 @@ struct window : entity {
      */
     bool handle_resize() {
         if (on_resize)
-            if (!on_resize(framebuffer_width, framebuffer_height))
+            if (!on_resize(framebuffer_width,
+                           framebuffer_height))
                 return false;
 
         resize_request_active = false;
@@ -542,7 +543,7 @@ private:
     GLFWwindow* handle = nullptr;
 
     /// Input handling
-    lava::input* input = nullptr;
+    input_t* input = nullptr;
 
     /// Window title
     string title = _lava_;
@@ -580,6 +581,9 @@ private:
     /// Window height
     ui32 height = 0;
 };
+
+/// Window type
+using window_t = window;
 
 /**
  * @brief Create a new surface

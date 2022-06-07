@@ -28,7 +28,7 @@ struct render_pass : entity {
      *
      * @param device    Vulkan device
      */
-    explicit render_pass(device_ptr device);
+    explicit render_pass(device_p device);
 
     /**
      * @brief Create a new render pass
@@ -39,7 +39,8 @@ struct render_pass : entity {
      * @return true                 Create was successful
      * @return false                Create failed
      */
-    bool create(VkAttachmentsRef target_attachments, rect area);
+    bool create(VkAttachmentsRef target_attachments,
+                rect area);
 
     /**
      * @brief Destroy the render pass
@@ -52,14 +53,15 @@ struct render_pass : entity {
      * @param cmd_buf    Command buffer
      * @param frame      Frame index
      */
-    void process(VkCommandBuffer cmd_buf, index frame);
+    void process(VkCommandBuffer cmd_buf,
+                 index frame);
 
     /**
      * @brief Get the device
      *
-     * @return device_ptr    Vulkan device
+     * @return device_p    Vulkan device
      */
-    device_ptr get_device() {
+    device_p get_device() {
         return device;
     }
 
@@ -178,7 +180,8 @@ struct render_pass : entity {
      * @param pipeline    Graphics pipeline
      * @param subpass     Subpass
      */
-    void add(graphics_pipeline::ptr pipeline, index subpass = 0) {
+    void add(graphics_pipeline::ptr pipeline,
+             index subpass = 0) {
         subpasses.at(subpass)->add(pipeline);
     }
 
@@ -188,7 +191,8 @@ struct render_pass : entity {
      * @param pipeline    Graphics pipeline
      * @param subpass     Subpass
      */
-    void add_front(graphics_pipeline::ptr pipeline, index subpass = 0) {
+    void add_front(graphics_pipeline::ptr pipeline,
+                   index subpass = 0) {
         subpasses.at(subpass)->add_front(pipeline);
     }
 
@@ -198,7 +202,8 @@ struct render_pass : entity {
      * @param pipeline    Graphics pipeline
      * @param subpass     Subpass
      */
-    void remove(graphics_pipeline::ptr pipeline, index subpass = 0) {
+    void remove(graphics_pipeline::ptr pipeline,
+                index subpass = 0) {
         subpasses.at(subpass)->remove(pipeline);
     }
 
@@ -213,7 +218,7 @@ struct render_pass : entity {
 
 private:
     /// Vulkan device
-    device_ptr device = nullptr;
+    device_p device = nullptr;
 
     /// Vulkan render pass
     VkRenderPass vk_render_pass = VK_NULL_HANDLE;
@@ -245,7 +250,8 @@ private:
      * @param cmd_buf    Command buffer
      * @param frame      Frame index
      */
-    void begin(VkCommandBuffer cmd_buf, index frame);
+    void begin(VkCommandBuffer cmd_buf,
+               index frame);
 
     /**
      * @brief End the render pass
@@ -263,7 +269,8 @@ private:
      * @return true                 Create was successful
      * @return false                Create failed
      */
-    bool on_target_created(VkAttachmentsRef target_attachments, rect area);
+    bool on_target_created(VkAttachmentsRef target_attachments,
+                           rect area);
 
     /**
      * @brief Called on target destroyed
@@ -278,7 +285,7 @@ private:
  *
  * @return render_pass::ptr    Shared pointer to render pass
  */
-inline render_pass::ptr make_render_pass(device_ptr device) {
+inline render_pass::ptr make_render_pass(device_p device) {
     return std::make_shared<render_pass>(device);
 }
 

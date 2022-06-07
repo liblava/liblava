@@ -94,7 +94,10 @@ void insert_label(VkQueue queue, name label, v4 color) {
 }
 
 //-----------------------------------------------------------------------------
-void set_object_name(VkDevice device, VkObjectType type, VkObjectHandle handle, name object) {
+void set_object_name(VkDevice device,
+                     VkObjectType type,
+                     VkObjectHandle handle,
+                     name object) {
     if (!instance::singleton().get_debug_config().utils)
         return;
 
@@ -109,7 +112,12 @@ void set_object_name(VkDevice device, VkObjectType type, VkObjectHandle handle, 
 }
 
 //-----------------------------------------------------------------------------
-void set_object_tag(VkDevice device, VkObjectType type, VkObjectHandle handle, ui64 name, void_cptr tag, size_t size) {
+void set_object_tag(VkDevice device,
+                    VkObjectType type,
+                    VkObjectHandle handle,
+                    ui64 name,
+                    void_cp tag,
+                    size_t size) {
     if (!instance::singleton().get_debug_config().utils)
         return;
 

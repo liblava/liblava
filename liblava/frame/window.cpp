@@ -54,7 +54,8 @@ bool window::create(state::optional state) {
 
     string default_title = title;
     if (save_title_active)
-        default_title = fmt::format(_fmt_save_title_, str(title), str(save_name));
+        default_title = fmt::format(_fmt_save_title_,
+                                    str(title), str(save_name));
 
     if (state) {
         fullscreen_active = state->fullscreen;
@@ -70,13 +71,15 @@ bool window::create(state::optional state) {
         }
 
         if (state->fullscreen) {
-            handle = glfwCreateWindow(mode->width, mode->height, str(default_title), monitor, nullptr);
+            handle = glfwCreateWindow(mode->width, mode->height,
+                                      str(default_title), monitor, nullptr);
             if (!handle) {
                 log()->error("create fullscreen window (state)");
                 return false;
             }
         } else {
-            handle = glfwCreateWindow(state->width, state->height, str(default_title), nullptr, nullptr);
+            handle = glfwCreateWindow(state->width, state->height,
+                                      str(default_title), nullptr, nullptr);
             if (!handle) {
                 log()->error("create window (state)");
                 return false;
@@ -103,13 +106,15 @@ bool window::create(state::optional state) {
         height = mode->height / 2;
 
         if (fullscreen_active) {
-            handle = glfwCreateWindow(mode->width, mode->height, str(default_title), monitor, nullptr);
+            handle = glfwCreateWindow(mode->width, mode->height,
+                                      str(default_title), monitor, nullptr);
             if (!handle) {
                 log()->error("create fullscreen window");
                 return false;
             }
         } else {
-            handle = glfwCreateWindow(width, height, str(default_title), nullptr, nullptr);
+            handle = glfwCreateWindow(width, height,
+                                      str(default_title), nullptr, nullptr);
             if (!handle) {
                 log()->error("create window");
                 return false;
@@ -168,7 +173,9 @@ void window::set_title(name text) {
         return;
 
     if (save_title_active)
-        glfwSetWindowTitle(handle, str(fmt::format(_fmt_save_title_, str(title), str(save_name))));
+        glfwSetWindowTitle(handle,
+                           str(fmt::format(_fmt_save_title_,
+                                           str(title), str(save_name))));
     else
         glfwSetWindowTitle(handle, str(title));
 }
@@ -181,23 +188,32 @@ bool window::switch_mode(state::optional state) {
 
 //-----------------------------------------------------------------------------
 void window::handle_mouse_message() {
-    glfwSetMouseButtonCallback(handle, [](GLFWwindow* handle, i32 button, i32 action, i32 mods) {
-        auto window = get_window(handle);
-        if (!window)
-            return;
+    glfwSetMouseButtonCallback(handle,
+                               [](GLFWwindow* handle,
+                                  i32 button, i32 action, i32 mods) {
+                                   auto window = get_window(handle);
+                                   if (!window)
+                                       return;
 
-        if (window->input)
-            window->input->mouse_button.add({ window->get_id(), mouse_button(button), lava::action(action), lava::mod(mods) });
-    });
+                                   if (window->input)
+                                       window->input->mouse_button.add(
+                                           { window->get_id(),
+                                             mouse_button(button),
+                                             action_t(action),
+                                             mod_t(mods) });
+                               });
 
-    glfwSetCursorPosCallback(handle, [](GLFWwindow* handle, r64 x_position, r64 y_position) {
-        auto window = get_window(handle);
-        if (!window)
-            return;
+    glfwSetCursorPosCallback(handle,
+                             [](GLFWwindow* handle, r64 x_position, r64 y_position) {
+                                 auto window = get_window(handle);
+                                 if (!window)
+                                     return;
 
-        if (window->input)
-            window->input->mouse_move.add({ window->get_id(), { x_position, y_position } });
-    });
+                                 if (window->input)
+                                     window->input->mouse_move.add(
+                                         { window->get_id(),
+                                           { x_position, y_position } });
+                             });
 
     glfwSetCursorEnterCallback(handle, [](GLFWwindow* handle, i32 entered) {
         auto window = get_window(handle);
@@ -205,7 +221,8 @@ void window::handle_mouse_message() {
             return;
 
         if (window->input)
-            window->input->mouse_active.add({ window->get_id(), entered > 0 });
+            window->input->mouse_active.add({ window->get_id(),
+                                              entered > 0 });
     });
 }
 
@@ -226,33 +243,46 @@ void window::handle_message() {
             window->update_state();
     });
 
-    glfwSetKeyCallback(handle, [](GLFWwindow* handle, i32 key, i32 scancode, i32 action, i32 mods) {
-        auto window = get_window(handle);
-        if (!window)
-            return;
+    glfwSetKeyCallback(handle,
+                       [](GLFWwindow* handle,
+                          i32 key, i32 scancode,
+                          i32 action, i32 mods) {
+                           auto window = get_window(handle);
+                           if (!window)
+                               return;
 
-        window->input->key.add({ window->get_id(), lava::key(key), lava::action(action), lava::mod(mods), scancode });
-    });
+                           window->input->key.add(
+                               { window->get_id(),
+                                 key_t(key),
+                                 action_t(action),
+                                 mod_t(mods),
+                                 scancode });
+                       });
 
-    glfwSetScrollCallback(handle, [](GLFWwindow* handle, r64 x_offset, r64 y_offset) {
-        auto window = get_window(handle);
-        if (!window)
-            return;
+    glfwSetScrollCallback(handle,
+                          [](GLFWwindow* handle, r64 x_offset, r64 y_offset) {
+                              auto window = get_window(handle);
+                              if (!window)
+                                  return;
 
-        if (window->input)
-            window->input->scroll.add({ window->get_id(), x_offset, y_offset });
-    });
+                              if (window->input)
+                                  window->input->scroll.add(
+                                      { window->get_id(), x_offset, y_offset });
+                          });
 
     handle_mouse_message();
 
-    glfwSetDropCallback(handle, [](GLFWwindow* handle, i32 amt, const char** paths) {
-        auto window = get_window(handle);
-        if (!window)
-            return;
+    glfwSetDropCallback(handle,
+                        [](GLFWwindow* handle, i32 amt, const char** paths) {
+                            auto window = get_window(handle);
+                            if (!window)
+                                return;
 
-        if (window->input)
-            window->input->path_drop.add({ window->get_id(), { paths, paths + amt } });
-    });
+                            if (window->input)
+                                window->input->path_drop.add(
+                                    { window->get_id(),
+                                      { paths, paths + amt } });
+                        });
 }
 
 //-----------------------------------------------------------------------------
@@ -324,7 +354,9 @@ void window::show_mouse_cursor() {
 
 //-----------------------------------------------------------------------------
 float window::get_aspect_ratio() const {
-    return framebuffer_height != 0 ? to_r32(framebuffer_width) / to_r32(framebuffer_height) : 0.f;
+    return framebuffer_height != 0
+               ? to_r32(framebuffer_width) / to_r32(framebuffer_height)
+               : 0.f;
 }
 
 //-----------------------------------------------------------------------------
@@ -440,11 +472,15 @@ void window::set_icon(data_cptr data, uv2 size) {
 index window::get_monitor() const {
     auto window_x = 0;
     auto window_y = 0;
-    glfwGetWindowPos(handle, &window_x, &window_y);
+    glfwGetWindowPos(handle,
+                     &window_x,
+                     &window_y);
 
     auto window_width = 0;
     auto window_height = 0;
-    glfwGetWindowSize(handle, &window_width, &window_height);
+    glfwGetWindowSize(handle,
+                      &window_width,
+                      &window_height);
 
     auto monitor_count = 0;
     auto monitors = glfwGetMonitors(&monitor_count);
@@ -463,7 +499,12 @@ index window::get_monitor() const {
         auto monitor_width = mode->width;
         auto monitor_height = mode->height;
 
-        overlap = std::max(0, std::min(window_x + window_width, monitor_x + monitor_width) - std::max(window_x, monitor_x)) * std::max(0, std::min(window_y + window_height, monitor_y + monitor_height) - std::max(window_y, monitor_y));
+        overlap = std::max(0, std::min(window_x + window_width,
+                                       monitor_x + monitor_width)
+                                  - std::max(window_x, monitor_x))
+                  * std::max(0, std::min(window_y + window_height,
+                                         monitor_y + monitor_height)
+                                    - std::max(window_y, monitor_y));
 
         if (best_overlap < overlap) {
             best_overlap = overlap;
@@ -479,13 +520,17 @@ void window::center() {
     auto monitor = glfwGetPrimaryMonitor();
     auto mode = glfwGetVideoMode(monitor);
 
-    glfwSetWindowPos(handle, (mode->width - width) / 2, (mode->height - height) / 2);
+    glfwSetWindowPos(handle,
+                     (mode->width - width) / 2,
+                     (mode->height - height) / 2);
 }
 
 //-----------------------------------------------------------------------------
 VkSurfaceKHR create_surface(GLFWwindow* window) {
     VkSurfaceKHR surface = VK_NULL_HANDLE;
-    if (failed(glfwCreateWindowSurface(instance::get(), window, memory::alloc(), &surface)))
+    if (failed(glfwCreateWindowSurface(instance::get(),
+                                       window, memory::alloc(),
+                                       &surface)))
         return 0;
 
     return surface;

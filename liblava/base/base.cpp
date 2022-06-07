@@ -81,6 +81,7 @@ string to_string(VkResult result) {
         RETURN_STR(VK_THREAD_DONE_KHR)
         RETURN_STR(VK_OPERATION_DEFERRED_KHR)
         RETURN_STR(VK_OPERATION_NOT_DEFERRED_KHR)
+        RETURN_STR(VK_ERROR_COMPRESSION_EXHAUSTED_EXT)
 
     default:
         return fmt::format("[invalid VkResult {}]", result);
@@ -91,17 +92,24 @@ string to_string(VkResult result) {
 
 //-----------------------------------------------------------------------------
 string version_to_string(ui32 version) {
-    return fmt::format("{}.{}.{}", VK_VERSION_MAJOR(version), VK_VERSION_MINOR(version), VK_VERSION_PATCH(version));
+    return fmt::format("{}.{}.{}",
+                       VK_VERSION_MAJOR(version),
+                       VK_VERSION_MINOR(version),
+                       VK_VERSION_PATCH(version));
 }
 
 //-----------------------------------------------------------------------------
 internal_version to_version(ui32 version) {
-    return { (i32) VK_VERSION_MAJOR(version), (i32) VK_VERSION_MINOR(version), (i32) VK_VERSION_PATCH(version) };
+    return { (i32) VK_VERSION_MAJOR(version),
+             (i32) VK_VERSION_MINOR(version),
+             (i32) VK_VERSION_PATCH(version) };
 }
 
 //-----------------------------------------------------------------------------
 ui32 to_version(internal_version version) {
-    return VK_MAKE_VERSION(version.major, version.minor, version.patch);
+    return VK_MAKE_VERSION(version.major,
+                           version.minor,
+                           version.patch);
 }
 
 //-----------------------------------------------------------------------------

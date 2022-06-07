@@ -67,7 +67,8 @@ struct subpass : entity {
      * @param cmd_buf    Command buffer
      * @param size       Size of render pass
      */
-    void process(VkCommandBuffer cmd_buf, uv2 size);
+    void process(VkCommandBuffer cmd_buf,
+                 uv2 size);
 
     /**
      * @brief Get the description
@@ -93,7 +94,8 @@ struct subpass : entity {
      * @param attachment    Index of attachment
      * @param layout        Image layout
      */
-    void set_color_attachment(index attachment, VkImageLayout layout);
+    void set_color_attachment(index attachment,
+                              VkImageLayout layout);
 
     /**
      * @brief Set the color attachment
@@ -115,7 +117,8 @@ struct subpass : entity {
      * @param attachment    Index of attachment
      * @param layout        Image layout
      */
-    void set_depth_stencil_attachment(index attachment, VkImageLayout layout);
+    void set_depth_stencil_attachment(index attachment,
+                                      VkImageLayout layout);
 
     /**
      * @brief Set the depth stencil attachment
@@ -130,7 +133,8 @@ struct subpass : entity {
      * @param attachment    Index of attachment
      * @param layout        Image layout
      */
-    void set_input_attachment(index attachment, VkImageLayout layout);
+    void set_input_attachment(index attachment,
+                              VkImageLayout layout);
 
     /**
      * @brief Set the input attachment
@@ -234,7 +238,8 @@ private:
  *
  * @return subpass::ptr          Shared pointer to subpass
  */
-subpass::ptr make_subpass(VkPipelineBindPoint pipeline_bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS);
+subpass::ptr make_subpass(VkPipelineBindPoint pipeline_bind_point =
+                              VK_PIPELINE_BIND_POINT_GRAPHICS);
 
 /**
  * @brief Subpass dependency
@@ -295,7 +300,8 @@ struct subpass_dependency {
      * @param src    Source pipeline stage flags
      * @param dst    Destination pipeline stage flags
      */
-    void set_stage_mask(VkPipelineStageFlags src, VkPipelineStageFlags dst) {
+    void set_stage_mask(VkPipelineStageFlags src,
+                        VkPipelineStageFlags dst) {
         set_src_stage_mask(src);
         set_dst_stage_mask(dst);
     }
@@ -324,7 +330,8 @@ struct subpass_dependency {
      * @param src    Source access flags
      * @param dst    Destination access flags
      */
-    void set_access_mask(VkAccessFlags src, VkAccessFlags dst) {
+    void set_access_mask(VkAccessFlags src,
+                         VkAccessFlags dst) {
         set_src_access_mask(src);
         set_dst_access_mask(dst);
     }
@@ -370,7 +377,9 @@ private:
  *
  * @return subpass_dependency::ptr    Shared pointer to subpass dependency
  */
-subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass, ui32 dst_subpass,
-                                                VkDependencyFlags dependency_flags = VK_DEPENDENCY_BY_REGION_BIT);
+subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass,
+                                                ui32 dst_subpass,
+                                                VkDependencyFlags dependency_flags =
+                                                    VK_DEPENDENCY_BY_REGION_BIT);
 
 } // namespace lava

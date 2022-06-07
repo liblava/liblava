@@ -99,7 +99,8 @@ void handle_env(frame_env& env) {
     log_command_line(cmd_line);
 
     if (env.log.level >= 0)
-        log()->info("log {}", spdlog::level::to_string_view((spdlog::level::level_enum) env.log.level));
+        log()->info("log {}", spdlog::level::to_string_view(
+                                  (spdlog::level::level_enum) env.log.level));
 }
 
 //-----------------------------------------------------------------------------
@@ -300,7 +301,8 @@ bool frame::check_profile() const {
         return false;
     }
 
-    log()->info("profile: {} - version: {}", profile_properties.profileName, profile_properties.specVersion);
+    log()->info("profile: {} - version: {}",
+                profile_properties.profileName, profile_properties.specVersion);
     return true;
 }
 

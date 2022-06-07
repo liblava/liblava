@@ -8,6 +8,7 @@
 #include <imgui.h>
 #include <liblava/app/app.hpp>
 #include <liblava/app/def.hpp>
+#include <liblava/asset/write_image.hpp>
 #include <liblava/base/debug_utils.hpp>
 
 namespace lava {
@@ -44,16 +45,23 @@ void app::handle_config() {
 
 //-----------------------------------------------------------------------------
 bool app::create_block() {
-    if (!block.create(device, target->get_frame_count(), device->graphics_queue().family))
+    if (!block.create(device,
+                      target->get_frame_count(),
+                      device->graphics_queue().family))
         return false;
 
     block_command = block.add_cmd([&](VkCommandBuffer cmd_buf) {
-        scoped_label block_label(cmd_buf, _lava_block_, { default_color, 1.f });
+        scoped_label block_mark(cmd_buf,
+                                _lava_block_,
+                                { default_color, 1.f });
 
         auto current_frame = block.get_current_frame();
 
         {
-            scoped_label stage_label(cmd_buf, _lava_texture_staging_, { 0.f, 0.13f, 0.4f, 1.f });
+            scoped_label stage_mark(cmd_buf,
+                                    _lava_texture_staging_,
+                                    { 0.f, 0.13f, 0.4f, 1.f });
+
             staging.stage(cmd_buf, current_frame);
         }
 
@@ -115,7 +123,10 @@ bool app::setup() {
 bool app::setup_file_system(cmd_line cmd_line) {
     log()->debug("physfs {}", str(to_string(file_system::get_version())));
 
-    if (!file_system::instance().initialize(str(get_cmd_line()[0]), config.org, get_name(), config.ext)) {
+    if (!file_system::instance().initialize(str(get_cmd_line()[0]),
+                                            config.org,
+                                            get_name(),
+                                            config.ext)) {
         log()->error("init file system");
         return false;
     }
@@ -192,7 +203,8 @@ bool app::setup_device(cmd_line cmd_line) {
     auto device_driver_version = physical_device->get_driver_version();
 
     log()->info("device: {} ({}) - driver: {}",
-                str(device_name), str(device_type), str(to_string(device_driver_version)));
+                str(device_name), str(device_type),
+                str(to_string(device_driver_version)));
 
     return true;
 }
@@ -257,7 +269,8 @@ bool app::create_imgui() {
     if (config.imgui_font.file.empty()) {
         auto font_files = file_system::enumerate_files(_font_path_);
         if (!font_files.empty())
-            config.imgui_font.file = fmt::format("{}{}", _font_path_, str(font_files.front()));
+            config.imgui_font.file = fmt::format("{}{}",
+                                                 _font_path_, str(font_files.front()));
     }
 
     setup_imgui_font(imgui_config, config.imgui_font);
@@ -279,7 +292,8 @@ bool app::create_imgui() {
 
     staging.add(imgui_fonts);
 
-    if (auto imgui_active = -1; get_cmd_line()({ "-ig", "--imgui" }) >> imgui_active)
+    if (auto imgui_active = -1;
+        get_cmd_line()({ "-ig", "--imgui" }) >> imgui_active)
         imgui.set_active(imgui_active == 1);
 
     return true;
@@ -293,7 +307,8 @@ void app::destroy_imgui() {
 
 //-----------------------------------------------------------------------------
 bool app::create_target() {
-    target = lava::create_target(&window, device, config.v_sync, config.surface);
+    target = lava::create_target(&window, device,
+                                 config.v_sync, config.surface);
     if (!target)
         return false;
 
@@ -419,7 +434,9 @@ void app::handle_window() {
         if (window.close_request())
             return shut_down();
 
-        if (window.switch_mode_request() || toggle_v_sync || target->reload_request()) {
+        if (window.switch_mode_request()
+            || toggle_v_sync
+            || target->reload_request()) {
             device->wait_for_idle();
 
             log()->info("- {}", _reload_);
@@ -432,7 +449,8 @@ void app::handle_window() {
 
                 config.window_state->fullscreen = !config.window_state->fullscreen;
 
-                log()->debug("{}: {}", _fullscreen_, config.window_state->fullscreen ? _on_ : _off_);
+                log()->debug("{}: {}", _fullscreen_,
+                             config.window_state->fullscreen ? _on_ : _off_);
 
                 if (!window.switch_mode(config.window_state))
                     return false;
@@ -445,7 +463,8 @@ void app::handle_window() {
             if (toggle_v_sync) {
                 config.v_sync = !config.v_sync;
 
-                log()->debug("{}: {}", _v_sync_, config.v_sync ? _on_ : _off_);
+                log()->debug("{}: {}", _v_sync_,
+                             config.v_sync ? _on_ : _off_);
 
                 toggle_v_sync = false;
             }
@@ -570,9 +589,12 @@ void app::draw_about(bool separator) const {
                 tt += "\n";
 
             if (tooltip.mod == mod::none)
-                tt += fmt::format("{} = {}", str(tooltip.name), str(to_string(tooltip.key)));
+                tt += fmt::format("{} = {}",
+                                  str(tooltip.name), str(to_string(tooltip.key)));
             else
-                tt += fmt::format("{} = {} + {}", str(tooltip.name), str(to_string(tooltip.mod)), str(to_string(tooltip.key)));
+                tt += fmt::format("{} = {} + {}",
+                                  str(tooltip.name), str(to_string(tooltip.mod)),
+                                  str(to_string(tooltip.key)));
         }
 
         ImGui::SetTooltip("%s", str(tt));

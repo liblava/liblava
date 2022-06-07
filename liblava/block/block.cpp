@@ -10,7 +10,9 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool command::create(device_ptr device, index frame_count, VkCommandPools cmd_pools) {
+bool command::create(device_p device,
+                     index frame_count,
+                     VkCommandPools cmd_pools) {
     buffers.resize(frame_count);
 
     for (auto i = 0u; i < frame_count; ++i) {
@@ -20,7 +22,9 @@ bool command::create(device_ptr device, index frame_count, VkCommandPools cmd_po
             .level = VK_COMMAND_BUFFER_LEVEL_PRIMARY,
             .commandBufferCount = 1,
         };
-        if (failed(device->call().vkAllocateCommandBuffers(device->get(), &allocate_info, &buffers.at(i)))) {
+        if (failed(device->call().vkAllocateCommandBuffers(device->get(),
+                                                           &allocate_info,
+                                                           &buffers.at(i)))) {
             log()->error("create command buffers");
             return false;
         }
@@ -30,13 +34,19 @@ bool command::create(device_ptr device, index frame_count, VkCommandPools cmd_po
 }
 
 //-----------------------------------------------------------------------------
-void command::destroy(device_ptr device, VkCommandPools cmd_pools) {
+void command::destroy(device_p device,
+                      VkCommandPools cmd_pools) {
     for (auto i = 0u; i < buffers.size(); ++i)
-        device->call().vkFreeCommandBuffers(device->get(), cmd_pools.at(i), 1, &buffers.at(i));
+        device->call().vkFreeCommandBuffers(device->get(),
+                                            cmd_pools.at(i),
+                                            1,
+                                            &buffers.at(i));
 }
 
 //-----------------------------------------------------------------------------
-bool block::create(device_ptr d, index frame_count, index queue_family) {
+bool block::create(device_p d,
+                   index frame_count,
+                   index queue_family) {
     device = d;
 
     current_frame = 0;
@@ -49,7 +59,10 @@ bool block::create(device_ptr d, index frame_count, index queue_family) {
             .flags = 0,
             .queueFamilyIndex = queue_family,
         };
-        if (failed(device->call().vkCreateCommandPool(device->get(), &create_info, memory::alloc(), &cmd_pools.at(i)))) {
+        if (failed(device->call().vkCreateCommandPool(device->get(),
+                                                      &create_info,
+                                                      memory::alloc(),
+                                                      &cmd_pools.at(i)))) {
             log()->error("create block command pool");
             return false;
         }
@@ -68,7 +81,9 @@ void block::destroy() {
         command->destroy(device, cmd_pools);
 
     for (auto i = 0u; i < cmd_pools.size(); ++i)
-        device->call().vkDestroyCommandPool(device->get(), cmd_pools.at(i), memory::alloc());
+        device->call().vkDestroyCommandPool(device->get(),
+                                            cmd_pools.at(i),
+                                            memory::alloc());
 
     cmd_pools.clear();
     cmd_order.clear();
@@ -110,7 +125,9 @@ void block::remove_cmd(id::ref cmd) {
 bool block::process(index frame) {
     current_frame = frame;
 
-    if (failed(device->call().vkResetCommandPool(device->get(), cmd_pools.at(frame), 0))) {
+    if (failed(device->call().vkResetCommandPool(device->get(),
+                                                 cmd_pools.at(frame),
+                                                 0))) {
         log()->error("block reset command pool");
         return false;
     }

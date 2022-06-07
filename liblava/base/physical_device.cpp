@@ -24,17 +24,27 @@ void physical_device::initialize(VkPhysicalDevice pd) {
     vkGetPhysicalDeviceMemoryProperties(vk_physical_device, &memory_properties);
 
     auto queue_family_count = 0u;
-    vkGetPhysicalDeviceQueueFamilyProperties(vk_physical_device, &queue_family_count, nullptr);
+    vkGetPhysicalDeviceQueueFamilyProperties(vk_physical_device,
+                                             &queue_family_count,
+                                             nullptr);
     if (queue_family_count > 0) {
         queue_family_properties.resize(queue_family_count);
-        vkGetPhysicalDeviceQueueFamilyProperties(vk_physical_device, &queue_family_count, queue_family_properties.data());
+        vkGetPhysicalDeviceQueueFamilyProperties(vk_physical_device,
+                                                 &queue_family_count,
+                                                 queue_family_properties.data());
     }
 
     auto extension_count = 0u;
-    vkEnumerateDeviceExtensionProperties(vk_physical_device, nullptr, &extension_count, nullptr);
+    vkEnumerateDeviceExtensionProperties(vk_physical_device,
+                                         nullptr,
+                                         &extension_count,
+                                         nullptr);
     if (extension_count > 0) {
         extension_properties.resize(extension_count);
-        vkEnumerateDeviceExtensionProperties(vk_physical_device, nullptr, &extension_count, extension_properties.data());
+        vkEnumerateDeviceExtensionProperties(vk_physical_device,
+                                             nullptr,
+                                             &extension_count,
+                                             extension_properties.data());
     }
 }
 
@@ -112,7 +122,8 @@ bool physical_device::swapchain_supported() const {
 }
 
 //-----------------------------------------------------------------------------
-bool physical_device::surface_supported(index queue_family, VkSurfaceKHR surface) const {
+bool physical_device::surface_supported(index queue_family,
+                                        VkSurfaceKHR surface) const {
     auto res = VK_FALSE;
     if (failed(vkGetPhysicalDeviceSurfaceSupportKHR(vk_physical_device,
                                                     queue_family, surface, &res)))

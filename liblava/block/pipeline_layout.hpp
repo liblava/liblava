@@ -83,7 +83,7 @@ struct pipeline_layout : entity {
      * @return true     Create was successful
      * @return false    Create failed
      */
-    bool create(device_ptr device);
+    bool create(device_p device);
 
     /**
      * @brief Destroy the pipeline layout
@@ -102,9 +102,9 @@ struct pipeline_layout : entity {
     /**
      * @brief Get the device
      *
-     * @return device_ptr    Vulkan device
+     * @return device_p    Vulkan device
      */
-    device_ptr get_device() {
+    device_p get_device() {
         return device;
     }
 
@@ -138,18 +138,30 @@ struct pipeline_layout : entity {
      * @param offsets           List of offsets
      * @param bind_point        Pipeline bind point
      */
-    void bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, index first_set = 0, offset_list offsets = {}, VkPipelineBindPoint bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS);
+    void bind_descriptor_set(VkCommandBuffer cmd_buf,
+                             VkDescriptorSet descriptor_set,
+                             index first_set = 0,
+                             offset_list offsets = {},
+                             VkPipelineBindPoint bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS);
 
     /**
      * @see bind_descriptor_set
      */
-    void bind(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, index first_set = 0, offset_list offsets = {}, VkPipelineBindPoint bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS) {
-        bind_descriptor_set(cmd_buf, descriptor_set, first_set, offsets, bind_point);
+    void bind(VkCommandBuffer cmd_buf,
+              VkDescriptorSet descriptor_set,
+              index first_set = 0,
+              offset_list offsets = {},
+              VkPipelineBindPoint bind_point = VK_PIPELINE_BIND_POINT_GRAPHICS) {
+        bind_descriptor_set(cmd_buf,
+                            descriptor_set,
+                            first_set,
+                            offsets,
+                            bind_point);
     }
 
 private:
     /// Vulkan device
-    device_ptr device = nullptr;
+    device_p device = nullptr;
 
     /// Pipeline layout
     VkPipelineLayout layout = VK_NULL_HANDLE;

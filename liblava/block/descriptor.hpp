@@ -110,8 +110,11 @@ struct descriptor : entity {
          * @return true     Create was successful
          * @return false    Create failed
          */
-        bool create(device_ptr device, VkDescriptorPoolSizesRef sizes, ui32 max = 1,
-                    VkDescriptorPoolCreateFlags flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT);
+        bool create(device_p device,
+                    VkDescriptorPoolSizesRef sizes,
+                    ui32 max = 1,
+                    VkDescriptorPoolCreateFlags flags =
+                        VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT);
 
         /**
          * @brief Destroy the pool
@@ -130,9 +133,9 @@ struct descriptor : entity {
         /**
          * @brief Get the device
          *
-         * @return device_ptr    Vulkan device
+         * @return device_p    Vulkan device
          */
-        device_ptr get_device() {
+        device_p get_device() {
             return device;
         }
 
@@ -156,7 +159,7 @@ struct descriptor : entity {
 
     private:
         /// Vulkan device
-        device_ptr device = nullptr;
+        device_p device = nullptr;
 
         /// Vulkan descriptor pool
         VkDescriptorPool vk_pool = VK_NULL_HANDLE;
@@ -181,7 +184,9 @@ struct descriptor : entity {
      * @param descriptor_type    Descriptor type
      * @param stage_flags        Shader stage flags
      */
-    void add_binding(index binding, VkDescriptorType descriptor_type, VkShaderStageFlags stage_flags);
+    void add_binding(index binding,
+                     VkDescriptorType descriptor_type,
+                     VkShaderStageFlags stage_flags);
 
     /**
      * @brief Clear bindings
@@ -207,7 +212,7 @@ struct descriptor : entity {
      * @return true     Create was successful
      * @return false    Create failed
      */
-    bool create(device_ptr device);
+    bool create(device_p device);
 
     /**
      * @brief Destroy the descriptor
@@ -244,9 +249,9 @@ struct descriptor : entity {
     /**
      * @brief Get the device
      *
-     * @return device_ptr    Vulkan device
+     * @return device_p    Vulkan device
      */
-    device_ptr get_device() {
+    device_p get_device() {
         return device;
     }
 
@@ -274,12 +279,14 @@ struct descriptor : entity {
      * @return true             Free was successful
      * @return false            Free failed
      */
-    bool free_set(VkDescriptorSet& descriptor_set, VkDescriptorPool pool);
+    bool free_set(VkDescriptorSet& descriptor_set,
+                  VkDescriptorPool pool);
 
     /**
      * @see free_set
      */
-    bool free(VkDescriptorSet& descriptor_set, VkDescriptorPool pool) {
+    bool free(VkDescriptorSet& descriptor_set,
+              VkDescriptorPool pool) {
         return free_set(descriptor_set, pool);
     }
 
@@ -291,12 +298,14 @@ struct descriptor : entity {
      *
      * @return VkDescriptorSets    List of descriptor sets
      */
-    VkDescriptorSets allocate_sets(ui32 size, VkDescriptorPool pool);
+    VkDescriptorSets allocate_sets(ui32 size,
+                                   VkDescriptorPool pool);
 
     /**
      * @see allocate_sets
      */
-    VkDescriptorSets allocate(ui32 size, VkDescriptorPool pool) {
+    VkDescriptorSets allocate(ui32 size,
+                              VkDescriptorPool pool) {
         return allocate_sets(size, pool);
     }
 
@@ -309,18 +318,20 @@ struct descriptor : entity {
      * @return true              Free was successful
      * @return false             Free failed
      */
-    bool free_sets(VkDescriptorSets& descriptor_sets, VkDescriptorPool pool);
+    bool free_sets(VkDescriptorSets& descriptor_sets,
+                   VkDescriptorPool pool);
 
     /**
      * @see free_sets
      */
-    bool free(VkDescriptorSets& descriptor_sets, VkDescriptorPool pool) {
+    bool free(VkDescriptorSets& descriptor_sets,
+              VkDescriptorPool pool) {
         return free_sets(descriptor_sets, pool);
     }
 
 private:
     /// Vulkan device
-    device_ptr device = nullptr;
+    device_p device = nullptr;
 
     /// Vulkan descriptor set layout
     VkDescriptorSetLayout layout = VK_NULL_HANDLE;
@@ -328,6 +339,9 @@ private:
     /// List of descriptor bindings
     binding::list bindings;
 };
+
+/// Shared pointer to descriptor
+using descriptor_ptr = descriptor::ptr;
 
 /**
  * @brief Make a new descriptor

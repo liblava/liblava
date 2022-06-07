@@ -20,23 +20,19 @@ internal_version file_system::get_version() {
 }
 
 //-----------------------------------------------------------------------------
-name file_system::get_base_dir() {
-    return PHYSFS_getBaseDir();
+string file_system::get_base_dir() {
+    return string(PHYSFS_getBaseDir());
 }
 
 //-----------------------------------------------------------------------------
-string file_system::get_base_dir_str() {
-    return string(get_base_dir());
+string file_system::get_pref_dir() {
+    return string(PHYSFS_getPrefDir(instance().org,
+                                    instance().app));
 }
 
 //-----------------------------------------------------------------------------
-name file_system::get_pref_dir() {
-    return PHYSFS_getPrefDir(instance().org, instance().app);
-}
-
-//-----------------------------------------------------------------------------
-string file_system::get_res_dir_str() {
-    string res_dir = get_base_dir();
+string file_system::get_res_dir() {
+    auto res_dir = get_base_dir();
     res_dir += instance().res_path;
     string_ref const_res_dir = res_dir;
 
@@ -50,7 +46,7 @@ bool file_system::mount(string_ref path) {
 
 //-----------------------------------------------------------------------------
 bool file_system::mount(name base_dir_path) {
-    return mount(get_base_dir_str() + base_dir_path);
+    return mount(get_base_dir() + base_dir_path);
 }
 
 //-----------------------------------------------------------------------------
@@ -77,7 +73,10 @@ string_list file_system::enumerate_files(name path) {
 }
 
 //-----------------------------------------------------------------------------
-bool file_system::initialize(name argv_0, name o, name a, name e) {
+bool file_system::initialize(name argv_0,
+                             name o,
+                             name a,
+                             name e) {
 #if LIBLAVA_DEBUG_ASSERT
     assert(!initialized); // only once
 #endif
@@ -118,13 +117,17 @@ void file_system::mount_res(logger log) {
     res_path = "res/";
 #endif
 
-    if (std::filesystem::exists(str(get_res_dir_str())))
+    if (std::filesystem::exists(get_res_dir()))
         if (file_system::mount(str(res_path)))
-            log->debug("mount {}", str(get_res_dir_str()));
+            log->debug("mount {}", str(get_res_dir()));
 
-    auto cwd_res_dir = std::filesystem::current_path().append("res/").lexically_normal().string();
+    auto cwd_res_dir = std::filesystem::current_path()
+                           .append("res/")
+                           .lexically_normal()
+                           .string();
 
-    if (std::filesystem::exists(cwd_res_dir) && (cwd_res_dir != get_res_dir_str()))
+    if (std::filesystem::exists(cwd_res_dir)
+        && (cwd_res_dir != get_res_dir()))
         if (file_system::mount(cwd_res_dir))
             log->debug("mount {}", str(cwd_res_dir));
 

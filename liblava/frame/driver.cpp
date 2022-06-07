@@ -43,7 +43,9 @@ i32 driver::run(argh::parser cmd_line) {
 }
 
 //-----------------------------------------------------------------------------
-stage::stage(ui32 id, name descr, func func)
+stage::stage(ui32 id,
+             name descr,
+             func func)
 : id(id), descr(descr), on_func(func) {
     driver::instance().add_stage(this);
 }

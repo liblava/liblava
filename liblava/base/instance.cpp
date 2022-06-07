@@ -14,11 +14,15 @@
 namespace lava {
 
 /**
- * @see https://khronos.org/registry/vulkan/specs/1.2-extensions/man/html/PFN_vkDebugUtilsMessengerCallbackEXT.html
+ * @see https://khronos.org/registry/vulkan/specs/1.3-extensions/man/html/PFN_vkDebugUtilsMessengerCallbackEXT.html
  */
-static VKAPI_ATTR VkBool32 VKAPI_CALL validation_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
-                                                          VkDebugUtilsMessageTypeFlagsEXT message_type, const VkDebugUtilsMessengerCallbackDataEXT* callback_data, void* user_data) {
-    auto message_header = fmt::format("validation: {} ({})", callback_data->pMessageIdName,
+static VKAPI_ATTR VkBool32 VKAPI_CALL
+    validation_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
+                        VkDebugUtilsMessageTypeFlagsEXT message_type,
+                        const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
+                        void* user_data) {
+    auto message_header = fmt::format("validation: {} ({})",
+                                      callback_data->pMessageIdName,
                                       callback_data->messageIdNumber);
 
     if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
@@ -80,7 +84,10 @@ bool instance::check_debug(create_param& param) const {
 }
 
 //-----------------------------------------------------------------------------
-bool instance::create(create_param& param, debug_config::ref d, instance_info::ref i, profile_info p) {
+bool instance::create(create_param& param,
+                      debug_config::ref d,
+                      instance_info::ref i,
+                      profile_info p) {
     debug = d;
     info = i;
     profile = p;
@@ -133,10 +140,14 @@ bool instance::create(create_param& param, debug_config::ref d, instance_info::r
             .pProfile = &profile_properties,
         };
 
-        if (failed(vpCreateInstance(&vp_create_info, memory::alloc(), &vk_instance)))
+        if (failed(vpCreateInstance(&vp_create_info,
+                                    memory::alloc(),
+                                    &vk_instance)))
             return false;
     } else {
-        if (failed(vkCreateInstance(&create_info, memory::alloc(), &vk_instance)))
+        if (failed(vkCreateInstance(&create_info,
+                                    memory::alloc(),
+                                    &vk_instance)))
             return false;
     }
 
@@ -162,7 +173,8 @@ void instance::destroy() {
     if (debug.utils)
         destroy_validation_report();
 
-    vkDestroyInstance(vk_instance, memory::alloc());
+    vkDestroyInstance(vk_instance,
+                      memory::alloc());
     vk_instance = nullptr;
 }
 
@@ -170,15 +182,22 @@ void instance::destroy() {
 bool instance::create_validation_report() {
     VkDebugUtilsMessengerCreateInfoEXT create_info{
         .sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT,
-        .messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT,
-        .messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT,
+        .messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT
+                           | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT,
+        .messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT
+                       | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT
+                       | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT,
         .pfnUserCallback = validation_callback,
     };
 
     if (debug.verbose)
-        create_info.messageSeverity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
+        create_info.messageSeverity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT
+                                       | VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
 
-    return check(vkCreateDebugUtilsMessengerEXT(vk_instance, &create_info, memory::alloc(), &debug_messenger));
+    return check(vkCreateDebugUtilsMessengerEXT(vk_instance,
+                                                &create_info,
+                                                memory::alloc(),
+                                                &debug_messenger));
 }
 
 //-----------------------------------------------------------------------------
@@ -186,7 +205,9 @@ void instance::destroy_validation_report() {
     if (!debug_messenger)
         return;
 
-    vkDestroyDebugUtilsMessengerEXT(vk_instance, debug_messenger, memory::alloc());
+    vkDestroyDebugUtilsMessengerEXT(vk_instance,
+                                    debug_messenger,
+                                    memory::alloc());
 
     debug_messenger = VK_NULL_HANDLE;
 }
@@ -194,12 +215,14 @@ void instance::destroy_validation_report() {
 //-----------------------------------------------------------------------------
 VkLayerPropertiesList instance::enumerate_layer_properties() {
     auto layer_count = 0u;
-    auto result = vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
+    auto result = vkEnumerateInstanceLayerProperties(&layer_count,
+                                                     nullptr);
     if (failed(result))
         return {};
 
     VkLayerPropertiesList list(layer_count);
-    result = vkEnumerateInstanceLayerProperties(&layer_count, list.data());
+    result = vkEnumerateInstanceLayerProperties(&layer_count,
+                                                list.data());
     if (failed(result))
         return {};
 
@@ -209,12 +232,16 @@ VkLayerPropertiesList instance::enumerate_layer_properties() {
 //-----------------------------------------------------------------------------
 VkExtensionPropertiesList instance::enumerate_extension_properties(name layer_name) {
     auto property_count = 0u;
-    auto result = vkEnumerateInstanceExtensionProperties(layer_name, &property_count, nullptr);
+    auto result = vkEnumerateInstanceExtensionProperties(layer_name,
+                                                         &property_count,
+                                                         nullptr);
     if (failed(result))
         return {};
 
     VkExtensionPropertiesList list(property_count);
-    result = vkEnumerateInstanceExtensionProperties(layer_name, &property_count, list.data());
+    result = vkEnumerateInstanceExtensionProperties(layer_name,
+                                                    &property_count,
+                                                    list.data());
     if (failed(result))
         return {};
 
@@ -226,12 +253,16 @@ bool instance::enumerate_physical_devices() {
     physical_devices.clear();
 
     auto count = 0u;
-    auto result = vkEnumeratePhysicalDevices(vk_instance, &count, nullptr);
+    auto result = vkEnumeratePhysicalDevices(vk_instance,
+                                             &count,
+                                             nullptr);
     if (failed(result))
         return false;
 
     VkPhysicalDevices devices(count);
-    result = vkEnumeratePhysicalDevices(vk_instance, &count, devices.data());
+    result = vkEnumeratePhysicalDevices(vk_instance,
+                                        &count,
+                                        devices.data());
     if (failed(result))
         return false;
 
@@ -245,7 +276,9 @@ bool instance::enumerate_physical_devices() {
 internal_version instance::get_version() {
     ui32 instance_version = VK_API_VERSION_1_0;
 
-    auto enumerate_instance_version = (PFN_vkEnumerateInstanceVersion) vkGetInstanceProcAddr(nullptr, "vkEnumerateInstanceVersion");
+    auto enumerate_instance_version =
+        (PFN_vkEnumerateInstanceVersion) vkGetInstanceProcAddr(nullptr,
+                                                               "vkEnumerateInstanceVersion");
     if (enumerate_instance_version)
         enumerate_instance_version(&instance_version);
 
@@ -271,10 +304,11 @@ bool check(instance::create_param::ref param) {
 
     auto extensions_properties = instance::enumerate_extension_properties();
     for (auto const& ext_name : param.extensions) {
-        auto itr = std::find_if(extensions_properties.begin(), extensions_properties.end(),
-                                [&](VkExtensionProperties const& extProp) {
-                                    return strcmp(ext_name, extProp.extensionName) == 0;
-                                });
+        auto itr = std::find_if(
+            extensions_properties.begin(), extensions_properties.end(),
+            [&](VkExtensionProperties const& extProp) {
+                return strcmp(ext_name, extProp.extensionName) == 0;
+            });
 
         if (itr == extensions_properties.end())
             return false;

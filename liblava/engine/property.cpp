@@ -12,7 +12,8 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-void property::add(string_ref name, string_ref filename) {
+void property::add(string_ref name,
+                   string_ref filename) {
     map.emplace(name, filename);
 
     log()->trace("prop: {} = {}", str(name), str(filename));

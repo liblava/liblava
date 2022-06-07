@@ -67,9 +67,11 @@ struct id {
     string to_string(bool show_version = false) const {
         char result[32];
         if (show_version)
-            snprintf(result, sizeof(result), "%u.%u", value, version);
+            snprintf(result,
+                     sizeof(result), "%u.%u", value, version);
         else
-            snprintf(result, sizeof(result), "%u", value);
+            snprintf(result,
+                     sizeof(result), "%u", value);
         return string(result);
     }
 
@@ -89,7 +91,8 @@ struct id {
      * @return false    Id is not equal
      */
     bool operator==(ref rhs) const {
-        return (value == rhs.value) && (version == rhs.version);
+        return (value == rhs.value)
+               && (version == rhs.version);
     }
 
     /**
@@ -113,7 +116,8 @@ struct id {
      * @return false    Id is bigger
      */
     bool operator<(ref rhs) const {
-        return std::tie(value, version) < std::tie(rhs.value, rhs.version);
+        return std::tie(value, version)
+               < std::tie(rhs.value, rhs.version);
     }
 
     /**
@@ -284,7 +288,8 @@ private:
  * @return id       Id of object in map
  */
 template<typename T>
-inline id add_id_map(T const& object, std::map<id, T>& map) {
+inline id add_id_map(T const& object,
+                     std::map<id, T>& map) {
     auto next = ids::next();
     map.emplace(next, std::move(object));
     return next;
@@ -302,7 +307,8 @@ inline id add_id_map(T const& object, std::map<id, T>& map) {
  * @return false    Object in map not found
  */
 template<typename T>
-inline bool remove_id_map(id::ref object, std::map<id, T>& map) {
+inline bool remove_id_map(id::ref object,
+                          std::map<id, T>& map) {
     if (!map.count(object))
         return false;
 
@@ -422,7 +428,8 @@ struct id_registry {
      * @param object    Object to add
      * @param info      Meta of object
      */
-    void add(ptr object, Meta info = {}) {
+    void add(ptr object,
+             Meta info = {}) {
         objects.emplace(object->get_id(), object);
         meta.emplace(object->get_id(), info);
     }
@@ -488,7 +495,8 @@ struct id_registry {
      * @return true     Meta updated
      * @return false    Meta not updated
      */
-    bool update(id::ref object, Meta const& meta) {
+    bool update(id::ref object,
+                Meta const& meta) {
         if (!exists(object))
             return false;
 

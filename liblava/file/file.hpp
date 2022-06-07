@@ -63,7 +63,8 @@ struct file : no_copy_no_move {
      * @param path    Name of file
      * @param mode    File mode
      */
-    explicit file(name path = nullptr, file_mode mode = file_mode::read);
+    explicit file(name path = nullptr,
+                  file_mode mode = file_mode::read);
 
     /**
      * @brief Destroy the file
@@ -79,7 +80,8 @@ struct file : no_copy_no_move {
      * @return true     Open was successful
      * @return false    Open failed
      */
-    bool open(name path, file_mode mode = file_mode::read);
+    bool open(name path,
+              file_mode mode = file_mode::read);
 
     /**
      * @brief Close the file
@@ -109,7 +111,8 @@ struct file : no_copy_no_move {
      * @return i64    File size
      */
     i64 read(data_ptr data) {
-        return read(data, to_ui64(get_size()));
+        return read(data,
+                    to_ui64(get_size()));
     }
 
     /**

@@ -42,7 +42,8 @@ void subpass::remove(graphics_pipeline::ptr pipeline) {
 }
 
 //-----------------------------------------------------------------------------
-void subpass::set_color_attachment(index attachment, VkImageLayout layout) {
+void subpass::set_color_attachment(index attachment,
+                                   VkImageLayout layout) {
     VkAttachmentReference reference;
     reference.attachment = attachment;
     reference.layout = layout;
@@ -67,7 +68,8 @@ void subpass::set_color_attachments(VkAttachmentReferences const& attachments) {
 }
 
 //-----------------------------------------------------------------------------
-void subpass::set_depth_stencil_attachment(index attachment, VkImageLayout layout) {
+void subpass::set_depth_stencil_attachment(index attachment,
+                                           VkImageLayout layout) {
     VkAttachmentReference reference;
     reference.attachment = attachment;
     reference.layout = layout;
@@ -83,7 +85,8 @@ void subpass::set_depth_stencil_attachment(VkAttachmentReference attachment) {
 }
 
 //-----------------------------------------------------------------------------
-void subpass::set_input_attachment(index attachment, VkImageLayout layout) {
+void subpass::set_input_attachment(index attachment,
+                                   VkImageLayout layout) {
     VkAttachmentReference reference;
     reference.attachment = attachment;
     reference.layout = layout;
@@ -108,7 +111,8 @@ void subpass::set_input_attachments(VkAttachmentReferences const& attachments) {
 }
 
 //-----------------------------------------------------------------------------
-void subpass::set_resolve_attachment(index attachment, VkImageLayout layout) {
+void subpass::set_resolve_attachment(index attachment,
+                                     VkImageLayout layout) {
     VkAttachmentReference reference;
     reference.attachment = attachment;
     reference.layout = layout;
@@ -147,7 +151,8 @@ void subpass::set_preserve_attachments(index_list const& attachments) {
 }
 
 //-----------------------------------------------------------------------------
-void subpass::process(VkCommandBuffer cmd_buf, uv2 size) {
+void subpass::process(VkCommandBuffer cmd_buf,
+                      uv2 size) {
     for (auto& pipeline : pipelines) {
         if (!pipeline->activated())
             continue;
@@ -188,7 +193,9 @@ subpass_dependency::subpass_dependency() {
 }
 
 //-----------------------------------------------------------------------------
-subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass, ui32 dst_subpass, VkDependencyFlags dependency_flags) {
+subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass,
+                                                ui32 dst_subpass,
+                                                VkDependencyFlags dependency_flags) {
     auto dependency = std::make_shared<subpass_dependency>();
 
     dependency->set_subpass(src_subpass, dst_subpass);

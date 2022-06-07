@@ -161,6 +161,9 @@ enum class key : i32 {
     last = menu,
 };
 
+/// Key type
+using key_t = key;
+
 /// Reference to key
 using key_ref = key const&;
 
@@ -197,6 +200,9 @@ enum class action : type {
     repeat
 };
 
+/// Action type
+using action_t = action;
+
 /// Refernece to action
 using action_ref = action const&;
 
@@ -214,6 +220,9 @@ enum class mod : type {
 };
 
 ENUM_FLAG_OPERATORS(mod)
+
+/// Mod type
+using mod_t = mod;
 
 /**
  * @brief Check if mod is active
@@ -260,13 +269,13 @@ struct key_event {
     id sender;
 
     /// Input key
-    lava::key key;
+    key_t key;
 
     /// Input action
-    lava::action action;
+    action_t action;
 
     /// Input mod
-    lava::mod mod;
+    mod_t mod;
 
     /// Input scan code
     i32 scancode = 0;
@@ -448,10 +457,10 @@ struct mouse_button_event {
     mouse_button button;
 
     /// Input action
-    lava::action action;
+    action_t action;
 
     /// Input mod
-    lava::mod mod;
+    mod_t mod;
 
     /**
      * @brief Check if mouse button is pressed
@@ -684,6 +693,9 @@ private:
     input_callback::clist callbacks;
 };
 
+/// Input type
+using input_t = input;
+
 /**
  * @brief Tooltip
  */
@@ -695,10 +707,10 @@ struct tooltip {
     string name;
 
     /// Input key
-    lava::key key;
+    key_t key;
 
     /// Input mod
-    lava::mod mod;
+    mod_t mod;
 };
 
 } // namespace lava

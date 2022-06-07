@@ -36,8 +36,14 @@ struct telegram {
      * @param dispatch_time    Dispatch time
      * @param info             Telegram information
      */
-    explicit telegram(id::ref sender, id::ref receiver, type msg, ms dispatch_time = {}, any info = {})
-    : sender(sender), receiver(receiver), msg(msg), dispatch_time(dispatch_time), info(std::move(info)) {}
+    explicit telegram(id::ref sender,
+                      id::ref receiver,
+                      type msg,
+                      ms dispatch_time = {},
+                      any info = {})
+    : sender(sender), receiver(receiver),
+      msg(msg), dispatch_time(dispatch_time),
+      info(std::move(info)) {}
 
     /**
      * @brief Equal operator
@@ -48,7 +54,10 @@ struct telegram {
      * @return false    Telegram is inequal
      */
     bool operator==(ref rhs) const {
-        return ((dispatch_time - rhs.dispatch_time) < telegram_min_delay) && (sender == rhs.sender) && (receiver == rhs.receiver) && (msg == rhs.msg);
+        return ((dispatch_time - rhs.dispatch_time) < telegram_min_delay)
+               && (sender == rhs.sender)
+               && (receiver == rhs.receiver)
+               && (msg == rhs.msg);
     }
 
     /**
@@ -121,8 +130,16 @@ struct dispatcher {
      * @param delay       Delay time
      * @param info        Telegram information
      */
-    void add_message(id::ref receiver, id::ref sender, type message, ms delay = {}, any const& info = {}) {
-        telegram msg(sender, receiver, message, current_time, info);
+    void add_message(id::ref receiver,
+                     id::ref sender,
+                     type message,
+                     ms delay = {},
+                     any const& info = {}) {
+        telegram msg(sender,
+                     receiver,
+                     message,
+                     current_time,
+                     info);
 
         if (delay == ms{ 0 }) {
             discharge(msg); // now
@@ -158,8 +175,11 @@ private:
      * @param time    Current time
      */
     void dispatch_delayed_messages(ms time) {
-        while (!messages.empty() && (messages.begin()->dispatch_time < time) && (messages.begin()->dispatch_time > ms{})) {
+        while (!messages.empty()
+               && (messages.begin()->dispatch_time < time)
+               && (messages.begin()->dispatch_time > ms{})) {
             discharge(*messages.begin());
+
             messages.erase(messages.begin());
         }
     }

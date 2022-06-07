@@ -36,7 +36,8 @@ struct pipeline : entity {
      * @param device            Vulkan device
      * @param pipeline_cache    Pipeline cache
      */
-    explicit pipeline(device_ptr device, VkPipelineCache pipeline_cache = 0);
+    explicit pipeline(device_p device,
+                      VkPipelineCache pipeline_cache = 0);
 
     /**
      * @brief Destroy the pipeline
@@ -130,9 +131,9 @@ struct pipeline : entity {
     /**
      * @brief Get the device
      *
-     * @return device_ptr    Vulkan device
+     * @return device_p    Vulkan device
      */
-    device_ptr get_device() {
+    device_p get_device() {
         return device;
     }
 
@@ -200,7 +201,9 @@ struct pipeline : entity {
          * @return true                  Create was successful
          * @return false                 Create failed
          */
-        bool create(device_ptr device, cdata::ref shader_data, cdata::ref specialization_data = data());
+        bool create(device_p device,
+                    cdata::ref shader_data,
+                    cdata::ref specialization_data = data());
 
         /**
          * @brief Destroy the shader stage
@@ -218,7 +221,7 @@ struct pipeline : entity {
 
     private:
         /// Vulkan device
-        device_ptr device = nullptr;
+        device_p device = nullptr;
 
         /// Pipeline shader stage create information
         VkPipelineShaderStageCreateInfo create_info;
@@ -235,20 +238,20 @@ struct pipeline : entity {
 
 protected:
     /**
-     * @brief Internal create a new pipeline
+     * @brief Set up the pipeline
      *
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return true     Setup was successful
+     * @return false    Setup failed
      */
-    virtual bool create_internal() = 0;
+    virtual bool setup() = 0;
 
     /**
-     * @brief Internal destroy the pipeline
+     * @brief Tear down the pipeline
      */
-    virtual void destroy_internal() = 0;
+    virtual void teardown() = 0;
 
     /// Vulkan device
-    device_ptr device = nullptr;
+    device_p device = nullptr;
 
     /// Vulkan pipeline
     VkPipeline vk_pipeline = VK_NULL_HANDLE;
@@ -285,6 +288,8 @@ pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits sta
  *
  * @return pipeline::shader_stage::ptr    Shared pointer to pipeline shader stage
  */
-pipeline::shader_stage::ptr create_pipeline_shader_stage(device_ptr device, cdata::ref data, VkShaderStageFlagBits stage);
+pipeline::shader_stage::ptr create_pipeline_shader_stage(device_p device,
+                                                         cdata::ref data,
+                                                         VkShaderStageFlagBits stage);
 
 } // namespace lava

@@ -57,7 +57,9 @@ struct queue {
 };
 
 /// Default queue flags
-constexpr VkQueueFlags const default_queue_flags = VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT;
+constexpr VkQueueFlags const default_queue_flags = VK_QUEUE_GRAPHICS_BIT
+                                                   | VK_QUEUE_COMPUTE_BIT
+                                                   | VK_QUEUE_TRANSFER_BIT;
 
 /**
  * @brief Queue information
@@ -93,7 +95,9 @@ struct queue_family_info {
      * @param count       Number of queues
      * @param priority    Queue priority
      */
-    void add(VkQueueFlags flags, ui32 count = 1, r32 priority = 1.f) {
+    void add(VkQueueFlags flags,
+             ui32 count = 1,
+             r32 priority = 1.f) {
         for (auto i = 0u; i < count; ++i) {
             queue_info info{ flags, priority };
             queues.push_back(info);
@@ -130,7 +134,8 @@ void set_default_queues(queue_family_info::list& list);
  * @param list          List of queue family informations
  * @param properties    List of queue family properties
  */
-void set_all_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList const& properties);
+void set_all_queues(queue_family_info::list& list,
+                    VkQueueFamilyPropertiesList const& properties);
 
 /**
  * @brief Add queues
@@ -146,7 +151,9 @@ void set_all_queues(queue_family_info::list& list, VkQueueFamilyPropertiesList c
  */
 bool add_queues(queue_family_info::list& list,
                 VkQueueFamilyPropertiesList const& properties,
-                VkQueueFlags flags, ui32 count, r32 priority = 1.f);
+                VkQueueFlags flags,
+                ui32 count,
+                r32 priority = 1.f);
 
 /**
  * @brief Add dedicated queues
@@ -184,6 +191,7 @@ enum class verify_queues_result : type {
  *
  * @return verify_queues_result    Verification result
  */
-verify_queues_result verify_queues(queue_family_info::list const& list, VkQueueFamilyPropertiesList const& properties);
+verify_queues_result verify_queues(queue_family_info::list const& list,
+                                   VkQueueFamilyPropertiesList const& properties);
 
 } // namespace lava

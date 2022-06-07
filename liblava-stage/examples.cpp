@@ -29,7 +29,7 @@ LAVA_STAGE(7, "forward shading") {
         return input_ignore;
     });
 
-    device_ptr device = frame.platform.create_device();
+    device_p device = frame.platform.create_device();
     if (!device)
         return error::create_failed;
 
@@ -44,11 +44,16 @@ LAVA_STAGE(7, "forward shading") {
     render_pass::ptr render_pass = shading.get_pass();
 
     block block;
-    if (!block.create(device, render_target->get_frame_count(), device->graphics_queue().family))
+    if (!block.create(device,
+                      render_target->get_frame_count(),
+                      device->graphics_queue().family))
         return error::create_failed;
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
-        render_pass->set_clear_color({ lava::random(1.f), lava::random(1.f), lava::random(1.f) });
+        render_pass->set_clear_color({ random(1.f),
+                                       random(1.f),
+                                       random(1.f) });
+
         render_pass->process(cmd_buf, block.get_current_frame());
     });
 

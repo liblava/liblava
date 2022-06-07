@@ -15,7 +15,8 @@ void compute_pipeline::bind(VkCommandBuffer cmd_buf) {
 }
 
 //-----------------------------------------------------------------------------
-bool compute_pipeline::set_shader_stage(cdata::ref data, VkShaderStageFlagBits stage) {
+bool compute_pipeline::set_shader_stage(cdata::ref data,
+                                        VkShaderStageFlagBits stage) {
     if (!data.ptr) {
         log()->error("compute pipeline shader stage data");
         return false;
@@ -32,7 +33,7 @@ bool compute_pipeline::set_shader_stage(cdata::ref data, VkShaderStageFlagBits s
 }
 
 //-----------------------------------------------------------------------------
-bool compute_pipeline::create_internal() {
+bool compute_pipeline::setup() {
     VkComputePipelineCreateInfo const create_info{
         .sType = VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO,
         .stage = shader_stage->get_create_info(),
@@ -43,12 +44,16 @@ bool compute_pipeline::create_internal() {
 
     std::array<VkComputePipelineCreateInfo, 1> const info = { create_info };
 
-    return check(device->call().vkCreateComputePipelines(device->get(), pipeline_cache, to_ui32(info.size()),
-                                                         info.data(), memory::alloc(), &vk_pipeline));
+    return check(device->call().vkCreateComputePipelines(device->get(),
+                                                         pipeline_cache,
+                                                         to_ui32(info.size()),
+                                                         info.data(),
+                                                         memory::alloc(),
+                                                         &vk_pipeline));
 }
 
 //-----------------------------------------------------------------------------
-void compute_pipeline::destroy_internal() {
+void compute_pipeline::teardown() {
     shader_stage = nullptr;
 }
 

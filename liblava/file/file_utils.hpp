@@ -32,7 +32,9 @@ bool read_file(std::vector<char>& out, name filename);
  * @return true        Write was successful
  * @return false       Write failed
  */
-bool write_file(name filename, char const* data, size_t data_size);
+bool write_file(name filename,
+                char const* data,
+                size_t data_size);
 
 /**
  * @brief Check extension of file
@@ -64,7 +66,8 @@ bool extension(name filename, names extensions);
  *
  * @return string           File name
  */
-string get_filename_from(string_ref path, bool with_extension = false);
+string get_filename_from(string_ref path,
+                         bool with_extension = false);
 
 /**
  * @brief Remove existing path
@@ -75,7 +78,8 @@ string get_filename_from(string_ref path, bool with_extension = false);
  * @return true     Remove was successful
  * @return false    Remove failed
  */
-bool remove_existing_path(string& target, string_ref path);
+bool remove_existing_path(string& target,
+                          string_ref path);
 
 /**
  * @brief Load file data
@@ -86,7 +90,8 @@ bool remove_existing_path(string& target, string_ref path);
  * @return true       Load was successful
  * @return false      Load failed
  */
-bool load_file_data(string_ref filename, data& target);
+bool load_file_data(string_ref filename,
+                    data& target);
 
 /**
  * @brief File data

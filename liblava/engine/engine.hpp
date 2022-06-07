@@ -32,7 +32,7 @@ struct engine : app {
     property prop;
 
     /// Producer
-    lava::producer producer;
+    producer_t producer;
 
 private:
     /**

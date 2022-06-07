@@ -34,7 +34,8 @@ struct frame_env {
      * @param app_name    Name of application
      * @param cmd_line    Command line arguments
      */
-    explicit frame_env(name app_name, argh::parser cmd_line)
+    explicit frame_env(name app_name,
+                       argh::parser cmd_line)
     : cmd_line(cmd_line) {
         info.app_name = app_name;
         set_default();
@@ -261,7 +262,7 @@ struct frame : interface, no_copy_no_move {
     }
 
     /// Stage platform
-    lava::platform platform;
+    platform_t platform;
 
 private:
     /**

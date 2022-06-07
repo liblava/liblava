@@ -59,9 +59,9 @@ public:
     /**
      * @brief Scale mesh data by vector
      *
-     * @tparam PosType   Coordinate element typename
+     * @tparam PosType    Coordinate element typename
      *
-     * @param factors    Array of position scaling factors
+     * @param factors     Array of position scaling factors
      */
     template<typename PosType = float>
     void scale_vector(std::array<PosType, 3> factors) {
@@ -109,7 +109,8 @@ struct mesh_template : entity {
      * @return true           Create was successful
      * @return false          Create failed
      */
-    bool create(device_ptr device, bool mapped = false,
+    bool create(device_p device,
+                bool mapped = false,
                 VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
 
     /**
@@ -260,7 +261,7 @@ struct mesh_template : entity {
 
 private:
     /// Vulkan device
-    device_ptr device = nullptr;
+    device_p device = nullptr;
 
     /// Mesh data
     mesh_template_data<T> data;
@@ -285,20 +286,29 @@ void mesh_template<T>::bind(VkCommandBuffer cmd_buf) const {
         std::array<VkDeviceSize, 1> const buffer_offsets = { 0 };
         std::array<VkBuffer, 1> const buffers = { vertex_buffer->get() };
 
-        vkCmdBindVertexBuffers(cmd_buf, 0, to_ui32(buffers.size()), buffers.data(), buffer_offsets.data());
+        vkCmdBindVertexBuffers(cmd_buf, 0,
+                               to_ui32(buffers.size()), buffers.data(),
+                               buffer_offsets.data());
     }
 
     if (index_buffer && index_buffer->valid())
-        vkCmdBindIndexBuffer(cmd_buf, index_buffer->get(), 0, VK_INDEX_TYPE_UINT32);
+        vkCmdBindIndexBuffer(cmd_buf,
+                             index_buffer->get(),
+                             0,
+                             VK_INDEX_TYPE_UINT32);
 }
 
 //-----------------------------------------------------------------------------
 template<typename T>
 void mesh_template<T>::draw(VkCommandBuffer cmd_buf) const {
     if (!data.indices.empty())
-        vkCmdDrawIndexed(cmd_buf, to_ui32(data.indices.size()), 1, 0, 0, 0);
+        vkCmdDrawIndexed(cmd_buf,
+                         to_ui32(data.indices.size()),
+                         1, 0, 0, 0);
     else
-        vkCmdDraw(cmd_buf, to_ui32(data.vertices.size()), 1, 0, 0);
+        vkCmdDraw(cmd_buf,
+                  to_ui32(data.vertices.size()),
+                  1, 0, 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -333,21 +343,25 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
 /**
  * @brief Create a new primitive mesh_data
  *
- * @tparam T                                    Type of vertex struct
- * @tparam generate_colors                      If color may be generated
- * @tparam generate_normals                     If normals may be generated
- * @tparam generate_uvs                         If UVs may be generated
- * @tparam has_colors                           On MSVC, specifies if a `color` field exists
- * @tparam has_normals                          On MSVC, specifies if a `normal` field exists
- * @tparam has_uvs                              On MSVC, specifies if a `uv` field exists
+ * @tparam T                        Type of vertex struct
+ * @tparam generate_colors          If color may be generated
+ * @tparam generate_normals         If normals may be generated
+ * @tparam generate_uvs             If UVs may be generated
+ * @tparam has_colors               On MSVC, specifies if a `color` field exists
+ * @tparam has_normals              On MSVC, specifies if a `normal` field exists
+ * @tparam has_uvs                  On MSVC, specifies if a `uv` field exists
  *
- * @param type                                  Mesh type
+ * @param type                      Mesh type
  *
- * @return mesh_template_data<T>                Mesh data
+ * @return mesh_template_data<T>    Mesh data
  */
-template<typename T = vertex, bool generate_colors = true,
-         bool generate_normals = true, bool generate_uvs = true,
-         bool has_colors = true, bool has_normals = true, bool has_uvs = true>
+template<typename T = vertex,
+         bool generate_colors = true,
+         bool generate_normals = true,
+         bool generate_uvs = true,
+         bool has_colors = true,
+         bool has_normals = true,
+         bool has_uvs = true>
 mesh_template_data<T> create_mesh_data(mesh_type type);
 
 /**
@@ -366,15 +380,21 @@ mesh_template_data<T> create_mesh_data(mesh_type type);
  *
  * @return std::shared_ptr<mesh_template<T>>    Shared pointer to mesh
  */
-template<typename T = vertex, bool generate_colors = true,
-         bool generate_normals = true, bool generate_uvs = true,
-         bool has_colors = true, bool has_normals = true, bool has_uvs = true>
-std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
+template<typename T = vertex,
+         bool generate_colors = true,
+         bool generate_normals = true,
+         bool generate_uvs = true,
+         bool has_colors = true,
+         bool has_normals = true,
+         bool has_uvs = true>
+std::shared_ptr<mesh_template<T>> create_mesh(device_p& device,
                                               mesh_type type);
 
 //-----------------------------------------------------------------------------
 template<typename T>
-bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
+bool mesh_template<T>::create(device_p d,
+                              bool m,
+                              VmaMemoryUsage mu) {
     device = d;
     mapped = m;
     memory_usage = mu;
@@ -382,10 +402,12 @@ bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
     if (!data.vertices.empty()) {
         vertex_buffer = make_buffer();
 
-        if (!vertex_buffer->create(device, data.vertices.data(),
+        if (!vertex_buffer->create(device,
+                                   data.vertices.data(),
                                    sizeof(T) * data.vertices.size(),
                                    VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-                                   mapped, memory_usage)) {
+                                   mapped,
+                                   memory_usage)) {
             log()->error("create mesh vertex buffer");
             return false;
         }
@@ -394,10 +416,12 @@ bool mesh_template<T>::create(device_ptr d, bool m, VmaMemoryUsage mu) {
     if (!data.indices.empty()) {
         index_buffer = make_buffer();
 
-        if (!index_buffer->create(device, data.indices.data(),
+        if (!index_buffer->create(device,
+                                  data.indices.data(),
                                   sizeof(ui32) * data.indices.size(),
                                   VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
-                                  mapped, memory_usage)) {
+                                  mapped,
+                                  memory_usage)) {
             log()->error("create mesh index buffer");
             return false;
         }
@@ -450,20 +474,37 @@ template<typename UVType>
 constexpr std::array<UVType, 24> make_primitive_uvs_cube();
 
 //-----------------------------------------------------------------------------
-template<typename T, bool generate_colors, bool generate_normals,
-         bool generate_uvs, bool has_colors, bool has_normals, bool has_uvs>
-std::shared_ptr<mesh_template<T>> create_mesh(device_ptr& device,
+template<typename T,
+         bool generate_colors,
+         bool generate_normals,
+         bool generate_uvs,
+         bool has_colors,
+         bool has_normals,
+         bool has_uvs>
+std::shared_ptr<mesh_template<T>> create_mesh(device_p& device,
                                               mesh_type type) {
-    std::shared_ptr<mesh_template<T>> return_mesh = std::make_shared<mesh_template<T>>();
-    return_mesh->add_data(create_mesh_data<T, generate_colors, generate_normals, generate_uvs,
-                                           has_colors, has_normals, has_uvs>(type));
+    std::shared_ptr<mesh_template<T>> return_mesh =
+        std::make_shared<mesh_template<T>>();
+
+    return_mesh->add_data(create_mesh_data<T,
+                                           generate_colors,
+                                           generate_normals,
+                                           generate_uvs,
+                                           has_colors,
+                                           has_normals,
+                                           has_uvs>(type));
     return_mesh->create(device);
     return return_mesh;
 }
 
 //-----------------------------------------------------------------------------
-template<typename T, bool generate_colors, bool generate_normals,
-         bool generate_uvs, bool has_colors, bool has_normals, bool has_uvs>
+template<typename T,
+         bool generate_colors,
+         bool generate_normals,
+         bool generate_uvs,
+         bool has_colors,
+         bool has_normals,
+         bool has_uvs>
 mesh_template_data<T> create_mesh_data(mesh_type type) {
     mesh_template_data<T> return_mesh_data;
 
@@ -488,16 +529,20 @@ mesh_template_data<T> create_mesh_data(mesh_type type) {
     switch (type) {
     case mesh_type::cube: {
         return_mesh_data.indices.reserve(36);
-        return_mesh_data.indices = make_primitive_indices_cube<(generate_normals && auto_normals)>();
+        return_mesh_data.indices = make_primitive_indices_cube<(generate_normals
+                                                                && auto_normals)>();
         constexpr size_t vert_count = (generate_normals && auto_normals) ? 24 : 8;
         return_mesh_data.vertices.reserve(vert_count);
-        auto positions = make_primitive_positions_cube<PosType, vert_count, (generate_normals && auto_normals)>();
+        auto positions = make_primitive_positions_cube<PosType, vert_count,
+                                                       (generate_normals && auto_normals)>();
         for (size_t i = 0; i < vert_count; i++) {
             T vert;
             vert.position = positions[i];
             if constexpr (generate_normals && auto_normals) {
-                // This array is generated inside of every loop because that makes the scoping rules simplest to follow
-                // My expectation is that a compiler should be able to trivially optimize this
+                // this array is generated inside of every loop because
+                // that makes the scoping rules simplest to follow
+                // my expectation is that a compiler should be able
+                // to trivially optimize this
                 using NormType = decltype(T::normal);
                 auto normals = make_primitive_normals_cube<NormType>();
                 vert.normal = normals[i / 4];
@@ -647,7 +692,7 @@ mesh_template_data<T> create_mesh_data(mesh_type type) {
 
     if constexpr (generate_colors && auto_colors) {
         for (auto& vert : return_mesh_data.vertices) {
-            // This does not work on glm vectors
+            // this does not work on glm vectors
             // for (auto& this_color : vert.color) {
             //     for (auto& color_component : this_color) {
             //         color_component = 1;
@@ -669,22 +714,24 @@ mesh_template_data<T> create_mesh_data(mesh_type type) {
 }
 
 //-----------------------------------------------------------------------------
-template<typename PosType, size_t vert_count, bool is_complex>
+template<typename PosType,
+         size_t vert_count,
+         bool is_complex>
 constexpr std::array<PosType, vert_count> make_primitive_positions_cube() {
     if constexpr (is_complex) {
         // clang-format off
         constexpr std::array<PosType, 24> positions = {{
-            // Front
+            // front
             { 1, 1, 1 }, { -1, 1, 1}, { -1, -1, 1 }, { 1, -1, 1 },
-            // Back
+            // back
             { 1, 1, -1 }, { -1, 1, -1 }, { -1, -1, -1 }, { 1, -1, -1 },
-            // Left
+            // left
             { -1, 1, 1 }, { -1, 1, -1 }, { -1, -1, -1 }, { -1, -1, 1 },
-            // Right
+            // right
             { 1, 1, 1 }, { 1, -1, 1 }, { 1, -1, -1 }, { 1, 1, -1 },
-            // Bottom
+            // bottom
             { 1, 1, 1 }, { -1, 1, 1 }, { -1, 1, -1 }, { 1, 1, -1 },
-            // Top
+            // top
             { 1, -1, 1 }, { -1, -1, 1 }, { -1, -1, -1 }, { 1, -1, -1 },
         }};
         return positions;
@@ -725,24 +772,24 @@ std::vector<index> make_primitive_indices_cube() {
         };
         return indices;
     } else {
-        // Clockwise winding order
+        // clockwise winding order
         std::vector<index> indices = {
-            // Left
+            // left
             0, 1, 2,
             2, 1, 3,
-            // Right
+            // right
             4, 5, 6,
             6, 5, 7,
-            // Top
+            // top
             0, 1, 4,
             4, 1, 5,
-            // Bottom
+            // bottom
             2, 3, 6,
             6, 3, 7,
-            // Back
+            // back
             3, 1, 5,
             5, 7, 3,
-            // Front
+            // front
             2, 0, 4,
             4, 6, 2,
         };
@@ -755,7 +802,7 @@ std::vector<index> make_primitive_indices_cube() {
 template<typename NormType>
 constexpr std::array<NormType, 6> make_primitive_normals_cube() {
     // clang-format off
-    // Front, back, left, right, bottom, and top normals, in that order
+    // front, back, left, right, bottom, and top normals, in that order
     constexpr std::array<NormType, 6> normals = {{ { 0, 0, 1 },  { 0, 0, -1 },
                                                    { -1, 0, 0 }, { 1, 0, 0 },
                                                    { 0, 1, 0 },  { 0, -1, 0 }, }};
@@ -768,18 +815,12 @@ template<typename UVType>
 constexpr std::array<UVType, 24> make_primitive_uvs_cube() {
     // clang-format off
     constexpr std::array<UVType, 24> uvs = {{
-        // Front
-        { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
-        // Back
-        { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, 0 },
-        // Left
-        { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
-        // Right
-        { 0, 1 }, { 0, 0 }, { 1, 0 }, { 1, 1 },
-        // Bottom
-        { 1, 0 }, { 0, 0 }, { 0, 1 }, { 1, 1 },
-        // Top
-        { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 },
+        { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 }, // front
+        { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, 0 }, // back
+        { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 }, // left
+        { 0, 1 }, { 0, 0 }, { 1, 0 }, { 1, 1 }, // right
+        { 1, 0 }, { 0, 0 }, { 0, 1 }, { 1, 1 }, // bottom
+        { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 }, // top
     }};
     // clang-format on
     return uvs;

@@ -27,7 +27,11 @@ struct swapchain : entity {
      * @return true      Create was successful
      * @return false     Create failed
      */
-    bool create(device_ptr device, VkSurfaceKHR surface, VkSurfaceFormatKHR format, uv2 size, bool v_sync = false);
+    bool create(device_p device,
+                VkSurfaceKHR surface,
+                VkSurfaceFormatKHR format,
+                uv2 size,
+                bool v_sync = false);
 
     /**
      * @brief Destroy the swapchain
@@ -64,9 +68,9 @@ struct swapchain : entity {
     /**
      * @brief Get the device
      *
-     * @return device_ptr    Vulkan device
+     * @return device_p    Vulkan device
      */
-    device_ptr get_device() {
+    device_p get_device() {
         return device;
     }
 
@@ -198,17 +202,17 @@ private:
     VkSwapchainCreateInfoKHR create_info(VkPresentModeKHRs present_modes);
 
     /**
-     * @brief Internal create a new swapchain
+     * @brief Set up the swapchain
      *
-     * @return true     Internal create was successful
-     * @return false    Internal create failed
+     * @return true     Setup was successful
+     * @return false    Setup failed
      */
-    bool create_internal();
+    bool setup();
 
     /**
-     * @brief Internal destroy the swapchain
+     * @brief Tear down the swapchain
      */
-    void destroy_internal();
+    void teardown();
 
     /**
      * @brief Destroy swapchain backbuffer views
@@ -216,7 +220,7 @@ private:
     void destroy_backbuffer_views();
 
     /// Vulkan device
-    device_ptr device = nullptr;
+    device_p device = nullptr;
 
     /// Vulkan surface
     VkSurfaceKHR surface = VK_NULL_HANDLE;

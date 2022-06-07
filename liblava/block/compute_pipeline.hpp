@@ -43,7 +43,8 @@ struct compute_pipeline : pipeline {
      * @return true     Set was successful
      * @return false    Set failed
      */
-    bool set_shader_stage(cdata::ref data, VkShaderStageFlagBits stage);
+    bool set_shader_stage(cdata::ref data,
+                          VkShaderStageFlagBits stage);
 
     /**
      * @brief Set shader stage
@@ -81,17 +82,17 @@ struct compute_pipeline : pipeline {
 
 private:
     /**
-     * @brief Internal create a new compute pipeline
+     * @brief Set up the compute pipeline
      *
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return true     Setup was successful
+     * @return false    Setup failed
      */
-    bool create_internal() override;
+    bool setup() override;
 
     /**
-     * @brief Internal destroy the compute pipeline
+     * @brief Tear down the compute pipeline
      */
-    void destroy_internal() override;
+    void teardown() override;
 
     /// Shader stage
     shader_stage::ptr shader_stage;
@@ -105,7 +106,8 @@ private:
  *
  * @return compute_pipeline::ptr    Shared pointer to compute pipeline
  */
-inline compute_pipeline::ptr make_compute_pipeline(device_ptr device, VkPipelineCache pipeline_cache = 0) {
+inline compute_pipeline::ptr make_compute_pipeline(device_p device,
+                                                   VkPipelineCache pipeline_cache = 0) {
     return std::make_shared<compute_pipeline>(device, pipeline_cache);
 }
 

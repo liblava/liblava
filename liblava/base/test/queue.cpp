@@ -22,7 +22,8 @@ TEST_CASE("queue setup - GeForce GTX 1060", "[queue]") {
         set_default_queues(list);
 
         REQUIRE(list.at(0).count() == 1);
-        REQUIRE(list.at(0).queues.at(0).flags == (VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT));
+        REQUIRE(list.at(0).queues.at(0).flags
+                == (VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT));
     }
 
     SECTION("set all queues") {
@@ -30,7 +31,8 @@ TEST_CASE("queue setup - GeForce GTX 1060", "[queue]") {
 
         REQUIRE(list.at(0).count() == 16);
         for (auto& queue : list.at(0).queues)
-            REQUIRE(queue.flags == (VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT));
+            REQUIRE(queue.flags
+                    == (VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT));
 
         REQUIRE(list.at(1).count() == 2);
         for (auto& queue : list.at(1).queues)

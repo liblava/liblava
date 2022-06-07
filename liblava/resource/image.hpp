@@ -30,7 +30,8 @@ struct image : entity {
      * @param format      Image format
      * @param vk_image    Vulkan image
      */
-    explicit image(VkFormat format, VkImage vk_image = 0);
+    explicit image(VkFormat format,
+                   VkImage vk_image = 0);
 
     /**
      * @brief Create a new image
@@ -43,7 +44,8 @@ struct image : entity {
      * @return true                    Create was successful
      * @return false                   Create failed
      */
-    bool create(device_ptr device, uv2 size,
+    bool create(device_p device,
+                uv2 size,
                 VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY,
                 bool mip_levels_generation = false);
 
@@ -64,9 +66,9 @@ struct image : entity {
     /**
      * @brief Get the device
      *
-     * @return device_ptr    Vulkan device
+     * @return device_p    Vulkan device
      */
-    device_ptr get_device() {
+    device_p get_device() {
         return device;
     }
 
@@ -236,7 +238,7 @@ struct image : entity {
 
 private:
     /// Vulkan device
-    device_ptr device = nullptr;
+    device_p device = nullptr;
 
     /// Vulkan image
     VkImage vk_image = VK_NULL_HANDLE;

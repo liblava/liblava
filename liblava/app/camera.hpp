@@ -39,7 +39,7 @@ struct camera : entity {
      * @return true     Create was successful
      * @return false    Create failed
      */
-    bool create(device_ptr device);
+    bool create(device_p device);
 
     /**
      * @brief Destroy the camera
@@ -296,5 +296,8 @@ private:
     /// View matrix
     mat4 view = mat4(0.f);
 };
+
+/// Camera type
+using camera_t = camera;
 
 } // namespace lava

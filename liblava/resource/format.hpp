@@ -81,7 +81,9 @@ VkImageAspectFlags format_aspect_mask(VkFormat format);
  * @param width     Block width
  * @param height    Block height
  */
-void format_block_dim(VkFormat format, ui32& width, ui32& height);
+void format_block_dim(VkFormat format,
+                      ui32& width,
+                      ui32& height);
 
 /**
  * @brief Get align dimension of format
@@ -90,7 +92,9 @@ void format_block_dim(VkFormat format, ui32& width, ui32& height);
  * @param width     Align width
  * @param height    Align height
  */
-void format_align_dim(VkFormat format, ui32& width, ui32& height);
+void format_align_dim(VkFormat format,
+                      ui32& width,
+                      ui32& height);
 
 /**
  * @brief Get format number of blocks
@@ -99,7 +103,9 @@ void format_align_dim(VkFormat format, ui32& width, ui32& height);
  * @param width     Number blocks width
  * @param height    Number blocks height
  */
-void format_num_blocks(VkFormat format, ui32& width, ui32& height);
+void format_num_blocks(VkFormat format,
+                       ui32& width,
+                       ui32& height);
 
 /**
  * @brief Get format block size
@@ -128,7 +134,9 @@ VkFormat_optional get_supported_depth_format(VkPhysicalDevice physical_device);
  *
  * @return VkFormat_optional    Optional format
  */
-VkFormat_optional get_supported_format(VkPhysicalDevice physical_device, VkFormats const& possible_formats, VkImageUsageFlags usage);
+VkFormat_optional get_supported_format(VkPhysicalDevice physical_device,
+                                       VkFormats const& possible_formats,
+                                       VkImageUsageFlags usage);
 
 /**
  * @brief Get image memory barrier
@@ -139,7 +147,9 @@ VkFormat_optional get_supported_format(VkPhysicalDevice physical_device, VkForma
  *
  * @return VkImageMemoryBarrier    Image memory barrier
  */
-VkImageMemoryBarrier image_memory_barrier(VkImage image, VkImageLayout old_layout, VkImageLayout new_layout);
+VkImageMemoryBarrier image_memory_barrier(VkImage image,
+                                          VkImageLayout old_layout,
+                                          VkImageLayout new_layout);
 
 /**
  * @brief Set the image layout
@@ -153,8 +163,12 @@ VkImageMemoryBarrier image_memory_barrier(VkImage image, VkImageLayout old_layou
  * @param src_stage_mask       Source pipeline stage flags
  * @param dst_stage_mask       Destination pipeline stage flags
  */
-void set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageLayout old_image_layout,
-                      VkImageLayout new_image_layout, VkImageSubresourceRange subresource_range,
+void set_image_layout(device_p device,
+                      VkCommandBuffer cmd_buffer,
+                      VkImage image,
+                      VkImageLayout old_image_layout,
+                      VkImageLayout new_image_layout,
+                      VkImageSubresourceRange subresource_range,
                       VkPipelineStageFlags src_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
                       VkPipelineStageFlags dst_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
 
@@ -170,8 +184,12 @@ void set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage ima
  * @param src_stage_mask      Source pipeline stage flags
  * @param dst_stage_mask      Destination pipeline stage flags
  */
-void set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkImageAspectFlags aspect_mask,
-                      VkImageLayout old_image_layout, VkImageLayout new_image_layout,
+void set_image_layout(device_p device,
+                      VkCommandBuffer cmd_buffer,
+                      VkImage image,
+                      VkImageAspectFlags aspect_mask,
+                      VkImageLayout old_image_layout,
+                      VkImageLayout new_image_layout,
                       VkPipelineStageFlags src_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
                       VkPipelineStageFlags dst_stage_mask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT);
 
@@ -189,9 +207,14 @@ void set_image_layout(device_ptr device, VkCommandBuffer cmd_buffer, VkImage ima
  * @param dst_stage_mask       Destination pipeline stage flags
  * @param subresource_range    Image subresource range
  */
-void insert_image_memory_barrier(device_ptr device, VkCommandBuffer cmd_buffer, VkImage image, VkAccessFlags src_access_mask,
-                                 VkAccessFlags dst_access_mask, VkImageLayout old_image_layout,
-                                 VkImageLayout new_image_layout, VkPipelineStageFlags src_stage_mask,
+void insert_image_memory_barrier(device_p device,
+                                 VkCommandBuffer cmd_buffer,
+                                 VkImage image,
+                                 VkAccessFlags src_access_mask,
+                                 VkAccessFlags dst_access_mask,
+                                 VkImageLayout old_image_layout,
+                                 VkImageLayout new_image_layout,
+                                 VkPipelineStageFlags src_stage_mask,
                                  VkPipelineStageFlags dst_stage_mask,
                                  VkImageSubresourceRange subresource_range);
 
@@ -224,6 +247,20 @@ struct surface_format_request {
  *
  * @return VkSurfaceFormatKHR    Chosen surface format
  */
-VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device, VkSurfaceKHR surface, surface_format_request request = {});
+VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device,
+                                      VkSurfaceKHR surface,
+                                      surface_format_request request = {});
+
+/**
+ * @brief Check if format supports bltting
+ *
+ * @param device    Vulkan device
+ * @param format    Format to check
+ *
+ * @return true     Bliting is supported
+ * @return false    Blitting is not supported
+ */
+bool support_blit(device_p device,
+                  VkFormat format);
 
 } // namespace lava

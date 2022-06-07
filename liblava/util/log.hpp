@@ -38,7 +38,10 @@ inline string to_string(string_ref id, string_ref name) {
  * @return string    String representation
  */
 inline string to_string(internal_version const& version) {
-    return fmt::format("{}.{}.{}", version.major, version.minor, version.patch);
+    return fmt::format("{}.{}.{}",
+                       version.major,
+                       version.minor,
+                       version.patch);
 }
 
 /**
@@ -88,9 +91,11 @@ inline string to_string(version const& version) {
         if (stage_str.empty())
             return fmt::format("{}", version.year);
         else
-            return fmt::format("{} {}", version.year, str(stage_str));
+            return fmt::format("{} {}",
+                               version.year, str(stage_str));
     } else
-        return fmt::format("{}.{} {}", version.year, version.release, str(stage_str));
+        return fmt::format("{}.{} {}",
+                           version.year, version.release, str(stage_str));
 }
 
 /**
@@ -130,11 +135,15 @@ struct log_config {
 inline logger setup_log(log_config config = {}) {
     if (config.debug) {
         auto log = spdlog::stdout_color_mt(config.logger);
-        log->set_level((config.level < 0) ? spdlog::level::debug : (spdlog::level::level_enum) config.level);
+        log->set_level((config.level < 0)
+                           ? spdlog::level::debug
+                           : (spdlog::level::level_enum) config.level);
         return log;
     } else {
         auto log = spdlog::basic_logger_mt(config.logger, config.file);
-        log->set_level((config.level < 0) ? spdlog::level::warn : (spdlog::level::level_enum) config.level);
+        log->set_level((config.level < 0)
+                           ? spdlog::level::warn
+                           : (spdlog::level::level_enum) config.level);
         return log;
     }
 }

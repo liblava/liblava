@@ -10,7 +10,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool pipeline_layout::create(device_ptr d) {
+bool pipeline_layout::create(device_p d) {
     device = d;
 
     VkDescriptorSetLayouts layouts;
@@ -25,7 +25,10 @@ bool pipeline_layout::create(device_ptr d) {
         .pPushConstantRanges = push_constant_ranges.data(),
     };
 
-    return check(device->call().vkCreatePipelineLayout(device->get(), &pipelineLayoutInfo, memory::alloc(), &layout));
+    return check(device->call().vkCreatePipelineLayout(device->get(),
+                                                       &pipelineLayoutInfo,
+                                                       memory::alloc(),
+                                                       &layout));
 }
 
 //-----------------------------------------------------------------------------
@@ -33,17 +36,30 @@ void pipeline_layout::destroy() {
     if (!layout)
         return;
 
-    device->call().vkDestroyPipelineLayout(device->get(), layout, memory::alloc());
+    device->call().vkDestroyPipelineLayout(device->get(),
+                                           layout,
+                                           memory::alloc());
     layout = VK_NULL_HANDLE;
 
     clear();
 }
 
 //-----------------------------------------------------------------------------
-void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf, VkDescriptorSet descriptor_set, index first_set, offset_list offsets, VkPipelineBindPoint bind_point) {
+void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf,
+                                          VkDescriptorSet descriptor_set,
+                                          index first_set,
+                                          offset_list offsets,
+                                          VkPipelineBindPoint bind_point) {
     std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
 
-    device->call().vkCmdBindDescriptorSets(cmd_buf, bind_point, layout, first_set, to_ui32(descriptor_sets.size()), descriptor_sets.data(), to_ui32(offsets.size()), offsets.data());
+    device->call().vkCmdBindDescriptorSets(cmd_buf,
+                                           bind_point,
+                                           layout,
+                                           first_set,
+                                           to_ui32(descriptor_sets.size()),
+                                           descriptor_sets.data(),
+                                           to_ui32(offsets.size()),
+                                           offsets.data());
 }
 
 } // namespace lava

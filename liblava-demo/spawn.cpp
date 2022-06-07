@@ -50,7 +50,10 @@ int main(int argc, char* argv[]) {
     mat4 spawn_model = glm::identity<mat4>();
 
     buffer spawn_model_buffer;
-    if (!spawn_model_buffer.create_mapped(app.device, &spawn_model, sizeof(mat4), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
+    if (!spawn_model_buffer.create_mapped(app.device,
+                                          &spawn_model,
+                                          sizeof(mat4),
+                                          VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
         return error::create_failed;
 
     graphics_pipeline::ptr pipeline;
@@ -62,10 +65,12 @@ int main(int argc, char* argv[]) {
 
     app.on_create = [&]() {
         pipeline = make_graphics_pipeline(app.device);
-        if (!pipeline->add_shader(app.producer.get_shader(_vertex_), VK_SHADER_STAGE_VERTEX_BIT))
+        if (!pipeline->add_shader(app.producer.get_shader(_vertex_),
+                                  VK_SHADER_STAGE_VERTEX_BIT))
             return false;
 
-        if (!pipeline->add_shader(app.producer.get_shader(_fragment_), VK_SHADER_STAGE_FRAGMENT_BIT))
+        if (!pipeline->add_shader(app.producer.get_shader(_fragment_),
+                                  VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         pipeline->add_color_blend_attachment();
@@ -81,18 +86,25 @@ int main(int argc, char* argv[]) {
         });
 
         descriptor = make_descriptor();
-        descriptor->add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
-        descriptor->add_binding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
-        descriptor->add_binding(2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
+        descriptor->add_binding(0,
+                                VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                                VK_SHADER_STAGE_VERTEX_BIT);
+        descriptor->add_binding(1,
+                                VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                                VK_SHADER_STAGE_VERTEX_BIT);
+        descriptor->add_binding(2,
+                                VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                                VK_SHADER_STAGE_FRAGMENT_BIT);
 
         if (!descriptor->create(app.device))
             return false;
 
         descriptor_pool = make_descriptor_pool();
-        if (!descriptor_pool->create(app.device, {
-                                                     { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1 },
-                                                     { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2 },
-                                                 }))
+        if (!descriptor_pool->create(app.device,
+                                     {
+                                         { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1 },
+                                         { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2 },
+                                     }))
             return false;
 
         layout = make_pipeline_layout();
@@ -132,7 +144,9 @@ int main(int argc, char* argv[]) {
             .pImageInfo = default_texture->get_descriptor_info(),
         };
 
-        app.device->vkUpdateDescriptorSets({ write_desc_ubo_camera, write_desc_ubo_spawn, write_desc_sampler });
+        app.device->vkUpdateDescriptorSets({ write_desc_ubo_camera,
+                                             write_desc_ubo_spawn,
+                                             write_desc_sampler });
 
         render_pass::ptr render_pass = app.shading.get_pass();
 
@@ -215,7 +229,8 @@ int main(int argc, char* argv[]) {
 
         bool first_person = app.camera.mode == camera_mode::first_person;
         if (ImGui::Checkbox("first person##camera", &first_person))
-            app.camera.mode = first_person ? camera_mode::first_person : camera_mode::look_at;
+            app.camera.mode = first_person ? camera_mode::first_person
+                                           : camera_mode::look_at;
 
         ImGui::Spacing();
 
@@ -260,7 +275,9 @@ int main(int argc, char* argv[]) {
             return false;
 
         if (event.pressed(key::enter)) {
-            app.camera.mode = app.camera.mode == camera_mode::first_person ? camera_mode::look_at : camera_mode::first_person;
+            app.camera.mode = app.camera.mode == camera_mode::first_person
+                                  ? camera_mode::look_at
+                                  : camera_mode::first_person;
             return true;
         }
 
@@ -286,9 +303,12 @@ int main(int argc, char* argv[]) {
         if (update_spawn_matrix) {
             spawn_model = glm::translate(mat4(1.f), spawn_position);
 
-            spawn_model = glm::rotate(spawn_model, glm::radians(spawn_rotation.x), v3(1.f, 1.f, 0.f));
-            spawn_model = glm::rotate(spawn_model, glm::radians(spawn_rotation.y), v3(0.f, 1.f, 0.f));
-            spawn_model = glm::rotate(spawn_model, glm::radians(spawn_rotation.z), v3(0.f, 0.f, 1.f));
+            spawn_model = glm::rotate(spawn_model, glm::radians(spawn_rotation.x),
+                                      v3(1.f, 1.f, 0.f));
+            spawn_model = glm::rotate(spawn_model, glm::radians(spawn_rotation.y),
+                                      v3(0.f, 1.f, 0.f));
+            spawn_model = glm::rotate(spawn_model, glm::radians(spawn_rotation.z),
+                                      v3(0.f, 0.f, 1.f));
 
             spawn_model = glm::scale(spawn_model, spawn_scale);
 
