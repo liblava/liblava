@@ -338,33 +338,40 @@ void app::handle_input() {
         }
 
         if (config.handle_key_events) {
-            if (event.pressed(key::q, mod::control))
-                return shut_down();
+            if (event.mod == mod::control) {
+                if (event.pressed(key::q))
+                    return shut_down();
 
-            if (event.pressed(key::tab, mod::control)) {
-                imgui.toggle();
-                return input_done;
-            }
+                if (event.pressed(key::tab)) {
+                    imgui.toggle();
+                    return input_done;
+                }
 
-            if (event.pressed(key::b, mod::control)) {
-                frames.exit = false;
-                benchmark(*this, frames);
-                return input_done;
-            }
+                if (event.pressed(key::b)) {
+                    frames.exit = false;
+                    benchmark(*this, frames);
+                    return input_done;
+                }
 
-            if (event.pressed(key::enter, mod::alt)) {
-                window.set_fullscreen(!window.fullscreen());
-                return input_done;
-            }
+                if (event.pressed(key::space)) {
+                    run_time.paused = !run_time.paused;
+                    return input_done;
+                }
 
-            if (event.pressed(key::backspace, mod::alt)) {
-                toggle_v_sync = true;
-                return input_done;
-            }
+                if (event.pressed(key::p)) {
+                    screenshot();
+                    return input_done;
+                }
+            } else if (event.mod == mod::alt) {
+                if (event.pressed(key::enter)) {
+                    window.set_fullscreen(!window.fullscreen());
+                    return input_done;
+                }
 
-            if (event.pressed(key::space, mod::control)) {
-                run_time.paused = !run_time.paused;
-                return input_done;
+                if (event.pressed(key::backspace)) {
+                    toggle_v_sync = true;
+                    return input_done;
+                }
             }
         }
 
@@ -507,6 +514,38 @@ void app::render() {
 
         return renderer.end_frame(block.get_buffers());
     });
+}
+
+//-----------------------------------------------------------------------------
+string app::screenshot() {
+    auto backbuffer_image = target->get_backbuffer(renderer.get_frame());
+    if (!backbuffer_image)
+        return {};
+
+    auto result = grab_image(backbuffer_image);
+    if (!result)
+        return {};
+
+    string screenshot_path = "screenshot/";
+    file_system::instance().create_folder(str(screenshot_path));
+
+    auto path = file_system::get_pref_dir() + screenshot_path
+                + get_current_time() + ".png";
+
+    auto swizzle = !support_blit(device, backbuffer_image->get_format())
+                   && format_bgr(backbuffer_image->get_format());
+
+    auto saved = write_image_png(device, result, path, swizzle);
+
+    result->destroy();
+
+    if (saved) {
+        log()->info("screenshot: {}", str(path));
+        return path;
+    } else {
+        log()->error("screenshot failed: {}", str(path));
+        return {};
+    }
 }
 
 //-----------------------------------------------------------------------------

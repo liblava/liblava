@@ -56,6 +56,16 @@ bool format_depth_stencil(VkFormat format);
 bool format_srgb(VkFormat format);
 
 /**
+ * @brief Check if format is BGR order
+ *
+ * @param format    Format to check
+ *
+ * @return true     Format is BGR
+ * @return false    Format is not BGR
+ */
+bool format_bgr(VkFormat format);
+
+/**
  * @brief Get image aspect mask of format
  *
  * @param format                 Target format

@@ -79,6 +79,38 @@ bool format_srgb(VkFormat format) {
 }
 
 //-----------------------------------------------------------------------------
+bool format_bgr(VkFormat format) {
+    switch (format) {
+    case VK_FORMAT_B4G4R4A4_UNORM_PACK16:
+    case VK_FORMAT_B5G6R5_UNORM_PACK16:
+    case VK_FORMAT_B5G5R5A1_UNORM_PACK16:
+    case VK_FORMAT_B8G8R8_UNORM:
+    case VK_FORMAT_B8G8R8_SNORM:
+    case VK_FORMAT_B8G8R8_USCALED:
+    case VK_FORMAT_B8G8R8_SSCALED:
+    case VK_FORMAT_B8G8R8_UINT:
+    case VK_FORMAT_B8G8R8_SINT:
+    case VK_FORMAT_B8G8R8_SRGB:
+    case VK_FORMAT_B8G8R8A8_UNORM:
+    case VK_FORMAT_B8G8R8A8_SNORM:
+    case VK_FORMAT_B8G8R8A8_USCALED:
+    case VK_FORMAT_B8G8R8A8_SSCALED:
+    case VK_FORMAT_B8G8R8A8_UINT:
+    case VK_FORMAT_B8G8R8A8_SINT:
+    case VK_FORMAT_B8G8R8A8_SRGB:
+    case VK_FORMAT_B10G11R11_UFLOAT_PACK32:
+    case VK_FORMAT_B8G8R8G8_422_UNORM:
+    case VK_FORMAT_B10X6G10X6R10X6G10X6_422_UNORM_4PACK16:
+    case VK_FORMAT_B12X4G12X4R12X4G12X4_422_UNORM_4PACK16:
+    case VK_FORMAT_B16G16R16G16_422_UNORM:
+        return true;
+
+    default:
+        return false;
+    }
+}
+
+//-----------------------------------------------------------------------------
 VkImageAspectFlags format_aspect_mask(VkFormat format) {
     switch (format) {
     case VK_FORMAT_UNDEFINED:

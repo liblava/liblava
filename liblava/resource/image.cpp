@@ -94,16 +94,148 @@ void image::destroy(bool view_only) {
 }
 
 //-----------------------------------------------------------------------------
-image::ptr make_image(VkFormat format, VkImage vk_image) {
+image::ptr make_image(VkFormat format,
+                      VkImage vk_image) {
     return std::make_shared<image>(format, vk_image);
 }
 
 //-----------------------------------------------------------------------------
-image::ptr create_image(device_ptr device, VkFormat format, uv2 size, VkImage vk_image) {
+image::ptr create_image(device_p device,
+                        VkFormat format,
+                        uv2 size,
+                        VkImage vk_image) {
     auto result = make_image(format, vk_image);
 
     if (!result->create(device, size, VMA_MEMORY_USAGE_AUTO))
         return nullptr;
+
+    return result;
+}
+
+//-----------------------------------------------------------------------------
+image::ptr grab_image(image::ptr source) {
+    auto device = source->get_device();
+
+    auto const size = source->get_size();
+    auto const width = size.x;
+    auto const height = size.y;
+
+    auto result = make_image(VK_FORMAT_R8G8B8A8_UNORM);
+    if (!result)
+        return nullptr;
+
+    result->set_tiling(VK_IMAGE_TILING_LINEAR);
+
+    if (!result->create(device, size, VMA_MEMORY_USAGE_AUTO_PREFER_HOST))
+        return nullptr;
+
+    auto queue = device->graphics_queue();
+
+    VkCommandPool pool = VK_NULL_HANDLE;
+    VkCommandPoolCreateInfo const create_info = { .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
+                                                  .flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT,
+                                                  .queueFamilyIndex = to_ui32(queue.family) };
+    if (!device->vkCreateCommandPool(&create_info, &pool))
+        return nullptr;
+
+    one_time_command_buffer(device, pool, queue, [&](VkCommandBuffer cmd_buf) {
+        insert_image_memory_barrier(device,
+                                    cmd_buf,
+                                    result->get(),
+                                    0,
+                                    VK_ACCESS_TRANSFER_WRITE_BIT,
+                                    VK_IMAGE_LAYOUT_UNDEFINED,
+                                    VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                    VK_PIPELINE_STAGE_TRANSFER_BIT,
+                                    VK_PIPELINE_STAGE_TRANSFER_BIT,
+                                    VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
+        insert_image_memory_barrier(device,
+                                    cmd_buf,
+                                    source->get(),
+                                    VK_ACCESS_MEMORY_READ_BIT,
+                                    VK_ACCESS_TRANSFER_READ_BIT,
+                                    VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+                                    VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
+                                    VK_PIPELINE_STAGE_TRANSFER_BIT,
+                                    VK_PIPELINE_STAGE_TRANSFER_BIT,
+                                    VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
+
+        if (support_blit(device, source->get_format())) {
+            VkImageSubresourceLayers const subresource_layers = {
+                .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+                .layerCount = 1,
+            };
+
+            VkImageBlit image_blit_region = {
+                .srcSubresource = subresource_layers,
+                .dstSubresource = subresource_layers,
+            };
+
+            VkOffset3D const blitSize = {
+                .x = to_i32(width),
+                .y = to_i32(height),
+                .z = 1,
+            };
+
+            image_blit_region.srcOffsets[1] = blitSize;
+            image_blit_region.dstOffsets[1] = blitSize;
+
+            vkCmdBlitImage(
+                cmd_buf,
+                source->get(),
+                VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
+                result->get(),
+                VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                1,
+                &image_blit_region,
+                VK_FILTER_NEAREST);
+        } else {
+            VkImageSubresourceLayers const subresource_layers = {
+                .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
+                .layerCount = 1,
+            };
+
+            VkImageCopy const image_copy_region = {
+                .srcSubresource = subresource_layers,
+                .dstSubresource = subresource_layers,
+                .extent = { width, height, 1 },
+            };
+
+            vkCmdCopyImage(
+                cmd_buf,
+                source->get(),
+                VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
+                result->get(),
+                VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                1,
+                &image_copy_region);
+        }
+
+        insert_image_memory_barrier(
+            device,
+            cmd_buf,
+            result->get(),
+            VK_ACCESS_TRANSFER_WRITE_BIT,
+            VK_ACCESS_MEMORY_READ_BIT,
+            VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+            VK_IMAGE_LAYOUT_GENERAL,
+            VK_PIPELINE_STAGE_TRANSFER_BIT,
+            VK_PIPELINE_STAGE_TRANSFER_BIT,
+            VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
+        insert_image_memory_barrier(
+            device,
+            cmd_buf,
+            source->get(),
+            VK_ACCESS_TRANSFER_READ_BIT,
+            VK_ACCESS_MEMORY_READ_BIT,
+            VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
+            VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+            VK_PIPELINE_STAGE_TRANSFER_BIT,
+            VK_PIPELINE_STAGE_TRANSFER_BIT,
+            VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
+    });
+
+    device->vkDestroyCommandPool(pool);
 
     return result;
 }

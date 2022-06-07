@@ -225,6 +225,15 @@ struct image : entity {
         view_info.viewType = type;
     }
 
+    /**
+     * @brief Get the allocation of the image
+     *
+     * @return VmaAllocation const&    Image allocation
+     */
+    VmaAllocation const& get_allocation() const {
+        return allocation;
+    }
+
 private:
     /// Vulkan device
     device_ptr device = nullptr;
@@ -256,7 +265,8 @@ private:
  *
  * @return image::ptr    Shared pointer to image
  */
-image::ptr make_image(VkFormat format, VkImage vk_image = 0);
+image::ptr make_image(VkFormat format,
+                      VkImage vk_image = 0);
 
 /**
  * @brief Create a new image
@@ -268,6 +278,18 @@ image::ptr make_image(VkFormat format, VkImage vk_image = 0);
  *
  * @return image::ptr    Shared pointer to image
  */
-image::ptr create_image(device_ptr device, VkFormat format, uv2 size, VkImage vk_image = 0);
+image::ptr create_image(device_p device,
+                        VkFormat format,
+                        uv2 size,
+                        VkImage vk_image = 0);
+
+/**
+ * @brief Grab an image (with blit/copy)
+ *
+ * @param source         Source image
+ *
+ * @return image::ptr    Grabbed image
+ */
+image::ptr grab_image(image::ptr source);
 
 } // namespace lava

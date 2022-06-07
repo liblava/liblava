@@ -157,6 +157,13 @@ struct app : frame {
     setup_func on_setup;
 
     /**
+     * @brief Take screenshot and save it to file
+     *
+     * @return string    Screenshot file path (empty: failed)
+     */
+    string screenshot();
+
+    /**
      * @brief Add a tooltip
      *
      * @param n    Name of tooltip
