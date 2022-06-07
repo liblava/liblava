@@ -1,5 +1,5 @@
 /**
- * @file         liblava/asset/image_data.hpp
+ * @file         liblava/asset/image_loader.hpp
  * @brief        Load image data from file and memory
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
@@ -15,25 +15,25 @@ namespace lava {
 /**
  * @brief Load image data from file and memory
  */
-struct image_data {
+struct image_loader {
     /**
      * @brief Construct a new image data from file
      *
      * @param filename    File data to load
      */
-    explicit image_data(string_ref filename);
+    explicit image_loader(string_ref filename);
 
     /**
      * @brief Construct a new image data from memory
      *
      * @param image    Memory data to load
      */
-    explicit image_data(cdata::ref image);
+    explicit image_loader(cdata::ref image);
 
     /**
      * @brief Destroy the image data
      */
-    ~image_data();
+    ~image_loader();
 
     /**
      * @brief Check if data is ready

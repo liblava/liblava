@@ -18,7 +18,7 @@ struct forward_shading;
 struct imgui;
 
 // liblava/asset.hpp
-struct image_data;
+struct image_loader;
 
 // liblava/base.hpp
 struct target_callback;

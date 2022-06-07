@@ -657,7 +657,7 @@ triangle = create_mesh<custom_vertex, false, false, true>
 
 *require* [resource](#lava-resource) + [file](#lava-file)
 
-[![image_data](https://img.shields.io/badge/lava-image_data-red.svg)](liblava/asset/image_data.hpp) [![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-red.svg)](liblava/asset/mesh_loader.hpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-red.svg)](liblava/asset/texture_loader.hpp)
+[![image_loader](https://img.shields.io/badge/lava-image_loader-red.svg)](liblava/asset/image_loader.hpp) [![load_mesh](https://img.shields.io/badge/lava-load_mesh-red.svg)](liblava/asset/load_mesh.hpp) [![load_texture](https://img.shields.io/badge/lava-load_texture-red.svg)](liblava/asset/load_texture.hpp) [![write_image](https://img.shields.io/badge/lava-write_image-red.svg)](liblava/asset/write_image.hpp)
 
 ### lava [resource](liblava/resource)
 
@@ -1205,7 +1205,7 @@ python tool/update.py > tool/version.json
 
 * [gli](https://github.com/g-truc/gli) &nbsp; **OpenGL Image (GLI)** &nbsp; *MIT*
 
-  [![texture_loader](https://img.shields.io/badge/lava-texture_loader-red.svg)](liblava/asset/texture_loader.cpp)
+  [![load_texture](https://img.shields.io/badge/lava-load_texture-red.svg)](liblava/asset/load_texture.cpp)
 
 * [glm](https://github.com/g-truc/glm) &nbsp; **OpenGL Mathematics (GLM)** &nbsp; *MIT*
 
@@ -1243,11 +1243,11 @@ python tool/update.py > tool/version.json
 
 * [stb](https://github.com/nothings/stb) &nbsp; **Single-file public domain libraries for C/C++** &nbsp; *MIT*
 
-  [![image_data](https://img.shields.io/badge/lava-image_data-red.svg)](liblava/asset/image_data.cpp) [![texture_loader](https://img.shields.io/badge/lava-texture_loader-red.svg)](liblava/asset/texture_loader.cpp)
+  [![image_loader](https://img.shields.io/badge/lava-image_loader-red.svg)](liblava/asset/image_loader.cpp) [![load_texture](https://img.shields.io/badge/lava-load_texture-red.svg)](liblava/asset/load_texture.cpp) [![write_image](https://img.shields.io/badge/lava-write_image-red.svg)](liblava/asset/write_image.cpp)
 
 * [tinyobjloader](https://github.com/syoyo/tinyobjloader) &nbsp; **Tiny but powerful single file wavefront obj loader** &nbsp; *MIT*
 
-  [![mesh_loader](https://img.shields.io/badge/lava-mesh_loader-red.svg)](liblava/asset/mesh_loader.hpp)
+  [![load_mesh](https://img.shields.io/badge/lava-load_mesh-red.svg)](liblava/asset/load_mesh.hpp)
 
 * [volk](https://github.com/zeux/volk) &nbsp; **Meta loader for Vulkan API** &nbsp; *MIT*
 

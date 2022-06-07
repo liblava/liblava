@@ -224,12 +224,14 @@ add_library(lava::resource ALIAS lava.resource)
 message(">> lava::asset")
 
 add_library(lava.asset STATIC
-        ${LIBLAVA_DIR}/asset/image_data.cpp
-        ${LIBLAVA_DIR}/asset/image_data.hpp
-        ${LIBLAVA_DIR}/asset/mesh_loader.cpp
-        ${LIBLAVA_DIR}/asset/mesh_loader.hpp
-        ${LIBLAVA_DIR}/asset/texture_loader.cpp
-        ${LIBLAVA_DIR}/asset/texture_loader.hpp
+        ${LIBLAVA_DIR}/asset/image_loader.cpp
+        ${LIBLAVA_DIR}/asset/image_loader.hpp
+        ${LIBLAVA_DIR}/asset/load_texture.cpp
+        ${LIBLAVA_DIR}/asset/load_texture.hpp
+        ${LIBLAVA_DIR}/asset/load_mesh.cpp
+        ${LIBLAVA_DIR}/asset/load_mesh.hpp
+        ${LIBLAVA_DIR}/asset/write_image.cpp
+        ${LIBLAVA_DIR}/asset/write_image.hpp
         )
 
 target_include_directories(lava.asset PUBLIC

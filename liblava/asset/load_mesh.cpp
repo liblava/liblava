@@ -1,11 +1,11 @@
 /**
- * @file         liblava/asset/mesh_loader.cpp
+ * @file         liblava/asset/load_mesh.cpp
  * @brief        Load mesh from file
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/asset/mesh_loader.hpp>
+#include <liblava/asset/load_mesh.hpp>
 #include <liblava/file.hpp>
 
 #ifdef _WIN32
@@ -27,7 +27,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-mesh::ptr load_mesh(device_ptr device, string_ref filename) {
+mesh::ptr load_mesh(device_p device, string_ref filename) {
     if (extension(str(filename), "OBJ")) {
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
@@ -61,7 +61,11 @@ mesh::ptr load_mesh(device_ptr device, string_ref filename) {
             }
         }
 
-        if (tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, str(target_file))) {
+        if (tinyobj::LoadObj(&attrib,
+                             &shapes,
+                             &materials,
+                             &warn, &err,
+                             str(target_file))) {
             auto mesh = make_mesh();
 
             for (auto const& shape : shapes) {
@@ -75,9 +79,14 @@ mesh::ptr load_mesh(device_ptr device, string_ref filename) {
                     vertex.color = v4(1.f);
 
                     if (!attrib.texcoords.empty())
-                        vertex.uv = v2(attrib.texcoords[2 * index.texcoord_index], 1.f - attrib.texcoords[2 * index.texcoord_index + 1]);
+                        vertex.uv = v2(attrib.texcoords[2 * index.texcoord_index],
+                                       1.f - attrib.texcoords[2 * index.texcoord_index + 1]);
 
-                    vertex.normal = attrib.normals.empty() ? v3(0.f) : v3(attrib.normals[3 * index.normal_index], attrib.normals[3 * index.normal_index + 1], attrib.normals[3 * index.normal_index + 2]);
+                    vertex.normal = attrib.normals.empty()
+                                        ? v3(0.f)
+                                        : v3(attrib.normals[3 * index.normal_index],
+                                             attrib.normals[3 * index.normal_index + 1],
+                                             attrib.normals[3 * index.normal_index + 2]);
 
                     mesh->get_vertices().push_back(vertex);
                     mesh->get_indices().push_back(mesh->get_indices_count());

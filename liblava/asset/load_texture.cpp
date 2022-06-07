@@ -1,11 +1,11 @@
 /**
- * @file         liblava/asset/texture_loader.cpp
+ * @file         liblava/asset/load_texture.cpp
  * @brief        Load texture from file
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/asset/texture_loader.hpp>
+#include <liblava/asset/load_texture.hpp>
 #include <liblava/file.hpp>
 #include <liblava/resource/format.hpp>
 
@@ -34,7 +34,6 @@
     #pragma GCC diagnostic pop
 #endif
 
-#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 namespace lava {
@@ -49,7 +48,10 @@ namespace lava {
  *
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_gli_texture_2d(device_ptr device, file::ref file, VkFormat format, unique_data::ref temp_data) {
+texture::ptr create_gli_texture_2d(device_p device,
+                                   file::ref file,
+                                   VkFormat format,
+                                   unique_data::ref temp_data) {
     gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                      : gli::load(file.get_path()));
 #if LIBLAVA_DEBUG_ASSERT
@@ -64,7 +66,8 @@ texture::ptr create_gli_texture_2d(device_ptr device, file::ref file, VkFormat f
 
     for (auto m = 0u; m < mip_levels; ++m) {
         texture::mip_level level;
-        level.extent = { tex[m].extent().x, tex[m].extent().y };
+        level.extent = { tex[m].extent().x,
+                         tex[m].extent().y };
         level.size = to_ui32(tex[m].size());
 
         layer.levels.push_back(level);
@@ -75,8 +78,13 @@ texture::ptr create_gli_texture_2d(device_ptr device, file::ref file, VkFormat f
 
     auto texture = make_texture();
 
-    uv2 const size = { tex[0].extent().x, tex[0].extent().y };
-    if (!texture->create(device, size, format, layers, texture_type::tex_2d))
+    uv2 const size = { tex[0].extent().x,
+                       tex[0].extent().y };
+    if (!texture->create(device,
+                         size,
+                         format,
+                         layers,
+                         texture_type::tex_2d))
         return nullptr;
 
     if (!texture->upload(tex.data(), tex.size()))
@@ -103,7 +111,8 @@ texture::layer::list create_layer_list(auto const& tex, ui32 layer_count) {
 
         for (auto m = 0u; m < mip_levels; ++m) {
             texture::mip_level level;
-            level.extent = { tex[i][m].extent().x, tex[i][m].extent().y };
+            level.extent = { tex[i][m].extent().x,
+                             tex[i][m].extent().y };
             level.size = to_ui32(tex[i][m].size());
 
             layer.levels.push_back(level);
@@ -125,7 +134,10 @@ texture::layer::list create_layer_list(auto const& tex, ui32 layer_count) {
  *
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_gli_texture_array(device_ptr device, file::ref file, VkFormat format, unique_data::ref temp_data) {
+texture::ptr create_gli_texture_array(device_p device,
+                                      file::ref file,
+                                      VkFormat format,
+                                      unique_data::ref temp_data) {
     gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                            : gli::load(file.get_path()));
 #if LIBLAVA_DEBUG_ASSERT
@@ -138,8 +150,13 @@ texture::ptr create_gli_texture_array(device_ptr device, file::ref file, VkForma
 
     auto texture = make_texture();
 
-    uv2 const size = { tex[0].extent().x, tex[0].extent().y };
-    if (!texture->create(device, size, format, layers, texture_type::array))
+    uv2 const size = { tex[0].extent().x,
+                       tex[0].extent().y };
+    if (!texture->create(device,
+                         size,
+                         format,
+                         layers,
+                         texture_type::array))
         return nullptr;
 
     if (!texture->upload(tex.data(), tex.size()))
@@ -158,7 +175,10 @@ texture::ptr create_gli_texture_array(device_ptr device, file::ref file, VkForma
  *
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_gli_texture_cube_map(device_ptr device, file::ref file, VkFormat format, unique_data::ref temp_data) {
+texture::ptr create_gli_texture_cube_map(device_p device,
+                                         file::ref file,
+                                         VkFormat format,
+                                         unique_data::ref temp_data) {
     gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                         : gli::load(file.get_path()));
 #if LIBLAVA_DEBUG_ASSERT
@@ -171,8 +191,13 @@ texture::ptr create_gli_texture_cube_map(device_ptr device, file::ref file, VkFo
 
     auto texture = make_texture();
 
-    uv2 const size = { tex[0].extent().x, tex[0].extent().y };
-    if (!texture->create(device, size, format, layers, texture_type::cube_map))
+    uv2 const size = { tex[0].extent().x,
+                       tex[0].extent().y };
+    if (!texture->create(device,
+                         size,
+                         format,
+                         layers,
+                         texture_type::cube_map))
         return nullptr;
 
     if (!texture->upload(tex.data(), tex.size()))
@@ -190,15 +215,25 @@ texture::ptr create_gli_texture_cube_map(device_ptr device, file::ref file, VkFo
  *
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_stbi_texture(device_ptr device, file::ref file, unique_data::ref temp_data) {
+texture::ptr create_stbi_texture(device_p device,
+                                 file::ref file,
+                                 unique_data::ref temp_data) {
     i32 tex_width = 0, tex_height = 0;
     stbi_uc* data = nullptr;
 
     if (file.opened())
-        data = stbi_load_from_memory((stbi_uc const*) temp_data.ptr, to_i32(temp_data.size),
-                                     &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
+        data = stbi_load_from_memory((stbi_uc const*) temp_data.ptr,
+                                     to_i32(temp_data.size),
+                                     &tex_width,
+                                     &tex_height,
+                                     nullptr,
+                                     STBI_rgb_alpha);
     else
-        data = stbi_load(str(file.get_path()), &tex_width, &tex_height, nullptr, STBI_rgb_alpha);
+        data = stbi_load(str(file.get_path()),
+                         &tex_width,
+                         &tex_height,
+                         nullptr,
+                         STBI_rgb_alpha);
 
     if (!data)
         return nullptr;
@@ -222,12 +257,16 @@ texture::ptr create_stbi_texture(device_ptr device, file::ref file, unique_data:
 }
 
 //-----------------------------------------------------------------------------
-texture::ptr load_texture(device_ptr device, file_format file_format, texture_type type) {
-    auto use_gli = extension(str(file_format.path), { "DDS", "KTX", "KMG" });
+texture::ptr load_texture(device_p device,
+                          file_format file_format,
+                          texture_type type) {
+    auto use_gli = extension(str(file_format.path),
+                             { "DDS", "KTX", "KMG" });
     auto use_stbi = false;
 
     if (!use_gli)
-        use_stbi = extension(str(file_format.path), { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
+        use_stbi = extension(str(file_format.path),
+                             { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
 
     if (!use_gli && !use_stbi)
         return nullptr;
@@ -248,15 +287,24 @@ texture::ptr load_texture(device_ptr device, file_format file_format, texture_ty
 
         switch (type) {
         case texture_type::tex_2d: {
-            return create_gli_texture_2d(device, file, file_format.format, temp_data);
+            return create_gli_texture_2d(device,
+                                         file,
+                                         file_format.format,
+                                         temp_data);
         }
 
         case texture_type::array: {
-            return create_gli_texture_array(device, file, file_format.format, temp_data);
+            return create_gli_texture_array(device,
+                                            file,
+                                            file_format.format,
+                                            temp_data);
         }
 
         case texture_type::cube_map: {
-            return create_gli_texture_cube_map(device, file, file_format.format, temp_data);
+            return create_gli_texture_cube_map(device,
+                                               file,
+                                               file_format.format,
+                                               temp_data);
         }
 
         case texture_type::none: {
@@ -264,14 +312,19 @@ texture::ptr load_texture(device_ptr device, file_format file_format, texture_ty
         }
         }
     } else {
-        return create_stbi_texture(device, file, temp_data);
+        return create_stbi_texture(device,
+                                   file,
+                                   temp_data);
     }
 
     return nullptr;
 }
 
 //-----------------------------------------------------------------------------
-texture::ptr create_default_texture(device_ptr device, uv2 size, v3 color, r32 alpha) {
+texture::ptr create_default_texture(device_p device,
+                                    uv2 size,
+                                    v3 color,
+                                    r32 alpha) {
     auto result = make_texture();
 
     auto const format = VK_FORMAT_R8G8B8A8_UNORM;
@@ -289,8 +342,10 @@ texture::ptr create_default_texture(device_ptr device, uv2 size, v3 color, r32 a
 
     for (auto y = 0u; y < size.y; ++y) {
         for (auto x = 0u; x < size.x; ++x) {
-            auto const index = (x * block_size) + (y * size.y * block_size);
-            if ((y % 128 < 64 && x % 128 < 64) || (y % 128 >= 64 && x % 128 >= 64)) {
+            auto const index = (x * block_size)
+                               + (y * size.y * block_size);
+            if ((y % 128 < 64 && x % 128 < 64)
+                || (y % 128 >= 64 && x % 128 >= 64)) {
                 data.ptr[index] = color_r;
                 data.ptr[index + 1] = color_g;
                 data.ptr[index + 2] = color_b;

@@ -1,5 +1,5 @@
 /**
- * @file         liblava/asset/mesh_loader.hpp
+ * @file         liblava/asset/load_mesh.hpp
  * @brief        Load mesh from file
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
@@ -19,6 +19,6 @@ namespace lava {
  *
  * @return mesh::ptr    Loaded mesh
  */
-mesh::ptr load_mesh(device_ptr device, string_ref filename);
+mesh::ptr load_mesh(device_p device, string_ref filename);
 
 } // namespace lava
