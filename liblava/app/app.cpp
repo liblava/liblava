@@ -334,18 +334,23 @@ void app::destroy_target() {
     target->destroy();
 }
 
+/**
+ * @brief Add app tooltips
+ *
+ * @param app    Target app
+ */
+void add_tooltips(app* app) {
+    app->add_tooltip(_pause_, key::space, mod::control);
+    app->add_tooltip(_imgui_, key::tab, mod::control);
+    app->add_tooltip(_v_sync_, key::backspace, mod::alt);
+    app->add_tooltip(_fullscreen_, key::enter, mod::alt);
+    app->add_tooltip(_benchmark_, key::b, mod::control);
+    app->add_tooltip(_screenshot_, key::p, mod::control);
+    app->add_tooltip(_quit_, key::q, mod::control);
+}
+
 //-----------------------------------------------------------------------------
-void app::handle_input() {
-    input.add(&imgui.get_input_callback());
-
-    add_tooltip(_pause_, key::space, mod::control);
-    add_tooltip(_imgui_, key::tab, mod::control);
-    add_tooltip(_v_sync_, key::backspace, mod::alt);
-    add_tooltip(_fullscreen_, key::enter, mod::alt);
-    add_tooltip(_benchmark_, key::b, mod::control);
-    add_tooltip(_screenshot_, key::p, mod::control);
-    add_tooltip(_quit_, key::q, mod::control);
-
+void app::handle_keys() {
     input.key.listeners.add([&](key_event::ref event) {
         if (imgui.capture_keyboard()) {
             camera.stop();
@@ -395,6 +400,15 @@ void app::handle_input() {
 
         return input_ignore;
     });
+}
+
+//-----------------------------------------------------------------------------
+void app::handle_input() {
+    input.add(&imgui.get_input_callback());
+
+    add_tooltips(this);
+
+    handle_keys();
 
     input.mouse_button.listeners.add([&](mouse_button_event::ref event) {
         if (imgui.capture_mouse())

@@ -248,6 +248,11 @@ private:
     void handle_input();
 
     /**
+     * @brief Handle key inputs
+     */
+    void handle_keys();
+
+    /**
      * @brief Handle window states
      */
     void handle_window();
