@@ -63,7 +63,7 @@
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "e56458c3b3dc1450bb63247631f00ed215055c9a"
+        "tag": "90626c3cd07d01ffc43772f5105a981718f59ec3"
     },
     {
         "name": "volk",
@@ -87,7 +87,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "23a785aeb3f65d07d69aaad61a9194c03272286c"
+        "tag": "0b1bcfcc205077d31493ec851f87ca4b54b4eab5"
     },
     {
         "name": "imgui_docking",
@@ -105,7 +105,7 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "c94501352d545e84c821ce031399e76d1af32d18"
+        "tag": "fad68a75519fe8c2dddbb9b3b845fd1bb0e07d4c"
     },
     {
         "name": "glslang",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "a0ece7b2528418c730c4feb2871808f739afd482"
+        "tag": "d32fca4a4949f8ce86da5d87f6d109ab21a88fa1"
     }
 ]
