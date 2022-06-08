@@ -99,7 +99,7 @@
         "name": "SPIRV-Headers",
         "github": "KhronosGroup/SPIRV-Headers",
         "branch": "master",
-        "tag": "b2a156e1c0434bc8c99aaebba1c7be98be7ac580"
+        "tag": "36c0c1596225e728bd49abb7ef56a3953e7ed468"
     },
     {
         "name": "SPIRV-Tools",
