@@ -114,35 +114,27 @@ struct file_data : unique_data {
 };
 
 /**
- * @brief File remover guard
+ * @brief File delete guard
  */
-struct file_remover : no_copy_no_move {
+struct file_delete : no_copy_no_move {
     /**
-     * @brief Construct a new file remover
+     * @brief Construct a new file delete
      *
      * @param filename    Name of file
      */
-    explicit file_remover(name filename = "")
+    explicit file_delete(string filename = "")
     : filename(filename) {}
 
     /**
-     * @brief Construct a new file remover
-     *
-     * @param filename    Name of file
+     * @brief Destroy the file delete
      */
-    explicit file_remover(string filename)
-    : filename(filename) {}
-
-    /**
-     * @brief Destroy the file remover
-     */
-    ~file_remover();
+    ~file_delete();
 
     /// Name of file
     string filename;
 
-    /// Remove file state
-    bool remove = true;
+    /// Active state
+    bool active = true;
 };
 
 } // namespace lava

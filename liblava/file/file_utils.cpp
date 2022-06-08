@@ -114,8 +114,8 @@ bool load_file_data(string_ref filename, data& target) {
 }
 
 //-----------------------------------------------------------------------------
-file_remover::~file_remover() {
-    if (remove)
+file_delete::~file_delete() {
+    if (active)
         std::filesystem::remove(filename);
 }
 

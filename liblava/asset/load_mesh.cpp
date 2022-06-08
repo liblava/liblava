@@ -37,7 +37,7 @@ mesh::ptr load_mesh(device_p device, string_ref filename, string_ref temp_dir) {
 
         auto target_file = filename;
 
-        file_remover temp_file_remover;
+        file_delete temp_file_delete;
         {
             file file(str(filename));
             if (file.opened() && file.get_type() == file_type::fs) {
@@ -57,7 +57,7 @@ mesh::ptr load_mesh(device_p device, string_ref filename, string_ref temp_dir) {
 
                 target_file = temp_file;
 
-                temp_file_remover.filename = target_file;
+                temp_file_delete.filename = target_file;
             }
         }
 
