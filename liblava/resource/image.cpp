@@ -59,7 +59,8 @@ image::image(VkFormat format,
 }
 
 //-----------------------------------------------------------------------------
-bool image::create(device_p d, uv2 size,
+bool image::create(device_p d,
+                   uv2 size,
                    VmaMemoryUsage memory_usage,
                    bool mip_levels_generation) {
     device = d;
