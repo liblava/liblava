@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-2022]
+        os: [ubuntu-latest, windows-latest]
         arch: [x86, x64]
 
     steps:
@@ -45,11 +45,11 @@ jobs:
 
     - name: Configure (windows / x86)
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCMAKE_VERBOSE_MAKEFILE=ON -T host=x86 -A win32
-      if: matrix.os == 'windows-2022' && matrix.arch == 'x86'
+      if: matrix.os == 'windows-latest' && matrix.arch == 'x86'
 
     - name: Configure (windows / x64)
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCMAKE_VERBOSE_MAKEFILE=ON
-      if: matrix.os == 'windows-2022' && matrix.arch == 'x64'
+      if: matrix.os == 'windows-latest' && matrix.arch == 'x64'
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
