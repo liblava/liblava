@@ -581,6 +581,11 @@ string app::screenshot() {
 }
 
 //-----------------------------------------------------------------------------
+void app::add_tooltip(name n, key k, mod m) {
+    tooltips.emplace_back(n, k, m);
+}
+
+//-----------------------------------------------------------------------------
 void app::draw_about(bool separator) const {
     if (separator)
         ImGui::Separator();

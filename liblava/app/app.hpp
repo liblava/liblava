@@ -173,9 +173,7 @@ struct app : frame {
      * @param k    Input key
      * @param m    Input mod (default: none)
      */
-    void add_tooltip(name n, key k, mod m = mod::none) {
-        tooltips.emplace_back(n, k, m);
-    }
+    void add_tooltip(name n, key k, mod m = mod::none);
 
     /**
      * @brief Clear tooltips
