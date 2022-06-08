@@ -10,6 +10,7 @@
 #include <liblava/file/file_utils.hpp>
 #include <liblava/file/json.hpp>
 #include <liblava/frame/argh.hpp>
+#include <liblava/fwd.hpp>
 
 namespace lava {
 
@@ -17,6 +18,9 @@ namespace lava {
  * @brief Property master
  */
 struct property : configurable {
+    /// Engine
+    engine* context = nullptr;
+
     /**
      * @brief Prop
      */

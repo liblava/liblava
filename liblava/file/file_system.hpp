@@ -18,42 +18,32 @@ namespace lava {
  */
 struct file_system : no_copy_no_move {
     /**
-     * @brief Get file system singleton
-     *
-     * @return file_system&    File system
-     */
-    static file_system& instance() {
-        static file_system fs;
-        return fs;
-    }
-
-    /**
      * @brief Get the version
      *
      * @return internal_version    Internal version
      */
-    static internal_version get_version();
+    internal_version get_version();
 
     /**
      * @brief Get the base directory
      *
      * @return string    Base directory
      */
-    static string get_base_dir();
+    string get_base_dir();
 
     /**
      * @brief Get the preferences directory
      *
      * @return name    Preferences directory
      */
-    static string get_pref_dir();
+    string get_pref_dir();
 
     /**
      * @brief Get the resource directory
      *
      * @return string    Resource directory
      */
-    static string get_res_dir();
+    string get_res_dir();
 
     /**
      * @brief Mount path
@@ -63,7 +53,7 @@ struct file_system : no_copy_no_move {
      * @return true     Mount was successful
      * @return false    Mount failed
      */
-    static bool mount(string_ref path);
+    bool mount(string_ref path);
 
     /**
      * @brief Mount base directory path
@@ -73,7 +63,7 @@ struct file_system : no_copy_no_move {
      * @return true            Mount was successful
      * @return false           Mount failed
      */
-    static bool mount(name base_dir_path);
+    bool mount(name base_dir_path);
 
     /**
      * @brief Check if file exists
@@ -83,7 +73,7 @@ struct file_system : no_copy_no_move {
      * @return true     File exists
      * @return false    File not found
      */
-    static bool exists(name file);
+    bool exists(name file);
 
     /**
      * @brief Get the real directory of file
@@ -92,7 +82,7 @@ struct file_system : no_copy_no_move {
      *
      * @return name    Real directory of file
      */
-    static name get_real_dir(name file);
+    name get_real_dir(name file);
 
     /**
      * @brief Enumerate files in directory
@@ -101,7 +91,7 @@ struct file_system : no_copy_no_move {
      *
      * @return string_list    List of files
      */
-    static string_list enumerate_files(name path);
+    string_list enumerate_files(name path);
 
     /**
      * @brief Initialize the file system
@@ -184,11 +174,6 @@ struct file_system : no_copy_no_move {
     }
 
 private:
-    /**
-     * @brief Construct a new file system
-     */
-    file_system() = default;
-
     /// Initialized state
     bool initialized = false;
 

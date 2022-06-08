@@ -34,6 +34,7 @@ bool engine::setup() {
     });
 
     producer.context = this;
+    prop.context = this;
 
     return true;
 }

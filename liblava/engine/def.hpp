@@ -15,4 +15,9 @@ namespace lava {
 
 constexpr name _props_ = "props";
 
+/// folder
+
+constexpr name _shader_path_ = "cache/shader/";
+constexpr name _temp_path_ = "cache/temp/";
+
 } // namespace lava

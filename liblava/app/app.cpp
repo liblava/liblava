@@ -121,26 +121,25 @@ bool app::setup() {
 
 //-----------------------------------------------------------------------------
 bool app::setup_file_system(cmd_line cmd_line) {
-    log()->debug("physfs {}", str(to_string(file_system::get_version())));
+    log()->debug("physfs {}", str(to_string(fs.get_version())));
 
-    if (!file_system::instance().initialize(str(get_cmd_line()[0]),
-                                            config.org,
-                                            get_name(),
-                                            config.ext)) {
+    if (!fs.initialize(str(get_cmd_line()[0]),
+                       config.org,
+                       get_name(),
+                       config.ext)) {
         log()->error("init file system");
         return false;
     }
 
-    file_system::instance().mount_res(log());
+    fs.mount_res(log());
 
     if (cmd_line[{ "-c", "--clean" }]) {
-        file_system::instance().clean_pref_dir();
+        fs.clean_pref_dir();
         log()->info("clean preferences");
     }
 
     if (cmd_line[{ "-cc", "--clean_cache" }]) {
-        string pref_dir = file_system::instance().get_pref_dir();
-        std::filesystem::remove_all(pref_dir + "cache/");
+        std::filesystem::remove_all(fs.get_pref_dir() + "cache/");
 
         log()->info("clean cache");
     }
@@ -254,7 +253,7 @@ void app::setup_run() {
 
         window.destroy();
 
-        file_system::instance().terminate();
+        fs.terminate();
     });
 
     add_run_once([&]() {
@@ -267,7 +266,7 @@ void app::setup_run() {
 //-----------------------------------------------------------------------------
 bool app::create_imgui() {
     if (config.imgui_font.file.empty()) {
-        auto font_files = file_system::enumerate_files(_font_path_);
+        auto font_files = fs.enumerate_files(_font_path_);
         if (!font_files.empty())
             config.imgui_font.file = fmt::format("{}{}",
                                                  _font_path_, str(font_files.front()));
@@ -275,7 +274,7 @@ bool app::create_imgui() {
 
     setup_imgui_font(imgui_config, config.imgui_font);
 
-    imgui_config.ini_file_dir = file_system::get_pref_dir();
+    imgui_config.ini_file_dir = fs.get_pref_dir();
 
     imgui.setup(window.get(), imgui_config);
     if (!imgui.create(device, target->get_frame_count(), shading.get_vk_pass()))
@@ -555,22 +554,22 @@ string app::screenshot() {
     if (!backbuffer_image)
         return {};
 
-    auto result = grab_image(backbuffer_image);
-    if (!result)
+    auto image = grab_image(backbuffer_image);
+    if (!image)
         return {};
 
     string screenshot_path = "screenshot/";
-    file_system::instance().create_folder(str(screenshot_path));
+    fs.create_folder(str(screenshot_path));
 
-    auto path = file_system::get_pref_dir() + screenshot_path
+    auto path = fs.get_pref_dir() + screenshot_path
                 + get_current_time() + ".png";
 
     auto swizzle = !support_blit(device, backbuffer_image->get_format())
                    && format_bgr(backbuffer_image->get_format());
 
-    auto saved = write_image_png(device, result, path, swizzle);
+    auto saved = write_image_png(device, image, path, swizzle);
 
-    result->destroy();
+    image->destroy();
 
     if (saved) {
         log()->info("screenshot: {}", str(path));

@@ -7,6 +7,7 @@
 
 #include <liblava/asset.hpp>
 #include <liblava/base/instance.hpp>
+#include <liblava/engine/def.hpp>
 #include <liblava/engine/engine.hpp>
 #include <liblava/engine/producer.hpp>
 #include <liblava/file/file_system.hpp>
@@ -32,8 +33,11 @@ mesh::ptr producer::get_mesh(string_ref name) {
             return meshes.get(id);
     }
 
+    context->fs.create_folder(_temp_path_);
+
     auto product = load_mesh(context->device,
-                             context->prop.get_filename(name));
+                             context->prop.get_filename(name),
+                             context->fs.get_pref_dir() + _temp_path_);
     if (!product)
         return nullptr;
 
@@ -108,14 +112,12 @@ cdata producer::get_shader(string_ref name,
         shaders.erase(name);
     }
 
-    string pref_dir = file_system::get_pref_dir();
-
-    string shader_path = "cache/shader/";
-    auto path = pref_dir + shader_path + name + ".spirv";
+    auto filename = context->fs.get_pref_dir() + _shader_path_
+                    + name + ".spirv";
 
     if (!reload) {
         data module_data;
-        if (load_file_data(path, module_data)) {
+        if (load_file_data(filename, module_data)) {
             shaders.emplace(name, module_data);
 
             log()->info("shader cache: {} - {} bytes",
@@ -140,12 +142,12 @@ cdata producer::get_shader(string_ref name,
 
     context->prop.unload(name);
 
-    file_system::instance().create_folder(str(shader_path));
+    context->fs.create_folder(_shader_path_);
 
-    file file(str(path), file_mode::write);
+    file file(str(filename), file_mode::write);
     if (file.opened())
         if (!file.write(module_data.ptr, module_data.size))
-            log()->warn("shader not cached: {}", str(path));
+            log()->warn("shader not cached: {}", str(filename));
 
     shaders.emplace(name, module_data);
 

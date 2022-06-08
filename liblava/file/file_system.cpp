@@ -26,14 +26,13 @@ string file_system::get_base_dir() {
 
 //-----------------------------------------------------------------------------
 string file_system::get_pref_dir() {
-    return string(PHYSFS_getPrefDir(instance().org,
-                                    instance().app));
+    return string(PHYSFS_getPrefDir(org, app));
 }
 
 //-----------------------------------------------------------------------------
 string file_system::get_res_dir() {
     auto res_dir = get_base_dir();
-    res_dir += instance().res_path;
+    res_dir += res_path;
     string_ref const_res_dir = res_dir;
 
     return std::filesystem::path(const_res_dir).lexically_normal().string();

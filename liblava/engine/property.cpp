@@ -6,6 +6,7 @@
  */
 
 #include <liblava/base/base.hpp>
+#include <liblava/engine/engine.hpp>
 #include <liblava/engine/property.hpp>
 #include <liblava/file/file_system.hpp>
 
@@ -38,7 +39,7 @@ bool property::check() {
     auto result = true;
 
     for (auto& [name, prop] : map) {
-        if (!file_system::exists(str(prop.filename))) {
+        if (!context->fs.exists(str(prop.filename))) {
             log()->critical("prop check: {} = {}", str(name), str(prop.filename));
 
             result = false;
