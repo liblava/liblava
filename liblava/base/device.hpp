@@ -404,7 +404,7 @@ using one_time_command_func = std::function<void(VkCommandBuffer)>;
  * @brief Submit one time command function with pool
  *
  * @param device      Vulkan device
- * @param pool        Command pool (nullptr: managed)
+ * @param pool        Command pool (VK_NULL_HANDLE: managed)
  * @param queue       Target queue
  * @param callback    Function to be called
  *
@@ -430,7 +430,7 @@ inline bool one_time_submit(device_p device,
                             queue::ref queue,
                             one_time_command_func callback) {
     return one_time_submit_pool(device,
-                                nullptr,
+                                VK_NULL_HANDLE,
                                 queue,
                                 callback);
 }

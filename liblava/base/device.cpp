@@ -268,7 +268,7 @@ bool one_time_submit_pool(device_p device,
     if (!callback)
         return false;
 
-    auto managed_pool = !pool;
+    auto managed_pool = pool == VK_NULL_HANDLE;
     if (managed_pool) {
         VkCommandPoolCreateInfo const create_info = {
             .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
