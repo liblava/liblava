@@ -261,12 +261,23 @@ VkShaderModule create_shader_module(device_p device, cdata::ref data) {
 }
 
 //-----------------------------------------------------------------------------
-bool one_time_command_buffer(device_p device,
-                             VkCommandPool pool,
-                             queue::ref queue,
-                             one_time_command_func callback) {
+bool one_time_submit_pool(device_p device,
+                          VkCommandPool pool,
+                          queue::ref queue,
+                          one_time_command_func callback) {
     if (!callback)
         return false;
+
+    auto managed_pool = !pool;
+    if (managed_pool) {
+        VkCommandPoolCreateInfo const create_info = {
+            .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
+            .flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT,
+            .queueFamilyIndex = to_ui32(queue.family)
+        };
+        if (!device->vkCreateCommandPool(&create_info, &pool))
+            return false;
+    }
 
     VkCommandBuffer cmd_buf = nullptr;
     if (!device->vkAllocateCommandBuffers(pool, 1,
@@ -304,6 +315,9 @@ bool one_time_command_buffer(device_p device,
     device->vkDestroyFence(fence);
 
     device->vkFreeCommandBuffers(pool, 1, &cmd_buf);
+
+    if (managed_pool)
+        device->vkDestroyCommandPool(pool);
 
     return true;
 }

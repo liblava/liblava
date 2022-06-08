@@ -401,19 +401,38 @@ VkShaderModule create_shader_module(device_p device,
 using one_time_command_func = std::function<void(VkCommandBuffer)>;
 
 /**
- * @brief Run one time command function
+ * @brief Submit one time command function with pool
  *
  * @param device      Vulkan device
- * @param pool        Command pool
+ * @param pool        Command pool (nullptr: managed)
  * @param queue       Target queue
  * @param callback    Function to be called
  *
- * @return true       Run was successful
- * @return false      Run failed
+ * @return true       Submit was successful
+ * @return false      Submit failed
  */
-bool one_time_command_buffer(device_p device,
-                             VkCommandPool pool,
-                             queue::ref queue,
-                             one_time_command_func callback);
+bool one_time_submit_pool(device_p device,
+                          VkCommandPool pool,
+                          queue::ref queue,
+                          one_time_command_func callback);
+
+/**
+ * @brief Submit one time command function
+ *
+ * @param device      Vulkan device
+ * @param queue       Target queue
+ * @param callback    Function to be called
+ *
+ * @return true       Submit was successful
+ * @return false      Submit failed
+ */
+inline bool one_time_submit(device_p device,
+                            queue::ref queue,
+                            one_time_command_func callback) {
+    return one_time_submit_pool(device,
+                                nullptr,
+                                queue,
+                                callback);
+}
 
 } // namespace lava

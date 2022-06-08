@@ -137,28 +137,19 @@ image::ptr grab_image(image::ptr source) {
     auto const width = size.x;
     auto const height = size.y;
 
-    auto result = make_image(VK_FORMAT_R8G8B8A8_UNORM);
-    if (!result)
+    auto image = make_image(VK_FORMAT_R8G8B8A8_UNORM);
+    if (!image)
         return nullptr;
 
-    result->set_tiling(VK_IMAGE_TILING_LINEAR);
+    image->set_tiling(VK_IMAGE_TILING_LINEAR);
 
-    if (!result->create(device, size, VMA_MEMORY_USAGE_AUTO_PREFER_HOST))
+    if (!image->create(device, size, VMA_MEMORY_USAGE_AUTO_PREFER_HOST))
         return nullptr;
 
-    auto queue = device->graphics_queue();
-
-    VkCommandPool pool = VK_NULL_HANDLE;
-    VkCommandPoolCreateInfo const create_info = { .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
-                                                  .flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT,
-                                                  .queueFamilyIndex = to_ui32(queue.family) };
-    if (!device->vkCreateCommandPool(&create_info, &pool))
-        return nullptr;
-
-    one_time_command_buffer(device, pool, queue, [&](VkCommandBuffer cmd_buf) {
+    return one_time_submit(device, device->graphics_queue(), [&](VkCommandBuffer cmd_buf) {
         insert_image_memory_barrier(device,
                                     cmd_buf,
-                                    result->get(),
+                                    image->get(),
                                     0,
                                     VK_ACCESS_TRANSFER_WRITE_BIT,
                                     VK_IMAGE_LAYOUT_UNDEFINED,
@@ -201,7 +192,7 @@ image::ptr grab_image(image::ptr source) {
                 cmd_buf,
                 source->get(),
                 VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
-                result->get(),
+                image->get(),
                 VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
                 1,
                 &image_blit_region,
@@ -222,7 +213,7 @@ image::ptr grab_image(image::ptr source) {
                 cmd_buf,
                 source->get(),
                 VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
-                result->get(),
+                image->get(),
                 VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
                 1,
                 &image_copy_region);
@@ -231,7 +222,7 @@ image::ptr grab_image(image::ptr source) {
         insert_image_memory_barrier(
             device,
             cmd_buf,
-            result->get(),
+            image->get(),
             VK_ACCESS_TRANSFER_WRITE_BIT,
             VK_ACCESS_MEMORY_READ_BIT,
             VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
@@ -250,11 +241,9 @@ image::ptr grab_image(image::ptr source) {
             VK_PIPELINE_STAGE_TRANSFER_BIT,
             VK_PIPELINE_STAGE_TRANSFER_BIT,
             VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
-    });
-
-    device->vkDestroyCommandPool(pool);
-
-    return result;
+    })
+               ? image
+               : nullptr;
 }
 
 } // namespace lava
