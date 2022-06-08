@@ -85,7 +85,7 @@ struct app : frame {
     /// Run time
     run_time_t run_time;
 
-    // File system
+    /// File system
     file_system fs;
 
     /// Update function
