@@ -11,6 +11,7 @@
 #include <cmath>
 #include <liblava/core/types.hpp>
 #include <numbers>
+#include <unordered_map>
 
 namespace lava {
 
