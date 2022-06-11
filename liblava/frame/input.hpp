@@ -700,9 +700,17 @@ using input_t = input;
  * @brief Tooltip
  */
 struct tooltip {
-    /// tooltip Constructor
-    tooltip(std::string name, lava::key key, lava::mod mod)
-        : name(std::move(name)), key(key), mod(mod) {
+    /**
+     * @brief Construct a new tooltip
+     *
+     * @param name    Name of tooltip
+     * @param key     Input key
+     * @param mod     Input mod
+     */
+    tooltip(string_ref name,
+            key_t key,
+            mod_t mod)
+    : name(name), key(key), mod(mod) {
     }
 
     /// List of tooltips
