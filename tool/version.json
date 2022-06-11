@@ -9,7 +9,7 @@
         "name": "glfw",
         "github": "glfw/glfw",
         "branch": "master",
-        "tag": "62e175ef9fae75335575964c845a302447c012c7"
+        "tag": "d3ede7b6847b66cf30b067214b2b4b126d4c729b"
     },
     {
         "name": "gli",
@@ -33,7 +33,7 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "b6d00d18974358ab1d55dcc3379d0ee3052deb4e"
+        "tag": "48a102c2c5ef7c2552ea291f5527a8481c98a7a7"
     },
     {
         "name": "spdlog",
@@ -57,13 +57,13 @@
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "3ef4c97fd6ea001d75a8e9da408ee473c180e456"
+        "tag": "ec9b96aae53e152f6812e66fa43757c1256369a0"
     },
     {
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "90626c3cd07d01ffc43772f5105a981718f59ec3"
+        "tag": "9dd8386f81bbf7fed87c0161c8eafcabd6d2e96e"
     },
     {
         "name": "volk",
@@ -75,7 +75,7 @@
         "name": "VulkanMemoryAllocator",
         "github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
         "branch": "master",
-        "tag": "a6bfc237255a6bac1513f7c1ebde6d8aed6b5191"
+        "tag": "cfdc0f8775ab3258a3b9c4e47d8ce4b6f52a5441"
     },
     {
         "name": "IconFontCppHeaders",
@@ -87,13 +87,13 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "0b1bcfcc205077d31493ec851f87ca4b54b4eab5"
+        "tag": "076d8fc86889b482785902628f64216533cdf849"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "4789c7e485244aa6489f89dbb03b19d4ad0ea1ec"
+        "tag": "e900ca355e3c7be7672e25800af346f1179e91d8"
     },
     {
         "name": "SPIRV-Headers",
@@ -105,7 +105,7 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "fad68a75519fe8c2dddbb9b3b845fd1bb0e07d4c"
+        "tag": "8f7f5024f86c74a5a007e456b04346d48be486ed"
     },
     {
         "name": "glslang",
