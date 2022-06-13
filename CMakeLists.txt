@@ -391,9 +391,7 @@ target_link_libraries(lava.engine
         lava::app
         )
 
-set(LIBLAVA_ENGINE_LIBRARIES
-        shaderc
-        )
+set(LIBLAVA_ENGINE_LIBRARIES "shaderc")
 
 set_target_properties(lava.engine PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.engine PROPERTY EXPORT_NAME engine)
@@ -466,6 +464,7 @@ install(TARGETS
         glfw
         #shaderc
         #shaderc_util
+        #shaderc_combined
         EXPORT LavaTargets
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib

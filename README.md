@@ -367,7 +367,7 @@ Take a closer look at the `build_cmd_bufs` function:
 
 <br />
 
-**Note:** &nbsp; In case of **swap chain** restoration we simply **recreate command buffers** with a new random color - This happens for example on `window` resize.
+> In case of **swap chain** restoration we simply **recreate command buffers** with a new random color - This happens for example on `window` resize.
 
 <br />
 
@@ -456,7 +456,7 @@ And call the `renderer` with our recorded **command buffers**.
 
 <br />
 
-**Note:** &nbsp; Don't forget to *clean* it up when the **run** ends:
+> Don't forget to *clean* it up when the **run** ends:
 
 ```c++
 block.destroy();
@@ -649,7 +649,7 @@ triangle = create_mesh<custom_vertex, false, false, true>
                       (device, mesh_type::triangle);
 ```
 
-**Note:** &nbsp; Cubes generated this way have a special case. If they are initialized with normal data, they will be represented by 24 vertices. Otherwise, only 8 vertices will be initialized.
+> Cubes generated this way have a special case. If they are initialized with normal data, they will be represented by 24 vertices. Otherwise, only 8 vertices will be initialized.
 
 <br />
 
@@ -774,7 +774,7 @@ lava -s=3
 lava --stage=3
 ```
 
-**Note:** &nbsp; If you run `lava` without arguments - the *last stage* will be started.
+> If you run `lava` without arguments - the *last stage* will be started.
 
 <br />
 
@@ -790,7 +790,7 @@ Put your code in the [src](src) folder and begin to code in [main.cpp](src/main.
 
 <br />
 
-**Note:** &nbsp; You can change the project name in **CMake** ➜ `LIBLAVA_TEMPLATE_NAME` 
+> You can change the project name in **CMake** ➜ `LIBLAVA_TEMPLATE_NAME` 
 
 ```bash
 cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
@@ -816,9 +816,11 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 <br />
 
-**Note:** &nbsp; You can disable these actions by simply turning them off:
+> You can disable these actions by simply turning them off:
 
-`app.config.handle_key_events = false;`
+```c++
+app.config.handle_key_events = false;
+```
 
 <br />
 
