@@ -33,7 +33,7 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "48a102c2c5ef7c2552ea291f5527a8481c98a7a7"
+        "tag": "9c31d543890ce0b1b5fe5a4bb07465a289cc60ec"
     },
     {
         "name": "spdlog",
@@ -75,7 +75,7 @@
         "name": "VulkanMemoryAllocator",
         "github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
         "branch": "master",
-        "tag": "cfdc0f8775ab3258a3b9c4e47d8ce4b6f52a5441"
+        "tag": "cdbd6f4e91a6a3d01dbd1ef9576335e7946ac6d2"
     },
     {
         "name": "IconFontCppHeaders",
@@ -87,13 +87,13 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "076d8fc86889b482785902628f64216533cdf849"
+        "tag": "2ed9e21eba92df4f374ea028bff50f8309fdcab5"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "e900ca355e3c7be7672e25800af346f1179e91d8"
+        "tag": "24dfebf455ac1f7685e1a72272d37b72601fe70c"
     },
     {
         "name": "SPIRV-Headers",

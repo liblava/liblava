@@ -15,7 +15,7 @@ set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG 6925c1067de2c9e39d626bcba84db0113f8395f2)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG 48a102c2c5ef7c2552ea291f5527a8481c98a7a7)
+set(json_TAG 9c31d543890ce0b1b5fe5a4bb07465a289cc60ec)
 
 set(spdlog_GITHUB gabime/spdlog)
 set(spdlog_TAG 298a200f69d66114adde2d5d8ad34f2cce5a5b69)
@@ -36,16 +36,16 @@ set(volk_GITHUB zeux/volk)
 set(volk_TAG ec5c199f3e2a83a2326a1b5aaebb516ee2c6082c)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
-set(VulkanMemoryAllocator_TAG cfdc0f8775ab3258a3b9c4e47d8ce4b6f52a5441)
+set(VulkanMemoryAllocator_TAG cdbd6f4e91a6a3d01dbd1ef9576335e7946ac6d2)
 
 set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 7d6ff1f4ba51e7a2b142be39457768abece1549c)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 076d8fc86889b482785902628f64216533cdf849)
+set(imgui_TAG 2ed9e21eba92df4f374ea028bff50f8309fdcab5)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG e900ca355e3c7be7672e25800af346f1179e91d8)
+set(imgui_docking_TAG 24dfebf455ac1f7685e1a72272d37b72601fe70c)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG 36c0c1596225e728bd49abb7ef56a3953e7ed468)
