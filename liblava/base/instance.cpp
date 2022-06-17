@@ -130,6 +130,9 @@ bool instance::create(create_param& param,
         .ppEnabledLayerNames = param.layers.data(),
         .enabledExtensionCount = to_ui32(param.extensions.size()),
         .ppEnabledExtensionNames = param.extensions.data(),
+#ifdef __APPLE__
+        .flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR,
+#endif
     };
 
     if (!profile.empty()) {

@@ -148,6 +148,10 @@ bool frame::setup() {
     for (auto i = 0u; i < glfw_extensions_count; ++i)
         env.param.extensions.push_back(glfw_extensions[i]);
 
+#ifdef __APPLE__
+    env.param.extensions.push_back("VK_KHR_portability_enumeration");
+#endif
+
     if (!instance::singleton().create(env.param, env.debug, env.info, env.profile)) {
         log()->error("create instance");
         return false;
