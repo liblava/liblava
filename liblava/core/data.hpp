@@ -114,7 +114,11 @@ inline void* alloc_data(size_t size,
 #if _WIN32
     return _aligned_malloc(size, alignment);
 #else
-    return aligned_alloc(alignment, size);
+    if(size % alignment == 0) {
+        return aligned_alloc(alignment, size);
+    } else {
+        return aligned_alloc(alignment, ((size / alignment) + 1) * alignment);
+    }
 #endif
 }
 
