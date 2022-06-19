@@ -21,9 +21,9 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL
                         VkDebugUtilsMessageTypeFlagsEXT message_type,
                         const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
                         void* user_data) {
-    auto message_header = fmt::format("validation: {} ({})",
-                                      callback_data->pMessageIdName,
-                                      callback_data->messageIdNumber);
+    auto message_header = callback_data->pMessageIdName != nullptr ?
+        fmt::format("validation: {} ({})", callback_data->pMessageIdName, callback_data->messageIdNumber) :
+        fmt::format("validation: ({})", callback_data->messageIdNumber);
 
     if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
         log()->error(str(message_header));
@@ -130,6 +130,9 @@ bool instance::create(create_param& param,
         .ppEnabledLayerNames = param.layers.data(),
         .enabledExtensionCount = to_ui32(param.extensions.size()),
         .ppEnabledExtensionNames = param.extensions.data(),
+#ifdef __APPLE__
+        .flags = VK_INSTANCE_CREATE_ENUMERATE_PORTABILITY_BIT_KHR,
+#endif
     };
 
     if (!profile.empty()) {
