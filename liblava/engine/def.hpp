@@ -20,4 +20,8 @@ constexpr name _props_ = "props";
 constexpr name _shader_path_ = "cache/shader/";
 constexpr name _temp_path_ = "cache/temp/";
 
+/// cache
+
+constexpr name _hash_json_ = "hash.json";
+
 } // namespace lava

@@ -116,18 +116,24 @@ cdata producer::get_shader(string_ref name,
                     + name + ".spirv";
 
     if (!reload) {
-        data module_data;
-        if (load_file_data(filename, module_data)) {
-            shaders.emplace(name, module_data);
+        if (valid_shader(name)) {
+            data module_data;
+            if (load_file_data(filename, module_data)) {
+                shaders.emplace(name, module_data);
 
-            log()->info("shader cache: {} - {} bytes",
-                        name, module_data.size);
+                log()->info("shader cache: {} - {} bytes",
+                            name, module_data.size);
 
-            return module_data;
+                return module_data;
+            }
         }
+
+        log()->warn("shader cache invalid: {}", name);
+
+        reload = true;
     }
 
-    if (reload)
+    if (reload && context->prop.exists(name))
         context->prop.unload(name);
 
     auto product = context->prop(name);
@@ -162,10 +168,11 @@ public:
     /**
      * @brief Construct a new shader includer
      *
-     * @param path    Current file path
+     * @param path             Current file path
+     * @param file_hash_map    Map of used files with hash
      */
-    shader_includer(std::filesystem::path path)
-    : path(path) {
+    shader_includer(std::filesystem::path path, string_map* file_hash_map)
+    : path(path), file_hash_map(file_hash_map) {
     }
 
     /**
@@ -188,13 +195,17 @@ public:
         auto file_path = path;
         file_path.replace_filename(name);
 
-        file_data file_data(file_path.lexically_normal().string());
+        auto filename = file_path.lexically_normal().string();
+        file_data file_data(filename);
         if (!file_data.ptr)
             return nullptr;
 
         auto container = new std::array<std::string, 2>;
         (*container)[0] = name;
         (*container)[1] = { file_data.ptr, file_data.size };
+
+        if (file_hash_map)
+            file_hash_map->emplace(filename, hash256(container->at(1)));
 
         auto data = new shaderc_include_result;
 
@@ -222,6 +233,9 @@ public:
 private:
     /// Current file path
     std::filesystem::path path;
+
+    /// List of used files with hash
+    string_map* file_hash_map = nullptr;
 };
 
 /**
@@ -265,7 +279,10 @@ data producer::compile_shader(cdata product,
                               string_ref name, string_ref filename) const {
     shaderc::Compiler compiler;
     shaderc::CompileOptions options;
-    options.SetIncluder(std::make_unique<shader_includer>(filename));
+
+    string_map file_hash_map;
+
+    options.SetIncluder(std::make_unique<shader_includer>(filename, &file_hash_map));
 
     auto shader_type = get_shader_kind(filename);
 
@@ -308,8 +325,10 @@ data producer::compile_shader(cdata product,
         options.SetTargetSpirv(shaderc_spirv_version_1_0);
     }
 
+    string product_str = { product.ptr, product.size };
+
     shaderc::PreprocessedSourceCompilationResult result =
-        compiler.PreprocessGlsl({ product.ptr, product.size },
+        compiler.PreprocessGlsl(product_str,
                                 shader_type,
                                 str(name),
                                 options);
@@ -329,6 +348,9 @@ data producer::compile_shader(cdata product,
         log()->error("compile shader: {} - {}", name, module.GetErrorMessage());
         return {};
     }
+
+    file_hash_map.emplace(filename, hash256(product_str));
+    update_file_hash(name, file_hash_map);
 
     std::vector<ui32> const module_result = { module.cbegin(),
                                               module.cend() };
@@ -364,6 +386,63 @@ void producer::clear() {
     meshes.clear();
     textures.clear();
     shaders.clear();
+}
+
+//-----------------------------------------------------------------------------
+void producer::update_file_hash(string_ref name,
+                                string_map_ref file_hash_map) const {
+    context->fs.create_folder(_shader_path_);
+
+    auto filename = context->fs.get_pref_dir() + _shader_path_ + _hash_json_;
+    json_file hash_file(filename);
+
+    json_file::callback callback;
+    callback.on_save = [&]() -> json {
+        json j;
+        for (auto& [file, hash] : file_hash_map)
+            j[name][file] = hash;
+        return j;
+    };
+
+    hash_file.add(&callback);
+    hash_file.save();
+}
+
+//-----------------------------------------------------------------------------
+bool producer::valid_shader(string_ref name) const {
+    auto valid = true;
+
+    auto filename = context->fs.get_pref_dir() + _shader_path_ + _hash_json_;
+    json_file hash_file(filename);
+
+    json_file::callback callback;
+    callback.on_load = [&](json_ref j) {
+        if (!j.count(name)) {
+            valid = false;
+            return;
+        }
+
+        auto j_shader = j[name];
+        for (auto& [key, value] : j_shader.items()) {
+            unique_data data;
+            if (!load_file_data(key, data)) {
+                valid = false;
+                break;
+            }
+
+            auto file_hash = hash256({ data.ptr, data.size });
+            if (file_hash != value) {
+                valid = false;
+                break;
+            }
+        }
+    };
+
+    hash_file.add(&callback);
+    if (!hash_file.load())
+        valid = false;
+
+    return valid;
 }
 
 } // namespace lava

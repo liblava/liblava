@@ -121,6 +121,10 @@ add_library(lava.util STATIC
         ${LIBLAVA_DIR}/util/utility.hpp
         )
 
+target_include_directories(lava.util PUBLIC
+        $<BUILD_INTERFACE:${PicoSHA2_SOURCE_DIR}>
+        )
+
 target_link_libraries(lava.util INTERFACE
         lava::core
         spdlog
@@ -482,6 +486,7 @@ set(EXT_INCLUDE_DIRS
         #${physfs_SOURCE_DIR}/src
         ${json_SOURCE_DIR}/single_include
         ${spdlog_SOURCE_DIR}/include
+        ${PicoSHA2_SOURCE_DIR}
         ${Vulkan-Headers_SOURCE_DIR}/include
         ${Vulkan-Profiles_SOURCE_DIR}/library/include
         ${VulkanMemoryAllocator_SOURCE_DIR}/include

@@ -153,6 +153,25 @@ struct producer {
     bool shader_debug = false;
 
 private:
+    /**
+     * @brief Update file hash
+     *
+     * @param name             Target file
+     * @param file_hash_map    Map of used files with hash
+     */
+    void update_file_hash(string_ref name,
+                          string_map_ref file_hash_map) const;
+
+    /**
+     * @brief Check if shader file(s) changed
+     *
+     * @param name      Name of shader
+     *
+     * @return true     Shader has changed
+     * @return false    Shader is valid
+     */
+    bool valid_shader(string_ref name) const;
+
     /// Map of shader products
     using shader_map = std::map<string, data>;
 

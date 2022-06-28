@@ -165,6 +165,12 @@ using string_list = std::vector<string>;
 /// String view
 using string_view = std::string_view;
 
+/// Map of strings
+using string_map = std::map<string, string>;
+
+/// Reference to map of strings
+using string_map_ref = string_map const&;
+
 /// Name
 using name = char const*;
 

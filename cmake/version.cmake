@@ -59,5 +59,8 @@ set(glslang_TAG bffcf209cb67f718bd8faafd43d0379f943c116f)
 set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG 7e2cfcf2b75c245fa3ceaf2e276180cbf8f107ea)
 
+set(PicoSHA2_GITHUB okdshin/PicoSHA2)
+set(PicoSHA2_TAG 1677374f23352716fc52183255a40c1b8e1d53eb)
+
 set(Catch2_GITHUB catchorg/Catch2)
 set(Catch2_TAG 1f381a1f6296025f053f3e96c745a858c8e089c6)

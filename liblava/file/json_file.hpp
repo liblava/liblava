@@ -24,7 +24,7 @@ struct json_file {
      *
      * @param path    Name of file
      */
-    explicit json_file(name path = _config_file_);
+    explicit json_file(string_ref path = _config_file_);
 
     /**
      * @brief Json file callback
@@ -34,7 +34,7 @@ struct json_file {
         using list = std::vector<callback*>;
 
         /// Load function
-        using load_func = std::function<bool(json_ref)>;
+        using load_func = std::function<void(json_ref)>;
 
         /// Called on load
         load_func on_load;

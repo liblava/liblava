@@ -1264,6 +1264,10 @@ python tool/update.py > tool/version.json
 
   [![file](https://img.shields.io/badge/lava-file-orange.svg)](liblava/file/file.cpp) [![file_system](https://img.shields.io/badge/lava-file_system-orange.svg)](liblava/file/file_system.cpp)
 
+* [PicoSHA2](https://github.com/okdshin/PicoSHA2) &nbsp; **A header-file-only SHA256 hash generator in C++** &nbsp; *MIT*
+
+  [![utility](https://img.shields.io/badge/lava-utility-blue.svg)](liblava/util/utility.hpp)
+
 * [shaderc](https://github.com/google/shaderc) &nbsp; **A collection of tools, libraries, and tests for Vulkan shader compilation** &nbsp; *Apache 2.0*
 
   [![producer](https://img.shields.io/badge/lava-producer-brightgreen.svg)](liblava/engine/producer.cpp)

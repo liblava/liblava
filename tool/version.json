@@ -120,6 +120,12 @@
         "tag": "7e2cfcf2b75c245fa3ceaf2e276180cbf8f107ea"
     },
     {
+        "name": "PicoSHA2",
+        "github": "okdshin/PicoSHA2",
+        "branch": "master",
+        "tag": "1677374f23352716fc52183255a40c1b8e1d53eb"
+    },
+    {
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",

@@ -169,6 +169,13 @@ CPMAddPackage(
                 "SHADERC_SKIP_COPYRIGHT_CHECK ON"
         )
 
+CPMAddPackage(
+        NAME PicoSHA2
+        GITHUB_REPOSITORY ${PicoSHA2_GITHUB}
+        GIT_TAG ${PicoSHA2_TAG}
+        DOWNLOAD_ONLY YES
+        )
+
 if(LIBLAVA_TEST)
         CPMAddPackage(
                 NAME Catch2
