@@ -582,7 +582,7 @@ message("=======================================================================
 
         set(GENERICS_SHADERS
                 res/generics/triangle.frag
-                res/generics/lava_triangle.vert
+                res/generics/float_triangle.vert
                 res/generics/int_triangle.vert
                 res/generics/double_triangle.vert
                 )
