@@ -700,4 +700,15 @@ bool support_blit(device_p device,
     return true;
 }
 
+//-----------------------------------------------------------------------------
+bool support_vertex_buffer_format(device_p device,
+                                  VkFormat format) {
+    VkFormatProperties format_props;
+    vkGetPhysicalDeviceFormatProperties(device->get_vk_physical_device(),
+                                        format,
+                                        &format_props);
+
+    return (format_props.bufferFeatures & VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT);
+}
+
 } // namespace lava

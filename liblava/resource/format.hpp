@@ -263,4 +263,16 @@ VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device,
 bool support_blit(device_p device,
                   VkFormat format);
 
+/**
+ * @brief Check if vertex buffer format is supported
+ *
+ * @param device    Vulkan device
+ * @param format    Format to check
+ *
+ * @return true     Format is supported
+ * @return false    Format is not supported
+ */
+bool support_vertex_buffer_format(device_p device,
+                                  VkFormat format);
+
 } // namespace lava
