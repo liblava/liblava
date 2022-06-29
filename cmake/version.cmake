@@ -45,19 +45,19 @@ set(imgui_GITHUB ocornut/imgui)
 set(imgui_TAG 873e9d35acb4d629a5ba06a312201edff8b9d0f6)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG 9cd9c2eff99877a3f10a7f9c2a3a5b9c15ea36c6)
+set(imgui_docking_TAG 58eb40db76783f5da09e592ca3eb421f4f2197e3)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG 36c0c1596225e728bd49abb7ef56a3953e7ed468)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 37d2396cabe56b29d37551ea55d0d745d5748ded)
+set(SPIRV-Tools_TAG 91572e769ad62bc22d482af225eb3f04188825a0)
 
 set(glslang_GITHUB KhronosGroup/glslang)
 set(glslang_TAG b2d2c9dd3d77c6adadff37309aa58a181bafc5f9)
 
 set(shaderc_GITHUB google/shaderc)
-set(shaderc_TAG 7e2cfcf2b75c245fa3ceaf2e276180cbf8f107ea)
+set(shaderc_TAG 976f920bd82e7ecd273878344fdcb73e25a391af)
 
 set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 1677374f23352716fc52183255a40c1b8e1d53eb)
