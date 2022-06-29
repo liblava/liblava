@@ -11,6 +11,7 @@
 #include <cstring>
 #include <liblava/core/types.hpp>
 #include <utility>
+
 namespace lava {
 
 /// Punctuation marks
@@ -286,10 +287,8 @@ inline reversion_wrapper<T> reverse(T&& iterable) {
  */
 inline string hash256(string_ref value) {
     std::vector<uc8> hash(picosha2::k_digest_size);
-    picosha2::hash256(value.begin(),
-                      value.end(),
-                      hash.begin(),
-                      hash.end());
+    picosha2::hash256(value.begin(), value.end(),
+                      hash.begin(), hash.end());
 
     return picosha2::bytes_to_hex_string(hash.begin(), hash.end());
 }

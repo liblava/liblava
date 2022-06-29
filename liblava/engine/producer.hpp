@@ -167,8 +167,8 @@ private:
      *
      * @param name      Name of shader
      *
-     * @return true     Shader has changed
-     * @return false    Shader is valid
+     * @return true     Shader is valid
+     * @return false    Shader has changed
      */
     bool valid_shader(string_ref name) const;
 
