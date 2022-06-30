@@ -121,9 +121,9 @@ bool app::setup() {
 
 //-----------------------------------------------------------------------------
 bool app::setup_file_system(cmd_line cmd_line) {
-    log()->debug("physfs {}", str(to_string(fs.get_version())));
+    log()->debug("physfs {}", to_string(fs.get_version()));
 
-    if (!fs.initialize(str(get_cmd_line()[0]),
+    if (!fs.initialize(get_cmd_line()[0],
                        config.org,
                        get_name(),
                        config.ext)) {
@@ -150,7 +150,7 @@ bool app::setup_file_system(cmd_line cmd_line) {
 //-----------------------------------------------------------------------------
 bool app::setup_window(cmd_line cmd_line) {
     if (config.id != _default_) {
-        window.set_save_name(str(config.id));
+        window.set_save_name(config.id);
         window.show_save_title();
     }
 
@@ -202,8 +202,8 @@ bool app::setup_device(cmd_line cmd_line) {
     auto device_driver_version = physical_device->get_driver_version();
 
     log()->info("device: {} ({}) - driver: {}",
-                str(device_name), str(device_type),
-                str(to_string(device_driver_version)));
+                device_name, device_type,
+                to_string(device_driver_version));
 
     return true;
 }
@@ -269,7 +269,7 @@ bool app::create_imgui() {
         auto font_files = fs.enumerate_files(_font_path_);
         if (!font_files.empty())
             config.imgui_font.file = fmt::format("{}{}",
-                                                 _font_path_, str(font_files.front()));
+                                                 _font_path_, font_files.front());
     }
 
     setup_imgui_font(imgui_config, config.imgui_font);
@@ -559,7 +559,7 @@ string app::screenshot() {
         return {};
 
     string screenshot_path = "screenshot/";
-    fs.create_folder(str(screenshot_path));
+    fs.create_folder(screenshot_path);
 
     auto path = fs.get_pref_dir() + screenshot_path
                 + get_current_time() + ".png";
@@ -572,10 +572,10 @@ string app::screenshot() {
     image->destroy();
 
     if (saved) {
-        log()->info("screenshot: {}", str(path));
+        log()->info("screenshot: {}", path);
         return path;
     } else {
-        log()->error("screenshot failed: {}", str(path));
+        log()->error("screenshot failed: {}", path);
         return {};
     }
 }
@@ -608,11 +608,11 @@ void app::draw_about(bool separator) const {
 
             if (tooltip.mod == mod::none)
                 tt += fmt::format("{} = {}",
-                                  str(tooltip.name), str(to_string(tooltip.key)));
+                                  tooltip.name, to_string(tooltip.key));
             else
                 tt += fmt::format("{} = {} + {}",
-                                  str(tooltip.name), str(to_string(tooltip.mod)),
-                                  str(to_string(tooltip.key)));
+                                  tooltip.name, to_string(tooltip.mod),
+                                  to_string(tooltip.key));
         }
 
         ImGui::SetTooltip("%s", str(tt));

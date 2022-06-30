@@ -63,7 +63,7 @@ struct file_system : no_copy_no_move {
      * @return true            Mount was successful
      * @return false           Mount failed
      */
-    bool mount(name base_dir_path);
+    bool mount_base(string_ref base_dir_path);
 
     /**
      * @brief Check if file exists
@@ -73,7 +73,7 @@ struct file_system : no_copy_no_move {
      * @return true     File exists
      * @return false    File not found
      */
-    bool exists(name file);
+    bool exists(string_ref file);
 
     /**
      * @brief Get the real directory of file
@@ -82,7 +82,7 @@ struct file_system : no_copy_no_move {
      *
      * @return name    Real directory of file
      */
-    name get_real_dir(name file);
+    string get_real_dir(string_ref file);
 
     /**
      * @brief Enumerate files in directory
@@ -91,7 +91,7 @@ struct file_system : no_copy_no_move {
      *
      * @return string_list    List of files
      */
-    string_list enumerate_files(name path);
+    string_list enumerate_files(string_ref path);
 
     /**
      * @brief Initialize the file system
@@ -104,10 +104,10 @@ struct file_system : no_copy_no_move {
      * @return true     Initialize was successful
      * @return false    Initialize failed
      */
-    bool initialize(name argv_0,
-                    name org,
-                    name app,
-                    name ext);
+    bool initialize(string_ref argv_0,
+                    string_ref org,
+                    string_ref app,
+                    string_ref ext);
 
     /**
      * @brief Terminate the file system
@@ -129,7 +129,7 @@ struct file_system : no_copy_no_move {
      * @return true     Folder created
      * @return false    Folder not created
      */
-    bool create_folder(name name = "data");
+    bool create_folder(string_ref name = "data");
 
     /**
      * @brief Clean preferences directory
@@ -141,7 +141,7 @@ struct file_system : no_copy_no_move {
      *
      * @return name    Name of organization
      */
-    name get_org() const {
+    string_ref get_org() const {
         return org;
     }
 
@@ -150,7 +150,7 @@ struct file_system : no_copy_no_move {
      *
      * @return name    Name of application
      */
-    name get_app() const {
+    string_ref get_app() const {
         return app;
     }
 
@@ -159,7 +159,7 @@ struct file_system : no_copy_no_move {
      *
      * @return name    Name of extension
      */
-    name get_ext() const {
+    string_ref get_ext() const {
         return ext;
     }
 
@@ -178,13 +178,13 @@ private:
     bool initialized = false;
 
     /// Organization name
-    name org = nullptr;
+    string org;
 
     /// Application name
-    name app = nullptr;
+    string app;
 
     /// Extension name
-    name ext = nullptr;
+    string ext;
 
     /// Path to resources
     string res_path;

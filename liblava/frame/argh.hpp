@@ -23,17 +23,17 @@ using cmd_line = argh::parser const&;
 inline void log_command_line(cmd_line cmd_line) {
     if (!cmd_line.pos_args().empty()) {
         for (auto const& pos_arg : cmd_line.pos_args())
-            log()->info("cmd {}", str(pos_arg));
+            log()->info("cmd {}", pos_arg);
     }
 
     if (!cmd_line.flags().empty()) {
         for (auto const& flag : cmd_line.flags())
-            log()->info("cmd flag: {}", str(flag));
+            log()->info("cmd flag: {}", flag);
     }
 
     if (!cmd_line.params().empty()) {
         for (auto const& [key, value] : cmd_line.params())
-            log()->info("cmd param: {} = {}", str(key), str(value));
+            log()->info("cmd param: {} = {}", key, value);
     }
 }
 

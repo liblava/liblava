@@ -28,7 +28,7 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 mesh::ptr load_mesh(device_p device, string_ref filename, string_ref temp_dir) {
-    if (extension(str(filename), "OBJ")) {
+    if (extension(filename, "OBJ")) {
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;
         std::vector<tinyobj::material_t> materials;
@@ -39,7 +39,7 @@ mesh::ptr load_mesh(device_p device, string_ref filename, string_ref temp_dir) {
 
         file_delete temp_file_delete;
         {
-            file file(str(filename));
+            file file(filename);
             if (file.opened() && file.get_type() == file_type::fs) {
                 string temp_file;
                 temp_file = temp_dir;
@@ -52,7 +52,7 @@ mesh::ptr load_mesh(device_p device, string_ref filename, string_ref temp_dir) {
                 if (file_error(file.read(temp_data.ptr)))
                     return nullptr;
 
-                if (!write_file(str(temp_file), temp_data.ptr, temp_data.size))
+                if (!write_file(temp_file, temp_data.ptr, temp_data.size))
                     return nullptr;
 
                 target_file = temp_file;

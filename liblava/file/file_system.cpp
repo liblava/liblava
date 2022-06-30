@@ -26,7 +26,7 @@ string file_system::get_base_dir() {
 
 //-----------------------------------------------------------------------------
 string file_system::get_pref_dir() {
-    return string(PHYSFS_getPrefDir(org, app));
+    return string(PHYSFS_getPrefDir(str(org), str(app)));
 }
 
 //-----------------------------------------------------------------------------
@@ -44,25 +44,25 @@ bool file_system::mount(string_ref path) {
 }
 
 //-----------------------------------------------------------------------------
-bool file_system::mount(name base_dir_path) {
+bool file_system::mount_base(string_ref base_dir_path) {
     return mount(get_base_dir() + base_dir_path);
 }
 
 //-----------------------------------------------------------------------------
-bool file_system::exists(name file) {
-    return PHYSFS_exists(file) != 0;
+bool file_system::exists(string_ref file) {
+    return PHYSFS_exists(str(file)) != 0;
 }
 
 //-----------------------------------------------------------------------------
-name file_system::get_real_dir(name file) {
-    return PHYSFS_getRealDir(file);
+string file_system::get_real_dir(string_ref file) {
+    return PHYSFS_getRealDir(str(file));
 }
 
 //-----------------------------------------------------------------------------
-string_list file_system::enumerate_files(name path) {
+string_list file_system::enumerate_files(string_ref path) {
     string_list result;
 
-    auto rc = PHYSFS_enumerateFiles(path);
+    auto rc = PHYSFS_enumerateFiles(str(path));
     for (auto i = rc; *i != nullptr; ++i)
         result.push_back(*i);
 
@@ -72,10 +72,10 @@ string_list file_system::enumerate_files(name path) {
 }
 
 //-----------------------------------------------------------------------------
-bool file_system::initialize(name argv_0,
-                             name o,
-                             name a,
-                             name e) {
+bool file_system::initialize(string_ref argv_0,
+                             string_ref o,
+                             string_ref a,
+                             string_ref e) {
 #if LIBLAVA_DEBUG_ASSERT
     assert(!initialized); // only once
 #endif
@@ -83,9 +83,9 @@ bool file_system::initialize(name argv_0,
         return initialized;
 
     if (!initialized) {
-        PHYSFS_init(argv_0);
+        PHYSFS_init(str(argv_0));
 
-        PHYSFS_setSaneConfig(o, a, e, 0, 0);
+        PHYSFS_setSaneConfig(str(o), str(a), str(e), 0, 0);
         initialized = true;
 
         org = o;
@@ -117,8 +117,8 @@ void file_system::mount_res(logger log) {
 #endif
 
     if (std::filesystem::exists(get_res_dir()))
-        if (file_system::mount(str(res_path)))
-            log->debug("mount {}", str(get_res_dir()));
+        if (file_system::mount(res_path))
+            log->debug("mount {}", get_res_dir());
 
     auto cwd_res_dir = std::filesystem::current_path()
                            .append("res/")
@@ -128,16 +128,16 @@ void file_system::mount_res(logger log) {
     if (std::filesystem::exists(cwd_res_dir)
         && (cwd_res_dir != get_res_dir()))
         if (file_system::mount(cwd_res_dir))
-            log->debug("mount {}", str(cwd_res_dir));
+            log->debug("mount {}", cwd_res_dir);
 
     string archive_file = "res.zip";
     if (std::filesystem::exists({ archive_file }))
-        if (file_system::mount(str(archive_file)))
-            log->debug("mount {}", str(archive_file));
+        if (file_system::mount(archive_file))
+            log->debug("mount {}", archive_file);
 }
 
 //-----------------------------------------------------------------------------
-bool file_system::create_folder(name name) {
+bool file_system::create_folder(string_ref name) {
     std::filesystem::path path = file_system::get_pref_dir();
     path += std::filesystem::path::preferred_separator;
     path += name;

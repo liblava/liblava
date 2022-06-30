@@ -84,14 +84,14 @@ void handle_env(frame_env& env) {
     set_log(setup_log(env.log));
 
     if (internal_version{} != env.info.app_version) {
-        log()->info(">>> {} / {} - {} / {} - {} {}", str(version_string()),
-                    str(internal_version_string()),
+        log()->info(">>> {} / {} - {} / {} - {} {}", version_string(),
+                    internal_version_string(),
                     env.info.app_name,
-                    str(to_string(env.info.app_version)),
+                    to_string(env.info.app_version),
                     _build_date, _build_time);
     } else {
-        log()->info(">>> {} / {} - {} - {} {}", str(version_string()),
-                    str(internal_version_string()),
+        log()->info(">>> {} / {} - {} - {} {}", version_string(),
+                    internal_version_string(),
                     env.info.app_name,
                     _build_date, _build_time);
     }
@@ -138,7 +138,7 @@ bool frame::setup() {
         return false;
     }
 
-    log()->info("vulkan {}", str(to_string(instance::get_version())));
+    log()->info("vulkan {}", to_string(instance::get_version()));
 
     if (!check_profile())
         return false;

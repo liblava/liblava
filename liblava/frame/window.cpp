@@ -55,7 +55,7 @@ bool window::create(state::optional state) {
     string default_title = title;
     if (save_title_active)
         default_title = fmt::format(_fmt_save_title_,
-                                    str(title), str(save_name));
+                                    title, save_name);
 
     if (state) {
         fullscreen_active = state->fullscreen;
@@ -166,7 +166,7 @@ window::state window::get_state() const {
 }
 
 //-----------------------------------------------------------------------------
-void window::set_title(name text) {
+void window::set_title(string_ref text) {
     title = text;
 
     if (!handle)
@@ -175,7 +175,7 @@ void window::set_title(name text) {
     if (save_title_active)
         glfwSetWindowTitle(handle,
                            str(fmt::format(_fmt_save_title_,
-                                           str(title), str(save_name))));
+                                           title, save_name)));
     else
         glfwSetWindowTitle(handle, str(title));
 }

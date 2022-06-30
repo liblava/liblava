@@ -63,7 +63,7 @@ struct file : no_copy_no_move {
      * @param path    Name of file
      * @param mode    File mode
      */
-    explicit file(name path = nullptr,
+    explicit file(string_ref path = "",
                   file_mode mode = file_mode::read);
 
     /**
@@ -80,7 +80,7 @@ struct file : no_copy_no_move {
      * @return true     Open was successful
      * @return false    Open failed
      */
-    bool open(name path,
+    bool open(string_ref path,
               file_mode mode = file_mode::read);
 
     /**
@@ -175,7 +175,7 @@ struct file : no_copy_no_move {
      *
      * @return name    File path
      */
-    name get_path() const {
+    string_ref get_path() const {
         return path;
     }
 
@@ -187,7 +187,7 @@ private:
     file_mode mode = file_mode::read;
 
     /// File path
-    name path = nullptr;
+    string path;
 
     /// Physfs file handle
     PHYSFS_File* fs_file = nullptr;

@@ -691,35 +691,35 @@ bool imgui::upload_fonts(texture::ptr texture) {
 //-----------------------------------------------------------------------------
 void setup_imgui_font(imgui::config& config, imgui::font::ref font) {
     if (!font.file.empty()) {
-        if (load_file_data(str(font.file), config.font_data)) {
+        if (load_file_data(font.file, config.font_data)) {
             config.font_size = font.size;
 
-            log()->debug("load {}", str(font.file));
+            log()->debug("load {}", font.file);
         } else {
             log()->error("setup_imgui_font - cannot load font file {}",
-                         str(font.file));
+                         font.file);
         }
     }
 
     if (!font.icon_file.empty()) {
-        if (load_file_data(str(font.icon_file), config.icon.font_data)) {
+        if (load_file_data(font.icon_file, config.icon.font_data)) {
             config.icon.size = font.icon_size;
 
             config.icon.font_data = config.icon.font_data;
             config.icon.range_begin = font.icon_range_begin;
             config.icon.range_end = font.icon_range_end;
 
-            log()->debug("load {}", str(font.icon_file));
+            log()->debug("load {}", font.icon_file);
         } else {
             log()->error("setup_imgui_font - cannot load font icon file {}",
-                         str(font.icon_file));
+                         font.icon_file);
         }
     }
 }
 
 //-----------------------------------------------------------------------------
 void setup_imgui_font_icons(imgui::font& font, string filename, ui16 min, ui16 max) {
-    font.icon_file = fmt::format("{}{}", _font_icon_path_, str(filename));
+    font.icon_file = fmt::format("{}{}", _font_icon_path_, filename);
 
     font.icon_range_begin = min;
     font.icon_range_end = max;

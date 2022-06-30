@@ -162,6 +162,9 @@ using string_ref = string const&;
 /// List of strings
 using string_list = std::vector<string>;
 
+/// Reference to list of strings
+using string_list_ref = string_list const&;
+
 /// String view
 using string_view = std::string_view;
 

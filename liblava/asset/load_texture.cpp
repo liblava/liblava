@@ -260,18 +260,18 @@ texture::ptr create_stbi_texture(device_p device,
 texture::ptr load_texture(device_p device,
                           file_format file_format,
                           texture_type type) {
-    auto use_gli = extension(str(file_format.path),
+    auto use_gli = extension(file_format.path,
                              { "DDS", "KTX", "KMG" });
     auto use_stbi = false;
 
     if (!use_gli)
-        use_stbi = extension(str(file_format.path),
+        use_stbi = extension(file_format.path,
                              { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
 
     if (!use_gli && !use_stbi)
         return nullptr;
 
-    file file(str(file_format.path));
+    file file(file_format.path);
     unique_data temp_data(file.get_size(), data_mode::no_alloc);
 
     if (file.opened()) {

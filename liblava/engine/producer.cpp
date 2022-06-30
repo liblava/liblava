@@ -150,10 +150,10 @@ cdata producer::get_shader(string_ref name,
 
     context->fs.create_folder(_shader_path_);
 
-    file file(str(filename), file_mode::write);
+    file file(filename, file_mode::write);
     if (file.opened())
         if (!file.write(module_data.ptr, module_data.size))
-            log()->warn("shader not cached: {}", str(filename));
+            log()->warn("shader not cached: {}", filename);
 
     shaders.emplace(name, module_data);
 
@@ -246,29 +246,29 @@ private:
  * @return shaderc_shader_kind    Shader kind
  */
 shaderc_shader_kind get_shader_kind(string_ref filename) {
-    if (extension(str(filename), "vert"))
+    if (extension(filename, "vert"))
         return shaderc_glsl_vertex_shader;
-    if (extension(str(filename), "frag"))
+    if (extension(filename, "frag"))
         return shaderc_glsl_fragment_shader;
-    if (extension(str(filename), "comp"))
+    if (extension(filename, "comp"))
         return shaderc_compute_shader;
-    if (extension(str(filename), "geom"))
+    if (extension(filename, "geom"))
         return shaderc_geometry_shader;
-    if (extension(str(filename), "tesc"))
+    if (extension(filename, "tesc"))
         return shaderc_tess_control_shader;
-    if (extension(str(filename), "tese"))
+    if (extension(filename, "tese"))
         return shaderc_tess_evaluation_shader;
-    if (extension(str(filename), "rgen"))
+    if (extension(filename, "rgen"))
         return shaderc_raygen_shader;
-    if (extension(str(filename), "rint"))
+    if (extension(filename, "rint"))
         return shaderc_intersection_shader;
-    if (extension(str(filename), "rahit"))
+    if (extension(filename, "rahit"))
         return shaderc_anyhit_shader;
-    if (extension(str(filename), "rchit"))
+    if (extension(filename, "rchit"))
         return shaderc_closesthit_shader;
-    if (extension(str(filename), "rmiss"))
+    if (extension(filename, "rmiss"))
         return shaderc_miss_shader;
-    if (extension(str(filename), "rcall"))
+    if (extension(filename, "rcall"))
         return shaderc_callable_shader;
 
     return shaderc_glsl_infer_from_source;
@@ -324,6 +324,8 @@ data producer::compile_shader(cdata product,
                                      shaderc_env_version_vulkan_1_0);
         options.SetTargetSpirv(shaderc_spirv_version_1_0);
     }
+
+    log()->debug("compiling shader: {} - {}", name, filename);
 
     string product_str = { product.ptr, product.size };
 

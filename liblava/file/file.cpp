@@ -11,7 +11,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-file::file(name p, file_mode m) {
+file::file(string_ref p, file_mode m) {
     open(p, m);
 }
 
@@ -21,20 +21,17 @@ file::~file() {
 }
 
 //-----------------------------------------------------------------------------
-bool file::open(name p, file_mode m) {
-    if (!p)
-        return false;
-
-    if (!p[0])
+bool file::open(string_ref p, file_mode m) {
+    if (p.empty())
         return false;
 
     path = p;
     mode = m;
 
     if (mode == file_mode::write)
-        fs_file = PHYSFS_openWrite(path);
+        fs_file = PHYSFS_openWrite(str(path));
     else
-        fs_file = PHYSFS_openRead(path);
+        fs_file = PHYSFS_openRead(str(path));
 
     if (fs_file) {
         type = file_type::fs;

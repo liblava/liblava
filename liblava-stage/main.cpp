@@ -51,7 +51,7 @@ run_result run(driver& driver, argh::parser argh) {
 
         for (auto& [id, stage] : stages) {
             auto stage_label = fmt::format("{}. {}",
-                                           id, str(stage->descr));
+                                           id, stage->descr);
 
             if (ImGui::Button(str(stage_label))) {
                 result.selected = id;

@@ -72,7 +72,7 @@ struct json_file {
      *
      * @param value    Name of file
      */
-    void set(name value) {
+    void set(string_ref value) {
         path = value;
     }
 
@@ -81,8 +81,8 @@ struct json_file {
      *
      * @return name    Name of file
      */
-    name get() const {
-        return str(path);
+    string_ref get() const {
+        return path;
     }
 
     /**

@@ -122,15 +122,15 @@ struct window : entity {
      *
      * @param text    Title of window
      */
-    void set_title(name text);
+    void set_title(string_ref text);
 
     /**
      * @brief Get the window title
      *
      * @return name    Title of window
      */
-    name get_title() const {
-        return str(title);
+    string_ref get_title() const {
+        return title;
     }
 
     /**
@@ -138,7 +138,7 @@ struct window : entity {
      *
      * @param save    Save name of window
      */
-    void set_save_name(name save) {
+    void set_save_name(string_ref save) {
         save_name = save;
     }
 
@@ -147,8 +147,8 @@ struct window : entity {
      *
      * @return name    Save name of window
      */
-    name get_save_name() const {
-        return str(save_name);
+    string_ref get_save_name() const {
+        return save_name;
     }
 
     /**
@@ -498,7 +498,7 @@ struct window : entity {
      * @brief Update the window title
      */
     void update_title() {
-        set_title(str(title));
+        set_title(title);
     }
 
     /**

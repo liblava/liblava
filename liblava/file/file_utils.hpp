@@ -20,7 +20,7 @@ namespace lava {
  * @return true       Read was successful
  * @return false      Read failed
  */
-bool read_file(std::vector<char>& out, name filename);
+bool read_file(std::vector<char>& out, string_ref filename);
 
 /**
  * @brief Write data to file
@@ -32,7 +32,7 @@ bool read_file(std::vector<char>& out, name filename);
  * @return true        Write was successful
  * @return false       Write failed
  */
-bool write_file(name filename,
+bool write_file(string_ref filename,
                 char const* data,
                 size_t data_size);
 
@@ -45,7 +45,7 @@ bool write_file(name filename,
  * @return true        Extension found
  * @return false       Extension not found
  */
-bool extension(name filename, name extension);
+bool extension(string_ref filename, string_ref extension);
 
 /**
  * @brief Check extensions of file
@@ -56,7 +56,8 @@ bool extension(name filename, name extension);
  * @return true         Extension found
  * @return false        Extension not found
  */
-bool extension(name filename, names extensions);
+bool extension(string_ref filename,
+               string_list_ref extensions);
 
 /**
  * @brief Get the file name from path

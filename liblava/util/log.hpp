@@ -27,7 +27,7 @@ using logger = std::shared_ptr<spdlog::logger>;
  * @return string    String representation
  */
 inline string to_string(string_ref id, string_ref name) {
-    return fmt::format("{} | {}", str(id), str(name));
+    return fmt::format("{} | {}", id, name);
 }
 
 /**
@@ -92,10 +92,10 @@ inline string to_string(version const& version) {
             return fmt::format("{}", version.year);
         else
             return fmt::format("{} {}",
-                               version.year, str(stage_str));
+                               version.year, stage_str);
     } else
         return fmt::format("{}.{} {}",
-                           version.year, version.release, str(stage_str));
+                           version.year, version.release, stage_str);
 }
 
 /**

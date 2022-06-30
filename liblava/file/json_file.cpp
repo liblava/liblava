@@ -64,7 +64,7 @@ bool json_file::save() {
         j.merge_patch(d);
     }
 
-    file file(str(path), file_mode::write);
+    file file(path, file_mode::write);
     if (!file.opened())
         return false;
 
