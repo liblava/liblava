@@ -47,6 +47,15 @@ struct stage {
  */
 struct driver {
     /**
+     * @brief Driver error codes
+     */
+    enum error {
+        stages_empty = -1,
+        stage_not_found = -2,
+        undef_run = -3,
+    };
+
+    /**
      * @brief Get driver singleton
      *
      * @return driver&    Stage driver
@@ -82,6 +91,12 @@ struct driver {
      * @return i32        Result code
      */
     i32 run(argh::parser cmd_line = {});
+
+    /// Run function
+    using run_func = std::function<i32(argh::parser)>;
+
+    /// Called if no stage has been selected
+    run_func on_run;
 
 private:
     /**

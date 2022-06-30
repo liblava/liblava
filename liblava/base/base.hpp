@@ -28,6 +28,11 @@ namespace lava {
 void set_log(logger log);
 
 /**
+ * @brief Reset global logger
+ */
+void reset_log();
+
+/**
  * @brief Get global logger
  *
  * @return logger    Logger

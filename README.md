@@ -774,7 +774,7 @@ lava -s=3
 lava --stage=3
 ```
 
-> If you run `lava` without arguments - the *last stage* will be started.
+> If you run `lava` without arguments - the *stage driver* is started.
 
 <br />
 

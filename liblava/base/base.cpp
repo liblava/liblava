@@ -16,6 +16,11 @@ void lava::set_log(lava::logger l) {
 }
 
 //-----------------------------------------------------------------------------
+void lava::reset_log() {
+    global_logger = nullptr;
+}
+
+//-----------------------------------------------------------------------------
 lava::logger lava::log() {
     return global_logger;
 }

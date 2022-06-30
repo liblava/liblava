@@ -13,6 +13,11 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 i32 driver::run(argh::parser cmd_line) {
+    if (stages.empty()) {
+        std::cerr << "no stages" << std::endl;
+        return error::stages_empty;
+    }
+
     if (cmd_line[{ "-ls", "--stages" }]) {
         for (auto& [id, stage] : stages)
             std::cout << id << " = " << stage->descr << std::endl;
@@ -23,23 +28,19 @@ i32 driver::run(argh::parser cmd_line) {
     if (auto id = -1; cmd_line({ "-s", "--stage" }) >> id) {
         if (!stages.count(id)) {
             std::cerr << "stage " << id << " not found" << std::endl;
-            return -1;
+            return error::stage_not_found;
         }
 
-        if (stages.count(id)) {
-            auto stage = stages.at(id);
-            std::cout << "stage " << id << " - " << stage->descr << std::endl;
-            return stage->on_func(cmd_line);
-        }
-    }
-
-    for (auto& [id, stage] : reverse(stages)) {
+        auto& stage = stages.at(id);
         std::cout << "stage " << id << " - " << stage->descr << std::endl;
         return stage->on_func(cmd_line);
     }
 
-    std::cerr << "no stages" << std::endl;
-    return -1;
+    if (on_run)
+        return on_run(cmd_line);
+
+    std::cerr << "run undefined" << std::endl;
+    return error::undef_run;
 }
 
 //-----------------------------------------------------------------------------
@@ -47,6 +48,7 @@ stage::stage(ui32 id,
              name descr,
              func func)
 : id(id), descr(descr), on_func(func) {
+    assert((id != 0) && "stage id not defined.");
     driver::instance().add_stage(this);
 }
 

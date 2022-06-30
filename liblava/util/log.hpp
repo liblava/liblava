@@ -148,4 +148,13 @@ inline logger setup_log(log_config config = {}) {
     }
 }
 
+/**
+ * @brief Tear down logging
+ *
+ * @param config    Log configuration
+ */
+inline void teardown_log(log_config config = {}) {
+    spdlog::drop(config.logger);
+}
+
 } // namespace lava

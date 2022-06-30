@@ -178,6 +178,9 @@ void frame::teardown() {
     log()->info("<<<");
     log()->flush();
 
+    reset_log();
+    teardown_log(env.log);
+
     frame_initialized = false;
 }
 
