@@ -105,7 +105,7 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "91572e769ad62bc22d482af225eb3f04188825a0"
+        "tag": "286e9c1187053b4363fe963636f242263e1e5cd9"
     },
     {
         "name": "glslang",
@@ -117,7 +117,7 @@
         "name": "shaderc",
         "github": "google/shaderc",
         "branch": "main",
-        "tag": "976f920bd82e7ecd273878344fdcb73e25a391af"
+        "tag": "a8b501b5511929a1f54cfec68d7d98308b642124"
     },
     {
         "name": "PicoSHA2",

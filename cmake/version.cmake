@@ -51,13 +51,13 @@ set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG 36c0c1596225e728bd49abb7ef56a3953e7ed468)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 91572e769ad62bc22d482af225eb3f04188825a0)
+set(SPIRV-Tools_TAG 286e9c1187053b4363fe963636f242263e1e5cd9)
 
 set(glslang_GITHUB KhronosGroup/glslang)
 set(glslang_TAG b2d2c9dd3d77c6adadff37309aa58a181bafc5f9)
 
 set(shaderc_GITHUB google/shaderc)
-set(shaderc_TAG 976f920bd82e7ecd273878344fdcb73e25a391af)
+set(shaderc_TAG a8b501b5511929a1f54cfec68d7d98308b642124)
 
 set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 1677374f23352716fc52183255a40c1b8e1d53eb)
