@@ -57,7 +57,7 @@
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "3be1df310be8963c29125c35fce25ee0af12ff70"
+        "tag": "2c823b7f27590ec0a489f7fbe14b154e13fa5cfb"
     },
     {
         "name": "Vulkan-Profiles",
@@ -87,7 +87,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "873e9d35acb4d629a5ba06a312201edff8b9d0f6"
+        "tag": "609b935a8c35d8dc63926dd0379ab8cffd86ff51"
     },
     {
         "name": "imgui_docking",
@@ -117,7 +117,7 @@
         "name": "shaderc",
         "github": "google/shaderc",
         "branch": "main",
-        "tag": "a8b501b5511929a1f54cfec68d7d98308b642124"
+        "tag": "a0a247d09229669d19b268eb8051eeda880449c1"
     },
     {
         "name": "PicoSHA2",

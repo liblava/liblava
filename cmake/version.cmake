@@ -27,7 +27,7 @@ set(tinyobjloader_GITHUB syoyo/tinyobjloader)
 set(tinyobjloader_TAG 03a2f3a46615da7da641c170b8823b3e0fb63110)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
-set(Vulkan-Headers_TAG 3be1df310be8963c29125c35fce25ee0af12ff70)
+set(Vulkan-Headers_TAG 2c823b7f27590ec0a489f7fbe14b154e13fa5cfb)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
 set(Vulkan-Profiles_TAG 2accfc24d7bee89ee26c8bd30db8ae1aa13511fa)
@@ -42,7 +42,7 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 7d6ff1f4ba51e7a2b142be39457768abece1549c)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 873e9d35acb4d629a5ba06a312201edff8b9d0f6)
+set(imgui_TAG 609b935a8c35d8dc63926dd0379ab8cffd86ff51)
 
 set(imgui_docking_GITHUB ocornut/imgui)
 set(imgui_docking_TAG 58eb40db76783f5da09e592ca3eb421f4f2197e3)
@@ -57,7 +57,7 @@ set(glslang_GITHUB KhronosGroup/glslang)
 set(glslang_TAG b2d2c9dd3d77c6adadff37309aa58a181bafc5f9)
 
 set(shaderc_GITHUB google/shaderc)
-set(shaderc_TAG a8b501b5511929a1f54cfec68d7d98308b642124)
+set(shaderc_TAG a0a247d09229669d19b268eb8051eeda880449c1)
 
 set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 1677374f23352716fc52183255a40c1b8e1d53eb)
