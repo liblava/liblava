@@ -591,8 +591,8 @@ string app::screenshot() {
 }
 
 //-----------------------------------------------------------------------------
-void app::add_tooltip(name n, key k, mod m) {
-    tooltips.emplace_back(n, k, m);
+void app::add_tooltip(string_ref name, key_t key, mod_t mod) {
+    tooltips.emplace_back(name, key, mod);
 }
 
 //-----------------------------------------------------------------------------

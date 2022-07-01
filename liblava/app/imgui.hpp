@@ -118,7 +118,7 @@ struct imgui {
     };
 
     /**
-     * @brief Setup ImGui with configuration
+     * @brief Set up ImGui with configuration
      *
      * @param window    Target window
      * @param config    Configuration
@@ -126,7 +126,7 @@ struct imgui {
     void setup(GLFWwindow* window, config config);
 
     /**
-     * @brief Setup default ImGui
+     * @brief Set up default ImGui
      *
      * @param window    Target window
      */
@@ -418,7 +418,7 @@ private:
 using imgui_t = imgui;
 
 /**
- * @brief Set the up ImGui font
+ * @brief Set up ImGui font
  *
  * @param config    ImGui configuration
  * @param font      ImGui font
@@ -427,7 +427,7 @@ void setup_imgui_font(imgui::config& config,
                       imgui::font::ref font);
 
 /**
- * @brief Set up the imgui font icons
+ * @brief Set up imgui font icons
  *
  * @param font        Imgui font
  * @param filename    Font icon file name

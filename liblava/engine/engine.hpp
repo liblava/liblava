@@ -21,7 +21,7 @@ struct engine : app {
     using app::app;
 
     /**
-     * @brief Setup the engine
+     * @brief Set up the engine
      *
      * @return true     Setup was successful
      * @return false    Setup failed

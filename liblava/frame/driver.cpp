@@ -20,7 +20,7 @@ i32 driver::run(argh::parser cmd_line) {
 
     if (cmd_line[{ "-ls", "--stages" }]) {
         for (auto& [id, stage] : stages)
-            std::cout << id << " = " << stage->descr << std::endl;
+            std::cout << id << ". " << stage->descr << std::endl;
 
         return to_i32(stages.size());
     }

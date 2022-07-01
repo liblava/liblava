@@ -29,7 +29,8 @@ LAVA_STAGE(2, "run loop") {
         sleep(one_second);
         count++;
 
-        log()->debug("{} - running {} sec", count, frame.get_running_time_sec());
+        log()->debug("{} - running {} sec",
+                     count, frame.get_running_time_sec());
 
         if (count == 3)
             return frame.shut_down();

@@ -128,7 +128,7 @@ cdata producer::get_shader(string_ref name,
             }
         }
 
-        log()->warn("shader cache invalid: {}", name);
+        log()->info("shader cache invalid: {}", name);
 
         reload = true;
     }

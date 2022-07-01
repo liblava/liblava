@@ -153,7 +153,7 @@ struct app : frame {
         return block_command;
     }
 
-    /// Setup function
+    /// Set up function
     using setup_func = std::function<bool()>;
 
     /// Function called on application setup
@@ -169,11 +169,13 @@ struct app : frame {
     /**
      * @brief Add a tooltip
      *
-     * @param n    Name of tooltip
-     * @param k    Input key
-     * @param m    Input mod (default: none)
+     * @param name    Name of tooltip
+     * @param key     Input key
+     * @param mod     Input mod (default: none)
      */
-    void add_tooltip(name n, key k, mod m = mod::none);
+    void add_tooltip(string_ref name,
+                     key_t key,
+                     mod_t mod = mod::none);
 
     /**
      * @brief Clear tooltips
@@ -224,7 +226,7 @@ private:
     bool setup_device();
 
     /**
-     * @brief Setup render
+     * @brief Set up render
      *
      * @return true       Setup was successful
      * @return false      Setup failed
@@ -232,7 +234,7 @@ private:
     bool setup_render();
 
     /**
-     * @brief Setup run
+     * @brief Set up run
      *
      * @return true       Setup was successful
      * @return false      Setup failed

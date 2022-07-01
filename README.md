@@ -156,7 +156,8 @@ frame.add_run([&](id::ref run) {
     sleep(one_second);
     count++;
 
-    log()->debug("{} - running {} sec", count, frame.get_running_time_sec());
+    log()->debug("{} - running {} sec", 
+                 count, frame.get_running_time_sec());
 
     if (count == 3)
         return frame.shut_down();

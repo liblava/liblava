@@ -177,7 +177,9 @@ inline auto ceil_div(auto x, auto y) {
 }
 
 /// Default color (Lava color: CF1020 : 207, 16, 32)
-constexpr v3 const default_color = v3{ 0.8118f, 0.0627f, 0.1255f };
+constexpr v3 const default_color = v3{ 0.8118f,
+                                       0.0627f,
+                                       0.1255f };
 
 /**
  * @brief Calculate perspective matrix
@@ -193,9 +195,13 @@ inline mat4 perspective_matrix(uv2 size,
                                float far_plane = 5.f) {
     // Vulkan NDC is right-handed with Y pointing down
     // we flip Y which makes it left-handed
-    return glm::scale(glm::identity<glm::mat4>(), { 1.f, -1.f, 1.f })
+    return glm::scale(glm::identity<glm::mat4>(),
+                      { 1.f, -1.f, 1.f })
            * glm::perspectiveLH_ZO(
-               glm::radians(fov), float(size.x) / size.y, 0.1f, far_plane);
+               glm::radians(fov),
+               float(size.x) / size.y,
+               0.1f,
+               far_plane);
 }
 
 } // namespace lava
