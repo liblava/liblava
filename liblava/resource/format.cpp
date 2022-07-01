@@ -680,10 +680,8 @@ VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device,
 }
 
 //-----------------------------------------------------------------------------
-bool support_blit(device_p device,
+bool support_blit(VkPhysicalDevice pyhsical_device,
                   VkFormat format) {
-    auto pyhsical_device = device->get_vk_physical_device();
-
     VkFormatProperties format_props;
     vkGetPhysicalDeviceFormatProperties(pyhsical_device,
                                         format,
@@ -694,17 +692,14 @@ bool support_blit(device_p device,
     vkGetPhysicalDeviceFormatProperties(pyhsical_device,
                                         VK_FORMAT_R8G8B8A8_UNORM,
                                         &format_props);
-    if (!(format_props.linearTilingFeatures & VK_FORMAT_FEATURE_BLIT_DST_BIT))
-        return false;
-
-    return true;
+    return (format_props.linearTilingFeatures & VK_FORMAT_FEATURE_BLIT_DST_BIT);
 }
 
 //-----------------------------------------------------------------------------
-bool support_vertex_buffer_format(device_p device,
+bool support_vertex_buffer_format(VkPhysicalDevice pyhsical_device,
                                   VkFormat format) {
     VkFormatProperties format_props;
-    vkGetPhysicalDeviceFormatProperties(device->get_vk_physical_device(),
+    vkGetPhysicalDeviceFormatProperties(pyhsical_device,
                                         format,
                                         &format_props);
 

@@ -20,8 +20,28 @@ name _double_triangle_ = "double_triangle";
 int main(int argc, char* argv[]) {
     engine app("lava generics", { argc, argv });
 
-    app.platform.on_create_param = [](device::create_param& param) {
-        param.features.shaderFloat64 = true;
+    bool int_supported = false;
+    bool double_supported = false;
+
+    app.platform.on_create_param = [&](device::create_param& param) {
+        auto& physical_device = param.physical_device;
+
+        // check int support
+        int_supported = support_vertex_buffer_format(physical_device->get(),
+                                                     VK_FORMAT_R32G32B32_SINT);
+        if (!int_supported)
+            log()->warn("int vertex buffer format is not supported");
+
+        // check double support
+        if (physical_device->get_features().shaderFloat64
+            && support_vertex_buffer_format(physical_device->get(),
+                                            VK_FORMAT_R64G64B64_SFLOAT)) {
+            // activate device feature
+            param.features.shaderFloat64 = true;
+
+            double_supported = true;
+        } else
+            log()->warn("double vertex buffer format is not supported");
     };
 
     app.prop.add(_triangle_frag_, "generics/triangle.frag");
@@ -31,16 +51,6 @@ int main(int argc, char* argv[]) {
 
     if (!app.setup())
         return error::not_ready;
-
-    bool int_supported = support_vertex_buffer_format(app.device,
-                                                      VK_FORMAT_R32G32B32_SINT);
-    if (!int_supported)
-        log()->warn("int vertex buffer format is not supported");
-
-    bool double_supported = support_vertex_buffer_format(app.device,
-                                                         VK_FORMAT_R64G64B64_SFLOAT);
-    if (!double_supported)
-        log()->warn("double vertex buffer format is not supported");
 
     // initialize a float triangle
     mesh::ptr float_triangle;

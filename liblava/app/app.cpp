@@ -564,7 +564,8 @@ string app::screenshot() {
     auto path = fs.get_pref_dir() + screenshot_path
                 + get_current_time() + ".png";
 
-    auto swizzle = !support_blit(device, backbuffer_image->get_format())
+    auto swizzle = !support_blit(device->get_vk_physical_device(),
+                                 backbuffer_image->get_format())
                    && format_bgr(backbuffer_image->get_format());
 
     auto saved = write_image_png(device, image, path, swizzle);
