@@ -209,19 +209,15 @@ int main(int argc, char* argv[]) {
     app.imgui.on_draw = [&]() {
         ImGui::Begin(app.get_name());
 
-        if (ImGui::Button("Triangle"))
+        if (ImGui::Selectable("Triangle", current_mesh == mesh_type::triangle))
             current_mesh = mesh_type::triangle;
-
-        if (ImGui::Button("Quad"))
+        if (ImGui::Selectable("Quad", current_mesh == mesh_type::quad))
             current_mesh = mesh_type::quad;
-
-        if (ImGui::Button("Cube"))
+        if (ImGui::Selectable("Cube", current_mesh == mesh_type::cube))
             current_mesh = mesh_type::cube;
-
-        if (ImGui::Button("Hexagon"))
+        if (ImGui::Selectable("Hexagon", current_mesh == mesh_type::hexagon))
             current_mesh = mesh_type::hexagon;
-
-        if (ImGui::Button("None"))
+        if (ImGui::Selectable("None", current_mesh == mesh_type::none))
             current_mesh = mesh_type::none;
 
         app.draw_about();
