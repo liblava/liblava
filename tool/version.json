@@ -39,7 +39,7 @@
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "d7690d8e7eed721d78b52e032e996a5d1ef47d6f"
+        "tag": "6c95f4c8168401badff89d0c16e3887ea91ea9ad"
     },
     {
         "name": "stb",
@@ -87,13 +87,13 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "609b935a8c35d8dc63926dd0379ab8cffd86ff51"
+        "tag": "67410d53f739b6a0df138e2252f0e5136b42062f"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "58eb40db76783f5da09e592ca3eb421f4f2197e3"
+        "tag": "ad5aa5416630059c9213a4cfe00a827c3991e964"
     },
     {
         "name": "SPIRV-Headers",
@@ -105,7 +105,7 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "286e9c1187053b4363fe963636f242263e1e5cd9"
+        "tag": "8ec4a0772b95bfd4339f824af5d233e25621ed43"
     },
     {
         "name": "glslang",
