@@ -191,36 +191,37 @@ struct app : frame {
         return tooltips;
     }
 
+    /**
+     * @brief Parse config
+     *
+     * @param cmd_line    Command line arguments
+     */
+    void parse_config(argh::parser cmd_line);
+
 private:
     /**
-     * @brief Setup file system
-     *
-     * @param cmd_line    Command line arguments
+     * @brief Set up file system
      *
      * @return true       Setup was successful
      * @return false      Setup failed
      */
-    bool setup_file_system(cmd_line cmd_line);
+    bool setup_file_system();
 
     /**
-     * @brief Setup window
-     *
-     * @param cmd_line    Command line arguments
+     * @brief Set up window
      *
      * @return true       Setup was successful
      * @return false      Setup failed
      */
-    bool setup_window(cmd_line cmd_line);
+    bool setup_window();
 
     /**
-     * @brief Setup device
-     *
-     * @param cmd_line    Command line arguments
+     * @brief Set up device
      *
      * @return true       Setup was successful
      * @return false      Setup failed
      */
-    bool setup_device(cmd_line cmd_line);
+    bool setup_device();
 
     /**
      * @brief Setup render

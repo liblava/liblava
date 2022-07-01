@@ -15,11 +15,41 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 app::app(frame_env env)
-: frame(env), window(env.info.app_name) {}
+: frame(env), window(env.info.app_name) {
+    parse_config(env.cmd_line);
+}
 
 //-----------------------------------------------------------------------------
 app::app(name name, argh::parser cmd_line)
-: frame(frame_env(name, cmd_line)), window(name) {}
+: frame(frame_env(name, cmd_line)), window(name) {
+    parse_config(cmd_line);
+}
+
+//-----------------------------------------------------------------------------
+void app::parse_config(argh::parser cmd_line) {
+    if (auto id = cmd_line({ "-id", "--identification" })) {
+        config.id = id.str();
+        remove_chars(config.id, _punctuation_marks_);
+    }
+
+    if (auto fullscreen = -1; cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)
+        config.window_state->fullscreen = fullscreen == 1;
+
+    if (auto x_pos = -1; cmd_line({ "-wx", "--x_pos" }) >> x_pos)
+        config.window_state->x = x_pos;
+
+    if (auto y_pos = -1; cmd_line({ "-wy", "--y_pos" }) >> y_pos)
+        config.window_state->y = y_pos;
+
+    if (auto width = -1; cmd_line({ "-ww", "--width" }) >> width)
+        config.window_state->width = width;
+
+    if (auto height = -1; cmd_line({ "-wh", "--height" }) >> height)
+        config.window_state->height = height;
+
+    cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
+    cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
+}
 
 //-----------------------------------------------------------------------------
 void app::handle_config() {
@@ -79,17 +109,12 @@ bool app::setup() {
     if (!frame::ready())
         return false;
 
-    auto& cmd_line = get_cmd_line();
-
-    if (auto id = cmd_line({ "-id", "--identification" })) {
-        config.id = id.str();
-        remove_chars(config.id, _punctuation_marks_);
-    }
-
-    if (!setup_file_system(cmd_line))
+    if (!setup_file_system())
         return false;
 
     handle_config();
+
+    auto& cmd_line = get_cmd_line();
 
     if (auto paused = -1; cmd_line({ "-p", "--paused" }) >> paused)
         run_time.paused = paused == 1;
@@ -102,10 +127,10 @@ bool app::setup() {
     if (on_setup && !on_setup())
         return false;
 
-    if (!setup_window(cmd_line))
+    if (!setup_window())
         return false;
 
-    if (!setup_device(cmd_line))
+    if (!setup_device())
         return false;
 
     if (!setup_render())
@@ -120,10 +145,12 @@ bool app::setup() {
 }
 
 //-----------------------------------------------------------------------------
-bool app::setup_file_system(cmd_line cmd_line) {
+bool app::setup_file_system() {
     log()->debug("physfs {}", to_string(fs.get_version()));
 
-    if (!fs.initialize(get_cmd_line()[0],
+    auto& cmd_line = get_cmd_line();
+
+    if (!fs.initialize(cmd_line[0],
                        config.org,
                        get_name(),
                        config.ext)) {
@@ -148,26 +175,11 @@ bool app::setup_file_system(cmd_line cmd_line) {
 }
 
 //-----------------------------------------------------------------------------
-bool app::setup_window(cmd_line cmd_line) {
+bool app::setup_window() {
     if (config.id != _default_) {
         window.set_save_name(config.id);
         window.show_save_title();
     }
-
-    if (auto fullscreen = -1; cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)
-        config.window_state->fullscreen = fullscreen == 1;
-
-    if (auto x_pos = -1; cmd_line({ "-wx", "--x_pos" }) >> x_pos)
-        config.window_state->x = x_pos;
-
-    if (auto y_pos = -1; cmd_line({ "-wy", "--y_pos" }) >> y_pos)
-        config.window_state->y = y_pos;
-
-    if (auto width = -1; cmd_line({ "-ww", "--width" }) >> width)
-        config.window_state->width = width;
-
-    if (auto height = -1; cmd_line({ "-wh", "--height" }) >> height)
-        config.window_state->height = height;
 
     if (!window.create(config.window_state))
         return false;
@@ -178,17 +190,14 @@ bool app::setup_window(cmd_line cmd_line) {
 
     set_window_icon(window);
 
-    if (cmd_line[{ "-wc", "--center" }])
+    if (get_cmd_line()[{ "-wc", "--center" }])
         window.center();
 
     return true;
 }
 
 //-----------------------------------------------------------------------------
-bool app::setup_device(cmd_line cmd_line) {
-    cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
-    cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
-
+bool app::setup_device() {
     if (!device) {
         device = platform.create_device(config.physical_device);
         if (!device)
