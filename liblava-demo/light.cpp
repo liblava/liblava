@@ -108,10 +108,16 @@ name _lighting_vertex_ = "lighting_vertex";
 name _lighting_fragment_ = "lighting_fragment";
 
 //-----------------------------------------------------------------------------
+#ifdef LIBLAVA_DEMO
+LAVA_STAGE(6, "light") {
+#else
 int main(int argc, char* argv[]) {
-    frame_env env("lava light", { argc, argv });
-    // env.profile = profile_roadmap_2022();
+    argh::parser argh(argc, argv);
+#endif
+    frame_env env("lava light", argh);
+
     env.profile = profile_desktop_portability_2021();
+    // env.profile = profile_roadmap_2022();
 
     engine app(env);
 

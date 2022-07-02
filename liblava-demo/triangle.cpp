@@ -21,9 +21,14 @@ ui32 frag_shader[] = {
 };
 
 //-----------------------------------------------------------------------------
+#ifdef LIBLAVA_DEMO
+LAVA_STAGE(1, "triangle") {
+#else
 int main(int argc, char* argv[]) {
-    app app("lava triangle", { argc, argv });
+    argh::parser argh(argc, argv);
+#endif
 
+    app app("lava triangle", argh);
     if (!app.setup())
         return error::not_ready;
 

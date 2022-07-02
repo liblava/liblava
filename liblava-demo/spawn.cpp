@@ -12,9 +12,14 @@
 using namespace lava;
 
 //-----------------------------------------------------------------------------
+#ifdef LIBLAVA_DEMO
+LAVA_STAGE(5, "spawn") {
+#else
 int main(int argc, char* argv[]) {
-    engine app("lava spawn", { argc, argv });
+    argh::parser argh(argc, argv);
+#endif
 
+    engine app("lava spawn", argh);
     app.prop.add(_vertex_, "spawn/spawn.vert");
     app.prop.add(_fragment_, "spawn/spawn.frag");
 

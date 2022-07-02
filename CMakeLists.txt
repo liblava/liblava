@@ -559,6 +559,26 @@ message("=======================================================================
 
         set(LIBLAVA_DEMO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava-demo)
 
+        add_executable(lava-demo
+                ${LIBLAVA_DEMO_DIR}/main.cpp
+                ${LIBLAVA_DEMO_DIR}/generics.cpp
+                ${LIBLAVA_DEMO_DIR}/lamp.cpp
+                ${LIBLAVA_DEMO_DIR}/light.cpp
+                ${LIBLAVA_DEMO_DIR}/shapes.cpp
+                ${LIBLAVA_DEMO_DIR}/spawn.cpp
+                ${LIBLAVA_DEMO_DIR}/triangle.cpp
+                )
+
+        target_compile_definitions(lava-demo PRIVATE LIBLAVA_DEMO)
+
+        set_target_properties(lava-demo PROPERTIES FOLDER "lava-demo")
+        target_link_libraries(lava-demo
+                lava::engine
+                ${LIBLAVA_ENGINE_LIBRARIES}
+                )
+
+        set_property(TARGET lava-demo PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
         message(">> lava-triangle")
 
         set(TRIANGLE_SHADERS
@@ -691,7 +711,10 @@ message("=======================================================================
 
         set_property(TARGET lava-light PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
+        # install demo targets
+
         install(TARGETS
+                lava-demo
                 lava-triangle
                 lava-generics
                 lava-shapes

@@ -11,8 +11,14 @@
 using namespace lava;
 
 //-----------------------------------------------------------------------------
+#ifdef LIBLAVA_DEMO
+LAVA_STAGE(3, "shapes") {
+#else
 int main(int argc, char* argv[]) {
-    engine app("lava shapes", { argc, argv });
+    argh::parser argh(argc, argv);
+#endif
+
+    engine app("lava shapes", argh);
 
     app.prop.add(_vertex_, "shapes/shapes.vert");
     app.prop.add(_fragment_, "shapes/shapes.frag");

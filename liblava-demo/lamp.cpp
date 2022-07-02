@@ -73,8 +73,14 @@ struct dimmer {
 };
 
 //-----------------------------------------------------------------------------
+#ifdef LIBLAVA_DEMO
+LAVA_STAGE(4, "lamp") {
+#else
 int main(int argc, char* argv[]) {
-    engine app("lava lamp", { argc, argv });
+    argh::parser argh(argc, argv);
+#endif
+
+    engine app("lava lamp", argh);
 
     app.prop.add(_vertex_, "lamp/lamp.vert");
     app.prop.add(_fragment_, "lamp/lamp.frag");
