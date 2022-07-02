@@ -56,6 +56,17 @@ struct driver {
     };
 
     /**
+     * @brief Driver result
+     */
+    struct result {
+        /// Run result
+        i32 driver = 0;
+
+        /// Selected stage
+        i32 selected = 0;
+    };
+
+    /**
      * @brief Get driver singleton
      *
      * @return driver&    Stage driver
@@ -93,7 +104,7 @@ struct driver {
     i32 run(argh::parser cmd_line = {});
 
     /// Run function
-    using run_func = std::function<i32(argh::parser)>;
+    using run_func = std::function<result(argh::parser)>;
 
     /// Called if no stage has been selected
     run_func on_run;

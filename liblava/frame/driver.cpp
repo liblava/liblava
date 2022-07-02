@@ -36,11 +36,36 @@ i32 driver::run(argh::parser cmd_line) {
         return stage->on_func(cmd_line);
     }
 
-    if (on_run)
-        return on_run(cmd_line);
+    if (!on_run) {
+        std::cerr << "run undefined" << std::endl;
+        return error::undef_run;
+    }
 
-    std::cerr << "run undefined" << std::endl;
-    return error::undef_run;
+    result result;
+
+    do {
+        result = on_run(cmd_line);
+        if (result.driver < 0)
+            return result.driver;
+
+        if (stages.count(result.selected)) {
+            auto& stage = stages.at(result.selected);
+
+            std::cout << "stage " << result.selected
+                      << " - " << stage->descr << std::endl;
+
+            auto stage_result = stage->on_func(cmd_line);
+            if (stage_result < 0)
+                return stage_result;
+
+            result.driver = stage_result;
+
+            if (result.selected != 0)
+                std::cout << "stage driver" << std::endl;
+        }
+    } while (result.selected != 0);
+
+    return result.driver;
 }
 
 //-----------------------------------------------------------------------------
