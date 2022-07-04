@@ -275,7 +275,7 @@ int main(int argc, char* argv[]) {
                 double_pipeline->toggle();
         }
 
-        app.draw_about(draw_without_separator);
+        app.draw_about(draw_separator);
 
         ImGui::End();
     };

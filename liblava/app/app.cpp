@@ -596,48 +596,37 @@ void app::add_tooltip(string_ref name, key_t key, mod_t mod) {
 }
 
 //-----------------------------------------------------------------------------
-void app::draw_about(bool separator) const {
+void app::draw_about(bool separator,
+                     bool fps,
+                     bool spacing) const {
     if (separator)
         ImGui::Separator();
 
-    ImGui::Spacing();
+    if (spacing) {
+        ImGui::Spacing();
 
-    imgui_left_spacing(2);
+        imgui_left_spacing(2);
+    }
 
     ImGui::Text("%s %s", _liblava_, str(version_string()));
 
     if (config.handle_key_events && ImGui::IsItemHovered()) {
-        string tt;
-
-        auto skip_first = true;
-        for (auto& tooltip : tooltips) {
-            if (skip_first)
-                skip_first = false;
-            else
-                tt += "\n";
-
-            if (tooltip.mod == mod::none)
-                tt += fmt::format("{} = {}",
-                                  tooltip.name, to_string(tooltip.key));
-            else
-                tt += fmt::format("{} = {} + {}",
-                                  tooltip.name, to_string(tooltip.mod),
-                                  to_string(tooltip.key));
-        }
-
-        ImGui::SetTooltip("%s", str(tt));
+        ImGui::SetTooltip("%s", str(to_string(tooltips)));
     }
 
-    imgui_left_spacing();
+    if (fps) {
+        if (spacing)
+            imgui_left_spacing();
 
-    if (v_sync())
-        ImGui::Text("%.f fps (v-sync)", ImGui::GetIO().Framerate);
-    else
-        ImGui::Text("%.f fps", ImGui::GetIO().Framerate);
+        if (v_sync())
+            ImGui::Text("%.f fps (v-sync)", ImGui::GetIO().Framerate);
+        else
+            ImGui::Text("%.f fps", ImGui::GetIO().Framerate);
 
-    if (run_time.paused) {
-        ImGui::SameLine();
-        ImGui::TextUnformatted(_paused_);
+        if (run_time.paused) {
+            ImGui::SameLine();
+            ImGui::TextUnformatted(_paused_);
+        }
     }
 }
 

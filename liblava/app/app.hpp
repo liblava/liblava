@@ -17,10 +17,22 @@
 namespace lava {
 
 /// Draw with separator
-constexpr bool const draw_with_separator = true;
+constexpr bool const draw_separator = true;
 
 /// Draw without separator
-constexpr bool const draw_without_separator = false;
+constexpr bool const draw_no_separator = false;
+
+/// Draw with fps
+constexpr bool const draw_fps = true;
+
+/// Draw without fps
+constexpr bool const draw_no_fps = false;
+
+/// Draw with spacing
+constexpr bool const draw_spacing = true;
+
+/// Draw without spacing
+constexpr bool const draw_no_spacing = false;
 
 /**
  * @brief Application with basic functionality
@@ -129,8 +141,12 @@ struct app : frame {
      * @brief Draw about information
      *
      * @param separator    Prepend separator
+     * @param fps          FPS counter
+     * @param spacing      Spacing
      */
-    void draw_about(bool separator = draw_with_separator) const;
+    void draw_about(bool separator = draw_separator,
+                    bool fps = draw_fps,
+                    bool spacing = draw_spacing) const;
 
     /// Application configuration
     app_config config;

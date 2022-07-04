@@ -726,4 +726,13 @@ struct tooltip {
     mod_t mod;
 };
 
+/**
+ * @brief Convert tooltips to string
+ *
+ * @param tooltips    List of tooltips
+ *
+ * @return string     String representation
+ */
+string to_string(tooltip::list const& tooltips);
+
 } // namespace lava
