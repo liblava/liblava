@@ -322,7 +322,7 @@ int main(int argc, char* argv[]) {
             update_spawn_matrix = false;
         }
 
-        return true;
+        return run_continue;
     };
 
     app.add_run_end([&]() {

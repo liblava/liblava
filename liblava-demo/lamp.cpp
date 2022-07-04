@@ -251,7 +251,7 @@ int main(int argc, char* argv[]) {
 
     app.on_update = [&](delta dt) {
         if (!auto_play || !pipeline->activated())
-            return true;
+            return run_continue;
 
         lamp_depth = depth_dimmer.update(dt, lamp_depth);
 
@@ -260,7 +260,7 @@ int main(int argc, char* argv[]) {
         lamp_color.b = b_dimmer.update(dt, lamp_color.b);
         lamp_color.a = a_dimmer.update(dt, lamp_color.a);
 
-        return true;
+        return run_continue;
     };
 
     return app.run();

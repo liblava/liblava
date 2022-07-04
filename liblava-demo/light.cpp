@@ -393,13 +393,13 @@ int main(int argc, char* argv[]) {
     };
 
     app.on_update = [&](delta dt) {
-        float seconds = to_sec(app.run_time.current);
+        float const seconds = to_sec(app.run_time.current);
 
         constexpr float distance = 1.25f;
         float const left = -distance * (object_instances.size() - 1) * 0.5f;
 
         for (auto i = 0u; i < object_instances.size(); ++i) {
-            float x = left + distance * i;
+            float const x = left + distance * i;
 
             v3 axis = v3(0.f);
             axis[i % 3] = 1.f;
@@ -413,7 +413,7 @@ int main(int argc, char* argv[]) {
             object_instances[i] = model;
         }
 
-        return true;
+        return run_continue;
     };
 
     // handle backbuffer resize

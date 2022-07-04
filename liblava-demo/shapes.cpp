@@ -240,7 +240,7 @@ int main(int argc, char* argv[]) {
             app.camera.update_view(to_dt(app.run_time.delta),
                                    app.input.get_mouse_position());
 
-        return true;
+        return run_continue;
     };
 
     app.add_run_end([&]() {

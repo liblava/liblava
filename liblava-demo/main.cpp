@@ -45,9 +45,8 @@ int main(int argc, char* argv[]) {
 
         r32 alpha = 0.f;
         app.on_update = [&](delta dt) {
-            if (alpha < 1.f)
-                alpha += dt;
-            return true;
+            alpha = (alpha < 1.f) ? alpha + dt : 1.f;
+            return run_continue;
         };
 
         auto next = [&]() {
