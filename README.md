@@ -1316,6 +1316,7 @@ You can find the demonstration projects in the `liblava-demo` folder.
 - **Font Awesome** &nbsp; ➜ &nbsp; [Website](https://fontawesome.com) &nbsp; • &nbsp; [GitHub](https://github.com/FortAwesome/Font-Awesome) &nbsp; *Font Awesome Free License* &nbsp; [fa-solid-900.ttf](res/font/icon/fa-solid-900.ttf)
 - **Barbarella** &nbsp; ➜ &nbsp; [Website](https://www.shadertoy.com/view/XdfGDr) &nbsp; *Shader by Weyland Yutani* &nbsp; [lamp.frag](res/lamp/lamp.frag)
 - **Spawn Model** &nbsp; ➜ &nbsp; [Website](https://opengameart.org/content/lava-spawn) &nbsp; *CC BY-SA 3.0* &nbsp; [lava-spawn-game.mtl](res/spawn/lava-spawn-game.mtl) &nbsp; • &nbsp; [lava-spawn-game.obj](res/spawn/lava-spawn-game.obj)
+- **Mationi - Colored Border** &nbsp; ➜ &nbsp; [Website](https://www.shadertoy.com/view/fscyDH) &nbsp; *Shader by juanpetrik* &nbsp; [demo.frag](res/demo/demo.frag)
 
 <br />
 
