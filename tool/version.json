@@ -33,7 +33,7 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "954b10ad3baa5d92bb9cd5bb93c7258433cd2bb2"
+        "tag": "7d361ec8efa8abf7bc126c2487389cfcc3469551"
     },
     {
         "name": "spdlog",
@@ -63,7 +63,7 @@
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "2accfc24d7bee89ee26c8bd30db8ae1aa13511fa"
+        "tag": "38e5e6fdfdef220141785dcb08be0a7c11ba7850"
     },
     {
         "name": "volk",
@@ -87,7 +87,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "67410d53f739b6a0df138e2252f0e5136b42062f"
+        "tag": "467a1cd4a583edd55db310c82e2823692616e108"
     },
     {
         "name": "imgui_docking",

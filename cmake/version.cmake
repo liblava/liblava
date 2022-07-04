@@ -15,7 +15,7 @@ set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG 0d4e9aac4575744ddaae56b146f1be19f064f0e5)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG 954b10ad3baa5d92bb9cd5bb93c7258433cd2bb2)
+set(json_TAG 7d361ec8efa8abf7bc126c2487389cfcc3469551)
 
 set(spdlog_GITHUB gabime/spdlog)
 set(spdlog_TAG 6c95f4c8168401badff89d0c16e3887ea91ea9ad)
@@ -30,7 +30,7 @@ set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG 2c823b7f27590ec0a489f7fbe14b154e13fa5cfb)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG 2accfc24d7bee89ee26c8bd30db8ae1aa13511fa)
+set(Vulkan-Profiles_TAG 38e5e6fdfdef220141785dcb08be0a7c11ba7850)
 
 set(volk_GITHUB zeux/volk)
 set(volk_TAG 03ddd4be77a3cf8f19809c83e4580a67fdabdc66)
@@ -42,7 +42,7 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 7d6ff1f4ba51e7a2b142be39457768abece1549c)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 67410d53f739b6a0df138e2252f0e5136b42062f)
+set(imgui_TAG 467a1cd4a583edd55db310c82e2823692616e108)
 
 set(imgui_docking_GITHUB ocornut/imgui)
 set(imgui_docking_TAG ad5aa5416630059c9213a4cfe00a827c3991e964)
