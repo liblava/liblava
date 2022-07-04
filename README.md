@@ -77,13 +77,12 @@
 * **run loop** abstraction for **window** and **input** handling
 * plain **renderer** and  **command buffer** model
 * **texture** and **mesh** loading from **virtual file system**
+* runtime **shader compilation** included
 * **camera**, **imgui**, **logger** and more...
 
 <br />
 
 # Introduction
-
-*WIP*
 
 <br />
 

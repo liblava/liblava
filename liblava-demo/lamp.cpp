@@ -183,14 +183,14 @@ int main(int argc, char* argv[]) {
 
     app.input.key.listeners.add([&](key_event::ref event) {
         if (app.imgui.capture_mouse())
-            return false;
+            return input_ignore;
 
         if (event.pressed(key::enter)) {
             auto_play = !auto_play;
-            return true;
+            return input_done;
         }
 
-        return false;
+        return input_ignore;
     });
 
     app.imgui.on_draw = [&]() {

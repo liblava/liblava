@@ -277,13 +277,13 @@ int main(int argc, char* argv[]) {
 
     app.input.key.listeners.add([&](key_event::ref event) {
         if (app.imgui.capture_mouse())
-            return false;
+            return input_ignore;
 
         if (event.pressed(key::enter)) {
             app.camera.mode = app.camera.mode == camera_mode::first_person
                                   ? camera_mode::look_at
                                   : camera_mode::first_person;
-            return true;
+            return input_done;
         }
 
         if (event.pressed(key::r))
@@ -292,7 +292,7 @@ int main(int argc, char* argv[]) {
         if (event.pressed(key::z))
             app.camera.lock_z = !app.camera.lock_z;
 
-        return false;
+        return input_ignore;
     });
 
     gamepad pad(gamepad_id::_1);
