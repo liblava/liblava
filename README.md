@@ -12,7 +12,7 @@
 
 <br />
 
-[![version](https://img.shields.io/badge/2022_preview-0.7.2-cf1020)](https://github.com/liblava/liblava/tags) [![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://donate.lava-block.com) [![Twitter Follow](https://img.shields.io/twitter/follow/liblava?style=flat&color=00acee)](https://twitter.com/liblava)
+[![version](https://img.shields.io/badge/2022_alpha-0.7.2-cf1020)](https://github.com/liblava/liblava/tags) [![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://donate.lava-block.com) [![Twitter Follow](https://img.shields.io/twitter/follow/liblava?style=flat&color=00acee)](https://twitter.com/liblava)
 
 
 `lava` is a lean framework that provides **essentials** for **low-level graphics** - specially well suited for **prototyping**, **tooling**, **profiling** and **education**. This library is written in **modern C++20** and strives for a **modular rolling release** as far as possible. We don't want to promise too much, but it runs really smoothly on **Windows** and **Linux**.
@@ -58,10 +58,10 @@
 
 # Projects
 
-| raytraced reflecting cubes ➜ [pezcode/lava-rt](https://github.com/pezcode/lava-rt) | 
-|:---------|
-| <a href="https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp"> <img src="https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png" width="70%"></a> | 
-| [![rt cubes](https://img.shields.io/badge/lava-rt_cubes-brightgreen.svg)](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) |
+| [raytraced](https://github.com/pezcode/lava-rt) reflecting cubes | free download on itch.io ➜ [demo collection ](https://thelavablock.itch.io/lava-demo) | 
+|:---------|---------:|
+| <a href="https://github.com/pezcode/lava-rt"> <img src="https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png"></a>  | <a href="https://demo.lava-block.com">![demo](res/demo/screenshot.png)</a> |
+| [![rt cubes](https://img.shields.io/badge/lava-rt_cubes-brightgreen.svg)](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) | [![lava demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo/main.cpp) |
 
 <br />
 
