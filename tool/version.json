@@ -9,7 +9,7 @@
         "name": "glfw",
         "github": "glfw/glfw",
         "branch": "master",
-        "tag": "da6713cd096a40a4512f468b34c189017e73f987"
+        "tag": "36f0bf00a92b15e301bb28e840a4361e0b74b123"
     },
     {
         "name": "gli",
@@ -33,7 +33,7 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "7d361ec8efa8abf7bc126c2487389cfcc3469551"
+        "tag": "d4daaa897f48bf7bb2f96b46b84e49f32dd11daf"
     },
     {
         "name": "spdlog",
@@ -51,19 +51,19 @@
         "name": "tinyobjloader",
         "github": "syoyo/tinyobjloader",
         "branch": "master",
-        "tag": "03a2f3a46615da7da641c170b8823b3e0fb63110"
+        "tag": "a1e8bad32e1ccd26a7936c5354ecf856aec2cf59"
     },
     {
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "2c823b7f27590ec0a489f7fbe14b154e13fa5cfb"
+        "tag": "9f73b931f402f23554a60015924e7e35c7047487"
     },
     {
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "38e5e6fdfdef220141785dcb08be0a7c11ba7850"
+        "tag": "5c2a6629efc35d2019d461ceac63ce8cb2eede2e"
     },
     {
         "name": "volk",
@@ -87,31 +87,31 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "467a1cd4a583edd55db310c82e2823692616e108"
+        "tag": "1480bc5d4e00f8633f89631da4c8df3ed4acce61"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "ad5aa5416630059c9213a4cfe00a827c3991e964"
+        "tag": "21fc57f2cfb61fc61527d7ed540a01c11e258939"
     },
     {
         "name": "SPIRV-Headers",
         "github": "KhronosGroup/SPIRV-Headers",
         "branch": "master",
-        "tag": "36c0c1596225e728bd49abb7ef56a3953e7ed468"
+        "tag": "0bcc624926a25a2a273d07877fd25a6ff5ba1cfb"
     },
     {
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "8ec4a0772b95bfd4339f824af5d233e25621ed43"
+        "tag": "69e1deabc1cdab0ec8e19cae8250236c0d22e689"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "b2d2c9dd3d77c6adadff37309aa58a181bafc5f9"
+        "tag": "503dd243782ce6793c04eca551feef1985e3dcf1"
     },
     {
         "name": "shaderc",
@@ -129,6 +129,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "5a1ef7e4a6caf3d5f696eb82302e3d87ff5c2303"
+        "tag": "5f9109a8dc616f6aba0dabf18dd77da41f5435bc"
     }
 ]
