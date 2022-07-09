@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 3.22)
 
-project(liblava VERSION 0.7.2 LANGUAGES C CXX)
+project(liblava VERSION 0.7.3 LANGUAGES C CXX)
 
 message("")
 message("========================================================================")
@@ -18,7 +18,7 @@ message("  _|  _|  _|    _|      _|      _|    _|        _|  _|        _|    _| 
 message("  _|  _|  _|_|_|        _|        _|_|_|          _|            _|_|_|  ")
 message("                                                                        ")
 message("========================================================================")
-message(" 2022 alpha / 0.7.2                                        MIT licensed ")
+message(" 2022 alpha / 0.7.3                                        MIT licensed ")
 message("========================================================================")
 message(" https://git.io/liblava                          https://lava-block.com ")
 message("========================================================================")
