@@ -1,0 +1,57 @@
+---
+name: Check URLs 🌐
+
+on:
+  push:
+    branches:
+      - "main"
+      - "master"
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    branches:
+      - "main"
+      - "master"
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      additional_args:
+        description: Additional arguments to pass to lychee
+        required: false
+        type: string
+        default: ""
+
+concurrency:
+  group: links-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  links:
+    name: Validate Links 🔎
+    runs-on: ubuntu-latest
+    if: >
+      !contains(github.event.commits[0].message, '[skip links]')
+        && github.event.pull_request.draft == false
+    steps:
+      - name: Checkout repo 🛎
+        uses: actions/checkout@v3
+
+      - name: Check URLs in docs 🔬
+        uses: lycheeverse/lychee-action@v1.4.1
+        with:
+          args: >-
+            --exclude-private
+            --exclude "https://github.com.*.git|lycheeverse.*"
+            --verbose
+            --no-progress
+            ${{ inputs.additional_args }}
+            **/*.md
+            **/*.html
+            **/*.Rmd
+            **/*.yaml
+            **/*.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
