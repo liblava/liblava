@@ -49,6 +49,7 @@
 - [Third-Party](#third-party)
   - [Demo](#demo)
 - [License](#license)
+  - [Contributors](#contributors)
 
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
