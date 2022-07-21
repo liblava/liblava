@@ -16,6 +16,7 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v2
+
     - uses: check-spelling/check-spelling@v0.0.19
       id: spelling
       with:

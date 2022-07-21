@@ -21,7 +21,7 @@ jobs:
     - name: "Doxygen Action"
       uses: mattnotmitt/doxygen-action@1.9.4
       with:
-        doxyfile-path: 'liblava\tool\doxygen.conf'
+        doxyfile-path: './tool/doxygen.conf'
         working-directory: '.'
         enable-latex: true
 

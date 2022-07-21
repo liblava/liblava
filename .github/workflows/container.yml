@@ -43,15 +43,14 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: "./"
+          context: .
           push: true
-          tags:
-            liblava-demo:latest
+          tags: ${{ env.REGISTRY }}/liblava-demo:latest
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'liblava-demo:latest'
+          image-ref: '${{ env.REGISTRY }}/liblava-demo:latest'
           format: 'sarif'
           output: 'trivy-results.sarif'
           exit-code: '1'
