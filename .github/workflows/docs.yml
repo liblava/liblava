@@ -50,19 +50,3 @@ jobs:
       with:
         image_size: 100
         columns_per_row: 6
-
-    - name: Download mdsplit
-      uses: carlosperate/download-file-action@v1.0.3
-      id: download-mdsplit
-      with:
-        file-url: 'https://github.com/alandefreitas/mdsplit/releases/download/v0.1.1/Executable.Linux.zip'
-        file-name: 'mdsplit.zip'
-        location: '.'
-    - name: Unzip mdsplit
-      run: |
-        unzip mdsplit.zip
-        rm -f mdsplit.zip
-        sudo chmod +x mdsplit
-        ls
-    - name: Generate Documentation Source
-      run: ./mdsplit -r alandefreitas/matplotplusplus
