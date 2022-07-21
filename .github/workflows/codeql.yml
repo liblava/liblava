@@ -9,6 +9,10 @@ on:
   schedule:
     - cron: '0 11 * * 5'
 
+env:
+  CC:   gcc-11
+  CXX:  g++-11
+
 jobs:
   analyze:
     name: Analyze
@@ -46,6 +50,15 @@ jobs:
         # By default, queries listed here will override any specified in a config file. 
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
+
+    - name: Prepare (ubuntu)
+      run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y gcc-11 g++-11 gcc-11-multilib lib32stdc++-11-dev libc6:i386 libx11-dev:i386
+          sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
+          cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_{C,CXX}_FLAGS=-m32
+
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
