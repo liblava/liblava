@@ -30,6 +30,7 @@ jobs:
           VALIDATE_YAML: true
           VALIDATE_BASH_EXEC: true
           VALIDATE_CPP: true
+          VALIDATE_CLANG_FORMAT: true
           VALIDATE_GITLEAKS: true
           VALIDATE_HTML: true
           VALIDATE_DOCKERFILE_HADOLINT: true

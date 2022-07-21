@@ -1,3 +1,4 @@
+---
 
 name: docs
 
@@ -29,7 +30,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./doc/html/
+        publish_dir: ./docs/html/
         enable_jekyll: false
         allow_empty_commit: false
         force_orphan: true

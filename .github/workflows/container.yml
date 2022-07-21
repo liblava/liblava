@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY: ghrc.io
+  REGISTRY: ghcr.io
 
 concurrency:
   group: container-${{ github.event.pull_request.number || github.ref }}
