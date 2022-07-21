@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['r_0',['r',['../structlava_1_1hex__fractional__cell.html#a00f495d9f189ede812c19845949259be',1,'lava::hex_fractional_cell::r()'],['../structlava_1_1hex__cell.html#a3caaf22671b8dc57eca187ab5e585363',1,'lava::hex_cell::r()']]],
+  ['range_5fbegin_1',['range_begin',['../structlava_1_1imgui_1_1icon__font.html#abbe61fc1ecf80731ec0e931283b82237',1,'lava::imgui::icon_font']]],
+  ['range_5fend_2',['range_end',['../structlava_1_1imgui_1_1icon__font.html#ad75f64253ad2be7b18d852b57cb4ab49',1,'lava::imgui::icon_font']]],
+  ['rasterization_5fstate_3',['rasterization_state',['../structlava_1_1graphics__pipeline_1_1create__info.html#ab0a10036db291b303acab87452712927',1,'lava::graphics_pipeline::create_info']]],
+  ['receiver_4',['receiver',['../structlava_1_1telegram.html#accd1d074837d6f11b6a333f2647121a4',1,'lava::telegram']]],
+  ['release_5',['release',['../structlava_1_1version.html#a6fd8964be87b6bdb3051556748db714a',1,'lava::version']]],
+  ['render_5fdoc_6',['render_doc',['../structlava_1_1instance_1_1debug__config.html#ac6d61b035287b2e9456de71d0e24c77e',1,'lava::instance::debug_config']]],
+  ['renderer_7',['renderer',['../structlava_1_1app.html#a5305669063e255769ba5dda260142026',1,'lava::app']]],
+  ['req_5fapi_5fversion_8',['req_api_version',['../structlava_1_1instance__info.html#a9199e3cf1a4d31940a03abfee9bc3adc',1,'lava::instance_info']]],
+  ['resizable_9',['resizable',['../structlava_1_1window_1_1state.html#a3e3476e0eb34e6274704bedb213bae08',1,'lava::window::state']]],
+  ['rev_10',['rev',['../structlava_1_1version.html#a8df3fcad2c48ebb8bd23c75a2898e2d5',1,'lava::version']]],
+  ['rotation_11',['rotation',['../structlava_1_1camera.html#a80234741cfe9f7e2808c2cce005fab6c',1,'lava::camera']]],
+  ['rotation_5fspeed_12',['rotation_speed',['../structlava_1_1camera.html#a50e621f8660dc6a420211ec810fae8ea',1,'lava::camera']]],
+  ['row_13',['row',['../structlava_1_1hex__offset__coord.html#aba13ca3d0d94c09e89623775f2c9fba9',1,'lava::hex_offset_coord']]],
+  ['run_5fabort_14',['run_abort',['../frame_2frame_8hpp.html#a011162e4caccaff2090bb941a563d5fa',1,'lava']]],
+  ['run_5fcontinue_15',['run_continue',['../frame_2frame_8hpp.html#a777200fce6b1b289bc0739186ba3d788',1,'lava']]],
+  ['run_5ftime_16',['run_time',['../structlava_1_1app.html#a3c13f8b018cdad2682d566f5592c492f',1,'lava::app']]]
+];

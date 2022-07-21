@@ -1,3 +1,58 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<details>
+<summary>Table of Contents</summary>
+
+- [Demos](#demos)
+- [Projects](#projects)
+- [In a nutshell](#in-a-nutshell)
+- [Introduction](#introduction)
+  - [Tutorial](#tutorial)
+    - [1. frame](#1-frame)
+    - [2. run loop](#2-run-loop)
+    - [3. window input](#3-window-input)
+    - [4. clear color](#4-clear-color)
+    - [5. color block](#5-color-block)
+    - [6. imgui demo](#6-imgui-demo)
+- [Guide](#guide)
+  - [1. Lifetime of an Object](#1-lifetime-of-an-object)
+    - [Example: buffer object](#example-buffer-object)
+  - [2. Making Meshes](#2-making-meshes)
+  - [3. Modules](#3-modules)
+    - [lava engine](#lava-engine)
+    - [lava app](#lava-app)
+    - [lava block](#lava-block)
+    - [lava frame](#lava-frame)
+    - [lava asset](#lava-asset)
+    - [lava resource](#lava-resource)
+    - [lava base](#lava-base)
+    - [lava file](#lava-file)
+    - [lava util](#lava-util)
+    - [lava core](#lava-core)
+  - [4. Reference](#4-reference)
+  - [5. Test](#5-test)
+    - [List all stages](#list-all-stages)
+    - [Unit testing](#unit-testing)
+    - [Template](#template)
+  - [6. Keyboard Shortcuts](#6-keyboard-shortcuts)
+  - [7. Command-Line Arguments](#7-command-line-arguments)
+    - [app](#app)
+    - [frame](#frame)
+- [Build](#build)
+  - [Requirements](#requirements)
+  - [Install](#install)
+    - [Package setup](#package-setup)
+    - [Installing and using Vcpkg](#installing-and-using-vcpkg)
+    - [Conan Package Manager](#conan-package-manager)
+- [Collaborate](#collaborate)
+  - [Support](#support)
+- [Third-Party](#third-party)
+  - [Demo](#demo)
+- [License](#license)
+
+</details>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 <br />
 
 <a href="https://git.io/liblava">
