@@ -1400,3 +1400,9 @@ Copyright (c) 2018-present • <a href="https://lava-block.com">Lava Block OÜ</
 <br />
 
 <a href="https://git.io/liblava"><img src="res/doc/liblava_logo_200px.png" width="50"></a>
+
+
+## Contributors
+
+<!-- readme: <liblava>,collaborators,contributors,sponsors -start -->
+<!-- readme: <liblava>,collaborators,contributors,sponsors -end -->
