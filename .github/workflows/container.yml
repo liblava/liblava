@@ -11,6 +11,11 @@ on:
 env:
   REGISTRY: ghcr.io
 
+permissions:
+    id-token: write
+    contents: write
+    security-events: write
+
 concurrency:
   group: container-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
