@@ -22,7 +22,7 @@ jobs:
       uses: mattnotmitt/doxygen-action@1.9.4
       with:
         doxyfile-path: 'liblava\tool\doxygen.conf'
-        working-directory: 'liblava/'
+        working-directory: '.'
         enable-latex: true
 
     - name: GH Pages Deployment

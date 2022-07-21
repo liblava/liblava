@@ -1,0 +1,6 @@
+header:
+  paths:
+    - 'src'
+    - 'liblava'
+
+  comment: on-failure
