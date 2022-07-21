@@ -22,10 +22,10 @@ jobs:
           fetch-depth: 0
 
       - name: Lint Code Base
-        uses: github/super-linter@v4
+        uses: github/super-linter/slim@v
         env:
-          VALIDATE_ALL_CODEBASE: true
-          DEFAULT_BRANCH: main
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
           VALIDATE_PHP: true
           VALIDATE_YAML: true
           VALIDATE_BASH_EXEC: true
