@@ -1,7 +1,7 @@
 header:
   license:
-    spdx-id: MIT License
-    copyright-owner: Lava Block
+    spdx-id: MIT
+    copyright-owner: Lava Block OÜ and contributors
   paths:
     - 'src'
     - 'liblava'
