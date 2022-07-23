@@ -429,6 +429,8 @@ if(LIBLAVA_TEST)
 message("========================================================================")
         message("> lava-test")
 
+        enable_testing()
+
         set(UNIT_TESTS
                 ${LIBLAVA_DIR}/base/test/queue.cpp
                 )
@@ -445,6 +447,8 @@ message("=======================================================================
                 Catch2::Catch2WithMain)
 
         set_property(TARGET lava-test PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
+        add_test(NAME lava-test COMMAND lava-test)
 
         install(TARGETS
                 lava-test
