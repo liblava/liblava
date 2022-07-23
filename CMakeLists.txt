@@ -27,6 +27,7 @@ message(">> Configuring may take a little longer the first time - so be patient 
 
 option(LIBLAVA_TEST "Enable Test" TRUE)
 option(LIBLAVA_DEMO "Enable Demo" TRUE)
+option(LIBLAVA_PACK "Enable Pack" TRUE)
 
 option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
 set(LIBLAVA_TEMPLATE_NAME "template" CACHE STRING "Name of template project")
@@ -800,3 +801,30 @@ message("=======================================================================
 endif()
 
 message("========================================================================")
+
+if(LIBLAVA_PACK)
+        if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+                include(InstallRequiredSystemLibraries)
+                set(CPACK_GENERATOR "ZIP")
+                set(CPACK_SOURCE_GENERATOR "SOURCE_ZIP")
+        endif()
+
+        if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+                set(CPACK_GENERATOR "TGZ")
+                set(CPACK_SOURCE_GENERATOR "SOURCE_TGZ")
+        endif()
+        
+        set(CPACK_PACKAGE_NAME "liblava")
+        set(CPACK_PACKAGE_VENDOR "Lava Block OÜ and contributors")
+        set(CPACK_PACKAGE_CONTACT "lib@lava-block.com")
+        set(CPACK_PACKAGE_HOMEPAGE_URL "https://git.io/liblava")
+        set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Modern C++ and easy-to-use library for the Vulkan® API")
+        set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+        set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+        set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+        
+        set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+        set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+
+        include(CPack)
+endif()

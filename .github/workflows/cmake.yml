@@ -61,3 +61,8 @@ jobs:
       run: |
            mkdir install
            cmake --install ${{github.workspace}}/build --strip
+
+    - name: Pack
+      run: |
+           cd ${{github.workspace}}/build
+           cpack -C ${{env.BUILD_TYPE}}
