@@ -1120,6 +1120,14 @@ cmake --build . --parallel
 
 <br />
 
+> If you have *problems building* or *running* on **Ubuntu** ➜ try to do this:
+
+```bash
+sudo apt-get install libxi-dev libatomic-ops-dev libatomic1
+```
+
+<br />
+
 ## Install
 
 You can use **liblava** as a *git submodule* in your project:
