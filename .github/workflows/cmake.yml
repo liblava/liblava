@@ -50,7 +50,7 @@ jobs:
       run: |
            cd ${{github.workspace}}/build
            cpack -C ${{env.BUILD_TYPE}}
-    
+
     - name: Upload
       uses: actions/upload-artifact@v3
       with:
