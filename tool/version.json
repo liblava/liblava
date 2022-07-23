@@ -9,7 +9,7 @@
         "name": "glfw",
         "github": "glfw/glfw",
         "branch": "master",
-        "tag": "c50d53160fa9b579dda0d0a4f9a7c2512940df8e"
+        "tag": "26b85215c07a32f860326bf02ef68f31c5e30837"
     },
     {
         "name": "gli",
@@ -33,13 +33,13 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "4b6d3638cafb0a8c10a35ac7c876a3d8b008a99a"
+        "tag": "dbfd33a70a479552471fbcbf5e0af6ef4c689483"
     },
     {
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "834840636cb52242d0fae2d6233c90067a4248dc"
+        "tag": "7d805c2231d34d71cc0fab4488fef42a307f863d"
     },
     {
         "name": "stb",
@@ -57,13 +57,13 @@
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "16847a61009f23b73b6de658a64e42926efc1ea9"
+        "tag": "87d2aa9d77bc979559c2d4adabe5b12bb1d49d51"
     },
     {
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "ec4e6af6f86947a9059d75f032523f8e525b491a"
+        "tag": "675d5397d7f9d4f11a9d21b5c7312ece5cfe42a6"
     },
     {
         "name": "volk",
@@ -87,7 +87,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "6ab5fd1da9600a8f17f8469691a105663511678b"
+        "tag": "2d38bc99b3b0013952d3d390397297083b767972"
     },
     {
         "name": "imgui_docking",
@@ -111,7 +111,7 @@
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "7e6b7c26a2a565c677b93f1c1769977cadced306"
+        "tag": "6ef2e492167f32bf44ba7c5d47e07d28fa3d42d1"
     },
     {
         "name": "shaderc",
