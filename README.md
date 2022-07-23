@@ -1,7 +1,7 @@
 <br />
 
 <a href="https://git.io/liblava">
-    <img align="left" src="res/doc/liblava_logo_200px.png" width="110">
+    <img align="left" src="res/doc/liblava_200px.png" width="110">
 </a>
 
 <br />
@@ -70,7 +70,7 @@
 # In a nutshell
 
 <a href="#3-modules">
-    <img align="right" src="res/doc/liblava_logo_200px.png" width="120">
+    <img align="right" src="res/doc/liblava_200px.png" width="120">
 </a>
 
 * written in **modern C++** with latest **Vulkan support**
@@ -1344,4 +1344,4 @@ Copyright (c) 2018-present • <a href="https://lava-block.com">Lava Block OÜ</
 
 <br />
 
-<a href="https://git.io/liblava"><img src="res/doc/liblava_logo_200px.png" width="50"></a>
+<a href="https://git.io/liblava"><img src="res/doc/liblava_200px.png" width="50"></a>
