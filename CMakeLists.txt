@@ -23,10 +23,11 @@ message("=======================================================================
 message(" https://git.io/liblava                          https://lava-block.com ")
 message("========================================================================")
 message("> Making lava flow...                                                   ")
-message(">> Configuring may take a little longer the first time - so be patient! ")
+message(">> Configuring may take a little longer the first time - so be patient  ")
 
 option(LIBLAVA_TEST "Enable Test" TRUE)
 option(LIBLAVA_DEMO "Enable Demo" TRUE)
+option(LIBLAVA_PACK "Enable Pack" TRUE)
 
 option(LIBLAVA_TEMPLATE "Enable Template" TRUE)
 set(LIBLAVA_TEMPLATE_NAME "template" CACHE STRING "Name of template project")
@@ -54,6 +55,35 @@ message("=======================================================================
 
         include(cmake/CPM.cmake)
         include(cmake/ext.cmake)
+
+        set(EXT_FOLDER "ext")
+        set_target_properties(spdlog PROPERTIES FOLDER ${EXT_FOLDER})
+        set_target_properties(Catch2 PROPERTIES FOLDER ${EXT_FOLDER})
+        set_target_properties(Catch2WithMain PROPERTIES FOLDER ${EXT_FOLDER})
+        set_target_properties(physfs-static PROPERTIES FOLDER ${EXT_FOLDER})
+
+        set(LIBSHADERC_FOLDER "libshaderc")
+        set_target_properties(shaderc PROPERTIES FOLDER ${LIBSHADERC_FOLDER})
+        set_target_properties(shaderc_combined_genfile PROPERTIES FOLDER ${LIBSHADERC_FOLDER})
+        set_target_properties(shaderc_shared PROPERTIES FOLDER ${LIBSHADERC_FOLDER})
+        set_target_properties(shaderc_util PROPERTIES FOLDER ${LIBSHADERC_FOLDER})
+        set_target_properties(testdata PROPERTIES FOLDER ${LIBSHADERC_FOLDER})
+
+        set(SHADERC_FOLDER "Shaderc")
+        set_target_properties(add-copyright PROPERTIES FOLDER ${SHADERC_FOLDER})
+        set_target_properties(build-version PROPERTIES FOLDER ${SHADERC_FOLDER})
+        set_target_properties(glslc PROPERTIES FOLDER ${SHADERC_FOLDER})
+        set_target_properties(glslc_exe PROPERTIES FOLDER ${SHADERC_FOLDER})
+        set_target_properties(shaderc_combined-pkg-config PROPERTIES FOLDER ${SHADERC_FOLDER})
+        set_target_properties(shaderc_static-pkg-config PROPERTIES FOLDER ${SHADERC_FOLDER})
+        set_target_properties(shaderc-pkg-config PROPERTIES FOLDER ${SHADERC_FOLDER})
+
+        set(SPIRV_TOOLS_FOLDER "SPIRV-Tools")
+        set_target_properties(core_tables PROPERTIES FOLDER ${SPIRV_TOOLS_FOLDER})
+        set_target_properties(enum_string_mapping PROPERTIES FOLDER ${SPIRV_TOOLS_FOLDER})
+        set_target_properties(extinst_tables PROPERTIES FOLDER ${SPIRV_TOOLS_FOLDER})
+        set_target_properties(spirv-tools-pkg-config PROPERTIES FOLDER ${SPIRV_TOOLS_FOLDER})
+        set_target_properties(spirv-tools-shared-pkg-config PROPERTIES FOLDER ${SPIRV_TOOLS_FOLDER})
 endif()
 
 message("========================================================================")
@@ -108,6 +138,7 @@ endif()
 
 set_target_properties(lava.core PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.core PROPERTY EXPORT_NAME core)
+
 add_library(lava::core ALIAS lava.core)
 
 message(">> lava::util")
@@ -132,6 +163,7 @@ target_link_libraries(lava.util INTERFACE
 
 set_target_properties(lava.util PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.util PROPERTY EXPORT_NAME util)
+
 add_library(lava::util ALIAS lava.util)
 
 message(">> lava::file")
@@ -160,6 +192,7 @@ target_link_libraries(lava.file
 
 set_target_properties(lava.file PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.file PROPERTY EXPORT_NAME file)
+
 add_library(lava::file ALIAS lava.file)
 
 message(">> lava::base")
@@ -200,6 +233,7 @@ target_link_libraries(lava.base
 
 set_target_properties(lava.base PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.base PROPERTY EXPORT_NAME base)
+
 add_library(lava::base ALIAS lava.base)
 
 message(">> lava::resource")
@@ -223,6 +257,7 @@ target_link_libraries(lava.resource
 
 set_target_properties(lava.resource PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.resource PROPERTY EXPORT_NAME resource)
+
 add_library(lava::resource ALIAS lava.resource)
 
 message(">> lava::asset")
@@ -251,6 +286,7 @@ target_link_libraries(lava.asset
 
 set_target_properties(lava.asset PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.asset PROPERTY EXPORT_NAME asset)
+
 add_library(lava::asset ALIAS lava.asset)
 
 message(">> lava::frame")
@@ -288,6 +324,7 @@ target_link_libraries(lava.frame
 
 set_target_properties(lava.frame PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.frame PROPERTY EXPORT_NAME frame)
+
 add_library(lava::frame ALIAS lava.frame)
 
 message(">> lava::block")
@@ -318,6 +355,7 @@ target_link_libraries(lava.block
 
 set_target_properties(lava.block PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.block PROPERTY EXPORT_NAME block)
+
 add_library(lava::block ALIAS lava.block)
 
 message(">> lava::app")
@@ -374,6 +412,7 @@ target_compile_definitions(lava.app PRIVATE IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
 
 set_target_properties(lava.app PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.app PROPERTY EXPORT_NAME app)
+
 add_library(lava::app ALIAS lava.app)
 
 message(">> lava::engine")
@@ -399,6 +438,7 @@ set(LIBLAVA_ENGINE_LIBRARIES "shaderc")
 
 set_target_properties(lava.engine PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.engine PROPERTY EXPORT_NAME engine)
+
 add_library(lava::engine ALIAS lava.engine)
 
 message("========================================================================")
@@ -417,6 +457,7 @@ target_link_libraries(lava
         ${LIBLAVA_ENGINE_LIBRARIES}
         )
 
+set_target_properties(lava PROPERTIES FOLDER "lava")
 set_property(TARGET lava PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 install(TARGETS
@@ -446,6 +487,7 @@ message("=======================================================================
                 Catch2::Catch2
                 Catch2::Catch2WithMain)
 
+        set_target_properties(lava-test PROPERTIES FOLDER "lava")
         set_property(TARGET lava-test PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         add_test(NAME lava-test COMMAND lava-test)
@@ -575,12 +617,12 @@ message("=======================================================================
 
         target_compile_definitions(lava-demo PRIVATE LIBLAVA_DEMO)
 
-        set_target_properties(lava-demo PROPERTIES FOLDER "lava-demo")
         target_link_libraries(lava-demo
                 lava::engine
                 ${LIBLAVA_ENGINE_LIBRARIES}
                 )
 
+        set_target_properties(lava-demo PROPERTIES FOLDER "lava-demo")
         set_property(TARGET lava-demo PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         message(">> lava-triangle")
@@ -597,9 +639,11 @@ message("=======================================================================
 
         source_group("Shader Files" FILES ${TRIANGLE_SHADERS})
 
-        set_target_properties(lava-triangle PROPERTIES FOLDER "lava-demo")
-        target_link_libraries(lava-triangle lava::app)
+        target_link_libraries(lava-triangle
+                lava::app
+                )
 
+        set_target_properties(lava-triangle PROPERTIES FOLDER "lava-demo")
         set_property(TARGET lava-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         message(">> lava-generics")
@@ -618,12 +662,12 @@ message("=======================================================================
 
         source_group("Shader Files" FILES ${GENERICS_SHADERS})
 
-        set_target_properties(lava-generics PROPERTIES FOLDER "lava-demo")
         target_link_libraries(lava-generics 
                 lava::engine
                 ${LIBLAVA_ENGINE_LIBRARIES}
                 )
-
+        
+        set_target_properties(lava-generics PROPERTIES FOLDER "lava-demo")
         set_property(TARGET lava-generics PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         message(">> lava-shapes")
@@ -637,13 +681,13 @@ message("=======================================================================
                 ${SHAPES_SHADERS})
 
         source_group("Shader Files" FILES ${SHAPES_SHADERS})
-
-        set_target_properties(lava-shapes PROPERTIES FOLDER "lava-demo")
+        
         target_link_libraries(lava-shapes 
                 lava::engine
                 ${LIBLAVA_ENGINE_LIBRARIES}
                 )
 
+        set_target_properties(lava-shapes PROPERTIES FOLDER "lava-demo")
         set_property(TARGET lava-shapes PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         message(">> lava-lamp")
@@ -660,12 +704,12 @@ message("=======================================================================
 
         source_group("Shader Files" FILES ${LAMP_SHADERS})
 
-        set_target_properties(lava-lamp PROPERTIES FOLDER "lava-demo")
         target_link_libraries(lava-lamp
                 lava::engine
                 ${LIBLAVA_ENGINE_LIBRARIES}
                 )
 
+        set_target_properties(lava-lamp PROPERTIES FOLDER "lava-demo")
         set_property(TARGET lava-lamp PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         message(">> lava-spawn")
@@ -682,12 +726,12 @@ message("=======================================================================
 
         source_group("Shader Files" FILES ${SPAWN_SHADERS})
 
-        set_target_properties(lava-spawn PROPERTIES FOLDER "lava-demo")
         target_link_libraries(lava-spawn
                 lava::engine
                 ${LIBLAVA_ENGINE_LIBRARIES}
                 )
 
+        set_target_properties(lava-spawn PROPERTIES FOLDER "lava-demo")
         set_property(TARGET lava-spawn PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         message(">> lava-light")
@@ -707,12 +751,12 @@ message("=======================================================================
 
         source_group("Shader Files" FILES ${LIGHT_SHADERS})
 
-        set_target_properties(lava-light PROPERTIES FOLDER "lava-demo")
         target_link_libraries(lava-light
                 lava::engine
                 ${LIBLAVA_ENGINE_LIBRARIES}
                 )
 
+        set_target_properties(lava-light PROPERTIES FOLDER "lava-demo")
         set_property(TARGET lava-light PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
         # install demo targets
@@ -752,7 +796,42 @@ message("=======================================================================
                 ${LIBLAVA_ENGINE_LIBRARIES}
                 )
 
+        set_target_properties(${LIBLAVA_TEMPLATE_NAME} PROPERTIES FOLDER "lava")
         set_property(TARGET ${LIBLAVA_TEMPLATE_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 endif()
 
 message("========================================================================")
+
+if(LIBLAVA_PACK)
+        set(CPACK_PACKAGE_NAME "liblava")
+        set(CPACK_PACKAGE_VENDOR "Lava Block OÜ and contributors")
+        set(CPACK_PACKAGE_CONTACT "lib@lava-block.com")
+        set(CPACK_PACKAGE_HOMEPAGE_URL "https://git.io/liblava")
+        set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Modern C++ and easy-to-use library for the Vulkan® API")
+
+        set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+        set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+        set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+        set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
+
+        if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+                include(InstallRequiredSystemLibraries)
+                
+                set(CPACK_GENERATOR "ZIP")
+                set(CPACK_SOURCE_GENERATOR "SOURCE_ZIP")
+        endif()
+
+        if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+                set(CPACK_GENERATOR "TGZ")
+                set(CPACK_SOURCE_GENERATOR "SOURCE_TGZ")
+        endif()
+
+        set(CPACK_PACKAGE_CHECKSUM SHA256)
+
+        set(CPACK_OUTPUT_FILE_PREFIX packages)
+
+        set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+        set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+
+        include(CPack)
+endif()
