@@ -12,7 +12,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        arch: [x86, x64]
 
     steps:
     - name: Checkout
@@ -25,31 +24,16 @@ jobs:
            sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
       if: matrix.os == 'ubuntu-latest'
 
-    - name: Configure (ubuntu / x86)
-      run: |
-            sudo dpkg --add-architecture i386
-            sudo apt-get update
-            sudo apt-get install -y gcc-11-multilib lib32stdc++-11-dev libc6:i386 libx11-dev:i386
-            cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_{C,CXX}_FLAGS=-m32
-      env:
-        CC:   gcc-11
-        CXX:  g++-11
-      if: matrix.os == 'ubuntu-latest' && matrix.arch == 'x86'
-
-    - name: Configure (ubuntu / x64)
+    - name: Configure (ubuntu)
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCMAKE_VERBOSE_MAKEFILE=ON
       env:
         CC:   gcc-11
         CXX:  g++-11
-      if: matrix.os == 'ubuntu-latest' && matrix.arch == 'x64'
+      if: matrix.os == 'ubuntu-latest'
 
-    - name: Configure (windows / x86)
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCMAKE_VERBOSE_MAKEFILE=ON -T host=x86 -A win32
-      if: matrix.os == 'windows-latest' && matrix.arch == 'x86'
-
-    - name: Configure (windows / x64)
+    - name: Configure (windows)
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCMAKE_VERBOSE_MAKEFILE=ON
-      if: matrix.os == 'windows-latest' && matrix.arch == 'x64'
+      if: matrix.os == 'windows-latest'
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
