@@ -15,7 +15,7 @@ set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG 0d4e9aac4575744ddaae56b146f1be19f064f0e5)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG e91686cc17288281552e22e3d416758fd5fe2503)
+set(json_TAG 2d48a4d9c5e8f0a5ce914922eb2a45dc0ec93ee3)
 
 set(spdlog_GITHUB gabime/spdlog)
 set(spdlog_TAG 7d805c2231d34d71cc0fab4488fef42a307f863d)
@@ -63,4 +63,4 @@ set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 1677374f23352716fc52183255a40c1b8e1d53eb)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG 97c48e0c343d26d50764fafdc90b1e630fbd10ce)
+set(Catch2_TAG a7dc85dd49773f6c3bb5a3f83f6ce496db89703e)
