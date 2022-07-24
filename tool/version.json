@@ -9,7 +9,7 @@
         "name": "glfw",
         "github": "glfw/glfw",
         "branch": "master",
-        "tag": "26b85215c07a32f860326bf02ef68f31c5e30837"
+        "tag": "b9ed25d2e991944acb51dedc63f3fe68e24c02c9"
     },
     {
         "name": "gli",

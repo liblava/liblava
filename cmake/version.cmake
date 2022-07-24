@@ -3,7 +3,7 @@ set(argh_GITHUB adishavit/argh)
 set(argh_TAG 39b9a00046143f6b300dcf98ea989486cf62097d)
 
 set(glfw_GITHUB glfw/glfw)
-set(glfw_TAG 26b85215c07a32f860326bf02ef68f31c5e30837)
+set(glfw_TAG b9ed25d2e991944acb51dedc63f3fe68e24c02c9)
 
 set(gli_GITHUB g-truc/gli)
 set(gli_TAG 779b99ac6656e4d30c3b24e96e0136a59649a869)
