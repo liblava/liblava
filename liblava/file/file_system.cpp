@@ -106,7 +106,7 @@ void file_system::terminate() {
 
 //-----------------------------------------------------------------------------
 void file_system::mount_res(logger log) {
-#if LIBLAVA_DEBUG
+#if LAVA_DEBUG
     #if _WIN32
     res_path = "../../res/";
     #else

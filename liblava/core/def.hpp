@@ -8,24 +8,20 @@
 #pragma once
 
 #if defined(NDEBUG)
-    #define LIBLAVA_DEBUG 0
+    #define LAVA_DEBUG 0
 #endif
 
-#ifndef LIBLAVA_DEBUG
-    #define LIBLAVA_DEBUG 1
+#ifndef LAVA_DEBUG
+    #define LAVA_DEBUG 1
 #endif
 
-#ifndef LIBLAVA_DEBUG_ASSERT
-    #define LIBLAVA_DEBUG_ASSERT 0
+#ifndef LAVA_DEBUG_CONFIG
+    #define LAVA_DEBUG_CONFIG LAVA_DEBUG
 #endif
 
-#ifndef LIBLAVA_DEBUG_CONFIG
-    #define LIBLAVA_DEBUG_CONFIG LIBLAVA_DEBUG
-#endif
+#define LAVA_BUILD_DATE __DATE__
+#define LAVA_BUILD_TIME __TIME__
 
-#define LIBLAVA_BUILD_DATE __DATE__
-#define LIBLAVA_BUILD_TIME __TIME__
-
-#define LIBLAVA_VERSION_MAJOR 0
-#define LIBLAVA_VERSION_MINOR 7
-#define LIBLAVA_VERSION_PATCH 3
+#define LAVA_VERSION_MAJOR 0
+#define LAVA_VERSION_MINOR 7
+#define LAVA_VERSION_PATCH 3

@@ -613,7 +613,7 @@ if(LIBLAVA_DEMO)
     ${LIBLAVA_DEMO_DIR}/triangle.cpp
     )
 
-  target_compile_definitions(lava-demo PRIVATE LIBLAVA_DEMO)
+  target_compile_definitions(lava-demo PRIVATE LAVA_DEMO)
 
   target_link_libraries(lava-demo
     lava::engine
@@ -790,7 +790,9 @@ if(LIBLAVA_TEMPLATE)
     ${SRC_DIR}/main.cpp
     )
 
-  target_include_directories(${LIBLAVA_TEMPLATE_NAME} PUBLIC ${SRC_DIR})
+  target_include_directories(${LIBLAVA_TEMPLATE_NAME} PUBLIC
+    ${SRC_DIR}
+    )
 
   target_link_libraries(${LIBLAVA_TEMPLATE_NAME}
     lava::engine

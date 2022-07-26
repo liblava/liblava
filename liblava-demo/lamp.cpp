@@ -73,7 +73,7 @@ struct dimmer {
 };
 
 //-----------------------------------------------------------------------------
-#ifdef LIBLAVA_DEMO
+#ifdef LAVA_DEMO
 LAVA_STAGE(4, "lamp") {
 #else
 int main(int argc, char* argv[]) {

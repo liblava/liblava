@@ -108,7 +108,7 @@ name _lighting_vertex_ = "lighting_vertex";
 name _lighting_fragment_ = "lighting_fragment";
 
 //-----------------------------------------------------------------------------
-#ifdef LIBLAVA_DEMO
+#ifdef LAVA_DEMO
 LAVA_STAGE(6, "light") {
 #else
 int main(int argc, char* argv[]) {

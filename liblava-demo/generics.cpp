@@ -17,7 +17,7 @@ name _int_triangle_ = "int_triangle";
 name _double_triangle_ = "double_triangle";
 
 //-----------------------------------------------------------------------------
-#ifdef LIBLAVA_DEMO
+#ifdef LAVA_DEMO
 LAVA_STAGE(2, "generics") {
 #else
 int main(int argc, char* argv[]) {

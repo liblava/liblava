@@ -21,7 +21,7 @@ ui32 frag_shader[] = {
 };
 
 //-----------------------------------------------------------------------------
-#ifdef LIBLAVA_DEMO
+#ifdef LAVA_DEMO
 LAVA_STAGE(1, "triangle") {
 #else
 int main(int argc, char* argv[]) {

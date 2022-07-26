@@ -11,13 +11,13 @@
 #include <liblava/core/def.hpp>
 
 /// Only active in debug - enable for release profiling
-#ifndef LIBLAVA_DEBUG_UTILS
-    #define LIBLAVA_DEBUG_UTILS LIBLAVA_DEBUG
+#ifndef LAVA_DEBUG_UTILS
+    #define LAVA_DEBUG_UTILS LAVA_DEBUG
 #endif
 
 namespace lava {
 
-#if LIBLAVA_DEBUG_UTILS
+#if LAVA_DEBUG_UTILS
 
 /**
  * @brief Begin a label for a command buffer

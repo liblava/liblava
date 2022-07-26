@@ -7,7 +7,7 @@
 
 #include <liblava/base/debug_utils.hpp>
 
-#if LIBLAVA_DEBUG_UTILS
+#if LAVA_DEBUG_UTILS
     #include <liblava/base/instance.hpp>
     #include <optional>
 

@@ -8,7 +8,7 @@
 #include <liblava/base/memory.hpp>
 #include <liblava/frame/frame.hpp>
 
-#if _WIN32 && LIBLAVA_DEBUG
+#if _WIN32 && LAVA_DEBUG
     #include <windows.h>
 #endif
 
@@ -50,7 +50,7 @@ bool frame::ready() const {
 
 //-----------------------------------------------------------------------------
 void frame_env::set_default() {
-#if LIBLAVA_DEBUG_CONFIG
+#if LAVA_DEBUG_CONFIG
     log.debug = true;
     debug.validation = true;
     debug.utils = true;
@@ -108,7 +108,7 @@ bool frame::setup() {
     if (frame_initialized)
         return false;
 
-#if _WIN32 && LIBLAVA_DEBUG
+#if _WIN32 && LAVA_DEBUG
     AllocConsole();
 #endif
 

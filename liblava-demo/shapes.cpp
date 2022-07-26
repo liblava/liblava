@@ -11,7 +11,7 @@
 using namespace lava;
 
 //-----------------------------------------------------------------------------
-#ifdef LIBLAVA_DEMO
+#ifdef LAVA_DEMO
 LAVA_STAGE(3, "shapes") {
 #else
 int main(int argc, char* argv[]) {

@@ -12,7 +12,7 @@
 using namespace lava;
 
 //-----------------------------------------------------------------------------
-#ifdef LIBLAVA_DEMO
+#ifdef LAVA_DEMO
 LAVA_STAGE(5, "spawn") {
 #else
 int main(int argc, char* argv[]) {
