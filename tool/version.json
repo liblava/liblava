@@ -9,7 +9,7 @@
         "name": "glfw",
         "github": "glfw/glfw",
         "branch": "master",
-        "tag": "b9ed25d2e991944acb51dedc63f3fe68e24c02c9"
+        "tag": "3a60992a418aad88717db32353bec22e8bb7dab3"
     },
     {
         "name": "gli",
@@ -39,7 +39,7 @@
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "7d805c2231d34d71cc0fab4488fef42a307f863d"
+        "tag": "61879237e9836f397c567dd75d0983eb338432b2"
     },
     {
         "name": "stb",
@@ -63,7 +63,7 @@
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "675d5397d7f9d4f11a9d21b5c7312ece5cfe42a6"
+        "tag": "26ef08b9c52fcb57bfccd8e3d09ded93e36eba40"
     },
     {
         "name": "volk",
@@ -87,7 +87,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "2d38bc99b3b0013952d3d390397297083b767972"
+        "tag": "e99c4fc6688e218a0e5da50f56638aebab45da9b"
     },
     {
         "name": "imgui_docking",
@@ -111,7 +111,7 @@
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "6ef2e492167f32bf44ba7c5d47e07d28fa3d42d1"
+        "tag": "607771c3622dc5c01e2e2ec088324383db1964fc"
     },
     {
         "name": "shaderc",
@@ -129,6 +129,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "a7dc85dd49773f6c3bb5a3f83f6ce496db89703e"
+        "tag": "997a7d4165b3939347f1a95f9311a3e3c066ee0b"
     }
 ]

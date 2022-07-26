@@ -3,7 +3,7 @@ set(argh_GITHUB adishavit/argh)
 set(argh_TAG 39b9a00046143f6b300dcf98ea989486cf62097d)
 
 set(glfw_GITHUB glfw/glfw)
-set(glfw_TAG b9ed25d2e991944acb51dedc63f3fe68e24c02c9)
+set(glfw_TAG 3a60992a418aad88717db32353bec22e8bb7dab3)
 
 set(gli_GITHUB g-truc/gli)
 set(gli_TAG 779b99ac6656e4d30c3b24e96e0136a59649a869)
@@ -18,7 +18,7 @@ set(json_GITHUB nlohmann/json)
 set(json_TAG 2d48a4d9c5e8f0a5ce914922eb2a45dc0ec93ee3)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG 7d805c2231d34d71cc0fab4488fef42a307f863d)
+set(spdlog_TAG 61879237e9836f397c567dd75d0983eb338432b2)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG af1a5bc352164740c1cc1354942b1c6b72eacb8a)
@@ -30,7 +30,7 @@ set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG 87d2aa9d77bc979559c2d4adabe5b12bb1d49d51)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG 675d5397d7f9d4f11a9d21b5c7312ece5cfe42a6)
+set(Vulkan-Profiles_TAG 26ef08b9c52fcb57bfccd8e3d09ded93e36eba40)
 
 set(volk_GITHUB zeux/volk)
 set(volk_TAG 315929ebf428a0b924c1cff5803b69891f71bf5b)
@@ -42,7 +42,7 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 7d6ff1f4ba51e7a2b142be39457768abece1549c)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 2d38bc99b3b0013952d3d390397297083b767972)
+set(imgui_TAG e99c4fc6688e218a0e5da50f56638aebab45da9b)
 
 set(imgui_docking_GITHUB ocornut/imgui)
 set(imgui_docking_TAG cb8ead1f7198924f97e52973d115e1d4eaeda2f3)
@@ -54,7 +54,7 @@ set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
 set(SPIRV-Tools_TAG e4cfa190dfa144f1db5bcca2a6b11a6ba429824d)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG 6ef2e492167f32bf44ba7c5d47e07d28fa3d42d1)
+set(glslang_TAG 607771c3622dc5c01e2e2ec088324383db1964fc)
 
 set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG a0a247d09229669d19b268eb8051eeda880449c1)
@@ -63,4 +63,4 @@ set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 1677374f23352716fc52183255a40c1b8e1d53eb)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG a7dc85dd49773f6c3bb5a3f83f6ce496db89703e)
+set(Catch2_TAG 997a7d4165b3939347f1a95f9311a3e3c066ee0b)
