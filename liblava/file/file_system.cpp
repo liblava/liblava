@@ -76,9 +76,7 @@ bool file_system::initialize(string_ref argv_0,
                              string_ref o,
                              string_ref a,
                              string_ref e) {
-#if LIBLAVA_DEBUG_ASSERT
-    assert(!initialized); // only once
-#endif
+    LAVA_ASSERT(!initialized); // only once
     if (initialized)
         return initialized;
 

@@ -282,9 +282,7 @@ void imgui::setup(GLFWwindow* w, config config) {
 //-----------------------------------------------------------------------------
 void imgui::new_frame() {
     auto& io = ImGui::GetIO();
-#if LIBLAVA_DEBUG_ASSERT
-    IM_ASSERT(io.Fonts->IsBuilt());
-#endif
+    LAVA_ASSERT(io.Fonts->IsBuilt());
 
     i32 w, h = 0;
     i32 display_w, display_h = 0;

@@ -25,3 +25,8 @@
 #define LAVA_VERSION_MAJOR 0
 #define LAVA_VERSION_MINOR 7
 #define LAVA_VERSION_PATCH 3
+
+#ifndef LAVA_ASSERT
+    #include <cassert>
+    #define LAVA_ASSERT(EXPR) assert(EXPR)
+#endif

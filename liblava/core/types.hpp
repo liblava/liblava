@@ -15,10 +15,6 @@
 #include <string_view>
 #include <vector>
 
-#if LIBLAVA_DEBUG_ASSERT
-    #include <cassert>
-#endif
-
 namespace lava {
 
 /// 8 bit integer

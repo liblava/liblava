@@ -51,9 +51,7 @@ static void* VKAPI_PTR custom_cpu_allocation(void* user_data,
                                              size_t size,
                                              size_t alignment,
                                              VkSystemAllocationScope allocation_scope) {
-#if LIBLAVA_DEBUG_ASSERT
-    assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
-#endif
+    LAVA_ASSERT(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
     return alloc_data(size, alignment);
 }
 
@@ -73,9 +71,7 @@ static void* VKAPI_PTR custom_cpu_reallocation(void* user_data,
                                                size_t size,
                                                size_t alignment,
                                                VkSystemAllocationScope allocation_scope) {
-#if LIBLAVA_DEBUG_ASSERT
-    assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
-#endif
+    LAVA_ASSERT(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
     return realloc_data(original, size, alignment);
 }
 
@@ -87,9 +83,7 @@ static void* VKAPI_PTR custom_cpu_reallocation(void* user_data,
  */
 static void VKAPI_PTR custom_cpu_free(void* user_data,
                                       void* memory) {
-#if LIBLAVA_DEBUG_ASSERT
-    assert(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
-#endif
+    LAVA_ASSERT(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
     free_data(memory);
 }
 

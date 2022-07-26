@@ -407,9 +407,7 @@ ui32 format_block_size(VkFormat format) {
         fmt(ASTC_12x12_UNORM_BLOCK, 16);
 
     default:
-#if LIBLAVA_DEBUG_ASSERT
-        assert(0 && "Unknown format.");
-#endif
+        LAVA_ASSERT(0 && "Unknown format.");
         return 0;
     }
 #undef fmt

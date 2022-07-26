@@ -17,10 +17,7 @@ bool read_file(std::vector<char>& out,
                string_ref filename) {
     std::ifstream file(str(filename),
                        std::ios::ate | std::ios::binary);
-#if LIBLAVA_DEBUG_ASSERT
-    assert(file.is_open());
-#endif
-
+    LAVA_ASSERT(file.is_open());
     if (!file.is_open())
         return false;
 
@@ -42,9 +39,7 @@ bool write_file(string_ref filename,
                 char const* data,
                 size_t data_size) {
     std::ofstream file(str(filename), std::ofstream::binary);
-#if LIBLAVA_DEBUG_ASSERT
-    assert(file.is_open());
-#endif
+    LAVA_ASSERT(file.is_open());
 
     if (!file.is_open())
         return false;
