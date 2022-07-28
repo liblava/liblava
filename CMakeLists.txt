@@ -459,7 +459,7 @@ set_property(TARGET lava PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINAR
 
 install(TARGETS lava
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  COMPONENT liblava_Runtime
+  COMPONENT "liblava_Runtime"
   )
 
 if(LIBLAVA_TEST)
@@ -491,7 +491,7 @@ if(LIBLAVA_TEST)
 
   install(TARGETS lava-test
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    COMPONENT liblava_Runtime
+    COMPONENT "liblava_Runtime"
     )
 endif()
 
@@ -514,19 +514,19 @@ install(TARGETS
   # shaderc_combined
   EXPORT LavaTargets
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  COMPONENT liblava_Development
+  COMPONENT "liblava_Development"
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  COMPONENT liblava_Development
+  COMPONENT "liblava_Development"
   INCLUDES DESTINATION 
     ${CMAKE_INSTALL_INCLUDEDIR}
     ${CMAKE_INSTALL_INCLUDEDIR}/liblava/ext
-  COMPONENT liblava_Development
+  COMPONENT "liblava_Development"
   )
 
 install(
   DIRECTORY ${LIBLAVA_DIR}
   DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-  COMPONENT liblava_Development
+  COMPONENT "liblava_Development"
   FILES_MATCHING PATTERN "*.hpp"
   )
 
@@ -562,7 +562,7 @@ foreach(DIR ${EXT_INCLUDE_DIRS})
     install(
       FILES ${HEADER_FILE}
       DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/liblava/ext/${OUT_DIR}"
-      COMPONENT liblava_Development
+      COMPONENT "liblava_Development"
       )
   endforeach()
 endforeach()
@@ -583,7 +583,7 @@ configure_package_config_file(
 install(
   EXPORT LavaTargets
   DESTINATION ${CONFIG_PATH}
-  COMPONENT liblava_Development
+  COMPONENT "liblava_Development"
   NAMESPACE lava::
   FILE LavaTargets.cmake
   EXPORT_LINK_INTERFACE_LIBRARIES
@@ -594,7 +594,7 @@ install(
     "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/lava-config-version.cmake"
     "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/lava-config.cmake"
   DESTINATION ${CONFIG_PATH}
-  COMPONENT liblava_Development
+  COMPONENT "liblava_Development"
   )
 
 if(LIBLAVA_DEMO)
@@ -770,13 +770,13 @@ if(LIBLAVA_DEMO)
     lava-spawn
     lava-light
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    COMPONENT liblava_Runtime
+    COMPONENT "liblava_Runtime"
     )
 
   install(
     DIRECTORY ${LIBLAVA_RES_DIR}
     DESTINATION ${CMAKE_INSTALL_BINDIR}
-    COMPONENT liblava_Runtime
+    COMPONENT "liblava_Runtime"
     )
 endif()
 

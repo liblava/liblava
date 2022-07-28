@@ -30,8 +30,8 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL
     if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
         log()->error(message_header);
         log()->error(callback_data->pMessage);
-        LAVA_ASSERT(!"check validation error");
 
+        LAVA_ASSERT(!"check validation error");
     } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
         log()->warn(message_header);
         log()->warn(callback_data->pMessage);
