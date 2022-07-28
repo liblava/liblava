@@ -39,7 +39,7 @@
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "61879237e9836f397c567dd75d0983eb338432b2"
+        "tag": "b75edfafca581e33be29ab51b9546b2e955c2853"
     },
     {
         "name": "stb",
@@ -63,7 +63,7 @@
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "26ef08b9c52fcb57bfccd8e3d09ded93e36eba40"
+        "tag": "a34f031ebad512c050f62de0521c8ba3e3b76ecf"
     },
     {
         "name": "volk",
@@ -75,7 +75,7 @@
         "name": "VulkanMemoryAllocator",
         "github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
         "branch": "master",
-        "tag": "51c8b56011303e94840370089f816b19dbe7edf0"
+        "tag": "f6d6e278a6989f854dcc03adf3360c873ca4bad1"
     },
     {
         "name": "IconFontCppHeaders",
@@ -105,13 +105,13 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "e4cfa190dfa144f1db5bcca2a6b11a6ba429824d"
+        "tag": "cc5fca057ec61748e5fbde429adee155c7392510"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "607771c3622dc5c01e2e2ec088324383db1964fc"
+        "tag": "f0ce653a25726000d4f37d94de33b95f942ff657"
     },
     {
         "name": "shaderc",

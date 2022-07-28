@@ -18,7 +18,7 @@ set(json_GITHUB nlohmann/json)
 set(json_TAG 2d48a4d9c5e8f0a5ce914922eb2a45dc0ec93ee3)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG 61879237e9836f397c567dd75d0983eb338432b2)
+set(spdlog_TAG b75edfafca581e33be29ab51b9546b2e955c2853)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG af1a5bc352164740c1cc1354942b1c6b72eacb8a)
@@ -30,13 +30,13 @@ set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG 87d2aa9d77bc979559c2d4adabe5b12bb1d49d51)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG 26ef08b9c52fcb57bfccd8e3d09ded93e36eba40)
+set(Vulkan-Profiles_TAG a34f031ebad512c050f62de0521c8ba3e3b76ecf)
 
 set(volk_GITHUB zeux/volk)
 set(volk_TAG 315929ebf428a0b924c1cff5803b69891f71bf5b)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
-set(VulkanMemoryAllocator_TAG 51c8b56011303e94840370089f816b19dbe7edf0)
+set(VulkanMemoryAllocator_TAG f6d6e278a6989f854dcc03adf3360c873ca4bad1)
 
 set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 7d6ff1f4ba51e7a2b142be39457768abece1549c)
@@ -51,10 +51,10 @@ set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG 0bcc624926a25a2a273d07877fd25a6ff5ba1cfb)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG e4cfa190dfa144f1db5bcca2a6b11a6ba429824d)
+set(SPIRV-Tools_TAG cc5fca057ec61748e5fbde429adee155c7392510)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG 607771c3622dc5c01e2e2ec088324383db1964fc)
+set(glslang_TAG f0ce653a25726000d4f37d94de33b95f942ff657)
 
 set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG a0a247d09229669d19b268eb8051eeda880449c1)
