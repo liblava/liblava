@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
 #endif
     frame_env env("lava light", argh);
 
-    env.profile = profile_desktop_portability_2021();
+    env.profile = profile_desktop_baseline_2022();
     // env.profile = profile_roadmap_2022();
 
     engine app(env);

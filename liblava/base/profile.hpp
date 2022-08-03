@@ -91,15 +91,15 @@ inline profile_info profile_roadmap_2022() {
 }
 
 /**
- * @brief Get VP_LUNARG_DESKTOP_PORTABILITY_2021 profile information
+ * @brief Get VP_LUNARG_desktop_baseline_2022 profile information
  *
  * @return profile_info    Profile information
  */
-inline profile_info profile_desktop_portability_2021() {
+inline profile_info profile_desktop_baseline_2022() {
     return {
-        VP_LUNARG_DESKTOP_PORTABILITY_2021_NAME,
-        VP_LUNARG_DESKTOP_PORTABILITY_2021_SPEC_VERSION,
-        VP_LUNARG_DESKTOP_PORTABILITY_2021_MIN_API_VERSION
+        VP_LUNARG_DESKTOP_BASELINE_2022_NAME,
+        VP_LUNARG_DESKTOP_BASELINE_2022_SPEC_VERSION,
+        VP_LUNARG_DESKTOP_BASELINE_2022_MIN_API_VERSION
     };
 }
 
