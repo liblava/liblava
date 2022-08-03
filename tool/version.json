@@ -9,7 +9,7 @@
         "name": "glfw",
         "github": "glfw/glfw",
         "branch": "master",
-        "tag": "3a60992a418aad88717db32353bec22e8bb7dab3"
+        "tag": "c18851f52ec9704eb06464058a600845ec1eada1"
     },
     {
         "name": "gli",
@@ -33,7 +33,7 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "2d48a4d9c5e8f0a5ce914922eb2a45dc0ec93ee3"
+        "tag": "22cd1c9eb9d9f6b5fc3007d5083f35f4f4aa33ae"
     },
     {
         "name": "spdlog",
@@ -57,13 +57,13 @@
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "87d2aa9d77bc979559c2d4adabe5b12bb1d49d51"
+        "tag": "ff92049ebd7e2f7013bb9d3b0450097561cee352"
     },
     {
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "a34f031ebad512c050f62de0521c8ba3e3b76ecf"
+        "tag": "27f659730956785c1c12b3ff6a2e775b7e8d64b7"
     },
     {
         "name": "volk",
@@ -87,13 +87,13 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "e99c4fc6688e218a0e5da50f56638aebab45da9b"
+        "tag": "0e95cf0decba5a9a53c49e66a6df831e39e0d86e"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "cb8ead1f7198924f97e52973d115e1d4eaeda2f3"
+        "tag": "f573ebf31a04d1ab953e8dec4aedacd15d7b588a"
     },
     {
         "name": "SPIRV-Headers",
@@ -105,13 +105,13 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "cc5fca057ec61748e5fbde429adee155c7392510"
+        "tag": "08c542d344c697142b1bbea469b2b4152fa1c074"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "f0ce653a25726000d4f37d94de33b95f942ff657"
+        "tag": "de0b1bf6d7eafef546154102fa15111474750c92"
     },
     {
         "name": "shaderc",
