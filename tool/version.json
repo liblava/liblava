@@ -63,7 +63,7 @@
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "39f5cf3218e3ff9266abb1db0c60e48761c9b17a"
+        "tag": "7e9bafe52fe7a318f0c407f2d7976522b4935789"
     },
     {
         "name": "volk",
