@@ -412,6 +412,9 @@ private:
 
     /// Input callback
     input_callback callback;
+
+    /// Font icons range
+    std::array<ui16, 3> icons_range;
 };
 
 /// Imgui type

@@ -197,8 +197,8 @@ void imgui::setup(GLFWwindow* w, config config) {
     }
 
     if (config.icon.font_data.ptr) {
-        static const ImWchar icons_ranges[] = { config.icon.range_begin,
-                                                config.icon.range_end, 0 };
+        icons_range = { config.icon.range_begin,
+                        config.icon.range_end, 0 };
 
         ImFontConfig icon_config;
         icon_config.MergeMode = true;
@@ -210,7 +210,7 @@ void imgui::setup(GLFWwindow* w, config config) {
                                        to_i32(config.icon.font_data.size),
                                        config.icon.size,
                                        &icon_config,
-                                       icons_ranges);
+                                       icons_range.data());
     }
 
     io.SetClipboardTextFn = set_clipboard_text;
