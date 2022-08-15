@@ -44,9 +44,6 @@ struct id {
     /// Value
     type value = undef;
 
-    /// Version
-    ui32 version = 0;
-
     /**
      * @brief Check if the id is valid
      *
@@ -60,19 +57,10 @@ struct id {
     /**
      * @brief Convert the id to string
      *
-     * @param show_version    Show version in string
-     *
-     * @return string         String representation of id
+     * @return string    String representation of id
      */
-    string to_string(bool show_version = false) const {
-        char result[32];
-        if (show_version)
-            snprintf(result,
-                     sizeof(result), "%u.%u", value, version);
-        else
-            snprintf(result,
-                     sizeof(result), "%u", value);
-        return string(result);
+    string to_string() const {
+        return std::to_string(value);
     }
 
     /**
@@ -83,61 +71,9 @@ struct id {
     }
 
     /**
-     * @brief Equal operator
-     *
-     * @param rhs       Id to compare
-     *
-     * @return true     Id is equal
-     * @return false    Id is not equal
+     * @brief Compare operator
      */
-    bool operator==(ref rhs) const {
-        return (value == rhs.value)
-               && (version == rhs.version);
-    }
-
-    /**
-     * @brief Not equal operator
-     *
-     * @param rhs       Id to compare
-     *
-     * @return true     Id is not equal
-     * @return false    Id is equal
-     */
-    bool operator!=(ref rhs) const {
-        return !(*this == rhs);
-    }
-
-    /**
-     * @brief Order operator
-     *
-     * @param rhs       Id to order
-     *
-     * @return true     Id is smaller
-     * @return false    Id is bigger
-     */
-    bool operator<(ref rhs) const {
-        return std::tie(value, version)
-               < std::tie(rhs.value, rhs.version);
-    }
-
-    /**
-     * @brief Check if id exists in map, if so reassign it from map
-     *
-     * @param map       Map to check and reassign
-     *
-     * @return true     Found id in map and reassigned
-     * @return false    Id ignored
-     */
-    bool check(id::map& map) {
-        if (!valid())
-            return false;
-
-        if (!map.count(*this))
-            return false;
-
-        *this = map.at(*this);
-        return true;
-    }
+    auto operator<=>(id const&) const = default;
 };
 
 /// Map of string ids
@@ -166,115 +102,12 @@ struct ids {
      * @return id    Next id
      */
     id next() {
-        return get_next();
-    }
-
-    /**
-     * @brief Free id in factory (singleton)
-     *
-     * @param id    Id to free
-     */
-    void free(id::ref id) {
-        reuse(id);
-    }
-
-    /**
-     * @brief Get the next id
-     *
-     * @return id    Next id
-     */
-    id get_next() {
-        if (!reuse_ids)
-            return { ++next_id };
-
-        return get_next_locked();
-    }
-
-    /**
-     * @brief Reuse the id
-     *
-     * @param id    Id to reuse
-     */
-    void reuse(id::ref id) {
-        if (reuse_ids)
-            reuse_locked(id);
-    }
-
-    /**
-     * @brief Set the reuse handling
-     *
-     * @param state    Enable reuse
-     */
-    void set_reuse(bool state) {
-        reuse_ids = state;
-    }
-
-    /**
-     * @brief Check if the reuse handling is enabled
-     *
-     * @return true     Reuse handling is active
-     * @return false    Reuse handling is inactive
-     */
-    bool reusing() const {
-        return reuse_ids;
-    }
-
-    /**
-     * @brief Get the max id
-     *
-     * @return type    Max id
-     */
-    type get_max() const {
-        return next_id;
-    }
-
-    /**
-     * @brief Set the max id
-     *
-     * @param max    Max id
-     */
-    void set_max(type max) {
-        if (max > next_id)
-            next_id = max;
+        return { ++next_id };
     }
 
 private:
-    /**
-     * @brief Get the next locked id
-     *
-     * @return id    Next id
-     */
-    id get_next_locked() {
-        std::unique_lock<std::mutex> lock(queue_mutex);
-        if (free_ids.empty())
-            return { ++next_id };
-
-        auto next_id = free_ids.front();
-        free_ids.pop_front();
-        return { next_id.value, next_id.version + 1 };
-    }
-
-    /**
-     * @brief Reuse the id
-     *
-     * @param id    Id to reuse
-     */
-    void reuse_locked(id::ref id) {
-        std::unique_lock<std::mutex> lock(queue_mutex);
-        free_ids.push_back(id);
-    }
-
     /// Next id
     std::atomic<type> next_id = { undef };
-
-    /// Queue mutex
-    std::mutex queue_mutex;
-
-    /// Reuse id handling
-    bool reuse_ids = true;
-
-    /// List of freed ids
-    std::deque<id> free_ids;
 };
 
 /**
@@ -313,7 +146,6 @@ inline bool remove_id_map(id::ref object,
         return false;
 
     map.erase(object);
-    ids::instance().free(object);
 
     return true;
 }
@@ -369,13 +201,6 @@ struct entity : no_copy_no_move, interface {
      */
     entity()
     : entity_id(ids::instance().next()) {}
-
-    /**
-     * @brief Destroy the entity
-     */
-    ~entity() {
-        ids::instance().free(entity_id);
-    }
 
     /**
      * @brief Get the id of entity

@@ -60,8 +60,6 @@ void gamepad_manager::remove(id::ref id) {
         return;
 
     map.erase(id);
-
-    ids::instance().free(id);
 }
 
 //-----------------------------------------------------------------------------

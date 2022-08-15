@@ -113,8 +113,6 @@ private:
 
                 task(thread_id);
             }
-
-            ids::instance().free(thread_id);
         }
 
     private:

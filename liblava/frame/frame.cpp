@@ -264,18 +264,10 @@ bool frame::remove(id::ref id) {
 //-----------------------------------------------------------------------------
 void frame::trigger_run_remove() {
     for (auto& id : run_remove_list) {
-        auto result = false;
-
-        if (run_map.count(id)) {
+        if (run_map.count(id))
             run_map.erase(id);
-            result = true;
-        } else if (run_end_map.count(id)) {
+        else if (run_end_map.count(id))
             run_end_map.erase(id);
-            result = true;
-        }
-
-        if (result)
-            ids::instance().free(id);
     }
 
     run_remove_list.clear();
