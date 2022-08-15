@@ -272,24 +272,24 @@ struct target_callback {
 };
 
 /// Limit of Vulkan description sets
-static constexpr ui32 const Vk_Limit_DescriptorSets = 4;
+constexpr ui32 const Vk_Limit_DescriptorSets = 4;
 
 /// Limit of Vulkan bindings
-static constexpr ui32 const Vk_Limit_Bindings = 16;
+constexpr ui32 const Vk_Limit_Bindings = 16;
 
 /// Limit of Vulkan attachments
-static constexpr ui32 const Vk_Limit_Attachments = 8;
+constexpr ui32 const Vk_Limit_Attachments = 8;
 
 /// Limit of Vulkan vertex attributes
-static constexpr ui32 const Vk_Limit_VertexAttribs = 16;
+constexpr ui32 const Vk_Limit_VertexAttribs = 16;
 
 /// Limit of Vulkan vertex buffers
-static constexpr ui32 const Vk_Limit_VertexBuffers = 4;
+constexpr ui32 const Vk_Limit_VertexBuffers = 4;
 
 /// Limit of Vulkan push constant size
-static constexpr ui32 const Vk_Limit_PushConstant_Size = 128;
+constexpr ui32 const Vk_Limit_PushConstant_Size = 128;
 
 /// Limit of Vulkan UBO size
-static constexpr ui32 const Vk_Limit_UBO_Size = 16 * 1024;
+constexpr ui32 const Vk_Limit_UBO_Size = 16 * 1024;
 
 } // namespace lava

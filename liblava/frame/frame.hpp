@@ -122,7 +122,9 @@ struct frame : interface, no_copy_no_move {
      * @return true     Framework is ready
      * @return false    Framework is not ready
      */
-    bool ready() const;
+    bool ready() const {
+        return initialized;
+    }
 
     /// Framework result
     using result = i32; // error < 0
@@ -303,6 +305,9 @@ private:
      * @return false    Profile not supported
      */
     bool check_profile() const;
+
+    /// Initialized state
+    bool initialized = false;
 
     /// Framework environment
     frame_env env;

@@ -23,9 +23,6 @@ ms now() {
     return to_ms(glfwGetTime());
 }
 
-/// Frame initialized state
-static bool frame_initialized = false;
-
 //-----------------------------------------------------------------------------
 frame::frame(argh::parser cmd_line) {
     env.cmd_line = cmd_line;
@@ -41,11 +38,6 @@ frame::frame(frame_env env)
 //-----------------------------------------------------------------------------
 frame::~frame() {
     teardown();
-}
-
-//-----------------------------------------------------------------------------
-bool frame::ready() const {
-    return frame_initialized;
 }
 
 //-----------------------------------------------------------------------------
@@ -105,7 +97,7 @@ void handle_env(frame_env& env) {
 
 //-----------------------------------------------------------------------------
 bool frame::setup() {
-    if (frame_initialized)
+    if (initialized)
         return false;
 
 #if _WIN32 && LAVA_DEBUG
@@ -138,7 +130,7 @@ bool frame::setup() {
         return false;
     }
 
-    log()->info("vulkan {}", to_string(instance::get_version()));
+    log()->info("vulkan {}", to_string(get_instance_version()));
 
     if (!check_profile())
         return false;
@@ -157,7 +149,7 @@ bool frame::setup() {
         return false;
     }
 
-    frame_initialized = true;
+    initialized = true;
 
     log()->info("---");
 
@@ -166,7 +158,7 @@ bool frame::setup() {
 
 //-----------------------------------------------------------------------------
 void frame::teardown() {
-    if (!frame_initialized)
+    if (!initialized)
         return;
 
     platform.clear();
@@ -181,7 +173,7 @@ void frame::teardown() {
     reset_log();
     teardown_log(env.log);
 
-    frame_initialized = false;
+    initialized = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -246,7 +238,7 @@ bool frame::shut_down() {
 
 //-----------------------------------------------------------------------------
 id frame::add_run(run_func_ref func) {
-    auto id = ids::next();
+    auto id = ids::instance().next();
     run_map.emplace(id, func);
 
     return id;
@@ -254,7 +246,7 @@ id frame::add_run(run_func_ref func) {
 
 //-----------------------------------------------------------------------------
 id frame::add_run_end(run_end_func_ref func) {
-    auto id = ids::next();
+    auto id = ids::instance().next();
     run_end_map.emplace(id, func);
 
     return id;
@@ -283,7 +275,7 @@ void frame::trigger_run_remove() {
         }
 
         if (result)
-            ids::free(id);
+            ids::instance().free(id);
     }
 
     run_remove_list.clear();

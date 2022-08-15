@@ -112,11 +112,16 @@ inline allocator::ptr create_allocator(device_cptr device,
  */
 struct memory : no_copy_no_move {
     /**
-     * @brief Get memory singleton
+     * @brief Construct a new memory
+     */
+    memory();
+
+    /**
+     * @brief Get memory instance
      *
      * @return memory&    Memory
      */
-    static memory& get() {
+    static memory& instance() {
         static memory memory;
         return memory;
     }
@@ -126,38 +131,12 @@ struct memory : no_copy_no_move {
      *
      * @return VkAllocationCallbacks*    Allocation callbacks
      */
-    static VkAllocationCallbacks* alloc() {
-        if (get().use_custom_cpu_callbacks)
-            return &get().vk_callbacks;
+    VkAllocationCallbacks* alloc() {
+        if (use_custom_cpu_callbacks)
+            return &vk_callbacks;
 
         return nullptr;
     }
-
-    /**
-     * @brief Find the type with properties
-     *
-     * @param properties             Physical device memory properties
-     * @param type_bits              Type bits
-     * @param required_properties    Memory property flags
-     *
-     * @return type                  Result type
-     */
-    static type find_type_with_properties(VkPhysicalDeviceMemoryProperties properties,
-                                          ui32 type_bits,
-                                          VkMemoryPropertyFlags required_properties);
-
-    /**
-     * @brief Find the type
-     *
-     * @param gpu           Physical device
-     * @param properties    Memory properties flags
-     * @param type_bits     Type bits
-     *
-     * @return type         Result type
-     */
-    static type find_type(VkPhysicalDevice gpu,
-                          VkMemoryPropertyFlags properties,
-                          ui32 type_bits);
 
     /**
      * @brief Set the callbacks object
@@ -178,16 +157,37 @@ struct memory : no_copy_no_move {
     }
 
 private:
-    /**
-     * @brief Construct a new memory
-     */
-    memory();
-
     /// Use custom cpu callbacks
     bool use_custom_cpu_callbacks = true;
 
     /// @see https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/VkAllocationCallbacks.html
     VkAllocationCallbacks vk_callbacks = {};
 };
+
+/**
+ * @brief Find the memory type with properties
+ *
+ * @param properties             Physical device memory properties
+ * @param type_bits              Type bits
+ * @param required_properties    Memory property flags
+ *
+ * @return type                  Result type
+ */
+type find_memory_type_with_properties(VkPhysicalDeviceMemoryProperties properties,
+                                      ui32 type_bits,
+                                      VkMemoryPropertyFlags required_properties);
+
+/**
+ * @brief Find the memory type
+ *
+ * @param gpu           Physical device
+ * @param properties    Memory properties flags
+ * @param type_bits     Type bits
+ *
+ * @return type         Result type
+ */
+type find_memory_type(VkPhysicalDevice gpu,
+                      VkMemoryPropertyFlags properties,
+                      ui32 type_bits);
 
 } // namespace lava

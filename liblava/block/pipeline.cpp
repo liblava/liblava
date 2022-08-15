@@ -32,7 +32,7 @@ void pipeline::destroy() {
     if (vk_pipeline) {
         device->call().vkDestroyPipeline(device->get(),
                                          vk_pipeline,
-                                         memory::alloc());
+                                         memory::instance().alloc());
         vk_pipeline = VK_NULL_HANDLE;
     }
 
@@ -97,7 +97,7 @@ void pipeline::shader_stage::destroy() {
 
     device->call().vkDestroyShaderModule(device->get(),
                                          create_info.module,
-                                         memory::alloc());
+                                         memory::instance().alloc());
 
     create_info.module = VK_NULL_HANDLE;
     device = nullptr;

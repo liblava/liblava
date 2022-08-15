@@ -138,7 +138,7 @@ bool device::create(create_param::ref param) {
 
         if (failed(vpCreateDevice(physical_device->get(),
                                   &vp_create_info,
-                                  memory::alloc(),
+                                  memory::instance().alloc(),
                                   &vk_device))) {
             log()->error("create device with profile");
             return false;
@@ -146,7 +146,7 @@ bool device::create(create_param::ref param) {
     } else {
         if (failed(vkCreateDevice(physical_device->get(),
                                   &create_info,
-                                  memory::alloc(),
+                                  memory::instance().alloc(),
                                   &vk_device))) {
             log()->error("create device");
             return false;
@@ -212,7 +212,7 @@ void device::destroy() {
         mem_allocator = nullptr;
     }
 
-    call().vkDestroyDevice(vk_device, memory::alloc());
+    call().vkDestroyDevice(vk_device, memory::instance().alloc());
     vk_device = nullptr;
 
     table = {};
@@ -253,7 +253,7 @@ VkShaderModule create_shader_module(device_p device, cdata::ref data) {
 
     VkShaderModule result;
     if (!device->vkCreateShaderModule(&shader_module_create_info,
-                                      memory::alloc(),
+                                      memory::instance().alloc(),
                                       &result))
         return 0;
 

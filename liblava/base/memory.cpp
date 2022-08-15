@@ -47,10 +47,10 @@ namespace lava {
  *
  * @return void*              Allocated data
  */
-static void* VKAPI_PTR custom_cpu_allocation(void* user_data,
-                                             size_t size,
-                                             size_t alignment,
-                                             VkSystemAllocationScope allocation_scope) {
+void* VKAPI_PTR custom_cpu_allocation(void* user_data,
+                                      size_t size,
+                                      size_t alignment,
+                                      VkSystemAllocationScope allocation_scope) {
     LAVA_ASSERT(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
     return alloc_data(size, alignment);
 }
@@ -66,11 +66,11 @@ static void* VKAPI_PTR custom_cpu_allocation(void* user_data,
  *
  * @return void*              Reallocated data
  */
-static void* VKAPI_PTR custom_cpu_reallocation(void* user_data,
-                                               void* original,
-                                               size_t size,
-                                               size_t alignment,
-                                               VkSystemAllocationScope allocation_scope) {
+void* VKAPI_PTR custom_cpu_reallocation(void* user_data,
+                                        void* original,
+                                        size_t size,
+                                        size_t alignment,
+                                        VkSystemAllocationScope allocation_scope) {
     LAVA_ASSERT(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
     return realloc_data(original, size, alignment);
 }
@@ -81,8 +81,8 @@ static void* VKAPI_PTR custom_cpu_reallocation(void* user_data,
  * @param user_data    User data
  * @param memory       Memory to free
  */
-static void VKAPI_PTR custom_cpu_free(void* user_data,
-                                      void* memory) {
+void VKAPI_PTR custom_cpu_free(void* user_data,
+                               void* memory) {
     LAVA_ASSERT(user_data == LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA);
     free_data(memory);
 }
@@ -99,39 +99,6 @@ memory::memory() {
     vk_callbacks.pfnReallocation = reinterpret_cast<PFN_vkReallocationFunction>(
         &custom_cpu_reallocation);
     vk_callbacks.pfnFree = reinterpret_cast<PFN_vkFreeFunction>(&custom_cpu_free);
-}
-
-//-----------------------------------------------------------------------------
-type memory::find_type_with_properties(VkPhysicalDeviceMemoryProperties properties,
-                                       ui32 type_bits,
-                                       VkMemoryPropertyFlags required_properties) {
-    auto bits = type_bits;
-    auto len = std::min(properties.memoryTypeCount, 32u);
-
-    for (auto i = 0u; i < len; ++i) {
-        if ((bits & 1) == 1)
-            if ((properties.memoryTypes[i].propertyFlags & required_properties) == required_properties)
-                return (int) i;
-
-        bits >>= 1;
-    }
-
-    return no_type;
-}
-
-//-----------------------------------------------------------------------------
-type memory::find_type(VkPhysicalDevice gpu,
-                       VkMemoryPropertyFlags properties,
-                       ui32 type_bits) {
-    VkPhysicalDeviceMemoryProperties prop{};
-    vkGetPhysicalDeviceMemoryProperties(gpu, &prop);
-
-    for (auto i = 0u; i < prop.memoryTypeCount; ++i)
-        if (((prop.memoryTypes[i].propertyFlags & properties) == properties)
-            && (type_bits & (1 << i)))
-            return i;
-
-    return no_type;
 }
 
 //-----------------------------------------------------------------------------
@@ -175,9 +142,9 @@ bool allocator::create(device_cptr device, VmaAllocatorCreateFlags flags) {
         .flags = flags,
         .physicalDevice = device->get_vk_physical_device(),
         .device = device->get(),
-        .pAllocationCallbacks = memory::alloc(),
+        .pAllocationCallbacks = memory::instance().alloc(),
         .pVulkanFunctions = &vulkan_function,
-        .instance = instance::get(),
+        .instance = instance::singleton().get(),
     };
 
     return check(vmaCreateAllocator(&allocator_info, &vma_allocator));
@@ -190,6 +157,39 @@ void allocator::destroy() {
 
     vmaDestroyAllocator(vma_allocator);
     vma_allocator = nullptr;
+}
+
+//-----------------------------------------------------------------------------
+type find_memory_type_with_properties(VkPhysicalDeviceMemoryProperties properties,
+                                      ui32 type_bits,
+                                      VkMemoryPropertyFlags required_properties) {
+    auto bits = type_bits;
+    auto len = std::min(properties.memoryTypeCount, 32u);
+
+    for (auto i = 0u; i < len; ++i) {
+        if ((bits & 1) == 1)
+            if ((properties.memoryTypes[i].propertyFlags & required_properties) == required_properties)
+                return (int) i;
+
+        bits >>= 1;
+    }
+
+    return no_type;
+}
+
+//-----------------------------------------------------------------------------
+type find_memory_type(VkPhysicalDevice gpu,
+                      VkMemoryPropertyFlags properties,
+                      ui32 type_bits) {
+    VkPhysicalDeviceMemoryProperties prop{};
+    vkGetPhysicalDeviceMemoryProperties(gpu, &prop);
+
+    for (auto i = 0u; i < prop.memoryTypeCount; ++i)
+        if (((prop.memoryTypes[i].propertyFlags & properties) == properties)
+            && (type_bits & (1 << i)))
+            return i;
+
+    return no_type;
 }
 
 } // namespace lava

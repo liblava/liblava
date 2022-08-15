@@ -67,13 +67,13 @@ struct driver {
     };
 
     /**
-     * @brief Get driver singleton
+     * @brief Get driver instance
      *
      * @return driver&    Stage driver
      */
     static driver& instance() {
-        static driver singleton;
-        return singleton;
+        static driver driver;
+        return driver;
     }
 
     /**

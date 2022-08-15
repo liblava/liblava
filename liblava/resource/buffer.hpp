@@ -22,24 +22,6 @@ struct buffer : entity {
     using list = std::vector<ptr>;
 
     /**
-     * @brief Get possible stages by usage flags
-     *
-     * @param usage                    Buffer usage flags
-     *
-     * @return VkPipelineStageFlags    Pipeline stage flags
-     */
-    static VkPipelineStageFlags usage_to_possible_stages(VkBufferUsageFlags usage);
-
-    /**
-     * @brief Get possible access by usage flags
-     *
-     * @param usage             Buffer usage flags
-     *
-     * @return VkAccessFlags    Access flags
-     */
-    static VkAccessFlags usage_to_possible_access(VkBufferUsageFlags usage);
-
-    /**
      * @brief Destroy the buffer
      */
     ~buffer() {
@@ -212,5 +194,23 @@ private:
 inline buffer::ptr make_buffer() {
     return std::make_shared<buffer>();
 }
+
+/**
+ * @brief Get possible stages by bufferusage flags
+ *
+ * @param usage                    Buffer usage flags
+ *
+ * @return VkPipelineStageFlags    Pipeline stage flags
+ */
+VkPipelineStageFlags buffer_usage_to_possible_stages(VkBufferUsageFlags usage);
+
+/**
+ * @brief Get possible access by buffer usage flags
+ *
+ * @param usage             Buffer usage flags
+ *
+ * @return VkAccessFlags    Access flags
+ */
+VkAccessFlags buffer_usage_to_possible_access(VkBufferUsageFlags usage);
 
 } // namespace lava

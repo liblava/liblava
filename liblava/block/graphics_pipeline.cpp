@@ -178,29 +178,17 @@ void graphics_pipeline::set_rasterization_polygon_mode(VkPolygonMode polygon_mod
 }
 
 //-----------------------------------------------------------------------------
-VkPipelineColorBlendAttachmentState graphics_pipeline::create_color_blend_attachment() {
-    return {
-        .blendEnable = VK_TRUE,
-        .srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA,
-        .dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
-        .colorBlendOp = VK_BLEND_OP_ADD,
-        .srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
-        .dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO,
-        .alphaBlendOp = VK_BLEND_OP_ADD,
-        .colorWriteMask = VK_COLOR_COMPONENT_R_BIT
-                          | VK_COLOR_COMPONENT_G_BIT
-                          | VK_COLOR_COMPONENT_B_BIT
-                          | VK_COLOR_COMPONENT_A_BIT,
-    };
-}
-
-//-----------------------------------------------------------------------------
 void graphics_pipeline::add_color_blend_attachment(
     VkPipelineColorBlendAttachmentState const& attachment) {
     color_blend_attachment_states.push_back(attachment);
 
     color_blend_state.attachmentCount = to_ui32(color_blend_attachment_states.size());
     color_blend_state.pAttachments = color_blend_attachment_states.data();
+}
+
+//-----------------------------------------------------------------------------
+void graphics_pipeline::add_color_blend_attachment() {
+    add_color_blend_attachment(create_pipeline_color_blend_attachment());
 }
 
 //-----------------------------------------------------------------------------
@@ -304,7 +292,7 @@ bool graphics_pipeline::setup() {
                                                           pipeline_cache,
                                                           to_ui32(vk_info.size()),
                                                           vk_info.data(),
-                                                          memory::alloc(),
+                                                          memory::instance().alloc(),
                                                           &vk_pipeline));
 }
 
@@ -364,6 +352,23 @@ void graphics_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf,
                     0,
                     to_ui32(scissors.size()),
                     scissors.data());
+}
+
+//-----------------------------------------------------------------------------
+VkPipelineColorBlendAttachmentState create_pipeline_color_blend_attachment() {
+    return {
+        .blendEnable = VK_TRUE,
+        .srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA,
+        .dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
+        .colorBlendOp = VK_BLEND_OP_ADD,
+        .srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
+        .dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO,
+        .alphaBlendOp = VK_BLEND_OP_ADD,
+        .colorWriteMask = VK_COLOR_COMPONENT_R_BIT
+                          | VK_COLOR_COMPONENT_G_BIT
+                          | VK_COLOR_COMPONENT_B_BIT
+                          | VK_COLOR_COMPONENT_A_BIT,
+    };
 }
 
 } // namespace lava

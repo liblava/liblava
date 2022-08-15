@@ -415,7 +415,7 @@ ui32 format_block_size(VkFormat format) {
 
 //-----------------------------------------------------------------------------
 VkFormat_optional get_supported_depth_format(VkPhysicalDevice physical_device) {
-    static const VkFormat depth_formats[] = {
+    VkFormat const depth_formats[] = {
         VK_FORMAT_D32_SFLOAT_S8_UINT,
         VK_FORMAT_D32_SFLOAT,
         VK_FORMAT_D24_UNORM_S8_UINT,

@@ -381,15 +381,6 @@ struct window : entity {
     void set_floating(bool value);
 
     /**
-     * @brief Get the window by GLFW handle
-     *
-     * @param handle      GLFW window handle
-     *
-     * @return window*    Assigned Window
-     */
-    static window* get_window(GLFWwindow* handle);
-
-    /**
      * @brief Check if the window request to close
      *
      * @return true     Window has close request
@@ -593,5 +584,14 @@ using window_t = window;
  * @return VkSurfaceKHR    Vulkan surface
  */
 VkSurfaceKHR create_surface(GLFWwindow* window);
+
+/**
+ * @brief Get the window by GLFW handle
+ *
+ * @param handle      GLFW window handle
+ *
+ * @return window*    Assigned Window
+ */
+window* get_window(GLFWwindow* handle);
 
 } // namespace lava

@@ -211,19 +211,18 @@ struct graphics_pipeline : pipeline {
     void set_rasterization_polygon_mode(VkPolygonMode polygon_mode);
 
     /**
-     * @brief Create a color blend attachment
-     *
-     * @return VkPipelineColorBlendAttachmentState    Pipeline color blend attachment state
-     */
-    static VkPipelineColorBlendAttachmentState create_color_blend_attachment();
-
-    /**
      * @brief Add color blend attachment
      *
      * @param attachment    Pipeline color blend attachment state
      */
-    void add_color_blend_attachment(
-        VkPipelineColorBlendAttachmentState const& attachment = create_color_blend_attachment());
+    void add_color_blend_attachment(VkPipelineColorBlendAttachmentState const& attachment);
+
+    /**
+     * @brief Add color blend attachment (default)
+     *
+     * @param attachment    Pipeline color blend attachment state
+     */
+    void add_color_blend_attachment();
 
     /**
      * @brief Clear color blend attachment
@@ -524,5 +523,12 @@ inline graphics_pipeline::ptr make_graphics_pipeline(device_p device,
                                                      VkPipelineCache pipeline_cache = 0) {
     return std::make_shared<graphics_pipeline>(device, pipeline_cache);
 }
+
+/**
+ * @brief Create a color blend attachment
+ *
+ * @return VkPipelineColorBlendAttachmentState    Pipeline color blend attachment state
+ */
+VkPipelineColorBlendAttachmentState create_pipeline_color_blend_attachment();
 
 } // namespace lava

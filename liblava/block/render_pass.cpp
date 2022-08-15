@@ -48,7 +48,7 @@ bool render_pass::create(VkAttachmentsRef target_attachments,
 
     if (!check(device->call().vkCreateRenderPass(device->get(),
                                                  &create_info,
-                                                 memory::alloc(),
+                                                 memory::instance().alloc(),
                                                  &vk_render_pass))) {
         log()->error("create render pass");
         return false;
@@ -72,7 +72,7 @@ void render_pass::destroy() {
     if (vk_render_pass) {
         device->call().vkDestroyRenderPass(device->get(),
                                            vk_render_pass,
-                                           memory::alloc());
+                                           memory::instance().alloc());
         vk_render_pass = VK_NULL_HANDLE;
     }
 
@@ -171,7 +171,7 @@ bool render_pass::on_target_created(VkAttachmentsRef target_attachments,
 
         if (failed(device->call().vkCreateFramebuffer(device->get(),
                                                       &create_info,
-                                                      memory::alloc(),
+                                                      memory::instance().alloc(),
                                                       &framebuffers[count]))) {
             log()->error("create render pass target");
             return false;
@@ -191,7 +191,7 @@ void render_pass::on_target_destroyed() {
 
         device->call().vkDestroyFramebuffer(device->get(),
                                             framebuffer,
-                                            memory::alloc());
+                                            memory::instance().alloc());
         framebuffer = VK_NULL_HANDLE;
     }
 

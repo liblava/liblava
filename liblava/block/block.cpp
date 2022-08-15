@@ -61,7 +61,7 @@ bool block::create(device_p d,
         };
         if (failed(device->call().vkCreateCommandPool(device->get(),
                                                       &create_info,
-                                                      memory::alloc(),
+                                                      memory::instance().alloc(),
                                                       &cmd_pools.at(i)))) {
             log()->error("create block command pool");
             return false;
@@ -83,7 +83,7 @@ void block::destroy() {
     for (auto i = 0u; i < cmd_pools.size(); ++i)
         device->call().vkDestroyCommandPool(device->get(),
                                             cmd_pools.at(i),
-                                            memory::alloc());
+                                            memory::instance().alloc());
 
     cmd_pools.clear();
     cmd_order.clear();

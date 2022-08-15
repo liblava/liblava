@@ -12,7 +12,7 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 device::ptr platform::create(index pd) {
-    auto physical_device = &instance::get_first_physical_device();
+    auto physical_device = &instance::singleton().get_first_physical_device();
 
     if (pd > 0) {
         if (pd >= instance::singleton().get_physical_devices().size()) {

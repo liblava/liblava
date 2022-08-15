@@ -345,7 +345,7 @@ inline size_t next_pow_2(size_t x) {
  * @return char*    Human readable size string
  */
 inline char* human_readable(size_t const sz) {
-    static auto const buffer_size = 32;
+    auto const buffer_size = 32;
 
     char const prefixes[] = "KMGTPEZY";
     char buf[buffer_size];

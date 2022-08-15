@@ -17,13 +17,11 @@ namespace lava {
  */
 struct random_generator {
     /**
-     * @brief Get singleton
-     *
-     * @return random_generator&    Random generator
+     * @brief Construct a new random generator
      */
-    static random_generator& instance() {
-        static random_generator generator;
-        return generator;
+    random_generator() {
+        std::random_device rd;
+        mt = std::mt19937(rd());
     }
 
     /**
@@ -56,14 +54,6 @@ struct random_generator {
     }
 
 private:
-    /**
-     * @brief Construct a new random generator
-     */
-    random_generator() {
-        std::random_device rd;
-        mt = std::mt19937(rd());
-    }
-
     /// Mersenne twister algorithm
     std::mt19937 mt;
 };
@@ -77,7 +67,7 @@ private:
  * @return auto    Random number
  */
 inline auto random(auto low, auto high) {
-    return random_generator::instance().get(low, high);
+    return random_generator().get(low, high);
 }
 
 /**
@@ -88,7 +78,7 @@ inline auto random(auto low, auto high) {
  * @return auto    Random number
  */
 inline auto random(auto high) {
-    return random_generator::instance().get({}, high);
+    return random_generator().get({}, high);
 }
 
 /**

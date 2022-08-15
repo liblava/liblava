@@ -32,9 +32,9 @@ void swapchain::destroy() {
     destroy_backbuffer_views();
     teardown();
 
-    vkDestroySurfaceKHR(instance::get(),
+    vkDestroySurfaceKHR(instance::singleton().get(),
                         surface,
-                        memory::alloc());
+                        memory::instance().alloc());
     surface = VK_NULL_HANDLE;
 }
 

@@ -27,7 +27,7 @@ bool pipeline_layout::create(device_p d) {
 
     return check(device->call().vkCreatePipelineLayout(device->get(),
                                                        &pipelineLayoutInfo,
-                                                       memory::alloc(),
+                                                       memory::instance().alloc(),
                                                        &layout));
 }
 
@@ -38,7 +38,7 @@ void pipeline_layout::destroy() {
 
     device->call().vkDestroyPipelineLayout(device->get(),
                                            layout,
-                                           memory::alloc());
+                                           memory::instance().alloc());
     layout = VK_NULL_HANDLE;
 
     clear();

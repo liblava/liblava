@@ -74,7 +74,7 @@ struct instance : no_copy_no_move {
     };
 
     /**
-     * @brief Instance singeton
+     * @brief Instance singleton
      *
      * @return instance&    Instance
      */
@@ -105,22 +105,6 @@ struct instance : no_copy_no_move {
     void destroy();
 
     /**
-     * @brief Enumerate enabled layer properties
-     *
-     * @return VkLayerPropertiesList    List of layer properties
-     */
-    static VkLayerPropertiesList enumerate_layer_properties();
-
-    /**
-     * @brief Enumerate enabled extension properties
-     *
-     * @param layer_name                    Name of layer
-     *
-     * @return VkExtensionPropertiesList    List of extension properties
-     */
-    static VkExtensionPropertiesList enumerate_extension_properties(name layer_name = nullptr);
-
-    /**
      * @brief Get the physical devices
      *
      * @return physical_device::list const&    List of physical devices
@@ -134,8 +118,8 @@ struct instance : no_copy_no_move {
      *
      * @return physical_device::ref    Physcial device
      */
-    static physical_device::ref get_first_physical_device() {
-        return *singleton().physical_devices.front().get();
+    physical_device::ref get_first_physical_device() const {
+        return *physical_devices.front().get();
     }
 
     /**
@@ -143,16 +127,9 @@ struct instance : no_copy_no_move {
      *
      * @return VkInstance    Vulkan instance
      */
-    static VkInstance get() {
-        return singleton().vk_instance;
+    VkInstance get() const {
+        return vk_instance;
     }
-
-    /**
-     * @brief Get the version
-     *
-     * @return internal_version    Version
-     */
-    static internal_version get_version();
 
     /**
      * @brief Get the debug configuration
@@ -261,5 +238,28 @@ private:
  * @return false    Check failed
  */
 bool check(instance::create_param::ref param);
+
+/**
+ * @brief Get the instance version
+ *
+ * @return internal_version    Version
+ */
+internal_version get_instance_version();
+
+/**
+ * @brief Enumerate enabled layer properties
+ *
+ * @return VkLayerPropertiesList    List of layer properties
+ */
+VkLayerPropertiesList enumerate_layer_properties();
+
+/**
+ * @brief Enumerate enabled extension properties
+ *
+ * @param layer_name                    Name of layer
+ *
+ * @return VkExtensionPropertiesList    List of extension properties
+ */
+VkExtensionPropertiesList enumerate_extension_properties(name layer_name = nullptr);
 
 } // namespace lava

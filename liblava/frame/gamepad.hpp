@@ -207,36 +207,36 @@ struct gamepad_manager {
     using listener_func = std::function<bool(gamepad, bool)>;
 
     /**
+     * @brief Get gamepad manager singleton
+     *
+     * @return gamepad_manager&    Gamepad manager
+     */
+    static gamepad_manager& singleton() {
+        static gamepad_manager manager;
+        return manager;
+    }
+
+    /**
      * @brief Add listener
      *
      * @param listener    Gamepad listener function
      *
      * @return id         Id of function
      */
-    static id add(listener_func listener);
+    id add(listener_func listener);
 
     /**
      * @brief Remove listener
      *
      * @param id    Id of function
      */
-    static void remove(id::ref id);
+    void remove(id::ref id);
 
 private:
     /**
      * @brief Construct a new gamepad manager
      */
     explicit gamepad_manager();
-
-    /**
-     * @brief Get gamepad manager singleton
-     *
-     * @return gamepad_manager&    Gamepad manager
-     */
-    static gamepad_manager& instance() {
-        static gamepad_manager manager;
-        return manager;
-    }
 
     /// Map of gamepad listeners
     using listener_map = std::map<id, listener_func>;

@@ -151,13 +151,13 @@ constexpr id const undef_id = id();
  */
 struct ids {
     /**
-     * @brief Global id factory
+     * @brief Get id factory instance
      *
-     * @return ids&    Singelton factory
+     * @return ids&    Id factory
      */
-    static ids& global() {
-        static ids instance;
-        return instance;
+    static ids& instance() {
+        static ids ids;
+        return ids;
     }
 
     /**
@@ -165,8 +165,8 @@ struct ids {
      *
      * @return id    Next id
      */
-    static id next() {
-        return ids::global().get_next();
+    id next() {
+        return get_next();
     }
 
     /**
@@ -174,8 +174,8 @@ struct ids {
      *
      * @param id    Id to free
      */
-    static void free(id::ref id) {
-        ids::global().reuse(id);
+    void free(id::ref id) {
+        reuse(id);
     }
 
     /**
@@ -290,7 +290,7 @@ private:
 template<typename T>
 inline id add_id_map(T const& object,
                      std::map<id, T>& map) {
-    auto next = ids::next();
+    auto next = ids::instance().next();
     map.emplace(next, std::move(object));
     return next;
 }
@@ -313,7 +313,7 @@ inline bool remove_id_map(id::ref object,
         return false;
 
     map.erase(object);
-    ids::free(object);
+    ids::instance().free(object);
 
     return true;
 }
@@ -368,13 +368,13 @@ struct entity : no_copy_no_move, interface {
      * @brief Construct a new entity
      */
     entity()
-    : entity_id(ids::next()) {}
+    : entity_id(ids::instance().next()) {}
 
     /**
      * @brief Destroy the entity
      */
     ~entity() {
-        ids::free(entity_id);
+        ids::instance().free(entity_id);
     }
 
     /**

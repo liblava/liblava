@@ -41,7 +41,7 @@ struct device_table {
     vk_result vkCreateImageView(const VkImageViewCreateInfo* pCreateInfo,
                                 VkImageView* pView) {
         return vkCreateImageView(pCreateInfo,
-                                 memory::alloc(),
+                                 memory::instance().alloc(),
                                  pView);
     }
 
@@ -64,7 +64,7 @@ struct device_table {
     vk_result vkCreateSampler(const VkSamplerCreateInfo* pCreateInfo,
                               VkSampler* pSampler) {
         return vkCreateSampler(pCreateInfo,
-                               memory::alloc(),
+                               memory::instance().alloc(),
                                pSampler);
     }
 
@@ -87,7 +87,7 @@ struct device_table {
     vk_result vkCreateShaderModule(const VkShaderModuleCreateInfo* pCreateInfo,
                                    VkShaderModule* pShaderModule) {
         return vkCreateShaderModule(pCreateInfo,
-                                    memory::alloc(),
+                                    memory::instance().alloc(),
                                     pShaderModule);
     }
 
@@ -110,7 +110,7 @@ struct device_table {
     vk_result vkCreateFence(const VkFenceCreateInfo* pCreateInfo,
                             VkFence* pFence) {
         return vkCreateFence(pCreateInfo,
-                             memory::alloc(),
+                             memory::instance().alloc(),
                              pFence);
     }
 
@@ -133,7 +133,7 @@ struct device_table {
     vk_result vkCreateSemaphore(const VkSemaphoreCreateInfo* pCreateInfo,
                                 VkSemaphore* pSemaphore) {
         return vkCreateSemaphore(pCreateInfo,
-                                 memory::alloc(),
+                                 memory::instance().alloc(),
                                  pSemaphore);
     }
 
@@ -226,7 +226,7 @@ struct device_table {
     vk_result vkCreateSwapchainKHR(const VkSwapchainCreateInfoKHR* pCreateInfo,
                                    VkSwapchainKHR* pSwapchain) {
         return vkCreateSwapchainKHR(pCreateInfo,
-                                    memory::alloc(),
+                                    memory::instance().alloc(),
                                     pSwapchain);
     }
 
@@ -234,7 +234,7 @@ struct device_table {
      * @see https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/vkDestroySwapchainKHR.html
      */
     void vkDestroySwapchainKHR(VkSwapchainKHR swapchain,
-                               const VkAllocationCallbacks* pAllocator = memory::alloc()) {
+                               const VkAllocationCallbacks* pAllocator = memory::instance().alloc()) {
         table.vkDestroySwapchainKHR(vk_device,
                                     swapchain,
                                     pAllocator);
@@ -271,7 +271,7 @@ struct device_table {
     vk_result vkCreateCommandPool(const VkCommandPoolCreateInfo* pCreateInfo,
                                   VkCommandPool* pCommandPool) {
         return vkCreateCommandPool(pCreateInfo,
-                                   memory::alloc(),
+                                   memory::instance().alloc(),
                                    pCommandPool);
     }
 
@@ -320,7 +320,7 @@ struct device_table {
      * @see https://www.khronos.org/registry/vulkan/specs/1.3/html/vkspec.html#vkDestroyImageView
      */
     void vkDestroyImageView(VkImageView imageView,
-                            const VkAllocationCallbacks* pAllocator = memory::alloc()) {
+                            const VkAllocationCallbacks* pAllocator = memory::instance().alloc()) {
         table.vkDestroyImageView(vk_device,
                                  imageView,
                                  pAllocator);
@@ -330,7 +330,7 @@ struct device_table {
      * @see https://www.khronos.org/registry/vulkan/specs/1.3/html/vkspec.html#vkDestroyFence
      */
     void vkDestroyFence(VkFence fence,
-                        const VkAllocationCallbacks* pAllocator = memory::alloc()) {
+                        const VkAllocationCallbacks* pAllocator = memory::instance().alloc()) {
         table.vkDestroyFence(vk_device,
                              fence,
                              pAllocator);
@@ -340,7 +340,7 @@ struct device_table {
      * @see https://www.khronos.org/registry/vulkan/specs/1.3/html/vkspec.html#vkDestroySemaphore
      */
     void vkDestroySemaphore(VkSemaphore semaphore,
-                            const VkAllocationCallbacks* pAllocator = memory::alloc()) {
+                            const VkAllocationCallbacks* pAllocator = memory::instance().alloc()) {
         table.vkDestroySemaphore(vk_device,
                                  semaphore,
                                  pAllocator);
@@ -362,7 +362,7 @@ struct device_table {
      * @see https://www.khronos.org/registry/vulkan/specs/1.3/html/vkspec.html#vkDestroyCommandPool
      */
     void vkDestroyCommandPool(VkCommandPool commandPool,
-                              const VkAllocationCallbacks* pAllocator = memory::alloc()) {
+                              const VkAllocationCallbacks* pAllocator = memory::instance().alloc()) {
         table.vkDestroyCommandPool(vk_device,
                                    commandPool,
                                    pAllocator);
@@ -372,7 +372,7 @@ struct device_table {
      * @see https://www.khronos.org/registry/vulkan/specs/1.3/html/vkspec.html#vkDestroySampler
      */
     void vkDestroySampler(VkSampler sampler,
-                          const VkAllocationCallbacks* pAllocator = memory::alloc()) {
+                          const VkAllocationCallbacks* pAllocator = memory::instance().alloc()) {
         table.vkDestroySampler(vk_device,
                                sampler,
                                pAllocator);

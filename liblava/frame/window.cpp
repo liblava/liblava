@@ -28,7 +28,7 @@ constexpr name _fmt_save_title_ = "{} [{}]";
  * @return int      Result
  */
 template<int attr>
-static int attribute_set(GLFWwindow* handle) {
+int attribute_set(GLFWwindow* handle) {
     return glfwGetWindowAttrib(handle, attr);
 }
 
@@ -43,7 +43,7 @@ static int attribute_set(GLFWwindow* handle) {
  * @return false    Attribute is unset
  */
 template<int attr>
-static bool bool_attribute_set(GLFWwindow* handle) {
+bool bool_attribute_set(GLFWwindow* handle) {
     return attribute_set<attr>(handle) == 1;
 }
 
@@ -444,11 +444,6 @@ void window::set_floating(bool value) {
 }
 
 //-----------------------------------------------------------------------------
-window* window::get_window(GLFWwindow* handle) {
-    return static_cast<window*>(glfwGetWindowUserPointer(handle));
-}
-
-//-----------------------------------------------------------------------------
 bool window::close_request() const {
     return glfwWindowShouldClose(handle) == 1;
 }
@@ -528,12 +523,17 @@ void window::center() {
 //-----------------------------------------------------------------------------
 VkSurfaceKHR create_surface(GLFWwindow* window) {
     VkSurfaceKHR surface = VK_NULL_HANDLE;
-    if (failed(glfwCreateWindowSurface(instance::get(),
-                                       window, memory::alloc(),
+    if (failed(glfwCreateWindowSurface(instance::singleton().get(),
+                                       window, memory::instance().alloc(),
                                        &surface)))
         return 0;
 
     return surface;
+}
+
+//-----------------------------------------------------------------------------
+window* get_window(GLFWwindow* handle) {
+    return static_cast<window*>(glfwGetWindowUserPointer(handle));
 }
 
 } // namespace lava

@@ -94,7 +94,7 @@ private:
          * @brief Run task operator
          */
         void operator()() {
-            auto thread_id = ids::next();
+            auto thread_id = ids::instance().next();
 
             task task;
             while (true) {
@@ -114,7 +114,7 @@ private:
                 task(thread_id);
             }
 
-            ids::free(thread_id);
+            ids::instance().free(thread_id);
         }
 
     private:
