@@ -15,10 +15,10 @@ set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG 0d4e9aac4575744ddaae56b146f1be19f064f0e5)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG a92ccafd2c7709243451e947a21ad08203273483)
+set(json_TAG 8fcdbf2e771f481d988cb36847d6af6b17e30a99)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG b75edfafca581e33be29ab51b9546b2e955c2853)
+set(spdlog_TAG 64e0724bd6a1296d7f8f551f97dc5a6738a4d54f)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG af1a5bc352164740c1cc1354942b1c6b72eacb8a)
@@ -30,13 +30,13 @@ set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG c896e2f920273bfee852da9cca2a356bc1c2031e)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG 70f83ef7a75166ba183443075d71bd92a660496a)
+set(Vulkan-Profiles_TAG 39f5cf3218e3ff9266abb1db0c60e48761c9b17a)
 
 set(volk_GITHUB zeux/volk)
-set(volk_TAG 315929ebf428a0b924c1cff5803b69891f71bf5b)
+set(volk_TAG 37afa119a904d81a3495e6ef9c03151feff56349)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
-set(VulkanMemoryAllocator_TAG f6d6e278a6989f854dcc03adf3360c873ca4bad1)
+set(VulkanMemoryAllocator_TAG 6599c36880aa03094861318030fec40919b899ac)
 
 set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 7d6ff1f4ba51e7a2b142be39457768abece1549c)
@@ -51,13 +51,13 @@ set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG 0bcc624926a25a2a273d07877fd25a6ff5ba1cfb)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG f20e8d05f5f7fa436ba04f76ce5c4ee07c124742)
+set(SPIRV-Tools_TAG 3a8a961cffb7699422a05dcbafdd721226b4547d)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG adf7bf0113ba99fb8e49b23ba7f30c6ee277d14b)
+set(glslang_TAG 10423ec659d301a0ff2daac8bbf38980abf27590)
 
 set(shaderc_GITHUB google/shaderc)
-set(shaderc_TAG a0a247d09229669d19b268eb8051eeda880449c1)
+set(shaderc_TAG 31bddbb37ef1e974da7bce859ab59bcfc5ad9ee7)
 
 set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
