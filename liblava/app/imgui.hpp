@@ -23,12 +23,6 @@ namespace lava {
 /// Default ImGui font size
 constexpr const r32 default_imgui_font_size = 18.f;
 
-/// ImGui state file
-constexpr name _imgui_file_ = "imgui.ini";
-
-/// Font icon name (default)
-constexpr name _font_icon_ = "font_icon";
-
 /**
  * @brief ImGui integration
  */

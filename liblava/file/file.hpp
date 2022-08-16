@@ -15,9 +15,6 @@ struct PHYSFS_File;
 
 namespace lava {
 
-/// Zip file extension
-constexpr name _zip_ = "zip";
-
 /**
  * @brief File types
  */

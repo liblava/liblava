@@ -11,9 +11,6 @@
 
 namespace lava {
 
-/// Shader main function name
-constexpr name _main_ = "main";
-
 /**
  * @brief Pipeline
  */

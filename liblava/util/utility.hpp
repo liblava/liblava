@@ -14,9 +14,6 @@
 
 namespace lava {
 
-/// Punctuation marks
-constexpr name _punctuation_marks_ = "\"\'";
-
 /**
  * @brief Check if name exists in name list
  *

@@ -11,6 +11,8 @@
 
 namespace lava {
 
+/// app
+
 constexpr name _pause_ = "pause";
 constexpr name _screenshot_ = "screenshot";
 constexpr name _quit_ = "quit";
@@ -63,5 +65,10 @@ constexpr name _avg_ = "avg";
 constexpr name _frames_ = "frames";
 constexpr name _timestamps_ = "timestamps";
 constexpr name _benchmark_json_ = "benchmark.json";
+
+/// ImGui
+
+constexpr name _imgui_file_ = "imgui.ini";
+constexpr name _font_icon_ = "font_icon";
 
 } // namespace lava

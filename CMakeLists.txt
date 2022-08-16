@@ -142,6 +142,7 @@ message(">> lava::util")
 
 add_library(lava.util STATIC
   ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp
+  ${LIBLAVA_DIR}/util/def.hpp
   ${LIBLAVA_DIR}/util/log.hpp
   ${LIBLAVA_DIR}/util/random.hpp
   ${LIBLAVA_DIR}/util/telegram.hpp
@@ -166,12 +167,13 @@ add_library(lava::util ALIAS lava.util)
 message(">> lava::file")
 
 add_library(lava.file STATIC
-  ${LIBLAVA_DIR}/file/file.cpp
-  ${LIBLAVA_DIR}/file/file.hpp
+  ${LIBLAVA_DIR}/file/def.hpp
   ${LIBLAVA_DIR}/file/file_system.cpp
   ${LIBLAVA_DIR}/file/file_system.hpp
   ${LIBLAVA_DIR}/file/file_utils.cpp
   ${LIBLAVA_DIR}/file/file_utils.hpp
+  ${LIBLAVA_DIR}/file/file.cpp
+  ${LIBLAVA_DIR}/file/file.hpp
   ${LIBLAVA_DIR}/file/json_file.cpp
   ${LIBLAVA_DIR}/file/json_file.hpp
   ${LIBLAVA_DIR}/file/json.hpp
@@ -332,6 +334,7 @@ add_library(lava.block STATIC
   ${LIBLAVA_DIR}/block/block.hpp
   ${LIBLAVA_DIR}/block/compute_pipeline.cpp
   ${LIBLAVA_DIR}/block/compute_pipeline.hpp
+  ${LIBLAVA_DIR}/block/def.hpp
   ${LIBLAVA_DIR}/block/descriptor.cpp
   ${LIBLAVA_DIR}/block/descriptor.hpp
   ${LIBLAVA_DIR}/block/graphics_pipeline.cpp
@@ -415,6 +418,7 @@ add_library(lava::app ALIAS lava.app)
 message(">> lava::engine")
 
 add_library(lava.engine STATIC
+  ${LIBLAVA_DIR}/engine/def.hpp
   ${LIBLAVA_DIR}/engine/engine.cpp
   ${LIBLAVA_DIR}/engine/engine.hpp
   ${LIBLAVA_DIR}/engine/producer.cpp

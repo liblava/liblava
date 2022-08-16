@@ -5,6 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include <liblava/block/def.hpp>
 #include <liblava/block/pipeline.hpp>
 
 namespace lava {

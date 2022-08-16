@@ -12,6 +12,7 @@
 #include <liblava/base.hpp>
 #include <liblava/block.hpp>
 #include <liblava/core.hpp>
+#include <liblava/def.hpp>
 #include <liblava/engine.hpp>
 #include <liblava/file.hpp>
 #include <liblava/frame.hpp>

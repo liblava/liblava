@@ -10,8 +10,8 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
-#include <liblava/core/types.hpp>
 #include <liblava/core/version.hpp>
+#include <liblava/util/def.hpp>
 
 namespace lava {
 
@@ -106,9 +106,6 @@ inline string to_string(version const& version) {
 inline string version_string() {
     return to_string(version{});
 }
-
-/// Default log file
-constexpr name _lava_log_file_ = "lava.log";
 
 /**
  * @brief Log configuration

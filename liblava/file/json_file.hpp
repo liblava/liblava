@@ -7,13 +7,10 @@
 
 #pragma once
 
-#include <liblava/core/types.hpp>
+#include <liblava/file/def.hpp>
 #include <liblava/file/json.hpp>
 
 namespace lava {
-
-/// Configuration json file
-constexpr name _config_file_ = "config.json";
 
 /**
  * @brief Json file
