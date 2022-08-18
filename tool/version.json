@@ -39,7 +39,7 @@
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "64e0724bd6a1296d7f8f551f97dc5a6738a4d54f"
+        "tag": "f44fa31f5110331af196d0ed7f00ae1c7b8ef3cc"
     },
     {
         "name": "stb",
@@ -57,13 +57,13 @@
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "c896e2f920273bfee852da9cca2a356bc1c2031e"
+        "tag": "715673702f5b18ffb8e5832e67cf731468d32ac6"
     },
     {
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "7e9bafe52fe7a318f0c407f2d7976522b4935789"
+        "tag": "6b5a848173caacb124a0cb1ff07cfc731b9db14d"
     },
     {
         "name": "volk",
@@ -105,7 +105,7 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "3a8a961cffb7699422a05dcbafdd721226b4547d"
+        "tag": "3c1a14b2b609ae5a352e39ef6b5baf8f64c32ec7"
     },
     {
         "name": "glslang",
@@ -129,6 +129,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "47d56f28a9801911c048d011b375e5631dbb658f"
+        "tag": "33e70194d32b8eb487b2f882b94353e0aed662cf"
     }
 ]

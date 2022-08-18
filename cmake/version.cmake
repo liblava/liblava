@@ -18,7 +18,7 @@ set(json_GITHUB nlohmann/json)
 set(json_TAG 8fcdbf2e771f481d988cb36847d6af6b17e30a99)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG 64e0724bd6a1296d7f8f551f97dc5a6738a4d54f)
+set(spdlog_TAG f44fa31f5110331af196d0ed7f00ae1c7b8ef3cc)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG af1a5bc352164740c1cc1354942b1c6b72eacb8a)
@@ -27,10 +27,10 @@ set(tinyobjloader_GITHUB syoyo/tinyobjloader)
 set(tinyobjloader_TAG a1e8bad32e1ccd26a7936c5354ecf856aec2cf59)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
-set(Vulkan-Headers_TAG c896e2f920273bfee852da9cca2a356bc1c2031e)
+set(Vulkan-Headers_TAG 715673702f5b18ffb8e5832e67cf731468d32ac6)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG 7e9bafe52fe7a318f0c407f2d7976522b4935789)
+set(Vulkan-Profiles_TAG 6b5a848173caacb124a0cb1ff07cfc731b9db14d)
 
 set(volk_GITHUB zeux/volk)
 set(volk_TAG 37afa119a904d81a3495e6ef9c03151feff56349)
@@ -51,7 +51,7 @@ set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG 0bcc624926a25a2a273d07877fd25a6ff5ba1cfb)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 3a8a961cffb7699422a05dcbafdd721226b4547d)
+set(SPIRV-Tools_TAG 3c1a14b2b609ae5a352e39ef6b5baf8f64c32ec7)
 
 set(glslang_GITHUB KhronosGroup/glslang)
 set(glslang_TAG 10423ec659d301a0ff2daac8bbf38980abf27590)
@@ -63,4 +63,4 @@ set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG 47d56f28a9801911c048d011b375e5631dbb658f)
+set(Catch2_TAG 33e70194d32b8eb487b2f882b94353e0aed662cf)
