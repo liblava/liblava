@@ -11,7 +11,7 @@
 #include <liblava/resource/buffer.hpp>
 #include <liblava/resource/primitive.hpp>
 #include <liblava/util/log.hpp>
-#include <liblava/util/utility.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 

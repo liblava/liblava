@@ -40,7 +40,7 @@
 
 <br />
 
-| push constants ➜ shader | generating primitives | 
+| push constants to shader | generating primitives | 
 |:---------|---------:|
 | <a href="liblava-demo/lamp.cpp">![lamp](res/lamp/screenshot.png)</a> | <a href="liblava-demo/shapes.cpp">![shapes](res/shapes/screenshot.png)</a> | 
 | [![lamp](https://img.shields.io/badge/lava-lamp-brightgreen.svg)](liblava-demo/lamp.cpp) | [![shapes](https://img.shields.io/badge/lava-shapes-brightgreen.svg)](liblava-demo/shapes.cpp) | 
@@ -717,7 +717,7 @@ triangle = create_mesh<custom_vertex, false, false, true>
 
 *require* [core](#lava-core)
 
-[![log](https://img.shields.io/badge/lava-log-blue.svg)](liblava/util/log.hpp) [![random](https://img.shields.io/badge/lava-random-blue.svg)](liblava/util/random.hpp) [![telegram](https://img.shields.io/badge/lava-telegram-blue.svg)](liblava/util/telegram.hpp) [![thread](https://img.shields.io/badge/lava-thread-blue.svg)](liblava/util/thread.hpp) [![utility](https://img.shields.io/badge/lava-utility-blue.svg)](liblava/util/utility.hpp)
+[![log](https://img.shields.io/badge/lava-log-blue.svg)](liblava/util/log.hpp) [![misc](https://img.shields.io/badge/lava-misc-blue.svg)](liblava/util/misc.hpp) [![random](https://img.shields.io/badge/lava-random-blue.svg)](liblava/util/random.hpp) [![telegram](https://img.shields.io/badge/lava-telegram-blue.svg)](liblava/util/telegram.hpp) [![thread](https://img.shields.io/badge/lava-thread-blue.svg)](liblava/util/thread.hpp)
 
 ### lava [core](liblava/core)
 
@@ -1274,7 +1274,7 @@ python tool/update.py > tool/version.json
 
 * [PicoSHA2](https://github.com/okdshin/PicoSHA2) &nbsp; **A header-file-only SHA256 hash generator in C++** &nbsp; *MIT*
 
-  [![utility](https://img.shields.io/badge/lava-utility-blue.svg)](liblava/util/utility.hpp)
+  [![misc](https://img.shields.io/badge/lava-misc-blue.svg)](liblava/util/misc.hpp)
 
 * [shaderc](https://github.com/google/shaderc) &nbsp; **A collection of tools, libraries, and tests for Vulkan shader compilation** &nbsp; *Apache 2.0*
 

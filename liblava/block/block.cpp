@@ -7,7 +7,7 @@
 
 #include <liblava/block/block.hpp>
 #include <liblava/util/log.hpp>
-#include <liblava/util/utility.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 

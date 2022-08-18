@@ -7,7 +7,7 @@
 
 #include <liblava/base/instance.hpp>
 #include <liblava/frame/swapchain.hpp>
-#include <liblava/util/utility.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 

@@ -8,7 +8,7 @@
 #pragma once
 
 #include <liblava/core/id.hpp>
-#include <liblava/util/utility.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 

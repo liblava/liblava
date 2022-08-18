@@ -9,7 +9,7 @@
 #include <liblava/core/time.hpp>
 #include <liblava/frame/frame.hpp>
 #include <liblava/util/log.hpp>
-#include <liblava/util/utility.hpp>
+#include <liblava/util/misc.hpp>
 
 #if _WIN32 && LAVA_DEBUG
     #include <windows.h>

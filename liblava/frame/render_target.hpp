@@ -10,7 +10,7 @@
 #include <liblava/frame/swapchain.hpp>
 #include <liblava/fwd.hpp>
 #include <liblava/resource/format.hpp>
-#include <liblava/util/utility.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 

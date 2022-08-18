@@ -1,6 +1,6 @@
 /**
- * @file         liblava/util/utility.hpp
- * @brief        Container utilities
+ * @file         liblava/util/misc.hpp
+ * @brief        Miscellaneous helpers
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */

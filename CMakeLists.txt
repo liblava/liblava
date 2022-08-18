@@ -144,10 +144,10 @@ add_library(lava.util STATIC
   ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp
   ${LIBLAVA_DIR}/util/def.hpp
   ${LIBLAVA_DIR}/util/log.hpp
+  ${LIBLAVA_DIR}/util/misc.hpp
   ${LIBLAVA_DIR}/util/random.hpp
   ${LIBLAVA_DIR}/util/telegram.hpp
   ${LIBLAVA_DIR}/util/thread.hpp
-  ${LIBLAVA_DIR}/util/utility.hpp
   )
 
 target_include_directories(lava.util PUBLIC

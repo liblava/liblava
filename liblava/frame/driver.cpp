@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <liblava/frame/driver.hpp>
-#include <liblava/util/utility.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 

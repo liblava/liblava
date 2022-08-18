@@ -8,7 +8,7 @@
 #include <liblava/resource/format.hpp>
 #include <liblava/resource/texture.hpp>
 #include <liblava/util/log.hpp>
-#include <liblava/util/utility.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 
