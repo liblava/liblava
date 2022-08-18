@@ -7,6 +7,7 @@
 
 #include <liblava/app/benchmark.hpp>
 #include <liblava/file.hpp>
+#include <liblava/util/utility.hpp>
 
 namespace lava {
 

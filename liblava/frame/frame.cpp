@@ -6,7 +6,10 @@
  */
 
 #include <liblava/base/memory.hpp>
+#include <liblava/core/time.hpp>
 #include <liblava/frame/frame.hpp>
+#include <liblava/util/log.hpp>
+#include <liblava/util/utility.hpp>
 
 #if _WIN32 && LAVA_DEBUG
     #include <windows.h>
@@ -73,7 +76,7 @@ void handle_env(frame_env& env) {
             env.debug.verbose = true;
     }
 
-    set_log(setup_log(env.log));
+    global_logger::singleton().set(setup_log(env.log));
 
     if (internal_version{} != env.info.app_version) {
         log()->info(">>> {} / {} - {} / {} - {} {}", version_string(),
@@ -170,7 +173,7 @@ void frame::teardown() {
     log()->info("<<<");
     log()->flush();
 
-    reset_log();
+    global_logger::singleton().reset();
     teardown_log(env.log);
 
     initialized = false;

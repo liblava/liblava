@@ -10,6 +10,7 @@
 #include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
 #include <liblava/base/platform.hpp>
+#include <liblava/core/time.hpp>
 #include <liblava/frame/argh.hpp>
 
 namespace lava {

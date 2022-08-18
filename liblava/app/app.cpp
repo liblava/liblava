@@ -10,6 +10,7 @@
 #include <liblava/app/def.hpp>
 #include <liblava/asset/write_image.hpp>
 #include <liblava/base/debug_utils.hpp>
+#include <liblava/util/thread.hpp>
 
 namespace lava {
 

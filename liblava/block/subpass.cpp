@@ -6,6 +6,7 @@
  */
 
 #include <liblava/block/subpass.hpp>
+#include <liblava/util/utility.hpp>
 
 namespace lava {
 

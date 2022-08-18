@@ -8,6 +8,7 @@
 #pragma once
 
 #include <liblava/base/base.hpp>
+#include <liblava/util/log.hpp>
 #include <vulkan/vulkan_profiles.hpp>
 
 namespace lava {

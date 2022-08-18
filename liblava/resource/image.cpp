@@ -7,6 +7,7 @@
 
 #include <liblava/resource/format.hpp>
 #include <liblava/resource/image.hpp>
+#include <liblava/util/log.hpp>
 
 namespace lava {
 

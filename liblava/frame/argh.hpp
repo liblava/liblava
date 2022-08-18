@@ -8,7 +8,7 @@
 #pragma once
 
 #include <argh.h>
-#include <liblava/base/base.hpp>
+#include <liblava/util/log.hpp>
 
 namespace lava {
 

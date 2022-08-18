@@ -6,6 +6,7 @@
  */
 
 #include <liblava/block/render_pass.hpp>
+#include <liblava/util/log.hpp>
 
 namespace lava {
 

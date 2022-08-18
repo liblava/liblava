@@ -6,6 +6,7 @@
  */
 
 #include <liblava/block/compute_pipeline.hpp>
+#include <liblava/util/log.hpp>
 
 namespace lava {
 

@@ -6,6 +6,7 @@
  */
 
 #include <liblava/resource/buffer.hpp>
+#include <liblava/util/log.hpp>
 
 namespace lava {
 

@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <deque>
 #include <liblava/base/base.hpp>
 
 namespace lava {

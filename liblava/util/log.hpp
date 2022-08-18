@@ -12,6 +12,7 @@
 #include <spdlog/spdlog.h>
 #include <liblava/core/version.hpp>
 #include <liblava/util/def.hpp>
+#include <memory>
 
 namespace lava {
 
@@ -152,6 +153,59 @@ inline logger setup_log(log_config config = {}) {
  */
 inline void teardown_log(log_config config = {}) {
     spdlog::drop(config.logger);
+}
+
+/**
+ * @brief Global logger
+ */
+struct global_logger {
+    /**
+     * @brief Get global logger singleton
+     *
+     * @return log_global&    Global logger
+     */
+    static global_logger& singleton() {
+        static global_logger global_logger;
+        return global_logger;
+    }
+
+    /**
+     * @brief Get logger
+     *
+     * @return logger    Logger
+     */
+    logger get() {
+        return log;
+    }
+
+    /**
+     * @brief Set logger
+     *
+     * @param l    Logger
+     */
+    void set(lava::logger l) {
+        log = l;
+    }
+
+    /**
+     * @brief Reset logger
+     */
+    void reset() {
+        log = nullptr;
+    }
+
+private:
+    /// Logger
+    logger log;
+};
+
+/**
+ * @brief Get global logger
+ *
+ * @return logger    Logger
+ */
+inline logger log() {
+    return global_logger::singleton().get();
 }
 
 } // namespace lava

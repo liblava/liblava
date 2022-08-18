@@ -8,7 +8,7 @@
 #pragma once
 
 #include <liblava/core/math.hpp>
-#include <liblava/util.hpp>
+#include <liblava/core/version.hpp>
 
 // clang-format off
 
@@ -19,25 +19,6 @@
 // clang-format on
 
 namespace lava {
-
-/**
- * @brief Set global logger
- *
- * @param log    Logger
- */
-void set_log(logger log);
-
-/**
- * @brief Reset global logger
- */
-void reset_log();
-
-/**
- * @brief Get global logger
- *
- * @return logger    Logger
- */
-logger log();
 
 /// Vulkan object handle
 using VkObjectHandle = ui64;
