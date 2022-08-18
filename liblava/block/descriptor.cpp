@@ -5,6 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include <array>
 #include <liblava/block/descriptor.hpp>
 
 namespace lava {
