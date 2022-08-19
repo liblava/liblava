@@ -236,8 +236,6 @@ private:
 
     /**
      * @brief Set up run
-     * @return true       Setup was successful
-     * @return false      Setup failed
      */
     void setup_run();
 
