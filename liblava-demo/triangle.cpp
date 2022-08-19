@@ -10,12 +10,18 @@
 
 using namespace lava;
 
-/// Vertex shader
+/**
+ * @brief Vertex shader
+ * Generate: glslangValidator -V -x -o res/triangle/vertex.u32 res/triangle/triangle.vert
+ */
 ui32 vert_shader[] = {
 #include "res/triangle/vertex.u32"
 };
 
-/// Fragment shader
+/**
+ * @brief Fragment shader
+ * Generate: glslangValidator -V -x -o res/triangle/fragment.u32 res/triangle/triangle.frag
+ */
 ui32 frag_shader[] = {
 #include "res/triangle/fragment.u32"
 };
