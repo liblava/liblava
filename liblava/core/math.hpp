@@ -45,6 +45,9 @@ using iv3 = glm::ivec3;
  * @brief Rectangle
  */
 struct rect {
+    /// Reference to rect
+    using ref = rect const&;
+
     /**
      * @brief Construct a new rectangle
      */

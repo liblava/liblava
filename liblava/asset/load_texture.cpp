@@ -328,8 +328,8 @@ texture::ptr create_default_texture(device_p device,
         for (auto x = 0u; x < size.x; ++x) {
             auto const index = (x * block_size)
                                + (y * size.y * block_size);
-            if ((y % 128 < 64 && x % 128 < 64)
-                || (y % 128 >= 64 && x % 128 >= 64)) {
+            if (((y % 128 < 64) && (x % 128 < 64))
+                || ((y % 128 >= 64) && (x % 128 >= 64))) {
                 data.ptr[index] = color_r;
                 data.ptr[index + 1] = color_g;
                 data.ptr[index + 2] = color_b;
