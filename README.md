@@ -1,12 +1,12 @@
 <br />
 
 <a href="https://git.io/liblava">
-    <img align="left" src="res/doc/liblava_200px.png" width="110">
+    <img align="left" src="docs/assets/liblava_200px.png" width="110">
 </a>
 
 <br />
 
-<a href="https://git.io/liblava"><img src="res/doc/liblava.svg"></a>
+<a href="https://git.io/liblava"><img src="docs/assets/liblava.svg"></a>
 
 **A modern and easy-to-use library for the Vulkan® API**
 
@@ -69,10 +69,6 @@
 
 # In a nutshell
 
-<a href="#3-modules">
-    <img align="right" src="res/doc/liblava_200px.png" width="120">
-</a>
-
 * written in **modern C++** with latest **Vulkan support**
 * **run loop** abstraction for **window** and **input** handling
 * plain **renderer** and  **command buffer** model
@@ -88,7 +84,7 @@
 
 ## Tutorial
 
-<a href="https://www.vulkan.org/" target="_blank"><img align="right" hspace="20" src="res/doc/Vulkan_170px_Dec16.png" width="300"></a>
+<a href="https://www.vulkan.org/" target="_blank"><img align="right" hspace="20" src="docs/assets/Vulkan_170px_Dec16.png" width="300"></a>
 
 **Hello World** in **Vulkan**? &nbsp; Let's go!
 
@@ -730,7 +726,7 @@ triangle = create_mesh<custom_vertex, false, false, true>
 To generate the documentation with [Doxygen](https://www.doxygen.nl) run:
 
 ```bash
-doxygen tool/doxygen.conf
+doxygen docs/doxygen.conf
 ```
 
 Here you can find the **latest** ➜ [doc.lava-block.com](https://doc.lava-block.com)
@@ -1332,7 +1328,7 @@ You can find the demonstration projects in the `liblava-demo` folder.
 
 # License
 
-<a href="https://opensource.org" target="_blank"><img align="right" width="90" src="res/doc/OSI-Approved-License-100x137.png" style="margin:0px 0px 0px 80px"></a>
+<a href="https://opensource.org" target="_blank"><img align="right" width="90" src="docs/assets/OSI-Approved-License-100x137.png" style="margin:0px 0px 0px 80px"></a>
 
 **liblava** is licensed under [MIT License](LICENSE) which allows you to use the software
 <br />
@@ -1352,4 +1348,4 @@ Copyright (c) 2018-present • <a href="https://lava-block.com">Lava Block OÜ</
 
 <br />
 
-<a href="https://git.io/liblava"><img src="res/doc/liblava_200px.png" width="50"></a>
+<a href="https://git.io/liblava"><img src="docs/assets/liblava_200px.png" width="50"></a>
