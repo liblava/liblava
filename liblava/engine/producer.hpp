@@ -21,27 +21,21 @@ struct producer {
 
     /**
      * @brief Create a mesh product
-     *
      * @param mesh_type     Type of mesh
-     *
      * @return mesh::ptr    Mesh
      */
     mesh::ptr create_mesh(mesh_type mesh_type);
 
     /**
      * @brief Get mesh by prop name
-     *
      * @param name          Name of prop
-     *
      * @return mesh::ptr    Mesh
      */
     mesh::ptr get_mesh(string_ref name);
 
     /**
      * @brief Add mesh to products
-     *
      * @param mesh      Mesh
-     *
      * @return true     Added to products
      * @return false    Already exists
      */
@@ -49,27 +43,21 @@ struct producer {
 
     /**
      * @brief Create a texture product
-     *
      * @param size             Size of texture
-     *
      * @return texture::ptr    Default texture
      */
     texture::ptr create_texture(uv2 size);
 
     /**
      * @brief Get texture by prop name
-     *
      * @param name             Name of prop
-     *
      * @return texture::ptr    Texture
      */
     texture::ptr get_texture(string_ref name);
 
     /**
      * @brief Add texture to products
-     *
      * @param product    Texture
-     *
      * @return true      Added to products
      * @return false     Already exists
      */
@@ -77,10 +65,8 @@ struct producer {
 
     /**
      * @brief Generate shader by prop name
-     *
      * @param name      Name of shader
      * @param reload    Reload shader
-     *
      * @return cdata    Shader data
      */
     cdata get_shader(string_ref name,
@@ -88,9 +74,7 @@ struct producer {
 
     /**
      * @brief Regenerate shader by prop name
-     *
      * @param name      Name of shader
-     *
      * @return cdata    Shader data
      */
     cdata reload_shader(string_ref name) {
@@ -99,11 +83,9 @@ struct producer {
 
     /**
      * @brief Compile shader
-     *
      * @param product         Shader data
      * @param name            Shader name
      * @param filename        Shader filename
-     *
      * @return data           Compiled shader data
      */
     data compile_shader(cdata product,
@@ -155,7 +137,6 @@ struct producer {
 private:
     /**
      * @brief Update file hash
-     *
      * @param name             Target file
      * @param file_hash_map    Map of used files with hash
      */
@@ -164,9 +145,7 @@ private:
 
     /**
      * @brief Check if shader file(s) changed
-     *
      * @param name      Name of shader
-     *
      * @return true     Shader is valid
      * @return false    Shader has changed
      */

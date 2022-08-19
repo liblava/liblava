@@ -75,7 +75,6 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Instance singleton
-     *
      * @return instance&    Instance
      */
     static instance& singleton() {
@@ -85,12 +84,10 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Create a new instance
-     *
      * @param param      Create parameters
      * @param debug      Debug configuration
      * @param info       Instance information
      * @param profile    Profile information (optional)
-     *
      * @return true      Create was successful
      * @return false     Create failed
      */
@@ -106,7 +103,6 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Get the physical devices
-     *
      * @return physical_device::list const&    List of physical devices
      */
     physical_device::list const& get_physical_devices() const {
@@ -115,7 +111,6 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Get the first physical device
-     *
      * @return physical_device::ref    Physcial device
      */
     physical_device::ref get_first_physical_device() const {
@@ -124,7 +119,6 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Get the Vulkan instance
-     *
      * @return VkInstance    Vulkan instance
      */
     VkInstance get() const {
@@ -133,7 +127,6 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Get the debug configuration
-     *
      * @return debug_config::ref    Debug configuration
      */
     debug_config::ref get_debug_config() const {
@@ -142,7 +135,6 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Get the instance information
-     *
      * @return instance_info::ref    Instance information
      */
     instance_info::ref get_info() const {
@@ -151,7 +143,6 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Check if profile information is set
-     *
      * @return true     Profile is set
      * @return false    Profile is not set
      */
@@ -161,7 +152,6 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Get the profile information
-     *
      * @return profile_info    Profile information
      */
     profile_info get_profile() const {
@@ -181,9 +171,7 @@ private:
 
     /**
      * @brief Check the debug configuration and create parameters
-     *
      * @param param     Create parameters
-     *
      * @return true     Check was successful
      * @return false    Check failed
      */
@@ -191,7 +179,6 @@ private:
 
     /**
      * @brief Enumerate all available physical devices
-     *
      * @return true     Enumerate was successful
      * @return false    Enumerate failed
      */
@@ -199,7 +186,6 @@ private:
 
     /**
      * @brief Create a validation report
-     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -231,9 +217,7 @@ private:
 
 /**
  * @brief Check instance create parameters
- *
  * @param param     Create parameters
- *
  * @return true     Check was successful
  * @return false    Check failed
  */
@@ -241,23 +225,19 @@ bool check(instance::create_param::ref param);
 
 /**
  * @brief Get the instance version
- *
  * @return internal_version    Version
  */
 internal_version get_instance_version();
 
 /**
  * @brief Enumerate enabled layer properties
- *
  * @return VkLayerPropertiesList    List of layer properties
  */
 VkLayerPropertiesList enumerate_layer_properties();
 
 /**
  * @brief Enumerate enabled extension properties
- *
  * @param layer_name                    Name of layer
- *
  * @return VkExtensionPropertiesList    List of extension properties
  */
 VkExtensionPropertiesList enumerate_extension_properties(name layer_name = nullptr);

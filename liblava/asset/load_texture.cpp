@@ -40,12 +40,10 @@ namespace lava {
 
 /**
  * @brief Create a gli 2D texture
- *
  * @param device           Vulkan device
  * @param file             File to load
  * @param format           Format of texture
  * @param temp_data        Data of texture
- *
  * @return texture::ptr    Loaded texture
  */
 texture::ptr create_gli_texture_2d(device_p device,
@@ -93,10 +91,8 @@ texture::ptr create_gli_texture_2d(device_p device,
 
 /**
  * @brief Create a layer list for a texture
- *
  * @param tex                      Target texture
  * @param layer_count              Number of layers
- *
  * @return texture::layer::list    List of texture layers
  */
 texture::layer::list create_layer_list(auto const& tex, ui32 layer_count) {
@@ -124,12 +120,10 @@ texture::layer::list create_layer_list(auto const& tex, ui32 layer_count) {
 
 /**
  * @brief Create a gli array texture
- *
  * @param device           Vulkan device
  * @param file             File to load
  * @param format           Format of texture
  * @param temp_data        Data of texture
- *
  * @return texture::ptr    Loaded texture
  */
 texture::ptr create_gli_texture_array(device_p device,
@@ -163,12 +157,10 @@ texture::ptr create_gli_texture_array(device_p device,
 
 /**
  * @brief Create a gli cube map texture
- *
  * @param device           Vulkan device
  * @param file             File to load
  * @param format           Format of texture
  * @param temp_data        Data of texture
- *
  * @return texture::ptr    Loaded texture
  */
 texture::ptr create_gli_texture_cube_map(device_p device,
@@ -202,11 +194,9 @@ texture::ptr create_gli_texture_cube_map(device_p device,
 
 /**
  * @brief Create a stbi texture
- *
  * @param device           Vulkan device
  * @param file             File to load
  * @param temp_data        Data of texture
- *
  * @return texture::ptr    Loaded texture
  */
 texture::ptr create_stbi_texture(device_p device,

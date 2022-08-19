@@ -58,7 +58,6 @@ struct hex_cell {
 
     /**
      * @brief Get the pair
-     *
      * @return pair    Hex pair
      */
     inline pair to_pair() const {
@@ -67,7 +66,6 @@ struct hex_cell {
 
     /**
      * @brief Add hex cell
-     *
      * @param cell    Another hex cell
      */
     inline void add(hex_cell const& cell) {
@@ -78,7 +76,6 @@ struct hex_cell {
 
     /**
      * @brief Substract hex cell
-     *
      * @param cell    Another hex cell
      */
     inline void substract(hex_cell const& cell) {
@@ -89,7 +86,6 @@ struct hex_cell {
 
     /**
      * @brief Scale the hex cell
-     *
      * @param factor    Scaling factor
      */
     inline void scale(i32 factor) {
@@ -115,10 +111,8 @@ struct hex_cell {
 
 /**
  * @brief Get S axis from Q and R axes
- *
  * @param q       Q axis
  * @param r       R axis
- *
  * @return i32    S axis
  */
 inline i32 hex_get_s(i32 q, i32 r) {
@@ -127,9 +121,7 @@ inline i32 hex_get_s(i32 q, i32 r) {
 
 /**
  * @brief Get hex cell from pair
- *
  * @param pair         Hex pair
- *
  * @return hex_cell    Hex cell
  */
 inline hex_cell hex_cell_from_pair(hex_cell::pair const& pair) {
@@ -156,9 +148,7 @@ using hex_frac_cell = hex_fractional_cell;
 
 /**
  * @brief Check if hex cell is valid
- *
  * @param cell      Hex cell to check
- *
  * @return true     Hex cell is valid
  * @return false    Hex cell is invalid
  */
@@ -238,9 +228,7 @@ hex_cell::list const hex_directions{
 
 /**
  * @brief Get the hex cell from direction
- *
  * @param direction    Direction index
- *
  * @return hex_cell    Hex cell
  */
 inline hex_cell hex_direction(index direction) {
@@ -249,10 +237,8 @@ inline hex_cell hex_direction(index direction) {
 
 /**
  * @brief Get the neighbor of hex cell by direction
- *
  * @param cell         Target hex cell
  * @param direction    Direction index
- *
  * @return hex_cell    Neighbor hex cell
  */
 inline hex_cell hex_neighbor(hex_cell const& cell,
@@ -274,9 +260,7 @@ hex_cell::list const hex_diagonals{
 
 /**
  * @brief Get the diagonal from direction
- *
  * @param direction    Direction index
- *
  * @return hex_cell    Hex cell
  */
 inline hex_cell hex_diagonal(index direction) {
@@ -285,10 +269,8 @@ inline hex_cell hex_diagonal(index direction) {
 
 /**
  * @brief Get the diagonal neighbor of hex cell by direction
- *
  * @param cell         Target hex cell
  * @param direction    Direction index
- *
  * @return hex_cell    Diagonal neighbor hex cell
  */
 inline hex_cell hex_diagonal_neighbor(hex_cell const& cell,
@@ -300,9 +282,7 @@ inline hex_cell hex_diagonal_neighbor(hex_cell const& cell,
 
 /**
  * @brief Get the length of hex cell
- *
  * @param cell    Target hex cell
- *
  * @return i32    Length of hex cell
  */
 inline i32 hex_length(hex_cell const& cell) {
@@ -313,10 +293,8 @@ inline i32 hex_length(hex_cell const& cell) {
 
 /**
  * @brief Get the distance between 2 hex cells
- *
  * @param a       Source hex cell
  * @param b       Target hex cell
- *
  * @return i32    Distance
  */
 inline i32 hex_distance(hex_cell const& a,
@@ -328,9 +306,7 @@ inline i32 hex_distance(hex_cell const& a,
 
 /**
  * @brief Round a fractional cell to hex cell
- *
  * @param cell         Target fractional cell
- *
  * @return hex_cell    Rounded hex cell
  */
 inline hex_cell hex_round(hex_frac_cell const& cell) {
@@ -354,11 +330,9 @@ inline hex_cell hex_round(hex_frac_cell const& cell) {
 
 /**
  * @brief Get the linear interpolation between 2 hex cells
- *
  * @param a                 Source fractional hex cell
  * @param b                 Target fractional hex cell
  * @param t                 Factor
- *
  * @return hex_frac_cell    Fractional hex cell
  */
 inline hex_frac_cell hex_lerp(hex_frac_cell const& a,
@@ -373,10 +347,8 @@ inline hex_frac_cell hex_lerp(hex_frac_cell const& a,
 
 /**
  * @brief Get the line between 2 hex cells
- *
  * @param a                  Source hex cell
  * @param b                  Target hex cell
- *
  * @return hex_cell::list    List of hex cells
  */
 inline hex_cell::list hex_line(hex_cell const& a,
@@ -410,10 +382,8 @@ enum class hex_offset : i32 {
 
 /**
  * @brief Get the Q offset from hex cube
- *
  * @param offset               Hex offset
  * @param cell                 Hex cell
- *
  * @return hex_offset_coord    Hex offset coordinates
  */
 inline hex_offset_coord hex_q_offset_from_cube(hex_offset offset,
@@ -426,10 +396,8 @@ inline hex_offset_coord hex_q_offset_from_cube(hex_offset offset,
 
 /**
  * @brief Get the Q offset to hex cube
- *
  * @param offset       Hex offset
  * @param coord        Hex offset coordinates
- *
  * @return hex_cell    Hex cell
  */
 inline hex_cell hex_q_offset_to_cube(hex_offset offset,
@@ -443,10 +411,8 @@ inline hex_cell hex_q_offset_to_cube(hex_offset offset,
 
 /**
  * @brief Get the R offset from hex cube
- *
  * @param offset               Hex offset
  * @param cell                 Hex cell
- *
  * @return hex_offset_coord    Hex offset coordinates
  */
 inline hex_offset_coord hex_r_offset_from_cube(hex_offset offset,
@@ -459,10 +425,8 @@ inline hex_offset_coord hex_r_offset_from_cube(hex_offset offset,
 
 /**
  * @brief Get the R offset to hex cube
- *
  * @param offset       Hex offset
  * @param coord        Hex offset coordinates
- *
  * @return hex_cell    Hex cell
  */
 inline hex_cell hex_r_offset_to_cube(hex_offset offset,
@@ -476,9 +440,7 @@ inline hex_cell hex_r_offset_to_cube(hex_offset offset,
 
 /**
  * @brief Get the Q doubled from hex cube
- *
  * @param cell                  Hex cell
- *
  * @return hex_doubled_coord    Hex doubled coordinates
  */
 inline hex_doubled_coord hex_q_doubled_from_cube(hex_cell const& cell) {
@@ -489,9 +451,7 @@ inline hex_doubled_coord hex_q_doubled_from_cube(hex_cell const& cell) {
 
 /**
  * @brief Get the Q doubled to hex cube
- *
  * @param coord        Hex doubled coordinates
- *
  * @return hex_cell    Hex cell
  */
 inline hex_cell hex_q_doubled_to_cube(hex_doubled_coord const& coord) {
@@ -503,9 +463,7 @@ inline hex_cell hex_q_doubled_to_cube(hex_doubled_coord const& coord) {
 
 /**
  * @brief Get the R offset from hex cube
- *
  * @param cell                  Hex cell
- *
  * @return hex_doubled_coord    Hex doubled coordinates
  */
 inline hex_doubled_coord hex_r_doubled_from_cube(hex_cell const& cell) {
@@ -516,9 +474,7 @@ inline hex_doubled_coord hex_r_doubled_from_cube(hex_cell const& cell) {
 
 /**
  * @brief Get the R doubled to hex cube
- *
  * @param coord        Hex doubled coordinates
- *
  * @return hex_cell    Hex cell
  */
 inline hex_cell hex_r_doubled_to_cube(hex_doubled_coord const& coord) {
@@ -556,10 +512,8 @@ hex_orientation const hex_layout_flat = {
 
 /**
  * @brief Convert the hex cell to pixel
- *
  * @param layout        Hex layout
  * @param cell          Hex cell
- *
  * @return hex_point    Hex point
  */
 inline hex_point hex_to_pixel(hex_layout const& layout,
@@ -574,10 +528,8 @@ inline hex_point hex_to_pixel(hex_layout const& layout,
 
 /**
  * @brief Convert the hex point to cell
- *
  * @param layout            Hex layout
  * @param p                 Hex point
- *
  * @return hex_frac_cell    Hex fractional cell
  */
 inline hex_frac_cell hex_pixel_to_cell(hex_layout const& layout,
@@ -594,10 +546,8 @@ inline hex_frac_cell hex_pixel_to_cell(hex_layout const& layout,
 
 /**
  * @brief Get the hex corner offset
- *
  * @param layout        Hex layout
  * @param corner        Corner
- *
  * @return hex_point    Hex point
  */
 inline hex_point hex_corner_offset(hex_layout const& layout,
@@ -613,10 +563,8 @@ inline hex_point hex_corner_offset(hex_layout const& layout,
 
 /**
  * @brief Get the hex polygon corners
- *
  * @param layout              Hex layout
  * @param cell                Hex cell
- *
  * @return hex_point::list    List of hex points
  */
 inline hex_point::list hex_polygon_corners(hex_layout const& layout,
@@ -633,11 +581,9 @@ inline hex_point::list hex_polygon_corners(hex_layout const& layout,
 
 /**
  * @brief Get the hex point by corner
- *
  * @param center        Center hex point
  * @param size          Size of hex cell
  * @param corner        Corner
- *
  * @return hex_point    Hex point
  */
 inline hex_point hex_get_corner(hex_point const& center,
@@ -666,9 +612,7 @@ enum class hex_cardinal_direction : type {
 
 /**
  * @brief Convert hex cardinal direction to string
- *
  * @param direction    Hex cardinal direction
- *
  * @return string      String representation
  */
 inline string to_string(hex_cardinal_direction direction) {
@@ -706,9 +650,7 @@ hex_cell::list const hex_cardinal_directions{
 
 /**
  * @brief Get the hex cell from cardinal direction
- *
  * @param direction    Hex cardinal direction
- *
  * @return hex_cell    Hex cell
  */
 inline hex_cell hex_get(hex_cardinal_direction direction) {
@@ -717,9 +659,7 @@ inline hex_cell hex_get(hex_cardinal_direction direction) {
 
 /**
  * @brief Get the opposite cardinal direction
- *
  * @param direction                  Hex cardinal direction
- *
  * @return hex_cardinal_direction    Hex cardinal direction
  */
 inline hex_cardinal_direction hex_opposite(hex_cardinal_direction direction) {
@@ -737,9 +677,7 @@ r32 const hex_default_outer_radius = 1.f;
 
 /**
  * @brief Get the hex inner radius from outer radius
- *
  * @param outer_radius    Hex outer radius
- *
  * @return r32            Hex inner radius
  */
 inline r32 hex_calculate_inner_radius(r32 outer_radius) {
@@ -761,7 +699,6 @@ struct hex_grid {
 
     /**
      * @brief Construct a new hex grid
-     *
      * @param radius    Hex outer radius
      */
     hex_grid(r32 radius = hex_default_outer_radius)
@@ -781,10 +718,8 @@ struct hex_grid {
 
     /**
      * @brief Find the hex cell from X and Y coordinates
-     *
      * @param x            X coordinate
      * @param y            Y coordinate
-     *
      * @return hex_cell    Hex cell
      */
     hex_cell find(r32 x, r32 y) const {
@@ -794,9 +729,7 @@ struct hex_grid {
 
     /**
      * @brief Get the hex point from hex cell
-     *
      * @param cell          Hex cell
-     *
      * @return hex_point    Hex point
      */
     hex_point to_pixel(hex_cell const& cell) const {
@@ -805,9 +738,7 @@ struct hex_grid {
 
     /**
      * @brief Get the hex offset coordinates
-     *
      * @param cell                 Hex cell
-     *
      * @return hex_offset_coord    Hex offset coordinates
      */
     hex_offset_coord get(hex_cell const& cell) const {
@@ -816,11 +747,9 @@ struct hex_grid {
 
     /**
      * @brief Get the hex offset coordinates
-     *
      * @param x                    X coordinate
      * @param y                    Y coordinate
      * @param z                    Z coordinate
-     *
      * @return hex_offset_coord    Hex offset coordinates
      */
     hex_offset_coord get(i32 x, i32 y, i32 z) const {

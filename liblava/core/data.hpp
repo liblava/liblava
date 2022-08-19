@@ -49,9 +49,7 @@ struct data_provider {
 
 /**
  * @brief Cast to data pointer
- *
  * @param value        Value to cast
- *
  * @return data_ptr    Data pointer
  */
 inline data_ptr as_ptr(auto* value) {
@@ -60,10 +58,8 @@ inline data_ptr as_ptr(auto* value) {
 
 /**
  * @brief Align value up
- *
  * @param value    Value to align
  * @param align    Target alignment
- *
  * @return auto    Aligned value
  */
 inline auto align_up(auto value,
@@ -73,10 +69,8 @@ inline auto align_up(auto value,
 
 /**
  * @brief Align a size
- *
  * @param size       Site to align
  * @param min        Minimal alignment
- *
  * @return size_t    Aligned size
  */
 inline size_t align(size_t size,
@@ -89,11 +83,8 @@ inline size_t align(size_t size,
 
 /**
  * @brief Get alignment of type
- *
  * @tparam T         Type to align
- *
  * @param min        Minimal alignment
- *
  * @return size_t    Aligned size
  */
 template<typename T>
@@ -103,10 +94,8 @@ inline size_t align(size_t min = 0) {
 
 /**
  * @brief Allocate data
- *
  * @param size         Size of data
  * @param alignment    Target alignment
- *
  * @return void*       Allocated data
  */
 inline void* alloc_data(size_t size,
@@ -124,7 +113,6 @@ inline void* alloc_data(size_t size,
 
 /**
  * @brief Free data
- *
  * @param data    Data to free
  */
 inline void free_data(void* data) {
@@ -137,11 +125,9 @@ inline void free_data(void* data) {
 
 /**
  * @brief Reallocate data
- *
  * @param data         Data to reallocate
  * @param size         Size of data
  * @param alignment    Target alignment
- *
  * @return void*       Reallocated data
  */
 inline void* realloc_data(void* data,
@@ -176,7 +162,6 @@ struct data {
 
     /**
      * @brief Construct a new data
-     *
      * @param ptr     Data pointer
      * @param size    Size of data
      */
@@ -185,7 +170,6 @@ struct data {
 
     /**
      * @brief Set and allocate data by length
-     *
      * @param length   Length of data
      * @param mode     Data mode
      */
@@ -200,7 +184,6 @@ struct data {
 
     /**
      * @brief Allocate data
-     *
      * @return true     Allocate was successful
      * @return false    Allocate failed
      */
@@ -222,7 +205,6 @@ struct data {
 
     /**
      * @brief Pointer to end of data
-     *
      * @return data_ptr    Pointer to end
      */
     data_ptr end() const {
@@ -253,7 +235,6 @@ struct cdata {
 
     /**
      * @brief Construct a new const data
-     *
      * @param ptr       Pointer to data
      * @param length    Length of data
      */
@@ -263,7 +244,6 @@ struct cdata {
 
     /**
      * @brief Construct a new const data from other data
-     *
      * @param data    Source data
      */
     cdata(data::ref data)
@@ -285,7 +265,6 @@ struct unique_data : data {
 
     /**
      * @brief Construct a new unique data
-     *
      * @param length    Length of data
      * @param mode      Data mode
      */
@@ -297,7 +276,6 @@ struct unique_data : data {
 
     /**
      * @brief Construct a new unique data from another data
-     *
      * @param data    Source data
      */
     explicit unique_data(data::ref data) {
@@ -316,9 +294,7 @@ struct unique_data : data {
 
 /**
  * @brief Get next power of two
- *
  * @param x          Source value
- *
  * @return size_t    Next power of two
  */
 inline size_t next_pow_2(size_t x) {
@@ -339,9 +315,7 @@ inline size_t next_pow_2(size_t x) {
 
 /**
  * @brief Convert data size to human readable string
- *
  * @param sz        Size to convert
- *
  * @return char*    Human readable size string
  */
 inline char* human_readable(size_t const sz) {

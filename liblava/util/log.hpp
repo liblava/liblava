@@ -21,10 +21,8 @@ using logger = std::shared_ptr<spdlog::logger>;
 
 /**
  * @brief Convert id and name to string
- *
  * @param id         Id to convert
  * @param name       Name to convert
- *
  * @return string    String representation
  */
 inline string to_string(string_ref id, string_ref name) {
@@ -33,9 +31,7 @@ inline string to_string(string_ref id, string_ref name) {
 
 /**
  * @brief Convert internal version to string
- *
  * @param version    Internal version to convert
- *
  * @return string    String representation
  */
 inline string to_string(internal_version const& version) {
@@ -47,7 +43,6 @@ inline string to_string(internal_version const& version) {
 
 /**
  * @brief Convert global internal version to string
- *
  * @return string    String representation
  */
 inline string internal_version_string() {
@@ -56,9 +51,7 @@ inline string internal_version_string() {
 
 /**
  * @brief Convert version stage to string
- *
  * @param stage    Version stage to convert
- *
  * @return name    Name representation
  */
 inline name to_string(version_stage stage) {
@@ -78,9 +71,7 @@ inline name to_string(version_stage stage) {
 
 /**
  * @brief Convert version to string
- *
  * @param version    Version to convert
- *
  * @return string    String representation
  */
 inline string to_string(version const& version) {
@@ -101,7 +92,6 @@ inline string to_string(version const& version) {
 
 /**
  * @brief Convert global version to string
- *
  * @return string    String representation
  */
 inline string version_string() {
@@ -127,7 +117,6 @@ struct log_config {
 
 /**
  * @brief Set up logging
- *
  * @param config    Log configuration
  */
 inline logger setup_log(log_config config = {}) {
@@ -148,7 +137,6 @@ inline logger setup_log(log_config config = {}) {
 
 /**
  * @brief Tear down logging
- *
  * @param config    Log configuration
  */
 inline void teardown_log(log_config config = {}) {
@@ -161,7 +149,6 @@ inline void teardown_log(log_config config = {}) {
 struct global_logger {
     /**
      * @brief Get global logger singleton
-     *
      * @return log_global&    Global logger
      */
     static global_logger& singleton() {
@@ -171,7 +158,6 @@ struct global_logger {
 
     /**
      * @brief Get logger
-     *
      * @return logger    Logger
      */
     logger get() {
@@ -180,7 +166,6 @@ struct global_logger {
 
     /**
      * @brief Set logger
-     *
      * @param l    Logger
      */
     void set(lava::logger l) {
@@ -201,7 +186,6 @@ private:
 
 /**
  * @brief Get global logger
- *
  * @return logger    Logger
  */
 inline logger log() {

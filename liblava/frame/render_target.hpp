@@ -23,13 +23,11 @@ struct render_target : entity {
 
     /**
      * @brief Create a new render target
-     *
      * @param device     Vulkan device
      * @param surface    Vulkan surface
      * @param format     Surface format
      * @param size       Size of target
      * @param v_sync     V-Sync enabled
-     *
      * @return true      Create was successful
      * @return false     Create failed
      */
@@ -46,7 +44,6 @@ struct render_target : entity {
 
     /**
      * @brief Get the size of the render target
-     *
      * @return uv2    Size of render target
      */
     uv2 get_size() const {
@@ -55,9 +52,7 @@ struct render_target : entity {
 
     /**
      * @brief Resize the render target
-     *
      * @param new_size    New render target size
-     *
      * @return true       Resize was successful
      * @return false      Resize failed
      */
@@ -67,7 +62,6 @@ struct render_target : entity {
 
     /**
      * @brief Get the frame count
-     *
      * @return ui32    Number of frames
      */
     ui32 get_frame_count() const {
@@ -76,7 +70,6 @@ struct render_target : entity {
 
     /**
      * @brief Check if render target requests a reload
-     *
      * @return true     Request reload
      * @return false    No reload requested
      */
@@ -93,7 +86,6 @@ struct render_target : entity {
 
     /**
      * @brief Get the device
-     *
      * @return device_p    Vulkan device
      */
     device_p get_device() {
@@ -102,7 +94,6 @@ struct render_target : entity {
 
     /**
      * @brief Get the swapchain
-     *
      * @return swapchain*    Target swapchain
      */
     swapchain* get_swapchain() {
@@ -111,7 +102,6 @@ struct render_target : entity {
 
     /**
      * @brief Get the format
-     *
      * @return VkFormat    Target format
      */
     VkFormat get_format() const {
@@ -120,7 +110,6 @@ struct render_target : entity {
 
     /**
      * @brief Get the backbuffers
-     *
      * @return image::list const&    List of backbuffer images
      */
     image::list const& get_backbuffers() const {
@@ -129,9 +118,7 @@ struct render_target : entity {
 
     /**
      * @brief Get the backbuffer by frame index
-     *
      * @param index          Frame index
-     *
      * @return image::ptr    Backbuffer image
      */
     inline image::ptr get_backbuffer(index index) {
@@ -144,9 +131,7 @@ struct render_target : entity {
 
     /**
      * @brief Get the backbuffer image by index
-     *
      * @param index       Frame index
-     *
      * @return VkImage    Vulkan image
      */
     inline VkImage get_backbuffer_image(index index) {
@@ -163,7 +148,6 @@ struct render_target : entity {
 
     /**
      * @brief Add callback
-     *
      * @param callback    Target callback
      */
     void add_callback(target_callback::cptr callback) {
@@ -172,7 +156,6 @@ struct render_target : entity {
 
     /**
      * @brief Remove callback
-     *
      * @param callback    Target callback
      */
     void remove_callback(target_callback::cptr callback) {
@@ -216,12 +199,10 @@ private:
 
 /**
  * @brief Create a new render target
- *
  * @param window                 Target window
  * @param device                 Vulkan device
  * @param v_sync                 V-Sync enabled
  * @param request                Surface format request
- *
  * @return render_target::ptr    Shared pointer to render target
  */
 render_target::ptr create_target(window* window,
@@ -231,11 +212,9 @@ render_target::ptr create_target(window* window,
 
 /**
  * @brief Create a new render target with V-Sync enabled
- *
  * @param window                 Target window
  * @param device                 Vulkan device
  * @param request                Surface format request
- *
  * @return render_target::ptr    Shared pointer to render target
  */
 inline render_target::ptr create_target_v_sync(window* window,

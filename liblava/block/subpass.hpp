@@ -33,7 +33,6 @@ struct subpass : entity {
 
     /**
      * @brief Add a graphics pipeline to the back of the subpass
-     *
      * @param pipeline    Graphics pipeline
      */
     void add(graphics_pipeline::ptr const& pipeline) {
@@ -42,7 +41,6 @@ struct subpass : entity {
 
     /**
      * @brief Add a graphics pipeline to the fronst of the subpass
-     *
      * @param pipeline    Graphics pipeline
      */
     void add_front(graphics_pipeline::ptr const& pipeline) {
@@ -51,7 +49,6 @@ struct subpass : entity {
 
     /**
      * @brief Remove the graphics pipeline
-     *
      * @param pipeline    Graphice pipeline
      */
     void remove(graphics_pipeline::ptr pipeline);
@@ -63,7 +60,6 @@ struct subpass : entity {
 
     /**
      * @brief Process the subpass
-     *
      * @param cmd_buf    Command buffer
      * @param size       Size of render pass
      */
@@ -72,7 +68,6 @@ struct subpass : entity {
 
     /**
      * @brief Get the description
-     *
      * @return VkSubpassDescription const&    Subpass description
      */
     VkSubpassDescription const& get_description() const {
@@ -81,7 +76,6 @@ struct subpass : entity {
 
     /**
      * @brief Set pipeline bind point
-     *
      * @param pipeline_bind_point    Pipeline bind point
      */
     void set(VkPipelineBindPoint pipeline_bind_point) {
@@ -90,7 +84,6 @@ struct subpass : entity {
 
     /**
      * @brief Set the color attachment
-     *
      * @param attachment    Index of attachment
      * @param layout        Image layout
      */
@@ -99,21 +92,18 @@ struct subpass : entity {
 
     /**
      * @brief Set the color attachment
-     *
      * @param attachment    Attachment reference
      */
     void set_color_attachment(VkAttachmentReference attachment);
 
     /**
      * @brief Set the color attachments
-     *
      * @param attachments    List of attachment references
      */
     void set_color_attachments(VkAttachmentReferences const& attachments);
 
     /**
      * @brief Set the depth stencil attachment
-     *
      * @param attachment    Index of attachment
      * @param layout        Image layout
      */
@@ -122,14 +112,12 @@ struct subpass : entity {
 
     /**
      * @brief Set the depth stencil attachment
-     *
      * @param attachment    Attachment reference
      */
     void set_depth_stencil_attachment(VkAttachmentReference attachment);
 
     /**
      * @brief Set the input attachment
-     *
      * @param attachment    Index of attachment
      * @param layout        Image layout
      */
@@ -138,21 +126,18 @@ struct subpass : entity {
 
     /**
      * @brief Set the input attachment
-     *
      * @param attachment    Attachment reference
      */
     void set_input_attachment(VkAttachmentReference attachment);
 
     /**
      * @brief Set the input attachments
-     *
      * @param attachments    List of attachment references
      */
     void set_input_attachments(VkAttachmentReferences const& attachments);
 
     /**
      * @brief Set the resolve attachment
-     *
      * @param attachment    Index of attachment
      * @param layout        Image layout
      */
@@ -160,35 +145,30 @@ struct subpass : entity {
 
     /**
      * @brief Set the resolve attachment
-     *
      * @param attachment    Attachment reference
      */
     void set_resolve_attachment(VkAttachmentReference attachment);
 
     /**
      * @brief Set the resolve attachments
-     *
      * @param attachments    List of attachment references
      */
     void set_resolve_attachments(VkAttachmentReferences const& attachments);
 
     /**
      * @brief Add preserve attachment
-     *
      * @param attachment    Index of attachment
      */
     void add_preserve_attachment(index attachment);
 
     /**
      * @brief Set the preserve attachments
-     *
      * @param attachments    List of indices
      */
     void set_preserve_attachments(index_list const& attachments);
 
     /**
      * @brief Activate or deactivate the subpass
-     *
      * @param value    Enable state
      */
     void set_active(bool value = true) {
@@ -197,7 +177,6 @@ struct subpass : entity {
 
     /**
      * @brief Check if subpass is active
-     *
      * @return true     Subpass is active
      * @return false    Subpass is inactive
      */
@@ -233,9 +212,7 @@ private:
 
 /**
  * @brief Make a new subpass
- *
  * @param pipeline_bind_point    Pipeline bind point
- *
  * @return subpass::ptr          Shared pointer to subpass
  */
 subpass::ptr make_subpass(VkPipelineBindPoint pipeline_bind_point =
@@ -258,7 +235,6 @@ struct subpass_dependency {
 
     /**
      * @brief Get the dependency
-     *
      * @return VkSubpassDependency const&    Vulkan subpass dependency
      */
     VkSubpassDependency const& get_dependency() const {
@@ -267,7 +243,6 @@ struct subpass_dependency {
 
     /**
      * @brief Set the subpass
-     *
      * @param src    Source Subpass
      * @param dst    Destination Subpass
      */
@@ -278,7 +253,6 @@ struct subpass_dependency {
 
     /**
      * @brief Set the source subpass
-     *
      * @param src    Source Subpass
      */
     void set_src_subpass(ui32 src) {
@@ -287,7 +261,6 @@ struct subpass_dependency {
 
     /**
      * @brief Set the dst subpass
-     *
      * @param dst    Destination subpass
      */
     void set_dst_subpass(ui32 dst) {
@@ -296,7 +269,6 @@ struct subpass_dependency {
 
     /**
      * @brief Set the stage mask
-     *
      * @param src    Source pipeline stage flags
      * @param dst    Destination pipeline stage flags
      */
@@ -308,7 +280,6 @@ struct subpass_dependency {
 
     /**
      * @brief Set the source stage mask
-     *
      * @param mask    Pipeline stage flags
      */
     void set_src_stage_mask(VkPipelineStageFlags mask) {
@@ -317,7 +288,6 @@ struct subpass_dependency {
 
     /**
      * @brief Set the destination stage mask
-     *
      * @param mask    Pipeline stage flags
      */
     void set_dst_stage_mask(VkPipelineStageFlags mask) {
@@ -326,7 +296,6 @@ struct subpass_dependency {
 
     /**
      * @brief Set the access mask
-     *
      * @param src    Source access flags
      * @param dst    Destination access flags
      */
@@ -338,7 +307,6 @@ struct subpass_dependency {
 
     /**
      * @brief Set the src access mask
-     *
      * @param mask    Access flags
      */
     void set_src_access_mask(VkAccessFlags mask) {
@@ -347,7 +315,6 @@ struct subpass_dependency {
 
     /**
      * @brief Set the dst access mask
-     *
      * @param mask    Access flags
      */
     void set_dst_access_mask(VkAccessFlags mask) {
@@ -356,7 +323,6 @@ struct subpass_dependency {
 
     /**
      * @brief Set the dependency flags
-     *
      * @param flags    Dependency flags
      */
     void set_dependency_flags(VkDependencyFlags flags) {
@@ -370,11 +336,9 @@ private:
 
 /**
  * @brief Make a new subpass dependency
- *
  * @param src_subpass                 Source subpass
  * @param dst_subpass                 Destination subpass
  * @param dependency_flags            Dependency flags
- *
  * @return subpass_dependency::ptr    Shared pointer to subpass dependency
  */
 subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass,

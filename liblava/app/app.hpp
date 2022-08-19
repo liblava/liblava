@@ -40,14 +40,12 @@ constexpr bool const draw_no_spacing = false;
 struct app : frame {
     /**
      * @brief Construct a new app
-     *
      * @param env    Frame environment
      */
     explicit app(frame_env env);
 
     /**
      * @brief Construct a new app
-     *
      * @param name        Application name
      * @param cmd_line    Command line arguments
      */
@@ -55,7 +53,6 @@ struct app : frame {
 
     /**
      * @brief Set up the application
-     *
      * @return true     Setup was successful
      * @return false    Setup failed
      */
@@ -120,7 +117,6 @@ struct app : frame {
 
     /**
      * @brief V-Sync setting
-     *
      * @return true     V-Sync is active
      * @return false    V-Sync is inactive
      */
@@ -130,7 +126,6 @@ struct app : frame {
 
     /**
      * @brief Get the frame counter
-     *
      * @return ui32    Number of rendered frames
      */
     ui32 get_frame_counter() const {
@@ -139,7 +134,6 @@ struct app : frame {
 
     /**
      * @brief Draw about information
-     *
      * @param separator    Prepend separator
      * @param fps          FPS counter
      * @param spacing      Spacing
@@ -162,7 +156,6 @@ struct app : frame {
 
     /**
      * @brief Get id of the block command
-     *
      * @return id::ref    Id to access the command
      */
     id::ref block_cmd() const {
@@ -177,14 +170,12 @@ struct app : frame {
 
     /**
      * @brief Take screenshot and save it to file
-     *
      * @return string    Screenshot file path (empty: failed)
      */
     string screenshot();
 
     /**
      * @brief Add a tooltip
-     *
      * @param name    Name of tooltip
      * @param key     Input key
      * @param mod     Input mod (default: none)
@@ -202,7 +193,6 @@ struct app : frame {
 
     /**
      * @brief Get tooltips
-     *
      * @return tooltip::list    List of tooltips
      */
     tooltip::list get_tooltips() const {
@@ -211,7 +201,6 @@ struct app : frame {
 
     /**
      * @brief Parse config
-     *
      * @param cmd_line    Command line arguments
      */
     void parse_config(argh::parser cmd_line);
@@ -219,7 +208,6 @@ struct app : frame {
 private:
     /**
      * @brief Set up file system
-     *
      * @return true       Setup was successful
      * @return false      Setup failed
      */
@@ -227,7 +215,6 @@ private:
 
     /**
      * @brief Set up window
-     *
      * @return true       Setup was successful
      * @return false      Setup failed
      */
@@ -235,7 +222,6 @@ private:
 
     /**
      * @brief Set up device
-     *
      * @return true       Setup was successful
      * @return false      Setup failed
      */
@@ -243,7 +229,6 @@ private:
 
     /**
      * @brief Set up render
-     *
      * @return true       Setup was successful
      * @return false      Setup failed
      */
@@ -251,7 +236,6 @@ private:
 
     /**
      * @brief Set up run
-     *
      * @return true       Setup was successful
      * @return false      Setup failed
      */
@@ -289,7 +273,6 @@ private:
 
     /**
      * @brief Create ImGui
-     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -302,7 +285,6 @@ private:
 
     /**
      * @brief Create a render target
-     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -315,7 +297,6 @@ private:
 
     /**
      * @brief Create a block object
-     *
      * @return true     Create was successful
      * @return false    Create failed
      */

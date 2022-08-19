@@ -104,14 +104,12 @@ struct gamepad {
 
     /**
      * @brief Construct a new gamepad
-     *
      * @param id    Gamepad id
      */
     explicit gamepad(gamepad_id_ref id);
 
     /**
      * @brief Check if gamepad is active
-     *
      * @return true     Gamepad is active
      * @return false    Gamepad is inactive
      */
@@ -119,7 +117,6 @@ struct gamepad {
 
     /**
      * @brief Update gamepad
-     *
      * @return true     Update was successful
      * @return false    Update failed
      */
@@ -127,9 +124,7 @@ struct gamepad {
 
     /**
      * @brief Check if gamepad button is pressed
-     *
      * @param button    Gamepad button to check
-     *
      * @return true     Button is pressed
      * @return false    Button is not pressed
      */
@@ -139,9 +134,7 @@ struct gamepad {
 
     /**
      * @brief Get value of axis
-     *
      * @param axis    Target axis
-     *
      * @return r32    Axis value
      */
     r32 value(gamepad_axis_ref axis) const {
@@ -150,7 +143,6 @@ struct gamepad {
 
     /**
      * @brief Get the gamepad id
-     *
      * @return gamepad_id_ref    Gamepad id
      */
     gamepad_id_ref get_pad_id() const {
@@ -159,7 +151,6 @@ struct gamepad {
 
     /**
      * @brief Get the gamepad id as integer
-     *
      * @return ui32    Integer gamepad id
      */
     ui32 get_id() const {
@@ -168,7 +159,6 @@ struct gamepad {
 
     /**
      * @brief Get the name
-     *
      * @return name    Name of gamepad
      */
     name get_name() const;
@@ -194,7 +184,6 @@ private:
 
 /**
  * @brief Get list of all gamepads
- *
  * @return gamepad::list    List of gamepads
  */
 gamepad::list gamepads();
@@ -208,7 +197,6 @@ struct gamepad_manager {
 
     /**
      * @brief Get gamepad manager singleton
-     *
      * @return gamepad_manager&    Gamepad manager
      */
     static gamepad_manager& singleton() {
@@ -218,16 +206,13 @@ struct gamepad_manager {
 
     /**
      * @brief Add listener
-     *
      * @param listener    Gamepad listener function
-     *
      * @return id         Id of function
      */
     id add(listener_func listener);
 
     /**
      * @brief Remove listener
-     *
      * @param id    Id of function
      */
     void remove(id::ref id);

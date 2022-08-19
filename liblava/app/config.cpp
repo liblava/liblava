@@ -14,7 +14,6 @@ namespace lava {
 
 /**
  * @brief Window state to Json
- *
  * @param j    Json object
  * @param w    Window state
  */
@@ -33,7 +32,6 @@ void to_json(json& j, window::state::ref w) {
 
 /**
  * @brief Json to window state
- *
  * @param j    Json object
  * @param w    Window state
  */

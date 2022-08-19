@@ -24,10 +24,8 @@ struct dimmer {
 
     /**
      * @brief Update dimmer
-     *
      * @param dt       Delta time
      * @param value    Value to update
-     *
      * @return r32     Updated value
      */
     r32 update(delta dt, r32 value) {

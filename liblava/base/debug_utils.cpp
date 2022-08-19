@@ -18,7 +18,6 @@ using optional_label = std::optional<VkDebugUtilsLabelEXT>;
 
 /**
  * @brief Create a label information
- *
  * @param label              Name of label
  * @param color              Color of label
  * @return optional_label    Optional label

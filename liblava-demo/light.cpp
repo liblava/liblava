@@ -52,10 +52,8 @@ struct gbuffer_attachment {
 
     /**
      * @brief Create a new G-Buffer attachment
-     *
      * @param app       Application
      * @param index     Attachment index
-     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -89,10 +87,8 @@ light_array const g_lights = {
 
 /**
  * @brief Create a G-Buffer renderpass
- *
  * @param app                  Application
  * @param attachments          Array of attachments
- *
  * @return render_pass::ptr    Shared pointer to render pass
  */
 render_pass::ptr create_gbuffer_renderpass(app const& app,

@@ -24,14 +24,12 @@ using json_ref = json const&;
 struct configurable : interface {
     /**
      * @brief Set config
-     *
      * @param j    Json file
      */
     virtual void set_config(json_ref j) = 0;
 
     /**
      * @brief Get config
-     *
      * @return json    Json file
      */
     virtual json get_config() const = 0;

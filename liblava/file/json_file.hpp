@@ -18,7 +18,6 @@ namespace lava {
 struct json_file {
     /**
      * @brief Construct a new json file
-     *
      * @param path    Name of file
      */
     explicit json_file(string_ref path = _config_file_);
@@ -45,14 +44,12 @@ struct json_file {
 
     /**
      * @brief Add callback to json file
-     *
      * @param callback    Callback to add
      */
     void add(callback* callback);
 
     /**
      * @brief Remove callback from json file
-     *
      * @param callback    Callback to remove
      */
     void remove(callback* callback);
@@ -66,7 +63,6 @@ struct json_file {
 
     /**
      * @brief Set path of the json file
-     *
      * @param value    Name of file
      */
     void set(string_ref value) {
@@ -75,7 +71,6 @@ struct json_file {
 
     /**
      * @brief Get path of the json file
-     *
      * @return name    Name of file
      */
     string_ref get() const {
@@ -84,7 +79,6 @@ struct json_file {
 
     /**
      * @brief Load the json file
-     *
      * @return true     Load was successful
      * @return false    Load failed
      */
@@ -92,7 +86,6 @@ struct json_file {
 
     /**
      * @brief Save the json file
-     *
      * @return true     Save was successful
      * @return false    Save failed
      */

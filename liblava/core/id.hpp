@@ -46,7 +46,6 @@ struct id {
 
     /**
      * @brief Check if the id is valid
-     *
      * @return true     Id is valid
      * @return false    Id is invalid
      */
@@ -56,7 +55,6 @@ struct id {
 
     /**
      * @brief Convert the id to string
-     *
      * @return string    String representation of id
      */
     string to_string() const {
@@ -88,7 +86,6 @@ constexpr id const undef_id = id();
 struct ids {
     /**
      * @brief Get id factory instance
-     *
      * @return ids&    Id factory
      */
     static ids& instance() {
@@ -98,7 +95,6 @@ struct ids {
 
     /**
      * @brief Get next id from factory (singleton)
-     *
      * @return id    Next id
      */
     id next() {
@@ -112,12 +108,9 @@ private:
 
 /**
  * @brief Add object to id map
- *
  * @tparam T        Type of object
- *
  * @param object    Object to add
  * @param map       Target map
- *
  * @return id       Id of object in map
  */
 template<typename T>
@@ -130,12 +123,9 @@ inline id add_id_map(T const& object,
 
 /**
  * @brief Remove object from id map
- *
  * @tparam T        Type of object
- *
  * @param object    Object to remove
  * @param map       Target map
- *
  * @return true     Found object in map and removed it
  * @return false    Object in map not found
  */
@@ -152,16 +142,13 @@ inline bool remove_id_map(id::ref object,
 
 /**
  * @brief Id listeners
- *
  * @tparam T    Listener
  */
 template<typename T>
 struct id_listeners {
     /**
      * @brief Add listener to map
-     *
      * @param listener    Target listener
-     *
      * @return id         Id of listener
      */
     id add(typename T::func const& listener) {
@@ -170,7 +157,6 @@ struct id_listeners {
 
     /**
      * @brief Remove listener from map by id
-     *
      * @param id    Id of listener
      */
     void remove(id& id) {
@@ -180,7 +166,6 @@ struct id_listeners {
 
     /**
      * @brief Get the list
-     *
      * @return T::listeners const&    List of listeners
      */
     typename T::listeners const& get_list() const {
@@ -204,7 +189,6 @@ struct entity : no_copy_no_move, interface {
 
     /**
      * @brief Get the id of entity
-     *
      * @return id::ref    Entity id
      */
     id::ref get_id() const {
@@ -218,7 +202,6 @@ private:
 
 /**
  * @brief Id registry
- *
  * @tparam T       Type of objects hold in registry
  * @tparam Meta    Meta type for object
  */
@@ -235,9 +218,7 @@ struct id_registry {
 
     /**
      * @brief Create a new object in registry
-     *
      * @param info    Meta information
-     *
      * @return id     Object id
      */
     id create(Meta info = {}) {
@@ -249,7 +230,6 @@ struct id_registry {
 
     /**
      * @brief Add a object with meta to registry
-     *
      * @param object    Object to add
      * @param info      Meta of object
      */
@@ -261,9 +241,7 @@ struct id_registry {
 
     /**
      * @brief Check if object exists in registry
-     *
      * @param object    Object to check
-     *
      * @return true     Object exists
      * @return false    Object does not exist
      */
@@ -273,9 +251,7 @@ struct id_registry {
 
     /**
      * @brief Get the object by id
-     *
      * @param object    Object id
-     *
      * @return ptr      Shared pointer to object
      */
     ptr get(id::ref object) const {
@@ -284,9 +260,7 @@ struct id_registry {
 
     /**
      * @brief Get the meta by id
-     *
      * @param object    Object id
-     *
      * @return Meta     Meta object
      */
     Meta const& get_meta(id::ref object) const {
@@ -295,7 +269,6 @@ struct id_registry {
 
     /**
      * @brief Get all objects
-     *
      * @return map const&    Map with objects
      */
     map const& get_all() const {
@@ -304,7 +277,6 @@ struct id_registry {
 
     /**
      * @brief Get all meta objects
-     *
      * @return meta_map const&    Map with metas
      */
     meta_map const& get_all_meta() const {
@@ -313,10 +285,8 @@ struct id_registry {
 
     /**
      * @brief Update meta of object
-     *
      * @param object    Object id
      * @param meta      Meta to update
-     *
      * @return true     Meta updated
      * @return false    Meta not updated
      */
@@ -331,7 +301,6 @@ struct id_registry {
 
     /**
      * @brief Remove object from registry
-     *
      * @param object    Object id
      */
     void remove(id::ref object) {

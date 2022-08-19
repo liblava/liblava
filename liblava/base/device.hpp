@@ -83,10 +83,8 @@ struct device : device_table, entity {
 
         /**
          * @brief Add queue
-         *
          * @param flags       Queue flags
          * @param priority    Priority for queue
-         *
          * @return true       Add was successful
          * @return false      Add failed
          */
@@ -97,11 +95,9 @@ struct device : device_table, entity {
 
         /**
          * @brief Add queues
-         *
          * @param flags       Queue flags
          * @param count       Number of queues
          * @param priority    Priority for queues
-         *
          * @return true       Add was successful
          * @return false      Add failed
          */
@@ -111,9 +107,7 @@ struct device : device_table, entity {
 
         /**
          * @brief Add all dedicated queues
-         *
          * @param priority    Priority for queues
-         *
          * @return true       Add was successful
          * @return false      Add failed
          */
@@ -121,7 +115,6 @@ struct device : device_table, entity {
 
         /**
          * @brief Verify queues
-         *
          * @return verify_queues_result    Verification result
          */
         verify_queues_result verify_queues() const;
@@ -136,9 +129,7 @@ struct device : device_table, entity {
 
     /**
      * @brief Create a new device
-     *
      * @param param     Create parameters
-     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -151,9 +142,7 @@ struct device : device_table, entity {
 
     /**
      * @brief Get a graphics queue by index
-     *
      * @param index          Index of queue
-     *
      * @return queue::ref    Graphics queue
      */
     queue::ref get_graphics_queue(index index = 0) const {
@@ -169,9 +158,7 @@ struct device : device_table, entity {
 
     /**
      * @brief Get a compute queue by index
-     *
      * @param index          Index of queue
-     *
      * @return queue::ref    Compute queue
      */
     queue::ref get_compute_queue(index index = 0) const {
@@ -187,9 +174,7 @@ struct device : device_table, entity {
 
     /**
      * @brief Get a transfer queue by index
-     *
      * @param index          Index of queue
-     *
      * @return queue::ref    Transfer queue
      */
     queue::ref get_transfer_queue(index index = 0) const {
@@ -205,7 +190,6 @@ struct device : device_table, entity {
 
     /**
      * @brief Get the list of graphics queues
-     *
      * @return queue::list const&    Graphics queues
      */
     queue::list const& get_graphics_queues() const {
@@ -221,7 +205,6 @@ struct device : device_table, entity {
 
     /**
      * @brief Get the list of compute queues
-     *
      * @return queue::list const&    Compute queues
      */
     queue::list const& get_compute_queues() const {
@@ -237,7 +220,6 @@ struct device : device_table, entity {
 
     /**
      * @brief Get the list of transfer queues
-     *
      * @return queue::list const&    Transfer queues
      */
     queue::list const& get_transfer_queues() const {
@@ -253,7 +235,6 @@ struct device : device_table, entity {
 
     /**
      * @brief Get all queues
-     *
      * @return queue::list const&    List of all queues
      */
     queue::list const& get_queues() const {
@@ -269,7 +250,6 @@ struct device : device_table, entity {
 
     /**
      * @brief Get the Vulkan device
-     *
      * @return VkDevice    Vulkan device
      */
     VkDevice get() const {
@@ -278,7 +258,6 @@ struct device : device_table, entity {
 
     /**
      * @brief Get the Volk device table
-     *
      * @return VolkDeviceTable const&    Volk device table
      */
     VolkDeviceTable const& call() const {
@@ -287,7 +266,6 @@ struct device : device_table, entity {
 
     /**
      * @brief Wait for idle
-     *
      * @return true     Wait was successful
      * @return false    Wait failed
      */
@@ -297,7 +275,6 @@ struct device : device_table, entity {
 
     /**
      * @brief Get the physical device
-     *
      * @return physical_device_cp    Physical device
      */
     physical_device_cp get_physical_device() const {
@@ -306,30 +283,25 @@ struct device : device_table, entity {
 
     /**
      * @brief Get the Vulkan physical device
-     *
      * @return VkPhysicalDevice    Vulkan physical device
      */
     VkPhysicalDevice get_vk_physical_device() const;
 
     /**
      * @brief Get the physical device features
-     *
      * @return VkPhysicalDeviceFeatures const&    Features
      */
     VkPhysicalDeviceFeatures const& get_features() const;
 
     /**
      * @brief Get the physical device properties
-     *
      * @return VkPhysicalDeviceProperties const&    Properties
      */
     VkPhysicalDeviceProperties const& get_properties() const;
 
     /**
      * @brief Check if surface is supported by this device
-     *
      * @param surface    Surface to check
-     *
      * @return true      Surface is supported
      * @return false     Surface is not supported
      */
@@ -337,7 +309,6 @@ struct device : device_table, entity {
 
     /**
      * @brief Set the allocator for this device
-     *
      * @param value    Allocator
      */
     void set_allocator(allocator::ptr value) {
@@ -346,7 +317,6 @@ struct device : device_table, entity {
 
     /**
      * @brief Get the allocator of this device
-     *
      * @return allocator::ptr    Allocator
      */
     allocator::ptr get_allocator() {
@@ -355,7 +325,6 @@ struct device : device_table, entity {
 
     /**
      * @brief Get the Vma allocator
-     *
      * @return VmaAllocator    Vma allocator
      */
     VmaAllocator alloc() const {
@@ -389,10 +358,8 @@ private:
 
 /**
  * @brief Create a shader module
- *
  * @param device             Vulkan device
  * @param data               Shader data
- *
  * @return VkShaderModule    Shader module
  */
 VkShaderModule create_shader_module(device_p device,
@@ -403,12 +370,10 @@ using one_time_command_func = std::function<void(VkCommandBuffer)>;
 
 /**
  * @brief Submit one time command function with pool
- *
  * @param device      Vulkan device
  * @param pool        Command pool (VK_NULL_HANDLE: managed)
  * @param queue       Target queue
  * @param callback    Function to be called
- *
  * @return true       Submit was successful
  * @return false      Submit failed
  */
@@ -419,11 +384,9 @@ bool one_time_submit_pool(device_p device,
 
 /**
  * @brief Submit one time command function
- *
  * @param device      Vulkan device
  * @param queue       Target queue
  * @param callback    Function to be called
- *
  * @return true       Submit was successful
  * @return false      Submit failed
  */

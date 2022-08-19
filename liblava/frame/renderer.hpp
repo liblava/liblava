@@ -21,9 +21,7 @@ using optional_index = std::optional<index>;
 struct renderer : entity {
     /**
      * @brief Create a new renderer
-     *
      * @param target    Swapchain target
-     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -36,16 +34,13 @@ struct renderer : entity {
 
     /**
      * @brief Begin to render a frame
-     *
      * @return optional_index    Frame index
      */
     optional_index begin_frame();
 
     /**
      * @brief End of frame rendering
-     *
      * @param cmd_buffers    List of command buffers
-     *
      * @return true          End was successful
      * @return false         End failed
      */
@@ -53,9 +48,7 @@ struct renderer : entity {
 
     /**
      * @brief Render a frame
-     *
      * @param cmd_buffers    List of command buffers
-     *
      * @return true          Render was successful
      * @return false         Render failed
      */
@@ -68,7 +61,6 @@ struct renderer : entity {
 
     /**
      * @brief Get the current frame index
-     *
      * @return index    Frame index
      */
     index get_frame() const {
@@ -77,7 +69,6 @@ struct renderer : entity {
 
     /**
      * @brief Get the device
-     *
      * @return device_p    Vulkan device
      */
     device_p get_device() {

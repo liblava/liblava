@@ -54,7 +54,6 @@ void frame_env::set_default() {
 
 /**
  * @brief Handle environment
- *
  * @param env    Frame environment
  */
 void handle_env(frame_env& env) {

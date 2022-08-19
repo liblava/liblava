@@ -17,7 +17,6 @@ using cmd_line = argh::parser const&;
 
 /**
  * @brief Log command line
- *
  * @param cmd_line    Command line arguments
  */
 inline void log_command_line(cmd_line cmd_line) {

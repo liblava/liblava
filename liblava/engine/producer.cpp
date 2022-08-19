@@ -167,7 +167,6 @@ class shader_includer : public shaderc::CompileOptions::IncluderInterface {
 public:
     /**
      * @brief Construct a new shader includer
-     *
      * @param path             Current file path
      * @param file_hash_map    Map of used files with hash
      */
@@ -177,12 +176,10 @@ public:
 
     /**
      * @brief Handle include result data
-     *
      * @param requested_source            Requested source
      * @param type                        Include type
      * @param requesting_source           Requesting source
      * @param include_depth               Include depth
-     *
      * @return shaderc_include_result*    Include result
      */
     shaderc_include_result* GetInclude(
@@ -222,7 +219,6 @@ public:
 
     /**
      * @brief Handle include result release
-     *
      * @param data    Include result
      */
     void ReleaseInclude(shaderc_include_result* data) override {
@@ -240,9 +236,7 @@ private:
 
 /**
  * @brief Get shader kind by file extension
- *
  * @param filename                Name of file
- *
  * @return shaderc_shader_kind    Shader kind
  */
 shaderc_shader_kind get_shader_kind(string_ref filename) {

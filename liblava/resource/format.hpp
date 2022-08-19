@@ -17,9 +17,7 @@ using VkFormat_optional = std::optional<VkFormat>;
 
 /**
  * @brief Check if depth format compatible
- *
  * @param format    Format to check
- *
  * @return true     Format can depth
  * @return false    No depth supported
  */
@@ -27,9 +25,7 @@ bool format_depth(VkFormat format);
 
 /**
  * @brief Check if stencil format compatible
- *
  * @param format    Format to check
- *
  * @return true     Format can stencil
  * @return false    No stencil supported
  */
@@ -37,9 +33,7 @@ bool format_stencil(VkFormat format);
 
 /**
  * @brief Check if depth or stencil format compatible
- *
  * @param format    Format to check
- *
  * @return true     Format can depth or stencil
  * @return false    No depth or stencil supported
  */
@@ -47,9 +41,7 @@ bool format_depth_stencil(VkFormat format);
 
 /**
  * @brief Check if sRGB format compatible
- *
  * @param format    Format to check
- *
  * @return true     Format can sRGB
  * @return false    No sRGB supported
  */
@@ -57,9 +49,7 @@ bool format_srgb(VkFormat format);
 
 /**
  * @brief Check if format is BGR order
- *
  * @param format    Format to check
- *
  * @return true     Format is BGR
  * @return false    Format is not BGR
  */
@@ -67,16 +57,13 @@ bool format_bgr(VkFormat format);
 
 /**
  * @brief Get image aspect mask of format
- *
  * @param format                 Target format
- *
  * @return VkImageAspectFlags    Image aspect flags
  */
 VkImageAspectFlags format_aspect_mask(VkFormat format);
 
 /**
  * @brief Get block dimension of format
- *
  * @param format    Target format
  * @param width     Block width
  * @param height    Block height
@@ -87,7 +74,6 @@ void format_block_dim(VkFormat format,
 
 /**
  * @brief Get align dimension of format
- *
  * @param format    Target format
  * @param width     Align width
  * @param height    Align height
@@ -98,7 +84,6 @@ void format_align_dim(VkFormat format,
 
 /**
  * @brief Get format number of blocks
- *
  * @param format    Target format
  * @param width     Number blocks width
  * @param height    Number blocks height
@@ -109,29 +94,23 @@ void format_num_blocks(VkFormat format,
 
 /**
  * @brief Get format block size
- *
  * @param format    Target format
- *
  * @return ui32     Size of block
  */
 ui32 format_block_size(VkFormat format);
 
 /**
  * @brief Get the supported depth format
- *
  * @param physical_device       Physical device
- *
  * @return VkFormat_optional    Optional format
  */
 VkFormat_optional get_supported_depth_format(VkPhysicalDevice physical_device);
 
 /**
  * @brief Get the supported format
- *
  * @param physical_device       Physical device
  * @param possible_formats      List of possible formats
  * @param usage                 Image usage flags
- *
  * @return VkFormat_optional    Optional format
  */
 VkFormat_optional get_supported_format(VkPhysicalDevice physical_device,
@@ -140,11 +119,9 @@ VkFormat_optional get_supported_format(VkPhysicalDevice physical_device,
 
 /**
  * @brief Get image memory barrier
- *
  * @param image                    Target image
  * @param old_layout               Old image layout
  * @param new_layout               New image layout
- *
  * @return VkImageMemoryBarrier    Image memory barrier
  */
 VkImageMemoryBarrier image_memory_barrier(VkImage image,
@@ -153,7 +130,6 @@ VkImageMemoryBarrier image_memory_barrier(VkImage image,
 
 /**
  * @brief Set the image layout
- *
  * @param device               Vulkan device
  * @param cmd_buffer           Command buffer
  * @param image                Target image
@@ -174,7 +150,6 @@ void set_image_layout(device_p device,
 
 /**
  * @brief Set the image layout
- *
  * @param device              Vulkan device
  * @param cmd_buffer          Command buffer
  * @param image               Target image
@@ -195,7 +170,6 @@ void set_image_layout(device_p device,
 
 /**
  * @brief Insert image memory barrier
- *
  * @param device               Vulkan device
  * @param cmd_buffer           Command buffer
  * @param image                Target image
@@ -240,11 +214,9 @@ struct surface_format_request {
 
 /**
  * @brief Get the surface format
- *
  * @param device                 Vulkan device
  * @param surface                Vulkan surface
  * @param request                Surface format request
- *
  * @return VkSurfaceFormatKHR    Chosen surface format
  */
 VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device,
@@ -253,10 +225,8 @@ VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device,
 
 /**
  * @brief Check if format supports bltting
- *
  * @param device    Vulkan physical device
  * @param format    Format to check
- *
  * @return true     Bliting is supported
  * @return false    Blitting is not supported
  */
@@ -265,10 +235,8 @@ bool support_blit(VkPhysicalDevice device,
 
 /**
  * @brief Check if vertex buffer format is supported
- *
  * @param device    Vulkan physical device
  * @param format    Format to check
- *
  * @return true     Format is supported
  * @return false    Format is not supported
  */

@@ -13,7 +13,6 @@ namespace lava {
 
 /**
  * @brief App default icon data
- *
  * Generate: xxd -i res/icon.png
  */
 constexpr uchar icon_png[] = {

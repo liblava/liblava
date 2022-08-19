@@ -19,37 +19,31 @@ namespace lava {
 struct file_system : no_copy_no_move {
     /**
      * @brief Get the version
-     *
      * @return internal_version    Internal version
      */
     internal_version get_version();
 
     /**
      * @brief Get the base directory
-     *
      * @return string    Base directory
      */
     string get_base_dir();
 
     /**
      * @brief Get the preferences directory
-     *
      * @return name    Preferences directory
      */
     string get_pref_dir();
 
     /**
      * @brief Get the resource directory
-     *
      * @return string    Resource directory
      */
     string get_res_dir();
 
     /**
      * @brief Mount path
-     *
      * @param path      Path to mount
-     *
      * @return true     Mount was successful
      * @return false    Mount failed
      */
@@ -57,9 +51,7 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Mount base directory path
-     *
      * @param base_dir_path    Base directory path
-     *
      * @return true            Mount was successful
      * @return false           Mount failed
      */
@@ -67,9 +59,7 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Check if file exists
-     *
      * @param file      File to check
-     *
      * @return true     File exists
      * @return false    File not found
      */
@@ -77,30 +67,24 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Get the real directory of file
-     *
      * @param file     Target file
-     *
      * @return name    Real directory of file
      */
     string get_real_dir(string_ref file);
 
     /**
      * @brief Enumerate files in directory
-     *
      * @param path            Target directory
-     *
      * @return string_list    List of files
      */
     string_list enumerate_files(string_ref path);
 
     /**
      * @brief Initialize the file system
-     *
      * @param argv_0    First command line argument
      * @param org       Organization name
      * @param app       Application name
      * @param ext       Extension name
-     *
      * @return true     Initialize was successful
      * @return false    Initialize failed
      */
@@ -116,16 +100,13 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Mount resource directory
-     *
      * @param log    Logger
      */
     void mount_res(logger log);
 
     /**
      * @brief Create a folder in the preferences directory (default: data)
-     *
      * @param name      Name of folder
-     *
      * @return true     Folder created
      * @return false    Folder not created
      */
@@ -138,7 +119,6 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Get the organization name
-     *
      * @return name    Name of organization
      */
     string_ref get_org() const {
@@ -147,7 +127,6 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Get the application name
-     *
      * @return name    Name of application
      */
     string_ref get_app() const {
@@ -156,7 +135,6 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Get the extension name
-     *
      * @return name    Name of extension
      */
     string_ref get_ext() const {
@@ -165,7 +143,6 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Check if file system is ready
-     *
      * @return true     File system is ready
      * @return false    File system is not ready
      */

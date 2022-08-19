@@ -37,7 +37,6 @@ struct pipeline_layout : entity {
 
     /**
      * @brief Add descriptor
-     *
      * @param descriptor    Descriptor
      */
     void add_descriptor(descriptor::ptr const& descriptor) {
@@ -46,7 +45,6 @@ struct pipeline_layout : entity {
 
     /**
      * @brief Add push contant range
-     *
      * @param range    Push contant range
      */
     void add_push_constant_range(VkPushConstantRange const& range) {
@@ -77,9 +75,7 @@ struct pipeline_layout : entity {
 
     /**
      * @brief Create a new pipeline layout
-     *
      * @param device    Vulkan device
-     *
      * @return true     Create was successful
      * @return false    Create failed
      */
@@ -92,7 +88,6 @@ struct pipeline_layout : entity {
 
     /**
      * @brief Get the Vulkan pipeline layout
-     *
      * @return VkPipelineLayout    Pipeline layout
      */
     VkPipelineLayout get() const {
@@ -101,7 +96,6 @@ struct pipeline_layout : entity {
 
     /**
      * @brief Get the device
-     *
      * @return device_p    Vulkan device
      */
     device_p get_device() {
@@ -110,7 +104,6 @@ struct pipeline_layout : entity {
 
     /**
      * @brief Get the descriptors
-     *
      * @return descriptor::list const&    List of descriptors
      */
     descriptor::list const& get_descriptors() const {
@@ -119,7 +112,6 @@ struct pipeline_layout : entity {
 
     /**
      * @brief Get the push constant ranges
-     *
      * @return VkPushConstantRanges const&    List of push constant ranges
      */
     VkPushConstantRanges const& get_push_constant_ranges() const {
@@ -131,7 +123,6 @@ struct pipeline_layout : entity {
 
     /**
      * @brief Bind descriptor set
-     *
      * @param cmd_buf           Command buffer
      * @param descriptor_set    Descriptor set
      * @param first_set         Index to first descriptor set
@@ -175,7 +166,6 @@ private:
 
 /**
  * @brief Make a new pipeline layout
- *
  * @return pipeline_layout::ptr    Shared pointer to pipeline layout
  */
 inline pipeline_layout::ptr make_pipeline_layout() {

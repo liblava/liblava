@@ -24,7 +24,6 @@ struct profile_info {
 
     /**
      * @brief Construct a new profile information
-     *
      * @param profile_name       Name of profile
      * @param spec_version       Specification Version
      * @param min_api_version    Minimal API version
@@ -38,7 +37,6 @@ struct profile_info {
 
     /**
      * @brief Check if profile information is empty
-     *
      * @return true     Profile information is set
      * @return false    No profile information set
      */
@@ -48,7 +46,6 @@ struct profile_info {
 
     /**
      * @brief Get Vulkan profile properties
-     *
      * @return VpProfileProperties    Profile properties
      */
     VpProfileProperties get() const {
@@ -60,7 +57,6 @@ struct profile_info {
 
     /**
      * @brief Get the minimal API version
-     *
      * @return ui32    Minimal API version
      */
     ui32 get_min_api_version() const {
@@ -80,7 +76,6 @@ private:
 
 /**
  * @brief Get VP_KHR_ROADMAP_2022 profile information
- *
  * @return profile_info    Profile information
  */
 inline profile_info profile_roadmap_2022() {
@@ -93,7 +88,6 @@ inline profile_info profile_roadmap_2022() {
 
 /**
  * @brief Get VP_LUNARG_desktop_baseline_2022 profile information
- *
  * @return profile_info    Profile information
  */
 inline profile_info profile_desktop_baseline_2022() {
@@ -106,9 +100,7 @@ inline profile_info profile_desktop_baseline_2022() {
 
 /**
  * @brief Check if Vulkan Profile is supported
- *
  * @param profile    Profile to check
- *
  * @return true      Profile is supported
  * @return false     Profile is not supported
  */

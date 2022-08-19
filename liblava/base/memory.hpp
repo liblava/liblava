@@ -35,7 +35,6 @@ struct allocator {
 
     /**
      * @brief Construct a new allocator
-     *
      * @param allocator    Vma allocator
      */
     explicit allocator(VmaAllocator allocator)
@@ -43,10 +42,8 @@ struct allocator {
 
     /**
      * @brief Create a new allocator
-     *
      * @param device    Vulkan device
      * @param flags     Vma allocator create flags
-     *
      * @return true     Create was successfal
      * @return false    Create failed
      */
@@ -60,7 +57,6 @@ struct allocator {
 
     /**
      * @brief Check if allocator is valid
-     *
      * @return true     Allocator is valid
      * @return false    Allocator is invalid
      */
@@ -70,7 +66,6 @@ struct allocator {
 
     /**
      * @brief Get the Vma allocator
-     *
      * @return VmaAllocator    Vma allocator
      */
     VmaAllocator get() const {
@@ -84,7 +79,6 @@ private:
 
 /**
  * @brief Make a new allocator
- *
  * @return allocator::ptr    Allacator
  */
 inline allocator::ptr make_allocator() {
@@ -93,10 +87,8 @@ inline allocator::ptr make_allocator() {
 
 /**
  * @brief Create a allocator
- *
  * @param device             Vulkan device
  * @param flags              Vma allocator create flags
- *
  * @return allocator::ptr    Allocator
  */
 inline allocator::ptr create_allocator(device_cptr device,
@@ -119,7 +111,6 @@ struct memory : no_copy_no_move {
 
     /**
      * @brief Get memory instance
-     *
      * @return memory&    Memory
      */
     static memory& instance() {
@@ -129,7 +120,6 @@ struct memory : no_copy_no_move {
 
     /**
      * @brief Get allocation callback
-     *
      * @return VkAllocationCallbacks*    Allocation callbacks
      */
     VkAllocationCallbacks* alloc() {
@@ -141,7 +131,6 @@ struct memory : no_copy_no_move {
 
     /**
      * @brief Set the callbacks object
-     *
      * @param callbacks    Allocation Callbacks
      */
     void set_callbacks(VkAllocationCallbacks const& callbacks) {
@@ -150,7 +139,6 @@ struct memory : no_copy_no_move {
 
     /**
      * @brief Set use custom cpu callbacks
-     *
      * @param value    Value state
      */
     void set_use_custom_cpu_callbacks(bool value) {
@@ -167,11 +155,9 @@ private:
 
 /**
  * @brief Find the memory type with properties
- *
  * @param properties             Physical device memory properties
  * @param type_bits              Type bits
  * @param required_properties    Memory property flags
- *
  * @return type                  Result type
  */
 type find_memory_type_with_properties(VkPhysicalDeviceMemoryProperties properties,
@@ -180,11 +166,9 @@ type find_memory_type_with_properties(VkPhysicalDeviceMemoryProperties propertie
 
 /**
  * @brief Find the memory type
- *
  * @param gpu           Physical device
  * @param properties    Memory properties flags
  * @param type_bits     Type bits
- *
  * @return type         Result type
  */
 type find_memory_type(VkPhysicalDevice gpu,

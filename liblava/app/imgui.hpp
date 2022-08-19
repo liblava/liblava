@@ -34,7 +34,6 @@ struct imgui {
 
     /**
      * @brief Construct a new ImGui
-     *
      * @param window    Window for ImGui
      */
     explicit imgui(GLFWwindow* window) {
@@ -113,7 +112,6 @@ struct imgui {
 
     /**
      * @brief Set up ImGui with configuration
-     *
      * @param window    Target window
      * @param config    Configuration
      */
@@ -121,7 +119,6 @@ struct imgui {
 
     /**
      * @brief Set up default ImGui
-     *
      * @param window    Target window
      */
     void setup(GLFWwindow* window) {
@@ -130,10 +127,8 @@ struct imgui {
 
     /**
      * @brief Create ImGui
-     *
      * @param pipeline      Graphics pipeline
      * @param max_frames    Number of frames
-     *
      * @return true         Create was successful
      * @return false        Create failed
      */
@@ -141,10 +136,8 @@ struct imgui {
 
     /**
      * @brief Create ImGui with device
-     *
      * @param device        Vulkan device
      * @param max_frames    Number of frames
-     *
      * @return true         Create was successful
      * @return false        Create failed
      */
@@ -154,11 +147,9 @@ struct imgui {
 
     /**
      * @brief Create ImGui with device and render pass
-     *
      * @param device        Vulkan device
      * @param max_frames    Number of frames
      * @param pass          Render pass
-     *
      * @return true         Create was successful
      * @return false        Create failed
      */
@@ -171,9 +162,7 @@ struct imgui {
 
     /**
      * @brief Upload font texture
-     *
      * @param texture    Texture to upload
-     *
      * @return true      Upload was successful
      * @return false     Upload failed
      */
@@ -186,7 +175,6 @@ struct imgui {
 
     /**
      * @brief Check if ImGui is ready
-     *
      * @return true     ImGui is ready
      * @return false    ImGui is not ready
      */
@@ -196,7 +184,6 @@ struct imgui {
 
     /**
      * @brief Get the pipeline
-     *
      * @return graphics_pipeline::ptr    Graphics pipeline
      */
     graphics_pipeline::ptr get_pipeline() {
@@ -211,7 +198,6 @@ struct imgui {
 
     /**
      * @brief Check if mouse capture is active
-     *
      * @return true     Capture is active
      * @return false    Capture is not active
      */
@@ -219,7 +205,6 @@ struct imgui {
 
     /**
      * @brief Check if keyboard capture is active
-     *
      * @return true     Capture is active
      * @return false    Capture is not active
      */
@@ -227,7 +212,6 @@ struct imgui {
 
     /**
      * @brief Set ImGui active
-     *
      * @param value    Active state
      */
     void set_active(bool value = true) {
@@ -236,7 +220,6 @@ struct imgui {
 
     /**
      * @brief Check if ImGui is activated
-     *
      * @return true     ImGui is active
      * @return false    ImGui is not active
      */
@@ -253,14 +236,12 @@ struct imgui {
 
     /**
      * @brief Set the ini file
-     *
      * @param dir    Path for file
      */
     void set_ini_file(std::filesystem::path dir);
 
     /**
      * @brief Get the ini file
-     *
      * @return fs::path    Path of file
      */
     std::filesystem::path get_ini_file() const {
@@ -274,7 +255,6 @@ struct imgui {
 
     /**
      * @brief Get the input callback
-     *
      * @return input_callback const&    Input callback
      */
     input_callback const& get_input_callback() const {
@@ -284,7 +264,6 @@ struct imgui {
 private:
     /**
      * @brief Handle key event
-     *
      * @param key         Key
      * @param scancode    Scan code
      * @param action      Action
@@ -294,7 +273,6 @@ private:
 
     /**
      * @brief Handle mouse button event
-     *
      * @param button    Button
      * @param action    Action
      * @param mods      Mods
@@ -303,7 +281,6 @@ private:
 
     /**
      * @brief Handle scroll event
-     *
      * @param x_offset    X offset
      * @param y_offset    Y offset
      */
@@ -311,14 +288,12 @@ private:
 
     /**
      * @brief Prepare draw lists
-     *
      * @param draw_data    Draw data
      */
     void prepare_draw_lists(ImDrawData* draw_data);
 
     /**
      * @brief Render draw lists
-     *
      * @param cmd_buf    Vulkan command buffer
      */
     void render_draw_lists(VkCommandBuffer cmd_buf);
@@ -345,7 +320,6 @@ private:
 
     /**
      * @brief Render ImGui
-     *
      * @param cmd_buf    Vulkan command buffer
      */
     void render(VkCommandBuffer cmd_buf);
@@ -416,7 +390,6 @@ using imgui_t = imgui;
 
 /**
  * @brief Set up ImGui font
- *
  * @param config    ImGui configuration
  * @param font      ImGui font
  */
@@ -425,7 +398,6 @@ void setup_imgui_font(imgui::config& config,
 
 /**
  * @brief Set up imgui font icons
- *
  * @param font        Imgui font
  * @param filename    Font icon file name
  * @param min         Min range
@@ -437,7 +409,6 @@ void setup_imgui_font_icons(imgui::font& font,
 
 /**
  * @brief ImGui left spacing with top offset
- *
  * @param top    Top offset
  */
 void imgui_left_spacing(ui32 top = 1);

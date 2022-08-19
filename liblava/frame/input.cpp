@@ -16,9 +16,7 @@ namespace lava {
 
 /**
  * @brief Handle events
- *
  * @tparam T                Type of event
- *
  * @param events            Events to handle
  * @param input_callback    Input callback
  */

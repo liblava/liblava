@@ -50,14 +50,12 @@ struct app_config : configurable {
 
     /**
      * @brief Set config
-     *
      * @param j    Json file
      */
     void set_config(json_ref j) override;
 
     /**
      * @brief Get config
-     *
      * @return json    Json file
      */
     json get_config() const override;
@@ -73,7 +71,6 @@ struct app_config : configurable {
 
 /**
  * @brief Set the window icon
- *
  * @param window       Target window
  * @param icon_file    Icon file
  */

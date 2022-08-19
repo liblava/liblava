@@ -112,9 +112,7 @@ using VkPhysicalDevices = std::vector<VkPhysicalDevice>;
 
 /**
  * @brief Check a Vulkan result
- *
  * @param result    Result to check
- *
  * @return true     No error
  * @return false    Error
  */
@@ -122,9 +120,7 @@ bool check(VkResult result);
 
 /**
  * @brief Check if a Vulkan result failed
- *
  * @param result    Result to check
- *
  * @return true     Error
  * @return false    No error
  */
@@ -134,36 +130,28 @@ inline bool failed(VkResult result) {
 
 /**
  * @brief Convert a Vulkan result to string
- *
  * @param result     Result to convert
- *
  * @return string    String of result
  */
 string to_string(VkResult result);
 
 /**
  * @brief Convert a version to string
- *
  * @param version    Version to convert
- *
  * @return string    String of version
  */
 string version_to_string(ui32 version);
 
 /**
  * @brief Convert a version to internal version
- *
  * @param version              Version to convert
- *
  * @return internal_version    Converted version
  */
 internal_version to_version(ui32 version);
 
 /**
  * @brief Convert a version to Vulkan version
- *
  * @param version    Internal version to convert
- *
  * @return ui32      Converted Vulkan version
  */
 ui32 to_version(internal_version version);
@@ -180,9 +168,7 @@ enum class api_version : type {
 
 /**
  * @brief Convert a version to Vulkan API version
- *
  * @param version         Vulkan version to convert
- *
  * @return api_version    Converted API version
  */
 api_version to_api_version(ui32 version);
@@ -199,7 +185,6 @@ struct vk_result {
 
     /**
      * @brief Check result state
-     *
      * @return true     No error
      * @return false    Error
      */

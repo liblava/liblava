@@ -30,14 +30,12 @@ struct buffer : entity {
 
     /**
      * @brief Create a new buffer
-     *
      * @param device          Vulkan device
      * @param data            Buffer data
      * @param size            Data size
      * @param usage           Buffer usage flags
      * @param mapped          Map the buffer
      * @param memory_usage    Memory usage
-     *
      * @return true           Create was successful
      * @return false          Create failed
      */
@@ -50,13 +48,11 @@ struct buffer : entity {
 
     /**
      * @brief Create a new mapped buffer
-     *
      * @param device          Vulkan device
      * @param data            Buffer data
      * @param size            Data size
      * @param usage           Buffer usage flags
      * @param memory_usage    Memory usage
-     *
      * @return true           Create was successful
      * @return false          Create failed
      */
@@ -73,7 +69,6 @@ struct buffer : entity {
 
     /**
      * @brief Get the device
-     *
      * @return device_p    Vulkan device
      */
     device_p get_device() {
@@ -82,7 +77,6 @@ struct buffer : entity {
 
     /**
      * @brief Check if the buffer is valid
-     *
      * @return true     Buffer is valid
      * @return false    Buffer is invalid
      */
@@ -92,7 +86,6 @@ struct buffer : entity {
 
     /**
      * @brief Get the buffer
-     *
      * @return VkBuffer    Vulkan buffer
      */
     VkBuffer get() const {
@@ -101,7 +94,6 @@ struct buffer : entity {
 
     /**
      * @brief Get the descriptor information
-     *
      * @return VkDescriptorBufferInfo const*    Descriptor buffer information
      */
     VkDescriptorBufferInfo const* get_descriptor_info() const {
@@ -110,14 +102,12 @@ struct buffer : entity {
 
     /**
      * @brief Get the address of the buffer
-     *
      * @return VkDeviceAddress    Device address
      */
     VkDeviceAddress get_address() const;
 
     /**
      * @brief Get the size of the buffer
-     *
      * @return VkDeviceSize    Device size
      */
     VkDeviceSize get_size() const {
@@ -126,7 +116,6 @@ struct buffer : entity {
 
     /**
      * @brief Get the mapped data
-     *
      * @return void*    Pointer to data
      */
     void* get_mapped_data() const {
@@ -135,7 +124,6 @@ struct buffer : entity {
 
     /**
      * @brief Get the device memory of the buffer
-     *
      * @return VkDeviceMemory    Device memory
      */
     VkDeviceMemory get_device_memory() const {
@@ -144,7 +132,6 @@ struct buffer : entity {
 
     /**
      * @brief Flush the buffer data
-     *
      * @param offset    Offset device size
      * @param size      Data device size
      */
@@ -153,7 +140,6 @@ struct buffer : entity {
 
     /**
      * @brief Get the allocation
-     *
      * @return VmaAllocation const&    Allocation
      */
     VmaAllocation const& get_allocation() const {
@@ -162,7 +148,6 @@ struct buffer : entity {
 
     /**
      * @brief Get the allocation information
-     *
      * @return VmaAllocationInfo const&    Allocation information
      */
     VmaAllocationInfo const& get_allocation_info() const {
@@ -188,7 +173,6 @@ private:
 
 /**
  * @brief Make a new buffer
- *
  * @return buffer::ptr    Shared pointer to buffer
  */
 inline buffer::ptr make_buffer() {
@@ -197,18 +181,14 @@ inline buffer::ptr make_buffer() {
 
 /**
  * @brief Get possible stages by bufferusage flags
- *
  * @param usage                    Buffer usage flags
- *
  * @return VkPipelineStageFlags    Pipeline stage flags
  */
 VkPipelineStageFlags buffer_usage_to_possible_stages(VkBufferUsageFlags usage);
 
 /**
  * @brief Get possible access by buffer usage flags
- *
  * @param usage             Buffer usage flags
- *
  * @return VkAccessFlags    Access flags
  */
 VkAccessFlags buffer_usage_to_possible_access(VkBufferUsageFlags usage);

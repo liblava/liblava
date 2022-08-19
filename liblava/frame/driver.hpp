@@ -23,7 +23,6 @@ struct stage {
 
     /**
      * @brief Construct a new stage
-     *
      * @param id       Stage id
      * @param descr    Stage description
      * @param func     Stage function
@@ -68,7 +67,6 @@ struct driver {
 
     /**
      * @brief Get driver instance
-     *
      * @return driver&    Stage driver
      */
     static driver& instance() {
@@ -78,7 +76,6 @@ struct driver {
 
     /**
      * @brief Add a stage
-     *
      * @param stage    Stage to add
      */
     void add_stage(stage* stage) {
@@ -87,7 +84,6 @@ struct driver {
 
     /**
      * @brief Get all stages
-     *
      * @return stage::map const&    Map of stages
      */
     stage::map const& get_stages() const {
@@ -96,9 +92,7 @@ struct driver {
 
     /**
      * @brief Run the driver
-     *
      * @param cmd_line    Command line arguments
-     *
      * @return i32        Result code
      */
     i32 run(argh::parser cmd_line = {});

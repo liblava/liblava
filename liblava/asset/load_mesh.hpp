@@ -13,11 +13,9 @@ namespace lava {
 
 /**
  * @brief Load mesh from file
- *
  * @param device        Vulkan device
  * @param filename      File to load
  * @param temp_dir      Temporary directory
- *
  * @return mesh::ptr    Loaded mesh
  */
 mesh::ptr load_mesh(device_p device,

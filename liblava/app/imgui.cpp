@@ -37,9 +37,7 @@ ui32 imgui_frag_shader[] = {
 
 /**
  * @brief Get the clipboard text
- *
  * @param user_data    Window handle
- *
  * @return name        Clipboard text
  */
 name get_clipboard_text(void* user_data) {
@@ -48,7 +46,6 @@ name get_clipboard_text(void* user_data) {
 
 /**
  * @brief Set the clipboard text
- *
  * @param user_data    Window handle
  * @param text         Clipboard text
  */
