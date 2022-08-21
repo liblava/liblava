@@ -63,7 +63,7 @@
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "6b5a848173caacb124a0cb1ff07cfc731b9db14d"
+        "tag": "69648f74e3bea237287a0cde39725ca193d87dd0"
     },
     {
         "name": "volk",
@@ -87,7 +87,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "268565079c56600c197602683391a1bc8afba014"
+        "tag": "cdebd70e15f57eb455485a50acb25ebc8787ab78"
     },
     {
         "name": "imgui_docking",
@@ -129,6 +129,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "33e70194d32b8eb487b2f882b94353e0aed662cf"
+        "tag": "dc001fa935d71b4b77f263fce405c9dbdfcbfe28"
     }
 ]
