@@ -88,8 +88,7 @@ struct instance : no_copy_no_move {
      * @param debug      Debug configuration
      * @param info       Instance information
      * @param profile    Profile information (optional)
-     * @return true      Create was successful
-     * @return false     Create failed
+     * @return Create was successful or failed
      */
     bool create(create_param& param,
                 debug_config::ref debug,
@@ -143,8 +142,7 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Check if profile information is set
-     * @return true     Profile is set
-     * @return false    Profile is not set
+     * @return Profile is set or not
      */
     bool has_profile() const {
         return !profile.empty();
@@ -172,22 +170,19 @@ private:
     /**
      * @brief Check the debug configuration and create parameters
      * @param param     Create parameters
-     * @return true     Check was successful
-     * @return false    Check failed
+     * @return Check was successful or failed
      */
     bool check_debug(create_param& param) const;
 
     /**
      * @brief Enumerate all available physical devices
-     * @return true     Enumerate was successful
-     * @return false    Enumerate failed
+     * @return Enumerate was successful or failed
      */
     bool enumerate_physical_devices();
 
     /**
      * @brief Create a validation report
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create_validation_report();
 
@@ -218,8 +213,7 @@ private:
 /**
  * @brief Check instance create parameters
  * @param param     Create parameters
- * @return true     Check was successful
- * @return false    Check failed
+ * @return Check was successful or failed
  */
 bool check(instance::create_param::ref param);
 

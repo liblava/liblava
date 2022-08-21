@@ -35,8 +35,7 @@ struct image_loader {
 
     /**
      * @brief Check if data is ready
-     * @return true     Data is ready
-     * @return false    Data is not ready
+     * @return Data is ready or not
      */
     bool ready() const {
         return data != nullptr;

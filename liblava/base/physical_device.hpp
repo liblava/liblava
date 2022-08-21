@@ -45,8 +45,7 @@ struct physical_device : entity {
     /**
      * @brief Check if extension is supported
      * @param extension    Extension to check
-     * @return true        Extension is supported
-     * @return false       Extension is unsupported
+     * @return Extension is supported or not
      */
     bool supported(string_ref extension) const;
 
@@ -54,8 +53,7 @@ struct physical_device : entity {
      * @brief Get the queue family
      * @param index     Returned index of queue family
      * @param flags     Queue flags that must be set
-     * @return true     Found a queue family
-     * @return false    No queue family found
+     * @return Found a queue family or not
      */
     bool get_queue_family(index& index, VkQueueFlags flags) const;
 
@@ -133,8 +131,7 @@ struct physical_device : entity {
 
     /**
      * @brief Check if swapchain is supported
-     * @return true     Swapchain is supported
-     * @return false    Swapchain is unsupported
+     * @return Swapchain is supported or not
      */
     bool swapchain_supported() const;
 
@@ -142,8 +139,7 @@ struct physical_device : entity {
      * @brief Check if surface is supported
      * @param queue_family    Index of queue family
      * @param surface         Vulkan surface
-     * @return true           Surface is supported
-     * @return false          Surface is unsupported
+     * @return Surface is supported or not
      */
     bool surface_supported(index queue_family,
                            VkSurfaceKHR surface) const;
@@ -151,8 +147,7 @@ struct physical_device : entity {
     /**
      * @brief Check if profile is supported
      * @param profile    Profile to check
-     * @return true      Profile is supported
-     * @return false     Profile is not supported
+     * @return Profile is supported or not
      */
     bool profile_supported(VpProfileProperties profile) const;
 

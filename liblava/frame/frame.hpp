@@ -115,8 +115,7 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Check if framework is ready
-     * @return true     Framework is ready
-     * @return false    Framework is not ready
+     * @return Framework is ready or not
      */
     bool ready() const {
         return initialized;
@@ -133,8 +132,7 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Shut down the framework
-     * @return true     Shut down was successful
-     * @return false    Shut down failed
+     * @return Shut down was successful or failed
      */
     bool shut_down();
 
@@ -180,9 +178,8 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Remove a function from framework
-     * @param id Id of function
-     * @return true     Remove was successful
-     * @return false    Remove failed
+     * @param id    Id of function
+     * @return Remove was successful or failed
      */
     bool remove(id::ref id);
 
@@ -228,8 +225,7 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Check if framework is waiting for events
-     * @return true     Framework waits for events
-     * @return false    Framework does not wait for events
+     * @return Framework waits for events or not
      */
     bool waiting_for_events() const {
         return wait_for_events;
@@ -249,8 +245,7 @@ struct frame : interface, no_copy_no_move {
 private:
     /**
      * @brief Set up the framework
-     * @return true     Setup was successful
-     * @return false    Setup failed
+     * @return Setup was successful or failed
      */
     bool setup();
 
@@ -261,8 +256,7 @@ private:
 
     /**
      * @brief Run a step
-     * @return true     Run was successful
-     * @return false    Run failed
+     * @return Run was successful or failed
      */
     bool run_step();
 
@@ -278,8 +272,7 @@ private:
 
     /**
      * @brief Check Vulkan profile support
-     * @return true     Profile supported
-     * @return false    Profile not supported
+     * @return Profile supported or not
      */
     bool check_profile() const;
 

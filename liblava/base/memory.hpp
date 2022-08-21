@@ -35,7 +35,7 @@ struct allocator {
 
     /**
      * @brief Construct a new allocator
-     * @param allocator    Vma allocator
+     * @param allocator    VMA allocator
      */
     explicit allocator(VmaAllocator allocator)
     : vma_allocator(allocator) {}
@@ -43,9 +43,8 @@ struct allocator {
     /**
      * @brief Create a new allocator
      * @param device    Vulkan device
-     * @param flags     Vma allocator create flags
-     * @return true     Create was successfal
-     * @return false    Create failed
+     * @param flags     VMA allocator create flags
+     * @return Create was successful or failed
      */
     bool create(device_cptr device,
                 VmaAllocatorCreateFlags flags = 0);
@@ -57,23 +56,22 @@ struct allocator {
 
     /**
      * @brief Check if allocator is valid
-     * @return true     Allocator is valid
-     * @return false    Allocator is invalid
+     * @return Allocator is valid or not
      */
     bool valid() const {
         return vma_allocator != nullptr;
     }
 
     /**
-     * @brief Get the Vma allocator
-     * @return VmaAllocator    Vma allocator
+     * @brief Get the VMA allocator
+     * @return VmaAllocator    VMA allocator
      */
     VmaAllocator get() const {
         return vma_allocator;
     }
 
 private:
-    /// Vma allocator
+    /// VMA allocator
     VmaAllocator vma_allocator = nullptr;
 };
 
@@ -88,7 +86,7 @@ inline allocator::ptr make_allocator() {
 /**
  * @brief Create a allocator
  * @param device             Vulkan device
- * @param flags              Vma allocator create flags
+ * @param flags              VMA allocator create flags
  * @return allocator::ptr    Allocator
  */
 inline allocator::ptr create_allocator(device_cptr device,

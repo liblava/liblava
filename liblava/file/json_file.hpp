@@ -79,15 +79,13 @@ struct json_file {
 
     /**
      * @brief Load the json file
-     * @return true     Load was successful
-     * @return false    Load failed
+     * @return Load was successful or failed
      */
     bool load();
 
     /**
      * @brief Save the json file
-     * @return true     Save was successful
-     * @return false    Save failed
+     * @return Save was successful or failed
      */
     bool save();
 

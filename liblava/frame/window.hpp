@@ -97,8 +97,7 @@ struct window : entity {
     /**
      * @brief Create a new window with optional state
      * @param state     Window state
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(state::optional state = {});
 
@@ -238,8 +237,7 @@ struct window : entity {
 
     /**
      * @brief Check if window is visible
-     * @return true     Window is visible
-     * @return false    Window is invisible
+     * @return Window is visible or not
      */
     bool visible() const;
 
@@ -250,8 +248,7 @@ struct window : entity {
 
     /**
      * @brief Check if the window is iconified
-     * @return true     Window is iconified
-     * @return false    Window is not iconfied
+     * @return Window is iconified or not
      */
     bool iconified() const;
 
@@ -267,8 +264,7 @@ struct window : entity {
 
     /**
      * @brief Check if the window is maximized
-     * @return true     Window is maximized
-     * @return false    Window is not maximized
+     * @return Window is maximized or not
      */
     bool maximized() const;
 
@@ -279,8 +275,7 @@ struct window : entity {
 
     /**
      * @brief Check if the window is focused
-     * @return true     Window is focused
-     * @return false    Window is not focused
+     * @return Window is focused or not
      */
     bool focused() const;
 
@@ -295,8 +290,7 @@ struct window : entity {
 
     /**
      * @brief Check if the window is fullscreen
-     * @return true     Window is fullscreen
-     * @return false    Window is not fullscreen
+     * @return Window is fullscreen or not
      */
     bool fullscreen() const {
         return fullscreen_active;
@@ -304,15 +298,13 @@ struct window : entity {
 
     /**
      * @brief Check if mouse hovered over the window
-     * @return true     Mouse hovered
-     * @return false    Mouse not hovered
+     * @return Mouse hovered or not
      */
     bool hovered() const;
 
     /**
      * @brief Check if the window is resizable
-     * @return true     Window is resizable
-     * @return false    Window is not resizable
+     * @return Window is resizable or not
      */
     bool resizable() const;
 
@@ -324,8 +316,7 @@ struct window : entity {
 
     /**
      * @brief Check if the window is decorated
-     * @return true     Window is decorated
-     * @return false    Window is not decorated
+     * @return Window is decorated or not
      */
     bool decorated() const;
 
@@ -337,8 +328,7 @@ struct window : entity {
 
     /**
      * @brief Check if the window is floating
-     * @return true     Window is floating
-     * @return false    Window is not floating
+     * @return Window is floating or not
      */
     bool floating() const;
 
@@ -350,15 +340,13 @@ struct window : entity {
 
     /**
      * @brief Check if the window request to close
-     * @return true     Window has close request
-     * @return false    No close request
+     * @return Window has close request or not
      */
     bool close_request() const;
 
     /**
      * @brief Check if the window request to switch mode
-     * @return true     Window has switch mode request
-     * @return false    No switch mode request
+     * @return Window has switch mode request or not
      */
     bool switch_mode_request() const {
         return switch_mode_request_active;
@@ -367,8 +355,7 @@ struct window : entity {
     /**
      * @brief Switch mode of the window
      * @param state     Target window state
-     * @return true     Switch was successful
-     * @return false    Switch failed
+     * @return Switch was successful or failed
      */
     bool switch_mode(state::optional state = {});
 
@@ -382,8 +369,7 @@ struct window : entity {
 
     /**
      * @brief Check if the window request to resize
-     * @return true     Window has resize request
-     * @return false    No resize request
+     * @return Window has resize request or not
      */
     bool resize_request() const {
         return resize_request_active;
@@ -391,8 +377,7 @@ struct window : entity {
 
     /**
      * @brief Handle window resize
-     * @return true     Resize was successful
-     * @return false    Resize failed
+     * @return Resize was successful or failed
      */
     bool handle_resize() {
         if (on_resize)
@@ -436,8 +421,7 @@ struct window : entity {
 
     /**
      * @brief Check the show save title state
-     * @return true     Save title is active
-     * @return false    Save title is inactive
+     * @return Save title is active or not
      */
     bool save_title() const {
         return save_title_active;

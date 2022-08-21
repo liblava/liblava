@@ -31,8 +31,7 @@ struct forward_shading {
     /**
      * @brief Create a forward shading for a render target
      * @param target    Render target
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(render_target::ptr target);
 

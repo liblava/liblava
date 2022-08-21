@@ -47,8 +47,7 @@ struct telegram {
     /**
      * @brief Equal operator
      * @param rhs       Another telegram
-     * @return true     Telegram is equal
-     * @return false    Telegram is inequal
+     * @return Telegram is equal or not
      */
     bool operator==(ref rhs) const {
         return ((dispatch_time - rhs.dispatch_time) < telegram_min_delay)
@@ -60,8 +59,7 @@ struct telegram {
     /**
      * @brief Time order operator
      * @param rhs       Another telegram
-     * @return true     Telegram is earlier
-     * @return false    Telegram is later
+     * @return Telegram is earlier or later
      */
     bool operator<(ref rhs) const {
         if (*this == rhs)

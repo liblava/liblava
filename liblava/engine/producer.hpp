@@ -36,8 +36,7 @@ struct producer {
     /**
      * @brief Add mesh to products
      * @param mesh      Mesh
-     * @return true     Added to products
-     * @return false    Already exists
+     * @return Added to products or already exists
      */
     bool add_mesh(mesh::ptr mesh);
 
@@ -58,8 +57,7 @@ struct producer {
     /**
      * @brief Add texture to products
      * @param product    Texture
-     * @return true      Added to products
-     * @return false     Already exists
+     * @return Added to products or already exists
      */
     bool add_texture(texture::ptr product);
 
@@ -146,8 +144,7 @@ private:
     /**
      * @brief Check if shader file(s) changed
      * @param name      Name of shader
-     * @return true     Shader is valid
-     * @return false    Shader has changed
+     * @return Shader is valid or has changed
      */
     bool valid_shader(string_ref name) const;
 

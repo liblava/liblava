@@ -42,8 +42,7 @@ struct pipeline : entity {
 
     /**
      * @brief Create a new pipeline
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create();
 
@@ -68,8 +67,7 @@ struct pipeline : entity {
 
     /**
      * @brief Check if pipeline is active
-     * @return true     Pipeline is active
-     * @return false    Pipeline is inactive
+     * @return Pipeline is active or note
      */
     bool activated() const {
         return active;
@@ -92,8 +90,7 @@ struct pipeline : entity {
 
     /**
      * @brief Check if auto bind is enabled
-     * @return true     Auto bind is enabled
-     * @return false    Audo bind is disabled
+     * @return Auto bind is enabled or not
      */
     bool auto_bind() const {
         return auto_bind_active;
@@ -101,8 +98,7 @@ struct pipeline : entity {
 
     /**
      * @brief Check if pipeline is ready
-     * @return true     Pipeline is ready
-     * @return false    Pipeline is not ready
+     * @return Pipeline is ready or not
      */
     bool ready() const {
         return vk_pipeline != VK_NULL_HANDLE;
@@ -179,8 +175,7 @@ struct pipeline : entity {
          * @param device                 Vulkan device
          * @param shader_data            Shader data
          * @param specialization_data    Specialization data
-         * @return true                  Create was successful
-         * @return false                 Create failed
+         * @return Create was successful or failed
          */
         bool create(device_p device,
                     cdata::ref shader_data,
@@ -219,8 +214,7 @@ struct pipeline : entity {
 protected:
     /**
      * @brief Set up the pipeline
-     * @return true     Setup was successful
-     * @return false    Setup failed
+     * @return Setup was successful or failed
      */
     virtual bool setup() = 0;
 

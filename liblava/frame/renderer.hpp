@@ -22,8 +22,7 @@ struct renderer : entity {
     /**
      * @brief Create a new renderer
      * @param target    Swapchain target
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(swapchain* target);
 
@@ -41,16 +40,14 @@ struct renderer : entity {
     /**
      * @brief End of frame rendering
      * @param cmd_buffers    List of command buffers
-     * @return true          End was successful
-     * @return false         End failed
+     * @return End was successful or failed
      */
     bool end_frame(VkCommandBuffers const& cmd_buffers);
 
     /**
      * @brief Render a frame
      * @param cmd_buffers    List of command buffers
-     * @return true          Render was successful
-     * @return false         Render failed
+     * @return Render was successful or failed
      */
     bool frame(VkCommandBuffers const& cmd_buffers) {
         if (!begin_frame())

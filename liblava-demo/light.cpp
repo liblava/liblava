@@ -54,8 +54,7 @@ struct gbuffer_attachment {
      * @brief Create a new G-Buffer attachment
      * @param app       Application
      * @param index     Attachment index
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(app const& app, ui32 index);
 };

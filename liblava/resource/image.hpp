@@ -38,8 +38,7 @@ struct image : entity {
      * @param size                     Image size
      * @param memory_usage             Memory usage
      * @param mip_levels_generation    Enable mip levels generation
-     * @return true                    Create was successful
-     * @return false                   Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device,
                 uv2 size,

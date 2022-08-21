@@ -184,8 +184,7 @@ struct data {
 
     /**
      * @brief Allocate data
-     * @return true     Allocate was successful
-     * @return false    Allocate failed
+     * @return Allocate was successful or failed
      */
     bool allocate() {
         ptr = as_ptr(alloc_data(size, alignment));

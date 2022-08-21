@@ -22,8 +22,7 @@ struct swapchain : entity {
      * @param format     Surface format
      * @param size       Size of swapchain
      * @param v_sync     V-Sync enabled
-     * @return true      Create was successful
-     * @return false     Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device,
                 VkSurfaceKHR surface,
@@ -39,8 +38,7 @@ struct swapchain : entity {
     /**
      * @brief Resize the swapchain
      * @param new_size    New size of swapchain
-     * @return true       Resize was successful
-     * @return false      Resize failed
+     * @return Resize was successful or failed
      */
     bool resize(uv2 new_size);
 
@@ -53,8 +51,7 @@ struct swapchain : entity {
 
     /**
      * @brief Check if reload of the swapchain is requested
-     * @return true     Reload is requsted
-     * @return false    Reload is not requested
+     * @return Reload is requested or not
      */
     bool reload_request() const {
         return reload_request_active;
@@ -150,8 +147,7 @@ struct swapchain : entity {
 
     /**
      * @brief Check if V-Sync is enabled
-     * @return true     V-Sync is active
-     * @return false    V-Sync is inactive
+     * @return V-Sync is active or not
      */
     bool v_sync() const {
         return v_sync_active;
@@ -160,8 +156,7 @@ struct swapchain : entity {
     /**
      * @brief Check if surface is supported by queue family index
      * @param queue_family    Queue family index
-     * @return true           Surface is supported by queue family
-     * @return false          Surface is not supported queue family
+     * @return Surface is supported by queue family or not
      */
     bool surface_supported(index queue_family) const;
 
@@ -182,8 +177,7 @@ private:
 
     /**
      * @brief Set up the swapchain
-     * @return true     Setup was successful
-     * @return false    Setup failed
+     * @return Setup was successful or failed
      */
     bool setup();
 

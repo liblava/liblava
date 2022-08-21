@@ -177,8 +177,7 @@ struct subpass : entity {
 
     /**
      * @brief Check if subpass is active
-     * @return true     Subpass is active
-     * @return false    Subpass is inactive
+     * @return Subpass is active or not
      */
     bool activated() const {
         return active;

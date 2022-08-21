@@ -44,7 +44,7 @@ struct device : device_table, entity {
         /// Physical device
         physical_device_cp physical_device = nullptr;
 
-        /// Vma flags
+        /// VMA flags
         VmaAllocatorCreateFlags vma_flags = 0;
 
         /// List of extensions to enable
@@ -85,8 +85,7 @@ struct device : device_table, entity {
          * @brief Add queue
          * @param flags       Queue flags
          * @param priority    Priority for queue
-         * @return true       Add was successful
-         * @return false      Add failed
+         * @return Add was successful or failed
          */
         bool add_queue(VkQueueFlags flags,
                        r32 priority = 1.f) {
@@ -98,8 +97,7 @@ struct device : device_table, entity {
          * @param flags       Queue flags
          * @param count       Number of queues
          * @param priority    Priority for queues
-         * @return true       Add was successful
-         * @return false      Add failed
+         * @return Add was successful or failed
          */
         bool add_queues(VkQueueFlags flags,
                         ui32 count,
@@ -108,8 +106,7 @@ struct device : device_table, entity {
         /**
          * @brief Add all dedicated queues
          * @param priority    Priority for queues
-         * @return true       Add was successful
-         * @return false      Add failed
+         * @return Add was successful or failed
          */
         bool add_dedicated_queues(r32 priority = 1.f);
 
@@ -130,8 +127,7 @@ struct device : device_table, entity {
     /**
      * @brief Create a new device
      * @param param     Create parameters
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(create_param::ref param);
 
@@ -266,8 +262,7 @@ struct device : device_table, entity {
 
     /**
      * @brief Wait for idle
-     * @return true     Wait was successful
-     * @return false    Wait failed
+     * @return Wait was successful or failed
      */
     bool wait_for_idle() const {
         return check(call().vkDeviceWaitIdle(vk_device));
@@ -302,8 +297,7 @@ struct device : device_table, entity {
     /**
      * @brief Check if surface is supported by this device
      * @param surface    Surface to check
-     * @return true      Surface is supported
-     * @return false     Surface is not supported
+     * @return Surface is supported or not
      */
     bool surface_supported(VkSurfaceKHR surface) const;
 
@@ -324,8 +318,8 @@ struct device : device_table, entity {
     }
 
     /**
-     * @brief Get the Vma allocator
-     * @return VmaAllocator    Vma allocator
+     * @brief Get the VMA allocator
+     * @return VmaAllocator    VMA allocator
      */
     VmaAllocator alloc() const {
         return mem_allocator != nullptr
@@ -374,8 +368,7 @@ using one_time_command_func = std::function<void(VkCommandBuffer)>;
  * @param pool        Command pool (VK_NULL_HANDLE: managed)
  * @param queue       Target queue
  * @param callback    Function to be called
- * @return true       Submit was successful
- * @return false      Submit failed
+ * @return Submit was successful or failed
  */
 bool one_time_submit_pool(device_p device,
                           VkCommandPool pool,
@@ -387,8 +380,7 @@ bool one_time_submit_pool(device_p device,
  * @param device      Vulkan device
  * @param queue       Target queue
  * @param callback    Function to be called
- * @return true       Submit was successful
- * @return false      Submit failed
+ * @return Submit was successful or failed
  */
 inline bool one_time_submit(device_p device,
                             queue::ref queue,

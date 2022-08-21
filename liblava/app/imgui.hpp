@@ -148,8 +148,7 @@ struct imgui {
      * @param device        Vulkan device
      * @param max_frames    Number of frames
      * @param pass          Render pass
-     * @return true         Create was successful
-     * @return false        Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device, index max_frames, VkRenderPass pass) {
         if (!create(device, max_frames))
@@ -161,8 +160,7 @@ struct imgui {
     /**
      * @brief Upload font texture
      * @param texture    Texture to upload
-     * @return true      Upload was successful
-     * @return false     Upload failed
+     * @return Upload was successful or failed
      */
     bool upload_fonts(texture::ptr texture);
 
@@ -173,8 +171,7 @@ struct imgui {
 
     /**
      * @brief Check if ImGui is ready
-     * @return true     ImGui is ready
-     * @return false    ImGui is not ready
+     * @return ImGui is ready or not
      */
     bool ready() const {
         return initialized;
@@ -196,15 +193,13 @@ struct imgui {
 
     /**
      * @brief Check if mouse capture is active
-     * @return true     Capture is active
-     * @return false    Capture is not active
+     * @return Capture is active or not
      */
     bool capture_mouse() const;
 
     /**
      * @brief Check if keyboard capture is active
-     * @return true     Capture is active
-     * @return false    Capture is not active
+     * @return Capture is active or not
      */
     bool capture_keyboard() const;
 
@@ -218,8 +213,7 @@ struct imgui {
 
     /**
      * @brief Check if ImGui is activated
-     * @return true     ImGui is active
-     * @return false    ImGui is not active
+     * @return ImGui is active or not
      */
     bool activated() const {
         return active;

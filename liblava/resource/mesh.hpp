@@ -99,8 +99,7 @@ struct mesh_template : entity {
      * @param device          Vulkan device
      * @param mapped          Map mesh data
      * @param memory_usage    Memory usage
-     * @return true           Create was successful
-     * @return false          Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device,
                 bool mapped = false,
@@ -134,8 +133,7 @@ struct mesh_template : entity {
 
     /**
      * @brief Check if mesh is empty
-     * @return true     Mesh is empty
-     * @return false    Mesh is not empty
+     * @return Mesh is empty or not
      */
     bool empty() const {
         return data.vertices.empty();
@@ -215,8 +213,7 @@ struct mesh_template : entity {
 
     /**
      * @brief Reload the mesh data
-     * @return true     Reload was successful
-     * @return false    Reload failed
+     * @return Reload was successful or failed
      */
     bool reload();
 

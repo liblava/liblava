@@ -76,8 +76,7 @@ struct pipeline_layout : entity {
     /**
      * @brief Create a new pipeline layout
      * @param device    Vulkan device
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device);
 

@@ -15,8 +15,7 @@ namespace lava {
  * @brief Read data from file
  * @param out         File data
  * @param filename    Name of file
- * @return true       Read was successful
- * @return false      Read failed
+ * @return Read was successful or failed
  */
 bool read_file(std::vector<char>& out, string_ref filename);
 
@@ -25,8 +24,7 @@ bool read_file(std::vector<char>& out, string_ref filename);
  * @param filename     Name of file
  * @param data         Data to write
  * @param data_size    Size of data
- * @return true        Write was successful
- * @return false       Write failed
+ * @return Write was successful or failed
  */
 bool write_file(string_ref filename,
                 char const* data,
@@ -36,8 +34,7 @@ bool write_file(string_ref filename,
  * @brief Check extension of file
  * @param filename     Name of file
  * @param extension    Extension to check
- * @return true        Extension found
- * @return false       Extension not found
+ * @return Extension found or not
  */
 bool extension(string_ref filename, string_ref extension);
 
@@ -45,8 +42,7 @@ bool extension(string_ref filename, string_ref extension);
  * @brief Check extensions of file
  * @param filename      Name of file
  * @param extensions    List of extensions to check
- * @return true         Extension found
- * @return false        Extension not found
+ * @return Extension found or not
  */
 bool extension(string_ref filename,
                string_list_ref extensions);
@@ -64,8 +60,7 @@ string get_filename_from(string_ref path,
  * @brief Remove existing path
  * @param target    Target path
  * @param path      Path to remove
- * @return true     Remove was successful
- * @return false    Remove failed
+ * @return Remove was successful or failed
  */
 bool remove_existing_path(string& target,
                           string_ref path);
@@ -74,8 +69,7 @@ bool remove_existing_path(string& target,
  * @brief Load file data
  * @param filename    Name of file
  * @param target      Target data
- * @return true       Load was successful
- * @return false      Load failed
+ * @return Load was successful or failed
  */
 bool load_file_data(string_ref filename,
                     data& target);

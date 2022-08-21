@@ -22,8 +22,7 @@ struct engine : app {
 
     /**
      * @brief Set up the engine
-     * @return true     Setup was successful
-     * @return false    Setup failed
+     * @return Setup was successful or failed
      */
     bool setup() override;
 

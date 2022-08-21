@@ -46,8 +46,7 @@ struct id {
 
     /**
      * @brief Check if the id is valid
-     * @return true     Id is valid
-     * @return false    Id is invalid
+     * @return Id is valid or not
      */
     bool valid() const {
         return value != undef;
@@ -126,8 +125,7 @@ inline id add_id_map(T const& object,
  * @tparam T        Type of object
  * @param object    Object to remove
  * @param map       Target map
- * @return true     Found object in map and removed it
- * @return false    Object in map not found
+ * @return Removed object from map or object not found
  */
 template<typename T>
 inline bool remove_id_map(id::ref object,
@@ -242,8 +240,7 @@ struct id_registry {
     /**
      * @brief Check if object exists in registry
      * @param object    Object to check
-     * @return true     Object exists
-     * @return false    Object does not exist
+     * @return Object exists or not
      */
     bool exists(id::ref object) const {
         return objects.count(object);
@@ -287,8 +284,7 @@ struct id_registry {
      * @brief Update meta of object
      * @param object    Object id
      * @param meta      Meta to update
-     * @return true     Meta updated
-     * @return false    Meta not updated
+     * @return Meta updated or not
      */
     bool update(id::ref object,
                 Meta const& meta) {

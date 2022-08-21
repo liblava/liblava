@@ -53,8 +53,7 @@ struct app : frame {
 
     /**
      * @brief Set up the application
-     * @return true     Setup was successful
-     * @return false    Setup failed
+     * @return Setup was successful or failed
      */
     virtual bool setup();
 
@@ -117,8 +116,7 @@ struct app : frame {
 
     /**
      * @brief V-Sync setting
-     * @return true     V-Sync is active
-     * @return false    V-Sync is inactive
+     * @return V-Sync is active or not
      */
     bool v_sync() const {
         return config.v_sync;
@@ -208,29 +206,25 @@ struct app : frame {
 private:
     /**
      * @brief Set up file system
-     * @return true       Setup was successful
-     * @return false      Setup failed
+     * @return Setup was successful or failed
      */
     bool setup_file_system();
 
     /**
      * @brief Set up window
-     * @return true       Setup was successful
-     * @return false      Setup failed
+     * @return Setup was successful or failed
      */
     bool setup_window();
 
     /**
      * @brief Set up device
-     * @return true       Setup was successful
-     * @return false      Setup failed
+     * @return Setup was successful or failed
      */
     bool setup_device();
 
     /**
      * @brief Set up render
-     * @return true       Setup was successful
-     * @return false      Setup failed
+     * @return Setup was successful or failed
      */
     bool setup_render();
 
@@ -271,8 +265,7 @@ private:
 
     /**
      * @brief Create ImGui
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create_imgui();
 
@@ -283,8 +276,7 @@ private:
 
     /**
      * @brief Create a render target
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create_target();
 
@@ -295,8 +287,7 @@ private:
 
     /**
      * @brief Create a block object
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create_block();
 

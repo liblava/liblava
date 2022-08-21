@@ -34,8 +34,7 @@ struct camera : entity {
     /**
      * @brief Create a camera
      * @param device    Vulkan device
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device);
 
@@ -84,8 +83,7 @@ struct camera : entity {
     /**
      * @brief Handle key event
      * @param event     Key event
-     * @return true     Event was handled
-     * @return false    Event ignored
+     * @return Event was handled or ignored
      */
     bool handle(key_event::ref event);
 
@@ -93,23 +91,21 @@ struct camera : entity {
      * @brief Handle mouse button event
      * @param event        Mouse button event
      * @param mouse_pos    Mouse position
-     * @return true        Event was handled
-     * @return false       Event ignored
+     * @return Event was handled or ignored
      */
-    bool handle(mouse_button_event::ref event, mouse_position mouse_pos);
+    bool handle(mouse_button_event::ref event,
+                mouse_position mouse_pos);
 
     /**
      * @brief Handle scroll event
      * @param event     Scroll event
-     * @return true     Event was handled
-     * @return false    Event ignored
+     * @return Event was handled or ignored
      */
     bool handle(scroll_event::ref event);
 
     /**
      * @brief Check if camera is valid
-     * @return true     Camera is valid
-     * @return false    Camera is invalid
+     * @return Camera is valid or not
      */
     bool valid() const {
         return data ? data->valid() : false;
@@ -148,8 +144,7 @@ struct camera : entity {
 
     /**
      * @brief Check if camera is activated
-     * @return true     Camera is active
-     * @return false    Camera is inactive
+     * @return Camera is active or not
      */
     bool activated() const {
         return active;
@@ -157,8 +152,7 @@ struct camera : entity {
 
     /**
      * @brief Check if camera is moving
-     * @return true     Camera is moving
-     * @return false    Camera does not move
+     * @return Camera is moving or does not move
      */
     bool moving() const {
         return move_up || move_down || move_left || move_right;

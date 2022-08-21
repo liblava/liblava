@@ -79,8 +79,7 @@ struct property : configurable {
     /**
      * @brief Check if prop exists
      * @param name      Name of prop to check
-     * @return true     Prop exists
-     * @return false    Prop does not exists
+     * @return Prop exists or not
      */
     bool exists(string_ref name) const {
         return map.count(name);
@@ -89,18 +88,16 @@ struct property : configurable {
     /**
      * @brief Check if prop data is empty
      * @param name      Name of prop
-     * @return true     Prop data is loaded
-     * @return false    Prop data is empty
+     * @return Prop data is empty or not
      */
     bool empty(string_ref name) const {
-        return map.at(name).data.ptr != nullptr;
+        return map.at(name).data.ptr == nullptr;
     }
 
     /**
      * @brief Load prop data (reload if loaded)
      * @param name      Name of prop
-     * @return true     Load was successful
-     * @return false    Load was not successful
+     * @return Load was successful or failed
      */
     bool load(string_ref name);
 
@@ -114,8 +111,7 @@ struct property : configurable {
 
     /**
      * @brief Load all prop data (reload if loaded)
-     * @return true     Load was successful
-     * @return false    Load was not successful
+     * @return Load was successful or failed
      */
     bool load_all();
 
@@ -129,8 +125,7 @@ struct property : configurable {
 
     /**
      * @brief Check whether all props are available
-     * @return true     All props are there
-     * @return false    Some props are missing (see log)
+     * @return All props are there or are missing (see log)
      */
     bool check();
 

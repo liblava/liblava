@@ -88,8 +88,7 @@ struct texture : entity {
      * @param format    Texture format
      * @param layers    List of layers
      * @param type      Texture type
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device,
                 uv2 size,
@@ -106,8 +105,7 @@ struct texture : entity {
      * @brief Upload data to texture
      * @param data         Data to upload
      * @param data_size    Size of data
-     * @return true        Upload was successful
-     * @return false       Upload failed
+     * @return Upload was successful or failed
      */
     bool upload(void const* data,
                 size_t data_size);
@@ -115,8 +113,7 @@ struct texture : entity {
     /**
      * @brief Stage the texture
      * @param cmd_buffer    Command buffer
-     * @return true         Stage was successful
-     * @return false        Stage failed
+     * @return Stage was successful or failed
      */
     bool stage(VkCommandBuffer cmd_buffer);
 
@@ -209,8 +206,7 @@ struct staging {
      * @brief Stage textures
      * @param cmd_buf    Command buffer
      * @param frame      Frame index
-     * @return true      Stage was successful
-     * @return false     Stage failed
+     * @return Stage was successful or failed
      */
     bool stage(VkCommandBuffer cmd_buf,
                index frame);
@@ -225,8 +221,7 @@ struct staging {
 
     /**
      * @brief Check if staging is busy
-     * @return true     Staging is busy
-     * @return false    Staging is not busy
+     * @return Staging is busy or not
      */
     bool busy() const {
         return !todo.empty() || !staged.empty();

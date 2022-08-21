@@ -137,8 +137,7 @@ struct rect {
     /**
      * @brief Check if point is inside the rectangle
      * @param point     Point to check
-     * @return true     Point is inside
-     * @return false    Point is outside
+     * @return Point is inside or out
      */
     bool contains(iv2 point) const {
         return (left_top.x < point.x)

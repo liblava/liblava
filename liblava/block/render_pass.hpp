@@ -33,8 +33,7 @@ struct render_pass : entity {
      * @brief Create a new render pass
      * @param target_attachments    List of target attachments
      * @param area                  Rectangle area
-     * @return true                 Create was successful
-     * @return false                Create failed
+     * @return Create was successful or failed
      */
     bool create(VkAttachmentsRef target_attachments,
                 rect area);
@@ -79,8 +78,7 @@ struct render_pass : entity {
     /**
      * @brief Check if subpass exists
      * @param index     Index to check
-     * @return true     Subpass exists
-     * @return false    Subpass does not exist
+     * @return Subpass exists or not
      */
     bool exists_subpass(index index = 0) const {
         return index < subpasses.size();
@@ -239,8 +237,7 @@ private:
      * @brief Called on target created
      * @param target_attachments    List of target attachments
      * @param area                  Rectangle area
-     * @return true                 Create was successful
-     * @return false                Create failed
+     * @return Create was successful or failed
      */
     bool on_target_created(VkAttachmentsRef target_attachments,
                            rect area);
