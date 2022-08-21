@@ -1,6 +1,6 @@
 /**
- * @file         liblava/block/graphics_pipeline.hpp
- * @brief        Graphics pipeline
+ * @file         liblava/block/render_pipeline.hpp
+ * @brief        Render pipeline (Graphics)
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
@@ -12,16 +12,16 @@
 namespace lava {
 
 /**
- * @brief Graphics pipeline
+ * @brief Render pipeline (Graphics)
  */
-struct graphics_pipeline : pipeline {
-    /// Shared pointer to graphics pipeline
-    using ptr = std::shared_ptr<graphics_pipeline>;
+struct render_pipeline : pipeline {
+    /// Shared pointer to render pipeline
+    using ptr = std::shared_ptr<render_pipeline>;
 
-    /// Map of graphics pipelines
+    /// Map of render pipelines
     using map = std::map<id, ptr>;
 
-    /// List of graphics pipelines
+    /// List of render pipelines
     using list = std::vector<ptr>;
 
     /**
@@ -34,7 +34,7 @@ struct graphics_pipeline : pipeline {
     };
 
     /**
-     * @brief Graphics pipeline create information
+     * @brief Render pipeline create information
      */
     struct create_info {
         /// Vertex input stage
@@ -57,12 +57,12 @@ struct graphics_pipeline : pipeline {
     };
 
     /**
-     * @brief Construct a new graphics pipeline
+     * @brief Construct a new render pipeline
      * @param device            Vulkan device
      * @param pipeline_cache    Pipeline cache
      */
-    explicit graphics_pipeline(device_p device,
-                               VkPipelineCache pipeline_cache);
+    explicit render_pipeline(device_p device,
+                             VkPipelineCache pipeline_cache);
 
     /**
      * @brief Bind the pipeline
@@ -118,10 +118,9 @@ struct graphics_pipeline : pipeline {
     }
 
     /**
-     * @brief Create a new graphics pipeline
+     * @brief Create a new render pipeline
      * @param pass      Vulkan render pass
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(VkRenderPass pass) {
         set(pass);
@@ -229,8 +228,7 @@ struct graphics_pipeline : pipeline {
      * @brief Add shader stage
      * @param data      Shader data
      * @param stage     Shader stage flag bits
-     * @return true     Add was successful
-     * @return false    Add failed
+     * @return Add was successful or failed
      */
     bool add_shader_stage(cdata::ref data,
                           VkShaderStageFlagBits stage);
@@ -239,8 +237,7 @@ struct graphics_pipeline : pipeline {
      * @brief Add shader
      * @param data      Shader data
      * @param stage     Shader stage flag bits
-     * @return true     Add was successful
-     * @return false    Add failed
+     * @return Add was successful or failed
      */
     bool add_shader(cdata::ref data,
                     VkShaderStageFlagBits stage) {
@@ -271,7 +268,7 @@ struct graphics_pipeline : pipeline {
     }
 
     /**
-     * @brief Clear the graphics pipeline
+     * @brief Clear the render pipeline
      */
     void clear() {
         clear_color_blend_attachment();
@@ -288,8 +285,7 @@ struct graphics_pipeline : pipeline {
 
     /**
      * @brief Get the auto sizing state
-     * @return true     Auto sizing is enabled
-     * @return false    Auto sizing is disabled
+     * @return Auto sizing is enabled or not
      */
     bool auto_sizing() const {
         return auto_size;
@@ -328,30 +324,30 @@ struct graphics_pipeline : pipeline {
     }
 
     /**
-     * @brief Get the sizing mode
+     * @brief Get the sizing
      * @return sizing_mode    Sizing mode
      */
-    sizing_mode get_sizing_mode() const {
-        return sizing_mode;
+    sizing_mode get_sizing() const {
+        return sizing;
     }
 
     /**
-     * @brief Set the sizing mode
+     * @brief Set the sizing
      * @param value    Sizing mode
      */
-    void set_sizing_mode(sizing_mode value) {
-        sizing_mode = value;
+    void set_sizing(sizing_mode value) {
+        sizing = value;
     }
 
     /**
      * @brief Copy pipeline configuration to target
-     * @param target    Graphics pipeline
+     * @param target    Render pipeline
      */
-    void copy_to(graphics_pipeline* target) const;
+    void copy_to(render_pipeline* target) const;
 
     /**
      * @brief Copy pipeline configuration from source
-     * @param source    Graphics pipeline
+     * @param source    Render pipeline
      */
     void copy_from(ptr const& source) {
         source->copy_to(this);
@@ -375,11 +371,10 @@ struct graphics_pipeline : pipeline {
 
     /**
      * @brief Check if auto line width is active
-     * @return true     Auto line width is enabled
-     * @return false    Auto line width is disabled
+     * @return Auto line width is enabled or not
      */
     bool auto_line_width() const {
-        return auto_line_width_active;
+        return auto_line_width_state;
     }
 
     /**
@@ -387,7 +382,7 @@ struct graphics_pipeline : pipeline {
      * @param value    Enable state
      */
     void set_auto_line_width(bool value = true) {
-        auto_line_width_active = value;
+        auto_line_width_state = value;
     }
 
     /**
@@ -401,19 +396,18 @@ struct graphics_pipeline : pipeline {
     /// Create function
     using create_func = std::function<bool(create_info&)>;
 
-    /// Called on graphics pipeline create
+    /// Called on render pipeline create
     create_func on_create;
 
 private:
     /**
-     * @brief Set up the graphics pipeline
-     * @return true     Setup was successful
-     * @return false    Setup failed
+     * @brief Set up the render pipeline
+     * @return Setup was successful or failed
      */
     bool setup() override;
 
     /**
-     * @brief Tear down the graphics pipeline
+     * @brief Tear down the render pipeline
      */
     void teardown() override;
 
@@ -448,7 +442,7 @@ private:
     shader_stage::list shader_stages;
 
     /// Sizing mode
-    graphics_pipeline::sizing_mode sizing_mode = sizing_mode::input;
+    sizing_mode sizing = sizing_mode::input;
 
     /// Vulkan viewport
     VkViewport viewport;
@@ -459,22 +453,22 @@ private:
     /// Auto size
     bool auto_size = true;
 
-    /// Auto line width
-    bool auto_line_width_active = false;
+    /// Auto line width state
+    bool auto_line_width_state = false;
 
     /// Line width
     r32 line_width = 1.f;
 };
 
 /**
- * @brief Make a new graphics pipeline
- * @param device                     Vulkan device
- * @param pipeline_cache             Pipeline cache
- * @return graphics_pipeline::ptr    Shared pointer to graphics pipeline
+ * @brief Make a new render pipeline
+ * @param device                   Vulkan device
+ * @param pipeline_cache           Pipeline cache
+ * @return render_pipeline::ptr    Shared pointer to render pipeline
  */
-inline graphics_pipeline::ptr make_graphics_pipeline(device_p device,
-                                                     VkPipelineCache pipeline_cache = 0) {
-    return std::make_shared<graphics_pipeline>(device, pipeline_cache);
+inline render_pipeline::ptr make_render_pipeline(device_p device,
+                                                 VkPipelineCache pipeline_cache = 0) {
+    return std::make_shared<render_pipeline>(device, pipeline_cache);
 }
 
 /**

@@ -61,7 +61,7 @@ int main(int argc, char* argv[]) {
                                           VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
         return error::create_failed;
 
-    graphics_pipeline::ptr pipeline;
+    render_pipeline::ptr pipeline;
     pipeline_layout::ptr layout;
 
     descriptor::ptr descriptor;
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 
     app.on_create = [&]() {
-        pipeline = make_graphics_pipeline(app.device);
+        pipeline = make_render_pipeline(app.device);
         if (!pipeline->add_shader(app.producer.get_shader(_vertex_),
                                   VK_SHADER_STAGE_VERTEX_BIT))
             return false;

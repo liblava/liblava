@@ -156,31 +156,31 @@ struct render_pass : entity {
     v3 get_clear_color() const;
 
     /**
-     * @brief Add a graphics pipeline to the back of subpass
-     * @param pipeline    Graphics pipeline
+     * @brief Add a render pipeline to the back of subpass
+     * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void add(graphics_pipeline::ptr pipeline,
+    void add(render_pipeline::ptr pipeline,
              index subpass = 0) {
         subpasses.at(subpass)->add(pipeline);
     }
 
     /**
-     * @brief Add a graphics pipeline to the front of subpass
-     * @param pipeline    Graphics pipeline
+     * @brief Add a render pipeline to the front of subpass
+     * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void add_front(graphics_pipeline::ptr pipeline,
+    void add_front(render_pipeline::ptr pipeline,
                    index subpass = 0) {
         subpasses.at(subpass)->add_front(pipeline);
     }
 
     /**
-     * @brief Remove a graphics pipeline from the subpass
-     * @param pipeline    Graphics pipeline
+     * @brief Remove a render pipeline from the subpass
+     * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void remove(graphics_pipeline::ptr pipeline,
+    void remove(render_pipeline::ptr pipeline,
                 index subpass = 0) {
         subpasses.at(subpass)->remove(pipeline);
     }

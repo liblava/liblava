@@ -175,14 +175,14 @@ int main(int argc, char* argv[]) {
 
     render_pass::ptr gbuffer_renderpass = make_render_pass(app.device);
     descriptor::ptr gbuffer_set_layout = make_descriptor();
-    pipeline_layout::ptr gbuffer_pipeline_layout = make_pipeline_layout();
-    graphics_pipeline::ptr gbuffer_pipeline = make_graphics_pipeline(app.device);
     VkDescriptorSet gbuffer_set = VK_NULL_HANDLE;
+    pipeline_layout::ptr gbuffer_pipeline_layout = make_pipeline_layout();
+    render_pipeline::ptr gbuffer_pipeline = make_render_pipeline(app.device);
 
     descriptor::ptr lighting_set_layout = make_descriptor();
-    pipeline_layout::ptr lighting_pipeline_layout = make_pipeline_layout();
-    graphics_pipeline::ptr lighting_pipeline = make_graphics_pipeline(app.device);
     VkDescriptorSet lighting_set = VK_NULL_HANDLE;
+    pipeline_layout::ptr lighting_pipeline_layout = make_pipeline_layout();
+    render_pipeline::ptr lighting_pipeline = make_render_pipeline(app.device);
 
     app.on_create = [&]() {
         VkDescriptorPoolSizes const pool_sizes = {

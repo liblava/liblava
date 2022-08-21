@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <liblava/block/graphics_pipeline.hpp>
+#include <liblava/block/render_pipeline.hpp>
 #include <liblava/file.hpp>
 #include <liblava/frame/input.hpp>
 #include <liblava/resource/texture.hpp>
@@ -127,22 +127,20 @@ struct imgui {
 
     /**
      * @brief Create ImGui
-     * @param pipeline      Graphics pipeline
+     * @param pipeline      Render pipeline
      * @param max_frames    Number of frames
-     * @return true         Create was successful
-     * @return false        Create failed
+     * @return Create was successful or failed
      */
-    bool create(graphics_pipeline::ptr pipeline, index max_frames);
+    bool create(render_pipeline::ptr pipeline, index max_frames);
 
     /**
      * @brief Create ImGui with device
      * @param device        Vulkan device
      * @param max_frames    Number of frames
-     * @return true         Create was successful
-     * @return false        Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device, index max_frames) {
-        return create(make_graphics_pipeline(device), max_frames);
+        return create(make_render_pipeline(device), max_frames);
     }
 
     /**
@@ -184,9 +182,9 @@ struct imgui {
 
     /**
      * @brief Get the pipeline
-     * @return graphics_pipeline::ptr    Graphics pipeline
+     * @return render_pipeline::ptr    Render pipeline
      */
-    graphics_pipeline::ptr get_pipeline() {
+    render_pipeline::ptr get_pipeline() {
         return pipeline;
     }
 
@@ -330,8 +328,8 @@ private:
     // Initialized state
     bool initialized = false;
 
-    /// Graphics pipeline
-    graphics_pipeline::ptr pipeline;
+    /// Render pipeline
+    render_pipeline::ptr pipeline;
 
     /// Pipeline layout
     pipeline_layout::ptr layout;

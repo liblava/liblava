@@ -87,11 +87,11 @@ int main(int argc, char* argv[]) {
     descriptor::pool::ptr descriptor_pool;
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 
-    graphics_pipeline::ptr pipeline;
+    render_pipeline::ptr pipeline;
     pipeline_layout::ptr layout;
 
     app.on_create = [&]() {
-        pipeline = make_graphics_pipeline(app.device);
+        pipeline = make_render_pipeline(app.device);
         pipeline->add_color_blend_attachment();
         pipeline->set_depth_test_and_write();
         pipeline->set_depth_compare_op(VK_COMPARE_OP_LESS_OR_EQUAL);
