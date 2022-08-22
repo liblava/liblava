@@ -2,13 +2,14 @@ name: docs
 
 on:
   workflow_run:
-    workflows: ["CMake"]
-    types:
-      - completed
+    workflows: [CMake]
+    types: [completed]
 
 jobs:
   publish:
-    if: github.repository_owner == 'thelavablock'
+    if: |
+      ${{ (github.repository_owner == 'liblava')
+        && (github.event.workflow_run.conclusion == 'success') }}
     
     runs-on: ubuntu-latest
 
