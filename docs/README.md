@@ -6,7 +6,7 @@
 
 <br />
 
-<a href="https://git.io/liblava"><img src="assets/liblava.svg"></a> &nbsp; *Documentation*
+<a href="https://liblava.github.io"><img src="assets/liblava.svg"></a> &nbsp; *Documentation*
 
 **A modern and easy-to-use library for the Vulkan® API**
 

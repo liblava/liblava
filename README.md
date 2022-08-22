@@ -14,11 +14,11 @@
 
 <br />
 
-**lava**  provides **essentials** for **low-level graphics** - specially well suited for **prototyping**, **tooling**, **profiling** and **education**. 
+**lava**  provides **essentials** for **low-level graphics** - suited for **prototyping**, **tooling**, **profiling** and **education**. 
 
-> **This lean framework** is written in **neat C++20** and it strives for a **modular rolling release** as far as possible. We *don't* want to promise too much... but **lava runs** really smoothly on **Windows** and **Linux** - Please feel free to **check it** out!
+> **This lean framework** is written in **neat C++20** and it strives for a **modular rolling release** as far as possible. We *don't* want to promise too much... but **lava runs** really smoothly on **Windows** and **Linux** - Please feel free to **check it out**!
 
-➜ &nbsp; [Download](https://github.com/liblava/liblava/releases) &nbsp; • &nbsp; [Documentation](docs/README.md) (Tutorial / Guide) &nbsp; • &nbsp; [Projects](#projects) &nbsp; • &nbsp; [Modules](#modules) &nbsp; • &nbsp; [Collaborate](#collaborate)
+➜ &nbsp; [Download](https://github.com/liblava/liblava/releases) &nbsp; • &nbsp; [Documentation](https://liblava.github.io) (Tutorial / Guide) &nbsp; • &nbsp; [Projects](#projects) &nbsp; • &nbsp; [Modules](#modules) &nbsp; • &nbsp; [Collaborate](#collaborate)
 
 <br />
 
@@ -44,9 +44,9 @@
 | ![light](res/light/screenshot.png) | [![spawn](https://img.shields.io/badge/lava-light-brightgreen.svg)](liblava-demo/light.cpp) <br /> **deferred shading + offscreen rendering** <br /><br /> Small demo that showcases how to render to an offscreen framebuffer and sample from it. *A challenge in itself and also a compact solution.* ➜ [code](liblava-demo/light.cpp) |
 | ![spawn](res/spawn/screenshot.png) | [![light](https://img.shields.io/badge/lava-spawn-brightgreen.svg)](liblava-demo/spawn.cpp) <br /> **uniform buffer + camera** <br /><br /> This loads a very large mesh object from file and simply textures it. *Use a gamepad to control the camera if there is one around.* ➜ [code](liblava-demo/spawn.cpp) |
 | ![lamp](res/lamp/screenshot.png) | [![lamp](https://img.shields.io/badge/lava-lamp-brightgreen.svg)](liblava-demo/lamp.cpp) <br /> **push constants to shader** <br /><br />Classic lamp to relax where the color can also be easily switched. *Unfortunately it also consumes power - so be aware!* ➜ [code](liblava-demo/lamp.cpp) |
-| ![shapes](res/shapes/screenshot.png) | [![shapes](https://img.shields.io/badge/lava-shapes-brightgreen.svg)](liblava-demo/shapes.cpp) <br /> **generating primitives** <br /><br /> Switch between basic shapes and use the camera to fly around. *The start for interactive applications.* ➜ [code](liblava-demo/shapes.cpp) |
+| ![shapes](res/shapes/screenshot.png) | [![shapes](https://img.shields.io/badge/lava-shapes-brightgreen.svg)](liblava-demo/shapes.cpp) <br /> **generating primitives** <br /><br /> Switch between basic shapes and use the camera to fly around. *A great start for your interactive applications.* ➜ [code](liblava-demo/shapes.cpp) |
 | ![generics](res/generics/screenshot.png) | [![generics](https://img.shields.io/badge/lava-generics-brightgreen.svg)](liblava-demo/generics.cpp) <br /> **float, double & int meshes** <br /><br /> This demo shows how to check GPU features and render mesh data with custom vertex layout. *There is a chapter about this in the Guide.* ➜ [code](liblava-demo/generics.cpp) |
-| ![triangle](res/triangle/screenshot.png) | [![triangle](https://img.shields.io/badge/lava-triangle-brightgreen.svg)](liblava-demo/triangle.cpp) <br /> **unique classic mesh** <br /><br /> Where graphics programming always begins. *A small example that illustrates how little it actually takes.* ➜ [code](liblava-demo/triangle.cpp) |
+| ![triangle](res/triangle/screenshot.png) | [![triangle](https://img.shields.io/badge/lava-triangle-brightgreen.svg)](liblava-demo/triangle.cpp) <br /> **unique classic mesh** <br /><br /> Where graphics programming always begins. *A small example that illustrates how little it actually takes to render a triangle.* ➜ [code](liblava-demo/triangle.cpp) |
 | ![demo](res/demo/screenshot.png) | [![lava demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo/main.cpp) <br /> **free download on ➜** [itch.io](https://thelavablock.itch.io/lava-demo) <br /><br /> The collection includes all demos to play around. *You can easily switch between them.* ➜ [code](liblava-demo/main.cpp) |
 
 <br />
