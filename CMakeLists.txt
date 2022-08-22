@@ -337,14 +337,14 @@ add_library(lava.block STATIC
   ${LIBLAVA_DIR}/block/def.hpp
   ${LIBLAVA_DIR}/block/descriptor.cpp
   ${LIBLAVA_DIR}/block/descriptor.hpp
-  ${LIBLAVA_DIR}/block/graphics_pipeline.cpp
-  ${LIBLAVA_DIR}/block/graphics_pipeline.hpp
   ${LIBLAVA_DIR}/block/pipeline.cpp
   ${LIBLAVA_DIR}/block/pipeline.hpp
   ${LIBLAVA_DIR}/block/pipeline_layout.cpp
   ${LIBLAVA_DIR}/block/pipeline_layout.hpp
   ${LIBLAVA_DIR}/block/render_pass.cpp
   ${LIBLAVA_DIR}/block/render_pass.hpp
+  ${LIBLAVA_DIR}/block/render_pipeline.cpp
+  ${LIBLAVA_DIR}/block/render_pipeline.hpp
   ${LIBLAVA_DIR}/block/subpass.cpp
   ${LIBLAVA_DIR}/block/subpass.hpp
   )

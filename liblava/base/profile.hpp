@@ -37,8 +37,7 @@ struct profile_info {
 
     /**
      * @brief Check if profile information is empty
-     * @return true     Profile information is set
-     * @return false    No profile information set
+     * @return Profile information is set or not
      */
     bool empty() const {
         return name.empty();
@@ -101,8 +100,7 @@ inline profile_info profile_desktop_baseline_2022() {
 /**
  * @brief Check if Vulkan Profile is supported
  * @param profile    Profile to check
- * @return true      Profile is supported
- * @return false     Profile is not supported
+ * @return Profile is supported or not
  */
 inline bool profile_supported(VpProfileProperties profile) {
     auto res = VK_FALSE;

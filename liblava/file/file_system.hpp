@@ -44,24 +44,21 @@ struct file_system : no_copy_no_move {
     /**
      * @brief Mount path
      * @param path      Path to mount
-     * @return true     Mount was successful
-     * @return false    Mount failed
+     * @return Mount was successful or failed
      */
     bool mount(string_ref path);
 
     /**
      * @brief Mount base directory path
      * @param base_dir_path    Base directory path
-     * @return true            Mount was successful
-     * @return false           Mount failed
+     * @return Mount was successful or failed
      */
     bool mount_base(string_ref base_dir_path);
 
     /**
      * @brief Check if file exists
      * @param file      File to check
-     * @return true     File exists
-     * @return false    File not found
+     * @return File exists or not found
      */
     bool exists(string_ref file);
 
@@ -85,8 +82,7 @@ struct file_system : no_copy_no_move {
      * @param org       Organization name
      * @param app       Application name
      * @param ext       Extension name
-     * @return true     Initialize was successful
-     * @return false    Initialize failed
+     * @return Initialize was successful or failed
      */
     bool initialize(string_ref argv_0,
                     string_ref org,
@@ -107,8 +103,7 @@ struct file_system : no_copy_no_move {
     /**
      * @brief Create a folder in the preferences directory (default: data)
      * @param name      Name of folder
-     * @return true     Folder created
-     * @return false    Folder not created
+     * @return Folder created or not
      */
     bool create_folder(string_ref name = "data");
 
@@ -143,8 +138,7 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Check if file system is ready
-     * @return true     File system is ready
-     * @return false    File system is not ready
+     * @return File system is ready or not
      */
     bool ready() const {
         return initialized;

@@ -16,42 +16,37 @@ namespace lava {
 using VkFormat_optional = std::optional<VkFormat>;
 
 /**
- * @brief Check if depth format compatible
+ * @brief Check if format is depth compatible
  * @param format    Format to check
- * @return true     Format can depth
- * @return false    No depth supported
+ * @return Format is depth compatible or not
  */
 bool format_depth(VkFormat format);
 
 /**
- * @brief Check if stencil format compatible
+ * @brief Check if format is stencil compatible
  * @param format    Format to check
- * @return true     Format can stencil
- * @return false    No stencil supported
+ * @return Format is stencil compatible or not
  */
 bool format_stencil(VkFormat format);
 
 /**
- * @brief Check if depth or stencil format compatible
+ * @brief Check if format is depth or stencil compatible
  * @param format    Format to check
- * @return true     Format can depth or stencil
- * @return false    No depth or stencil supported
+ * @return Format is depth or stencil compatible or not
  */
 bool format_depth_stencil(VkFormat format);
 
 /**
- * @brief Check if sRGB format compatible
+ * @brief Check if format is sRGB compatible
  * @param format    Format to check
- * @return true     Format can sRGB
- * @return false    No sRGB supported
+ * @return Format is sRGB compatible or not
  */
 bool format_srgb(VkFormat format);
 
 /**
- * @brief Check if format is BGR order
+ * @brief Check if format has BGR order
  * @param format    Format to check
- * @return true     Format is BGR
- * @return false    Format is not BGR
+ * @return Format has BGR order or not
  */
 bool format_bgr(VkFormat format);
 
@@ -227,8 +222,7 @@ VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device,
  * @brief Check if format supports bltting
  * @param device    Vulkan physical device
  * @param format    Format to check
- * @return true     Bliting is supported
- * @return false    Blitting is not supported
+ * @return Blitting is supported or not
  */
 bool support_blit(VkPhysicalDevice device,
                   VkFormat format);
@@ -237,8 +231,7 @@ bool support_blit(VkPhysicalDevice device,
  * @brief Check if vertex buffer format is supported
  * @param device    Vulkan physical device
  * @param format    Format to check
- * @return true     Format is supported
- * @return false    Format is not supported
+ * @return Format is supported or not
  */
 bool support_vertex_buffer_format(VkPhysicalDevice device,
                                   VkFormat format);

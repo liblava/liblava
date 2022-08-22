@@ -33,8 +33,7 @@ struct render_pass : entity {
      * @brief Create a new render pass
      * @param target_attachments    List of target attachments
      * @param area                  Rectangle area
-     * @return true                 Create was successful
-     * @return false                Create failed
+     * @return Create was successful or failed
      */
     bool create(VkAttachmentsRef target_attachments,
                 rect area);
@@ -79,8 +78,7 @@ struct render_pass : entity {
     /**
      * @brief Check if subpass exists
      * @param index     Index to check
-     * @return true     Subpass exists
-     * @return false    Subpass does not exist
+     * @return Subpass exists or not
      */
     bool exists_subpass(index index = 0) const {
         return index < subpasses.size();
@@ -156,31 +154,31 @@ struct render_pass : entity {
     v3 get_clear_color() const;
 
     /**
-     * @brief Add a graphics pipeline to the back of subpass
-     * @param pipeline    Graphics pipeline
+     * @brief Add a render pipeline to the back of subpass
+     * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void add(graphics_pipeline::ptr pipeline,
+    void add(render_pipeline::ptr pipeline,
              index subpass = 0) {
         subpasses.at(subpass)->add(pipeline);
     }
 
     /**
-     * @brief Add a graphics pipeline to the front of subpass
-     * @param pipeline    Graphics pipeline
+     * @brief Add a render pipeline to the front of subpass
+     * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void add_front(graphics_pipeline::ptr pipeline,
+    void add_front(render_pipeline::ptr pipeline,
                    index subpass = 0) {
         subpasses.at(subpass)->add_front(pipeline);
     }
 
     /**
-     * @brief Remove a graphics pipeline from the subpass
-     * @param pipeline    Graphics pipeline
+     * @brief Remove a render pipeline from the subpass
+     * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void remove(graphics_pipeline::ptr pipeline,
+    void remove(render_pipeline::ptr pipeline,
                 index subpass = 0) {
         subpasses.at(subpass)->remove(pipeline);
     }
@@ -239,8 +237,7 @@ private:
      * @brief Called on target created
      * @param target_attachments    List of target attachments
      * @param area                  Rectangle area
-     * @return true                 Create was successful
-     * @return false                Create failed
+     * @return Create was successful or failed
      */
     bool on_target_created(VkAttachmentsRef target_attachments,
                            rect area);

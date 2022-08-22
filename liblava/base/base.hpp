@@ -113,16 +113,14 @@ using VkPhysicalDevices = std::vector<VkPhysicalDevice>;
 /**
  * @brief Check a Vulkan result
  * @param result    Result to check
- * @return true     No error
- * @return false    Error
+ * @return Okay or error
  */
 bool check(VkResult result);
 
 /**
  * @brief Check if a Vulkan result failed
  * @param result    Result to check
- * @return true     Error
- * @return false    No error
+ * @return Error or okay
  */
 inline bool failed(VkResult result) {
     return !check(result);
@@ -184,9 +182,8 @@ struct vk_result {
     VkResult value = VK_NOT_READY;
 
     /**
-     * @brief Check result state
-     * @return true     No error
-     * @return false    Error
+     * @brief Check result
+     * @return Okay or error
      */
     operator bool() {
         return state;

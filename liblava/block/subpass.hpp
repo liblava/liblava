@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <liblava/block/graphics_pipeline.hpp>
+#include <liblava/block/render_pipeline.hpp>
 
 namespace lava {
 
@@ -32,26 +32,26 @@ struct subpass : entity {
     void destroy();
 
     /**
-     * @brief Add a graphics pipeline to the back of the subpass
-     * @param pipeline    Graphics pipeline
+     * @brief Add a render pipeline to the back of the subpass
+     * @param pipeline    Render pipeline
      */
-    void add(graphics_pipeline::ptr const& pipeline) {
+    void add(render_pipeline::ptr const& pipeline) {
         pipelines.push_back(pipeline);
     }
 
     /**
-     * @brief Add a graphics pipeline to the fronst of the subpass
-     * @param pipeline    Graphics pipeline
+     * @brief Add a render pipeline to the fronst of the subpass
+     * @param pipeline    Render pipeline
      */
-    void add_front(graphics_pipeline::ptr const& pipeline) {
+    void add_front(render_pipeline::ptr const& pipeline) {
         pipelines.insert(pipelines.begin(), pipeline);
     }
 
     /**
-     * @brief Remove the graphics pipeline
-     * @param pipeline    Graphice pipeline
+     * @brief Remove the render pipeline
+     * @param pipeline    Render pipeline
      */
-    void remove(graphics_pipeline::ptr pipeline);
+    void remove(render_pipeline::ptr pipeline);
 
     /**
      * @brief Clear all pipelines
@@ -177,8 +177,7 @@ struct subpass : entity {
 
     /**
      * @brief Check if subpass is active
-     * @return true     Subpass is active
-     * @return false    Subpass is inactive
+     * @return Subpass is active or not
      */
     bool activated() const {
         return active;
@@ -206,8 +205,8 @@ private:
     /// List of preserve attachment indicies
     index_list preserve_attachments;
 
-    /// List of graphics pipelines
-    graphics_pipeline::list pipelines;
+    /// List of render pipelines
+    render_pipeline::list pipelines;
 };
 
 /**

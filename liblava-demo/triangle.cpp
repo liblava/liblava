@@ -51,14 +51,14 @@ int main(int argc, char* argv[]) {
         return error::create_failed;
 
     pipeline_layout::ptr layout;
-    graphics_pipeline::ptr pipeline;
+    render_pipeline::ptr pipeline;
 
     app.on_create = [&]() {
         layout = make_pipeline_layout();
         if (!layout->create(app.device))
             return false;
 
-        pipeline = make_graphics_pipeline(app.device);
+        pipeline = make_render_pipeline(app.device);
         pipeline->set_layout(layout);
 
         if (!pipeline->add_shader({ vert_shader, sizeof(vert_shader) },

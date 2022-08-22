@@ -37,8 +37,7 @@ struct compute_pipeline : pipeline {
      * @brief Set shader stage
      * @param data      Shader data
      * @param stage     Shader stage flag bits
-     * @return true     Set was successful
-     * @return false    Set failed
+     * @return Set was successful or failed
      */
     bool set_shader_stage(cdata::ref data,
                           VkShaderStageFlagBits stage);
@@ -76,8 +75,7 @@ struct compute_pipeline : pipeline {
 private:
     /**
      * @brief Set up the compute pipeline
-     * @return true     Setup was successful
-     * @return false    Setup failed
+     * @return Setup was successful or failed
      */
     bool setup() override;
 

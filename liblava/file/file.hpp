@@ -30,8 +30,7 @@ constexpr i64 const file_error_result = -1;
 /**
  * @brief Check file error result
  * @param result    Result code to check
- * @return true     Error result
- * @return false    No error result
+ * @return Error result or okay
  */
 inline bool file_error(i64 result) {
     return result == file_error_result;
@@ -69,8 +68,7 @@ struct file : no_copy_no_move {
      * @brief Open the file
      * @param path      Name of file
      * @param mode      File mode
-     * @return true     Open was successful
-     * @return false    Open failed
+     * @return Open was successful or failed
      */
     bool open(string_ref path,
               file_mode mode = file_mode::read);
@@ -82,8 +80,7 @@ struct file : no_copy_no_move {
 
     /**
      * @brief Check if the file is opened
-     * @return true     File is opened
-     * @return false    File is not opened
+     * @return File is opened or not
      */
     bool opened() const;
 
@@ -134,8 +131,7 @@ struct file : no_copy_no_move {
 
     /**
      * @brief Check if the file is in write mode
-     * @return true     File is writable
-     * @return false    File is only readable
+     * @return File is writable or only readable
      */
     bool writable() const {
         return mode == file_mode::write;

@@ -44,8 +44,7 @@ struct command : entity {
      * @param device           Vulkan device
      * @param frame_count      Number of frames
      * @param command_pools    List of command pools
-     * @return true            Create was successful
-     * @return false           Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device,
                 index frame_count,
@@ -85,8 +84,7 @@ struct block : entity {
      * @param device          Vulkan device
      * @param frame_count     Number of frames
      * @param queue_family    Queue family index
-     * @return true           Create was successful
-     * @return false          Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device,
                 index frame_count,
@@ -136,8 +134,7 @@ struct block : entity {
     /**
      * @brief Process the block
      * @param frame     Frame index
-     * @return true     Process was successful
-     * @return false    Process aborted
+     * @return Process was successful or aborted
      */
     bool process(index frame);
 
@@ -201,8 +198,7 @@ struct block : entity {
     /**
      * @brief Check if command is activated
      * @param command    Command id
-     * @return true      Command is active
-     * @return false     Command is inactive
+     * @return Command is active or not
      */
     bool activated(id::ref command);
 
@@ -210,8 +206,7 @@ struct block : entity {
      * @brief Set the command active
      * @param command    Command id
      * @param active     Active state
-     * @return true      Set was successful
-     * @return false     Set failed
+     * @return Set was successful or failed
      */
     bool set_active(id::ref command, bool active = true);
 

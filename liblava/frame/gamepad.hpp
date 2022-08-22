@@ -110,23 +110,20 @@ struct gamepad {
 
     /**
      * @brief Check if gamepad is active
-     * @return true     Gamepad is active
-     * @return false    Gamepad is inactive
+     * @return Gamepad is active or not
      */
     bool ready() const;
 
     /**
      * @brief Update gamepad
-     * @return true     Update was successful
-     * @return false    Update failed
+     * @return Update was successful or failed
      */
     bool update();
 
     /**
      * @brief Check if gamepad button is pressed
      * @param button    Gamepad button to check
-     * @return true     Button is pressed
-     * @return false    Button is not pressed
+     * @return Button is pressed or not
      */
     bool pressed(gamepad_button_ref button) const {
         return state.buttons[to_ui32(button)];

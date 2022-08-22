@@ -99,8 +99,7 @@ struct descriptor : entity {
          * @param sizes     Descriptor pool sizes
          * @param max       Number of pools
          * @param flags     Create flags
-         * @return true     Create was successful
-         * @return false    Create failed
+         * @return Create was successful or failed
          */
         bool create(device_p device,
                     VkDescriptorPoolSizesRef sizes,
@@ -193,8 +192,7 @@ struct descriptor : entity {
     /**
      * @brief Create a new descriptor
      * @param device    Vulkan device
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device);
 
@@ -253,8 +251,7 @@ struct descriptor : entity {
      * @brief Free descriptor set
      * @param descriptor_set    Descriptor set
      * @param pool              Descriptor pool
-     * @return true             Free was successful
-     * @return false            Free failed
+     * @return Free was successful or failed
      */
     bool free_set(VkDescriptorSet& descriptor_set,
                   VkDescriptorPool pool);
@@ -288,8 +285,7 @@ struct descriptor : entity {
      * @brief Free descriptor sets
      * @param descriptor_sets    List of descriptor sets
      * @param pool               Descriptor pool
-     * @return true              Free was successful
-     * @return false             Free failed
+     * @return Free was successful or failed
      */
     bool free_sets(VkDescriptorSets& descriptor_sets,
                    VkDescriptorPool pool);

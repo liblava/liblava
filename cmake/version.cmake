@@ -30,7 +30,7 @@ set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG 715673702f5b18ffb8e5832e67cf731468d32ac6)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG 6b5a848173caacb124a0cb1ff07cfc731b9db14d)
+set(Vulkan-Profiles_TAG 69648f74e3bea237287a0cde39725ca193d87dd0)
 
 set(volk_GITHUB zeux/volk)
 set(volk_TAG 37afa119a904d81a3495e6ef9c03151feff56349)
@@ -42,7 +42,7 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 7d6ff1f4ba51e7a2b142be39457768abece1549c)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 268565079c56600c197602683391a1bc8afba014)
+set(imgui_TAG cdebd70e15f57eb455485a50acb25ebc8787ab78)
 
 set(imgui_docking_GITHUB ocornut/imgui)
 set(imgui_docking_TAG 8cbd391f096b9314a08670052cc0025cbcadb249)
@@ -63,4 +63,4 @@ set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG 33e70194d32b8eb487b2f882b94353e0aed662cf)
+set(Catch2_TAG dc001fa935d71b4b77f263fce405c9dbdfcbfe28)

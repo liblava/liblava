@@ -18,8 +18,7 @@ namespace lava {
  * @brief Check if name exists in name list
  * @param list      List of names
  * @param item      Item to check
- * @return true     Item exists
- * @return false    Item not found
+ * @return Item exists or not found
  */
 inline bool exists(names_ref list, name item) {
     auto itr = std::find_if(list.begin(), list.end(),
@@ -43,8 +42,7 @@ inline void remove(std::vector<T>& list, T item) {
  * @tparam T        Type of list
  * @param list      List of items
  * @param item      Item to check
- * @return true     Item exists
- * @return false    Item not found
+ * @return Item exists or not found
  */
 template<typename T>
 inline bool contains(std::vector<T>& list, T item) {

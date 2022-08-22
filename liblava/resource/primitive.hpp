@@ -33,8 +33,7 @@ struct vertex {
     /**
      * @brief Equal compare operator
      * @param other     Another vertex
-     * @return true     Another vertex is equal
-     * @return false    Another vertex is unequal
+     * @return Another vertex is equal or not
      */
     bool operator==(vertex const& other) const {
         return position == other.position

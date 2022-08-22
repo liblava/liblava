@@ -28,8 +28,7 @@ struct render_target : entity {
      * @param format     Surface format
      * @param size       Size of target
      * @param v_sync     V-Sync enabled
-     * @return true      Create was successful
-     * @return false     Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device,
                 VkSurfaceKHR surface,
@@ -53,8 +52,7 @@ struct render_target : entity {
     /**
      * @brief Resize the render target
      * @param new_size    New render target size
-     * @return true       Resize was successful
-     * @return false      Resize failed
+     * @return Resize was successful or failed
      */
     bool resize(uv2 new_size) {
         return target.resize(new_size);
@@ -70,8 +68,7 @@ struct render_target : entity {
 
     /**
      * @brief Check if render target requests a reload
-     * @return true     Request reload
-     * @return false    No reload requested
+     * @return Request reload or not
      */
     bool reload_request() const {
         return target.reload_request();

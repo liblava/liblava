@@ -126,9 +126,9 @@ int main(int argc, char* argv[]) {
             return error::create_failed;
     }
 
-    graphics_pipeline::ptr float_pipeline;
-    graphics_pipeline::ptr int_pipeline;
-    graphics_pipeline::ptr double_pipeline;
+    render_pipeline::ptr float_pipeline;
+    render_pipeline::ptr int_pipeline;
+    render_pipeline::ptr double_pipeline;
     pipeline_layout::ptr layout;
 
     app.on_create = [&]() {
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
             return false;
 
         // making a float triangle pipeline
-        float_pipeline = make_graphics_pipeline(app.device);
+        float_pipeline = make_render_pipeline(app.device);
         float_pipeline->add_color_blend_attachment();
         float_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
             float_triangle->bind_draw(cmd_buf);
@@ -147,7 +147,7 @@ int main(int argc, char* argv[]) {
 
         if (int_supported) {
             // making an int triangle pipeline
-            int_pipeline = make_graphics_pipeline(app.device);
+            int_pipeline = make_render_pipeline(app.device);
             int_pipeline->add_color_blend_attachment();
             int_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
                 int_triangle->bind_draw(cmd_buf);
@@ -156,7 +156,7 @@ int main(int argc, char* argv[]) {
 
         if (double_supported) {
             // making an double triangle pipeline
-            double_pipeline = make_graphics_pipeline(app.device);
+            double_pipeline = make_render_pipeline(app.device);
             double_pipeline->add_color_blend_attachment();
             double_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
                 double_triangle->bind_draw(cmd_buf);

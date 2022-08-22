@@ -36,8 +36,7 @@ struct buffer : entity {
      * @param usage           Buffer usage flags
      * @param mapped          Map the buffer
      * @param memory_usage    Memory usage
-     * @return true           Create was successful
-     * @return false          Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device,
                 void const* data,
@@ -53,8 +52,7 @@ struct buffer : entity {
      * @param size            Data size
      * @param usage           Buffer usage flags
      * @param memory_usage    Memory usage
-     * @return true           Create was successful
-     * @return false          Create failed
+     * @return Create was successful or failed
      */
     bool create_mapped(device_p device,
                        void const* data,
@@ -77,8 +75,7 @@ struct buffer : entity {
 
     /**
      * @brief Check if the buffer is valid
-     * @return true     Buffer is valid
-     * @return false    Buffer is invalid
+     * @return Buffer is valid or not
      */
     bool valid() const {
         return vk_buffer != VK_NULL_HANDLE;

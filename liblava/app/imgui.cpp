@@ -339,7 +339,7 @@ void imgui::new_frame() {
 #undef MAP_ANALOG
 
 //-----------------------------------------------------------------------------
-bool imgui::create(graphics_pipeline::ptr p, index mf) {
+bool imgui::create(render_pipeline::ptr p, index mf) {
     pipeline = std::move(p);
 
     device = pipeline->get_device();

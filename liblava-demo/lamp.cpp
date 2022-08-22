@@ -96,11 +96,11 @@ int main(int argc, char* argv[]) {
     r32 lamp_depth = .03f;
     v4 lamp_color{ .3f, .15f, .15f, 1.f };
 
-    graphics_pipeline::ptr pipeline;
+    render_pipeline::ptr pipeline;
     pipeline_layout::ptr layout;
 
     app.on_create = [&]() {
-        pipeline = make_graphics_pipeline(app.device);
+        pipeline = make_render_pipeline(app.device);
         if (!pipeline->add_shader(app.producer.get_shader(_vertex_),
                                   VK_SHADER_STAGE_VERTEX_BIT))
             return false;

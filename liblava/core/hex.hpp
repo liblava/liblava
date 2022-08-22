@@ -149,8 +149,7 @@ using hex_frac_cell = hex_fractional_cell;
 /**
  * @brief Check if hex cell is valid
  * @param cell      Hex cell to check
- * @return true     Hex cell is valid
- * @return false    Hex cell is invalid
+ * @return Hex cell is valid or not
  */
 inline bool hex_is_valid(hex_cell& cell) {
     return cell.q + cell.r + cell.s == 0;

@@ -33,8 +33,7 @@ int attribute_set(GLFWwindow* handle) {
  * @brief Check attribute of window
  * @tparam attr     Attribute to check
  * @param handle    Window handle
- * @return true     Attribute is set
- * @return false    Attribute is unset
+ * @return Attribute is set or not
  */
 template<int attr>
 bool bool_attribute_set(GLFWwindow* handle) {
