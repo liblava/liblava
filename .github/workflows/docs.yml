@@ -10,7 +10,7 @@ jobs:
     if: |
       ${{ (github.repository_owner == 'liblava')
         && (github.event.workflow_run.conclusion == 'success') }}
-    
+
     runs-on: ubuntu-latest
 
     steps:
