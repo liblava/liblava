@@ -7,9 +7,7 @@ on:
 
 jobs:
   publish:
-    if: >
-      github.repository_owner == 'liblava'
-      && github.event.workflow_run.conclusion == 'success'
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     runs-on: ubuntu-latest
 
@@ -17,10 +15,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: "Run Doxygen"
+    - name: Run Doxygen
       uses: mattnotmitt/doxygen-action@1.9.4
       with:
-        doxyfile-path: './docs/doxygen.conf'
+        doxyfile-path: ./docs/doxygen.conf
         working-directory: '.'
         enable-latex: true
 
@@ -28,11 +26,11 @@ jobs:
       uses: engineerd/configurator@v0.0.8
       with:
         name: doxybook2
-        pathInArchive: "bin/doxybook2"
-        fromGitHubReleases: "true"
-        repo: "matusnovak/doxybook2"
-        version: "latest"
-        urlTemplate: "https://github.com/matusnovak/doxybook2/releases/download/{{version}}/doxybook2-linux-amd64-{{version}}.zip"
+        pathInArchive: bin/doxybook2
+        fromGitHubReleases: true
+        repo: matusnovak/doxybook2
+        version: latest
+        urlTemplate: https://github.com/matusnovak/doxybook2/releases/download/{{version}}/doxybook2-linux-amd64-{{version}}.zip
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Run Doxybook2
@@ -43,15 +41,21 @@ jobs:
         mkdir _doxybook
         doxybook2 --input _doxygen/xml --output _doxybook --config config.json
 
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      with:
+        path: ${{github.workspace}}/docs/
+
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         personal_token: ${{ secrets.DOCS_TOKEN }}
         external_repository: liblava/liblava.github.io
-        publish_dir: ./docs/
+        publish_dir: ${{github.workspace}}/docs/
         enable_jekyll: false
         allow_empty_commit: false
         force_orphan: true
-        user_name: 'thelavablock'
-        user_email: 'the@lava-block.com'
+        user_name: thelavablock
+        user_email: the@lava-block.com
         publish_branch: main
+      if: ${{ github.repository_owner == 'liblava' }}
