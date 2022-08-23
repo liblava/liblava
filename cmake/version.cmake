@@ -30,7 +30,7 @@ set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG 715673702f5b18ffb8e5832e67cf731468d32ac6)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG 269d5b0165d56800b036e57f18fa9e4000930986)
+set(Vulkan-Profiles_TAG a132f0808ded98a68ca0f95508b753553b15c5bc)
 
 set(volk_GITHUB zeux/volk)
 set(volk_TAG 3872818bb956e3b1e3847f3ddbb467b181e6a864)
