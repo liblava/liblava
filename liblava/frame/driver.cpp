@@ -7,15 +7,20 @@
 
 #include <iostream>
 #include <liblava/frame/driver.hpp>
-#include <liblava/util/utility.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 
 //-----------------------------------------------------------------------------
 i32 driver::run(argh::parser cmd_line) {
+    if (stages.empty()) {
+        std::cerr << "no stages" << std::endl;
+        return error::stages_empty;
+    }
+
     if (cmd_line[{ "-ls", "--stages" }]) {
         for (auto& [id, stage] : stages)
-            std::cout << id << " = " << stage->descr << std::endl;
+            std::cout << id << ". " << stage->descr << std::endl;
 
         return to_i32(stages.size());
     }
@@ -23,23 +28,44 @@ i32 driver::run(argh::parser cmd_line) {
     if (auto id = -1; cmd_line({ "-s", "--stage" }) >> id) {
         if (!stages.count(id)) {
             std::cerr << "stage " << id << " not found" << std::endl;
-            return -1;
+            return error::stage_not_found;
         }
 
-        if (stages.count(id)) {
-            auto stage = stages.at(id);
-            std::cout << "stage " << id << " - " << stage->descr << std::endl;
-            return stage->on_func(cmd_line);
-        }
-    }
-
-    for (auto& [id, stage] : reverse(stages)) {
+        auto& stage = stages.at(id);
         std::cout << "stage " << id << " - " << stage->descr << std::endl;
         return stage->on_func(cmd_line);
     }
 
-    std::cerr << "no stages" << std::endl;
-    return -1;
+    if (!on_run) {
+        std::cerr << "run undefined" << std::endl;
+        return error::undef_run;
+    }
+
+    result result;
+
+    do {
+        result = on_run(cmd_line);
+        if (result.driver < 0)
+            return result.driver;
+
+        if (stages.count(result.selected)) {
+            auto& stage = stages.at(result.selected);
+
+            std::cout << "stage " << result.selected
+                      << " - " << stage->descr << std::endl;
+
+            auto stage_result = stage->on_func(cmd_line);
+            if (stage_result < 0)
+                return stage_result;
+
+            result.driver = stage_result;
+
+            if (result.selected != 0)
+                std::cout << "stage driver" << std::endl;
+        }
+    } while (result.selected != 0);
+
+    return result.driver;
 }
 
 //-----------------------------------------------------------------------------
@@ -47,6 +73,7 @@ stage::stage(ui32 id,
              name descr,
              func func)
 : id(id), descr(descr), on_func(func) {
+    assert((id != 0) && "stage id not defined.");
     driver::instance().add_stage(this);
 }
 

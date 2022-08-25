@@ -44,14 +44,9 @@ struct id {
     /// Value
     type value = undef;
 
-    /// Version
-    ui32 version = 0;
-
     /**
      * @brief Check if the id is valid
-     *
-     * @return true     Id is valid
-     * @return false    Id is invalid
+     * @return Id is valid or not
      */
     bool valid() const {
         return value != undef;
@@ -59,20 +54,10 @@ struct id {
 
     /**
      * @brief Convert the id to string
-     *
-     * @param show_version    Show version in string
-     *
-     * @return string         String representation of id
+     * @return string    String representation of id
      */
-    string to_string(bool show_version = false) const {
-        char result[32];
-        if (show_version)
-            snprintf(result,
-                     sizeof(result), "%u.%u", value, version);
-        else
-            snprintf(result,
-                     sizeof(result), "%u", value);
-        return string(result);
+    string to_string() const {
+        return std::to_string(value);
     }
 
     /**
@@ -83,61 +68,9 @@ struct id {
     }
 
     /**
-     * @brief Equal operator
-     *
-     * @param rhs       Id to compare
-     *
-     * @return true     Id is equal
-     * @return false    Id is not equal
+     * @brief Compare operator
      */
-    bool operator==(ref rhs) const {
-        return (value == rhs.value)
-               && (version == rhs.version);
-    }
-
-    /**
-     * @brief Not equal operator
-     *
-     * @param rhs       Id to compare
-     *
-     * @return true     Id is not equal
-     * @return false    Id is equal
-     */
-    bool operator!=(ref rhs) const {
-        return !(*this == rhs);
-    }
-
-    /**
-     * @brief Order operator
-     *
-     * @param rhs       Id to order
-     *
-     * @return true     Id is smaller
-     * @return false    Id is bigger
-     */
-    bool operator<(ref rhs) const {
-        return std::tie(value, version)
-               < std::tie(rhs.value, rhs.version);
-    }
-
-    /**
-     * @brief Check if id exists in map, if so reassign it from map
-     *
-     * @param map       Map to check and reassign
-     *
-     * @return true     Found id in map and reassigned
-     * @return false    Id ignored
-     */
-    bool check(id::map& map) {
-        if (!valid())
-            return false;
-
-        if (!map.count(*this))
-            return false;
-
-        *this = map.at(*this);
-        return true;
-    }
+    auto operator<=>(id const&) const = default;
 };
 
 /// Map of string ids
@@ -151,160 +84,48 @@ constexpr id const undef_id = id();
  */
 struct ids {
     /**
-     * @brief Global id factory
-     *
-     * @return ids&    Singelton factory
+     * @brief Get id factory instance
+     * @return ids&    Id factory
      */
-    static ids& global() {
-        static ids instance;
-        return instance;
+    static ids& instance() {
+        static ids ids;
+        return ids;
     }
 
     /**
      * @brief Get next id from factory (singleton)
-     *
      * @return id    Next id
      */
-    static id next() {
-        return ids::global().get_next();
-    }
-
-    /**
-     * @brief Free id in factory (singleton)
-     *
-     * @param id    Id to free
-     */
-    static void free(id::ref id) {
-        ids::global().reuse(id);
-    }
-
-    /**
-     * @brief Get the next id
-     *
-     * @return id    Next id
-     */
-    id get_next() {
-        if (!reuse_ids)
-            return { ++next_id };
-
-        return get_next_locked();
-    }
-
-    /**
-     * @brief Reuse the id
-     *
-     * @param id    Id to reuse
-     */
-    void reuse(id::ref id) {
-        if (reuse_ids)
-            reuse_locked(id);
-    }
-
-    /**
-     * @brief Set the reuse handling
-     *
-     * @param state    Enable reuse
-     */
-    void set_reuse(bool state) {
-        reuse_ids = state;
-    }
-
-    /**
-     * @brief Check if the reuse handling is enabled
-     *
-     * @return true     Reuse handling is active
-     * @return false    Reuse handling is inactive
-     */
-    bool reusing() const {
-        return reuse_ids;
-    }
-
-    /**
-     * @brief Get the max id
-     *
-     * @return type    Max id
-     */
-    type get_max() const {
-        return next_id;
-    }
-
-    /**
-     * @brief Set the max id
-     *
-     * @param max    Max id
-     */
-    void set_max(type max) {
-        if (max > next_id)
-            next_id = max;
+    id next() {
+        return { ++next_id };
     }
 
 private:
-    /**
-     * @brief Get the next locked id
-     *
-     * @return id    Next id
-     */
-    id get_next_locked() {
-        std::unique_lock<std::mutex> lock(queue_mutex);
-        if (free_ids.empty())
-            return { ++next_id };
-
-        auto next_id = free_ids.front();
-        free_ids.pop_front();
-        return { next_id.value, next_id.version + 1 };
-    }
-
-    /**
-     * @brief Reuse the id
-     *
-     * @param id    Id to reuse
-     */
-    void reuse_locked(id::ref id) {
-        std::unique_lock<std::mutex> lock(queue_mutex);
-        free_ids.push_back(id);
-    }
-
     /// Next id
     std::atomic<type> next_id = { undef };
-
-    /// Queue mutex
-    std::mutex queue_mutex;
-
-    /// Reuse id handling
-    bool reuse_ids = true;
-
-    /// List of freed ids
-    std::deque<id> free_ids;
 };
 
 /**
  * @brief Add object to id map
- *
  * @tparam T        Type of object
- *
  * @param object    Object to add
  * @param map       Target map
- *
  * @return id       Id of object in map
  */
 template<typename T>
 inline id add_id_map(T const& object,
                      std::map<id, T>& map) {
-    auto next = ids::next();
+    auto next = ids::instance().next();
     map.emplace(next, std::move(object));
     return next;
 }
 
 /**
  * @brief Remove object from id map
- *
  * @tparam T        Type of object
- *
  * @param object    Object to remove
  * @param map       Target map
- *
- * @return true     Found object in map and removed it
- * @return false    Object in map not found
+ * @return Removed object from map or object not found
  */
 template<typename T>
 inline bool remove_id_map(id::ref object,
@@ -313,23 +134,19 @@ inline bool remove_id_map(id::ref object,
         return false;
 
     map.erase(object);
-    ids::free(object);
 
     return true;
 }
 
 /**
  * @brief Id listeners
- *
  * @tparam T    Listener
  */
 template<typename T>
 struct id_listeners {
     /**
      * @brief Add listener to map
-     *
      * @param listener    Target listener
-     *
      * @return id         Id of listener
      */
     id add(typename T::func const& listener) {
@@ -338,7 +155,6 @@ struct id_listeners {
 
     /**
      * @brief Remove listener from map by id
-     *
      * @param id    Id of listener
      */
     void remove(id& id) {
@@ -348,7 +164,6 @@ struct id_listeners {
 
     /**
      * @brief Get the list
-     *
      * @return T::listeners const&    List of listeners
      */
     typename T::listeners const& get_list() const {
@@ -368,18 +183,10 @@ struct entity : no_copy_no_move, interface {
      * @brief Construct a new entity
      */
     entity()
-    : entity_id(ids::next()) {}
-
-    /**
-     * @brief Destroy the entity
-     */
-    ~entity() {
-        ids::free(entity_id);
-    }
+    : entity_id(ids::instance().next()) {}
 
     /**
      * @brief Get the id of entity
-     *
      * @return id::ref    Entity id
      */
     id::ref get_id() const {
@@ -393,7 +200,6 @@ private:
 
 /**
  * @brief Id registry
- *
  * @tparam T       Type of objects hold in registry
  * @tparam Meta    Meta type for object
  */
@@ -410,9 +216,7 @@ struct id_registry {
 
     /**
      * @brief Create a new object in registry
-     *
      * @param info    Meta information
-     *
      * @return id     Object id
      */
     id create(Meta info = {}) {
@@ -424,7 +228,6 @@ struct id_registry {
 
     /**
      * @brief Add a object with meta to registry
-     *
      * @param object    Object to add
      * @param info      Meta of object
      */
@@ -436,11 +239,8 @@ struct id_registry {
 
     /**
      * @brief Check if object exists in registry
-     *
      * @param object    Object to check
-     *
-     * @return true     Object exists
-     * @return false    Object does not exist
+     * @return Object exists or not
      */
     bool exists(id::ref object) const {
         return objects.count(object);
@@ -448,9 +248,7 @@ struct id_registry {
 
     /**
      * @brief Get the object by id
-     *
      * @param object    Object id
-     *
      * @return ptr      Shared pointer to object
      */
     ptr get(id::ref object) const {
@@ -459,9 +257,7 @@ struct id_registry {
 
     /**
      * @brief Get the meta by id
-     *
      * @param object    Object id
-     *
      * @return Meta     Meta object
      */
     Meta const& get_meta(id::ref object) const {
@@ -470,7 +266,6 @@ struct id_registry {
 
     /**
      * @brief Get all objects
-     *
      * @return map const&    Map with objects
      */
     map const& get_all() const {
@@ -479,7 +274,6 @@ struct id_registry {
 
     /**
      * @brief Get all meta objects
-     *
      * @return meta_map const&    Map with metas
      */
     meta_map const& get_all_meta() const {
@@ -488,12 +282,9 @@ struct id_registry {
 
     /**
      * @brief Update meta of object
-     *
      * @param object    Object id
      * @param meta      Meta to update
-     *
-     * @return true     Meta updated
-     * @return false    Meta not updated
+     * @return Meta updated or not
      */
     bool update(id::ref object,
                 Meta const& meta) {
@@ -506,7 +297,6 @@ struct id_registry {
 
     /**
      * @brief Remove object from registry
-     *
      * @param object    Object id
      */
     void remove(id::ref object) {

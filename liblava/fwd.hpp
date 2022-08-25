@@ -43,9 +43,9 @@ struct block;
 struct descriptor;
 struct pipeline_layout;
 struct pipeline;
-struct graphics_pipeline;
 struct compute_pipeline;
 struct render_pass;
+struct render_pipeline;
 struct subpass;
 struct subpass_dependency;
 

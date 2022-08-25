@@ -52,12 +52,9 @@ struct gbuffer_attachment {
 
     /**
      * @brief Create a new G-Buffer attachment
-     *
      * @param app       Application
      * @param index     Attachment index
-     *
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(app const& app, ui32 index);
 };
@@ -89,10 +86,8 @@ light_array const g_lights = {
 
 /**
  * @brief Create a G-Buffer renderpass
- *
  * @param app                  Application
  * @param attachments          Array of attachments
- *
  * @return render_pass::ptr    Shared pointer to render pass
  */
 render_pass::ptr create_gbuffer_renderpass(app const& app,
@@ -108,10 +103,16 @@ name _lighting_vertex_ = "lighting_vertex";
 name _lighting_fragment_ = "lighting_fragment";
 
 //-----------------------------------------------------------------------------
+#ifdef LAVA_DEMO
+LAVA_STAGE(6, "light") {
+#else
 int main(int argc, char* argv[]) {
-    frame_env env("lava light", { argc, argv });
+    argh::parser argh(argc, argv);
+#endif
+    frame_env env("lava light", argh);
+
+    env.profile = profile_desktop_baseline_2022();
     // env.profile = profile_roadmap_2022();
-    env.profile = profile_desktop_portability_2021();
 
     engine app(env);
 
@@ -173,14 +174,14 @@ int main(int argc, char* argv[]) {
 
     render_pass::ptr gbuffer_renderpass = make_render_pass(app.device);
     descriptor::ptr gbuffer_set_layout = make_descriptor();
-    pipeline_layout::ptr gbuffer_pipeline_layout = make_pipeline_layout();
-    graphics_pipeline::ptr gbuffer_pipeline = make_graphics_pipeline(app.device);
     VkDescriptorSet gbuffer_set = VK_NULL_HANDLE;
+    pipeline_layout::ptr gbuffer_pipeline_layout = make_pipeline_layout();
+    render_pipeline::ptr gbuffer_pipeline = make_render_pipeline(app.device);
 
     descriptor::ptr lighting_set_layout = make_descriptor();
-    pipeline_layout::ptr lighting_pipeline_layout = make_pipeline_layout();
-    graphics_pipeline::ptr lighting_pipeline = make_graphics_pipeline(app.device);
     VkDescriptorSet lighting_set = VK_NULL_HANDLE;
+    pipeline_layout::ptr lighting_pipeline_layout = make_pipeline_layout();
+    render_pipeline::ptr lighting_pipeline = make_render_pipeline(app.device);
 
     app.on_create = [&]() {
         VkDescriptorPoolSizes const pool_sizes = {
@@ -387,13 +388,13 @@ int main(int argc, char* argv[]) {
     };
 
     app.on_update = [&](delta dt) {
-        float seconds = to_sec(app.run_time.current);
+        float const seconds = to_sec(app.run_time.current);
 
         constexpr float distance = 1.25f;
         float const left = -distance * (object_instances.size() - 1) * 0.5f;
 
         for (auto i = 0u; i < object_instances.size(); ++i) {
-            float x = left + distance * i;
+            float const x = left + distance * i;
 
             v3 axis = v3(0.f);
             axis[i % 3] = 1.f;
@@ -407,7 +408,7 @@ int main(int argc, char* argv[]) {
             object_instances[i] = model;
         }
 
-        return true;
+        return run_continue;
     };
 
     // handle backbuffer resize
@@ -490,7 +491,7 @@ int main(int argc, char* argv[]) {
 
         ImGui::Begin(app.get_name());
 
-        app.draw_about(draw_without_separator);
+        app.draw_about(draw_no_separator);
 
         ImGui::End();
     };

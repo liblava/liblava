@@ -17,34 +17,27 @@ namespace lava {
 struct platform {
     /**
      * @brief Create a managed device from a physical device
-     *
      * @param physical_device    Index of physical device
-     *
      * @return device::ptr       Vulkan device
      */
     device::ptr create(index physical_device = 0);
 
     /**
      * @brief Create a managed device with create parameters
-     *
      * @param param           Create parameters
-     *
      * @return device::ptr    Vulkan device
      */
     device::ptr create(device::create_param::ref param);
 
     /**
      * @brief Create a managed device
-     *
      * @param physical_device    Physical device
-     *
      * @return device_p          Pointer to device
      */
     device_p create_device(index physical_device = 0);
 
     /**
      * @brief Get the all devices
-     *
      * @return device::list const&    List of devices
      */
     device::list const& get_all() const {

@@ -13,14 +13,11 @@ namespace lava {
 
 /**
  * @brief Write image data to png file
- *
  * @param device      Vulkan device
  * @param image       Image to write
  * @param filename    File to write
  * @param swizzle     Swizzle data
- *
- * @return true       Write was successful
- * @return false      Write failed
+ * @return Write was successful or failed
  */
 bool write_image_png(device_p device,
                      image::ptr image,

@@ -8,6 +8,7 @@
 #pragma once
 
 #include <liblava/base/base.hpp>
+#include <liblava/util/log.hpp>
 #include <vulkan/vulkan_profiles.hpp>
 
 namespace lava {
@@ -23,7 +24,6 @@ struct profile_info {
 
     /**
      * @brief Construct a new profile information
-     *
      * @param profile_name       Name of profile
      * @param spec_version       Specification Version
      * @param min_api_version    Minimal API version
@@ -37,9 +37,7 @@ struct profile_info {
 
     /**
      * @brief Check if profile information is empty
-     *
-     * @return true     Profile information is set
-     * @return false    No profile information set
+     * @return Profile information is set or not
      */
     bool empty() const {
         return name.empty();
@@ -47,7 +45,6 @@ struct profile_info {
 
     /**
      * @brief Get Vulkan profile properties
-     *
      * @return VpProfileProperties    Profile properties
      */
     VpProfileProperties get() const {
@@ -59,7 +56,6 @@ struct profile_info {
 
     /**
      * @brief Get the minimal API version
-     *
      * @return ui32    Minimal API version
      */
     ui32 get_min_api_version() const {
@@ -79,7 +75,6 @@ private:
 
 /**
  * @brief Get VP_KHR_ROADMAP_2022 profile information
- *
  * @return profile_info    Profile information
  */
 inline profile_info profile_roadmap_2022() {
@@ -91,25 +86,21 @@ inline profile_info profile_roadmap_2022() {
 }
 
 /**
- * @brief Get VP_LUNARG_DESKTOP_PORTABILITY_2021 profile information
- *
+ * @brief Get VP_LUNARG_desktop_baseline_2022 profile information
  * @return profile_info    Profile information
  */
-inline profile_info profile_desktop_portability_2021() {
+inline profile_info profile_desktop_baseline_2022() {
     return {
-        VP_LUNARG_DESKTOP_PORTABILITY_2021_NAME,
-        VP_LUNARG_DESKTOP_PORTABILITY_2021_SPEC_VERSION,
-        VP_LUNARG_DESKTOP_PORTABILITY_2021_MIN_API_VERSION
+        VP_LUNARG_DESKTOP_BASELINE_2022_NAME,
+        VP_LUNARG_DESKTOP_BASELINE_2022_SPEC_VERSION,
+        VP_LUNARG_DESKTOP_BASELINE_2022_MIN_API_VERSION
     };
 }
 
 /**
  * @brief Check if Vulkan Profile is supported
- *
  * @param profile    Profile to check
- *
- * @return true      Profile is supported
- * @return false     Profile is not supported
+ * @return Profile is supported or not
  */
 inline bool profile_supported(VpProfileProperties profile) {
     auto res = VK_FALSE;

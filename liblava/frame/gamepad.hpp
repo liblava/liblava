@@ -104,34 +104,26 @@ struct gamepad {
 
     /**
      * @brief Construct a new gamepad
-     *
      * @param id    Gamepad id
      */
     explicit gamepad(gamepad_id_ref id);
 
     /**
      * @brief Check if gamepad is active
-     *
-     * @return true     Gamepad is active
-     * @return false    Gamepad is inactive
+     * @return Gamepad is active or not
      */
     bool ready() const;
 
     /**
      * @brief Update gamepad
-     *
-     * @return true     Update was successful
-     * @return false    Update failed
+     * @return Update was successful or failed
      */
     bool update();
 
     /**
      * @brief Check if gamepad button is pressed
-     *
      * @param button    Gamepad button to check
-     *
-     * @return true     Button is pressed
-     * @return false    Button is not pressed
+     * @return Button is pressed or not
      */
     bool pressed(gamepad_button_ref button) const {
         return state.buttons[to_ui32(button)];
@@ -139,9 +131,7 @@ struct gamepad {
 
     /**
      * @brief Get value of axis
-     *
      * @param axis    Target axis
-     *
      * @return r32    Axis value
      */
     r32 value(gamepad_axis_ref axis) const {
@@ -150,7 +140,6 @@ struct gamepad {
 
     /**
      * @brief Get the gamepad id
-     *
      * @return gamepad_id_ref    Gamepad id
      */
     gamepad_id_ref get_pad_id() const {
@@ -159,7 +148,6 @@ struct gamepad {
 
     /**
      * @brief Get the gamepad id as integer
-     *
      * @return ui32    Integer gamepad id
      */
     ui32 get_id() const {
@@ -168,7 +156,6 @@ struct gamepad {
 
     /**
      * @brief Get the name
-     *
      * @return name    Name of gamepad
      */
     name get_name() const;
@@ -194,7 +181,6 @@ private:
 
 /**
  * @brief Get list of all gamepads
- *
  * @return gamepad::list    List of gamepads
  */
 gamepad::list gamepads();
@@ -207,36 +193,32 @@ struct gamepad_manager {
     using listener_func = std::function<bool(gamepad, bool)>;
 
     /**
+     * @brief Get gamepad manager singleton
+     * @return gamepad_manager&    Gamepad manager
+     */
+    static gamepad_manager& singleton() {
+        static gamepad_manager manager;
+        return manager;
+    }
+
+    /**
      * @brief Add listener
-     *
      * @param listener    Gamepad listener function
-     *
      * @return id         Id of function
      */
-    static id add(listener_func listener);
+    id add(listener_func listener);
 
     /**
      * @brief Remove listener
-     *
      * @param id    Id of function
      */
-    static void remove(id::ref id);
+    void remove(id::ref id);
 
 private:
     /**
      * @brief Construct a new gamepad manager
      */
     explicit gamepad_manager();
-
-    /**
-     * @brief Get gamepad manager singleton
-     *
-     * @return gamepad_manager&    Gamepad manager
-     */
-    static gamepad_manager& instance() {
-        static gamepad_manager manager;
-        return manager;
-    }
 
     /// Map of gamepad listeners
     using listener_map = std::map<id, listener_func>;

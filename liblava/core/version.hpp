@@ -16,13 +16,13 @@ namespace lava {
  */
 struct internal_version {
     /// Major version
-    i32 major = LIBLAVA_VERSION_MAJOR;
+    i32 major = LAVA_VERSION_MAJOR;
 
     /// Minor version
-    i32 minor = LIBLAVA_VERSION_MINOR;
+    i32 minor = LAVA_VERSION_MINOR;
 
     /// Patch version
-    i32 patch = LIBLAVA_VERSION_PATCH;
+    i32 patch = LAVA_VERSION_PATCH;
 
     /**
      * @brief Default compare operators
@@ -52,16 +52,16 @@ struct version {
     i32 release = 0;
 
     /// Version stage
-    version_stage stage = version_stage::preview;
+    version_stage stage = version_stage::alpha;
 
     /// Version revision
     i32 rev = 0;
 };
 
 /// Build date
-constexpr name _build_date = LIBLAVA_BUILD_DATE;
+constexpr name _build_date = LAVA_BUILD_DATE;
 
 /// Build time
-constexpr name _build_time = LIBLAVA_BUILD_TIME;
+constexpr name _build_time = LAVA_BUILD_TIME;
 
 } // namespace lava

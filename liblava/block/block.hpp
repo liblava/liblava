@@ -41,13 +41,10 @@ struct command : entity {
 
     /**
      * @brief Create a new command
-     *
      * @param device           Vulkan device
      * @param frame_count      Number of frames
      * @param command_pools    List of command pools
-     *
-     * @return true            Create was successful
-     * @return false           Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device,
                 index frame_count,
@@ -55,7 +52,6 @@ struct command : entity {
 
     /**
      * @brief Destroy the command
-     *
      * @param device           Vulkan device
      * @param command_pools    List of command pools
      */
@@ -85,13 +81,10 @@ struct block : entity {
 
     /**
      * @brief Create a new block
-     *
      * @param device          Vulkan device
      * @param frame_count     Number of frames
      * @param queue_family    Queue family index
-     *
-     * @return true           Create was successful
-     * @return false          Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device,
                 index frame_count,
@@ -104,7 +97,6 @@ struct block : entity {
 
     /**
      * @brief Get the frame count
-     *
      * @return index    Number of frames
      */
     index get_frame_count() const {
@@ -118,10 +110,8 @@ struct block : entity {
 
     /**
      * @brief Add a command
-     *
      * @param func      Command function
      * @param active    Active state
-     *
      * @return id       Command id
      */
     id add_command(command::process_func func, bool active = true) {
@@ -135,7 +125,6 @@ struct block : entity {
 
     /**
      * @brief Remove the command
-     *
      * @param cmd    Command id
      */
     void remove_command(id::ref cmd) {
@@ -144,17 +133,13 @@ struct block : entity {
 
     /**
      * @brief Process the block
-     *
      * @param frame     Frame index
-     *
-     * @return true     Process was successful
-     * @return false    Process aborted
+     * @return Process was successful or aborted
      */
     bool process(index frame);
 
     /**
      * @brief Get the current frame
-     *
      * @return index    Current frame
      */
     index get_current_frame() const {
@@ -163,9 +148,7 @@ struct block : entity {
 
     /**
      * @brief Get the command buffer
-     *
      * @param cmd                 Command id
-     *
      * @return VkCommandBuffer    Vulkan command buffer
      */
     VkCommandBuffer get_command_buffer(id::ref cmd) const {
@@ -174,10 +157,8 @@ struct block : entity {
 
     /**
      * @brief Get the command buffer
-     *
      * @param cmd                 Command id
      * @param frame               Frame index
-     *
      * @return VkCommandBuffer    Vulkan command buffer
      */
     VkCommandBuffer get_command_buffer(id::ref cmd, index frame) const {
@@ -186,7 +167,6 @@ struct block : entity {
 
     /**
      * @brief Get the buffers
-     *
      * @return VkCommandBuffers    List of Vulkan command buffers
      */
     VkCommandBuffers get_buffers() {
@@ -201,7 +181,6 @@ struct block : entity {
 
     /**
      * @brief Get the commands
-     *
      * @return command::map const&    Map of commands
      */
     command::map const& get_commands() const {
@@ -210,7 +189,6 @@ struct block : entity {
 
     /**
      * @brief Get the cmd order
-     *
      * @return command::list const&    List of commands
      */
     command::list const& get_cmd_order() const {
@@ -219,28 +197,21 @@ struct block : entity {
 
     /**
      * @brief Check if command is activated
-     *
      * @param command    Command id
-     *
-     * @return true      Command is active
-     * @return false     Command is inactive
+     * @return Command is active or not
      */
     bool activated(id::ref command);
 
     /**
      * @brief Set the command active
-     *
      * @param command    Command id
      * @param active     Active state
-     *
-     * @return true      Set was successful
-     * @return false     Set failed
+     * @return Set was successful or failed
      */
     bool set_active(id::ref command, bool active = true);
 
     /**
      * @brief Get the device
-     *
      * @return device_p    Vulkan device
      */
     device_p get_device() {
@@ -269,7 +240,6 @@ using block_t = block;
 
 /**
  * @brief Make a new command
- *
  * @return command::ptr    Shared pointer to command
  */
 inline command::ptr make_command() {
@@ -278,7 +248,6 @@ inline command::ptr make_command() {
 
 /**
  * @brief Make a new block
- *
  * @return block::ptr    Shared pointer to block
  */
 inline block::ptr make_block() {

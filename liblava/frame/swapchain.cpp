@@ -7,6 +7,7 @@
 
 #include <liblava/base/instance.hpp>
 #include <liblava/frame/swapchain.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 
@@ -32,9 +33,9 @@ void swapchain::destroy() {
     destroy_backbuffer_views();
     teardown();
 
-    vkDestroySurfaceKHR(instance::get(),
+    vkDestroySurfaceKHR(instance::singleton().get(),
                         surface,
-                        memory::alloc());
+                        memory::instance().alloc());
     surface = VK_NULL_HANDLE;
 }
 
@@ -54,17 +55,13 @@ bool swapchain::resize(uv2 new_size) {
         return true;
 
     auto result = setup();
-#if LIBLAVA_DEBUG_ASSERT
-    assert(result);
-#endif
+    LAVA_ASSERT(result);
     if (!result)
         return false;
 
     for (auto& callback : reverse(callbacks)) {
         result = callback->on_created();
-#if LIBLAVA_DEBUG_ASSERT
-        assert(result);
-#endif
+        LAVA_ASSERT(result);
         if (!result)
             return false;
     }

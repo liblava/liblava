@@ -7,13 +7,10 @@
 
 #pragma once
 
-#include <liblava/core/types.hpp>
+#include <liblava/file/def.hpp>
 #include <liblava/file/json.hpp>
 
 namespace lava {
-
-/// Configuration json file
-constexpr name _config_file_ = "config.json";
 
 /**
  * @brief Json file
@@ -21,10 +18,9 @@ constexpr name _config_file_ = "config.json";
 struct json_file {
     /**
      * @brief Construct a new json file
-     *
      * @param path    Name of file
      */
-    explicit json_file(name path = _config_file_);
+    explicit json_file(string_ref path = _config_file_);
 
     /**
      * @brief Json file callback
@@ -34,7 +30,7 @@ struct json_file {
         using list = std::vector<callback*>;
 
         /// Load function
-        using load_func = std::function<bool(json_ref)>;
+        using load_func = std::function<void(json_ref)>;
 
         /// Called on load
         load_func on_load;
@@ -48,14 +44,12 @@ struct json_file {
 
     /**
      * @brief Add callback to json file
-     *
      * @param callback    Callback to add
      */
     void add(callback* callback);
 
     /**
      * @brief Remove callback from json file
-     *
      * @param callback    Callback to remove
      */
     void remove(callback* callback);
@@ -69,35 +63,29 @@ struct json_file {
 
     /**
      * @brief Set path of the json file
-     *
      * @param value    Name of file
      */
-    void set(name value) {
+    void set(string_ref value) {
         path = value;
     }
 
     /**
      * @brief Get path of the json file
-     *
      * @return name    Name of file
      */
-    name get() const {
-        return str(path);
+    string_ref get() const {
+        return path;
     }
 
     /**
      * @brief Load the json file
-     *
-     * @return true     Load was successful
-     * @return false    Load failed
+     * @return Load was successful or failed
      */
     bool load();
 
     /**
      * @brief Save the json file
-     *
-     * @return true     Save was successful
-     * @return false    Save failed
+     * @return Save was successful or failed
      */
     bool save();
 

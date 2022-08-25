@@ -29,7 +29,6 @@ struct telegram {
 
     /**
      * @brief Construct a new telegram
-     *
      * @param sender           Sender id
      * @param receiver         Receiver id
      * @param msg              Telegram message
@@ -47,11 +46,8 @@ struct telegram {
 
     /**
      * @brief Equal operator
-     *
      * @param rhs       Another telegram
-     *
-     * @return true     Telegram is equal
-     * @return false    Telegram is inequal
+     * @return Telegram is equal or not
      */
     bool operator==(ref rhs) const {
         return ((dispatch_time - rhs.dispatch_time) < telegram_min_delay)
@@ -62,11 +58,8 @@ struct telegram {
 
     /**
      * @brief Time order operator
-     *
      * @param rhs       Another telegram
-     *
-     * @return true     Telegram is earlier
-     * @return false    Telegram is later
+     * @return Telegram is earlier or later
      */
     bool operator<(ref rhs) const {
         if (*this == rhs)
@@ -97,7 +90,6 @@ struct telegram {
 struct dispatcher {
     /**
      * @brief Set up the dispatcher
-     *
      * @param thread_count    Number of threads
      */
     void setup(ui32 thread_count) {
@@ -113,7 +105,6 @@ struct dispatcher {
 
     /**
      * @brief Update the dispatcher
-     *
      * @param current    Time in milliseconds
      */
     void update(ms current) {
@@ -123,7 +114,6 @@ struct dispatcher {
 
     /**
      * @brief Add message to dispatcher
-     *
      * @param receiver    Receiver id
      * @param sender      Sender id
      * @param message     Telegram message
@@ -159,7 +149,6 @@ struct dispatcher {
 private:
     /**
      * @brief Discharge a message
-     *
      * @param message    Message to discharge
      */
     void discharge(telegram::ref message) {
@@ -171,7 +160,6 @@ private:
 
     /**
      * @brief Dispatch delayed messages
-     *
      * @param time    Current time
      */
     void dispatch_delayed_messages(ms time) {

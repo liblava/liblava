@@ -18,7 +18,6 @@ namespace lava {
 
 /**
  * @brief Sleep for milliseconds
- *
  * @param time    Milliseconds to sleep
  */
 inline void sleep(ms time) {
@@ -27,7 +26,6 @@ inline void sleep(ms time) {
 
 /**
  * @brief Sleep for seconds
- *
  * @param time    Seconds to sleep
  */
 inline void sleep(seconds time) {
@@ -43,7 +41,6 @@ struct thread_pool {
 
     /**
      * @brief Set up the thread pool
-     *
      * @param count    Number of threads
      */
     void setup(ui32 count = 2) {
@@ -66,7 +63,6 @@ struct thread_pool {
 
     /**
      * @brief Enqueue a task
-     *
      * @param f    Task function
      */
     void enqueue(auto f) {
@@ -84,7 +80,6 @@ private:
     struct worker {
         /**
          * @brief Construct a new worker
-         *
          * @param pool    Thread pool
          */
         explicit worker(thread_pool& pool)
@@ -94,7 +89,7 @@ private:
          * @brief Run task operator
          */
         void operator()() {
-            auto thread_id = ids::next();
+            auto thread_id = ids::instance().next();
 
             task task;
             while (true) {
@@ -113,8 +108,6 @@ private:
 
                 task(thread_id);
             }
-
-            ids::free(thread_id);
         }
 
     private:

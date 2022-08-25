@@ -18,14 +18,12 @@ namespace lava {
 struct image_loader {
     /**
      * @brief Construct a new image data from file
-     *
      * @param filename    File data to load
      */
     explicit image_loader(string_ref filename);
 
     /**
      * @brief Construct a new image data from memory
-     *
      * @param image    Memory data to load
      */
     explicit image_loader(cdata::ref image);
@@ -37,9 +35,7 @@ struct image_loader {
 
     /**
      * @brief Check if data is ready
-     *
-     * @return true     Data is ready
-     * @return false    Data is not ready
+     * @return Data is ready or not
      */
     bool ready() const {
         return data != nullptr;
@@ -47,7 +43,6 @@ struct image_loader {
 
     /**
      * @brief Get image data
-     *
      * @return data_ptr    Image data pointer
      */
     data_cptr get() const {
@@ -56,7 +51,6 @@ struct image_loader {
 
     /**
      * @brief Get image data size
-     *
      * @return size_t    Image data size
      */
     size_t size() const {
@@ -65,7 +59,6 @@ struct image_loader {
 
     /**
      * @brief Get image dimensions
-     *
      * @return uv2    Image dimensions
      */
     uv2 get_dimensions() const {
@@ -74,7 +67,6 @@ struct image_loader {
 
     /**
      * @brief Get image channel count
-     *
      * @return ui32    Channel count
      */
     ui32 get_channels() const {

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <liblava/block/graphics_pipeline.hpp>
+#include <liblava/block/render_pipeline.hpp>
 #include <liblava/file.hpp>
 #include <liblava/frame/input.hpp>
 #include <liblava/resource/texture.hpp>
@@ -23,12 +23,6 @@ namespace lava {
 /// Default ImGui font size
 constexpr const r32 default_imgui_font_size = 18.f;
 
-/// ImGui state file
-constexpr name _imgui_file_ = "imgui.ini";
-
-/// Font icon name (default)
-constexpr name _font_icon_ = "font_icon";
-
 /**
  * @brief ImGui integration
  */
@@ -40,7 +34,6 @@ struct imgui {
 
     /**
      * @brief Construct a new ImGui
-     *
      * @param window    Window for ImGui
      */
     explicit imgui(GLFWwindow* window) {
@@ -118,16 +111,14 @@ struct imgui {
     };
 
     /**
-     * @brief Setup ImGui with configuration
-     *
+     * @brief Set up ImGui with configuration
      * @param window    Target window
      * @param config    Configuration
      */
     void setup(GLFWwindow* window, config config);
 
     /**
-     * @brief Setup default ImGui
-     *
+     * @brief Set up default ImGui
      * @param window    Target window
      */
     void setup(GLFWwindow* window) {
@@ -136,37 +127,28 @@ struct imgui {
 
     /**
      * @brief Create ImGui
-     *
-     * @param pipeline      Graphics pipeline
+     * @param pipeline      Render pipeline
      * @param max_frames    Number of frames
-     *
-     * @return true         Create was successful
-     * @return false        Create failed
+     * @return Create was successful or failed
      */
-    bool create(graphics_pipeline::ptr pipeline, index max_frames);
+    bool create(render_pipeline::ptr pipeline, index max_frames);
 
     /**
      * @brief Create ImGui with device
-     *
      * @param device        Vulkan device
      * @param max_frames    Number of frames
-     *
-     * @return true         Create was successful
-     * @return false        Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device, index max_frames) {
-        return create(make_graphics_pipeline(device), max_frames);
+        return create(make_render_pipeline(device), max_frames);
     }
 
     /**
      * @brief Create ImGui with device and render pass
-     *
      * @param device        Vulkan device
      * @param max_frames    Number of frames
      * @param pass          Render pass
-     *
-     * @return true         Create was successful
-     * @return false        Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device, index max_frames, VkRenderPass pass) {
         if (!create(device, max_frames))
@@ -177,11 +159,8 @@ struct imgui {
 
     /**
      * @brief Upload font texture
-     *
      * @param texture    Texture to upload
-     *
-     * @return true      Upload was successful
-     * @return false     Upload failed
+     * @return Upload was successful or failed
      */
     bool upload_fonts(texture::ptr texture);
 
@@ -192,9 +171,7 @@ struct imgui {
 
     /**
      * @brief Check if ImGui is ready
-     *
-     * @return true     ImGui is ready
-     * @return false    ImGui is not ready
+     * @return ImGui is ready or not
      */
     bool ready() const {
         return initialized;
@@ -202,10 +179,9 @@ struct imgui {
 
     /**
      * @brief Get the pipeline
-     *
-     * @return graphics_pipeline::ptr    Graphics pipeline
+     * @return render_pipeline::ptr    Render pipeline
      */
-    graphics_pipeline::ptr get_pipeline() {
+    render_pipeline::ptr get_pipeline() {
         return pipeline;
     }
 
@@ -217,23 +193,18 @@ struct imgui {
 
     /**
      * @brief Check if mouse capture is active
-     *
-     * @return true     Capture is active
-     * @return false    Capture is not active
+     * @return Capture is active or not
      */
     bool capture_mouse() const;
 
     /**
      * @brief Check if keyboard capture is active
-     *
-     * @return true     Capture is active
-     * @return false    Capture is not active
+     * @return Capture is active or not
      */
     bool capture_keyboard() const;
 
     /**
      * @brief Set ImGui active
-     *
      * @param value    Active state
      */
     void set_active(bool value = true) {
@@ -242,9 +213,7 @@ struct imgui {
 
     /**
      * @brief Check if ImGui is activated
-     *
-     * @return true     ImGui is active
-     * @return false    ImGui is not active
+     * @return ImGui is active or not
      */
     bool activated() const {
         return active;
@@ -259,14 +228,12 @@ struct imgui {
 
     /**
      * @brief Set the ini file
-     *
      * @param dir    Path for file
      */
     void set_ini_file(std::filesystem::path dir);
 
     /**
      * @brief Get the ini file
-     *
      * @return fs::path    Path of file
      */
     std::filesystem::path get_ini_file() const {
@@ -280,7 +247,6 @@ struct imgui {
 
     /**
      * @brief Get the input callback
-     *
      * @return input_callback const&    Input callback
      */
     input_callback const& get_input_callback() const {
@@ -290,7 +256,6 @@ struct imgui {
 private:
     /**
      * @brief Handle key event
-     *
      * @param key         Key
      * @param scancode    Scan code
      * @param action      Action
@@ -300,7 +265,6 @@ private:
 
     /**
      * @brief Handle mouse button event
-     *
      * @param button    Button
      * @param action    Action
      * @param mods      Mods
@@ -309,7 +273,6 @@ private:
 
     /**
      * @brief Handle scroll event
-     *
      * @param x_offset    X offset
      * @param y_offset    Y offset
      */
@@ -317,14 +280,12 @@ private:
 
     /**
      * @brief Prepare draw lists
-     *
      * @param draw_data    Draw data
      */
     void prepare_draw_lists(ImDrawData* draw_data);
 
     /**
      * @brief Render draw lists
-     *
      * @param cmd_buf    Vulkan command buffer
      */
     void render_draw_lists(VkCommandBuffer cmd_buf);
@@ -351,7 +312,6 @@ private:
 
     /**
      * @brief Render ImGui
-     *
      * @param cmd_buf    Vulkan command buffer
      */
     void render(VkCommandBuffer cmd_buf);
@@ -362,8 +322,8 @@ private:
     // Initialized state
     bool initialized = false;
 
-    /// Graphics pipeline
-    graphics_pipeline::ptr pipeline;
+    /// Render pipeline
+    render_pipeline::ptr pipeline;
 
     /// Pipeline layout
     pipeline_layout::ptr layout;
@@ -412,14 +372,16 @@ private:
 
     /// Input callback
     input_callback callback;
+
+    /// Font icons range
+    std::array<ui16, 3> icons_range;
 };
 
 /// Imgui type
 using imgui_t = imgui;
 
 /**
- * @brief Set the up ImGui font
- *
+ * @brief Set up ImGui font
  * @param config    ImGui configuration
  * @param font      ImGui font
  */
@@ -427,8 +389,7 @@ void setup_imgui_font(imgui::config& config,
                       imgui::font::ref font);
 
 /**
- * @brief Set up the imgui font icons
- *
+ * @brief Set up imgui font icons
  * @param font        Imgui font
  * @param filename    Font icon file name
  * @param min         Min range
@@ -440,7 +401,6 @@ void setup_imgui_font_icons(imgui::font& font,
 
 /**
  * @brief ImGui left spacing with top offset
- *
  * @param top    Top offset
  */
 void imgui_left_spacing(ui32 top = 1);

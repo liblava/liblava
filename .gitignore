@@ -4,3 +4,5 @@
 /.vs
 /CMakeSettings.json
 /.cache
+/docs/_doxygen
+/docs/_doxybook

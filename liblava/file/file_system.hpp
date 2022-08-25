@@ -19,95 +19,75 @@ namespace lava {
 struct file_system : no_copy_no_move {
     /**
      * @brief Get the version
-     *
      * @return internal_version    Internal version
      */
     internal_version get_version();
 
     /**
      * @brief Get the base directory
-     *
      * @return string    Base directory
      */
     string get_base_dir();
 
     /**
      * @brief Get the preferences directory
-     *
      * @return name    Preferences directory
      */
     string get_pref_dir();
 
     /**
      * @brief Get the resource directory
-     *
      * @return string    Resource directory
      */
     string get_res_dir();
 
     /**
      * @brief Mount path
-     *
      * @param path      Path to mount
-     *
-     * @return true     Mount was successful
-     * @return false    Mount failed
+     * @return Mount was successful or failed
      */
     bool mount(string_ref path);
 
     /**
      * @brief Mount base directory path
-     *
      * @param base_dir_path    Base directory path
-     *
-     * @return true            Mount was successful
-     * @return false           Mount failed
+     * @return Mount was successful or failed
      */
-    bool mount(name base_dir_path);
+    bool mount_base(string_ref base_dir_path);
 
     /**
      * @brief Check if file exists
-     *
      * @param file      File to check
-     *
-     * @return true     File exists
-     * @return false    File not found
+     * @return File exists or not found
      */
-    bool exists(name file);
+    bool exists(string_ref file);
 
     /**
      * @brief Get the real directory of file
-     *
      * @param file     Target file
-     *
      * @return name    Real directory of file
      */
-    name get_real_dir(name file);
+    string get_real_dir(string_ref file);
 
     /**
      * @brief Enumerate files in directory
-     *
      * @param path            Target directory
-     *
      * @return string_list    List of files
      */
-    string_list enumerate_files(name path);
+    string_list enumerate_files(string_ref path);
 
     /**
      * @brief Initialize the file system
-     *
      * @param argv_0    First command line argument
      * @param org       Organization name
      * @param app       Application name
      * @param ext       Extension name
-     *
-     * @return true     Initialize was successful
-     * @return false    Initialize failed
+     * @return Initialize was successful or failed
      */
-    bool initialize(name argv_0,
-                    name org,
-                    name app,
-                    name ext);
+    bool initialize(string_ref argv_0,
+                    string_ref org,
+                    string_ref app,
+                    string_ref ext);
 
     /**
      * @brief Terminate the file system
@@ -116,20 +96,16 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Mount resource directory
-     *
      * @param log    Logger
      */
     void mount_res(logger log);
 
     /**
      * @brief Create a folder in the preferences directory (default: data)
-     *
      * @param name      Name of folder
-     *
-     * @return true     Folder created
-     * @return false    Folder not created
+     * @return Folder created or not
      */
-    bool create_folder(name name = "data");
+    bool create_folder(string_ref name = "data");
 
     /**
      * @brief Clean preferences directory
@@ -138,36 +114,31 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Get the organization name
-     *
      * @return name    Name of organization
      */
-    name get_org() const {
+    string_ref get_org() const {
         return org;
     }
 
     /**
      * @brief Get the application name
-     *
      * @return name    Name of application
      */
-    name get_app() const {
+    string_ref get_app() const {
         return app;
     }
 
     /**
      * @brief Get the extension name
-     *
      * @return name    Name of extension
      */
-    name get_ext() const {
+    string_ref get_ext() const {
         return ext;
     }
 
     /**
      * @brief Check if file system is ready
-     *
-     * @return true     File system is ready
-     * @return false    File system is not ready
+     * @return File system is ready or not
      */
     bool ready() const {
         return initialized;
@@ -178,13 +149,13 @@ private:
     bool initialized = false;
 
     /// Organization name
-    name org = nullptr;
+    string org;
 
     /// Application name
-    name app = nullptr;
+    string app;
 
     /// Extension name
-    name ext = nullptr;
+    string ext;
 
     /// Path to resources
     string res_path;

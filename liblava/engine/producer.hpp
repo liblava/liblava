@@ -21,66 +21,50 @@ struct producer {
 
     /**
      * @brief Create a mesh product
-     *
      * @param mesh_type     Type of mesh
-     *
      * @return mesh::ptr    Mesh
      */
     mesh::ptr create_mesh(mesh_type mesh_type);
 
     /**
      * @brief Get mesh by prop name
-     *
      * @param name          Name of prop
-     *
      * @return mesh::ptr    Mesh
      */
     mesh::ptr get_mesh(string_ref name);
 
     /**
      * @brief Add mesh to products
-     *
      * @param mesh      Mesh
-     *
-     * @return true     Added to products
-     * @return false    Already exists
+     * @return Added to products or already exists
      */
     bool add_mesh(mesh::ptr mesh);
 
     /**
      * @brief Create a texture product
-     *
      * @param size             Size of texture
-     *
      * @return texture::ptr    Default texture
      */
     texture::ptr create_texture(uv2 size);
 
     /**
      * @brief Get texture by prop name
-     *
      * @param name             Name of prop
-     *
      * @return texture::ptr    Texture
      */
     texture::ptr get_texture(string_ref name);
 
     /**
      * @brief Add texture to products
-     *
      * @param product    Texture
-     *
-     * @return true      Added to products
-     * @return false     Already exists
+     * @return Added to products or already exists
      */
     bool add_texture(texture::ptr product);
 
     /**
      * @brief Generate shader by prop name
-     *
      * @param name      Name of shader
      * @param reload    Reload shader
-     *
      * @return cdata    Shader data
      */
     cdata get_shader(string_ref name,
@@ -88,9 +72,7 @@ struct producer {
 
     /**
      * @brief Regenerate shader by prop name
-     *
      * @param name      Name of shader
-     *
      * @return cdata    Shader data
      */
     cdata reload_shader(string_ref name) {
@@ -99,11 +81,9 @@ struct producer {
 
     /**
      * @brief Compile shader
-     *
      * @param product         Shader data
      * @param name            Shader name
      * @param filename        Shader filename
-     *
      * @return data           Compiled shader data
      */
     data compile_shader(cdata product,
@@ -153,6 +133,21 @@ struct producer {
     bool shader_debug = false;
 
 private:
+    /**
+     * @brief Update file hash
+     * @param name             Target file
+     * @param file_hash_map    Map of used files with hash
+     */
+    void update_file_hash(string_ref name,
+                          string_map_ref file_hash_map) const;
+
+    /**
+     * @brief Check if shader file(s) changed
+     * @param name      Name of shader
+     * @return Shader is valid or has changed
+     */
+    bool valid_shader(string_ref name) const;
+
     /// Map of shader products
     using shader_map = std::map<string, data>;
 

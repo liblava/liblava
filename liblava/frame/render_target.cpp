@@ -82,9 +82,9 @@ render_target::ptr create_target(window* window,
                                              request);
 
     if (surface_format.format == VK_FORMAT_UNDEFINED) {
-        vkDestroySurfaceKHR(instance::get(),
+        vkDestroySurfaceKHR(instance::singleton().get(),
                             surface,
-                            memory::alloc());
+                            memory::instance().alloc());
         return nullptr;
     }
 

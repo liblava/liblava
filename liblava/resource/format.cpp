@@ -407,9 +407,7 @@ ui32 format_block_size(VkFormat format) {
         fmt(ASTC_12x12_UNORM_BLOCK, 16);
 
     default:
-#if LIBLAVA_DEBUG_ASSERT
-        assert(0 && "Unknown format.");
-#endif
+        LAVA_ASSERT(0 && "Unknown format.");
         return 0;
     }
 #undef fmt
@@ -417,7 +415,7 @@ ui32 format_block_size(VkFormat format) {
 
 //-----------------------------------------------------------------------------
 VkFormat_optional get_supported_depth_format(VkPhysicalDevice physical_device) {
-    static const VkFormat depth_formats[] = {
+    VkFormat const depth_formats[] = {
         VK_FORMAT_D32_SFLOAT_S8_UINT,
         VK_FORMAT_D32_SFLOAT,
         VK_FORMAT_D24_UNORM_S8_UINT,
@@ -680,10 +678,8 @@ VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device,
 }
 
 //-----------------------------------------------------------------------------
-bool support_blit(device_p device,
+bool support_blit(VkPhysicalDevice pyhsical_device,
                   VkFormat format) {
-    auto pyhsical_device = device->get_vk_physical_device();
-
     VkFormatProperties format_props;
     vkGetPhysicalDeviceFormatProperties(pyhsical_device,
                                         format,
@@ -694,10 +690,18 @@ bool support_blit(device_p device,
     vkGetPhysicalDeviceFormatProperties(pyhsical_device,
                                         VK_FORMAT_R8G8B8A8_UNORM,
                                         &format_props);
-    if (!(format_props.linearTilingFeatures & VK_FORMAT_FEATURE_BLIT_DST_BIT))
-        return false;
+    return (format_props.linearTilingFeatures & VK_FORMAT_FEATURE_BLIT_DST_BIT);
+}
 
-    return true;
+//-----------------------------------------------------------------------------
+bool support_vertex_buffer_format(VkPhysicalDevice pyhsical_device,
+                                  VkFormat format) {
+    VkFormatProperties format_props;
+    vkGetPhysicalDeviceFormatProperties(pyhsical_device,
+                                        format,
+                                        &format_props);
+
+    return (format_props.bufferFeatures & VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT);
 }
 
 } // namespace lava

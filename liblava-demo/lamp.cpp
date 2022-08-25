@@ -24,10 +24,8 @@ struct dimmer {
 
     /**
      * @brief Update dimmer
-     *
      * @param dt       Delta time
      * @param value    Value to update
-     *
      * @return r32     Updated value
      */
     r32 update(delta dt, r32 value) {
@@ -73,8 +71,14 @@ struct dimmer {
 };
 
 //-----------------------------------------------------------------------------
+#ifdef LAVA_DEMO
+LAVA_STAGE(4, "lamp") {
+#else
 int main(int argc, char* argv[]) {
-    engine app("lava lamp", { argc, argv });
+    argh::parser argh(argc, argv);
+#endif
+
+    engine app("lava lamp", argh);
 
     app.prop.add(_vertex_, "lamp/lamp.vert");
     app.prop.add(_fragment_, "lamp/lamp.frag");
@@ -92,11 +96,11 @@ int main(int argc, char* argv[]) {
     r32 lamp_depth = .03f;
     v4 lamp_color{ .3f, .15f, .15f, 1.f };
 
-    graphics_pipeline::ptr pipeline;
+    render_pipeline::ptr pipeline;
     pipeline_layout::ptr layout;
 
     app.on_create = [&]() {
-        pipeline = make_graphics_pipeline(app.device);
+        pipeline = make_render_pipeline(app.device);
         if (!pipeline->add_shader(app.producer.get_shader(_vertex_),
                                   VK_SHADER_STAGE_VERTEX_BIT))
             return false;
@@ -177,14 +181,14 @@ int main(int argc, char* argv[]) {
 
     app.input.key.listeners.add([&](key_event::ref event) {
         if (app.imgui.capture_mouse())
-            return false;
+            return input_ignore;
 
         if (event.pressed(key::enter)) {
             auto_play = !auto_play;
-            return true;
+            return input_done;
         }
 
-        return false;
+        return input_ignore;
     });
 
     app.imgui.on_draw = [&]() {
@@ -245,7 +249,7 @@ int main(int argc, char* argv[]) {
 
     app.on_update = [&](delta dt) {
         if (!auto_play || !pipeline->activated())
-            return true;
+            return run_continue;
 
         lamp_depth = depth_dimmer.update(dt, lamp_depth);
 
@@ -254,7 +258,7 @@ int main(int argc, char* argv[]) {
         lamp_color.b = b_dimmer.update(dt, lamp_color.b);
         lamp_color.a = a_dimmer.update(dt, lamp_color.a);
 
-        return true;
+        return run_continue;
     };
 
     return app.run();

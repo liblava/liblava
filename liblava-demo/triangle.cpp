@@ -10,20 +10,31 @@
 
 using namespace lava;
 
-/// Vertex shader
+/**
+ * @brief Vertex shader
+ * Generate: glslangValidator -V -x -o res/triangle/vertex.u32 res/triangle/triangle.vert
+ */
 ui32 vert_shader[] = {
 #include "res/triangle/vertex.u32"
 };
 
-/// Fragment shader
+/**
+ * @brief Fragment shader
+ * Generate: glslangValidator -V -x -o res/triangle/fragment.u32 res/triangle/triangle.frag
+ */
 ui32 frag_shader[] = {
 #include "res/triangle/fragment.u32"
 };
 
 //-----------------------------------------------------------------------------
+#ifdef LAVA_DEMO
+LAVA_STAGE(1, "triangle") {
+#else
 int main(int argc, char* argv[]) {
-    app app("lava triangle", { argc, argv });
+    argh::parser argh(argc, argv);
+#endif
 
+    app app("lava triangle", argh);
     if (!app.setup())
         return error::not_ready;
 
@@ -40,14 +51,14 @@ int main(int argc, char* argv[]) {
         return error::create_failed;
 
     pipeline_layout::ptr layout;
-    graphics_pipeline::ptr pipeline;
+    render_pipeline::ptr pipeline;
 
     app.on_create = [&]() {
         layout = make_pipeline_layout();
         if (!layout->create(app.device))
             return false;
 
-        pipeline = make_graphics_pipeline(app.device);
+        pipeline = make_render_pipeline(app.device);
         pipeline->set_layout(layout);
 
         if (!pipeline->add_shader({ vert_shader, sizeof(vert_shader) },
@@ -99,7 +110,7 @@ int main(int argc, char* argv[]) {
 
         ImGui::Text("frames: %d", app.target->get_frame_count());
 
-        app.draw_about(draw_without_separator);
+        app.draw_about();
 
         ImGui::End();
     };

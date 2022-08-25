@@ -33,11 +33,8 @@ struct camera : entity {
 
     /**
      * @brief Create a camera
-     *
      * @param device    Vulkan device
-     *
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device);
 
@@ -53,7 +50,6 @@ struct camera : entity {
 
     /**
      * @brief Update the view with mouse position
-     *
      * @param dt           Delta time
      * @param mouse_pos    Mouse position
      */
@@ -61,7 +57,6 @@ struct camera : entity {
 
     /**
      * @brief Update the view with gamepad
-     *
      * @param dt     Delta time
      * @param pad    Gamepad
      */
@@ -69,61 +64,48 @@ struct camera : entity {
 
     /**
      * @brief Get the camera's 4x4 view matrix
-     *
      * @return mat4    View matrix
      */
     mat4 get_view() const;
 
     /**
      * @brief Get the camera's 4x4 projection matrix
-     *
      * @return mat4    Projection matrix
      */
     mat4 get_projection() const;
 
     /**
      * @brief Get the camera's combined 4x4 view/projection matrix
-     *
      * @return mat4    Combined view/projection matrix
      */
     mat4 get_view_projection() const;
 
     /**
      * @brief Handle key event
-     *
      * @param event     Key event
-     *
-     * @return true     Event was handled
-     * @return false    Event ignored
+     * @return Event was handled or ignored
      */
     bool handle(key_event::ref event);
 
     /**
      * @brief Handle mouse button event
-     *
      * @param event        Mouse button event
      * @param mouse_pos    Mouse position
-     *
-     * @return true        Event was handled
-     * @return false       Event ignored
+     * @return Event was handled or ignored
      */
-    bool handle(mouse_button_event::ref event, mouse_position mouse_pos);
+    bool handle(mouse_button_event::ref event,
+                mouse_position mouse_pos);
 
     /**
      * @brief Handle scroll event
-     *
      * @param event     Scroll event
-     *
-     * @return true     Event was handled
-     * @return false    Event ignored
+     * @return Event was handled or ignored
      */
     bool handle(scroll_event::ref event);
 
     /**
      * @brief Check if camera is valid
-     *
-     * @return true     Camera is valid
-     * @return false    Camera is invalid
+     * @return Camera is valid or not
      */
     bool valid() const {
         return data ? data->valid() : false;
@@ -131,7 +113,6 @@ struct camera : entity {
 
     /**
      * @brief Get the descriptor buffer info
-     *
      * @return VkDescriptorBufferInfo const*    Descriptor buffer info
      */
     VkDescriptorBufferInfo const* get_descriptor_info() const {
@@ -155,7 +136,6 @@ struct camera : entity {
 
     /**
      * @brief Set camera active
-     *
      * @param value    Active state
      */
     void set_active(bool value = true) {
@@ -164,9 +144,7 @@ struct camera : entity {
 
     /**
      * @brief Check if camera is activated
-     *
-     * @return true     Camera is active
-     * @return false    Camera is inactive
+     * @return Camera is active or not
      */
     bool activated() const {
         return active;
@@ -174,9 +152,7 @@ struct camera : entity {
 
     /**
      * @brief Check if camera is moving
-     *
-     * @return true     Camera is moving
-     * @return false    Camera does not move
+     * @return Camera is moving or does not move
      */
     bool moving() const {
         return move_up || move_down || move_left || move_right;
@@ -184,7 +160,6 @@ struct camera : entity {
 
     /**
      * @brief Set keys for moving this camera
-     *
      * @param up       Up inputs
      * @param down     Down inputs
      * @param left     Left inputs
@@ -237,7 +212,6 @@ struct camera : entity {
 private:
     /**
      * @brief Move first person
-     *
      * @param dt    Delta time
      */
     void move_first_person(delta dt);

@@ -1,30 +1,24 @@
 /**
- * @file         liblava/util/utility.hpp
- * @brief        Container utilities
+ * @file         liblava/util/misc.hpp
+ * @brief        Miscellaneous helpers
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
 #pragma once
 
-#include <algorithm>
+#include <picosha2.h>
 #include <cstring>
 #include <liblava/core/types.hpp>
 #include <utility>
 
 namespace lava {
 
-/// Punctuation marks
-constexpr name _punctuation_marks_ = "\"\'";
-
 /**
  * @brief Check if name exists in name list
- *
  * @param list      List of names
  * @param item      Item to check
- *
- * @return true     Item exists
- * @return false    Item not found
+ * @return Item exists or not found
  */
 inline bool exists(names_ref list, name item) {
     auto itr = std::find_if(list.begin(), list.end(),
@@ -34,9 +28,7 @@ inline bool exists(names_ref list, name item) {
 
 /**
  * @brief Remove item from list
- *
  * @tparam T      Type of list
- *
  * @param list    List of items
  * @param item    Item to remove
  */
@@ -47,14 +39,10 @@ inline void remove(std::vector<T>& list, T item) {
 
 /**
  * @brief Check if item is included in list
- *
  * @tparam T        Type of list
- *
  * @param list      List of items
  * @param item      Item to check
- *
- * @return true     Item exists
- * @return false    Item not found
+ * @return Item exists or not found
  */
 template<typename T>
 inline bool contains(std::vector<T>& list, T item) {
@@ -63,9 +51,7 @@ inline bool contains(std::vector<T>& list, T item) {
 
 /**
  * @brief Append a list of items to another list
- *
  * @tparam T       Type of list
- *
  * @param list     List of items
  * @param items    Items to append
  */
@@ -76,7 +62,6 @@ inline void append(std::vector<T>& list, std::vector<T>& items) {
 
 /**
  * @brief Trim string only from start (in place)
- *
  * @param s    String to trim
  */
 inline void ltrim(string& s) {
@@ -87,7 +72,6 @@ inline void ltrim(string& s) {
 
 /**
  * @brief Trim string only from end (in place)
- *
  * @param s    String to trim
  */
 inline void rtrim(string& s) {
@@ -99,7 +83,6 @@ inline void rtrim(string& s) {
 
 /**
  * @brief Trim string from both ends (in place)
- *
  * @param s    String to trim
  */
 inline void trim(string& s) {
@@ -109,9 +92,7 @@ inline void trim(string& s) {
 
 /**
  * @brief Trim string only from start (copying)
- *
  * @param s          String to trim
- *
  * @return string    Trimmed string
  */
 inline string ltrim_copy(string s) {
@@ -121,9 +102,7 @@ inline string ltrim_copy(string s) {
 
 /**
  * @brief Trim string only from end (copying)
- *
  * @param s          String to trim
- *
  * @return string    Trimmed string
  */
 inline string rtrim_copy(string s) {
@@ -133,9 +112,7 @@ inline string rtrim_copy(string s) {
 
 /**
  * @brief Trim string from both ends (copying)
- *
  * @param s          String to trim
- *
  * @return string    Trimmed string
  */
 inline string trim_copy(string s) {
@@ -145,10 +122,8 @@ inline string trim_copy(string s) {
 
 /**
  * @brief Remove chars in string
- *
  * @param s           Target string
  * @param chars       Chars to remove
- *
  * @return string&    Cleared string
  */
 inline string& remove_chars(string& s, string_ref chars) {
@@ -161,10 +136,8 @@ inline string& remove_chars(string& s, string_ref chars) {
 
 /**
  * @brief Remove chars in string (copying)
- *
  * @param s          Target string
  * @param chars      Chars to remove
- *
  * @return string    Cleared string
  */
 inline string remove_chars_copy(string s, string_ref chars) {
@@ -173,9 +146,7 @@ inline string remove_chars_copy(string s, string_ref chars) {
 
 /**
  * @brief Remove all non digit chars in string
- *
  * @param s           Target string
- *
  * @return string&    Cleared string
  */
 inline string& remove_nondigit(string& s) {
@@ -188,9 +159,7 @@ inline string& remove_nondigit(string& s) {
 
 /**
  * @brief Remove all non digit chars in string (copying)
- *
  * @param s          Target string
- *
  * @return string    Cleared string
  */
 inline string remove_nondigit_copy(string s) {
@@ -199,10 +168,8 @@ inline string remove_nondigit_copy(string s) {
 
 /**
  * @brief Remove all chars in string which are not allowed
- *
  * @param s           Target string
  * @param allowed     Allowed chars
- *
  * @return string&    Cleared string
  */
 inline string& remove_chars_if_not(string& s, string_ref allowed) {
@@ -215,10 +182,8 @@ inline string& remove_chars_if_not(string& s, string_ref allowed) {
 
 /**
  * @brief Remove all chars in string which are not allowed (copying)
- *
  * @param s          Target string
  * @param allowed    Allowed chars
- *
  * @return string    Cleared string
  */
 inline string remove_chars_if_not_copy(string s, string_ref allowed) {
@@ -227,7 +192,6 @@ inline string remove_chars_if_not_copy(string s, string_ref allowed) {
 
 /**
  * @brief Reversion Wrapper
- *
  * @tparam T    Type to iterate
  */
 template<typename T>
@@ -238,11 +202,8 @@ struct reversion_wrapper {
 
 /**
  * @brief Begin the iterator
- *
  * @tparam T       Type of iterable
- *
  * @param w        Reversion wrapper
- *
  * @return auto    Iterator
  */
 template<typename T>
@@ -252,11 +213,8 @@ inline auto begin(reversion_wrapper<T> w) {
 
 /**
  * @brief End the iterator
- *
  * @tparam T       Type of iterable
- *
  * @param w        Reversion wrapper
- *
  * @return auto    Iterator
  */
 template<typename T>
@@ -266,16 +224,26 @@ inline auto end(reversion_wrapper<T> w) {
 
 /**
  * @brief Reverse iteration
- *
  * @tparam T                       Type of iterable
- *
  * @param iterable                 Iterable
- *
  * @return reversion_wrapper<T>    Wrapper
  */
 template<typename T>
 inline reversion_wrapper<T> reverse(T&& iterable) {
     return { iterable };
+}
+
+/**
+ * @brief Get SHA-256 hash of string
+ * @param value      Value to hash
+ * @return string    Hash result
+ */
+inline string hash256(string_ref value) {
+    std::vector<uc8> hash(picosha2::k_digest_size);
+    picosha2::hash256(value.begin(), value.end(),
+                      hash.begin(), hash.end());
+
+    return picosha2::bytes_to_hex_string(hash.begin(), hash.end());
 }
 
 } // namespace lava

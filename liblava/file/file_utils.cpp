@@ -14,13 +14,10 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 bool read_file(std::vector<char>& out,
-               name filename) {
-    std::ifstream file(filename,
+               string_ref filename) {
+    std::ifstream file(str(filename),
                        std::ios::ate | std::ios::binary);
-#if LIBLAVA_DEBUG_ASSERT
-    assert(file.is_open());
-#endif
-
+    LAVA_ASSERT(file.is_open());
     if (!file.is_open())
         return false;
 
@@ -38,13 +35,11 @@ bool read_file(std::vector<char>& out,
 }
 
 //-----------------------------------------------------------------------------
-bool write_file(name filename,
+bool write_file(string_ref filename,
                 char const* data,
                 size_t data_size) {
-    std::ofstream file(filename, std::ofstream::binary);
-#if LIBLAVA_DEBUG_ASSERT
-    assert(file.is_open());
-#endif
+    std::ofstream file(str(filename), std::ofstream::binary);
+    LAVA_ASSERT(file.is_open());
 
     if (!file.is_open())
         return false;
@@ -55,20 +50,18 @@ bool write_file(name filename,
 }
 
 //-----------------------------------------------------------------------------
-bool extension(name filename, name extension) {
-    string fn = filename;
-    string ext = extension;
-
-    string to_check = fn.substr(fn.find_last_of('.') + 1);
-
+bool extension(string_ref filename, string_ref extension) {
+    string to_check = filename.substr(filename.find_last_of('.') + 1);
     std::transform(to_check.begin(), to_check.end(), to_check.begin(), ::tolower);
+
+    auto ext = extension;
     std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 
     return to_check == ext;
 }
 
 //-----------------------------------------------------------------------------
-bool extension(name filename, names extensions) {
+bool extension(string_ref filename, string_list_ref extensions) {
     for (auto& ex : extensions)
         if (extension(filename, ex))
             return true;
@@ -102,7 +95,7 @@ bool remove_existing_path(string& target, string_ref path) {
 
 //-----------------------------------------------------------------------------
 bool load_file_data(string_ref filename, data& target) {
-    file file(str(filename));
+    file file(filename);
     if (!file.opened())
         return false;
 

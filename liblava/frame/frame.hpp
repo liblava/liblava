@@ -10,6 +10,7 @@
 #include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
 #include <liblava/base/platform.hpp>
+#include <liblava/core/time.hpp>
 #include <liblava/frame/argh.hpp>
 
 namespace lava {
@@ -30,7 +31,6 @@ struct frame_env {
 
     /**
      * @brief Construct a new frame environment
-     *
      * @param app_name    Name of application
      * @param cmd_line    Command line arguments
      */
@@ -79,7 +79,6 @@ enum error {
 
 /**
  * @brief Get the current time
- *
  * @return ms    Current milliseconds
  */
 ms now();
@@ -99,14 +98,12 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Construct a new framework
-     *
      * @param cmd_line    Command line arguments
      */
     explicit frame(argh::parser cmd_line);
 
     /**
      * @brief Construct a new framework
-     *
      * @param env    Framework environment
      */
     explicit frame(frame_env env);
@@ -118,27 +115,24 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Check if framework is ready
-     *
-     * @return true     Framework is ready
-     * @return false    Framework is not ready
+     * @return Framework is ready or not
      */
-    bool ready() const;
+    bool ready() const {
+        return initialized;
+    }
 
     /// Framework result
     using result = i32; // error < 0
 
     /**
      * @brief Run the framework
-     *
      * @return result    Run result
      */
     result run();
 
     /**
      * @brief Shut down the framework
-     *
-     * @return true     Shut down was successful
-     * @return false    Shut down failed
+     * @return Shut down was successful or failed
      */
     bool shut_down();
 
@@ -150,9 +144,7 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Add run to framework
-     *
      * @param func    Run function
-     *
      * @return id     Id of function
      */
     id add_run(run_func_ref func);
@@ -165,9 +157,7 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Add run end to framework
-     *
      * @param func    Run end function
-     *
      * @return id     Id of function
      */
     id add_run_end(run_end_func_ref func);
@@ -180,7 +170,6 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Add run once to framework
-     *
      * @param func    Run once function
      */
     void add_run_once(run_once_func_ref func) {
@@ -189,17 +178,13 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Remove a function from framework
-     *
-     * @param id Id of function
-     *
-     * @return true     Remove was successful
-     * @return false    Remove failed
+     * @param id    Id of function
+     * @return Remove was successful or failed
      */
     bool remove(id::ref id);
 
     /**
      * @brief Get the running time
-     *
      * @return ms    Time since start of framework
      */
     ms get_running_time() const {
@@ -208,7 +193,6 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Get the running time in seconds
-     *
      * @return r64    Time since start of framework
      */
     r64 get_running_time_sec() const {
@@ -217,7 +201,6 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Get the command line arguments
-     *
      * @return cmd_line    Command line arguments
      */
     cmd_line get_cmd_line() const {
@@ -226,7 +209,6 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Get the framework environment
-     *
      * @return frame_env::ref    Framework environment
      */
     frame_env::ref get_env() const {
@@ -235,7 +217,6 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Get the name of application
-     *
      * @return name    Name of application
      */
     name get_name() const {
@@ -244,9 +225,7 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Check if framework is waiting for events
-     *
-     * @return true     Framework waits for events
-     * @return false    Framework does not wait for events
+     * @return Framework waits for events or not
      */
     bool waiting_for_events() const {
         return wait_for_events;
@@ -254,7 +233,6 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Set wait for events in framework
-     *
      * @param value    Wait for events state
      */
     void set_wait_for_events(bool value = true) {
@@ -267,9 +245,7 @@ struct frame : interface, no_copy_no_move {
 private:
     /**
      * @brief Set up the framework
-     *
-     * @return true     Setup was successful
-     * @return false    Setup failed
+     * @return Setup was successful or failed
      */
     bool setup();
 
@@ -280,9 +256,7 @@ private:
 
     /**
      * @brief Run a step
-     *
-     * @return true     Run was successful
-     * @return false    Run failed
+     * @return Run was successful or failed
      */
     bool run_step();
 
@@ -298,11 +272,12 @@ private:
 
     /**
      * @brief Check Vulkan profile support
-     *
-     * @return true     Profile supported
-     * @return false    Profile not supported
+     * @return Profile supported or not
      */
     bool check_profile() const;
+
+    /// Initialized state
+    bool initialized = false;
 
     /// Framework environment
     frame_env env;
@@ -340,21 +315,18 @@ private:
 
 /**
  * @brief Handle events
- *
  * @param wait    Wait for events
  */
 void handle_events(bool wait = false);
 
 /**
  * @brief Handle events
- *
  * @param timeout    Wait timeout in milliseconds
  */
 void handle_events(ms timeout);
 
 /**
  * @brief Handle events
- *
  * @param timeout    Wait timeout in seconds
  */
 void handle_events(seconds timeout);

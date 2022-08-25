@@ -7,6 +7,7 @@
 
 #include <liblava/base/instance.hpp>
 #include <liblava/base/memory.hpp>
+#include <liblava/util/misc.hpp>
 
 #define VK_LAYER_KHRONOS_VALIDATION_NAME "VK_LAYER_KHRONOS_validation"
 #define VK_LAYER_RENDERDOC_CAPTURE_NAME "VK_LAYER_RENDERDOC_Capture"
@@ -16,30 +17,30 @@ namespace lava {
 /**
  * @see https://khronos.org/registry/vulkan/specs/1.3-extensions/man/html/PFN_vkDebugUtilsMessengerCallbackEXT.html
  */
-static VKAPI_ATTR VkBool32 VKAPI_CALL
+VKAPI_ATTR VkBool32 VKAPI_CALL
     validation_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
                         VkDebugUtilsMessageTypeFlagsEXT message_type,
                         const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
                         void* user_data) {
-    auto message_header = callback_data->pMessageIdName != nullptr ?
-        fmt::format("validation: {} ({})", callback_data->pMessageIdName, callback_data->messageIdNumber) :
-        fmt::format("validation: ({})", callback_data->messageIdNumber);
+    auto message_header = callback_data->pMessageIdName != nullptr
+                              ? fmt::format("validation: {} ({})",
+                                            callback_data->pMessageIdName,
+                                            callback_data->messageIdNumber)
+                              : fmt::format("validation: ({})", callback_data->messageIdNumber);
 
     if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
-        log()->error(str(message_header));
+        log()->error(message_header);
         log()->error(callback_data->pMessage);
 
-#if LIBLAVA_DEBUG_ASSERT
-        assert(!"check validation error");
-#endif
+        LAVA_ASSERT(!"check validation error");
     } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
-        log()->warn(str(message_header));
+        log()->warn(message_header);
         log()->warn(callback_data->pMessage);
     } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
-        log()->info(str(message_header));
+        log()->info(message_header);
         log()->info(callback_data->pMessage);
     } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT) {
-        log()->trace(str(message_header));
+        log()->trace(message_header);
         log()->trace(callback_data->pMessage);
     }
 
@@ -144,12 +145,12 @@ bool instance::create(create_param& param,
         };
 
         if (failed(vpCreateInstance(&vp_create_info,
-                                    memory::alloc(),
+                                    memory::instance().alloc(),
                                     &vk_instance)))
             return false;
     } else {
         if (failed(vkCreateInstance(&create_info,
-                                    memory::alloc(),
+                                    memory::instance().alloc(),
                                     &vk_instance)))
             return false;
     }
@@ -177,7 +178,7 @@ void instance::destroy() {
         destroy_validation_report();
 
     vkDestroyInstance(vk_instance,
-                      memory::alloc());
+                      memory::instance().alloc());
     vk_instance = nullptr;
 }
 
@@ -199,7 +200,7 @@ bool instance::create_validation_report() {
 
     return check(vkCreateDebugUtilsMessengerEXT(vk_instance,
                                                 &create_info,
-                                                memory::alloc(),
+                                                memory::instance().alloc(),
                                                 &debug_messenger));
 }
 
@@ -210,45 +211,9 @@ void instance::destroy_validation_report() {
 
     vkDestroyDebugUtilsMessengerEXT(vk_instance,
                                     debug_messenger,
-                                    memory::alloc());
+                                    memory::instance().alloc());
 
     debug_messenger = VK_NULL_HANDLE;
-}
-
-//-----------------------------------------------------------------------------
-VkLayerPropertiesList instance::enumerate_layer_properties() {
-    auto layer_count = 0u;
-    auto result = vkEnumerateInstanceLayerProperties(&layer_count,
-                                                     nullptr);
-    if (failed(result))
-        return {};
-
-    VkLayerPropertiesList list(layer_count);
-    result = vkEnumerateInstanceLayerProperties(&layer_count,
-                                                list.data());
-    if (failed(result))
-        return {};
-
-    return list;
-}
-
-//-----------------------------------------------------------------------------
-VkExtensionPropertiesList instance::enumerate_extension_properties(name layer_name) {
-    auto property_count = 0u;
-    auto result = vkEnumerateInstanceExtensionProperties(layer_name,
-                                                         &property_count,
-                                                         nullptr);
-    if (failed(result))
-        return {};
-
-    VkExtensionPropertiesList list(property_count);
-    result = vkEnumerateInstanceExtensionProperties(layer_name,
-                                                    &property_count,
-                                                    list.data());
-    if (failed(result))
-        return {};
-
-    return list;
 }
 
 //-----------------------------------------------------------------------------
@@ -276,7 +241,35 @@ bool instance::enumerate_physical_devices() {
 }
 
 //-----------------------------------------------------------------------------
-internal_version instance::get_version() {
+bool check(instance::create_param::ref param) {
+    auto layer_properties = enumerate_layer_properties();
+    for (auto const& layer_name : param.layers) {
+        auto itr = std::find_if(layer_properties.begin(), layer_properties.end(),
+                                [&](VkLayerProperties const& extProp) {
+                                    return strcmp(layer_name, extProp.layerName) == 0;
+                                });
+
+        if (itr == layer_properties.end())
+            return false;
+    }
+
+    auto extensions_properties = enumerate_extension_properties();
+    for (auto const& ext_name : param.extensions) {
+        auto itr = std::find_if(
+            extensions_properties.begin(), extensions_properties.end(),
+            [&](VkExtensionProperties const& extProp) {
+                return strcmp(ext_name, extProp.extensionName) == 0;
+            });
+
+        if (itr == extensions_properties.end())
+            return false;
+    }
+
+    return true;
+}
+
+//-----------------------------------------------------------------------------
+internal_version get_instance_version() {
     ui32 instance_version = VK_API_VERSION_1_0;
 
     auto enumerate_instance_version =
@@ -293,31 +286,39 @@ internal_version instance::get_version() {
 }
 
 //-----------------------------------------------------------------------------
-bool check(instance::create_param::ref param) {
-    auto layer_properties = instance::enumerate_layer_properties();
-    for (auto const& layer_name : param.layers) {
-        auto itr = std::find_if(layer_properties.begin(), layer_properties.end(),
-                                [&](VkLayerProperties const& extProp) {
-                                    return strcmp(layer_name, extProp.layerName) == 0;
-                                });
+VkLayerPropertiesList enumerate_layer_properties() {
+    auto layer_count = 0u;
+    auto result = vkEnumerateInstanceLayerProperties(&layer_count,
+                                                     nullptr);
+    if (failed(result))
+        return {};
 
-        if (itr == layer_properties.end())
-            return false;
-    }
+    VkLayerPropertiesList list(layer_count);
+    result = vkEnumerateInstanceLayerProperties(&layer_count,
+                                                list.data());
+    if (failed(result))
+        return {};
 
-    auto extensions_properties = instance::enumerate_extension_properties();
-    for (auto const& ext_name : param.extensions) {
-        auto itr = std::find_if(
-            extensions_properties.begin(), extensions_properties.end(),
-            [&](VkExtensionProperties const& extProp) {
-                return strcmp(ext_name, extProp.extensionName) == 0;
-            });
+    return list;
+}
 
-        if (itr == extensions_properties.end())
-            return false;
-    }
+//-----------------------------------------------------------------------------
+VkExtensionPropertiesList enumerate_extension_properties(name layer_name) {
+    auto property_count = 0u;
+    auto result = vkEnumerateInstanceExtensionProperties(layer_name,
+                                                         &property_count,
+                                                         nullptr);
+    if (failed(result))
+        return {};
 
-    return true;
+    VkExtensionPropertiesList list(property_count);
+    result = vkEnumerateInstanceExtensionProperties(layer_name,
+                                                    &property_count,
+                                                    list.data());
+    if (failed(result))
+        return {};
+
+    return list;
 }
 
 } // namespace lava

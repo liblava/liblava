@@ -1,17 +1,18 @@
 /**
- * @file         liblava/block/graphics_pipeline.cpp
- * @brief        Graphics pipeline
+ * @file         liblava/block/render_pipeline.cpp
+ * @brief        Render pipeline (Graphics)
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/block/graphics_pipeline.hpp>
+#include <liblava/block/render_pipeline.hpp>
+#include <liblava/util/log.hpp>
 
 namespace lava {
 
 //-----------------------------------------------------------------------------
-graphics_pipeline::graphics_pipeline(device_p d,
-                                     VkPipelineCache pipeline_cache)
+render_pipeline::render_pipeline(device_p d,
+                                 VkPipelineCache pipeline_cache)
 : pipeline(d, pipeline_cache) {
     info.vertex_input_state.sType =
         VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
@@ -102,7 +103,7 @@ graphics_pipeline::graphics_pipeline(device_p d,
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_vertex_input_binding(
+void render_pipeline::set_vertex_input_binding(
     VkVertexInputBindingDescription const& description) {
     VkVertexInputBindingDescriptions descriptions;
     descriptions.push_back(description);
@@ -111,7 +112,7 @@ void graphics_pipeline::set_vertex_input_binding(
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_vertex_input_bindings(
+void render_pipeline::set_vertex_input_bindings(
     VkVertexInputBindingDescriptions const& descriptions) {
     vertex_input_bindings = descriptions;
 
@@ -122,7 +123,7 @@ void graphics_pipeline::set_vertex_input_bindings(
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_vertex_input_attribute(
+void render_pipeline::set_vertex_input_attribute(
     VkVertexInputAttributeDescription const& attribute) {
     VkVertexInputAttributeDescriptions attributes;
     attributes.push_back(attribute);
@@ -131,7 +132,7 @@ void graphics_pipeline::set_vertex_input_attribute(
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_vertex_input_attributes(
+void render_pipeline::set_vertex_input_attributes(
     VkVertexInputAttributeDescriptions const& attributes) {
     vertex_input_attributes = attributes;
 
@@ -142,13 +143,13 @@ void graphics_pipeline::set_vertex_input_attributes(
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_input_topology(VkPrimitiveTopology const& topology) {
+void render_pipeline::set_input_topology(VkPrimitiveTopology const& topology) {
     info.input_assembly_state.topology = topology;
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_depth_test_and_write(bool enable_test,
-                                                 bool enable_write) {
+void render_pipeline::set_depth_test_and_write(bool enable_test,
+                                               bool enable_write) {
     info.depth_stencil_state.depthTestEnable = enable_test
                                                    ? VK_TRUE
                                                    : VK_FALSE;
@@ -158,44 +159,27 @@ void graphics_pipeline::set_depth_test_and_write(bool enable_test,
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_depth_compare_op(VkCompareOp compare_op) {
+void render_pipeline::set_depth_compare_op(VkCompareOp compare_op) {
     info.depth_stencil_state.depthCompareOp = compare_op;
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_rasterization_cull_mode(VkCullModeFlags cull_mode) {
+void render_pipeline::set_rasterization_cull_mode(VkCullModeFlags cull_mode) {
     info.rasterization_state.cullMode = cull_mode;
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_rasterization_front_face(VkFrontFace front_face) {
+void render_pipeline::set_rasterization_front_face(VkFrontFace front_face) {
     info.rasterization_state.frontFace = front_face;
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_rasterization_polygon_mode(VkPolygonMode polygon_mode) {
+void render_pipeline::set_rasterization_polygon_mode(VkPolygonMode polygon_mode) {
     info.rasterization_state.polygonMode = polygon_mode;
 }
 
 //-----------------------------------------------------------------------------
-VkPipelineColorBlendAttachmentState graphics_pipeline::create_color_blend_attachment() {
-    return {
-        .blendEnable = VK_TRUE,
-        .srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA,
-        .dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
-        .colorBlendOp = VK_BLEND_OP_ADD,
-        .srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
-        .dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO,
-        .alphaBlendOp = VK_BLEND_OP_ADD,
-        .colorWriteMask = VK_COLOR_COMPONENT_R_BIT
-                          | VK_COLOR_COMPONENT_G_BIT
-                          | VK_COLOR_COMPONENT_B_BIT
-                          | VK_COLOR_COMPONENT_A_BIT,
-    };
-}
-
-//-----------------------------------------------------------------------------
-void graphics_pipeline::add_color_blend_attachment(
+void render_pipeline::add_color_blend_attachment(
     VkPipelineColorBlendAttachmentState const& attachment) {
     color_blend_attachment_states.push_back(attachment);
 
@@ -204,7 +188,12 @@ void graphics_pipeline::add_color_blend_attachment(
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::clear_color_blend_attachment() {
+void render_pipeline::add_color_blend_attachment() {
+    add_color_blend_attachment(create_pipeline_color_blend_attachment());
+}
+
+//-----------------------------------------------------------------------------
+void render_pipeline::clear_color_blend_attachment() {
     color_blend_attachment_states.clear();
 
     color_blend_state.attachmentCount = 0;
@@ -212,7 +201,7 @@ void graphics_pipeline::clear_color_blend_attachment() {
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_dynamic_states(VkDynamicStates const& states) {
+void render_pipeline::set_dynamic_states(VkDynamicStates const& states) {
     dynamic_states = states;
 
     dynamic_state.dynamicStateCount = to_ui32(dynamic_states.size());
@@ -220,13 +209,13 @@ void graphics_pipeline::set_dynamic_states(VkDynamicStates const& states) {
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::add_dynamic_state(VkDynamicState state) {
+void render_pipeline::add_dynamic_state(VkDynamicState state) {
     dynamic_states.push_back(state);
     set_dynamic_states(dynamic_states);
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::clear_dynamic_states() {
+void render_pipeline::clear_dynamic_states() {
     dynamic_states.clear();
 
     dynamic_state.dynamicStateCount = 0;
@@ -234,8 +223,8 @@ void graphics_pipeline::clear_dynamic_states() {
 }
 
 //-----------------------------------------------------------------------------
-bool graphics_pipeline::add_shader_stage(cdata::ref data,
-                                         VkShaderStageFlagBits stage) {
+bool render_pipeline::add_shader_stage(cdata::ref data,
+                                       VkShaderStageFlagBits stage) {
     if (!data.ptr) {
         log()->error("graphics pipeline shader stage data");
         return false;
@@ -254,7 +243,7 @@ bool graphics_pipeline::add_shader_stage(cdata::ref data,
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::copy_to(graphics_pipeline* target) const {
+void render_pipeline::copy_to(render_pipeline* target) const {
     target->set_layout(layout);
 
     target->info = info;
@@ -269,7 +258,7 @@ void graphics_pipeline::copy_to(graphics_pipeline* target) const {
 }
 
 //-----------------------------------------------------------------------------
-bool graphics_pipeline::setup() {
+bool render_pipeline::setup() {
     if (on_create && !on_create(info))
         return false;
 
@@ -304,25 +293,25 @@ bool graphics_pipeline::setup() {
                                                           pipeline_cache,
                                                           to_ui32(vk_info.size()),
                                                           vk_info.data(),
-                                                          memory::alloc(),
+                                                          memory::instance().alloc(),
                                                           &vk_pipeline));
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::teardown() {
+void render_pipeline::teardown() {
     clear();
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::bind(VkCommandBuffer cmd_buf) {
+void render_pipeline::bind(VkCommandBuffer cmd_buf) {
     vkCmdBindPipeline(cmd_buf,
                       VK_PIPELINE_BIND_POINT_GRAPHICS,
                       vk_pipeline);
 }
 
 //-----------------------------------------------------------------------------
-void graphics_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf,
-                                                 uv2 size) {
+void render_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf,
+                                               uv2 size) {
     VkViewport viewportParam;
     viewportParam.x = 0.f;
     viewportParam.y = 0.f;
@@ -335,10 +324,10 @@ void graphics_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf,
     scissorParam.offset = { 0, 0 };
     scissorParam.extent = { size.x, size.y };
 
-    if (sizing_mode == sizing_mode::absolute) {
+    if (sizing == sizing_mode::absolute) {
         viewportParam = viewport;
         scissorParam = scissor;
-    } else if (sizing_mode == sizing_mode::relative) {
+    } else if (sizing == sizing_mode::relative) {
         viewportParam.x = viewport.x * size.x;
         viewportParam.y = viewport.y * size.y;
         viewportParam.width = viewport.width * size.x;
@@ -364,6 +353,23 @@ void graphics_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf,
                     0,
                     to_ui32(scissors.size()),
                     scissors.data());
+}
+
+//-----------------------------------------------------------------------------
+VkPipelineColorBlendAttachmentState create_pipeline_color_blend_attachment() {
+    return {
+        .blendEnable = VK_TRUE,
+        .srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA,
+        .dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
+        .colorBlendOp = VK_BLEND_OP_ADD,
+        .srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA,
+        .dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO,
+        .alphaBlendOp = VK_BLEND_OP_ADD,
+        .colorWriteMask = VK_COLOR_COMPONENT_R_BIT
+                          | VK_COLOR_COMPONENT_G_BIT
+                          | VK_COLOR_COMPONENT_B_BIT
+                          | VK_COLOR_COMPONENT_A_BIT,
+    };
 }
 
 } // namespace lava

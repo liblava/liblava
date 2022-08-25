@@ -17,21 +17,17 @@ namespace lava {
  */
 struct random_generator {
     /**
-     * @brief Get singleton
-     *
-     * @return random_generator&    Random generator
+     * @brief Construct a new random generator
      */
-    static random_generator& instance() {
-        static random_generator generator;
-        return generator;
+    random_generator() {
+        std::random_device rd;
+        mt = std::mt19937(rd());
     }
 
     /**
      * @brief Get next random number
-     *
      * @param low     Lowest number
      * @param high    Highest number
-     *
      * @return i32    Random number
      */
     i32 get(i32 low, i32 high) {
@@ -41,12 +37,9 @@ struct random_generator {
 
     /**
      * @brief Get next real random number
-     *
      * @tparam T      Type of number
-     *
      * @param low     Lowest number
      * @param high    Highest number
-     *
      * @return T      Random number
      */
     template<typename T = real>
@@ -56,39 +49,27 @@ struct random_generator {
     }
 
 private:
-    /**
-     * @brief Construct a new random generator
-     */
-    random_generator() {
-        std::random_device rd;
-        mt = std::mt19937(rd());
-    }
-
     /// Mersenne twister algorithm
     std::mt19937 mt;
 };
 
 /**
  * @brief Get next random number
- *
  * @param low      Lowest number
  * @param high     Highest number
- *
  * @return auto    Random number
  */
 inline auto random(auto low, auto high) {
-    return random_generator::instance().get(low, high);
+    return random_generator().get(low, high);
 }
 
 /**
  * @brief Get next random number (lowest is 0)
- *
  * @param high     Highest number
- *
  * @return auto    Random number
  */
 inline auto random(auto high) {
-    return random_generator::instance().get({}, high);
+    return random_generator().get({}, high);
 }
 
 /**
@@ -97,7 +78,6 @@ inline auto random(auto high) {
 struct pseudo_random_generator {
     /**
      * @brief Construct a new pseudo random generator
-     *
      * @param seed    Seed for generator
      */
     explicit pseudo_random_generator(ui32 seed)
@@ -105,7 +85,6 @@ struct pseudo_random_generator {
 
     /**
      * @brief Set the seed
-     *
      * @param value    Generator seed
      */
     void set_seed(ui32 value) {
@@ -114,7 +93,6 @@ struct pseudo_random_generator {
 
     /**
      * @brief Get next pseudo random number
-     *
      * @return ui32    Random number
      */
     ui32 get() {
@@ -127,7 +105,6 @@ private:
 
     /**
      * @brief Generate fast random number
-     *
      * @return ui32    Random number
      */
     ui32 generate_fast() {

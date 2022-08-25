@@ -25,19 +25,15 @@ struct render_pass : entity {
 
     /**
      * @brief Construct a new render pass
-     *
      * @param device    Vulkan device
      */
     explicit render_pass(device_p device);
 
     /**
      * @brief Create a new render pass
-     *
      * @param target_attachments    List of target attachments
      * @param area                  Rectangle area
-     *
-     * @return true                 Create was successful
-     * @return false                Create failed
+     * @return Create was successful or failed
      */
     bool create(VkAttachmentsRef target_attachments,
                 rect area);
@@ -49,7 +45,6 @@ struct render_pass : entity {
 
     /**
      * @brief Process the render pass
-     *
      * @param cmd_buf    Command buffer
      * @param frame      Frame index
      */
@@ -58,7 +53,6 @@ struct render_pass : entity {
 
     /**
      * @brief Get the device
-     *
      * @return device_p    Vulkan device
      */
     device_p get_device() {
@@ -67,7 +61,6 @@ struct render_pass : entity {
 
     /**
      * @brief Get the render pass
-     *
      * @return VkRenderPass    Vulkan render pass
      */
     VkRenderPass get() const {
@@ -76,7 +69,6 @@ struct render_pass : entity {
 
     /**
      * @brief Get the subpass count
-     *
      * @return ui32    Number of subpasses
      */
     ui32 get_subpass_count() const {
@@ -85,11 +77,8 @@ struct render_pass : entity {
 
     /**
      * @brief Check if subpass exists
-     *
      * @param index     Index to check
-     *
-     * @return true     Subpass exists
-     * @return false    Subpass does not exist
+     * @return Subpass exists or not
      */
     bool exists_subpass(index index = 0) const {
         return index < subpasses.size();
@@ -97,9 +86,7 @@ struct render_pass : entity {
 
     /**
      * @brief Get the subpass
-     *
      * @param index        Index of subpass
-     *
      * @return subpass*    Subpass
      */
     subpass* get_subpass(index index = 0) {
@@ -108,7 +95,6 @@ struct render_pass : entity {
 
     /**
      * @brief Get the subpasses
-     *
      * @return subpass::list const&    List of subpasses
      */
     subpass::list const& get_subpasses() const {
@@ -117,7 +103,6 @@ struct render_pass : entity {
 
     /**
      * @brief Add an attachment
-     *
      * @param attachment    Attachment
      */
     void add(attachment::ptr const& attachment) {
@@ -126,7 +111,6 @@ struct render_pass : entity {
 
     /**
      * @brief Add a subpass dependency
-     *
      * @param dependency    Subpass dependency
      */
     void add(subpass_dependency::ptr const& dependency) {
@@ -135,7 +119,6 @@ struct render_pass : entity {
 
     /**
      * @brief Add a subpass
-     *
      * @param subpass    Subpass
      */
     void add(subpass::ptr const& subpass) {
@@ -144,7 +127,6 @@ struct render_pass : entity {
 
     /**
      * @brief Set the clear values
-     *
      * @param values    List of clear values
      */
     void set_clear_values(VkClearValues const& values) {
@@ -153,7 +135,6 @@ struct render_pass : entity {
 
     /**
      * @brief Get the clear values
-     *
      * @return VkClearValues const&    List of clear values
      */
     VkClearValues const& get_clear_values() const {
@@ -162,54 +143,48 @@ struct render_pass : entity {
 
     /**
      * @brief Set the clear color
-     *
      * @param value    Clear color
      */
     void set_clear_color(v3 value = {});
 
     /**
      * @brief Get the clear color
-     *
      * @return v3    Clear color
      */
     v3 get_clear_color() const;
 
     /**
-     * @brief Add a graphics pipeline to the back of subpass
-     *
-     * @param pipeline    Graphics pipeline
+     * @brief Add a render pipeline to the back of subpass
+     * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void add(graphics_pipeline::ptr pipeline,
+    void add(render_pipeline::ptr pipeline,
              index subpass = 0) {
         subpasses.at(subpass)->add(pipeline);
     }
 
     /**
-     * @brief Add a graphics pipeline to the front of subpass
-     *
-     * @param pipeline    Graphics pipeline
+     * @brief Add a render pipeline to the front of subpass
+     * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void add_front(graphics_pipeline::ptr pipeline,
+    void add_front(render_pipeline::ptr pipeline,
                    index subpass = 0) {
         subpasses.at(subpass)->add_front(pipeline);
     }
 
     /**
-     * @brief Remove a graphics pipeline from the subpass
-     *
-     * @param pipeline    Graphics pipeline
+     * @brief Remove a render pipeline from the subpass
+     * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void remove(graphics_pipeline::ptr pipeline,
+    void remove(render_pipeline::ptr pipeline,
                 index subpass = 0) {
         subpasses.at(subpass)->remove(pipeline);
     }
 
     /**
      * @brief Get the target callback
-     *
      * @return target_callback const&    Target callback
      */
     target_callback const& get_target_callback() const {
@@ -246,7 +221,6 @@ private:
 
     /**
      * @brief Begin the render pass
-     *
      * @param cmd_buf    Command buffer
      * @param frame      Frame index
      */
@@ -255,19 +229,15 @@ private:
 
     /**
      * @brief End the render pass
-     *
      * @param cmd_buf    Command buffer
      */
     void end(VkCommandBuffer cmd_buf);
 
     /**
      * @brief Called on target created
-     *
      * @param target_attachments    List of target attachments
      * @param area                  Rectangle area
-     *
-     * @return true                 Create was successful
-     * @return false                Create failed
+     * @return Create was successful or failed
      */
     bool on_target_created(VkAttachmentsRef target_attachments,
                            rect area);
@@ -280,9 +250,7 @@ private:
 
 /**
  * @brief Make a new render pass
- *
  * @param device               Vulkan device
- *
  * @return render_pass::ptr    Shared pointer to render pass
  */
 inline render_pass::ptr make_render_pass(device_p device) {

@@ -105,7 +105,7 @@ LAVA_STAGE(8, "gamepad") {
     if (!frame.ready())
         return error::not_ready;
 
-    gamepad_manager::add([&](gamepad pad, bool active) {
+    gamepad_manager::singleton().add([&](gamepad pad, bool active) {
         ui32 id = pad.get_id();
 
         if (active)

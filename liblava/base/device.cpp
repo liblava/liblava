@@ -8,12 +8,12 @@
 #include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
 #include <liblava/base/physical_device.hpp>
+#include <liblava/util/log.hpp>
 
 namespace lava {
 
 /**
  * @brief Log when verify_queues_result failed
- *
  * @param result    Verify queues result
  */
 void log_verify_queues_failed(verify_queues_result result) {
@@ -138,7 +138,7 @@ bool device::create(create_param::ref param) {
 
         if (failed(vpCreateDevice(physical_device->get(),
                                   &vp_create_info,
-                                  memory::alloc(),
+                                  memory::instance().alloc(),
                                   &vk_device))) {
             log()->error("create device with profile");
             return false;
@@ -146,7 +146,7 @@ bool device::create(create_param::ref param) {
     } else {
         if (failed(vkCreateDevice(physical_device->get(),
                                   &create_info,
-                                  memory::alloc(),
+                                  memory::instance().alloc(),
                                   &vk_device))) {
             log()->error("create device");
             return false;
@@ -212,7 +212,7 @@ void device::destroy() {
         mem_allocator = nullptr;
     }
 
-    call().vkDestroyDevice(vk_device, memory::alloc());
+    call().vkDestroyDevice(vk_device, memory::instance().alloc());
     vk_device = nullptr;
 
     table = {};
@@ -253,7 +253,7 @@ VkShaderModule create_shader_module(device_p device, cdata::ref data) {
 
     VkShaderModule result;
     if (!device->vkCreateShaderModule(&shader_module_create_info,
-                                      memory::alloc(),
+                                      memory::instance().alloc(),
                                       &result))
         return 0;
 

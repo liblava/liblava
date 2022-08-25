@@ -6,19 +6,7 @@
  */
 
 #include <liblava/base/base.hpp>
-
-//-----------------------------------------------------------------------------
-lava::logger global_logger;
-
-//-----------------------------------------------------------------------------
-void lava::set_log(lava::logger l) {
-    global_logger = l;
-}
-
-//-----------------------------------------------------------------------------
-lava::logger lava::log() {
-    return global_logger;
-}
+#include <liblava/util/log.hpp>
 
 namespace lava {
 

@@ -30,7 +30,6 @@ struct property : configurable {
 
         /**
          * @brief Construct a new prop
-         *
          * @param filename    File name of prop
          */
         prop(string_ref filename)
@@ -45,7 +44,6 @@ struct property : configurable {
 
     /**
      * @brief Add a prop
-     *
      * @param name        Name of prop
      * @param filename    File name of prop
      */
@@ -54,18 +52,14 @@ struct property : configurable {
 
     /**
      * @brief Get prop data
-     *
      * @param name      Name of prop
-     *
      * @return cdata    Prop const data
      */
     cdata operator()(string_ref name);
 
     /**
      * @brief Get file name of prop
-     *
      * @param name           Name of prop
-     *
      * @return string_ref    File name
      */
     string_ref get_filename(string_ref name) const {
@@ -74,7 +68,6 @@ struct property : configurable {
 
     /**
      * @brief Set filename of prop
-     *
      * @param name        Name of prop
      * @param filename    File name
      */
@@ -85,11 +78,8 @@ struct property : configurable {
 
     /**
      * @brief Check if prop exists
-     *
      * @param name      Name of prop to check
-     *
-     * @return true     Prop exists
-     * @return false    Prop does not exists
+     * @return Prop exists or not
      */
     bool exists(string_ref name) const {
         return map.count(name);
@@ -97,29 +87,22 @@ struct property : configurable {
 
     /**
      * @brief Check if prop data is empty
-     *
      * @param name      Name of prop
-     *
-     * @return true     Prop data is loaded
-     * @return false    Prop data is empty
+     * @return Prop data is empty or not
      */
     bool empty(string_ref name) const {
-        return map.at(name).data.ptr != nullptr;
+        return map.at(name).data.ptr == nullptr;
     }
 
     /**
      * @brief Load prop data (reload if loaded)
-     *
      * @param name      Name of prop
-     *
-     * @return true     Load was successful
-     * @return false    Load was not successful
+     * @return Load was successful or failed
      */
     bool load(string_ref name);
 
     /**
      * @brief Unload prop data
-     *
      * @param name      Name of prop
      */
     void unload(string_ref name) {
@@ -128,9 +111,7 @@ struct property : configurable {
 
     /**
      * @brief Load all prop data (reload if loaded)
-     *
-     * @return true     Load was successful
-     * @return false    Load was not successful
+     * @return Load was successful or failed
      */
     bool load_all();
 
@@ -144,15 +125,12 @@ struct property : configurable {
 
     /**
      * @brief Check whether all props are available
-     *
-     * @return true     All props are there
-     * @return false    Some props are missing (see log)
+     * @return All props are there or are missing (see log)
      */
     bool check();
 
     /**
      * @brief Parse prop overloads
-     *
      * @param cmd_line    Command line arguments
      */
     void parse(cmd_line cmd_line);
@@ -166,7 +144,6 @@ struct property : configurable {
 
     /**
      * @brief Get all props
-     *
      * @return prop::map const&    Map of props
      */
     prop::map const& get_all() const {
@@ -175,14 +152,12 @@ struct property : configurable {
 
     /**
      * @brief Set config
-     *
      * @param j    Json file
      */
     void set_config(json_ref j) override;
 
     /**
      * @brief Get config
-     *
      * @return json    Json file
      */
     json get_config() const override;

@@ -7,6 +7,7 @@
 
 #include <liblava/resource/format.hpp>
 #include <liblava/resource/image.hpp>
+#include <liblava/util/log.hpp>
 
 namespace lava {
 
@@ -169,7 +170,8 @@ image::ptr grab_image(image::ptr source) {
                                     VK_PIPELINE_STAGE_TRANSFER_BIT,
                                     VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
 
-        if (support_blit(device, source->get_format())) {
+        if (support_blit(device->get_vk_physical_device(),
+                         source->get_format())) {
             VkImageSubresourceLayers const subresource_layers = {
                 .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
                 .layerCount = 1,

@@ -23,7 +23,6 @@ struct stage {
 
     /**
      * @brief Construct a new stage
-     *
      * @param id       Stage id
      * @param descr    Stage description
      * @param func     Stage function
@@ -47,18 +46,36 @@ struct stage {
  */
 struct driver {
     /**
-     * @brief Get driver singleton
-     *
+     * @brief Driver error codes
+     */
+    enum error {
+        stages_empty = -1,
+        stage_not_found = -2,
+        undef_run = -3,
+    };
+
+    /**
+     * @brief Driver result
+     */
+    struct result {
+        /// Run result
+        i32 driver = 0;
+
+        /// Selected stage
+        i32 selected = 0;
+    };
+
+    /**
+     * @brief Get driver instance
      * @return driver&    Stage driver
      */
     static driver& instance() {
-        static driver singleton;
-        return singleton;
+        static driver driver;
+        return driver;
     }
 
     /**
      * @brief Add a stage
-     *
      * @param stage    Stage to add
      */
     void add_stage(stage* stage) {
@@ -67,7 +84,6 @@ struct driver {
 
     /**
      * @brief Get all stages
-     *
      * @return stage::map const&    Map of stages
      */
     stage::map const& get_stages() const {
@@ -76,12 +92,16 @@ struct driver {
 
     /**
      * @brief Run the driver
-     *
      * @param cmd_line    Command line arguments
-     *
      * @return i32        Result code
      */
     i32 run(argh::parser cmd_line = {});
+
+    /// Run function
+    using run_func = std::function<result(argh::parser)>;
+
+    /// Called if no stage has been selected
+    run_func on_run;
 
 private:
     /**

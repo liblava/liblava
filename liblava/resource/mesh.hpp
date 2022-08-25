@@ -10,12 +10,13 @@
 #include <liblava/core/hex.hpp>
 #include <liblava/resource/buffer.hpp>
 #include <liblava/resource/primitive.hpp>
+#include <liblava/util/log.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 
 /**
  * @brief Templated mesh data
- *
  * @tparam T    Input vertex struct
  */
 template<typename T = vertex>
@@ -29,9 +30,7 @@ struct mesh_template_data {
 public:
     /**
      * @brief Move mesh data by offset
-     *
      * @tparam PosType    Coordinate element typename
-     *
      * @param offset      Position offset
      */
     template<typename PosType = float>
@@ -45,7 +44,6 @@ public:
 
     /**
      * @brief Scale mesh data by factor
-     *
      * @param factor    Position scaling factor
      */
     void scale(auto factor) {
@@ -58,9 +56,7 @@ public:
 
     /**
      * @brief Scale mesh data by vector
-     *
      * @tparam PosType    Coordinate element typename
-     *
      * @param factors     Array of position scaling factors
      */
     template<typename PosType = float>
@@ -75,7 +71,6 @@ public:
 
 /**
  * @brief Temporary templated mesh
- *
  * @tparam T    Vertex struct typename
  */
 template<typename T = vertex>
@@ -101,13 +96,10 @@ struct mesh_template : entity {
 
     /**
      * @brief Create a new mesh
-     *
      * @param device          Vulkan device
      * @param mapped          Map mesh data
      * @param memory_usage    Memory usage
-     *
-     * @return true           Create was successful
-     * @return false          Create failed
+     * @return Create was successful or failed
      */
     bool create(device_p device,
                 bool mapped = false,
@@ -120,21 +112,18 @@ struct mesh_template : entity {
 
     /**
      * @brief Bind the mesh
-     *
      * @param cmd_buf    Command buffer
      */
     void bind(VkCommandBuffer cmd_buf) const;
 
     /**
      * @brief Draw the mesh
-     *
      * @param cmd_buf    Command buffer
      */
     void draw(VkCommandBuffer cmd_buf) const;
 
     /**
      * @brief Bind and draw the mesh
-     *
      * @param cmd_buf    Command buffer
      */
     void bind_draw(VkCommandBuffer cmd_buf) const {
@@ -144,9 +133,7 @@ struct mesh_template : entity {
 
     /**
      * @brief Check if mesh is empty
-     *
-     * @return true     Mesh is empty
-     * @return false    Mesh is not empty
+     * @return Mesh is empty or not
      */
     bool empty() const {
         return data.vertices.empty();
@@ -154,7 +141,6 @@ struct mesh_template : entity {
 
     /**
      * @brief Set the mesh data
-     *
      * @param value    Mesh data
      */
     void set_data(mesh_template_data<T> const& value) {
@@ -163,7 +149,6 @@ struct mesh_template : entity {
 
     /**
      * @brief Get the mesh data
-     *
      * @return mesh_data&    Mesh data
      */
     mesh_template_data<T>& get_data() {
@@ -172,7 +157,6 @@ struct mesh_template : entity {
 
     /**
      * @brief Add mesh data to existing data
-     *
      * @param value    Mesh data to add
      */
     void add_data(mesh_template_data<T> const& value) {
@@ -181,7 +165,6 @@ struct mesh_template : entity {
 
     /**
      * @brief Get the vertices of the mesh
-     *
      * @return vertex::list&    List of vertices
      */
     vertex_list& get_vertices() {
@@ -190,7 +173,6 @@ struct mesh_template : entity {
 
     /**
      * @brief Get the const vertices of the mesh
-     *
      * @return vertex::list const&    List of vertices
      */
     vertex_list const& get_vertices() const {
@@ -199,7 +181,6 @@ struct mesh_template : entity {
 
     /**
      * @brief Get the vertices count of the mesh
-     *
      * @return ui32    Number of vertices
      */
     ui32 get_vertices_count() const {
@@ -208,7 +189,6 @@ struct mesh_template : entity {
 
     /**
      * @brief Get the indices of the mesh
-     *
      * @return index_list&    List of indices
      */
     index_list& get_indices() {
@@ -217,7 +197,6 @@ struct mesh_template : entity {
 
     /**
      * @brief Get the const indices of the mesh
-     *
      * @return index_list const&    List of indices
      */
     index_list const& get_indices() const {
@@ -226,7 +205,6 @@ struct mesh_template : entity {
 
     /**
      * @brief Get the indices count of the mesh
-     *
      * @return ui32    Number of indices
      */
     ui32 get_indices_count() const {
@@ -235,15 +213,12 @@ struct mesh_template : entity {
 
     /**
      * @brief Reload the mesh data
-     *
-     * @return true     Reload was successful
-     * @return false    Reload failed
+     * @return Reload was successful or failed
      */
     bool reload();
 
     /**
      * @brief Get the vertex buffer of the mesh
-     *
      * @return buffer::ptr    Shared pointer to buffer
      */
     buffer::ptr get_vertex_buffer() {
@@ -252,7 +227,6 @@ struct mesh_template : entity {
 
     /**
      * @brief Get the index buffer of the mesh
-     *
      * @return buffer::ptr    Shared pointer to buffer
      */
     buffer::ptr get_index_buffer() {
@@ -330,9 +304,7 @@ bool mesh_template<T>::reload() {
 
 /**
  * @brief Make a new mesh
- *
  * @tparam T                                    Type of vertex struct
- *
  * @return std::shared_ptr<mesh_template<T>>    Shared pointer to mesh
  */
 template<typename T = vertex>
@@ -342,7 +314,6 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
 
 /**
  * @brief Create a new primitive mesh_data
- *
  * @tparam T                        Type of vertex struct
  * @tparam generate_colors          If color may be generated
  * @tparam generate_normals         If normals may be generated
@@ -350,9 +321,7 @@ inline std::shared_ptr<mesh_template<T>> make_mesh() {
  * @tparam has_colors               On MSVC, specifies if a `color` field exists
  * @tparam has_normals              On MSVC, specifies if a `normal` field exists
  * @tparam has_uvs                  On MSVC, specifies if a `uv` field exists
- *
  * @param type                      Mesh type
- *
  * @return mesh_template_data<T>    Mesh data
  */
 template<typename T = vertex,
@@ -366,7 +335,6 @@ mesh_template_data<T> create_mesh_data(mesh_type type);
 
 /**
  * @brief Create a new primitive mesh
- *
  * @tparam T                                    Type of vertex struct
  * @tparam generate_colors                      If color may be generated
  * @tparam generate_normals                     If normals may be generated
@@ -374,10 +342,8 @@ mesh_template_data<T> create_mesh_data(mesh_type type);
  * @tparam has_colors                           On MSVC, specifies if a `color` field exists
  * @tparam has_normals                          On MSVC, specifies if a `normal` field exists
  * @tparam has_uvs                              On MSVC, specifies if a `uv` field exists
- *
  * @param device                                Vulkan device
  * @param type                                  Mesh type
- *
  * @return std::shared_ptr<mesh_template<T>>    Shared pointer to mesh
  */
 template<typename T = vertex,
@@ -432,7 +398,6 @@ bool mesh_template<T>::create(device_p d,
 
 /**
  * @brief Make primitive positions for cube
- *
  * @tparam PosType                                      Type of position
  * @tparam vert_count                                   Number of vertices
  * @tparam is_complex                                   Complex state
@@ -448,7 +413,6 @@ constexpr std::array<PosType, vert_count> make_primitive_positions_cube();
 
 /**
  * @brief Make primitive indices for cube
- *
  * @tparam is_complex            Complex state
  * @return std::vector<index>    Array for indices
  */
@@ -457,7 +421,6 @@ std::vector<index> make_primitive_indices_cube();
 
 /**
  * @brief Make primitive normals for cube
- *
  * @tparam NormType                             Type of normal
  * @return constexpr std::array<NormType, 6>    Array of normals
  */
@@ -466,7 +429,6 @@ constexpr std::array<NormType, 6> make_primitive_normals_cube();
 
 /**
  * @brief Make primitive uvs for cube
- *
  * @tparam UVType                              Type of uv
  * @return constexpr std::array<UVType, 24>    Array of uvs
  */

@@ -7,7 +7,7 @@
 
 #include <liblava/base/debug_utils.hpp>
 
-#if LIBLAVA_DEBUG_UTILS
+#if LAVA_DEBUG_UTILS
     #include <liblava/base/instance.hpp>
     #include <optional>
 
@@ -18,7 +18,6 @@ using optional_label = std::optional<VkDebugUtilsLabelEXT>;
 
 /**
  * @brief Create a label information
- *
  * @param label              Name of label
  * @param color              Color of label
  * @return optional_label    Optional label

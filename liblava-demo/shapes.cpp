@@ -11,8 +11,14 @@
 using namespace lava;
 
 //-----------------------------------------------------------------------------
+#ifdef LAVA_DEMO
+LAVA_STAGE(3, "shapes") {
+#else
 int main(int argc, char* argv[]) {
-    engine app("lava shapes", { argc, argv });
+    argh::parser argh(argc, argv);
+#endif
+
+    engine app("lava shapes", argh);
 
     app.prop.add(_vertex_, "shapes/shapes.vert");
     app.prop.add(_fragment_, "shapes/shapes.frag");
@@ -81,11 +87,11 @@ int main(int argc, char* argv[]) {
     descriptor::pool::ptr descriptor_pool;
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 
-    graphics_pipeline::ptr pipeline;
+    render_pipeline::ptr pipeline;
     pipeline_layout::ptr layout;
 
     app.on_create = [&]() {
-        pipeline = make_graphics_pipeline(app.device);
+        pipeline = make_render_pipeline(app.device);
         pipeline->add_color_blend_attachment();
         pipeline->set_depth_test_and_write();
         pipeline->set_depth_compare_op(VK_COMPARE_OP_LESS_OR_EQUAL);
@@ -209,19 +215,15 @@ int main(int argc, char* argv[]) {
     app.imgui.on_draw = [&]() {
         ImGui::Begin(app.get_name());
 
-        if (ImGui::Button("Triangle"))
+        if (ImGui::Selectable("Triangle", current_mesh == mesh_type::triangle))
             current_mesh = mesh_type::triangle;
-
-        if (ImGui::Button("Quad"))
+        if (ImGui::Selectable("Quad", current_mesh == mesh_type::quad))
             current_mesh = mesh_type::quad;
-
-        if (ImGui::Button("Cube"))
+        if (ImGui::Selectable("Cube", current_mesh == mesh_type::cube))
             current_mesh = mesh_type::cube;
-
-        if (ImGui::Button("Hexagon"))
+        if (ImGui::Selectable("Hexagon", current_mesh == mesh_type::hexagon))
             current_mesh = mesh_type::hexagon;
-
-        if (ImGui::Button("None"))
+        if (ImGui::Selectable("None", current_mesh == mesh_type::none))
             current_mesh = mesh_type::none;
 
         app.draw_about();
@@ -238,7 +240,7 @@ int main(int argc, char* argv[]) {
             app.camera.update_view(to_dt(app.run_time.delta),
                                    app.input.get_mouse_position());
 
-        return true;
+        return run_continue;
     };
 
     app.add_run_end([&]() {

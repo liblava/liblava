@@ -1,0 +1,14 @@
+{
+  "baseUrl": "/_doxybook/",
+  "indexInFolders": true,
+  "linkSuffix": ".md",
+  "linkLowercase": false,
+  "indexClassesName": "README",
+  "indexFilesName": "README",
+  "indexGroupsName": "README",
+  "indexNamespacesName": "README",
+  "indexRelatedPagesName": "README",
+  "indexExamplesName": "README",
+  "mainPageInRoot": true,
+  "mainPageName": "README"
+}

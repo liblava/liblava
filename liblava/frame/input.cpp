@@ -6,6 +6,7 @@
  */
 
 #include <liblava/frame/input.hpp>
+#include <liblava/util/log.hpp>
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_INCLUDE_VULKAN
@@ -15,9 +16,7 @@ namespace lava {
 
 /**
  * @brief Handle events
- *
  * @tparam T                Type of event
- *
  * @param events            Events to handle
  * @param input_callback    Input callback
  */
@@ -379,6 +378,29 @@ string to_string(mod m) {
         result += "num_lock ";
 
     lava::rtrim(result);
+
+    return result;
+}
+
+//-----------------------------------------------------------------------------
+string to_string(tooltip::list const& tooltips) {
+    string result;
+
+    auto skip_first = true;
+    for (auto& tooltip : tooltips) {
+        if (skip_first)
+            skip_first = false;
+        else
+            result += "\n";
+
+        if (tooltip.mod == mod::none)
+            result += fmt::format("{} = {}",
+                                  tooltip.name, to_string(tooltip.key));
+        else
+            result += fmt::format("{} = {} + {}",
+                                  tooltip.name, to_string(tooltip.mod),
+                                  to_string(tooltip.key));
+    }
 
     return result;
 }

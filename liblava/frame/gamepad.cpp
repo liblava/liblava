@@ -39,7 +39,7 @@ bool gamepad::update() {
 //-----------------------------------------------------------------------------
 gamepad_manager::gamepad_manager() {
     glfwSetJoystickCallback([](int jid, int e) {
-        for (auto const& [id, event] : instance().map)
+        for (auto const& [id, event] : gamepad_manager::singleton().map)
             if (event(gamepad(gamepad_id(jid)), e == GLFW_CONNECTED))
                 break;
     });
@@ -47,21 +47,19 @@ gamepad_manager::gamepad_manager() {
 
 //-----------------------------------------------------------------------------
 id gamepad_manager::add(listener_func event) {
-    auto id = ids::next();
+    auto id = ids::instance().next();
 
-    instance().map.emplace(id, event);
+    map.emplace(id, event);
 
     return id;
 }
 
 //-----------------------------------------------------------------------------
 void gamepad_manager::remove(id::ref id) {
-    if (!instance().map.count(id))
+    if (!map.count(id))
         return;
 
-    instance().map.erase(id);
-
-    ids::free(id);
+    map.erase(id);
 }
 
 //-----------------------------------------------------------------------------

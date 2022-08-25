@@ -8,7 +8,7 @@
 #pragma once
 
 #include <liblava/core/id.hpp>
-#include <liblava/util/utility.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 
@@ -175,18 +175,14 @@ using keys_ref = keys const&;
 
 /**
  * @brief Convert input key to string
- *
  * @param k          Input key
- *
  * @return string    String representation
  */
 string to_string(key k);
 
 /**
  * @brief Get scancode based on key
- *
  * @param key     Input key
- *
  * @return i32    Input scan code
  */
 i32 get_scancode(key key);
@@ -226,12 +222,9 @@ using mod_t = mod;
 
 /**
  * @brief Check if mod is active
- *
  * @param m         Target mod
  * @param c         Mod to check
- *
- * @return true     Mod is active
- * @return false    Mod is not active
+ * @return Mod is active or not
  */
 inline bool check_mod(mod m, mod c) {
     return (m & c) != mod::none;
@@ -242,9 +235,7 @@ using mod_ref = mod const&;
 
 /**
  * @brief Convert input mod to string
- *
  * @param m          Input mod
- *
  * @return string    String representation
  */
 string to_string(mod m);
@@ -282,11 +273,8 @@ struct key_event {
 
     /**
      * @brief Check if key is pressed
-     *
      * @param k         Key to check
-     *
-     * @return true     Key is pressed
-     * @return false    Key is not pressed
+     * @return Key is pressed or not
      */
     bool pressed(key_ref k) const {
         return (action == action::press) && (key == k);
@@ -294,11 +282,8 @@ struct key_event {
 
     /**
      * @brief Check if key is released
-     *
      * @param k         Key to check
-     *
-     * @return true     Key is released
-     * @return false    Key is not released
+     * @return Key is released or not
      */
     bool released(key_ref k) const {
         return (action == action::release) && (key == k);
@@ -306,11 +291,8 @@ struct key_event {
 
     /**
      * @brief Check if key is repeated
-     *
      * @param k         Key to check
-     *
-     * @return true     Key is repeated
-     * @return false    Key is not repeated
+     * @return Key is repeated or not
      */
     bool repeated(key_ref k) const {
         return (action == action::repeat) && (key == k);
@@ -318,9 +300,7 @@ struct key_event {
 
     /**
      * @brief Check if key is active
-     *
-     * @return true     Key is pressed or repeated
-     * @return false    Key is not active
+     * @return Key is pressed (and repeated) or not active
      */
     bool active() const {
         return (action == action::press) || (action == action::repeat);
@@ -328,12 +308,9 @@ struct key_event {
 
     /**
      * @brief Check if key is pressed with mod
-     *
      * @param k         Key to check
      * @param m         Mods to check
-     *
-     * @return true     Key is pressed with mod
-     * @return false    Key is not pressed with mod
+     * @return Key is pressed with mod or not
      */
     bool pressed(key_ref k, mod_ref m) const {
         return pressed(k) && (mod == m);
@@ -464,11 +441,8 @@ struct mouse_button_event {
 
     /**
      * @brief Check if mouse button is pressed
-     *
      * @param b         Mouse button to check
-     *
-     * @return true     Mouse button is pressed
-     * @return false    Mouse button is not pressed
+     * @return Mouse button is pressed or not
      */
     bool pressed(mouse_button_ref b) const {
         return action == action::press && button == b;
@@ -476,11 +450,8 @@ struct mouse_button_event {
 
     /**
      * @brief Check if mouse button is released
-     *
      * @param b         Mouse button to check
-     *
-     * @return true     Mouse button is released
-     * @return false    Mouse button is not released
+     * @return Mouse button is released or not
      */
     bool released(mouse_button_ref b) const {
         return action == action::release && button == b;
@@ -548,7 +519,6 @@ struct input_callback {
 
     /**
      * @brief Input callback functions
-     *
      * @tparam T    Type of callback
      */
     template<typename T>
@@ -575,14 +545,12 @@ struct input_callback {
 
 /**
  * @brief List of input events
- *
  * @tparam T    Type of event
  */
 template<typename T>
 struct input_events : T::list {
     /**
      * @brief Add event to list
-     *
      * @param event    Event to add
      */
     void add(typename T::ref event) {
@@ -646,7 +614,6 @@ struct input {
 
     /**
      * @brief Add callback to the input handling
-     *
      * @param callback    Callback to add
      */
     void add(input_callback::cptr callback) {
@@ -655,7 +622,6 @@ struct input {
 
     /**
      * @brief Remove callback from the input handling
-     *
      * @param callback    Callback to remove
      */
     void remove(input_callback::cptr callback) {
@@ -664,7 +630,6 @@ struct input {
 
     /**
      * @brief Get the mouse position
-     *
      * @return mouse_position_ref    Current mouse position
      */
     mouse_position_ref get_mouse_position() const {
@@ -673,7 +638,6 @@ struct input {
 
     /**
      * @brief Set the mouse position
-     *
      * @param position    Current mouse position
      */
     void set_mouse_position(mouse_position_ref position) {
@@ -702,7 +666,6 @@ using input_t = input;
 struct tooltip {
     /**
      * @brief Construct a new tooltip
-     *
      * @param name    Name of tooltip
      * @param key     Input key
      * @param mod     Input mod
@@ -725,5 +688,12 @@ struct tooltip {
     /// Input mod
     mod_t mod;
 };
+
+/**
+ * @brief Convert tooltips to string
+ * @param tooltips    List of tooltips
+ * @return string     String representation
+ */
+string to_string(tooltip::list const& tooltips);
 
 } // namespace lava

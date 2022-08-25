@@ -10,16 +10,47 @@
 #include <liblava/app/def.hpp>
 #include <liblava/asset/write_image.hpp>
 #include <liblava/base/debug_utils.hpp>
+#include <liblava/util/thread.hpp>
 
 namespace lava {
 
 //-----------------------------------------------------------------------------
 app::app(frame_env env)
-: frame(env), window(env.info.app_name) {}
+: frame(env), window(env.info.app_name) {
+    parse_config(env.cmd_line);
+}
 
 //-----------------------------------------------------------------------------
 app::app(name name, argh::parser cmd_line)
-: frame(frame_env(name, cmd_line)), window(name) {}
+: frame(frame_env(name, cmd_line)), window(name) {
+    parse_config(cmd_line);
+}
+
+//-----------------------------------------------------------------------------
+void app::parse_config(argh::parser cmd_line) {
+    if (auto id = cmd_line({ "-id", "--identification" })) {
+        config.id = id.str();
+        remove_chars(config.id, _punctuation_marks_);
+    }
+
+    if (auto fullscreen = -1; cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)
+        config.window_state->fullscreen = fullscreen == 1;
+
+    if (auto x_pos = -1; cmd_line({ "-wx", "--x_pos" }) >> x_pos)
+        config.window_state->x = x_pos;
+
+    if (auto y_pos = -1; cmd_line({ "-wy", "--y_pos" }) >> y_pos)
+        config.window_state->y = y_pos;
+
+    if (auto width = -1; cmd_line({ "-ww", "--width" }) >> width)
+        config.window_state->width = width;
+
+    if (auto height = -1; cmd_line({ "-wh", "--height" }) >> height)
+        config.window_state->height = height;
+
+    cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
+    cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
+}
 
 //-----------------------------------------------------------------------------
 void app::handle_config() {
@@ -79,17 +110,12 @@ bool app::setup() {
     if (!frame::ready())
         return false;
 
-    auto& cmd_line = get_cmd_line();
-
-    if (auto id = cmd_line({ "-id", "--identification" })) {
-        config.id = id.str();
-        remove_chars(config.id, _punctuation_marks_);
-    }
-
-    if (!setup_file_system(cmd_line))
+    if (!setup_file_system())
         return false;
 
     handle_config();
+
+    auto& cmd_line = get_cmd_line();
 
     if (auto paused = -1; cmd_line({ "-p", "--paused" }) >> paused)
         run_time.paused = paused == 1;
@@ -102,10 +128,10 @@ bool app::setup() {
     if (on_setup && !on_setup())
         return false;
 
-    if (!setup_window(cmd_line))
+    if (!setup_window())
         return false;
 
-    if (!setup_device(cmd_line))
+    if (!setup_device())
         return false;
 
     if (!setup_render())
@@ -120,10 +146,12 @@ bool app::setup() {
 }
 
 //-----------------------------------------------------------------------------
-bool app::setup_file_system(cmd_line cmd_line) {
-    log()->debug("physfs {}", str(to_string(fs.get_version())));
+bool app::setup_file_system() {
+    log()->debug("physfs {}", to_string(fs.get_version()));
 
-    if (!fs.initialize(str(get_cmd_line()[0]),
+    auto& cmd_line = get_cmd_line();
+
+    if (!fs.initialize(cmd_line[0],
                        config.org,
                        get_name(),
                        config.ext)) {
@@ -148,26 +176,11 @@ bool app::setup_file_system(cmd_line cmd_line) {
 }
 
 //-----------------------------------------------------------------------------
-bool app::setup_window(cmd_line cmd_line) {
+bool app::setup_window() {
     if (config.id != _default_) {
-        window.set_save_name(str(config.id));
+        window.set_save_name(config.id);
         window.show_save_title();
     }
-
-    if (auto fullscreen = -1; cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)
-        config.window_state->fullscreen = fullscreen == 1;
-
-    if (auto x_pos = -1; cmd_line({ "-wx", "--x_pos" }) >> x_pos)
-        config.window_state->x = x_pos;
-
-    if (auto y_pos = -1; cmd_line({ "-wy", "--y_pos" }) >> y_pos)
-        config.window_state->y = y_pos;
-
-    if (auto width = -1; cmd_line({ "-ww", "--width" }) >> width)
-        config.window_state->width = width;
-
-    if (auto height = -1; cmd_line({ "-wh", "--height" }) >> height)
-        config.window_state->height = height;
 
     if (!window.create(config.window_state))
         return false;
@@ -178,17 +191,14 @@ bool app::setup_window(cmd_line cmd_line) {
 
     set_window_icon(window);
 
-    if (cmd_line[{ "-wc", "--center" }])
+    if (get_cmd_line()[{ "-wc", "--center" }])
         window.center();
 
     return true;
 }
 
 //-----------------------------------------------------------------------------
-bool app::setup_device(cmd_line cmd_line) {
-    cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
-    cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
-
+bool app::setup_device() {
     if (!device) {
         device = platform.create_device(config.physical_device);
         if (!device)
@@ -202,8 +212,8 @@ bool app::setup_device(cmd_line cmd_line) {
     auto device_driver_version = physical_device->get_driver_version();
 
     log()->info("device: {} ({}) - driver: {}",
-                str(device_name), str(device_type),
-                str(to_string(device_driver_version)));
+                device_name, device_type,
+                to_string(device_driver_version));
 
     return true;
 }
@@ -269,7 +279,7 @@ bool app::create_imgui() {
         auto font_files = fs.enumerate_files(_font_path_);
         if (!font_files.empty())
             config.imgui_font.file = fmt::format("{}{}",
-                                                 _font_path_, str(font_files.front()));
+                                                 _font_path_, font_files.front());
     }
 
     setup_imgui_font(imgui_config, config.imgui_font);
@@ -559,12 +569,13 @@ string app::screenshot() {
         return {};
 
     string screenshot_path = "screenshot/";
-    fs.create_folder(str(screenshot_path));
+    fs.create_folder(screenshot_path);
 
     auto path = fs.get_pref_dir() + screenshot_path
                 + get_current_time() + ".png";
 
-    auto swizzle = !support_blit(device, backbuffer_image->get_format())
+    auto swizzle = !support_blit(device->get_vk_physical_device(),
+                                 backbuffer_image->get_format())
                    && format_bgr(backbuffer_image->get_format());
 
     auto saved = write_image_png(device, image, path, swizzle);
@@ -572,62 +583,51 @@ string app::screenshot() {
     image->destroy();
 
     if (saved) {
-        log()->info("screenshot: {}", str(path));
+        log()->info("screenshot: {}", path);
         return path;
     } else {
-        log()->error("screenshot failed: {}", str(path));
+        log()->error("screenshot failed: {}", path);
         return {};
     }
 }
 
 //-----------------------------------------------------------------------------
-void app::add_tooltip(name n, key k, mod m) {
-    tooltips.emplace_back(n, k, m);
+void app::add_tooltip(string_ref name, key_t key, mod_t mod) {
+    tooltips.emplace_back(name, key, mod);
 }
 
 //-----------------------------------------------------------------------------
-void app::draw_about(bool separator) const {
+void app::draw_about(bool separator,
+                     bool fps,
+                     bool spacing) const {
     if (separator)
         ImGui::Separator();
 
-    ImGui::Spacing();
+    if (spacing) {
+        ImGui::Spacing();
 
-    imgui_left_spacing(2);
+        imgui_left_spacing(2);
+    }
 
     ImGui::Text("%s %s", _liblava_, str(version_string()));
 
     if (config.handle_key_events && ImGui::IsItemHovered()) {
-        string tt;
-
-        auto skip_first = true;
-        for (auto& tooltip : tooltips) {
-            if (skip_first)
-                skip_first = false;
-            else
-                tt += "\n";
-
-            if (tooltip.mod == mod::none)
-                tt += fmt::format("{} = {}",
-                                  str(tooltip.name), str(to_string(tooltip.key)));
-            else
-                tt += fmt::format("{} = {} + {}",
-                                  str(tooltip.name), str(to_string(tooltip.mod)),
-                                  str(to_string(tooltip.key)));
-        }
-
-        ImGui::SetTooltip("%s", str(tt));
+        ImGui::SetTooltip("%s", str(to_string(tooltips)));
     }
 
-    imgui_left_spacing();
+    if (fps) {
+        if (spacing)
+            imgui_left_spacing();
 
-    if (v_sync())
-        ImGui::Text("%.f fps (v-sync)", ImGui::GetIO().Framerate);
-    else
-        ImGui::Text("%.f fps", ImGui::GetIO().Framerate);
+        if (v_sync())
+            ImGui::Text("%.f fps (v-sync)", ImGui::GetIO().Framerate);
+        else
+            ImGui::Text("%.f fps", ImGui::GetIO().Framerate);
 
-    if (run_time.paused) {
-        ImGui::SameLine();
-        ImGui::TextUnformatted(_paused_);
+        if (run_time.paused) {
+            ImGui::SameLine();
+            ImGui::TextUnformatted(_paused_);
+        }
     }
 }
 

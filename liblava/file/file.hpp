@@ -15,9 +15,6 @@ struct PHYSFS_File;
 
 namespace lava {
 
-/// Zip file extension
-constexpr name _zip_ = "zip";
-
 /**
  * @brief File types
  */
@@ -32,11 +29,8 @@ constexpr i64 const file_error_result = -1;
 
 /**
  * @brief Check file error result
- *
  * @param result    Result code to check
- *
- * @return true     Error result
- * @return false    No error result
+ * @return Error result or okay
  */
 inline bool file_error(i64 result) {
     return result == file_error_result;
@@ -59,11 +53,10 @@ struct file : no_copy_no_move {
 
     /**
      * @brief Construct a new file
-     *
      * @param path    Name of file
      * @param mode    File mode
      */
-    explicit file(name path = nullptr,
+    explicit file(string_ref path = "",
                   file_mode mode = file_mode::read);
 
     /**
@@ -73,14 +66,11 @@ struct file : no_copy_no_move {
 
     /**
      * @brief Open the file
-     *
      * @param path      Name of file
      * @param mode      File mode
-     *
-     * @return true     Open was successful
-     * @return false    Open failed
+     * @return Open was successful or failed
      */
-    bool open(name path,
+    bool open(string_ref path,
               file_mode mode = file_mode::read);
 
     /**
@@ -90,24 +80,19 @@ struct file : no_copy_no_move {
 
     /**
      * @brief Check if the file is opened
-     *
-     * @return true     File is opened
-     * @return false    File is not opened
+     * @return File is opened or not
      */
     bool opened() const;
 
     /**
      * @brief Get the size of the file
-     *
      * @return i64    File size
      */
     i64 get_size() const;
 
     /**
      * @brief Read data from file
-     *
      * @param data    Data to read
-     *
      * @return i64    File size
      */
     i64 read(data_ptr data) {
@@ -117,45 +102,36 @@ struct file : no_copy_no_move {
 
     /**
      * @brief Read data from file (limited size)
-     *
      * @param data    Data to read
      * @param size    File size
-     *
      * @return i64    File size
      */
     i64 read(data_ptr data, ui64 size);
 
     /**
      * @brief Write data to file
-     *
      * @param data    Data to write
      * @param size    File size
-     *
      * @return i64    File size
      */
     i64 write(data_cptr data, ui64 size);
 
     /**
      * @brief Seek to position in the file
-     *
      * @param position    Position to seek to
-     *
      * @return i64        Current position
      */
     i64 seek(ui64 position);
 
     /**
      * @brief Get the current position in the file
-     *
      * @return i64    Current position
      */
     i64 tell() const;
 
     /**
      * @brief Check if the file is in write mode
-     *
-     * @return true     File is writable
-     * @return false    File is only readable
+     * @return File is writable or only readable
      */
     bool writable() const {
         return mode == file_mode::write;
@@ -163,7 +139,6 @@ struct file : no_copy_no_move {
 
     /**
      * @brief Get the file type
-     *
      * @return file_type    Type of file
      */
     file_type get_type() const {
@@ -172,10 +147,9 @@ struct file : no_copy_no_move {
 
     /**
      * @brief Get the path of the file
-     *
      * @return name    File path
      */
-    name get_path() const {
+    string_ref get_path() const {
         return path;
     }
 
@@ -187,7 +161,7 @@ private:
     file_mode mode = file_mode::read;
 
     /// File path
-    name path = nullptr;
+    string path;
 
     /// Physfs file handle
     PHYSFS_File* fs_file = nullptr;

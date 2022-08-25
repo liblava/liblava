@@ -5,6 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include <array>
 #include <liblava/block/descriptor.hpp>
 
 namespace lava {
@@ -40,7 +41,7 @@ bool descriptor::pool::create(device_p d,
 
     return check(device->call().vkCreateDescriptorPool(device->get(),
                                                        &pool_info,
-                                                       memory::alloc(),
+                                                       memory::instance().alloc(),
                                                        &vk_pool));
 }
 
@@ -48,7 +49,7 @@ bool descriptor::pool::create(device_p d,
 void descriptor::pool::destroy() {
     device->call().vkDestroyDescriptorPool(device->get(),
                                            vk_pool,
-                                           memory::alloc());
+                                           memory::instance().alloc());
     vk_pool = VK_NULL_HANDLE;
 
     device = nullptr;
@@ -73,7 +74,7 @@ bool descriptor::create(device_p d) {
 
     return check(device->call().vkCreateDescriptorSetLayout(device->get(),
                                                             &create_info,
-                                                            memory::alloc(),
+                                                            memory::instance().alloc(),
                                                             &layout));
 }
 
@@ -84,7 +85,7 @@ void descriptor::destroy() {
 
     device->call().vkDestroyDescriptorSetLayout(device->get(),
                                                 layout,
-                                                memory::alloc());
+                                                memory::instance().alloc());
     layout = VK_NULL_HANDLE;
 
     clear_bindings();

@@ -9,12 +9,12 @@
 #include <liblava/file/file_utils.hpp>
 #include <liblava/file/json_file.hpp>
 #include <liblava/util/log.hpp>
-#include <liblava/util/utility.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 
 //-----------------------------------------------------------------------------
-json_file::json_file(name path)
+json_file::json_file(string_ref path)
 : path(path) {}
 
 //-----------------------------------------------------------------------------
@@ -64,7 +64,7 @@ bool json_file::save() {
         j.merge_patch(d);
     }
 
-    file file(str(path), file_mode::write);
+    file file(path, file_mode::write);
     if (!file.opened())
         return false;
 

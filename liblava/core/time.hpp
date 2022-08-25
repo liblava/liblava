@@ -40,9 +40,7 @@ using duration = clock::duration;
 
 /**
  * @brief Convert milliseconds to delta
- *
  * @param ms        Milliseconds to convert
- *
  * @return delta    Converted delta
  */
 inline delta to_delta(milliseconds ms) {
@@ -58,9 +56,7 @@ inline delta to_dt(milliseconds ms) {
 
 /**
  * @brief Convert milliseconds to seconds
- *
  * @param ms       Milliseconds to convert
- *
  * @return real    Converted seconds
  */
 inline real to_sec(milliseconds ms) {
@@ -69,9 +65,7 @@ inline real to_sec(milliseconds ms) {
 
 /**
  * @brief Convert delta to milliseconds
- *
  * @param dt     Delta to convert
- *
  * @return ms    Converted milliseconds
  */
 inline ms to_ms(delta dt) {
@@ -80,9 +74,7 @@ inline ms to_ms(delta dt) {
 
 /**
  * @brief Convert seconds to milliseconds
- *
  * @param sec    Seconds to convert
- *
  * @return ms    Converted milliseconds
  */
 inline ms to_ms(real sec) {
@@ -108,7 +100,6 @@ struct timer {
 
     /**
      * @brief Get the elapsed time
-     *
      * @return ms    Elapsed milliseconds
      */
     ms elapsed() const {
@@ -157,12 +148,9 @@ using run_time_t = run_time;
 
 /**
  * @brief Convert timestamp to string
- *
  * @tparam CLOCK_TYPE    Clock type
- *
  * @param time_point     Time point
  * @param format         String format
- *
  * @return string        Converted string
  */
 template<typename CLOCK_TYPE = std::chrono::system_clock>
@@ -183,7 +171,6 @@ inline string timestamp(const typename CLOCK_TYPE::time_point& time_point,
 
 /**
  * @brief Get the current time as string
- *
  * @return string    Time and date representation
  */
 inline string get_current_time() {
@@ -197,7 +184,6 @@ inline string get_current_time() {
 
 /**
  * @brief Get the current timestamp in milliseconds
- *
  * @return ms    Timestamp in ms
  */
 inline ms get_current_timestamp_ms() {
@@ -207,7 +193,6 @@ inline ms get_current_timestamp_ms() {
 
 /**
  * @brief Get the current timestamp in milliseconds (uint)
- *
  * @return ui64    Timestamp in ms (uint)
  */
 inline ui64 get_current_timestamp() {

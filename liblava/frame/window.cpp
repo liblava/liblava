@@ -20,30 +20,23 @@ constexpr name _fmt_save_title_ = "{} [{}]";
 
 /**
  * @brief Set window attribute
- *
  * @tparam attr     Attribute to set
- *
  * @param handle    Window handle
- *
  * @return int      Result
  */
 template<int attr>
-static int attribute_set(GLFWwindow* handle) {
+int attribute_set(GLFWwindow* handle) {
     return glfwGetWindowAttrib(handle, attr);
 }
 
 /**
  * @brief Check attribute of window
- *
  * @tparam attr     Attribute to check
- *
  * @param handle    Window handle
- *
- * @return true     Attribute is set
- * @return false    Attribute is unset
+ * @return Attribute is set or not
  */
 template<int attr>
-static bool bool_attribute_set(GLFWwindow* handle) {
+bool bool_attribute_set(GLFWwindow* handle) {
     return attribute_set<attr>(handle) == 1;
 }
 
@@ -55,7 +48,7 @@ bool window::create(state::optional state) {
     string default_title = title;
     if (save_title_active)
         default_title = fmt::format(_fmt_save_title_,
-                                    str(title), str(save_name));
+                                    title, save_name);
 
     if (state) {
         fullscreen_active = state->fullscreen;
@@ -166,7 +159,7 @@ window::state window::get_state() const {
 }
 
 //-----------------------------------------------------------------------------
-void window::set_title(name text) {
+void window::set_title(string_ref text) {
     title = text;
 
     if (!handle)
@@ -175,7 +168,7 @@ void window::set_title(name text) {
     if (save_title_active)
         glfwSetWindowTitle(handle,
                            str(fmt::format(_fmt_save_title_,
-                                           str(title), str(save_name))));
+                                           title, save_name)));
     else
         glfwSetWindowTitle(handle, str(title));
 }
@@ -444,11 +437,6 @@ void window::set_floating(bool value) {
 }
 
 //-----------------------------------------------------------------------------
-window* window::get_window(GLFWwindow* handle) {
-    return static_cast<window*>(glfwGetWindowUserPointer(handle));
-}
-
-//-----------------------------------------------------------------------------
 bool window::close_request() const {
     return glfwWindowShouldClose(handle) == 1;
 }
@@ -528,12 +516,17 @@ void window::center() {
 //-----------------------------------------------------------------------------
 VkSurfaceKHR create_surface(GLFWwindow* window) {
     VkSurfaceKHR surface = VK_NULL_HANDLE;
-    if (failed(glfwCreateWindowSurface(instance::get(),
-                                       window, memory::alloc(),
+    if (failed(glfwCreateWindowSurface(instance::singleton().get(),
+                                       window, memory::instance().alloc(),
                                        &surface)))
         return 0;
 
     return surface;
+}
+
+//-----------------------------------------------------------------------------
+window* get_window(GLFWwindow* handle) {
+    return static_cast<window*>(glfwGetWindowUserPointer(handle));
 }
 
 } // namespace lava

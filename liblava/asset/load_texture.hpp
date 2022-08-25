@@ -13,11 +13,9 @@ namespace lava {
 
 /**
  * @brief Load texture from file
- *
  * @param device           Vulkan device
  * @param file_format      File and format
  * @param type             Type of texture
- *
  * @return texture::ptr    Loaded texture
  */
 texture::ptr load_texture(device_p device,
@@ -26,12 +24,10 @@ texture::ptr load_texture(device_p device,
 
 /**
  * @brief Load texture from file with default format (sRGB)
- *
  * @param device           Vulkan device
  * @param filename         File to load
  * @param format           Format of texture
  * @param type             Type of texture
- *
  * @return texture::ptr    Loaded texture
  */
 inline texture::ptr load_texture(device_p device,
@@ -43,12 +39,10 @@ inline texture::ptr load_texture(device_p device,
 
 /**
  * @brief Create a default texture with checkerboard pattern
- *
  * @param device           Vulkan device
  * @param size             Size of texture
  * @param color            Color of texture
  * @param alpha            Alpha value of texture
- *
  * @return texture::ptr    Loaded texture
  */
 texture::ptr create_default_texture(device_p device,

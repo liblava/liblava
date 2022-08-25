@@ -7,6 +7,7 @@
 
 #include <liblava/app/benchmark.hpp>
 #include <liblava/file.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 
@@ -138,10 +139,10 @@ bool write_frames_json(benchmark_data& data) {
         file_path /= data.file;
     }
 
-    file file(str(file_path.string()), file_mode::write);
+    file file(file_path.string(), file_mode::write);
     if (!file.opened()) {
         log()->error("save benchmark ({}) - {}",
-                     str(file_path.string()), str(j.dump()));
+                     file_path.string(), j.dump());
         return false;
     }
 
@@ -150,7 +151,7 @@ bool write_frames_json(benchmark_data& data) {
     file.write(jString.data(), jString.size());
 
     log()->info("save benchmark ({}) - {}",
-                str(file_path.string()), str(j.dump()));
+                file_path.string(), j.dump());
     return true;
 }
 

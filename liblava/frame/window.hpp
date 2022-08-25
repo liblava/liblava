@@ -89,7 +89,6 @@ struct window : entity {
 
     /**
      * @brief Construct a new window
-     *
      * @param title    Title of window
      */
     explicit window(name title)
@@ -97,11 +96,8 @@ struct window : entity {
 
     /**
      * @brief Create a new window with optional state
-     *
      * @param state     Window state
-     *
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create(state::optional state = {});
 
@@ -112,48 +108,42 @@ struct window : entity {
 
     /**
      * @brief Get the window state
-     *
      * @return state    Window state
      */
     state get_state() const;
 
     /**
      * @brief Set the window title
-     *
      * @param text    Title of window
      */
-    void set_title(name text);
+    void set_title(string_ref text);
 
     /**
      * @brief Get the window title
-     *
      * @return name    Title of window
      */
-    name get_title() const {
-        return str(title);
+    string_ref get_title() const {
+        return title;
     }
 
     /**
      * @brief Set the save name
-     *
      * @param save    Save name of window
      */
-    void set_save_name(name save) {
+    void set_save_name(string_ref save) {
         save_name = save;
     }
 
     /**
      * @brief Get the save name
-     *
      * @return name    Save name of window
      */
-    name get_save_name() const {
-        return str(save_name);
+    string_ref get_save_name() const {
+        return save_name;
     }
 
     /**
      * @brief Set the position of window
-     *
      * @param x    X positoin
      * @param y    Y position
      */
@@ -161,7 +151,6 @@ struct window : entity {
 
     /**
      * @brief Get the position of window
-     *
      * @param x    X position
      * @param y    Y position
      */
@@ -169,7 +158,6 @@ struct window : entity {
 
     /**
      * @brief Set the size of window
-     *
      * @param width     Window width
      * @param height    Window height
      */
@@ -177,7 +165,6 @@ struct window : entity {
 
     /**
      * @brief Get the size of window
-     *
      * @param width     Window width
      * @param height    Window height
      */
@@ -185,7 +172,6 @@ struct window : entity {
 
     /**
      * @brief Get the framebuffer size
-     *
      * @param width     Framebuffer width
      * @param height    Framebuffer height
      */
@@ -193,21 +179,18 @@ struct window : entity {
 
     /**
      * @brief Get the size
-     *
      * @return uv2    Size of window
      */
     uv2 get_size() const;
 
     /**
      * @brief Get the framebuffer size
-     *
      * @return uv2    Size of framebuffer
      */
     uv2 get_framebuffer_size() const;
 
     /**
      * @brief Set the mouse position
-     *
      * @param x    Mouse X position
      * @param y    Mouse Y position
      */
@@ -215,7 +198,6 @@ struct window : entity {
 
     /**
      * @brief Get the mouse position
-     *
      * @param x    Mouse X position
      * @param y    Mouse Y position
      */
@@ -223,7 +205,6 @@ struct window : entity {
 
     /**
      * @brief Get the mouse position in window
-     *
      * @return mouse_position    Position of mouse
      */
     mouse_position get_mouse_position() const;
@@ -240,7 +221,6 @@ struct window : entity {
 
     /**
      * @brief Get the aspect ratio of window
-     *
      * @return float    Aspect ratio
      */
     float get_aspect_ratio() const;
@@ -257,9 +237,7 @@ struct window : entity {
 
     /**
      * @brief Check if window is visible
-     *
-     * @return true     Window is visible
-     * @return false    Window is invisible
+     * @return Window is visible or not
      */
     bool visible() const;
 
@@ -270,9 +248,7 @@ struct window : entity {
 
     /**
      * @brief Check if the window is iconified
-     *
-     * @return true     Window is iconified
-     * @return false    Window is not iconfied
+     * @return Window is iconified or not
      */
     bool iconified() const;
 
@@ -288,9 +264,7 @@ struct window : entity {
 
     /**
      * @brief Check if the window is maximized
-     *
-     * @return true     Window is maximized
-     * @return false    Window is not maximized
+     * @return Window is maximized or not
      */
     bool maximized() const;
 
@@ -301,15 +275,12 @@ struct window : entity {
 
     /**
      * @brief Check if the window is focused
-     *
-     * @return true     Window is focused
-     * @return false    Window is not focused
+     * @return Window is focused or not
      */
     bool focused() const;
 
     /**
      * @brief Set the window to fullscreen
-     *
      * @param active    Fullscreen or windowed mode
      */
     void set_fullscreen(bool active) {
@@ -319,9 +290,7 @@ struct window : entity {
 
     /**
      * @brief Check if the window is fullscreen
-     *
-     * @return true     Window is fullscreen
-     * @return false    Window is not fullscreen
+     * @return Window is fullscreen or not
      */
     bool fullscreen() const {
         return fullscreen_active;
@@ -329,79 +298,55 @@ struct window : entity {
 
     /**
      * @brief Check if mouse hovered over the window
-     *
-     * @return true     Mouse hovered
-     * @return false    Mouse not hovered
+     * @return Mouse hovered or not
      */
     bool hovered() const;
 
     /**
      * @brief Check if the window is resizable
-     *
-     * @return true     Window is resizable
-     * @return false    Window is not resizable
+     * @return Window is resizable or not
      */
     bool resizable() const;
 
     /**
      * @brief Set the window resizable
-     *
      * @param value    Resizable state
      */
     void set_resizable(bool value);
 
     /**
      * @brief Check if the window is decorated
-     *
-     * @return true     Window is decorated
-     * @return false    Window is not decorated
+     * @return Window is decorated or not
      */
     bool decorated() const;
 
     /**
      * @brief Set the window decorated
-     *
      * @param value    Decorated state
      */
     void set_decorated(bool value);
 
     /**
      * @brief Check if the window is floating
-     *
-     * @return true     Window is floating
-     * @return false    Window is not floating
+     * @return Window is floating or not
      */
     bool floating() const;
 
     /**
      * @brief Set the window floating
-     *
      * @param value    Floating state
      */
     void set_floating(bool value);
 
     /**
-     * @brief Get the window by GLFW handle
-     *
-     * @param handle      GLFW window handle
-     *
-     * @return window*    Assigned Window
-     */
-    static window* get_window(GLFWwindow* handle);
-
-    /**
      * @brief Check if the window request to close
-     *
-     * @return true     Window has close request
-     * @return false    No close request
+     * @return Window has close request or not
      */
     bool close_request() const;
 
     /**
      * @brief Check if the window request to switch mode
-     *
-     * @return true     Window has switch mode request
-     * @return false    No switch mode request
+     * @return Window has switch mode request or not
      */
     bool switch_mode_request() const {
         return switch_mode_request_active;
@@ -409,17 +354,13 @@ struct window : entity {
 
     /**
      * @brief Switch mode of the window
-     *
      * @param state     Target window state
-     *
-     * @return true     Switch was successful
-     * @return false    Switch failed
+     * @return Switch was successful or failed
      */
     bool switch_mode(state::optional state = {});
 
     /**
      * @brief Get GLFW handle
-     *
      * @return GLFWwindow*    GLFW window handle
      */
     GLFWwindow* get() const {
@@ -428,9 +369,7 @@ struct window : entity {
 
     /**
      * @brief Check if the window request to resize
-     *
-     * @return true     Window has resize request
-     * @return false    No resize request
+     * @return Window has resize request or not
      */
     bool resize_request() const {
         return resize_request_active;
@@ -438,9 +377,7 @@ struct window : entity {
 
     /**
      * @brief Handle window resize
-     *
-     * @return true     Resize was successful
-     * @return false    Resize failed
+     * @return Resize was successful or failed
      */
     bool handle_resize() {
         if (on_resize)
@@ -468,7 +405,6 @@ struct window : entity {
 
     /**
      * @brief Assign input callback
-     *
      * @param callback    Input callbacl
      */
     void assign(input* callback) {
@@ -477,7 +413,6 @@ struct window : entity {
 
     /**
      * @brief Show the save title in the window
-     *
      * @param value    Save title state
      */
     void show_save_title(bool value = true) {
@@ -486,9 +421,7 @@ struct window : entity {
 
     /**
      * @brief Check the show save title state
-     *
-     * @return true     Save title is active
-     * @return false    Save title is inactive
+     * @return Save title is active or not
      */
     bool save_title() const {
         return save_title_active;
@@ -498,19 +431,17 @@ struct window : entity {
      * @brief Update the window title
      */
     void update_title() {
-        set_title(str(title));
+        set_title(title);
     }
 
     /**
      * @brief Create a surface
-     *
      * @return VkSurfaceKHR    Vulkan surface
      */
     VkSurfaceKHR create_surface();
 
     /**
      * @brief Set the window icon
-     *
      * @param data    Image data
      * @param size    Image size
      */
@@ -518,7 +449,6 @@ struct window : entity {
 
     /**
      * @brief Get the monitor index of the window
-     *
      * @return index    Monitor index
      */
     index get_monitor() const;
@@ -587,11 +517,16 @@ using window_t = window;
 
 /**
  * @brief Create a new surface
- *
  * @param window           GLFW window handle
- *
  * @return VkSurfaceKHR    Vulkan surface
  */
 VkSurfaceKHR create_surface(GLFWwindow* window);
+
+/**
+ * @brief Get the window by GLFW handle
+ * @param handle      GLFW window handle
+ * @return window*    Assigned Window
+ */
+window* get_window(GLFWwindow* handle);
 
 } // namespace lava

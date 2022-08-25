@@ -29,26 +29,21 @@ struct compute_pipeline : pipeline {
 
     /**
      * @brief Bind the pipeline
-     *
      * @param cmdBuffer    Command buffer
      */
     void bind(VkCommandBuffer cmdBuffer) override;
 
     /**
      * @brief Set shader stage
-     *
      * @param data      Shader data
      * @param stage     Shader stage flag bits
-     *
-     * @return true     Set was successful
-     * @return false    Set failed
+     * @return Set was successful or failed
      */
     bool set_shader_stage(cdata::ref data,
                           VkShaderStageFlagBits stage);
 
     /**
      * @brief Set shader stage
-     *
      * @param stage    Shader state
      */
     void set(shader_stage::ptr const& stage) {
@@ -57,7 +52,6 @@ struct compute_pipeline : pipeline {
 
     /**
      * @brief Get the shader stage
-     *
      * @return shader_stage::ptr const&    Shader state
      */
     shader_stage::ptr const& get_shader_stage() const {
@@ -66,14 +60,12 @@ struct compute_pipeline : pipeline {
 
     /**
      * @brief Copy configuration to target pipeline
-     *
      * @param target    Compute pipeline
      */
     void copy_to(compute_pipeline* target) const;
 
     /**
      * @brief Copy configuration from source
-     *
      * @param source    Compute pipeline
      */
     void copy_from(ptr const& source) {
@@ -83,9 +75,7 @@ struct compute_pipeline : pipeline {
 private:
     /**
      * @brief Set up the compute pipeline
-     *
-     * @return true     Setup was successful
-     * @return false    Setup failed
+     * @return Setup was successful or failed
      */
     bool setup() override;
 
@@ -100,10 +90,8 @@ private:
 
 /**
  * @brief Make a new compute pipeline
- *
  * @param device                    Vulkan device
  * @param pipeline_cache            Pipeline cache
- *
  * @return compute_pipeline::ptr    Shared pointer to compute pipeline
  */
 inline compute_pipeline::ptr make_compute_pipeline(device_p device,

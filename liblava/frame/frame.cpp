@@ -6,9 +6,12 @@
  */
 
 #include <liblava/base/memory.hpp>
+#include <liblava/core/time.hpp>
 #include <liblava/frame/frame.hpp>
+#include <liblava/util/log.hpp>
+#include <liblava/util/misc.hpp>
 
-#if _WIN32 && LIBLAVA_DEBUG
+#if _WIN32 && LAVA_DEBUG
     #include <windows.h>
 #endif
 
@@ -22,9 +25,6 @@ namespace lava {
 ms now() {
     return to_ms(glfwGetTime());
 }
-
-/// Frame initialized state
-static bool frame_initialized = false;
 
 //-----------------------------------------------------------------------------
 frame::frame(argh::parser cmd_line) {
@@ -44,13 +44,8 @@ frame::~frame() {
 }
 
 //-----------------------------------------------------------------------------
-bool frame::ready() const {
-    return frame_initialized;
-}
-
-//-----------------------------------------------------------------------------
 void frame_env::set_default() {
-#if LIBLAVA_DEBUG_CONFIG
+#if LAVA_DEBUG_CONFIG
     log.debug = true;
     debug.validation = true;
     debug.utils = true;
@@ -59,7 +54,6 @@ void frame_env::set_default() {
 
 /**
  * @brief Handle environment
- *
  * @param env    Frame environment
  */
 void handle_env(frame_env& env) {
@@ -81,17 +75,17 @@ void handle_env(frame_env& env) {
             env.debug.verbose = true;
     }
 
-    set_log(setup_log(env.log));
+    global_logger::singleton().set(setup_log(env.log));
 
     if (internal_version{} != env.info.app_version) {
-        log()->info(">>> {} / {} - {} / {} - {} {}", str(version_string()),
-                    str(internal_version_string()),
+        log()->info(">>> {} / {} - {} / {} - {} {}", version_string(),
+                    internal_version_string(),
                     env.info.app_name,
-                    str(to_string(env.info.app_version)),
+                    to_string(env.info.app_version),
                     _build_date, _build_time);
     } else {
-        log()->info(">>> {} / {} - {} - {} {}", str(version_string()),
-                    str(internal_version_string()),
+        log()->info(">>> {} / {} - {} - {} {}", version_string(),
+                    internal_version_string(),
                     env.info.app_name,
                     _build_date, _build_time);
     }
@@ -105,10 +99,10 @@ void handle_env(frame_env& env) {
 
 //-----------------------------------------------------------------------------
 bool frame::setup() {
-    if (frame_initialized)
+    if (initialized)
         return false;
 
-#if _WIN32 && LIBLAVA_DEBUG
+#if _WIN32 && LAVA_DEBUG
     AllocConsole();
 #endif
 
@@ -138,7 +132,7 @@ bool frame::setup() {
         return false;
     }
 
-    log()->info("vulkan {}", str(to_string(instance::get_version())));
+    log()->info("vulkan {}", to_string(get_instance_version()));
 
     if (!check_profile())
         return false;
@@ -157,7 +151,7 @@ bool frame::setup() {
         return false;
     }
 
-    frame_initialized = true;
+    initialized = true;
 
     log()->info("---");
 
@@ -166,7 +160,7 @@ bool frame::setup() {
 
 //-----------------------------------------------------------------------------
 void frame::teardown() {
-    if (!frame_initialized)
+    if (!initialized)
         return;
 
     platform.clear();
@@ -178,7 +172,10 @@ void frame::teardown() {
     log()->info("<<<");
     log()->flush();
 
-    frame_initialized = false;
+    global_logger::singleton().reset();
+    teardown_log(env.log);
+
+    initialized = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -243,7 +240,7 @@ bool frame::shut_down() {
 
 //-----------------------------------------------------------------------------
 id frame::add_run(run_func_ref func) {
-    auto id = ids::next();
+    auto id = ids::instance().next();
     run_map.emplace(id, func);
 
     return id;
@@ -251,7 +248,7 @@ id frame::add_run(run_func_ref func) {
 
 //-----------------------------------------------------------------------------
 id frame::add_run_end(run_end_func_ref func) {
-    auto id = ids::next();
+    auto id = ids::instance().next();
     run_end_map.emplace(id, func);
 
     return id;
@@ -269,18 +266,10 @@ bool frame::remove(id::ref id) {
 //-----------------------------------------------------------------------------
 void frame::trigger_run_remove() {
     for (auto& id : run_remove_list) {
-        auto result = false;
-
-        if (run_map.count(id)) {
+        if (run_map.count(id))
             run_map.erase(id);
-            result = true;
-        } else if (run_end_map.count(id)) {
+        else if (run_end_map.count(id))
             run_end_map.erase(id);
-            result = true;
-        }
-
-        if (result)
-            ids::free(id);
     }
 
     run_remove_list.clear();

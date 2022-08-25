@@ -6,6 +6,7 @@
  */
 
 #include <liblava/base/queue.hpp>
+#include <liblava/util/misc.hpp>
 
 namespace lava {
 

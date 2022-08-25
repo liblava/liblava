@@ -6,6 +6,7 @@
  */
 
 #include <liblava/block/compute_pipeline.hpp>
+#include <liblava/util/log.hpp>
 
 namespace lava {
 
@@ -48,7 +49,7 @@ bool compute_pipeline::setup() {
                                                          pipeline_cache,
                                                          to_ui32(info.size()),
                                                          info.data(),
-                                                         memory::alloc(),
+                                                         memory::instance().alloc(),
                                                          &vk_pipeline));
 }
 

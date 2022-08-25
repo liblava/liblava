@@ -15,10 +15,6 @@
 #include <string_view>
 #include <vector>
 
-#if LIBLAVA_DEBUG_ASSERT
-    #include <cassert>
-#endif
-
 namespace lava {
 
 /// 8 bit integer
@@ -162,8 +158,17 @@ using string_ref = string const&;
 /// List of strings
 using string_list = std::vector<string>;
 
+/// Reference to list of strings
+using string_list_ref = string_list const&;
+
 /// String view
 using string_view = std::string_view;
+
+/// Map of strings
+using string_map = std::map<string, string>;
+
+/// Reference to map of strings
+using string_map_ref = string_map const&;
 
 /// Name
 using name = char const*;
@@ -188,9 +193,7 @@ constexpr name _default_ = "default";
 
 /**
  * @brief Get c-string representation of string
- *
  * @param value    Source string
- *
  * @return name    C-string representation
  */
 inline name str(string_ref value) {
@@ -199,9 +202,7 @@ inline name str(string_ref value) {
 
 /**
  * @brief Convert to r32
- *
  * @param value    Source value
- *
  * @return r32     Converted value
  */
 inline r32 to_r32(auto value) {
@@ -210,9 +211,7 @@ inline r32 to_r32(auto value) {
 
 /**
  * @brief Convert to r64
- *
  * @param value    Source value
- *
  * @return r64     Converted value
  */
 inline r64 to_r64(auto value) {
@@ -221,9 +220,7 @@ inline r64 to_r64(auto value) {
 
 /**
  * @brief Convert to i32
- *
  * @param value    Source value
- *
  * @return i32     Converted value
  */
 inline i32 to_i32(auto value) {
@@ -232,9 +229,7 @@ inline i32 to_i32(auto value) {
 
 /**
  * @brief Convert to i64
- *
  * @param value    Source value
- *
  * @return i64     Converted value
  */
 inline i64 to_i64(auto value) {
@@ -243,9 +238,7 @@ inline i64 to_i64(auto value) {
 
 /**
  * @brief Convert to ui32
- *
  * @param value    Source value
- *
  * @return ui32    Converted value
  */
 inline ui32 to_ui32(auto value) {
@@ -254,9 +247,7 @@ inline ui32 to_ui32(auto value) {
 
 /**
  * @brief Convert to ui64
- *
  * @param value    Source value
- *
  * @return ui64    Converted value
  */
 inline ui64 to_ui64(auto value) {
@@ -265,9 +256,7 @@ inline ui64 to_ui64(auto value) {
 
 /**
  * @brief Convert to size_t
- *
  * @param value      Source value
- *
  * @return size_t    Converted value
  */
 inline size_t to_size_t(auto value) {
@@ -276,9 +265,7 @@ inline size_t to_size_t(auto value) {
 
 /**
  * @brief Convert to index
- *
  * @param value     Source value
- *
  * @return index    Converted value
  */
 inline index to_index(auto value) {
@@ -287,9 +274,7 @@ inline index to_index(auto value) {
 
 /**
  * @brief Convert to icon
- *
  * @param value           Source value
- *
  * @return char const*    Converted value
  */
 inline char const* icon(auto value) {
@@ -328,11 +313,8 @@ struct interface {
 
 /**
  * @brief Combine hash seed with value - from boost (functional/hash)
- *
  * @see http://www.boost.org/doc/libs/1_77_0/doc/html/hash/combine.html
- *
  * @tparam T      Type of value
- *
  * @param seed    Seed to combine
  * @param val     Value to combine
  */
@@ -345,9 +327,7 @@ inline void hash_combine(size_t& seed,
 
 /**
  * @brief Auxiliary generic functions to create a hash value using a seed
- *
  * @tparam T      Type of value
- *
  * @param seed    Seed for hash
  * @param val     Hash value
  */
@@ -384,12 +364,9 @@ inline size_t hash_val(Types const&... args) {
 struct pair_hash {
     /**
      * @brief Hash operator
-     *
      * @tparam T1       Type of first
      * @tparam T2       Type of second
-     *
      * @param p          Hash pair
-     *
      * @return size_t    Hash value
      */
     template<class T1, class T2>

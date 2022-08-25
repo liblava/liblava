@@ -49,18 +49,14 @@ struct benchmark_data {
 
 /**
  * @brief Parse command line arguments and set benchmark data
- *
  * @param cmd_line    Command line arguments
  * @param data        Benchmark data
- *
- * @return true       Benchmark data is parsed and ready
- * @return false      Benchmark data is not ready
+ * @return Benchmark data is parsed or not ready
  */
 bool parse(cmd_line cmd_line, benchmark_data& data);
 
 /**
  * @brief Start a benchmark run
- *
  * @param app     App to benchmark
  * @param data    Benchmark data setting
  */
@@ -68,11 +64,8 @@ void benchmark(frame& app, benchmark_data& data);
 
 /**
  * @brief Write frames to json file
- *
  * @param data     Benchmark data setting
- *
- * @return true    Write was successful
- * @return false   Write failed
+ * @return Write was successful or failed
  */
 bool write_frames_json(benchmark_data& data);
 

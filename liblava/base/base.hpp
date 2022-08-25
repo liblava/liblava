@@ -8,7 +8,7 @@
 #pragma once
 
 #include <liblava/core/math.hpp>
-#include <liblava/util.hpp>
+#include <liblava/core/version.hpp>
 
 // clang-format off
 
@@ -19,20 +19,6 @@
 // clang-format on
 
 namespace lava {
-
-/**
- * @brief Set global logger
- *
- * @param log    Logger
- */
-void set_log(logger log);
-
-/**
- * @brief Get global logger
- *
- * @return logger    Logger
- */
-logger log();
 
 /// Vulkan object handle
 using VkObjectHandle = ui64;
@@ -124,29 +110,17 @@ using VkExtensionPropertiesList = std::vector<VkExtensionProperties>;
 /// List of Vulkan physical devices
 using VkPhysicalDevices = std::vector<VkPhysicalDevice>;
 
-/// Vertex shader name (default)
-constexpr name _vertex_ = "vertex";
-
-/// Fragment shader name (default)
-constexpr name _fragment_ = "fragment";
-
 /**
  * @brief Check a Vulkan result
- *
  * @param result    Result to check
- *
- * @return true     No error
- * @return false    Error
+ * @return Okay or error
  */
 bool check(VkResult result);
 
 /**
  * @brief Check if a Vulkan result failed
- *
  * @param result    Result to check
- *
- * @return true     Error
- * @return false    No error
+ * @return Error or okay
  */
 inline bool failed(VkResult result) {
     return !check(result);
@@ -154,36 +128,28 @@ inline bool failed(VkResult result) {
 
 /**
  * @brief Convert a Vulkan result to string
- *
  * @param result     Result to convert
- *
  * @return string    String of result
  */
 string to_string(VkResult result);
 
 /**
  * @brief Convert a version to string
- *
  * @param version    Version to convert
- *
  * @return string    String of version
  */
 string version_to_string(ui32 version);
 
 /**
  * @brief Convert a version to internal version
- *
  * @param version              Version to convert
- *
  * @return internal_version    Converted version
  */
 internal_version to_version(ui32 version);
 
 /**
  * @brief Convert a version to Vulkan version
- *
  * @param version    Internal version to convert
- *
  * @return ui32      Converted Vulkan version
  */
 ui32 to_version(internal_version version);
@@ -200,9 +166,7 @@ enum class api_version : type {
 
 /**
  * @brief Convert a version to Vulkan API version
- *
  * @param version         Vulkan version to convert
- *
  * @return api_version    Converted API version
  */
 api_version to_api_version(ui32 version);
@@ -218,10 +182,8 @@ struct vk_result {
     VkResult value = VK_NOT_READY;
 
     /**
-     * @brief Check result state
-     *
-     * @return true     No error
-     * @return false    Error
+     * @brief Check result
+     * @return Okay or error
      */
     operator bool() {
         return state;
@@ -267,24 +229,24 @@ struct target_callback {
 };
 
 /// Limit of Vulkan description sets
-static constexpr ui32 const Vk_Limit_DescriptorSets = 4;
+constexpr ui32 const Vk_Limit_DescriptorSets = 4;
 
 /// Limit of Vulkan bindings
-static constexpr ui32 const Vk_Limit_Bindings = 16;
+constexpr ui32 const Vk_Limit_Bindings = 16;
 
 /// Limit of Vulkan attachments
-static constexpr ui32 const Vk_Limit_Attachments = 8;
+constexpr ui32 const Vk_Limit_Attachments = 8;
 
 /// Limit of Vulkan vertex attributes
-static constexpr ui32 const Vk_Limit_VertexAttribs = 16;
+constexpr ui32 const Vk_Limit_VertexAttribs = 16;
 
 /// Limit of Vulkan vertex buffers
-static constexpr ui32 const Vk_Limit_VertexBuffers = 4;
+constexpr ui32 const Vk_Limit_VertexBuffers = 4;
 
 /// Limit of Vulkan push constant size
-static constexpr ui32 const Vk_Limit_PushConstant_Size = 128;
+constexpr ui32 const Vk_Limit_PushConstant_Size = 128;
 
 /// Limit of Vulkan UBO size
-static constexpr ui32 const Vk_Limit_UBO_Size = 16 * 1024;
+constexpr ui32 const Vk_Limit_UBO_Size = 16 * 1024;
 
 } // namespace lava

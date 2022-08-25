@@ -17,10 +17,22 @@
 namespace lava {
 
 /// Draw with separator
-constexpr bool const draw_with_separator = true;
+constexpr bool const draw_separator = true;
 
 /// Draw without separator
-constexpr bool const draw_without_separator = false;
+constexpr bool const draw_no_separator = false;
+
+/// Draw with fps
+constexpr bool const draw_fps = true;
+
+/// Draw without fps
+constexpr bool const draw_no_fps = false;
+
+/// Draw with spacing
+constexpr bool const draw_spacing = true;
+
+/// Draw without spacing
+constexpr bool const draw_no_spacing = false;
 
 /**
  * @brief Application with basic functionality
@@ -28,14 +40,12 @@ constexpr bool const draw_without_separator = false;
 struct app : frame {
     /**
      * @brief Construct a new app
-     *
      * @param env    Frame environment
      */
     explicit app(frame_env env);
 
     /**
      * @brief Construct a new app
-     *
      * @param name        Application name
      * @param cmd_line    Command line arguments
      */
@@ -43,9 +53,7 @@ struct app : frame {
 
     /**
      * @brief Set up the application
-     *
-     * @return true     Setup was successful
-     * @return false    Setup failed
+     * @return Setup was successful or failed
      */
     virtual bool setup();
 
@@ -108,9 +116,7 @@ struct app : frame {
 
     /**
      * @brief V-Sync setting
-     *
-     * @return true     V-Sync is active
-     * @return false    V-Sync is inactive
+     * @return V-Sync is active or not
      */
     bool v_sync() const {
         return config.v_sync;
@@ -118,7 +124,6 @@ struct app : frame {
 
     /**
      * @brief Get the frame counter
-     *
      * @return ui32    Number of rendered frames
      */
     ui32 get_frame_counter() const {
@@ -127,10 +132,13 @@ struct app : frame {
 
     /**
      * @brief Draw about information
-     *
      * @param separator    Prepend separator
+     * @param fps          FPS counter
+     * @param spacing      Spacing
      */
-    void draw_about(bool separator = draw_with_separator) const;
+    void draw_about(bool separator = draw_separator,
+                    bool fps = draw_fps,
+                    bool spacing = draw_spacing) const;
 
     /// Application configuration
     app_config config;
@@ -146,14 +154,13 @@ struct app : frame {
 
     /**
      * @brief Get id of the block command
-     *
      * @return id::ref    Id to access the command
      */
     id::ref block_cmd() const {
         return block_command;
     }
 
-    /// Setup function
+    /// Set up function
     using setup_func = std::function<bool()>;
 
     /// Function called on application setup
@@ -161,19 +168,19 @@ struct app : frame {
 
     /**
      * @brief Take screenshot and save it to file
-     *
      * @return string    Screenshot file path (empty: failed)
      */
     string screenshot();
 
     /**
      * @brief Add a tooltip
-     *
-     * @param n    Name of tooltip
-     * @param k    Input key
-     * @param m    Input mod (default: none)
+     * @param name    Name of tooltip
+     * @param key     Input key
+     * @param mod     Input mod (default: none)
      */
-    void add_tooltip(name n, key k, mod m = mod::none);
+    void add_tooltip(string_ref name,
+                     key_t key,
+                     mod_t mod = mod::none);
 
     /**
      * @brief Clear tooltips
@@ -184,57 +191,45 @@ struct app : frame {
 
     /**
      * @brief Get tooltips
-     *
      * @return tooltip::list    List of tooltips
      */
     tooltip::list get_tooltips() const {
         return tooltips;
     }
 
+    /**
+     * @brief Parse config
+     * @param cmd_line    Command line arguments
+     */
+    void parse_config(argh::parser cmd_line);
+
 private:
     /**
-     * @brief Setup file system
-     *
-     * @param cmd_line    Command line arguments
-     *
-     * @return true       Setup was successful
-     * @return false      Setup failed
+     * @brief Set up file system
+     * @return Setup was successful or failed
      */
-    bool setup_file_system(cmd_line cmd_line);
+    bool setup_file_system();
 
     /**
-     * @brief Setup window
-     *
-     * @param cmd_line    Command line arguments
-     *
-     * @return true       Setup was successful
-     * @return false      Setup failed
+     * @brief Set up window
+     * @return Setup was successful or failed
      */
-    bool setup_window(cmd_line cmd_line);
+    bool setup_window();
 
     /**
-     * @brief Setup device
-     *
-     * @param cmd_line    Command line arguments
-     *
-     * @return true       Setup was successful
-     * @return false      Setup failed
+     * @brief Set up device
+     * @return Setup was successful or failed
      */
-    bool setup_device(cmd_line cmd_line);
+    bool setup_device();
 
     /**
-     * @brief Setup render
-     *
-     * @return true       Setup was successful
-     * @return false      Setup failed
+     * @brief Set up render
+     * @return Setup was successful or failed
      */
     bool setup_render();
 
     /**
-     * @brief Setup run
-     *
-     * @return true       Setup was successful
-     * @return false      Setup failed
+     * @brief Set up run
      */
     void setup_run();
 
@@ -270,9 +265,7 @@ private:
 
     /**
      * @brief Create ImGui
-     *
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create_imgui();
 
@@ -283,9 +276,7 @@ private:
 
     /**
      * @brief Create a render target
-     *
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create_target();
 
@@ -296,9 +287,7 @@ private:
 
     /**
      * @brief Create a block object
-     *
-     * @return true     Create was successful
-     * @return false    Create failed
+     * @return Create was successful or failed
      */
     bool create_block();
 

@@ -40,12 +40,10 @@ namespace lava {
 
 /**
  * @brief Create a gli 2D texture
- *
  * @param device           Vulkan device
  * @param file             File to load
  * @param format           Format of texture
  * @param temp_data        Data of texture
- *
  * @return texture::ptr    Loaded texture
  */
 texture::ptr create_gli_texture_2d(device_p device,
@@ -54,9 +52,7 @@ texture::ptr create_gli_texture_2d(device_p device,
                                    unique_data::ref temp_data) {
     gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                      : gli::load(file.get_path()));
-#if LIBLAVA_DEBUG_ASSERT
-    assert(!tex.empty());
-#endif
+    LAVA_ASSERT(!tex.empty());
     if (tex.empty())
         return nullptr;
 
@@ -95,10 +91,8 @@ texture::ptr create_gli_texture_2d(device_p device,
 
 /**
  * @brief Create a layer list for a texture
- *
  * @param tex                      Target texture
  * @param layer_count              Number of layers
- *
  * @return texture::layer::list    List of texture layers
  */
 texture::layer::list create_layer_list(auto const& tex, ui32 layer_count) {
@@ -126,12 +120,10 @@ texture::layer::list create_layer_list(auto const& tex, ui32 layer_count) {
 
 /**
  * @brief Create a gli array texture
- *
  * @param device           Vulkan device
  * @param file             File to load
  * @param format           Format of texture
  * @param temp_data        Data of texture
- *
  * @return texture::ptr    Loaded texture
  */
 texture::ptr create_gli_texture_array(device_p device,
@@ -140,9 +132,7 @@ texture::ptr create_gli_texture_array(device_p device,
                                       unique_data::ref temp_data) {
     gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                            : gli::load(file.get_path()));
-#if LIBLAVA_DEBUG_ASSERT
-    assert(!tex.empty());
-#endif
+    LAVA_ASSERT(!tex.empty());
     if (tex.empty())
         return nullptr;
 
@@ -167,12 +157,10 @@ texture::ptr create_gli_texture_array(device_p device,
 
 /**
  * @brief Create a gli cube map texture
- *
  * @param device           Vulkan device
  * @param file             File to load
  * @param format           Format of texture
  * @param temp_data        Data of texture
- *
  * @return texture::ptr    Loaded texture
  */
 texture::ptr create_gli_texture_cube_map(device_p device,
@@ -181,9 +169,7 @@ texture::ptr create_gli_texture_cube_map(device_p device,
                                          unique_data::ref temp_data) {
     gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
                                         : gli::load(file.get_path()));
-#if LIBLAVA_DEBUG_ASSERT
-    assert(!tex.empty());
-#endif
+    LAVA_ASSERT(!tex.empty());
     if (tex.empty())
         return nullptr;
 
@@ -208,11 +194,9 @@ texture::ptr create_gli_texture_cube_map(device_p device,
 
 /**
  * @brief Create a stbi texture
- *
  * @param device           Vulkan device
  * @param file             File to load
  * @param temp_data        Data of texture
- *
  * @return texture::ptr    Loaded texture
  */
 texture::ptr create_stbi_texture(device_p device,
@@ -260,18 +244,18 @@ texture::ptr create_stbi_texture(device_p device,
 texture::ptr load_texture(device_p device,
                           file_format file_format,
                           texture_type type) {
-    auto use_gli = extension(str(file_format.path),
+    auto use_gli = extension(file_format.path,
                              { "DDS", "KTX", "KMG" });
     auto use_stbi = false;
 
     if (!use_gli)
-        use_stbi = extension(str(file_format.path),
+        use_stbi = extension(file_format.path,
                              { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
 
     if (!use_gli && !use_stbi)
         return nullptr;
 
-    file file(str(file_format.path));
+    file file(file_format.path);
     unique_data temp_data(file.get_size(), data_mode::no_alloc);
 
     if (file.opened()) {
@@ -344,8 +328,8 @@ texture::ptr create_default_texture(device_p device,
         for (auto x = 0u; x < size.x; ++x) {
             auto const index = (x * block_size)
                                + (y * size.y * block_size);
-            if ((y % 128 < 64 && x % 128 < 64)
-                || (y % 128 >= 64 && x % 128 >= 64)) {
+            if (((y % 128 < 64) && (x % 128 < 64))
+                || ((y % 128 >= 64) && (x % 128 >= 64))) {
                 data.ptr[index] = color_r;
                 data.ptr[index + 1] = color_g;
                 data.ptr[index + 2] = color_b;

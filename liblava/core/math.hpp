@@ -45,6 +45,9 @@ using iv3 = glm::ivec3;
  * @brief Rectangle
  */
 struct rect {
+    /// Reference to rect
+    using ref = rect const&;
+
     /**
      * @brief Construct a new rectangle
      */
@@ -52,7 +55,6 @@ struct rect {
 
     /**
      * @brief Construct a new rectangle
-     *
      * @param left      Left position
      * @param top       Top position
      * @param width     Rectangle width
@@ -66,7 +68,6 @@ struct rect {
 
     /**
      * @brief Construct a new rectangle
-     *
      * @param left_top    Left top position
      * @param width       Rectangle width
      * @param height      Rectangle height
@@ -79,7 +80,6 @@ struct rect {
 
     /**
      * @brief Construct a new rectangle
-     *
      * @param left_top    Left top position
      * @param size        Size of rectangle
      */
@@ -91,7 +91,6 @@ struct rect {
 
     /**
      * @brief Get the origin
-     *
      * @return iv2 const&    Left top position
      */
     iv2 const& get_origin() const {
@@ -100,7 +99,6 @@ struct rect {
 
     /**
      * @brief Get the end point
-     *
      * @return iv2 const&    Right bottom position
      */
     iv2 const& get_end_point() const {
@@ -109,21 +107,17 @@ struct rect {
 
     /**
      * @brief Get the size
-     *
      * @return uv2    Width and height
      */
     uv2 get_size() const {
-#if LIBLAVA_DEBUG_ASSERT
-        assert(left_top.x <= right_bottom.x);
-        assert(left_top.y <= right_bottom.y);
-#endif
+        LAVA_ASSERT(left_top.x <= right_bottom.x);
+        LAVA_ASSERT(left_top.y <= right_bottom.y);
         return { right_bottom.x - left_top.x,
                  right_bottom.y - left_top.y };
     }
 
     /**
      * @brief Set the size
-     *
      * @param size    Width and height
      */
     void set_size(uv2 const& size) {
@@ -133,7 +127,6 @@ struct rect {
 
     /**
      * @brief Move the rectangle
-     *
      * @param offset    Offset to move
      */
     void move(iv2 const& offset) {
@@ -143,11 +136,8 @@ struct rect {
 
     /**
      * @brief Check if point is inside the rectangle
-     *
      * @param point     Point to check
-     *
-     * @return true     Point is inside
-     * @return false    Point is outside
+     * @return Point is inside or out
      */
     bool contains(iv2 point) const {
         return (left_top.x < point.x)
@@ -166,10 +156,8 @@ private:
 
 /**
  * @brief Ceiling of division
- *
  * @param x        X value
  * @param y        Y value
- *
  * @return auto    Result
  */
 inline auto ceil_div(auto x, auto y) {
@@ -177,15 +165,15 @@ inline auto ceil_div(auto x, auto y) {
 }
 
 /// Default color (Lava color: CF1020 : 207, 16, 32)
-constexpr v3 const default_color = v3{ 0.8118f, 0.0627f, 0.1255f };
+constexpr v3 const default_color = v3{ 0.8118f,
+                                       0.0627f,
+                                       0.1255f };
 
 /**
  * @brief Calculate perspective matrix
- *
  * @param size         Size for aspect ratio
  * @param fov          Field of view
  * @param far_plane    Far plane
- *
  * @return mat4        Calculated matrix
  */
 inline mat4 perspective_matrix(uv2 size,
@@ -193,9 +181,13 @@ inline mat4 perspective_matrix(uv2 size,
                                float far_plane = 5.f) {
     // Vulkan NDC is right-handed with Y pointing down
     // we flip Y which makes it left-handed
-    return glm::scale(glm::identity<glm::mat4>(), { 1.f, -1.f, 1.f })
+    return glm::scale(glm::identity<glm::mat4>(),
+                      { 1.f, -1.f, 1.f })
            * glm::perspectiveLH_ZO(
-               glm::radians(fov), float(size.x) / size.y, 0.1f, far_plane);
+               glm::radians(fov),
+               float(size.x) / size.y,
+               0.1f,
+               far_plane);
 }
 
 } // namespace lava
