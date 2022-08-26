@@ -9,7 +9,7 @@
         "name": "glfw",
         "github": "glfw/glfw",
         "branch": "master",
-        "tag": "c18851f52ec9704eb06464058a600845ec1eada1"
+        "tag": "6b57e08bb0078c9834889eab871bac2368198c15"
     },
     {
         "name": "gli",
@@ -63,7 +63,7 @@
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "a132f0808ded98a68ca0f95508b753553b15c5bc"
+        "tag": "aa3c9e1e71134c27b40e2e3bd737d6ebba02ec2b"
     },
     {
         "name": "volk",
@@ -75,7 +75,7 @@
         "name": "VulkanMemoryAllocator",
         "github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
         "branch": "master",
-        "tag": "6599c36880aa03094861318030fec40919b899ac"
+        "tag": "2a7110f07854d86ea6dbfddf58cea40d81f8be70"
     },
     {
         "name": "IconFontCppHeaders",
@@ -87,31 +87,31 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "d357e8504bc2d00a4b1068d8a8e2d25b0c77eb84"
+        "tag": "e13913ed572dbd95dedf840a94db5f27a1fdf2a5"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "b78738ff23747888e66bb2d3fe9127cd50d4c28f"
+        "tag": "71a0701920dbc83155f718182f01132d1ec2d51e"
     },
     {
         "name": "SPIRV-Headers",
         "github": "KhronosGroup/SPIRV-Headers",
         "branch": "master",
-        "tag": "0bcc624926a25a2a273d07877fd25a6ff5ba1cfb"
+        "tag": "93754d52d6cbbfd61f4e87571079e8a28e65f8ca"
     },
     {
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "3c1a14b2b609ae5a352e39ef6b5baf8f64c32ec7"
+        "tag": "a98f05d02fedcf2a20fd94b4640eb700b7df198d"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "10423ec659d301a0ff2daac8bbf38980abf27590"
+        "tag": "9e78bc8108a13d4d4ed860b2c5547092059ed83e"
     },
     {
         "name": "shaderc",

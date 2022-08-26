@@ -3,7 +3,7 @@ set(argh_GITHUB adishavit/argh)
 set(argh_TAG 39b9a00046143f6b300dcf98ea989486cf62097d)
 
 set(glfw_GITHUB glfw/glfw)
-set(glfw_TAG c18851f52ec9704eb06464058a600845ec1eada1)
+set(glfw_TAG 6b57e08bb0078c9834889eab871bac2368198c15)
 
 set(gli_GITHUB g-truc/gli)
 set(gli_TAG 779b99ac6656e4d30c3b24e96e0136a59649a869)
@@ -30,31 +30,31 @@ set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG 715673702f5b18ffb8e5832e67cf731468d32ac6)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG a132f0808ded98a68ca0f95508b753553b15c5bc)
+set(Vulkan-Profiles_TAG aa3c9e1e71134c27b40e2e3bd737d6ebba02ec2b)
 
 set(volk_GITHUB zeux/volk)
 set(volk_TAG 3872818bb956e3b1e3847f3ddbb467b181e6a864)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
-set(VulkanMemoryAllocator_TAG 6599c36880aa03094861318030fec40919b899ac)
+set(VulkanMemoryAllocator_TAG 2a7110f07854d86ea6dbfddf58cea40d81f8be70)
 
 set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 7d6ff1f4ba51e7a2b142be39457768abece1549c)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG d357e8504bc2d00a4b1068d8a8e2d25b0c77eb84)
+set(imgui_TAG e13913ed572dbd95dedf840a94db5f27a1fdf2a5)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG b78738ff23747888e66bb2d3fe9127cd50d4c28f)
+set(imgui_docking_TAG 71a0701920dbc83155f718182f01132d1ec2d51e)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
-set(SPIRV-Headers_TAG 0bcc624926a25a2a273d07877fd25a6ff5ba1cfb)
+set(SPIRV-Headers_TAG 93754d52d6cbbfd61f4e87571079e8a28e65f8ca)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 3c1a14b2b609ae5a352e39ef6b5baf8f64c32ec7)
+set(SPIRV-Tools_TAG a98f05d02fedcf2a20fd94b4640eb700b7df198d)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG 10423ec659d301a0ff2daac8bbf38980abf27590)
+set(glslang_TAG 9e78bc8108a13d4d4ed860b2c5547092059ed83e)
 
 set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG 31bddbb37ef1e974da7bce859ab59bcfc5ad9ee7)
