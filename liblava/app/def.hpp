@@ -71,4 +71,9 @@ constexpr name _benchmark_json_ = "benchmark.json";
 constexpr name _imgui_file_ = "imgui.ini";
 constexpr name _font_icon_ = "font_icon";
 
+/// Cache
+
+constexpr name _cache_path_ = "cache/";
+constexpr name _pipeline_cache_file_ = "pipeline.cache";
+
 } // namespace lava

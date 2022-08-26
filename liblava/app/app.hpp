@@ -96,6 +96,9 @@ struct app : frame {
     /// File system
     file_system fs;
 
+    /// Pipeline cache
+    VkPipelineCache pipeline_cache = nullptr;
+
     /// Update function
     using update_func = std::function<bool(delta)>;
 
@@ -290,6 +293,17 @@ private:
      * @return Create was successful or failed
      */
     bool create_block();
+
+    /**
+     * @brief Create a pipeline cache
+     * @return Create was successful or failed
+     */
+    bool create_pipeline_cache();
+
+    /**
+     * @brief Destroy the pipeline cache
+     */
+    void destroy_pipeline_cache();
 
     /// Texture for ImGui fonts
     texture::ptr imgui_fonts;

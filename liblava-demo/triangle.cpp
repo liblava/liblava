@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
         if (!layout->create(app.device))
             return false;
 
-        pipeline = make_render_pipeline(app.device);
+        pipeline = make_render_pipeline(app.device, app.pipeline_cache);
         pipeline->set_layout(layout);
 
         if (!pipeline->add_shader({ vert_shader, sizeof(vert_shader) },

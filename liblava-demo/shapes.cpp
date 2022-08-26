@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
     pipeline_layout::ptr layout;
 
     app.on_create = [&]() {
-        pipeline = make_render_pipeline(app.device);
+        pipeline = make_render_pipeline(app.device, app.pipeline_cache);
         pipeline->add_color_blend_attachment();
         pipeline->set_depth_test_and_write();
         pipeline->set_depth_compare_op(VK_COMPARE_OP_LESS_OR_EQUAL);

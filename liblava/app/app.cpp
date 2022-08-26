@@ -106,6 +106,42 @@ bool app::create_block() {
 }
 
 //-----------------------------------------------------------------------------
+bool app::create_pipeline_cache() {
+    file_data pipeline_cache_data(string(_cache_path_) + _pipeline_cache_file_);
+
+    VkPipelineCacheCreateInfo const create_info = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO,
+        .initialDataSize = pipeline_cache_data.size,
+        .pInitialData = pipeline_cache_data.ptr,
+    };
+    return check(device->call().vkCreatePipelineCache(device->get(),
+                                                      &create_info,
+                                                      memory::instance().alloc(),
+                                                      &pipeline_cache));
+}
+
+//-----------------------------------------------------------------------------
+void app::destroy_pipeline_cache() {
+    size_t size = 0;
+    if (check(vkGetPipelineCacheData(device->get(), pipeline_cache, &size, nullptr))) {
+        std::vector<uint8_t> data(size);
+        if (check(vkGetPipelineCacheData(device->get(), pipeline_cache, &size, data.data()))) {
+            fs.create_folder(_cache_path_);
+
+            file file(string(_cache_path_) + _pipeline_cache_file_, file_mode::write);
+            if (file.opened())
+                if (!file.write(as_ptr(data.data()), size))
+                    log()->warn("app pipeline cache not saved: {}", file.get_path());
+        }
+    }
+
+    device->call().vkDestroyPipelineCache(device->get(),
+                                          pipeline_cache,
+                                          memory::instance().alloc());
+    pipeline_cache = nullptr;
+}
+
+//-----------------------------------------------------------------------------
 bool app::setup() {
     if (!frame::ready())
         return false;
@@ -167,7 +203,7 @@ bool app::setup_file_system() {
     }
 
     if (cmd_line[{ "-cc", "--clean_cache" }]) {
-        std::filesystem::remove_all(fs.get_pref_dir() + "cache/");
+        std::filesystem::remove_all(fs.get_pref_dir() + _cache_path_);
 
         log()->info("clean cache");
     }
@@ -220,6 +256,9 @@ bool app::setup_device() {
 
 //-----------------------------------------------------------------------------
 bool app::setup_render() {
+    if (!create_pipeline_cache())
+        log()->warn("app pipeline cache not created");
+
     if (!create_target())
         return false;
 
@@ -261,6 +300,8 @@ void app::setup_run() {
 
         destroy_target();
 
+        destroy_pipeline_cache();
+
         window.destroy();
 
         fs.terminate();
@@ -287,7 +328,10 @@ bool app::create_imgui() {
     imgui_config.ini_file_dir = fs.get_pref_dir();
 
     imgui.setup(window.get(), imgui_config);
-    if (!imgui.create(device, target->get_frame_count(), shading.get_vk_pass()))
+    if (!imgui.create(device,
+                      target->get_frame_count(),
+                      shading.get_vk_pass(),
+                      pipeline_cache))
         return false;
 
     if (format_srgb(target->get_format()))

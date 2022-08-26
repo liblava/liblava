@@ -126,7 +126,7 @@ struct imgui {
     }
 
     /**
-     * @brief Create ImGui
+     * @brief Create pipeline for ImGui
      * @param pipeline      Render pipeline
      * @param max_frames    Number of frames
      * @return Create was successful or failed
@@ -134,24 +134,32 @@ struct imgui {
     bool create(render_pipeline::ptr pipeline, index max_frames);
 
     /**
-     * @brief Create ImGui with device
-     * @param device        Vulkan device
-     * @param max_frames    Number of frames
+     * @brief Create pipeline for ImGui with device
+     * @param device            Vulkan device
+     * @param max_frames        Number of frames
+     * @param pipeline_cache    Pipeline cache
      * @return Create was successful or failed
      */
-    bool create(device_p device, index max_frames) {
-        return create(make_render_pipeline(device), max_frames);
+    bool create(device_p device,
+                index max_frames,
+                VkPipelineCache pipeline_cache) {
+        return create(make_render_pipeline(device, pipeline_cache),
+                      max_frames);
     }
 
     /**
-     * @brief Create ImGui with device and render pass
-     * @param device        Vulkan device
-     * @param max_frames    Number of frames
-     * @param pass          Render pass
+     * @brief Create pipeline for ImGui with device and render pass
+     * @param device            Vulkan device
+     * @param max_frames        Number of frames
+     * @param pass              Render pass
+     * @param pipeline_cache    Pipeline cache
      * @return Create was successful or failed
      */
-    bool create(device_p device, index max_frames, VkRenderPass pass) {
-        if (!create(device, max_frames))
+    bool create(device_p device,
+                index max_frames,
+                VkRenderPass pass,
+                VkPipelineCache pipeline_cache = 0) {
+        if (!create(device, max_frames, pipeline_cache))
             return false;
 
         return pipeline->create(pass);
@@ -165,7 +173,7 @@ struct imgui {
     bool upload_fonts(texture::ptr texture);
 
     /**
-     * @brief Destroy the ImGui
+     * @brief Destroy ImGui
      */
     void destroy();
 

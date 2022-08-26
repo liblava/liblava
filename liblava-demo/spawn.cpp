@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 
     app.on_create = [&]() {
-        pipeline = make_render_pipeline(app.device);
+        pipeline = make_render_pipeline(app.device, app.pipeline_cache);
         if (!pipeline->add_shader(app.producer.get_shader(_vertex_),
                                   VK_SHADER_STAGE_VERTEX_BIT))
             return false;

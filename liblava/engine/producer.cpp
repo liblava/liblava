@@ -5,6 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include <liblava/app/def.hpp>
 #include <liblava/asset.hpp>
 #include <liblava/base/instance.hpp>
 #include <liblava/engine/def.hpp>
@@ -33,11 +34,11 @@ mesh::ptr producer::get_mesh(string_ref name) {
             return meshes.get(id);
     }
 
-    context->fs.create_folder(_temp_path_);
+    context->fs.create_folder(string(_cache_path_) + _temp_path_);
 
     auto product = load_mesh(context->device,
                              context->prop.get_filename(name),
-                             context->fs.get_pref_dir() + _temp_path_);
+                             context->fs.get_pref_dir() + _cache_path_ + _temp_path_);
     if (!product)
         return nullptr;
 
@@ -112,7 +113,7 @@ cdata producer::get_shader(string_ref name,
         shaders.erase(name);
     }
 
-    auto filename = context->fs.get_pref_dir() + _shader_path_
+    auto filename = context->fs.get_pref_dir() + _cache_path_ + _shader_path_
                     + name + ".spirv";
 
     if (!reload) {
@@ -148,7 +149,7 @@ cdata producer::get_shader(string_ref name,
 
     context->prop.unload(name);
 
-    context->fs.create_folder(_shader_path_);
+    context->fs.create_folder(string(_cache_path_) + _shader_path_);
 
     file file(filename, file_mode::write);
     if (file.opened())
@@ -387,9 +388,9 @@ void producer::clear() {
 //-----------------------------------------------------------------------------
 void producer::update_file_hash(string_ref name,
                                 string_map_ref file_hash_map) const {
-    context->fs.create_folder(_shader_path_);
+    context->fs.create_folder(string(_cache_path_) + _shader_path_);
 
-    auto filename = context->fs.get_pref_dir() + _shader_path_ + _hash_json_;
+    auto filename = context->fs.get_pref_dir() + _cache_path_ + _shader_path_ + _hash_json_;
     json_file hash_file(filename);
 
     json_file::callback callback;
@@ -408,7 +409,7 @@ void producer::update_file_hash(string_ref name,
 bool producer::valid_shader(string_ref name) const {
     auto valid = true;
 
-    auto filename = context->fs.get_pref_dir() + _shader_path_ + _hash_json_;
+    auto filename = context->fs.get_pref_dir() + _cache_path_ + _shader_path_ + _hash_json_;
     json_file hash_file(filename);
 
     json_file::callback callback;

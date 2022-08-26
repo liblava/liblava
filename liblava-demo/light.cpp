@@ -176,12 +176,12 @@ int main(int argc, char* argv[]) {
     descriptor::ptr gbuffer_set_layout = make_descriptor();
     VkDescriptorSet gbuffer_set = VK_NULL_HANDLE;
     pipeline_layout::ptr gbuffer_pipeline_layout = make_pipeline_layout();
-    render_pipeline::ptr gbuffer_pipeline = make_render_pipeline(app.device);
+    render_pipeline::ptr gbuffer_pipeline = make_render_pipeline(app.device, app.pipeline_cache);
 
     descriptor::ptr lighting_set_layout = make_descriptor();
     VkDescriptorSet lighting_set = VK_NULL_HANDLE;
     pipeline_layout::ptr lighting_pipeline_layout = make_pipeline_layout();
-    render_pipeline::ptr lighting_pipeline = make_render_pipeline(app.device);
+    render_pipeline::ptr lighting_pipeline = make_render_pipeline(app.device, app.pipeline_cache);
 
     app.on_create = [&]() {
         VkDescriptorPoolSizes const pool_sizes = {
