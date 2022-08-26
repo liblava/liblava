@@ -37,7 +37,7 @@ struct platform {
     device_p create_device(index physical_device = 0);
 
     /**
-     * @brief Get the all devices
+     * @brief Get all devices
      * @return device::list const&    List of devices
      */
     device::list const& get_all() const {

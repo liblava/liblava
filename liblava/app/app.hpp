@@ -289,7 +289,7 @@ private:
     void destroy_target();
 
     /**
-     * @brief Create a block object
+     * @brief Create a block
      * @return Create was successful or failed
      */
     bool create_block();
