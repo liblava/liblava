@@ -144,6 +144,7 @@ bool frame::setup() {
 
 #ifdef __APPLE__
     env.param.extensions.push_back("VK_KHR_portability_enumeration");
+    env.param.extensions.push_back("VK_KHR_get_physical_device_properties2");
 #endif
 
     if (!instance::singleton().create(env.param, env.debug, env.info, env.profile)) {

@@ -75,6 +75,9 @@ device::create_param physical_device::create_default_device_param() const {
     device::create_param create_param;
     create_param.physical_device = this;
     create_param.add_swapchain_extension();
+#ifdef __APPLE__
+    create_param.add_portability_subset_extension();
+#endif
     create_param.set_default_queues();
 
     return create_param;
