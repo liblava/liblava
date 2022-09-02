@@ -68,9 +68,9 @@ struct device : device_table, entity {
         void add_swapchain_extension() {
             extensions.push_back("VK_KHR_swapchain");
         }
-        
+
         /**
-         * @brief Add portability subset extension required by Apple M1
+         * @brief Add portability subset extension
          */
         void add_portability_subset_extension() {
             extensions.push_back("VK_KHR_portability_subset");

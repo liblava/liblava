@@ -603,7 +603,7 @@ In addition run `lava-test` to check some **unit tests** with [Catch2](https://g
 
 ## Template
 
-Put your code in the `src` folder and begin to code in `main.cpp`
+Put your code in the `src/` folder and begin to code in `main.cpp`
 
 <br />
 
@@ -1038,7 +1038,7 @@ If you are familiar with [Conan](https://conan.io/) ➜ build this [package reci
 
 ## Demo
 
-You can find the demonstration projects in the `liblava-demo` folder.
+You can find the demonstration projects in the `liblava-demo/` folder.
 
 <br />
 

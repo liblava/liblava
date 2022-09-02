@@ -124,13 +124,14 @@ bool app::create_pipeline_cache() {
 void app::destroy_pipeline_cache() {
     size_t size = 0;
     if (check(vkGetPipelineCacheData(device->get(), pipeline_cache, &size, nullptr))) {
-        std::vector<uint8_t> data(size);
-        if (check(vkGetPipelineCacheData(device->get(), pipeline_cache, &size, data.data()))) {
+        unique_data pipeline_cache_data(size);
+
+        if (check(vkGetPipelineCacheData(device->get(), pipeline_cache, &size, pipeline_cache_data.ptr))) {
             fs.create_folder(_cache_path_);
 
             file file(string(_cache_path_) + _pipeline_cache_file_, file_mode::write);
             if (file.opened())
-                if (!file.write(as_ptr(data.data()), size))
+                if (!file.write(pipeline_cache_data.ptr, pipeline_cache_data.size))
                     log()->warn("app pipeline cache not saved: {}", file.get_path());
         }
     }

@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{github.event.workflow_run.conclusion == 'success'}}
 
     runs-on: ubuntu-latest
 
@@ -31,7 +31,7 @@ jobs:
         repo: matusnovak/doxybook2
         version: latest
         urlTemplate: https://github.com/matusnovak/doxybook2/releases/download/{{version}}/doxybook2-linux-amd64-{{version}}.zip
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{secrets.GITHUB_TOKEN}}
 
     - name: Run Doxybook2
       shell: bash
@@ -49,7 +49,7 @@ jobs:
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
-        personal_token: ${{ secrets.DOCS_TOKEN }}
+        personal_token: ${{secrets.DOCS_TOKEN}}
         external_repository: liblava/liblava.github.io
         publish_dir: ${{github.workspace}}/docs/
         enable_jekyll: false
@@ -58,4 +58,4 @@ jobs:
         user_name: thelavablock
         user_email: the@lava-block.com
         publish_branch: main
-      if: ${{ github.repository_owner == 'liblava' }}
+      if: ${{github.repository_owner == 'liblava'}}
