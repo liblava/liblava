@@ -20,6 +20,7 @@ int main(int argc, char* argv[]) {
 #endif
 
     engine app("lava spawn", argh);
+
     app.prop.add(_vertex_, "spawn/spawn.vert");
     app.prop.add(_fragment_, "spawn/spawn.frag");
 
@@ -37,13 +38,19 @@ int main(int argc, char* argv[]) {
     if (!app.setup())
         return error::not_ready;
 
-    timer load_timer;
+    mesh::ptr spawn_mesh;
 
-    mesh::ptr spawn_mesh = app.producer.get_mesh("spawn");
+    ms mesh_load_time;
+    {
+        timer stopwatch;
+
+        spawn_mesh = app.producer.get_mesh("spawn");
+
+        mesh_load_time = stopwatch.elapsed();
+    }
+
     if (!spawn_mesh)
         return error::create_failed;
-
-    ms mesh_load_time = load_timer.elapsed();
 
     texture::ptr default_texture = app.producer.create_texture({ 4096, 4096 });
     if (!default_texture)
