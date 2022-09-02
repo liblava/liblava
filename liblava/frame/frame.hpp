@@ -75,6 +75,7 @@ enum error {
     load_failed = -4,
     run_aborted = -5,
     still_running = -6,
+    program_failed = -7,
 };
 
 /**
