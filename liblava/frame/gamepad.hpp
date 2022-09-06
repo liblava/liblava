@@ -106,7 +106,7 @@ struct gamepad {
      * @brief Construct a new gamepad
      * @param id    Gamepad id
      */
-    explicit gamepad(gamepad_id_ref id);
+    explicit gamepad(gamepad_id_ref id = gamepad_id::_1);
 
     /**
      * @brief Check if gamepad is active

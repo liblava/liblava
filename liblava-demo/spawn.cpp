@@ -302,7 +302,7 @@ int main(int argc, char* argv[]) {
         return input_ignore;
     });
 
-    gamepad pad(gamepad_id::_1);
+    gamepad pad;
 
     app.on_update = [&](delta dt) {
         if (app.camera.activated()) {
