@@ -111,7 +111,7 @@
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "7757cbebe45296d4ab9182525e1fcc1c4a4caf31"
+        "tag": "69ae9e7460499b488cb2d32edae623a95264db14"
     },
     {
         "name": "shaderc",
