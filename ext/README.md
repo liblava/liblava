@@ -20,3 +20,8 @@ You can **update all externals** by running the script:
 ```bash
 python ext/update.py > ext/version.json
 ```
+<br />
+
+<br />
+
+<a href="https://git.io/liblava"><img src="../docs/assets/liblava_200px.png" width="50"></a>

@@ -10,6 +10,8 @@
 
 **A modern and easy-to-use library for the Vulkan® API**
 
+<br />
+
 [![version](https://img.shields.io/badge/2022_alpha-0.7.3-cf1020)](https://github.com/liblava/liblava/tags) [![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) &nbsp; [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://donate.lava-block.com) [![Twitter Follow](https://img.shields.io/badge/follow-@liblava-00acee)](https://twitter.com/liblava)
 
 <br />
@@ -17,6 +19,8 @@
 **lava**  provides **essentials** for **low-level graphics** - suited for **prototyping**, **tooling**, **profiling** and **education**. 
 
 > **This lean framework** is written in **neat C++20** and it strives for a **modular rolling release** as far as possible. We *don't* want to promise too much... but **lava runs** really smoothly on **Windows** and **Linux** - Please feel free to **check it out**!
+
+<br />
 
 ➜ &nbsp; [Download](https://github.com/liblava/liblava/releases) &nbsp; • &nbsp; [Documentation](https://liblava.github.io) (Tutorial / Guide) &nbsp; • &nbsp; [Projects](#projects) &nbsp; • &nbsp; [Modules](#modules) &nbsp; • &nbsp; [Collaborate](#collaborate)
 
@@ -66,7 +70,9 @@
 
 # Modules
 
-[![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](#lava-engine) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](#lava-app) &nbsp; [![block](https://img.shields.io/badge/lava-block-red.svg)](#lava-block) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](#lava-frame) [![asset](https://img.shields.io/badge/lava-asset-red.svg)](#lava-asset) &nbsp; [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](#lava-resource) [![base](https://img.shields.io/badge/lava-base-orange.svg)](#lava-base) &nbsp; [![file](https://img.shields.io/badge/lava-file-blue.svg)](#lava-file) [![util](https://img.shields.io/badge/lava-util-blue.svg)](#lava-util) [![core](https://img.shields.io/badge/lava-core-blue.svg)](#lava-core) 
+[![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](#lava-engine) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](#lava-app) &nbsp; [![block](https://img.shields.io/badge/lava-block-red.svg)](#lava-block) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](#lava-frame) &nbsp; [![asset](https://img.shields.io/badge/lava-asset-orange.svg)](#lava-asset) [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](#lava-resource) [![base](https://img.shields.io/badge/lava-base-orange.svg)](#lava-base) &nbsp; [![file](https://img.shields.io/badge/lava-file-blue.svg)](#lava-file) [![util](https://img.shields.io/badge/lava-util-blue.svg)](#lava-util) [![core](https://img.shields.io/badge/lava-core-blue.svg)](#lava-core) 
+
+<br />
 
 <br />
 
@@ -74,7 +80,7 @@
 
 [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](liblava/engine/engine.hpp) [![producer](https://img.shields.io/badge/lava-producer-brightgreen.svg)](liblava/engine/producer.hpp) [![property](https://img.shields.io/badge/lava-property-brightgreen.svg)](liblava/engine/property.hpp)
 
-*require* [app](#lava-app)
+- *require* [app](#lava-app)
 
 ## lava [app](liblava/app)
 
@@ -82,7 +88,7 @@
 
 [![benchmark](https://img.shields.io/badge/lava-benchmark-brightgreen.svg)](liblava/app/benchmark.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](liblava/app/config.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.hpp)
 
-*require* [block](#lava-block) + [frame](#lava-frame) + [asset](#lava-asset)
+- *require* [block](#lava-block) + [frame](#lava-frame) + [asset](#lava-asset)
 
 <br />
 
@@ -92,7 +98,7 @@
 
 [![compute_pipeline](https://img.shields.io/badge/lava-compute_pipeline-red.svg)](liblava/block/compute_pipeline.hpp) [![render_pipeline](https://img.shields.io/badge/lava-render_pipeline-red.svg)](liblava/block/render_pipeline.hpp) [![pipeline](https://img.shields.io/badge/lava-pipeline-red.svg)](liblava/block/pipeline.hpp) [![pipeline_layout](https://img.shields.io/badge/lava-pipeline_layout-red.svg)](liblava/block/pipeline_layout.hpp)
 
-*require* [base](#lava-base)
+- *require* [base](#lava-base)
 
 ## lava [frame](liblava/frame)
 
@@ -100,15 +106,15 @@
 
 [![render_target](https://img.shields.io/badge/lava-render_target-red.svg)](liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-red.svg)](liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-red.svg)](liblava/frame/swapchain.hpp) [![window](https://img.shields.io/badge/lava-window-red.svg)](liblava/frame/window.hpp)
 
-*require* [resource](#lava-resource)
+- *require* [resource](#lava-resource)
+
+<br />
 
 ## lava [asset](liblava/asset)
 
-[![image_loader](https://img.shields.io/badge/lava-image_loader-red.svg)](liblava/asset/image_loader.hpp) [![load_mesh](https://img.shields.io/badge/lava-load_mesh-red.svg)](liblava/asset/load_mesh.hpp) [![load_texture](https://img.shields.io/badge/lava-load_texture-red.svg)](liblava/asset/load_texture.hpp) [![write_image](https://img.shields.io/badge/lava-write_image-red.svg)](liblava/asset/write_image.hpp)
+[![image_loader](https://img.shields.io/badge/lava-image_loader-orange.svg)](liblava/asset/image_loader.hpp) [![load_mesh](https://img.shields.io/badge/lava-load_mesh-orange.svg)](liblava/asset/load_mesh.hpp) [![load_texture](https://img.shields.io/badge/lava-load_texture-orange.svg)](liblava/asset/load_texture.hpp) [![write_image](https://img.shields.io/badge/lava-write_image-orange.svg)](liblava/asset/write_image.hpp)
 
-*require* [resource](#lava-resource) + [file](#lava-file)
-
-<br />
+- *require* [resource](#lava-resource) + [file](#lava-file)
 
 ## lava [resource](liblava/resource)
 
@@ -116,7 +122,7 @@
 
 [![format](https://img.shields.io/badge/lava-format-orange.svg)](liblava/resource/format.hpp) [![image](https://img.shields.io/badge/lava-image-orange.svg)](liblava/resource/image.hpp) [![texture](https://img.shields.io/badge/lava-texture-orange.svg)](liblava/resource/texture.hpp)
 
-*require* [base](#lava-base)
+- *require* [base](#lava-base)
 
 ## lava [base](liblava/base)
 
@@ -124,7 +130,7 @@
 
 [![platform](https://img.shields.io/badge/lava-platform-orange.svg)](liblava/base/platform.hpp) [![device](https://img.shields.io/badge/lava-device-orange.svg)](liblava/base/device.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-orange.svg)](liblava/base/physical_device.hpp) [![queue](https://img.shields.io/badge/lava-queue-orange.svg)](liblava/base/queue.hpp)
 
-*require* [util](#lava-util)
+- *require* [util](#lava-util)
 
 <br />
 
@@ -132,13 +138,13 @@
 
 [![file](https://img.shields.io/badge/lava-file-blue.svg)](liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-blue.svg)](liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-blue.svg)](liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-blue.svg)](liblava/file/json_file.hpp) [![json](https://img.shields.io/badge/lava-json-blue.svg)](liblava/file/json.hpp)
 
-*require* [util](#lava-util)
+- *require* [util](#lava-util)
 
 ## lava [util](liblava/util)
 
 [![log](https://img.shields.io/badge/lava-log-blue.svg)](liblava/util/log.hpp) [![misc](https://img.shields.io/badge/lava-misc-blue.svg)](liblava/util/misc.hpp) [![random](https://img.shields.io/badge/lava-random-blue.svg)](liblava/util/random.hpp) [![telegram](https://img.shields.io/badge/lava-telegram-blue.svg)](liblava/util/telegram.hpp) [![thread](https://img.shields.io/badge/lava-thread-blue.svg)](liblava/util/thread.hpp)
 
-*require* [core](#lava-core)
+- *require* [core](#lava-core)
 
 ## lava [core](liblava/core)
 
@@ -151,6 +157,8 @@
 Use the [issue tracker](https://github.com/liblava/liblava/issues) to report any bug or compatibility issue.
 
 :heart: &nbsp; Thanks to all [contributors](https://github.com/liblava/liblava/graphs/contributors) making **liblava** flow...
+
+<br />
 
 <br />
 
@@ -178,9 +186,13 @@ If you want to **contribute** - we suggest the following:
 
 > **All copies of liblava must include a copy of the MIT License terms and the copyright notice.**
 
+<br />
+
 **Vulkan** and the Vulkan logo are trademarks of the <a href="http://www.khronos.org" target="_blank">Khronos Group Inc.</a>
 
 Copyright (c) 2018-present - <a href="https://lava-block.com">Lava Block OÜ</a> and [contributors](https://github.com/liblava/liblava/graphs/contributors)
+
+<br />
 
 <br />
 
