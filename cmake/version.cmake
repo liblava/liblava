@@ -30,28 +30,28 @@ set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG 9f4c61a31435a7a90a314fc68aeb386c92a09c0f)
 
 set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG aa3c9e1e71134c27b40e2e3bd737d6ebba02ec2b)
+set(Vulkan-Profiles_TAG c977122517c062ecd59b9e08cf9358a356e0de36)
 
 set(volk_GITHUB zeux/volk)
-set(volk_TAG 3872818bb956e3b1e3847f3ddbb467b181e6a864)
+set(volk_TAG 3ddb22223ed062784976a07db2894ac500139b57)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
-set(VulkanMemoryAllocator_TAG 2a7110f07854d86ea6dbfddf58cea40d81f8be70)
+set(VulkanMemoryAllocator_TAG d6b705bf75ffe02eecefc68d2938e6b2009cac86)
 
 set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 7d6ff1f4ba51e7a2b142be39457768abece1549c)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 5867a43dc8ee16e4c87572fd86a4b8c12c7deae5)
+set(imgui_TAG 2171375f934f7ebc967030c56b6bfaa904892785)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG bc2002ab92f0eb6411fef32abd4037f449cf85a6)
+set(imgui_docking_TAG aceab9a877de0258d19d29a5d87a51b63a8999bf)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG 87d5b782bec60822aa878941e6b13c0a9a954c9b)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 4c456f7da67c5437a6fb7d4d20d78e2a5ae2acf2)
+set(SPIRV-Tools_TAG 5f45f793ae962a84c71a9b7ff434591c57cdad57)
 
 set(glslang_GITHUB KhronosGroup/glslang)
 set(glslang_TAG 69ae9e7460499b488cb2d32edae623a95264db14)
@@ -63,4 +63,4 @@ set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG 7b2e7d623b626ed2cae1d4b7f2b5480bdabbefd8)
+set(Catch2_TAG 4adf0105490a9a8f14fba0f6d463a16bcafa61bd)

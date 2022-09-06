@@ -63,19 +63,19 @@
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "aa3c9e1e71134c27b40e2e3bd737d6ebba02ec2b"
+        "tag": "c977122517c062ecd59b9e08cf9358a356e0de36"
     },
     {
         "name": "volk",
         "github": "zeux/volk",
         "branch": "master",
-        "tag": "3872818bb956e3b1e3847f3ddbb467b181e6a864"
+        "tag": "3ddb22223ed062784976a07db2894ac500139b57"
     },
     {
         "name": "VulkanMemoryAllocator",
         "github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
         "branch": "master",
-        "tag": "2a7110f07854d86ea6dbfddf58cea40d81f8be70"
+        "tag": "d6b705bf75ffe02eecefc68d2938e6b2009cac86"
     },
     {
         "name": "IconFontCppHeaders",
@@ -87,13 +87,13 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "5867a43dc8ee16e4c87572fd86a4b8c12c7deae5"
+        "tag": "2171375f934f7ebc967030c56b6bfaa904892785"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "bc2002ab92f0eb6411fef32abd4037f449cf85a6"
+        "tag": "aceab9a877de0258d19d29a5d87a51b63a8999bf"
     },
     {
         "name": "SPIRV-Headers",
@@ -105,13 +105,13 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "4c456f7da67c5437a6fb7d4d20d78e2a5ae2acf2"
+        "tag": "5f45f793ae962a84c71a9b7ff434591c57cdad57"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "69ae9e7460499b488cb2d32edae623a95264db14"
+        "tag": "7757cbebe45296d4ab9182525e1fcc1c4a4caf31"
     },
     {
         "name": "shaderc",
@@ -129,6 +129,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "7b2e7d623b626ed2cae1d4b7f2b5480bdabbefd8"
+        "tag": "4adf0105490a9a8f14fba0f6d463a16bcafa61bd"
     }
 ]
