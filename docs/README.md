@@ -10,6 +10,8 @@
 
 **A modern and easy-to-use library for the Vulkan® API**
 
+<br />
+
 [Guide](#guide) &nbsp; • &nbsp; [Test](#test) &nbsp; • &nbsp; [Keyboard Shortcuts](#keyboard-shortcuts) &nbsp; • &nbsp; [Command-Line Arguments](#command-line-arguments) &nbsp; • &nbsp; [Benchmark](#benchmark) &nbsp; • &nbsp; [Build](#build) &nbsp; • &nbsp; [Third-Party](#third-party)
 
 <br />
@@ -375,7 +377,7 @@ block.destroy();
 
 ## 6. imgui demo
 
-**lava app** supports [Dear ImGui](https://github.com/ocornut/imgui) for **tooling** and **easy prototyping**.
+**lava app** supports [Dear ImGui](https://github.com/ocornut/imgui) for **tooling** and easy **prototyping**.
 
 ```c++
 int main(int argc, char* argv[]) {
@@ -914,8 +916,8 @@ app.config.handle_key_events = false;
 ## Requirements
 
 * **C++20** compatible compiler
-* CMake **3.22+**
-* [Python 3](http://www.python.org) &nbsp; *for utility scripts*
+* [CMake](https://cmake.org) **3.22+**
+* [Python](http://www.python.org) **3** &nbsp; *for utility scripts*
 * [Vulkan SDK](https://vulkan.lunarg.com) &nbsp; *for debugging only*
 
 <br />
@@ -1055,6 +1057,10 @@ You can find the demonstration projects in the `liblava-demo/` folder.
 * [Doxygen](https://github.com/doxygen/doxygen) &nbsp; **Generate documentation from source code** &nbsp; *GPL-2.0*
 * [Doxybook2](https://github.com/matusnovak/doxybook2) &nbsp; **Doxygen XML to Markdown (or JSON)** &nbsp; *MIT*
 * [docsify](https://github.com/docsifyjs/docsify) &nbsp; **A magical documentation site generator** &nbsp; *MIT*
+
+<br />
+
+<a rel="license" href="https://creativecommons.org/licenses/by/4.0"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />**liblava** Documentation is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0">Creative Commons Attribution 4.0 International License</a>.
 
 <br />
 

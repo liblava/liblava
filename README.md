@@ -39,6 +39,11 @@
 
 # Demos
 
+| ![demo](res/demo/screenshot.png) | [![lava demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo/main.cpp) <br /> **free download on ➜** [itch.io](https://thelavablock.itch.io/lava-demo) <br /><br /> The collection includes all stages to play around. *You can easily switch between them.* ➜ [code](liblava-demo/main.cpp) |
+|:-|:-|
+
+## Stages
+
 |||
 |:-|:-|
 | ![light](res/light/screenshot.png) | [![spawn](https://img.shields.io/badge/lava-light-brightgreen.svg)](liblava-demo/light.cpp) <br /> **deferred shading + offscreen rendering** <br /><br /> Small demo that showcases how to render to an offscreen framebuffer and sample from it. *A challenge in itself and also a compact solution.* ➜ [code](liblava-demo/light.cpp) |
@@ -47,22 +52,21 @@
 | ![shapes](res/shapes/screenshot.png) | [![shapes](https://img.shields.io/badge/lava-shapes-brightgreen.svg)](liblava-demo/shapes.cpp) <br /> **generating primitives** <br /><br /> Switch between basic shapes and use the camera to fly around. *A great start for your interactive applications.* ➜ [code](liblava-demo/shapes.cpp) |
 | ![generics](res/generics/screenshot.png) | [![generics](https://img.shields.io/badge/lava-generics-brightgreen.svg)](liblava-demo/generics.cpp) <br /> **float, double & int meshes** <br /><br /> This demo shows how to check GPU features and render mesh data with custom vertex layout. *There is a chapter about this in the Guide.* ➜ [code](liblava-demo/generics.cpp) |
 | ![triangle](res/triangle/screenshot.png) | [![triangle](https://img.shields.io/badge/lava-triangle-brightgreen.svg)](liblava-demo/triangle.cpp) <br /> **unique classic mesh** <br /><br /> Where graphics programming always begins. *A small example that illustrates how little it actually takes to render a triangle.* ➜ [code](liblava-demo/triangle.cpp) |
-| ![demo](res/demo/screenshot.png) | [![lava demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo/main.cpp) <br /> **free download on ➜** [itch.io](https://thelavablock.itch.io/lava-demo) <br /><br /> The collection includes all demos to play around. *You can easily switch between them.* ➜ [code](liblava-demo/main.cpp) |
+|||
 
 <br />
 
 # Projects
 
-|||
-|:-|:-|
 | <img src="https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png"> | [![rt cubes](https://img.shields.io/badge/lava-rt_cubes-brightgreen.svg)](https://github.com/pezcode/lava-rt) <br /> **raytraced reflecting cubes** <br /><br /> **Vulkan raytracing with liblava**<br /> Support for the Vulkan KHR ray tracing extensions with idiomatic wrappers. ➜ [code](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) |
+|:-|:-|
 | | *Do you have a project? Submit it with a [pull request](#collaborate)* |
 
 <br />
 
 # Modules
 
-[![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](#lava-engine) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](#lava-app) &nbsp; [![block](https://img.shields.io/badge/lava-block-red.svg)](#lava-block) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](#lava-frame) [![asset](https://img.shields.io/badge/lava-asset-red.svg)](#lava-asset) &nbsp; [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](#lava-resource) [![base](https://img.shields.io/badge/lava-base-orange.svg)](#lava-base) [![file](https://img.shields.io/badge/lava-file-orange.svg)](#lava-file) &nbsp; [![util](https://img.shields.io/badge/lava-util-blue.svg)](#lava-util) [![core](https://img.shields.io/badge/lava-core-blue.svg)](#lava-core) 
+[![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](#lava-engine) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](#lava-app) &nbsp; [![block](https://img.shields.io/badge/lava-block-red.svg)](#lava-block) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](#lava-frame) [![asset](https://img.shields.io/badge/lava-asset-red.svg)](#lava-asset) &nbsp; [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](#lava-resource) [![base](https://img.shields.io/badge/lava-base-orange.svg)](#lava-base) &nbsp; [![file](https://img.shields.io/badge/lava-file-blue.svg)](#lava-file) [![util](https://img.shields.io/badge/lava-util-blue.svg)](#lava-util) [![core](https://img.shields.io/badge/lava-core-blue.svg)](#lava-core) 
 
 <br />
 
@@ -122,13 +126,13 @@
 
 *require* [util](#lava-util)
 
+<br />
+
 ## lava [file](liblava/file)
 
-[![file](https://img.shields.io/badge/lava-file-orange.svg)](liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-orange.svg)](liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-orange.svg)](liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-orange.svg)](liblava/file/json_file.hpp) [![json](https://img.shields.io/badge/lava-json-orange.svg)](liblava/file/json.hpp)
+[![file](https://img.shields.io/badge/lava-file-blue.svg)](liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-blue.svg)](liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-blue.svg)](liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-blue.svg)](liblava/file/json_file.hpp) [![json](https://img.shields.io/badge/lava-json-blue.svg)](liblava/file/json.hpp)
 
 *require* [util](#lava-util)
-
-<br />
 
 ## lava [util](liblava/util)
 
