@@ -16,8 +16,8 @@ namespace lava {
 /**
  * @brief Camera modes
  */
-enum class camera_mode : type {
-    first_person,
+enum class camera_mode : index {
+    first_person = 0,
     look_at,
 };
 

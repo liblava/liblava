@@ -190,7 +190,7 @@ i32 get_scancode(key key);
 /**
  * @brief Input actions
  */
-enum class action : type {
+enum class action : index {
     release = 0,
     press,
     repeat
@@ -205,7 +205,7 @@ using action_ref = action const&;
 /**
  * @brief Input mods
  */
-enum class mod : type {
+enum class mod : flag {
     none = 0 << 0,
     shift = 1 << 0,
     control = 1 << 1,
@@ -391,7 +391,7 @@ struct mouse_move_event {
 /**
  * @brief Input mouse buttons
  */
-enum class mouse_button : type {
+enum class mouse_button : index {
     _1 = 0,
     _2,
     _3,

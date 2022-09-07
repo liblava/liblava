@@ -158,7 +158,7 @@ bool add_dedicated_queues(queue_family_info::list& list,
 /**
  * @brief Result of queue verifications
  */
-enum class verify_queues_result : type {
+enum class verify_queues_result : index {
     ok = 0,
     empty_list,
     no_properties,

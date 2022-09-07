@@ -157,7 +157,7 @@ ui32 to_version(internal_version version);
 /**
  * @brief Vulkan api versions
  */
-enum class api_version : type {
+enum class api_version : index {
     v1_0 = 0,
     v1_1,
     v1_2,

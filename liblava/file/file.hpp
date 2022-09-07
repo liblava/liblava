@@ -18,7 +18,7 @@ namespace lava {
 /**
  * @brief File types
  */
-enum class file_type : type {
+enum class file_type : index {
     none = 0,
     fs,
     f_stream
@@ -39,7 +39,7 @@ inline bool file_error(i64 result) {
 /**
  * @brief File modes
  */
-enum class file_mode : type {
+enum class file_mode : index {
     read = 0,
     write
 };

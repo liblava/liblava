@@ -125,23 +125,20 @@ using void_p = void*;
 /// Const void pointer
 using void_cp = void const*;
 
-/// Type
-using type = ui32;
+/// Undefined
+constexpr ui32 const undef = 0;
 
-/// No type
-constexpr type const no_type = 0xffffffff;
-
-/// Undefined type
-constexpr type const undef = 0;
+/// Flag
+using flag = ui32;
 
 /// Index
-using index = type;
+using index = ui32;
 
 /// Index type
 using index_t = index;
 
 /// No index
-constexpr index const no_index = no_type;
+constexpr index const no_index = 0xffffffff;
 
 /// List of indices
 using index_list = std::vector<index>;

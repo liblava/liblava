@@ -37,7 +37,7 @@ struct telegram {
      */
     explicit telegram(id::ref sender,
                       id::ref receiver,
-                      type msg,
+                      id::ref msg,
                       ms dispatch_time = {},
                       any info = {})
     : sender(sender), receiver(receiver),
@@ -75,7 +75,7 @@ struct telegram {
     id receiver;
 
     /// Telegram message
-    type msg = no_type;
+    id msg;
 
     /// Dispatch time
     ms dispatch_time;
@@ -122,7 +122,7 @@ struct dispatcher {
      */
     void add_message(id::ref receiver,
                      id::ref sender,
-                     type message,
+                     id::ref message,
                      ms delay = {},
                      any const& info = {}) {
         telegram msg(sender,

@@ -46,7 +46,7 @@ struct vertex {
 /**
  * @brief Mesh types
  */
-enum class mesh_type : type {
+enum class mesh_type : index {
     none = 0,
     cube,
     triangle,

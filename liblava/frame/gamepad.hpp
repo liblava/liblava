@@ -41,7 +41,7 @@ using gamepad_id_ref = gamepad_id const&;
 /**
  * @brief Gamepad buttons
  */
-enum class gamepad_button : type {
+enum class gamepad_button : index {
     a = 0,
     b,
     x,
@@ -76,7 +76,7 @@ using gamepad_button_ref = gamepad_button const&;
 /**
  * @brief Gamepad axis
  */
-enum class gamepad_axis : type {
+enum class gamepad_axis : index {
     left_x = 0,
     left_y,
 

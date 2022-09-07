@@ -600,7 +600,7 @@ inline hex_point hex_get_corner(hex_point const& center,
 /**
  * @brief Hex cardinal directions
  */
-enum class hex_cardinal_direction : type {
+enum class hex_cardinal_direction : index {
     NE = 0,
     E,
     SE,
@@ -653,7 +653,7 @@ hex_cell::list const hex_cardinal_directions{
  * @return hex_cell    Hex cell
  */
 inline hex_cell hex_get(hex_cardinal_direction direction) {
-    return hex_cardinal_directions[(type) direction];
+    return hex_cardinal_directions[(index) direction];
 }
 
 /**
@@ -662,7 +662,7 @@ inline hex_cell hex_get(hex_cardinal_direction direction) {
  * @return hex_cardinal_direction    Hex cardinal direction
  */
 inline hex_cardinal_direction hex_opposite(hex_cardinal_direction direction) {
-    if ((type) direction < 3)
+    if ((index) direction < 3)
         return hex_cardinal_direction((i32) direction + 3);
     else
         return hex_cardinal_direction((i32) direction - 3);

@@ -155,9 +155,9 @@ void allocator::destroy() {
 }
 
 //-----------------------------------------------------------------------------
-type find_memory_type_with_properties(VkPhysicalDeviceMemoryProperties properties,
-                                      ui32 type_bits,
-                                      VkMemoryPropertyFlags required_properties) {
+index find_memory_type_with_properties(VkPhysicalDeviceMemoryProperties properties,
+                                       ui32 type_bits,
+                                       VkMemoryPropertyFlags required_properties) {
     auto bits = type_bits;
     auto len = std::min(properties.memoryTypeCount, 32u);
 
@@ -169,13 +169,13 @@ type find_memory_type_with_properties(VkPhysicalDeviceMemoryProperties propertie
         bits >>= 1;
     }
 
-    return no_type;
+    return no_index;
 }
 
 //-----------------------------------------------------------------------------
-type find_memory_type(VkPhysicalDevice gpu,
-                      VkMemoryPropertyFlags properties,
-                      ui32 type_bits) {
+index find_memory_type(VkPhysicalDevice gpu,
+                       VkMemoryPropertyFlags properties,
+                       ui32 type_bits) {
     VkPhysicalDeviceMemoryProperties prop{};
     vkGetPhysicalDeviceMemoryProperties(gpu, &prop);
 
@@ -184,7 +184,7 @@ type find_memory_type(VkPhysicalDevice gpu,
             && (type_bits & (1 << i)))
             return i;
 
-    return no_type;
+    return no_index;
 }
 
 } // namespace lava

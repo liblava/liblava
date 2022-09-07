@@ -42,7 +42,7 @@ struct id {
     using string_map = std::map<id, string>;
 
     /// Value
-    type value = undef;
+    ui32 value = undef;
 
     /**
      * @brief Check if the id is valid
@@ -93,7 +93,7 @@ struct ids {
     }
 
     /**
-     * @brief Get next id from factory (singleton)
+     * @brief Get next id from factory
      * @return id    Next id
      */
     id next() {
@@ -102,7 +102,7 @@ struct ids {
 
 private:
     /// Next id
-    std::atomic<type> next_id = { undef };
+    std::atomic<ui32> next_id = { undef };
 };
 
 /**

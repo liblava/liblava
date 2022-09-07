@@ -143,7 +143,7 @@ inline void* realloc_data(void* data,
 /**
  * @brief Data modes
  */
-enum class data_mode : type {
+enum class data_mode : index {
     alloc = 0,
     no_alloc
 };

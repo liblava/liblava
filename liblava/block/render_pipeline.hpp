@@ -27,7 +27,7 @@ struct render_pipeline : pipeline {
     /**
      * @brief Sizing modes
      */
-    enum class sizing_mode : type {
+    enum class sizing_mode : index {
         input = 0,
         absolute,
         relative

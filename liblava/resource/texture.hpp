@@ -15,7 +15,7 @@ namespace lava {
 /**
  * @brief Texture types
  */
-enum class texture_type : type {
+enum class texture_type : index {
     none = 0,
     tex_2d,
     array,

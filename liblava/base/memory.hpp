@@ -158,9 +158,9 @@ private:
  * @param required_properties    Memory property flags
  * @return type                  Result type
  */
-type find_memory_type_with_properties(VkPhysicalDeviceMemoryProperties properties,
-                                      ui32 type_bits,
-                                      VkMemoryPropertyFlags required_properties);
+index find_memory_type_with_properties(VkPhysicalDeviceMemoryProperties properties,
+                                       ui32 type_bits,
+                                       VkMemoryPropertyFlags required_properties);
 
 /**
  * @brief Find the memory type
@@ -169,8 +169,8 @@ type find_memory_type_with_properties(VkPhysicalDeviceMemoryProperties propertie
  * @param type_bits     Type bits
  * @return type         Result type
  */
-type find_memory_type(VkPhysicalDevice gpu,
-                      VkMemoryPropertyFlags properties,
-                      ui32 type_bits);
+index find_memory_type(VkPhysicalDevice gpu,
+                       VkMemoryPropertyFlags properties,
+                       ui32 type_bits);
 
 } // namespace lava

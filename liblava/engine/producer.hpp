@@ -109,7 +109,7 @@ struct producer {
     /**
      * @brief Shader optimization level
      */
-    enum shader_optimization : type {
+    enum shader_optimization : index {
         none = 0,
         size,
         performance
@@ -121,7 +121,7 @@ struct producer {
     /**
      * @brief Shader source language
      */
-    enum shader_language : type {
+    enum shader_language : index {
         glsl = 0,
         hlsl
     };
