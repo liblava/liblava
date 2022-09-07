@@ -42,14 +42,14 @@ struct id {
     using string_map = std::map<id, string>;
 
     /// Value
-    ui32 value = undef;
+    index value = no_index;
 
     /**
      * @brief Check if the id is valid
      * @return Id is valid or not
      */
     bool valid() const {
-        return value != undef;
+        return value != no_index;
     }
 
     /**
@@ -80,6 +80,15 @@ using string_id_map = std::map<string, id>;
 constexpr id const undef_id = id();
 
 /**
+ * @brief Convert to id
+ * @param value    Source value
+ * @return id      Converted value
+ */
+inline id to_id(auto value) {
+    return { static_cast<index>(value) };
+}
+
+/**
  * @brief Id factory
  */
 struct ids {
@@ -102,7 +111,7 @@ struct ids {
 
 private:
     /// Next id
-    std::atomic<ui32> next_id = { undef };
+    std::atomic<index> next_id = { no_index };
 };
 
 /**
