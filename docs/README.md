@@ -367,7 +367,7 @@ return renderer.end_frame(block.get_buffers());
 
 And call the `renderer` with our recorded **command buffers**.
 
-> Don't forget to *clean* it up when the **run** ends:
+Don't forget to *clean* it up when the **run** ends:
 
 ```c++
 block.destroy();
@@ -935,7 +935,7 @@ cmake --build . --parallel
 
 <br />
 
-If you have *problems building* or *running* on **Ubuntu** - try this:
+*Problems* building or running on **Ubuntu**? - Try this:
 
 ```bash
 sudo apt-get install libxi-dev libatomic-ops-dev libatomic1
