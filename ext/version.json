@@ -75,7 +75,7 @@
         "name": "VulkanMemoryAllocator",
         "github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
         "branch": "master",
-        "tag": "d6b705bf75ffe02eecefc68d2938e6b2009cac86"
+        "tag": "0aa8a44acf9817ddd63cdb40b818e7f03f2b0938"
     },
     {
         "name": "IconFontCppHeaders",
@@ -87,7 +87,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "2171375f934f7ebc967030c56b6bfaa904892785"
+        "tag": "3e6f948851ba657ea87dd1a36886bee0ef12d8b1"
     },
     {
         "name": "imgui_docking",
@@ -105,19 +105,19 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "5f45f793ae962a84c71a9b7ff434591c57cdad57"
+        "tag": "934a0597874e93b2440e196cf5b45a830513c2db"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "69ae9e7460499b488cb2d32edae623a95264db14"
+        "tag": "7757cbebe45296d4ab9182525e1fcc1c4a4caf31"
     },
     {
         "name": "shaderc",
         "github": "google/shaderc",
         "branch": "main",
-        "tag": "31bddbb37ef1e974da7bce859ab59bcfc5ad9ee7"
+        "tag": "7ea834ecc59258a5c13c3d3e6fa0582bdde7c543"
     },
     {
         "name": "PicoSHA2",
