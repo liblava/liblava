@@ -41,9 +41,13 @@
 
 <br />
 
+[![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](#lava-engine) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](#lava-app) &nbsp; [![block](https://img.shields.io/badge/lava-block-red.svg)](#lava-block) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](#lava-frame) &nbsp; [![asset](https://img.shields.io/badge/lava-asset-orange.svg)](#lava-asset) [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](#lava-resource) [![base](https://img.shields.io/badge/lava-base-orange.svg)](#lava-base) &nbsp; [![file](https://img.shields.io/badge/lava-file-blue.svg)](#lava-file) [![util](https://img.shields.io/badge/lava-util-blue.svg)](#lava-util) [![core](https://img.shields.io/badge/lava-core-blue.svg)](#lava-core)
+
+<br />
+
 # Demos
 
-| ![demo](res/demo/screenshot.png) | [![lava demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo/main.cpp) <br /> **free download on ➜** [itch.io](https://thelavablock.itch.io/lava-demo) <br /><br /> The collection includes all stages to play around. *You can easily switch between them.* ➜ [code](liblava-demo/main.cpp) |
+| ![demo](res/demo/screenshot.png) | [![lava demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo/main.cpp) <br />free download on ➜ [itch.io](https://thelavablock.itch.io/lava-demo) <br /><br /> The collection includes all stages to play around. *You can easily switch between them.* ➜ [code](liblava-demo/main.cpp) |
 |:-|:-|
 
 ## Stages
@@ -62,19 +66,13 @@
 
 # Projects
 
-| <img src="https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png"> | [![rt cubes](https://img.shields.io/badge/lava-rt_cubes-brightgreen.svg)](https://github.com/pezcode/lava-rt) <br /> **raytraced reflecting cubes** <br /><br /> **Vulkan raytracing with liblava**<br /> Support for the Vulkan KHR ray tracing extensions with idiomatic wrappers. ➜ [code](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) |
+| <img src="https://raw.githubusercontent.com/pezcode/lava-rt/main/demo/res/cubes/screenshot.png"> | [![rt cubes](https://img.shields.io/badge/lava-rt_cubes-brightgreen.svg)](https://github.com/pezcode/lava-rt) <br /> **raytraced reflecting cubes** <br /><br /> *Vulkan raytracing with liblava*<br /> Support for the Vulkan KHR ray tracing extensions with idiomatic wrappers. ➜ [code](https://github.com/pezcode/lava-rt/blob/main/demo/cubes.cpp) |
 |:-|:-|
 | | *Do you have a project? Submit it with a [pull request](#collaborate)* |
 
 <br />
 
 # Modules
-
-[![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](#lava-engine) [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](#lava-app) &nbsp; [![block](https://img.shields.io/badge/lava-block-red.svg)](#lava-block) [![frame](https://img.shields.io/badge/lava-frame-red.svg)](#lava-frame) &nbsp; [![asset](https://img.shields.io/badge/lava-asset-orange.svg)](#lava-asset) [![resource](https://img.shields.io/badge/lava-resource-orange.svg)](#lava-resource) [![base](https://img.shields.io/badge/lava-base-orange.svg)](#lava-base) &nbsp; [![file](https://img.shields.io/badge/lava-file-blue.svg)](#lava-file) [![util](https://img.shields.io/badge/lava-util-blue.svg)](#lava-util) [![core](https://img.shields.io/badge/lava-core-blue.svg)](#lava-core) 
-
-<br />
-
-<br />
 
 ## lava [engine](liblava/engine) 
 
