@@ -25,11 +25,14 @@ enum class camera_mode : index {
  * @brief First Person / Look At camera
  */
 struct camera : entity {
+    /// Shared pointer to camera
+    using ptr = std::shared_ptr<camera>;
+
     /// Map of cameras
-    using map = std::map<id, camera>;
+    using map = std::map<id, ptr>;
 
     /// List of cameras
-    using list = std::vector<camera*>;
+    using list = std::vector<ptr>;
 
     /**
      * @brief Create a camera

@@ -22,10 +22,10 @@ struct command : entity {
     using cptr = command const*;
 
     /// Map of commands
-    using map = std::map<id, command::ptr>;
+    using map = std::map<id, ptr>;
 
     /// List of commands
-    using list = std::vector<command::cptr>;
+    using clist = std::vector<cptr>;
 
     /// List of command buffers
     VkCommandBuffers buffers = {};
@@ -66,11 +66,14 @@ struct block : entity {
     /// Shared pointer to block
     using ptr = std::shared_ptr<block>;
 
+    /// Const pointer to block
+    using cptr = command const*;
+
     /// Map of blocks
-    using map = std::map<id, block>;
+    using map = std::map<id, ptr>;
 
     /// List of blocks
-    using list = std::vector<block*>;
+    using clist = std::vector<cptr>;
 
     /**
      * @brief Destroy the block
@@ -191,7 +194,7 @@ struct block : entity {
      * @brief Get the cmd order
      * @return command::list const&    List of commands
      */
-    command::list const& get_cmd_order() const {
+    command::clist const& get_cmd_order() const {
         return cmd_order;
     }
 
@@ -232,7 +235,7 @@ private:
     command::map commands;
 
     /// Ordered list of commands
-    command::list cmd_order;
+    command::clist cmd_order;
 };
 
 /// Block type

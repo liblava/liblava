@@ -8,6 +8,7 @@
 #pragma once
 
 #include <liblava/base/base.hpp>
+#include <memory>
 
 namespace lava {
 

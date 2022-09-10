@@ -213,7 +213,7 @@ struct target_callback {
     using list = std::vector<target_callback*>;
 
     /// Const list of target callbacks
-    using clist = std::vector<target_callback::cptr>;
+    using clist = std::vector<cptr>;
 
     /// Created function
     using created_func = std::function<bool(VkAttachmentsRef, rect)>;

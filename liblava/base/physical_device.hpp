@@ -20,7 +20,7 @@ struct physical_device : entity {
     using ptr = std::shared_ptr<physical_device>;
 
     /// List of physical devices
-    using list = std::vector<physical_device::ptr>;
+    using list = std::vector<ptr>;
 
     /// Reference to physical device
     using ref = physical_device const&;

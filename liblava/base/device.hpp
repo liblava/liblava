@@ -32,7 +32,7 @@ struct device : device_table, entity {
     using ptr = std::shared_ptr<device>;
 
     /// List of devices
-    using list = std::vector<device::ptr>;
+    using list = std::vector<ptr>;
 
     /**
      * @brief Device create parameters
