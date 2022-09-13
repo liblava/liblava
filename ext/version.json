@@ -33,7 +33,7 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "307c053b9b250abc6e6d478a4336fd98592ae173"
+        "tag": "58bd97e2b101c7ba0fc55e81be42498bcd932fd7"
     },
     {
         "name": "spdlog",
@@ -75,25 +75,25 @@
         "name": "VulkanMemoryAllocator",
         "github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
         "branch": "master",
-        "tag": "e4057da74fb2bd0a6ecf6c8d48664dfdcbafb61b"
+        "tag": "d2767622a6019775be9a073114e6df52e12fe822"
     },
     {
         "name": "IconFontCppHeaders",
         "github": "juliettef/IconFontCppHeaders",
         "branch": "main",
-        "tag": "fb0994f838011fc678648869ea7c03053fe42b2e"
+        "tag": "89895df8581f6c57000143c29ca8ab9406cc56f1"
     },
     {
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "3e6f948851ba657ea87dd1a36886bee0ef12d8b1"
+        "tag": "a0e1591ac283aaa79d8717da1638688fb816a25e"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "caf4b7f1e6190ec4b32c66aca3e94a9ef15c0378"
+        "tag": "64b88da21ba554eb5735a387d91d665cd387afdf"
     },
     {
         "name": "SPIRV-Headers",
@@ -105,13 +105,13 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "fb27bbf3077f92cc1a8a55777bce2810a94079cf"
+        "tag": "272e4b3d07160254f2439f714d4c84f738e9dec6"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "df7fec2cfa966919172ee83bfcae6c9c9b3f91b8"
+        "tag": "c0cf8ad87627227c7f1d3be6177bbf2832d3fc1b"
     },
     {
         "name": "shaderc",
@@ -129,6 +129,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "dea1a6abd92b5892956fa474540ab4424a8ca1c3"
+        "tag": "359542d53ec142514da8a606ada8d9efd13b9678"
     }
 ]
