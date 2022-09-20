@@ -43,15 +43,13 @@ bool engine::setup() {
 void engine::handle_config() {
     config_callback.on_load = [&](json_ref j) {
         if (!j.count(config.id))
-            return false;
+            return;
 
         auto j_config = j[config.id];
         if (!j_config.count(_props_))
-            return false;
+            return;
 
         prop.set_config(j_config[_props_]);
-
-        return true;
     };
 
     config_callback.on_save = [&]() {

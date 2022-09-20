@@ -58,10 +58,9 @@ void app::handle_config() {
 
     config_callback.on_load = [&](json_ref j) {
         if (!j.count(config.id))
-            return false;
+            return;
 
         config.set_config(j[config.id]);
-        return true;
     };
 
     config_callback.on_save = [&]() {

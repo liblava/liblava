@@ -88,9 +88,13 @@ struct file_data : unique_data {
      * @brief Construct a new file data
      * @param filename    Name of file
      */
-    explicit file_data(string_ref filename) {
+    explicit file_data(string_ref filename)
+    : filename(filename) {
         load_file_data(filename, *this);
     }
+
+    /// Name of file
+    string filename;
 };
 
 /**
