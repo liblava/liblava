@@ -269,7 +269,7 @@ bool check(instance::create_param::ref param) {
 }
 
 //-----------------------------------------------------------------------------
-internal_version get_instance_version() {
+int_version get_instance_version() {
     ui32 instance_version = VK_API_VERSION_1_0;
 
     auto enumerate_instance_version =
@@ -278,7 +278,7 @@ internal_version get_instance_version() {
     if (enumerate_instance_version)
         enumerate_instance_version(&instance_version);
 
-    internal_version version;
+    int_version version;
     version.major = VK_VERSION_MAJOR(instance_version);
     version.minor = VK_VERSION_MINOR(instance_version);
     version.patch = VK_VERSION_PATCH(VK_HEADER_VERSION);

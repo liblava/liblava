@@ -142,17 +142,17 @@ string version_to_string(ui32 version);
 
 /**
  * @brief Convert a version to internal version
- * @param version              Version to convert
- * @return internal_version    Converted version
+ * @param version         Version to convert
+ * @return int_version    Converted version
  */
-internal_version to_version(ui32 version);
+int_version to_version(ui32 version);
 
 /**
  * @brief Convert a version to Vulkan version
  * @param version    Internal version to convert
  * @return ui32      Converted Vulkan version
  */
-ui32 to_version(internal_version version);
+ui32 to_version(int_version version);
 
 /**
  * @brief Vulkan api versions

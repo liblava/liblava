@@ -12,7 +12,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-internal_version file_system::get_version() {
+int_version file_system::get_version() {
     PHYSFS_Version result;
     PHYSFS_getLinkedVersion(&result);
 

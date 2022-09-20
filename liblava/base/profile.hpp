@@ -70,7 +70,7 @@ private:
     i32 spec_version = 0;
 
     /// Minimal API version
-    internal_version min_api_version{ 0, 0, 0 };
+    int_version min_api_version{ 0, 0, 0 };
 };
 
 /**

@@ -87,14 +87,14 @@ string version_to_string(ui32 version) {
 }
 
 //-----------------------------------------------------------------------------
-internal_version to_version(ui32 version) {
+int_version to_version(ui32 version) {
     return { (i32) VK_VERSION_MAJOR(version),
              (i32) VK_VERSION_MINOR(version),
              (i32) VK_VERSION_PATCH(version) };
 }
 
 //-----------------------------------------------------------------------------
-ui32 to_version(internal_version version) {
+ui32 to_version(int_version version) {
     return VK_MAKE_VERSION(version.major,
                            version.minor,
                            version.patch);

@@ -77,15 +77,15 @@ void handle_env(frame_env& env) {
 
     global_logger::singleton().set(setup_log(env.log));
 
-    if (internal_version{} != env.info.app_version) {
+    if (int_version{} != env.info.app_version) {
         log()->info(">>> {} / {} - {} / {} - {} {}", version_string(),
-                    internal_version_string(),
+                    int_version_string(),
                     env.info.app_name,
                     to_string(env.info.app_version),
                     _build_date, _build_time);
     } else {
         log()->info(">>> {} / {} - {} - {} {}", version_string(),
-                    internal_version_string(),
+                    int_version_string(),
                     env.info.app_name,
                     _build_date, _build_time);
     }

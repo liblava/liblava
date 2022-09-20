@@ -26,10 +26,10 @@ struct instance_info {
     name engine_name = _liblava_;
 
     /// Version of application
-    internal_version app_version;
+    int_version app_version;
 
     /// Version of engine
-    internal_version engine_version;
+    int_version engine_version;
 
     /// Required Vulkan API version
     api_version req_api_version = api_version::v1_0;
@@ -219,9 +219,9 @@ bool check(instance::create_param::ref param);
 
 /**
  * @brief Get the instance version
- * @return internal_version    Version
+ * @return int_version    Version
  */
-internal_version get_instance_version();
+int_version get_instance_version();
 
 /**
  * @brief Enumerate enabled layer properties

@@ -30,6 +30,9 @@ struct internal_version {
     auto operator<=>(internal_version const&) const = default;
 };
 
+/// Internal version
+using int_version = internal_version;
+
 /**
  * @brief Version stages
  */

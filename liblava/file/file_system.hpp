@@ -19,9 +19,9 @@ namespace lava {
 struct file_system : no_copy_no_move {
     /**
      * @brief Get the version
-     * @return internal_version    Internal version
+     * @return int_version    Internal version
      */
-    internal_version get_version();
+    int_version get_version();
 
     /**
      * @brief Get the base directory

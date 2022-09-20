@@ -34,7 +34,7 @@ inline string to_string(string_ref id, string_ref name) {
  * @param version    Internal version to convert
  * @return string    String representation
  */
-inline string to_string(internal_version const& version) {
+inline string to_string(int_version const& version) {
     return fmt::format("{}.{}.{}",
                        version.major,
                        version.minor,
@@ -46,7 +46,14 @@ inline string to_string(internal_version const& version) {
  * @return string    String representation
  */
 inline string internal_version_string() {
-    return to_string(internal_version{});
+    return to_string(int_version{});
+}
+
+/**
+ * @see internal_version_string
+ */
+inline string int_version_string() {
+    return internal_version_string();
 }
 
 /**
