@@ -34,6 +34,18 @@ struct internal_version {
 using int_version = internal_version;
 
 /**
+ * @brief Convert string to internal version
+ * @param str             String to convert
+ * @return int_version    Internal version
+ */
+inline int_version to_version(string_ref str) {
+    int_version result{ 0, 0, 0 };
+    sscanf(str.c_str(), "%d.%d.%d",
+           &result.major, &result.minor, &result.patch);
+    return result;
+}
+
+/**
  * @brief Version stages
  */
 enum class version_stage {
