@@ -33,13 +33,13 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "4b2c8ce6bcfe7f39f2bb9e680c1e7a4d67c2dd48"
+        "tag": "a3e6e26dc83a726b292f5be0492fcc408663ce55"
     },
     {
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "7fa59cf55509b6bb921df711d12e133ed35b5c75"
+        "tag": "936697e5b1944bf1630cfbb9e82144f8bdc32815"
     },
     {
         "name": "stb",
@@ -63,7 +63,7 @@
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "04157571e01448bc16a6ee759698bbd19dff9398"
+        "tag": "090311fde5e8b4a9d8decd1e296f94bd8bb77866"
     },
     {
         "name": "volk",
@@ -87,13 +87,13 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "588421986784df1ae3df16305d90cecdb07e9951"
+        "tag": "85a368b58dbaff5cdefa9d438c02ecab529c7a32"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "69beaa1d0b7fc8f4b448dcf1780b08cfc959da65"
+        "tag": "cb04326b460b38e4db5b9638be70b315ec23ca0f"
     },
     {
         "name": "SPIRV-Headers",
@@ -129,6 +129,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "4a7cefe60101c1e5ea7c7da33a1abe06fbc8e020"
+        "tag": "728de353be6a6d3658932bfc8e1ea5c7742a61c6"
     }
 ]
