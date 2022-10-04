@@ -34,9 +34,9 @@
 
 * **liblava** is written in **modern C++** with latest **Vulkan support**
 * Provides **run loop** abstraction for **window** and **input handling**
-* **Texture** and **mesh** loading from **virtual file system**
 * Plain **renderer** and  **command buffer model**
 * Batteries included ➜ runtime **shader compilation**
+* **Texture** and **mesh** loading from **virtual file system**
 * **Camera**, **imgui**, **logger** and much more...
 
 <br />
@@ -169,6 +169,10 @@ If you want to **contribute** - we suggest the following:
 <br />
 
 ## Support
+
+<br />
+
+**Need help?** &nbsp; Please feel free to ask us on ➜ [Discord](https://discord.lava-block.com)
 
 <br />
 
