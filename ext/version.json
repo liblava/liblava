@@ -51,7 +51,7 @@
         "name": "tinyobjloader",
         "github": "syoyo/tinyobjloader",
         "branch": "master",
-        "tag": "a1e8bad32e1ccd26a7936c5354ecf856aec2cf59"
+        "tag": "764cf751847b3e569d92ac400de7ec8c62be9ecd"
     },
     {
         "name": "Vulkan-Headers",
@@ -63,7 +63,7 @@
         "name": "Vulkan-Profiles",
         "github": "KhronosGroup/Vulkan-Profiles",
         "branch": "master",
-        "tag": "090311fde5e8b4a9d8decd1e296f94bd8bb77866"
+        "tag": "8212bdadda8ae31d371fd23832b71797cd0fb0ba"
     },
     {
         "name": "volk",
@@ -87,7 +87,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "85a368b58dbaff5cdefa9d438c02ecab529c7a32"
+        "tag": "8a44c31c95c8e0217f6e1fc814cbbbcca4981f14"
     },
     {
         "name": "imgui_docking",
@@ -99,19 +99,19 @@
         "name": "SPIRV-Headers",
         "github": "KhronosGroup/SPIRV-Headers",
         "branch": "master",
-        "tag": "4bd8fc0c8c266ecc6fc50193e65fe6a2fff8e4bc"
+        "tag": "85a1ed200d50660786c1a88d9166e871123cce39"
     },
     {
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "4dbc66380dd63aabbd33c38198008449d0a5807a"
+        "tag": "1cecf91701def0981f987c101e282bec31f7d542"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "28b53119bdfbc43eae532641337a7adbb315b273"
+        "tag": "89db4e1caa273a057ea46deba709c6e50001b314"
     },
     {
         "name": "shaderc",
@@ -129,6 +129,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "728de353be6a6d3658932bfc8e1ea5c7742a61c6"
+        "tag": "bdf30834ebe352310f31bb16382484f828ccbf0b"
     }
 ]
