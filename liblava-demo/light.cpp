@@ -109,12 +109,8 @@ LAVA_STAGE(6, "light") {
 int main(int argc, char* argv[]) {
     argh::parser argh(argc, argv);
 #endif
-    frame_env env("lava light", argh);
 
-    env.profile = profile_desktop_baseline_2022();
-    // env.profile = profile_roadmap_2022();
-
-    engine app(env);
+    engine app("lava light", argh);
 
     app.prop.add(_tex_normal_, "light/normal.png");
     app.prop.add(_tex_roughness_, "light/roughness.png");

@@ -60,9 +60,6 @@ struct frame_env {
 
     /// Intance debug configuration
     instance::debug_config debug;
-
-    /// Profile information
-    profile_info profile;
 };
 
 /**
@@ -270,12 +267,6 @@ private:
      * @brief Trigger run end
      */
     void trigger_run_end();
-
-    /**
-     * @brief Check Vulkan profile support
-     * @return Profile supported or not
-     */
-    bool check_profile() const;
 
     /// Initialized state
     bool initialized = false;

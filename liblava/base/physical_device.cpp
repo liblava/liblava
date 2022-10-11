@@ -135,15 +135,4 @@ bool physical_device::surface_supported(index queue_family,
     return res == VK_TRUE;
 }
 
-//-----------------------------------------------------------------------------
-bool physical_device::profile_supported(VpProfileProperties profile) const {
-    auto res = VK_FALSE;
-    if (failed(vpGetPhysicalDeviceProfileSupport(instance::singleton().get(),
-                                                 vk_physical_device,
-                                                 &profile, &res)))
-        return false;
-
-    return res == VK_TRUE;
-}
-
 } // namespace lava

@@ -212,7 +212,6 @@ add_library(lava.base STATIC
   ${LIBLAVA_DIR}/base/physical_device.hpp
   ${LIBLAVA_DIR}/base/platform.cpp
   ${LIBLAVA_DIR}/base/platform.hpp
-  ${LIBLAVA_DIR}/base/profile.hpp
   ${LIBLAVA_DIR}/base/queue.cpp
   ${LIBLAVA_DIR}/base/queue.hpp
   ${volk_SOURCE_DIR}/volk.c
@@ -220,7 +219,6 @@ add_library(lava.base STATIC
 
 target_include_directories(lava.base PUBLIC
   $<BUILD_INTERFACE:${Vulkan-Headers_SOURCE_DIR}/include>
-  $<BUILD_INTERFACE:${Vulkan-Profiles_SOURCE_DIR}/library/include>
   $<BUILD_INTERFACE:${VulkanMemoryAllocator_SOURCE_DIR}/include>
   $<BUILD_INTERFACE:${volk_SOURCE_DIR}>
   )
@@ -541,7 +539,6 @@ set(EXT_INCLUDE_DIRS
     ${spdlog_SOURCE_DIR}/include
     ${PicoSHA2_SOURCE_DIR}
     ${Vulkan-Headers_SOURCE_DIR}/include
-    ${Vulkan-Profiles_SOURCE_DIR}/library/include
     ${VulkanMemoryAllocator_SOURCE_DIR}/include
     ${volk_SOURCE_DIR}
     # ${stb_SOURCE_DIR}

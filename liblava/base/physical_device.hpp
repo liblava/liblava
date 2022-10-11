@@ -8,7 +8,6 @@
 #pragma once
 
 #include <liblava/base/device.hpp>
-#include <liblava/base/profile.hpp>
 
 namespace lava {
 
@@ -143,13 +142,6 @@ struct physical_device : entity {
      */
     bool surface_supported(index queue_family,
                            VkSurfaceKHR surface) const;
-
-    /**
-     * @brief Check if profile is supported
-     * @param profile    Profile to check
-     * @return Profile is supported or not
-     */
-    bool profile_supported(VpProfileProperties profile) const;
 
 private:
     /// Vulkan physical device

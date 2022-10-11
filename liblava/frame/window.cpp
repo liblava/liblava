@@ -8,6 +8,7 @@
 #include <liblava/base/device.hpp>
 #include <liblava/base/instance.hpp>
 #include <liblava/frame/window.hpp>
+#include <liblava/util/log.hpp>
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_INCLUDE_VULKAN

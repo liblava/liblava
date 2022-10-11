@@ -60,12 +60,6 @@
         "tag": "0df9899602351e03357d3f1895cdfb73acb5d294"
     },
     {
-        "name": "Vulkan-Profiles",
-        "github": "KhronosGroup/Vulkan-Profiles",
-        "branch": "master",
-        "tag": "8212bdadda8ae31d371fd23832b71797cd0fb0ba"
-    },
-    {
         "name": "volk",
         "github": "zeux/volk",
         "branch": "master",

@@ -8,7 +8,6 @@
 #pragma once
 
 #include <liblava/base/physical_device.hpp>
-#include <liblava/base/profile.hpp>
 
 namespace lava {
 
@@ -87,13 +86,11 @@ struct instance : no_copy_no_move {
      * @param param      Create parameters
      * @param debug      Debug configuration
      * @param info       Instance information
-     * @param profile    Profile information (optional)
      * @return Create was successful or failed
      */
     bool create(create_param& param,
                 debug_config::ref debug,
-                instance_info::ref info,
-                profile_info profile = {});
+                instance_info::ref info);
 
     /**
      * @brief Destroy the instance
@@ -138,22 +135,6 @@ struct instance : no_copy_no_move {
      */
     instance_info::ref get_info() const {
         return info;
-    }
-
-    /**
-     * @brief Check if profile information is set
-     * @return Profile is set or not
-     */
-    bool has_profile() const {
-        return !profile.empty();
-    }
-
-    /**
-     * @brief Get the profile information
-     * @return profile_info    Profile information
-     */
-    profile_info get_profile() const {
-        return profile;
     }
 
 private:
@@ -205,9 +186,6 @@ private:
 
     /// Debug utils messenger
     VkDebugUtilsMessengerEXT debug_messenger = VK_NULL_HANDLE;
-
-    /// Profile information
-    profile_info profile;
 };
 
 /**

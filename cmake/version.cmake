@@ -29,9 +29,6 @@ set(tinyobjloader_TAG 764cf751847b3e569d92ac400de7ec8c62be9ecd)
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG 0df9899602351e03357d3f1895cdfb73acb5d294)
 
-set(Vulkan-Profiles_GITHUB KhronosGroup/Vulkan-Profiles)
-set(Vulkan-Profiles_TAG 8212bdadda8ae31d371fd23832b71797cd0fb0ba)
-
 set(volk_GITHUB zeux/volk)
 set(volk_TAG d0e41bf57439420253d9a9b5c3101226e68e64dd)
 

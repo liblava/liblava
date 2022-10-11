@@ -134,9 +134,6 @@ bool frame::setup() {
 
     log()->info("vulkan {}", to_string(get_instance_version()));
 
-    if (!check_profile())
-        return false;
-
     auto glfw_extensions_count = 0u;
     auto glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
     for (auto i = 0u; i < glfw_extensions_count; ++i)
@@ -147,7 +144,7 @@ bool frame::setup() {
     env.param.extensions.push_back("VK_KHR_get_physical_device_properties2");
 #endif
 
-    if (!instance::singleton().create(env.param, env.debug, env.info, env.profile)) {
+    if (!instance::singleton().create(env.param, env.debug, env.info)) {
         log()->error("create instance");
         return false;
     }
@@ -280,24 +277,6 @@ void frame::trigger_run_remove() {
 void frame::trigger_run_end() {
     for (auto& [id, func] : reverse(run_end_map))
         func();
-}
-
-//-----------------------------------------------------------------------------
-bool frame::check_profile() const {
-    if (env.profile.empty())
-        return true;
-
-    auto profile_properties = env.profile.get();
-
-    if (!profile_supported(profile_properties)) {
-        log()->error("profile support at instance level: {} - version: {}",
-                     profile_properties.profileName, profile_properties.specVersion);
-        return false;
-    }
-
-    log()->info("profile: {} - version: {}",
-                profile_properties.profileName, profile_properties.specVersion);
-    return true;
 }
 
 //-----------------------------------------------------------------------------

@@ -86,13 +86,6 @@ cpmaddpackage(
   )
 
 cpmaddpackage(
-  NAME Vulkan-Profiles
-  GITHUB_REPOSITORY ${Vulkan-Profiles_GITHUB}
-  GIT_TAG ${Vulkan-Profiles_TAG}
-  DOWNLOAD_ONLY YES
-  )
-
-cpmaddpackage(
   NAME volk
   GITHUB_REPOSITORY ${volk_GITHUB}
   GIT_TAG ${volk_TAG}

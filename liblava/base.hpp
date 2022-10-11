@@ -15,5 +15,4 @@
 #include <liblava/base/memory.hpp>
 #include <liblava/base/physical_device.hpp>
 #include <liblava/base/platform.hpp>
-#include <liblava/base/profile.hpp>
 #include <liblava/base/queue.hpp>

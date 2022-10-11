@@ -50,11 +50,6 @@
 		"branch": "main"
 	},
 	{
-		"name": "Vulkan-Profiles",
-		"github": "KhronosGroup/Vulkan-Profiles",
-		"branch": "master"
-	},
-	{
 		"name": "volk",
 		"github": "zeux/volk",
 		"branch": "master"

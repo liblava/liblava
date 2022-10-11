@@ -7,6 +7,7 @@
 
 #include <liblava/base/instance.hpp>
 #include <liblava/base/memory.hpp>
+#include <liblava/util/log.hpp>
 #include <liblava/util/misc.hpp>
 
 #define VK_LAYER_KHRONOS_VALIDATION_NAME "VK_LAYER_KHRONOS_validation"
@@ -87,11 +88,9 @@ bool instance::check_debug(create_param& param) const {
 //-----------------------------------------------------------------------------
 bool instance::create(create_param& param,
                       debug_config::ref d,
-                      instance_info::ref i,
-                      profile_info p) {
+                      instance_info::ref i) {
     debug = d;
     info = i;
-    profile = p;
 
     if (!check_debug(param))
         return false;
@@ -104,24 +103,18 @@ bool instance::create(create_param& param,
         .engineVersion = to_version(info.engine_version),
     };
 
-    if (!profile.empty()) {
-        auto min_api_version = profile.get_min_api_version();
-        application_info.apiVersion = min_api_version;
-        info.req_api_version = to_api_version(min_api_version);
-    } else {
-        switch (info.req_api_version) {
-        case api_version::v1_1:
-            application_info.apiVersion = VK_API_VERSION_1_1;
-            break;
-        case api_version::v1_2:
-            application_info.apiVersion = VK_API_VERSION_1_2;
-            break;
-        case api_version::v1_3:
-            application_info.apiVersion = VK_API_VERSION_1_3;
-            break;
-        default:
-            application_info.apiVersion = VK_API_VERSION_1_0;
-        }
+    switch (info.req_api_version) {
+    case api_version::v1_1:
+        application_info.apiVersion = VK_API_VERSION_1_1;
+        break;
+    case api_version::v1_2:
+        application_info.apiVersion = VK_API_VERSION_1_2;
+        break;
+    case api_version::v1_3:
+        application_info.apiVersion = VK_API_VERSION_1_3;
+        break;
+    default:
+        application_info.apiVersion = VK_API_VERSION_1_0;
     }
 
     VkInstanceCreateInfo create_info{
@@ -136,24 +129,10 @@ bool instance::create(create_param& param,
 #endif
     };
 
-    if (!profile.empty()) {
-        auto profile_properties = profile.get();
-
-        VpInstanceCreateInfo vp_create_info{
-            .pCreateInfo = &create_info,
-            .pProfile = &profile_properties,
-        };
-
-        if (failed(vpCreateInstance(&vp_create_info,
-                                    memory::instance().alloc(),
-                                    &vk_instance)))
-            return false;
-    } else {
-        if (failed(vkCreateInstance(&create_info,
-                                    memory::instance().alloc(),
-                                    &vk_instance)))
-            return false;
-    }
+    if (failed(vkCreateInstance(&create_info,
+                                memory::instance().alloc(),
+                                &vk_instance)))
+        return false;
 
     volkLoadInstance(vk_instance);
 

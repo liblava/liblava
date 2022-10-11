@@ -1033,7 +1033,6 @@ If you are familiar with [Conan](https://conan.io/) ➜ build this [package reci
 * [tinyobjloader](https://github.com/syoyo/tinyobjloader) &nbsp; **Tiny but powerful single file wavefront obj loader** &nbsp; *MIT*
 * [volk](https://github.com/zeux/volk) &nbsp; **Meta loader for Vulkan API** &nbsp; *MIT*
 * [Vulkan-Headers](https://github.com/KhronosGroup/Vulkan-Headers) &nbsp; **Vulkan Header files and API registry** &nbsp; *Apache 2.0*
-* [Vulkan-Profiles](https://github.com/KhronosGroup/Vulkan-Profiles) &nbsp; **Vulkan Profiles Tools** &nbsp; *Apache 2.0*
 * [VulkanMemoryAllocator](https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator) &nbsp; **Easy to integrate Vulkan memory allocation library** &nbsp; *MIT*
 
 <br />

@@ -7,6 +7,7 @@
 
 #include <liblava/base/instance.hpp>
 #include <liblava/base/platform.hpp>
+#include <liblava/util/log.hpp>
 
 namespace lava {
 
