@@ -81,13 +81,13 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "8a44c31c95c8e0217f6e1fc814cbbbcca4981f14"
+        "tag": "5196bd15e90b56ccfaabe1ce44fd352a2e05bd51"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "cb04326b460b38e4db5b9638be70b315ec23ca0f"
+        "tag": "edf522b58a8f74dee3225a0d5bc71565b1b8f6e0"
     },
     {
         "name": "SPIRV-Headers",
@@ -99,7 +99,7 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "1cecf91701def0981f987c101e282bec31f7d542"
+        "tag": "a3350c0ff067e863dcd478bd9b23a92c028b10f8"
     },
     {
         "name": "glslang",
@@ -111,7 +111,7 @@
         "name": "shaderc",
         "github": "google/shaderc",
         "branch": "main",
-        "tag": "7ea834ecc59258a5c13c3d3e6fa0582bdde7c543"
+        "tag": "ca899320dd29f2ff08d4624ace9cd1a568b73645"
     },
     {
         "name": "PicoSHA2",

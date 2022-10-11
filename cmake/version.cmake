@@ -39,22 +39,22 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 685673dea6fb4012bd2104bf9b8d8da802eade50)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 8a44c31c95c8e0217f6e1fc814cbbbcca4981f14)
+set(imgui_TAG 5196bd15e90b56ccfaabe1ce44fd352a2e05bd51)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG cb04326b460b38e4db5b9638be70b315ec23ca0f)
+set(imgui_docking_TAG edf522b58a8f74dee3225a0d5bc71565b1b8f6e0)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG 85a1ed200d50660786c1a88d9166e871123cce39)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 1cecf91701def0981f987c101e282bec31f7d542)
+set(SPIRV-Tools_TAG a3350c0ff067e863dcd478bd9b23a92c028b10f8)
 
 set(glslang_GITHUB KhronosGroup/glslang)
 set(glslang_TAG 89db4e1caa273a057ea46deba709c6e50001b314)
 
 set(shaderc_GITHUB google/shaderc)
-set(shaderc_TAG 7ea834ecc59258a5c13c3d3e6fa0582bdde7c543)
+set(shaderc_TAG ca899320dd29f2ff08d4624ace9cd1a568b73645)
 
 set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
