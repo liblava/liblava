@@ -42,7 +42,7 @@
 	{
 		"name": "tinyobjloader",
 		"github": "syoyo/tinyobjloader",
-		"branch": "master"
+		"branch": "release"
 	},
 	{
 		"name": "Vulkan-Headers",

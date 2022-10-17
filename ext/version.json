@@ -39,7 +39,7 @@
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "936697e5b1944bf1630cfbb9e82144f8bdc32815"
+        "tag": "d011332616464bd0c84817d6255bf5910b7803e9"
     },
     {
         "name": "stb",
@@ -50,20 +50,20 @@
     {
         "name": "tinyobjloader",
         "github": "syoyo/tinyobjloader",
-        "branch": "master",
+        "branch": "release",
         "tag": "764cf751847b3e569d92ac400de7ec8c62be9ecd"
     },
     {
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "0df9899602351e03357d3f1895cdfb73acb5d294"
+        "tag": "98f440ce6868c94f5ec6e198cc1adda4760e8849"
     },
     {
         "name": "volk",
         "github": "zeux/volk",
         "branch": "master",
-        "tag": "d0e41bf57439420253d9a9b5c3101226e68e64dd"
+        "tag": "f29df7d2834c434b39169d5b2e4dde8c05a5adc1"
     },
     {
         "name": "VulkanMemoryAllocator",
@@ -81,13 +81,13 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "5196bd15e90b56ccfaabe1ce44fd352a2e05bd51"
+        "tag": "08752b372e5ebeb39adec59387590dac9d9e68f7"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "edf522b58a8f74dee3225a0d5bc71565b1b8f6e0"
+        "tag": "f87e891f1818d02f55028fe042a323bb27c41d66"
     },
     {
         "name": "SPIRV-Headers",
@@ -99,19 +99,19 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "a3350c0ff067e863dcd478bd9b23a92c028b10f8"
+        "tag": "b53d3a6be38b032dedbc72639dfc6249b5e92697"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "89db4e1caa273a057ea46deba709c6e50001b314"
+        "tag": "5755de46b07e4374c05fb1081f65f7ae1f8cca81"
     },
     {
         "name": "shaderc",
         "github": "google/shaderc",
         "branch": "main",
-        "tag": "ca899320dd29f2ff08d4624ace9cd1a568b73645"
+        "tag": "aa4de735c581f033dbbdd33e756e29d1b52a58e1"
     },
     {
         "name": "PicoSHA2",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "bdf30834ebe352310f31bb16382484f828ccbf0b"
+        "tag": "95cd95e591696bee5fbf24cf5b3a1610b4d05e3b"
     }
 ]
