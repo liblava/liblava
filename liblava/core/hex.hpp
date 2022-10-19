@@ -693,7 +693,7 @@ struct hex_grid {
     /// Hex outer radius
     r32 outer_radius = hex_default_outer_radius;
 
-    /// Hey layout
+    /// Hex layout
     hex_layout layout;
 
     /**
@@ -707,12 +707,15 @@ struct hex_grid {
 
     /**
      * @brief Update the hex grid
+     * @param orientation    Hex orientation
      */
-    void update() {
+    void update(hex_orientation orientation = hex_layout_point_y) {
         inner_radius = hex_calculate_inner_radius(outer_radius);
-        layout = { hex_layout_point_y,
-                   { outer_radius, outer_radius },
-                   {} };
+        layout = {
+            orientation,
+            {},
+            { outer_radius, outer_radius }
+        };
     }
 
     /**
@@ -733,26 +736,6 @@ struct hex_grid {
      */
     hex_point to_pixel(hex_cell const& cell) const {
         return hex_to_pixel(layout, cell);
-    }
-
-    /**
-     * @brief Get the hex offset coordinates
-     * @param cell                 Hex cell
-     * @return hex_offset_coord    Hex offset coordinates
-     */
-    hex_offset_coord get(hex_cell const& cell) const {
-        return hex_r_offset_from_cube(hex_offset::odd, cell);
-    }
-
-    /**
-     * @brief Get the hex offset coordinates
-     * @param x                    X coordinate
-     * @param y                    Y coordinate
-     * @param z                    Z coordinate
-     * @return hex_offset_coord    Hex offset coordinates
-     */
-    hex_offset_coord get(i32 x, i32 y, i32 z) const {
-        return get({ x, y, z });
     }
 };
 
