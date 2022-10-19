@@ -39,7 +39,7 @@
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "d011332616464bd0c84817d6255bf5910b7803e9"
+        "tag": "77429b2e2e70feb5d2619374f2bc99326f6570dd"
     },
     {
         "name": "stb",
@@ -81,7 +81,7 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "08752b372e5ebeb39adec59387590dac9d9e68f7"
+        "tag": "e3fa56ae0572de912ba81b0da1e1c3899ff53cca"
     },
     {
         "name": "imgui_docking",
@@ -99,13 +99,13 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "b53d3a6be38b032dedbc72639dfc6249b5e92697"
+        "tag": "ecd5b9c167ad03dcd4b3211d209581f40e03c608"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "5755de46b07e4374c05fb1081f65f7ae1f8cca81"
+        "tag": "a0ad0d7067521fff880e36acfb8ce453421c3f25"
     },
     {
         "name": "shaderc",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "95cd95e591696bee5fbf24cf5b3a1610b4d05e3b"
+        "tag": "77f7c0104dbaa43c31e75147cfdbd4142484914b"
     }
 ]
