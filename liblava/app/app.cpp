@@ -85,7 +85,7 @@ bool app::create_block() {
                                 _lava_block_,
                                 { default_color, 1.f });
 
-        auto current_frame = block.get_current_frame();
+        auto const current_frame = block.get_current_frame();
 
         {
             scoped_label stage_mark(cmd_buf,
@@ -559,7 +559,7 @@ void app::update() {
 
     add_run([&](id::ref run) {
         auto dt = ms(0);
-        auto time = now();
+        auto const time = now();
 
         if (run_time.system != time) {
             dt = time - run_time.system;
@@ -615,14 +615,14 @@ string app::screenshot() {
     string screenshot_path = "screenshot/";
     fs.create_folder(screenshot_path);
 
-    auto path = fs.get_pref_dir() + screenshot_path
-                + get_current_time() + ".png";
+    auto const path = fs.get_pref_dir() + screenshot_path
+                      + get_current_time() + ".png";
 
-    auto swizzle = !support_blit(device->get_vk_physical_device(),
-                                 backbuffer_image->get_format())
-                   && format_bgr(backbuffer_image->get_format());
+    auto const swizzle = !support_blit(device->get_vk_physical_device(),
+                                       backbuffer_image->get_format())
+                         && format_bgr(backbuffer_image->get_format());
 
-    auto saved = write_image_png(device, image, path, swizzle);
+    auto const saved = write_image_png(device, image, path, swizzle);
 
     image->destroy();
 
