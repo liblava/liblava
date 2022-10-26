@@ -3,7 +3,7 @@
         "name": "argh",
         "github": "adishavit/argh",
         "branch": "master",
-        "tag": "39b9a00046143f6b300dcf98ea989486cf62097d"
+        "tag": "c429ee27134195b317e852324212bf39056bbff4"
     },
     {
         "name": "glfw",
@@ -21,7 +21,7 @@
         "name": "glm",
         "github": "g-truc/glm",
         "branch": "master",
-        "tag": "cc98465e3508535ba8c7f6208df934c156a018dc"
+        "tag": "fc8f4bb442b9540969f2f3f351c4960d91bca17a"
     },
     {
         "name": "physfs",
@@ -39,7 +39,7 @@
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "77429b2e2e70feb5d2619374f2bc99326f6570dd"
+        "tag": "3c0e036cc9e12664e2b757fd17fdba42f6f19f90"
     },
     {
         "name": "stb",
@@ -51,7 +51,7 @@
         "name": "tinyobjloader",
         "github": "syoyo/tinyobjloader",
         "branch": "release",
-        "tag": "764cf751847b3e569d92ac400de7ec8c62be9ecd"
+        "tag": "5790ebd9eb466bc1ebe8ed5c5a55ee642b6f24bc"
     },
     {
         "name": "Vulkan-Headers",
@@ -81,13 +81,13 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "e3fa56ae0572de912ba81b0da1e1c3899ff53cca"
+        "tag": "9db6b1a0d9102744818741ae5a6c7f9498aff343"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "f87e891f1818d02f55028fe042a323bb27c41d66"
+        "tag": "375ae5dce46fca73838832dac1e3bd0f3b4727f5"
     },
     {
         "name": "SPIRV-Headers",
@@ -99,13 +99,13 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "ecd5b9c167ad03dcd4b3211d209581f40e03c608"
+        "tag": "7326b967a52aecef25b3fedaaba388d6616db93d"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "a0ad0d7067521fff880e36acfb8ce453421c3f25"
+        "tag": "980ac50813fb567b6af6b89282eae850b328c967"
     },
     {
         "name": "shaderc",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "77f7c0104dbaa43c31e75147cfdbd4142484914b"
+        "tag": "6185d0cc0a737d5a009f626d3611b868512d12f7"
     }
 ]
