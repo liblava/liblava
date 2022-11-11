@@ -72,7 +72,7 @@ string to_string(VkResult result) {
         RETURN_STR(VK_ERROR_COMPRESSION_EXHAUSTED_EXT)
 
     default:
-        return fmt::format("[invalid VkResult {}]", result);
+        return fmt::format("[invalid VkResult {}]", to_i32(result));
     }
 
 #undef RETURN_STR
