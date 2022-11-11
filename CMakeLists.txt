@@ -2,24 +2,24 @@ cmake_minimum_required(VERSION 3.22)
 
 project(liblava VERSION 0.7.3 LANGUAGES C CXX)
 
-message("")
-message("========================================================================")
-message(" Copyright (c) 2018-present, Lava Block OÜ and contributors             ")
-message("========================================================================")
-message("                                                                        ")
-message("  _|  _|  _|            _|                                              ")
-message("  _|      _|_|_|        _|        _|_|_|      _|      _|        _|_|_|  ")
-message("  _|  _|  _|    _|      _|      _|    _|      _|      _|      _|    _|  ")
-message("  _|  _|  _|    _|      _|      _|    _|        _|  _|        _|    _|  ")
-message("  _|  _|  _|_|_|        _|        _|_|_|          _|            _|_|_|  ")
-message("                                                                        ")
-message("========================================================================")
-message(" 2022 alpha / 0.7.3                                        MIT licensed ")
-message("========================================================================")
-message(" https://git.io/liblava                          https://lava-block.com ")
-message("========================================================================")
-message("> Making lava flow...                                                   ")
-message(">> Configuring may take a little longer the first time - so be patient  ")
+message(STATUS "")
+message(STATUS "========================================================================")
+message(STATUS " Copyright (c) 2018-present, Lava Block OÜ and contributors             ")
+message(STATUS "========================================================================")
+message(STATUS "                                                                        ")
+message(STATUS "  _|  _|  _|            _|                                              ")
+message(STATUS "  _|      _|_|_|        _|        _|_|_|      _|      _|        _|_|_|  ")
+message(STATUS "  _|  _|  _|    _|      _|      _|    _|      _|      _|      _|    _|  ")
+message(STATUS "  _|  _|  _|    _|      _|      _|    _|        _|  _|        _|    _|  ")
+message(STATUS "  _|  _|  _|_|_|        _|        _|_|_|          _|            _|_|_|  ")
+message(STATUS "                                                                        ")
+message(STATUS "========================================================================")
+message(STATUS " 2022 alpha / 0.7.3                                        MIT licensed ")
+message(STATUS "========================================================================")
+message(STATUS " https://git.io/liblava                          https://lava-block.com ")
+message(STATUS "========================================================================")
+message(STATUS "> Making lava flow...                                                   ")
+message(STATUS ">> Configuring may take a little longer the first time - so be patient  ")
 
 option(LIBLAVA_TEST "Enable Test" TRUE)
 option(LIBLAVA_DEMO "Enable Demo" TRUE)
@@ -49,8 +49,8 @@ endif()
 include(GNUInstallDirs)
 
 if(LIBLAVA_EXTERNALS)
-  message("========================================================================")
-  message("> CPM.cmake")
+  message(STATUS "========================================================================")
+  message(STATUS "> CPM.cmake")
 
   include(cmake/CPM.cmake)
   include(cmake/ext.cmake)
@@ -85,16 +85,16 @@ if(LIBLAVA_EXTERNALS)
   set_target_properties(spirv-tools-shared-pkg-config PROPERTIES FOLDER ${SPIRV_TOOLS_FOLDER})
 endif()
 
-message("========================================================================")
-message("> module")
+message(STATUS "========================================================================")
+message(STATUS "> module")
 
-message(">> lava::core")
+message(STATUS ">> lava::core")
 
 find_package(Threads REQUIRED)
 
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp "")
 
-add_library(lava.core STATIC
+add_library(lava.core
   ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp
   ${LIBLAVA_DIR}/core/data.hpp
   ${LIBLAVA_DIR}/core/def.hpp
@@ -138,9 +138,9 @@ set_property(TARGET lava.core PROPERTY EXPORT_NAME core)
 
 add_library(lava::core ALIAS lava.core)
 
-message(">> lava::util")
+message(STATUS ">> lava::util")
 
-add_library(lava.util STATIC
+add_library(lava.util
   ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp
   ${LIBLAVA_DIR}/util/def.hpp
   ${LIBLAVA_DIR}/util/log.hpp
@@ -164,9 +164,9 @@ set_property(TARGET lava.util PROPERTY EXPORT_NAME util)
 
 add_library(lava::util ALIAS lava.util)
 
-message(">> lava::file")
+message(STATUS ">> lava::file")
 
-add_library(lava.file STATIC
+add_library(lava.file
   ${LIBLAVA_DIR}/file/def.hpp
   ${LIBLAVA_DIR}/file/file_system.cpp
   ${LIBLAVA_DIR}/file/file_system.hpp
@@ -184,7 +184,7 @@ target_include_directories(lava.file PUBLIC
   $<BUILD_INTERFACE:${json_SOURCE_DIR}/single_include>
   )
 
-target_link_libraries(lava.file
+target_link_libraries(lava.file PUBLIC
   lava::util
   physfs-static
   )
@@ -194,9 +194,9 @@ set_property(TARGET lava.file PROPERTY EXPORT_NAME file)
 
 add_library(lava::file ALIAS lava.file)
 
-message(">> lava::base")
+message(STATUS ">> lava::base")
 
-add_library(lava.base STATIC
+add_library(lava.base
   ${LIBLAVA_DIR}/base/base.cpp
   ${LIBLAVA_DIR}/base/base.hpp
   ${LIBLAVA_DIR}/base/debug_utils.cpp
@@ -223,7 +223,7 @@ target_include_directories(lava.base PUBLIC
   $<BUILD_INTERFACE:${volk_SOURCE_DIR}>
   )
 
-target_link_libraries(lava.base
+target_link_libraries(lava.base PUBLIC
   lava::util
   ${CMAKE_DL_LIBS}
   )
@@ -233,9 +233,9 @@ set_property(TARGET lava.base PROPERTY EXPORT_NAME base)
 
 add_library(lava::base ALIAS lava.base)
 
-message(">> lava::resource")
+message(STATUS ">> lava::resource")
 
-add_library(lava.resource STATIC
+add_library(lava.resource
   ${LIBLAVA_DIR}/resource/buffer.cpp
   ${LIBLAVA_DIR}/resource/buffer.hpp
   ${LIBLAVA_DIR}/resource/format.cpp
@@ -248,7 +248,7 @@ add_library(lava.resource STATIC
   ${LIBLAVA_DIR}/resource/texture.hpp
   )
 
-target_link_libraries(lava.resource
+target_link_libraries(lava.resource PUBLIC
   lava::base
   )
 
@@ -257,9 +257,9 @@ set_property(TARGET lava.resource PROPERTY EXPORT_NAME resource)
 
 add_library(lava::resource ALIAS lava.resource)
 
-message(">> lava::asset")
+message(STATUS ">> lava::asset")
 
-add_library(lava.asset STATIC
+add_library(lava.asset
   ${LIBLAVA_DIR}/asset/image_loader.cpp
   ${LIBLAVA_DIR}/asset/image_loader.hpp
   ${LIBLAVA_DIR}/asset/load_texture.cpp
@@ -276,7 +276,7 @@ target_include_directories(lava.asset PUBLIC
   $<BUILD_INTERFACE:${tinyobjloader_SOURCE_DIR}>
   )
 
-target_link_libraries(lava.asset
+target_link_libraries(lava.asset PUBLIC
   lava::resource
   lava::file
   )
@@ -286,9 +286,9 @@ set_property(TARGET lava.asset PROPERTY EXPORT_NAME asset)
 
 add_library(lava::asset ALIAS lava.asset)
 
-message(">> lava::frame")
+message(STATUS ">> lava::frame")
 
-add_library(lava.frame STATIC
+add_library(lava.frame
   ${LIBLAVA_DIR}/frame/argh.hpp
   ${LIBLAVA_DIR}/frame/driver.cpp
   ${LIBLAVA_DIR}/frame/driver.hpp
@@ -313,7 +313,7 @@ target_include_directories(lava.frame PUBLIC
   $<BUILD_INTERFACE:${argh_SOURCE_DIR}>
   )
 
-target_link_libraries(lava.frame
+target_link_libraries(lava.frame PUBLIC
   lava::resource
   glfw
   ${GLFW_LIBRARIES}
@@ -324,9 +324,9 @@ set_property(TARGET lava.frame PROPERTY EXPORT_NAME frame)
 
 add_library(lava::frame ALIAS lava.frame)
 
-message(">> lava::block")
+message(STATUS ">> lava::block")
 
-add_library(lava.block STATIC
+add_library(lava.block
   ${LIBLAVA_DIR}/block/attachment.hpp
   ${LIBLAVA_DIR}/block/block.cpp
   ${LIBLAVA_DIR}/block/block.hpp
@@ -347,7 +347,7 @@ add_library(lava.block STATIC
   ${LIBLAVA_DIR}/block/subpass.hpp
   )
 
-target_link_libraries(lava.block
+target_link_libraries(lava.block PUBLIC
   lava::base
   )
 
@@ -356,7 +356,7 @@ set_property(TARGET lava.block PROPERTY EXPORT_NAME block)
 
 add_library(lava::block ALIAS lava.block)
 
-message(">> lava::app")
+message(STATUS ">> lava::app")
 
 set(IMGUI_FILES
     ${imgui_SOURCE_DIR}/imgui.cpp
@@ -376,7 +376,7 @@ set(APP_SHADERS
 
 source_group("Shader Files" FILES ${APP_SHADERS})
 
-add_library(lava.app STATIC
+add_library(lava.app
   ${LIBLAVA_DIR}/app/app.cpp
   ${LIBLAVA_DIR}/app/app.hpp
   ${LIBLAVA_DIR}/app/benchmark.cpp
@@ -400,7 +400,7 @@ target_include_directories(lava.app PUBLIC
   $<BUILD_INTERFACE:${IconFontCppHeaders_SOURCE_DIR}>
   )
 
-target_link_libraries(lava.app
+target_link_libraries(lava.app PUBLIC
   lava::block
   lava::frame
   lava::asset
@@ -413,9 +413,9 @@ set_property(TARGET lava.app PROPERTY EXPORT_NAME app)
 
 add_library(lava::app ALIAS lava.app)
 
-message(">> lava::engine")
+message(STATUS ">> lava::engine")
 
-add_library(lava.engine STATIC
+add_library(lava.engine
   ${LIBLAVA_DIR}/engine/def.hpp
   ${LIBLAVA_DIR}/engine/engine.cpp
   ${LIBLAVA_DIR}/engine/engine.hpp
@@ -429,7 +429,7 @@ target_include_directories(lava.engine PUBLIC
   $<BUILD_INTERFACE:${shaderc_SOURCE_DIR}/libshaderc/include>
   )
 
-target_link_libraries(lava.engine
+target_link_libraries(lava.engine PUBLIC
   lava::app
   )
 
@@ -440,8 +440,8 @@ set_property(TARGET lava.engine PROPERTY EXPORT_NAME engine)
 
 add_library(lava::engine ALIAS lava.engine)
 
-message("========================================================================")
-message("> lava")
+message(STATUS "========================================================================")
+message(STATUS "> lava")
 
 set(LIBLAVA_STAGE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava-stage)
 
@@ -451,7 +451,7 @@ add_executable(lava
   ${LIBLAVA_STAGE_DIR}/tutorial.cpp
   )
 
-target_link_libraries(lava
+target_link_libraries(lava PRIVATE
   lava::engine
   ${LIBLAVA_ENGINE_LIBRARIES}
   )
@@ -465,8 +465,8 @@ install(TARGETS lava
   )
 
 if(LIBLAVA_TEST)
-  message("========================================================================")
-  message("> lava-test")
+  message(STATUS "========================================================================")
+  message(STATUS "> lava-test")
 
   enable_testing()
 
@@ -479,7 +479,7 @@ if(LIBLAVA_TEST)
     ${UNIT_TESTS}
     )
 
-  target_link_libraries(lava-test
+  target_link_libraries(lava-test PRIVATE
     lava::engine
     ${LIBLAVA_ENGINE_LIBRARIES}
     Catch2::Catch2
@@ -599,8 +599,8 @@ install(
   )
 
 if(LIBLAVA_DEMO)
-  message("========================================================================")
-  message("> lava-demo")
+  message(STATUS "========================================================================")
+  message(STATUS "> lava-demo")
 
   set(LIBLAVA_DEMO_DIR ${CMAKE_CURRENT_SOURCE_DIR}/liblava-demo)
 
@@ -616,7 +616,7 @@ if(LIBLAVA_DEMO)
 
   target_compile_definitions(lava-demo PRIVATE LAVA_DEMO)
 
-  target_link_libraries(lava-demo
+  target_link_libraries(lava-demo PRIVATE
     lava::engine
     ${LIBLAVA_ENGINE_LIBRARIES}
     )
@@ -624,7 +624,7 @@ if(LIBLAVA_DEMO)
   set_target_properties(lava-demo PROPERTIES FOLDER "lava-demo")
   set_property(TARGET lava-demo PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-  message(">> lava-triangle")
+  message(STATUS ">> lava-triangle")
 
   set(TRIANGLE_SHADERS
     res/triangle/triangle.frag
@@ -638,14 +638,14 @@ if(LIBLAVA_DEMO)
 
   source_group("Shader Files" FILES ${TRIANGLE_SHADERS})
 
-  target_link_libraries(lava-triangle
+  target_link_libraries(lava-triangle PRIVATE
     lava::app
     )
 
   set_target_properties(lava-triangle PROPERTIES FOLDER "lava-demo")
   set_property(TARGET lava-triangle PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-  message(">> lava-generics")
+  message(STATUS ">> lava-generics")
 
   set(GENERICS_SHADERS
     res/generics/triangle.frag
@@ -661,7 +661,7 @@ if(LIBLAVA_DEMO)
 
   source_group("Shader Files" FILES ${GENERICS_SHADERS})
 
-  target_link_libraries(lava-generics
+  target_link_libraries(lava-generics PRIVATE
     lava::engine
     ${LIBLAVA_ENGINE_LIBRARIES}
     )
@@ -669,7 +669,7 @@ if(LIBLAVA_DEMO)
   set_target_properties(lava-generics PROPERTIES FOLDER "lava-demo")
   set_property(TARGET lava-generics PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-  message(">> lava-shapes")
+  message(STATUS ">> lava-shapes")
 
   set(SHAPES_SHADERS
     res/shapes/shapes.frag
@@ -683,7 +683,7 @@ if(LIBLAVA_DEMO)
 
   source_group("Shader Files" FILES ${SHAPES_SHADERS})
 
-  target_link_libraries(lava-shapes
+  target_link_libraries(lava-shapes PRIVATE
     lava::engine
     ${LIBLAVA_ENGINE_LIBRARIES}
     )
@@ -691,7 +691,7 @@ if(LIBLAVA_DEMO)
   set_target_properties(lava-shapes PROPERTIES FOLDER "lava-demo")
   set_property(TARGET lava-shapes PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-  message(">> lava-lamp")
+  message(STATUS ">> lava-lamp")
 
   set(LAMP_SHADERS
     res/lamp/lamp.frag
@@ -705,7 +705,7 @@ if(LIBLAVA_DEMO)
 
   source_group("Shader Files" FILES ${LAMP_SHADERS})
 
-  target_link_libraries(lava-lamp
+  target_link_libraries(lava-lamp PRIVATE
     lava::engine
     ${LIBLAVA_ENGINE_LIBRARIES}
     )
@@ -713,7 +713,7 @@ if(LIBLAVA_DEMO)
   set_target_properties(lava-lamp PROPERTIES FOLDER "lava-demo")
   set_property(TARGET lava-lamp PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-  message(">> lava-spawn")
+  message(STATUS ">> lava-spawn")
 
   set(SPAWN_SHADERS
     res/spawn/spawn.frag
@@ -727,7 +727,7 @@ if(LIBLAVA_DEMO)
 
   source_group("Shader Files" FILES ${SPAWN_SHADERS})
 
-  target_link_libraries(lava-spawn
+  target_link_libraries(lava-spawn PRIVATE
     lava::engine
     ${LIBLAVA_ENGINE_LIBRARIES}
     )
@@ -735,7 +735,7 @@ if(LIBLAVA_DEMO)
   set_target_properties(lava-spawn PROPERTIES FOLDER "lava-demo")
   set_property(TARGET lava-spawn PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
-  message(">> lava-light")
+  message(STATUS ">> lava-light")
 
   set(LIGHT_SHADERS
     res/light/gbuffer.frag
@@ -752,7 +752,7 @@ if(LIBLAVA_DEMO)
 
   source_group("Shader Files" FILES ${LIGHT_SHADERS})
 
-  target_link_libraries(lava-light
+  target_link_libraries(lava-light PRIVATE
     lava::engine
     ${LIBLAVA_ENGINE_LIBRARIES}
     )
@@ -782,8 +782,8 @@ if(LIBLAVA_DEMO)
 endif()
 
 if(LIBLAVA_TEMPLATE)
-  message("========================================================================")
-  message("> ${LIBLAVA_TEMPLATE_NAME}")
+  message(STATUS "========================================================================")
+  message(STATUS "> ${LIBLAVA_TEMPLATE_NAME}")
 
   set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
@@ -795,7 +795,7 @@ if(LIBLAVA_TEMPLATE)
     ${SRC_DIR}
     )
 
-  target_link_libraries(${LIBLAVA_TEMPLATE_NAME}
+  target_link_libraries(${LIBLAVA_TEMPLATE_NAME} PRIVATE
     lava::engine
     ${LIBLAVA_ENGINE_LIBRARIES}
     )
@@ -804,7 +804,7 @@ if(LIBLAVA_TEMPLATE)
   set_property(TARGET ${LIBLAVA_TEMPLATE_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 endif()
 
-message("========================================================================")
+message(STATUS "========================================================================")
 
 if(LIBLAVA_PACK)
   set(CPACK_PACKAGE_NAME "liblava")
