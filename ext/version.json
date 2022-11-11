@@ -39,7 +39,7 @@
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "ad0e89cbfb4d0c1ce4d097e134eb7be67baebb36"
+        "tag": "d7de159455d0d9bafc999f78139eafddb3935c36"
     },
     {
         "name": "stb",
@@ -51,25 +51,25 @@
         "name": "tinyobjloader",
         "github": "syoyo/tinyobjloader",
         "branch": "release",
-        "tag": "f026a1e0b86979cb5a7d7f6f2432d02590e61dc9"
+        "tag": "4a02d274ae1836b40adaa603fbafa97a76c2abc7"
     },
     {
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "d4c221772cb222117446521517254c91f9211801"
+        "tag": "29c0457cc167bfc9e9361a3818440e388986f5b5"
     },
     {
         "name": "volk",
         "github": "zeux/volk",
         "branch": "master",
-        "tag": "97e029bea37ae8ef443a1de684207127717de606"
+        "tag": "4baba47427568423b5a99aeb55af1cc9a64b8641"
     },
     {
         "name": "VulkanMemoryAllocator",
         "github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
         "branch": "master",
-        "tag": "04b693d9b66d2e07feac444e3f50b78987233df5"
+        "tag": "936bc4b57e7ffa5906a786735537c5493224e7d6"
     },
     {
         "name": "IconFontCppHeaders",
@@ -81,31 +81,31 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "1eac0024c0ca7f4a903875794fbdfac0094e4228"
+        "tag": "03d3343e215f78945d149621bd5655a95db59bfc"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "ced92d9c52398f10fa152f78f52d0ca51d5d1d5b"
+        "tag": "d7aca168eee54e1423e362384a3cfeec92b22563"
     },
     {
         "name": "SPIRV-Headers",
         "github": "KhronosGroup/SPIRV-Headers",
         "branch": "master",
-        "tag": "747031e10dea9e6c5651bf11957a9dbcd379fa47"
+        "tag": "47f2465ee3e78ec5ec38f00b2c405d9475797228"
     },
     {
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "c8e1588cfa3ff9e3b5d600ef04f4261c4e68af90"
+        "tag": "68e8327f2932339422eb6a1043ff395e9e602402"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "5e08deae050c4a6d5b2ca92cb6cc52ccc5259bea"
+        "tag": "2b2523fb951f63f072cfba514c26f2feea5f4329"
     },
     {
         "name": "shaderc",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "272bed081e06dc436b85d430718a7d826ecf6273"
+        "tag": "b65c0e27e9f42c9e96714b8c4973417589368787"
     }
 ]
