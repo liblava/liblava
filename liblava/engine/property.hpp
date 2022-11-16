@@ -1,6 +1,6 @@
 /**
  * @file         liblava/engine/property.hpp
- * @brief        Property master
+ * @brief        Props master
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
@@ -15,7 +15,7 @@
 namespace lava {
 
 /**
- * @brief Property master
+ * @brief Props master
  */
 struct property : configurable {
     /// Engine

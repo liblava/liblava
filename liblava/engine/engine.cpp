@@ -15,16 +15,16 @@ bool engine::setup() {
     handle_config();
 
     on_setup = [&]() {
-        prop.parse(get_cmd_line());
+        props.parse(get_cmd_line());
 
-        return prop.check();
+        return props.check();
     };
 
     if (!app::setup())
         return false;
 
     add_run_once([&]() {
-        prop.unload_all();
+        props.unload_all();
 
         return run_continue;
     });
@@ -34,7 +34,7 @@ bool engine::setup() {
     });
 
     producer.context = this;
-    prop.context = this;
+    props.context = this;
 
     return true;
 }
@@ -49,12 +49,12 @@ void engine::handle_config() {
         if (!j_config.count(_props_))
             return;
 
-        prop.set_config(j_config[_props_]);
+        props.set_config(j_config[_props_]);
     };
 
     config_callback.on_save = [&]() {
         json j;
-        j[config.id][_props_] = prop.get_config();
+        j[config.id][_props_] = props.get_config();
         return j;
     };
 

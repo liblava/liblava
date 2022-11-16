@@ -26,8 +26,8 @@ struct engine : app {
      */
     bool setup() override;
 
-    /// Property master
-    property prop;
+    /// Props master
+    property props;
 
     /// Producer
     producer_t producer;

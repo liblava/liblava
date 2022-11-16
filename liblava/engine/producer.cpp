@@ -37,7 +37,7 @@ mesh::ptr producer::get_mesh(string_ref name) {
     context->fs.create_folder(string(_cache_path_) + _temp_path_);
 
     auto product = load_mesh(context->device,
-                             context->prop.get_filename(name),
+                             context->props.get_filename(name),
                              context->fs.get_pref_dir() + _cache_path_ + _temp_path_);
     if (!product)
         return nullptr;
@@ -78,7 +78,7 @@ texture::ptr producer::get_texture(string_ref name) {
     }
 
     auto product = load_texture(context->device,
-                                context->prop.get_filename(name));
+                                context->props.get_filename(name));
     if (!product)
         return nullptr;
 
@@ -134,20 +134,20 @@ cdata producer::get_shader(string_ref name,
         reload = true;
     }
 
-    if (reload && context->prop.exists(name))
-        context->prop.unload(name);
+    if (reload && context->props.exists(name))
+        context->props.unload(name);
 
-    auto product = context->prop(name);
+    auto product = context->props(name);
     if (!product.ptr)
         return {};
 
     auto module_data = compile_shader(product,
                                       name,
-                                      context->prop.get_filename(name));
+                                      context->props.get_filename(name));
     if (!module_data.ptr)
         return {};
 
-    context->prop.unload(name);
+    context->props.unload(name);
 
     context->fs.create_folder(string(_cache_path_) + _shader_path_);
 
@@ -347,7 +347,7 @@ data producer::compile_shader(cdata product,
     }
 
     file_hash_map.emplace(filename, hash256(product_str));
-    update_file_hash(name, file_hash_map);
+    update_hash(name, file_hash_map);
 
     std::vector<ui32> const module_result = { module.cbegin(),
                                               module.cend() };
@@ -386,8 +386,8 @@ void producer::clear() {
 }
 
 //-----------------------------------------------------------------------------
-void producer::update_file_hash(string_ref name,
-                                string_map_ref file_hash_map) const {
+void producer::update_hash(string_ref name,
+                           string_map_ref file_hash_map) const {
     context->fs.create_folder(string(_cache_path_) + _shader_path_);
 
     auto filename = context->fs.get_pref_dir() + _cache_path_ + _shader_path_ + _hash_json_;

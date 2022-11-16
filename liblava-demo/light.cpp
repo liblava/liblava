@@ -112,13 +112,13 @@ int main(int argc, char* argv[]) {
 
     engine app("lava light", argh);
 
-    app.prop.add(_tex_normal_, "light/normal.png");
-    app.prop.add(_tex_roughness_, "light/roughness.png");
+    app.props.add(_tex_normal_, "light/normal.png");
+    app.props.add(_tex_roughness_, "light/roughness.png");
 
-    app.prop.add(_gbuffer_vertex_, "light/gbuffer.vert");
-    app.prop.add(_gbuffer_fragment_, "light/gbuffer.frag");
-    app.prop.add(_lighting_vertex_, "light/lighting.vert");
-    app.prop.add(_lighting_fragment_, "light/lighting.frag");
+    app.props.add(_gbuffer_vertex_, "light/gbuffer.vert");
+    app.props.add(_gbuffer_fragment_, "light/gbuffer.frag");
+    app.props.add(_lighting_vertex_, "light/lighting.vert");
+    app.props.add(_lighting_fragment_, "light/lighting.frag");
 
     if (!app.setup())
         return error::not_ready;

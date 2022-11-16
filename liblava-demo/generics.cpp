@@ -50,10 +50,10 @@ int main(int argc, char* argv[]) {
             log()->warn("double vertex buffer format is not supported");
     };
 
-    app.prop.add(_triangle_frag_, "generics/triangle.frag");
-    app.prop.add(_float_triangle_, "generics/float_triangle.vert");
-    app.prop.add(_int_triangle_, "generics/int_triangle.vert");
-    app.prop.add(_double_triangle_, "generics/double_triangle.vert");
+    app.props.add(_triangle_frag_, "generics/triangle.frag");
+    app.props.add(_float_triangle_, "generics/float_triangle.vert");
+    app.props.add(_int_triangle_, "generics/int_triangle.vert");
+    app.props.add(_double_triangle_, "generics/double_triangle.vert");
 
     if (!app.setup())
         return error::not_ready;

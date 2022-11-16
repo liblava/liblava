@@ -138,8 +138,8 @@ private:
      * @param name             Target file
      * @param file_hash_map    Map of used files with hash
      */
-    void update_file_hash(string_ref name,
-                          string_map_ref file_hash_map) const;
+    void update_hash(string_ref name,
+                     string_map_ref file_hash_map) const;
 
     /**
      * @brief Check if shader file(s) changed

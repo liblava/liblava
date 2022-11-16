@@ -80,13 +80,13 @@ int main(int argc, char* argv[]) {
 
     engine app("lava lamp", argh);
 
-    app.prop.add(_vertex_, "lamp/lamp.vert");
-    app.prop.add(_fragment_, "lamp/lamp.frag");
+    app.props.add(_vertex_, "lamp/lamp.vert");
+    app.props.add(_fragment_, "lamp/lamp.frag");
 
     setup_imgui_font_icons(app.config.imgui_font,
                            FONT_ICON_FILE_NAME_FAS,
                            ICON_MIN_FA, ICON_MAX_FA);
-    app.prop.add(_font_icon_, app.config.imgui_font.icon_file);
+    app.props.add(_font_icon_, app.config.imgui_font.icon_file);
 
     app.add_tooltip("auto play", key::enter);
 

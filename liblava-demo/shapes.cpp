@@ -20,8 +20,8 @@ int main(int argc, char* argv[]) {
 
     engine app("lava shapes", argh);
 
-    app.prop.add(_vertex_, "shapes/shapes.vert");
-    app.prop.add(_fragment_, "shapes/shapes.frag");
+    app.props.add(_vertex_, "shapes/shapes.vert");
+    app.props.add(_fragment_, "shapes/shapes.frag");
 
     if (!app.setup())
         return error::not_ready;

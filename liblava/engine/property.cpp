@@ -1,6 +1,6 @@
 /**
  * @file         liblava/engine/property.cpp
- * @brief        Property master
+ * @brief        Props master
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
