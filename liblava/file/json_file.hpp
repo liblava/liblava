@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <liblava/file/def.hpp>
 #include <liblava/file/json.hpp>
 
 namespace lava {
@@ -20,7 +19,7 @@ struct json_file {
      * @brief Construct a new json file
      * @param path    Name of file
      */
-    explicit json_file(string_ref path = _config_file_);
+    explicit json_file(string_ref path = "config.json");
 
     /**
      * @brief Json file callback

@@ -26,12 +26,12 @@ bool parse(cmd_line cmd_line, benchmark_data& data) {
 
     if (auto file = cmd_line({ "-bmf", "--benchmark_file" })) {
         data.file = file.str();
-        remove_chars(data.file, _punctuation_marks_);
+        remove_punctuation_marks(data.file);
     }
 
     if (auto path = cmd_line({ "-bmp", "--benchmark_path" })) {
         data.path = path.str();
-        remove_chars(data.path, _punctuation_marks_);
+        remove_punctuation_marks(data.path);
     }
 
     cmd_line({ "-bmx", "--benchmark_exit" }) >> data.exit;

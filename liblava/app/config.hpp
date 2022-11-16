@@ -25,7 +25,7 @@ struct app_config : configurable {
     name org = _liblava_;
 
     /// Preferred compression file format
-    name ext = _zip_;
+    name ext = "zip";
 
     /// Save window state
     bool save_window = true;

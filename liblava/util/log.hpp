@@ -11,10 +11,12 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 #include <liblava/core/version.hpp>
-#include <liblava/util/def.hpp>
 #include <memory>
 
 namespace lava {
+
+/// Default log file
+constexpr name _lava_log_file_ = "lava.log";
 
 /// Logger
 using logger = std::shared_ptr<spdlog::logger>;

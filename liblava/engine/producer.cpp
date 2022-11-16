@@ -8,7 +8,6 @@
 #include <liblava/app/def.hpp>
 #include <liblava/asset.hpp>
 #include <liblava/base/instance.hpp>
-#include <liblava/engine/def.hpp>
 #include <liblava/engine/engine.hpp>
 #include <liblava/engine/producer.hpp>
 #include <liblava/file/file_system.hpp>

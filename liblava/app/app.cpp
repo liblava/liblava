@@ -30,7 +30,7 @@ app::app(name name, argh::parser cmd_line)
 void app::parse_config(argh::parser cmd_line) {
     if (auto id = cmd_line({ "-id", "--identification" })) {
         config.id = id.str();
-        remove_chars(config.id, _punctuation_marks_);
+        remove_punctuation_marks(config.id);
     }
 
     if (auto fullscreen = -1; cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)

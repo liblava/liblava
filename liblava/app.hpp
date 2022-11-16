@@ -11,5 +11,6 @@
 #include <liblava/app/benchmark.hpp>
 #include <liblava/app/camera.hpp>
 #include <liblava/app/config.hpp>
+#include <liblava/app/def.hpp>
 #include <liblava/app/forward_shading.hpp>
 #include <liblava/app/imgui.hpp>

@@ -12,6 +12,13 @@
 
 namespace lava {
 
+/// folder
+constexpr name _shader_path_ = "shader/";
+constexpr name _temp_path_ = "temp/";
+
+/// cache
+constexpr name _hash_json_ = "hash.json";
+
 /**
  * @brief Producer
  */

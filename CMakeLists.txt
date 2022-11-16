@@ -142,7 +142,6 @@ message(STATUS ">> lava::util")
 
 add_library(lava.util
   ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp
-  ${LIBLAVA_DIR}/util/def.hpp
   ${LIBLAVA_DIR}/util/log.hpp
   ${LIBLAVA_DIR}/util/misc.hpp
   ${LIBLAVA_DIR}/util/random.hpp
@@ -167,7 +166,6 @@ add_library(lava::util ALIAS lava.util)
 message(STATUS ">> lava::file")
 
 add_library(lava.file
-  ${LIBLAVA_DIR}/file/def.hpp
   ${LIBLAVA_DIR}/file/file_system.cpp
   ${LIBLAVA_DIR}/file/file_system.hpp
   ${LIBLAVA_DIR}/file/file_utils.cpp
@@ -416,7 +414,6 @@ add_library(lava::app ALIAS lava.app)
 message(STATUS ">> lava::engine")
 
 add_library(lava.engine
-  ${LIBLAVA_DIR}/engine/def.hpp
   ${LIBLAVA_DIR}/engine/engine.cpp
   ${LIBLAVA_DIR}/engine/engine.hpp
   ${LIBLAVA_DIR}/engine/producer.cpp

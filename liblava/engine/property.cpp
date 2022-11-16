@@ -86,7 +86,7 @@ void property::parse(cmd_line cmd_line) {
 
         if (auto value = cmd_line(cmd_arg)) {
             auto filename = value.str();
-            remove_chars(filename, _punctuation_marks_);
+            remove_punctuation_marks(filename);
 
             prop.filename = filename;
 

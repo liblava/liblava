@@ -13,6 +13,9 @@
 
 namespace lava {
 
+/// config
+constexpr name _props_ = "props";
+
 /**
  * @brief Engine
  */
