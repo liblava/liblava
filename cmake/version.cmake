@@ -24,13 +24,13 @@ set(stb_GITHUB nothings/stb)
 set(stb_TAG 8b5f1f37b5b75829fc72d38e7b5d4bcbf8a26d55)
 
 set(tinyobjloader_GITHUB syoyo/tinyobjloader)
-set(tinyobjloader_TAG 0a67aaa9d94bdeb96b44eb54dfff6c51197e7df9)
+set(tinyobjloader_TAG 0fd8b20bc2c071010ce26a2adfaee16ec0875049)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
-set(Vulkan-Headers_TAG b7a86d3b2bf8fbe73fcd40df9ec62a5966e9db89)
+set(Vulkan-Headers_TAG 974db1cedec26504fd07abd5220d846bde13ffbd)
 
 set(volk_GITHUB zeux/volk)
-set(volk_TAG 4baba47427568423b5a99aeb55af1cc9a64b8641)
+set(volk_TAG fd052833a74a3db60423af7fa825e4c77218e34f)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
 set(VulkanMemoryAllocator_TAG 936bc4b57e7ffa5906a786735537c5493224e7d6)
