@@ -97,7 +97,7 @@ void descriptor::destroy() {
 void descriptor::add_binding(index binding,
                              VkDescriptorType descriptor_type,
                              VkShaderStageFlags stage_flags) {
-    auto item = make_descriptor_binding(binding);
+    auto item = binding::make(binding);
 
     item->set_type(descriptor_type);
     item->set_stage_flags(stage_flags);
@@ -169,15 +169,6 @@ bool descriptor::free_sets(VkDescriptorSets& descriptor_sets,
     if (result)
         descriptor_sets.clear();
     return result;
-}
-
-//-----------------------------------------------------------------------------
-descriptor::binding::ptr make_descriptor_binding(index index) {
-    auto binding = std::make_shared<descriptor::binding>();
-
-    binding->set(index);
-    binding->set_count(1);
-    return binding;
 }
 
 } // namespace lava

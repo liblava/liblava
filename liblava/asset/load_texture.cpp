@@ -72,7 +72,7 @@ texture::ptr create_gli_texture_2d(device_p device,
     texture::layer::list layers;
     layers.push_back(layer);
 
-    auto texture = make_texture();
+    auto texture = texture::make();
 
     uv2 const size = { tex[0].extent().x,
                        tex[0].extent().y };
@@ -138,7 +138,7 @@ texture::ptr create_gli_texture_array(device_p device,
 
     auto layers = create_layer_list(tex, to_ui32(tex.layers()));
 
-    auto texture = make_texture();
+    auto texture = texture::make();
 
     uv2 const size = { tex[0].extent().x,
                        tex[0].extent().y };
@@ -175,7 +175,7 @@ texture::ptr create_gli_texture_cube_map(device_p device,
 
     auto layers = create_layer_list(tex, to_ui32(tex.faces()));
 
-    auto texture = make_texture();
+    auto texture = texture::make();
 
     uv2 const size = { tex[0].extent().x,
                        tex[0].extent().y };
@@ -222,7 +222,7 @@ texture::ptr create_stbi_texture(device_p device,
     if (!data)
         return nullptr;
 
-    auto texture = make_texture();
+    auto texture = texture::make();
 
     uv2 const size = { tex_width, tex_height };
     auto const font_format = VK_FORMAT_R8G8B8A8_SRGB;
@@ -309,7 +309,7 @@ texture::ptr create_default_texture(device_p device,
                                     uv2 size,
                                     v3 color,
                                     r32 alpha) {
-    auto result = make_texture();
+    auto result = texture::make();
 
     auto const format = VK_FORMAT_R8G8B8A8_UNORM;
     if (!result->create(device, size, format))

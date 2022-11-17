@@ -92,7 +92,7 @@ render_target::ptr create_target(window* window,
     auto height = 0u;
     window->get_framebuffer_size(width, height);
 
-    auto target = std::make_shared<render_target>();
+    auto target = render_target::make();
     if (!target->create(device,
                         surface,
                         surface_format,

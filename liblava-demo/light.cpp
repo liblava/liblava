@@ -168,16 +168,16 @@ int main(int argc, char* argv[]) {
 
     descriptor::pool descriptor_pool;
 
-    render_pass::ptr gbuffer_renderpass = make_render_pass(app.device);
-    descriptor::ptr gbuffer_set_layout = make_descriptor();
+    render_pass::ptr gbuffer_renderpass = render_pass::make(app.device);
+    descriptor::ptr gbuffer_set_layout = descriptor::make();
     VkDescriptorSet gbuffer_set = VK_NULL_HANDLE;
-    pipeline_layout::ptr gbuffer_pipeline_layout = make_pipeline_layout();
-    render_pipeline::ptr gbuffer_pipeline = make_render_pipeline(app.device, app.pipeline_cache);
+    pipeline_layout::ptr gbuffer_pipeline_layout = pipeline_layout::make();
+    render_pipeline::ptr gbuffer_pipeline = render_pipeline::make(app.device, app.pipeline_cache);
 
-    descriptor::ptr lighting_set_layout = make_descriptor();
+    descriptor::ptr lighting_set_layout = descriptor::make();
     VkDescriptorSet lighting_set = VK_NULL_HANDLE;
-    pipeline_layout::ptr lighting_pipeline_layout = make_pipeline_layout();
-    render_pipeline::ptr lighting_pipeline = make_render_pipeline(app.device, app.pipeline_cache);
+    pipeline_layout::ptr lighting_pipeline_layout = pipeline_layout::make();
+    render_pipeline::ptr lighting_pipeline = render_pipeline::make(app.device, app.pipeline_cache);
 
     app.on_create = [&]() {
         VkDescriptorPoolSizes const pool_sizes = {
@@ -530,10 +530,10 @@ bool gbuffer_attachment::create(app const& app, ui32 index) {
     if (!format.has_value())
         return false;
 
-    image_handle = make_image(*format);
+    image_handle = image::make(*format);
     image_handle->set_usage(usage);
 
-    renderpass_attachment = make_attachment(*format);
+    renderpass_attachment = attachment::make(*format);
     renderpass_attachment->set_op(VK_ATTACHMENT_LOAD_OP_CLEAR,
                                   VK_ATTACHMENT_STORE_OP_STORE);
     renderpass_attachment->set_stencil_op(VK_ATTACHMENT_LOAD_OP_DONT_CARE,
@@ -555,7 +555,7 @@ render_pass::ptr create_gbuffer_renderpass(app const& app,
     VkClearValues clear_values(attachments.size(), { .color = { 0.f, 0.f, 0.f, 1.f } });
     clear_values[gbuffer_attachment::depth] = { .depthStencil = { 1.f, 0 } };
 
-    render_pass::ptr pass = make_render_pass(app.device);
+    render_pass::ptr pass = render_pass::make(app.device);
     pass->set_clear_values(clear_values);
 
     VkAttachmentReferences color_attachments;
@@ -569,13 +569,13 @@ render_pass::ptr create_gbuffer_renderpass(app const& app,
             color_attachments.push_back(attachments[i].subpass_reference);
     }
 
-    subpass::ptr sub = make_subpass();
+    subpass::ptr sub = subpass::make();
     sub->set_color_attachments(color_attachments);
     sub->set_depth_stencil_attachment(attachments[gbuffer_attachment::depth].subpass_reference);
     pass->add(sub);
 
-    subpass_dependency::ptr dependency = make_subpass_dependency(VK_SUBPASS_EXTERNAL,
-                                                                 0);
+    subpass_dependency::ptr dependency = subpass_dependency::make(VK_SUBPASS_EXTERNAL,
+                                                                  0);
     // wait for previous fragment shader to finish reading before clearing attachments
     dependency->set_stage_mask(
         VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
@@ -591,8 +591,8 @@ render_pass::ptr create_gbuffer_renderpass(app const& app,
                                     | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT);
     pass->add(dependency);
 
-    dependency = make_subpass_dependency(pass->get_subpass_count() - 1,
-                                         VK_SUBPASS_EXTERNAL);
+    dependency = subpass_dependency::make(pass->get_subpass_count() - 1,
+                                          VK_SUBPASS_EXTERNAL);
     // don't run any fragment shader (sample attachments)
     // before we're done writing to attachments
     dependency->set_stage_mask(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT

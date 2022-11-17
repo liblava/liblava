@@ -125,6 +125,14 @@ struct device : device_table, entity {
     };
 
     /**
+     * @brief Make a new device
+     * @return ptr    Shared pointer to device
+     */
+    static ptr make() {
+        return std::make_shared<device>();
+    }
+
+    /**
      * @brief Destroy the device
      */
     ~device() {

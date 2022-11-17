@@ -94,7 +94,7 @@ void block::destroy() {
 
 //-----------------------------------------------------------------------------
 id block::add_cmd(command::process_func func, bool active) {
-    auto cmd = make_command();
+    auto cmd = command::make();
     cmd->on_process = func;
     cmd->active = active;
 

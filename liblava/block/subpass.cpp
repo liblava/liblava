@@ -175,14 +175,6 @@ void subpass::process(VkCommandBuffer cmd_buf,
 }
 
 //-----------------------------------------------------------------------------
-subpass::ptr make_subpass(VkPipelineBindPoint pipeline_bind_point) {
-    auto result = std::make_shared<subpass>();
-
-    result->set(pipeline_bind_point);
-    return result;
-}
-
-//-----------------------------------------------------------------------------
 subpass_dependency::subpass_dependency() {
     dependency.srcSubpass = 0;
     dependency.dstSubpass = 0;
@@ -191,18 +183,6 @@ subpass_dependency::subpass_dependency() {
     dependency.srcAccessMask = 0;
     dependency.dstAccessMask = 0;
     dependency.dependencyFlags = 0;
-}
-
-//-----------------------------------------------------------------------------
-subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass,
-                                                ui32 dst_subpass,
-                                                VkDependencyFlags dependency_flags) {
-    auto dependency = std::make_shared<subpass_dependency>();
-
-    dependency->set_subpass(src_subpass, dst_subpass);
-    dependency->set_dependency_flags(dependency_flags);
-
-    return dependency;
 }
 
 } // namespace lava

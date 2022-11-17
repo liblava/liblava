@@ -24,6 +24,15 @@ struct render_pass : entity {
     using list = std::vector<ptr>;
 
     /**
+     * @brief Make a new render pass
+     * @param device    Vulkan device
+     * @return ptr      Shared pointer to render pass
+     */
+    static ptr make(device_p device) {
+        return std::make_shared<render_pass>(device);
+    }
+
+    /**
      * @brief Construct a new render pass
      * @param device    Vulkan device
      */
@@ -247,14 +256,5 @@ private:
      */
     void on_target_destroyed();
 };
-
-/**
- * @brief Make a new render pass
- * @param device               Vulkan device
- * @return render_pass::ptr    Shared pointer to render pass
- */
-inline render_pass::ptr make_render_pass(device_p device) {
-    return std::make_shared<render_pass>(device);
-}
 
 } // namespace lava

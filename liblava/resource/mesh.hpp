@@ -88,6 +88,14 @@ struct mesh_template : entity {
     using vertex_list = std::vector<T>;
 
     /**
+     * @brief Make a new mesh
+     * @return ptr    Shared pointer to mesh
+     */
+    static ptr make() {
+        return std::make_shared<mesh_template<T>>();
+    }
+
+    /**
      * @brief Destroy the mesh
      */
     ~mesh_template() {
@@ -303,16 +311,6 @@ bool mesh_template<T>::reload() {
 }
 
 /**
- * @brief Make a new mesh
- * @tparam T                                    Type of vertex struct
- * @return std::shared_ptr<mesh_template<T>>    Shared pointer to mesh
- */
-template<typename T = vertex>
-inline std::shared_ptr<mesh_template<T>> make_mesh() {
-    return std::make_shared<mesh_template<T>>();
-}
-
-/**
  * @brief Create a new primitive mesh_data
  * @tparam T                        Type of vertex struct
  * @tparam generate_colors          If color may be generated
@@ -366,7 +364,7 @@ bool mesh_template<T>::create(device_p d,
     memory_usage = mu;
 
     if (!data.vertices.empty()) {
-        vertex_buffer = make_buffer();
+        vertex_buffer = buffer::make();
 
         if (!vertex_buffer->create(device,
                                    data.vertices.data(),
@@ -380,7 +378,7 @@ bool mesh_template<T>::create(device_p d,
     }
 
     if (!data.indices.empty()) {
-        index_buffer = make_buffer();
+        index_buffer = buffer::make();
 
         if (!index_buffer->create(device,
                                   data.indices.data(),

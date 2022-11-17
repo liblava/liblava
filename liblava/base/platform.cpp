@@ -36,7 +36,7 @@ device::ptr platform::create(index pd) {
 
 //-----------------------------------------------------------------------------
 device::ptr platform::create(device::create_param::ref param) {
-    auto result = std::make_shared<device>();
+    auto result = device::make();
     if (!result->create(param))
         return nullptr;
 

@@ -450,7 +450,7 @@ Or look at this method where it is returned as a *shared pointer*:
 ```c++
 buffer::ptr use_buffer_on_heap() {
 
-    auto buf = make_buffer();
+    auto buf = buffer::make();
 
     if (buf->create(device, data, size, usage))
         return buf;
@@ -468,7 +468,7 @@ buffer::ptr use_buffer_on_heap() {
 It is made this way:
 
 ```c++
-mesh::ptr my_mesh = make_mesh();
+mesh::ptr my_mesh = mesh::make();
 
 my_mesh->add_data( /* Pass in a lava::mesh_data object */ );
 my_mesh->create(device);

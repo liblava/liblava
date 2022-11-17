@@ -23,6 +23,17 @@ struct attachment {
     using list = std::vector<ptr>;
 
     /**
+     * @brief Make a new attachment
+     * @param format     Attachment format
+     * @param samples    Sample count flag bits
+     * @return ptr       Shared pointer to attachment
+     */
+    static ptr make(VkFormat format = VK_FORMAT_UNDEFINED,
+                    VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
+        return std::make_shared<attachment>(format, samples);
+    }
+
+    /**
      * @brief Construct a new attachment
      * @param format     Attachment format
      * @param samples    Sample count flag bits
@@ -148,16 +159,5 @@ private:
     /// Attachment description
     VkAttachmentDescription description;
 };
-
-/**
- * @brief Make a new attachment
- * @param format              Attachment format
- * @param samples             Sample count flag bits
- * @return attachment::ptr    Shared pointer to attachment
- */
-inline attachment::ptr make_attachment(VkFormat format = VK_FORMAT_UNDEFINED,
-                                       VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
-    return std::make_shared<attachment>(format, samples);
-}
 
 } // namespace lava

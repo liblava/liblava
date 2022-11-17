@@ -22,6 +22,14 @@ struct buffer : entity {
     using list = std::vector<ptr>;
 
     /**
+     * @brief Make a new buffer
+     * @return ptr    Shared pointer to buffer
+     */
+    static ptr make() {
+        return std::make_shared<buffer>();
+    }
+
+    /**
      * @brief Destroy the buffer
      */
     ~buffer() {
@@ -167,14 +175,6 @@ private:
     /// Descriptor buffer information
     VkDescriptorBufferInfo descriptor = {};
 };
-
-/**
- * @brief Make a new buffer
- * @return buffer::ptr    Shared pointer to buffer
- */
-inline buffer::ptr make_buffer() {
-    return std::make_shared<buffer>();
-}
 
 /**
  * @brief Get possible stages by bufferusage flags

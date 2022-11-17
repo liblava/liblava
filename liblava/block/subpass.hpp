@@ -22,6 +22,18 @@ struct subpass : entity {
     using list = std::vector<ptr>;
 
     /**
+     * @brief Make a new subpass
+     * @param pipeline_bind_point    Pipeline bind point
+     * @return ptr                   Shared pointer to subpass
+     */
+    static ptr make(VkPipelineBindPoint pipeline_bind_point =
+                        VK_PIPELINE_BIND_POINT_GRAPHICS) {
+        auto result = std::make_shared<subpass>();
+        result->set(pipeline_bind_point);
+        return result;
+    }
+
+    /**
      * @brief Construct a new subpass
      */
     explicit subpass();
@@ -210,14 +222,6 @@ private:
 };
 
 /**
- * @brief Make a new subpass
- * @param pipeline_bind_point    Pipeline bind point
- * @return subpass::ptr          Shared pointer to subpass
- */
-subpass::ptr make_subpass(VkPipelineBindPoint pipeline_bind_point =
-                              VK_PIPELINE_BIND_POINT_GRAPHICS);
-
-/**
  * @brief Subpass dependency
  */
 struct subpass_dependency {
@@ -226,6 +230,23 @@ struct subpass_dependency {
 
     /// List of subpass dependencies
     using list = std::vector<ptr>;
+
+    /**
+     * @brief Make a new subpass dependency
+     * @param src_subpass         Source subpass
+     * @param dst_subpass         Destination subpass
+     * @param dependency_flags    Dependency flags
+     * @return ptr                Shared pointer to subpass dependency
+     */
+    static ptr make(ui32 src_subpass,
+                    ui32 dst_subpass,
+                    VkDependencyFlags dependency_flags =
+                        VK_DEPENDENCY_BY_REGION_BIT) {
+        auto result = std::make_shared<subpass_dependency>();
+        result->set_subpass(src_subpass, dst_subpass);
+        result->set_dependency_flags(dependency_flags);
+        return result;
+    }
 
     /**
      * @brief Construct a new subpass dependency
@@ -332,17 +353,5 @@ private:
     /// Vulkan subpass dependency
     VkSubpassDependency dependency;
 };
-
-/**
- * @brief Make a new subpass dependency
- * @param src_subpass                 Source subpass
- * @param dst_subpass                 Destination subpass
- * @param dependency_flags            Dependency flags
- * @return subpass_dependency::ptr    Shared pointer to subpass dependency
- */
-subpass_dependency::ptr make_subpass_dependency(ui32 src_subpass,
-                                                ui32 dst_subpass,
-                                                VkDependencyFlags dependency_flags =
-                                                    VK_DEPENDENCY_BY_REGION_BIT);
 
 } // namespace lava

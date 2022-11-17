@@ -13,7 +13,7 @@ namespace lava {
 bool camera::create(device_p device) {
     update_projection();
 
-    data = make_buffer();
+    data = buffer::make();
 
     return data->create_mapped(device,
                                &projection, size,

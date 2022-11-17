@@ -59,7 +59,7 @@ bool texture::create(device_p device,
         return false;
     }
 
-    img = make_image(format);
+    img = image::make(format);
 
     if (type == texture_type::cube_map)
         img->set_flags(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
@@ -112,7 +112,7 @@ void texture::destroy_upload_buffer() {
 //-----------------------------------------------------------------------------
 bool texture::upload(void const* data,
                      size_t data_size) {
-    upload_buffer = make_buffer();
+    upload_buffer = buffer::make();
 
     return upload_buffer->create(img->get_device(),
                                  data,

@@ -29,6 +29,14 @@ struct allocator {
     using ptr = std::shared_ptr<allocator>;
 
     /**
+     * @brief Make a new allocator
+     * @return ptr    Shared pointer to allocator
+     */
+    static ptr make() {
+        return std::make_shared<allocator>();
+    }
+
+    /**
      * @brief Construct a new allocator
      */
     allocator() = default;
@@ -76,14 +84,6 @@ private:
 };
 
 /**
- * @brief Make a new allocator
- * @return allocator::ptr    Allacator
- */
-inline allocator::ptr make_allocator() {
-    return std::make_shared<allocator>();
-}
-
-/**
  * @brief Create a allocator
  * @param device             Vulkan device
  * @param flags              VMA allocator create flags
@@ -91,7 +91,7 @@ inline allocator::ptr make_allocator() {
  */
 inline allocator::ptr create_allocator(device_cptr device,
                                        VmaAllocatorCreateFlags flags = 0) {
-    auto result = make_allocator();
+    auto result = allocator::make();
     if (!result->create(device, flags))
         return nullptr;
 

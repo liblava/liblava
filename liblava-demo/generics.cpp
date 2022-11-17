@@ -134,12 +134,12 @@ int main(int argc, char* argv[]) {
     app.on_create = [&]() {
         render_pass::ptr render_pass = app.shading.get_pass();
 
-        layout = make_pipeline_layout();
+        layout = pipeline_layout::make();
         if (!layout->create(app.device))
             return false;
 
         // making a float triangle pipeline
-        float_pipeline = make_render_pipeline(app.device, app.pipeline_cache);
+        float_pipeline = render_pipeline::make(app.device, app.pipeline_cache);
         float_pipeline->add_color_blend_attachment();
         float_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
             float_triangle->bind_draw(cmd_buf);
@@ -147,7 +147,7 @@ int main(int argc, char* argv[]) {
 
         if (int_supported) {
             // making an int triangle pipeline
-            int_pipeline = make_render_pipeline(app.device, app.pipeline_cache);
+            int_pipeline = render_pipeline::make(app.device, app.pipeline_cache);
             int_pipeline->add_color_blend_attachment();
             int_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
                 int_triangle->bind_draw(cmd_buf);
@@ -156,7 +156,7 @@ int main(int argc, char* argv[]) {
 
         if (double_supported) {
             // making an double triangle pipeline
-            double_pipeline = make_render_pipeline(app.device, app.pipeline_cache);
+            double_pipeline = render_pipeline::make(app.device, app.pipeline_cache);
             double_pipeline->add_color_blend_attachment();
             double_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
                 double_triangle->bind_draw(cmd_buf);

@@ -196,7 +196,7 @@ bool swapchain::setup() {
         return false;
 
     for (auto& image : images) {
-        auto backbuffer = make_image(format.format, image);
+        auto backbuffer = image::make(format.format, image);
         if (!backbuffer) {
             log()->error("setup swapchain backbuffer image");
             return false;

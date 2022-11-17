@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
     pipeline_layout::ptr layout;
 
     app.on_create = [&]() {
-        pipeline = make_render_pipeline(app.device, app.pipeline_cache);
+        pipeline = render_pipeline::make(app.device, app.pipeline_cache);
         pipeline->add_color_blend_attachment();
         pipeline->set_depth_test_and_write();
         pipeline->set_depth_compare_op(VK_COMPARE_OP_LESS_OR_EQUAL);
@@ -117,7 +117,7 @@ int main(int argc, char* argv[]) {
 
         // descriptor sets must be made to transfer the shapes' world matrix
         // and the camera's view matrix to the physical device
-        descriptor = make_descriptor();
+        descriptor = descriptor::make();
         descriptor->add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                                 VK_SHADER_STAGE_VERTEX_BIT); // View matrix
         descriptor->add_binding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
@@ -127,11 +127,11 @@ int main(int argc, char* argv[]) {
         if (!descriptor->create(app.device))
             return false;
 
-        descriptor_pool = make_descriptor_pool();
+        descriptor_pool = descriptor::pool::make();
         if (!descriptor_pool->create(app.device, { { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 3 } }))
             return false;
 
-        layout = make_pipeline_layout();
+        layout = pipeline_layout::make();
         layout->add(descriptor);
         if (!layout->create(app.device))
             return false;

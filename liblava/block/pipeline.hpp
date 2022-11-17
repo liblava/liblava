@@ -147,6 +147,17 @@ struct pipeline : entity {
         using list = std::vector<ptr>;
 
         /**
+         * @brief Make a new pipline shader stage
+         * @param stage    Shader stage flag bits
+         * @return ptr     Shared pointer to shader stage
+         */
+        static ptr make(VkShaderStageFlagBits stage) {
+            auto result = std::make_shared<shader_stage>();
+            result->set_stage(stage);
+            return result;
+        }
+
+        /**
          * @brief Construct a new shader stage
          */
         explicit shader_stage();
@@ -242,13 +253,6 @@ private:
     /// Auto bind state
     bool auto_bind_active = true;
 };
-
-/**
- * @brief Make a new pipline shader stage
- * @param stage                           Shader stage flag bits
- * @return pipeline::shader_stage::ptr    Shared pointer to shader stage
- */
-pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits stage);
 
 /**
  * @brief Create a new pipeline shader stage

@@ -25,6 +25,17 @@ struct image : entity {
     using list = std::vector<ptr>;
 
     /**
+     * @brief Make a new image
+     * @param format      Image format
+     * @param vk_image    Vulkan image
+     * @return ptr        Shared pointer to image
+     */
+    static ptr make(VkFormat format,
+                    VkImage vk_image = 0) {
+        return std::make_shared<image>(format, vk_image);
+    }
+
+    /**
      * @brief Construct a new image
      * @param format      Image format
      * @param vk_image    Vulkan image
@@ -234,15 +245,6 @@ private:
     /// Image subresource range
     VkImageSubresourceRange subresource_range;
 };
-
-/**
- * @brief Create a new image
- * @param format         Image format
- * @param vk_image       Vulkan image
- * @return image::ptr    Shared pointer to image
- */
-image::ptr make_image(VkFormat format,
-                      VkImage vk_image = 0);
 
 /**
  * @brief Create a new image

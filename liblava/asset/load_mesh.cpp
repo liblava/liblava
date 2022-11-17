@@ -66,7 +66,7 @@ mesh::ptr load_mesh(device_p device, string_ref filename, string_ref temp_dir) {
                              &materials,
                              &warn, &err,
                              str(target_file))) {
-            auto mesh = make_mesh();
+            auto mesh = mesh::make();
 
             for (auto const& shape : shapes) {
                 for (auto const& index : shape.mesh.indices) {

@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
     pipeline_layout::ptr layout;
 
     app.on_create = [&]() {
-        pipeline = make_render_pipeline(app.device, app.pipeline_cache);
+        pipeline = render_pipeline::make(app.device, app.pipeline_cache);
         if (!pipeline->add_shader(app.producer.get_shader(_vertex_),
                                   VK_SHADER_STAGE_VERTEX_BIT))
             return false;
@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
         pipeline->set_rasterization_cull_mode(VK_CULL_MODE_FRONT_BIT);
         pipeline->set_rasterization_front_face(VK_FRONT_FACE_COUNTER_CLOCKWISE);
 
-        layout = make_pipeline_layout();
+        layout = pipeline_layout::make();
         layout->add_push_constant_range({ VK_SHADER_STAGE_FRAGMENT_BIT,
                                           0, sizeof(r32) * 8 });
 

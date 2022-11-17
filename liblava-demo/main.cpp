@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
         VkDescriptorSets descriptor_sets;
 
         app.on_create = [&]() {
-            pipeline = make_render_pipeline(app.device, app.pipeline_cache);
+            pipeline = render_pipeline::make(app.device, app.pipeline_cache);
             if (!pipeline->add_shader(app.producer.get_shader(_vertex_),
                                       VK_SHADER_STAGE_VERTEX_BIT))
                 return false;
@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
 
             pipeline->add_color_blend_attachment();
 
-            descriptor = make_descriptor();
+            descriptor = descriptor::make();
             descriptor->add_binding(0,
                                     VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                                     VK_SHADER_STAGE_FRAGMENT_BIT);
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
             if (!descriptor->create(app.device))
                 return false;
 
-            descriptor_pool = make_descriptor_pool();
+            descriptor_pool = descriptor::pool::make();
             if (!descriptor_pool->create(app.device,
                                          {
                                              { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
                                          stages.size()))
                 return false;
 
-            layout = make_pipeline_layout();
+            layout = pipeline_layout::make();
             layout->add_push_constant_range({ VK_SHADER_STAGE_FRAGMENT_BIT,
                                               0, sizeof(r32) * 4 });
 

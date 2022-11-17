@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 
     app.on_create = [&]() {
-        pipeline = make_render_pipeline(app.device, app.pipeline_cache);
+        pipeline = render_pipeline::make(app.device, app.pipeline_cache);
         if (!pipeline->add_shader(app.producer.get_shader(_vertex_),
                                   VK_SHADER_STAGE_VERTEX_BIT))
             return false;
@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
             { 2, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(vertex, uv)) },
         });
 
-        descriptor = make_descriptor();
+        descriptor = descriptor::make();
         descriptor->add_binding(0,
                                 VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
                                 VK_SHADER_STAGE_VERTEX_BIT);
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
         if (!descriptor->create(app.device))
             return false;
 
-        descriptor_pool = make_descriptor_pool();
+        descriptor_pool = descriptor::pool::make();
         if (!descriptor_pool->create(app.device,
                                      {
                                          { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1 },
@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
                                      }))
             return false;
 
-        layout = make_pipeline_layout();
+        layout = pipeline_layout::make();
         layout->add(descriptor);
 
         if (!layout->create(app.device))

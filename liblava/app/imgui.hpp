@@ -143,7 +143,7 @@ struct imgui {
     bool create(device_p device,
                 index max_frames,
                 VkPipelineCache pipeline_cache) {
-        return create(make_render_pipeline(device, pipeline_cache),
+        return create(render_pipeline::make(device, pipeline_cache),
                       max_frames);
     }
 

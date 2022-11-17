@@ -22,6 +22,14 @@ struct pipeline_layout : entity {
     using list = std::vector<ptr>;
 
     /**
+     * @brief Make a new pipeline layout
+     * @return ptr    Shared pointer to pipeline layout
+     */
+    static ptr make() {
+        return std::make_shared<pipeline_layout>();
+    }
+
+    /**
      * @see add_descriptor
      */
     void add(descriptor::ptr const& descriptor) {
@@ -162,13 +170,5 @@ private:
     /// List of push constant ranges
     VkPushConstantRanges push_constant_ranges;
 };
-
-/**
- * @brief Make a new pipeline layout
- * @return pipeline_layout::ptr    Shared pointer to pipeline layout
- */
-inline pipeline_layout::ptr make_pipeline_layout() {
-    return std::make_shared<pipeline_layout>();
-}
 
 } // namespace lava

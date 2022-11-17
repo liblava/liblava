@@ -57,6 +57,17 @@ struct render_pipeline : pipeline {
     };
 
     /**
+     * @brief Make a new render pipeline
+     * @param device            Vulkan device
+     * @param pipeline_cache    Pipeline cache
+     * @return ptr              Shared pointer to render pipeline
+     */
+    static ptr make(device_p device,
+                    VkPipelineCache pipeline_cache = 0) {
+        return std::make_shared<render_pipeline>(device, pipeline_cache);
+    }
+
+    /**
      * @brief Construct a new render pipeline
      * @param device            Vulkan device
      * @param pipeline_cache    Pipeline cache
@@ -459,17 +470,6 @@ private:
     /// Line width
     r32 line_width = 1.f;
 };
-
-/**
- * @brief Make a new render pipeline
- * @param device                   Vulkan device
- * @param pipeline_cache           Pipeline cache
- * @return render_pipeline::ptr    Shared pointer to render pipeline
- */
-inline render_pipeline::ptr make_render_pipeline(device_p device,
-                                                 VkPipelineCache pipeline_cache = 0) {
-    return std::make_shared<render_pipeline>(device, pipeline_cache);
-}
 
 /**
  * @brief Create a color blend attachment

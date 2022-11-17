@@ -26,6 +26,18 @@ struct descriptor : entity {
         using list = std::vector<ptr>;
 
         /**
+         * @brief Make a new descriptor binding
+         * @param index    Binding index
+         * @return ptr     Shared pointer to descriptor binding
+         */
+        static ptr make(index index) {
+            auto result = std::make_shared<binding>();
+            result->set(index);
+            result->set_count(1);
+            return result;
+        }
+
+        /**
          * @brief Construct a new binding
          */
         explicit binding();
@@ -92,6 +104,14 @@ struct descriptor : entity {
 
         /// List of pools
         using list = std::vector<ptr>;
+
+        /**
+         * @brief Make a new descriptor pool
+         * @return ptr    Shared pointer to descriptor pool
+         */
+        static ptr make() {
+            return std::make_shared<descriptor::pool>();
+        }
 
         /**
          * @brief Create a new pool
@@ -163,6 +183,14 @@ struct descriptor : entity {
 
     /// List of descriptors
     using list = std::vector<ptr>;
+
+    /**
+     * @brief Make a new descriptor
+     * @return ptr    Shared pointer to descriptor
+     */
+    static ptr make() {
+        return std::make_shared<descriptor>();
+    }
 
     /**
      * @brief Add binding
@@ -311,28 +339,5 @@ private:
 
 /// Shared pointer to descriptor
 using descriptor_ptr = descriptor::ptr;
-
-/**
- * @brief Make a new descriptor
- * @return descriptor::ptr    Shared pointer to descriptor
- */
-inline descriptor::ptr make_descriptor() {
-    return std::make_shared<descriptor>();
-}
-
-/**
- * @brief Make a new descriptor binding
- * @param index                        Binding index
- * @return descriptor::binding::ptr    Shared pointer to descriptor binding
- */
-descriptor::binding::ptr make_descriptor_binding(index index);
-
-/**
- * @brief Make a new descriptor pool
- * @return descriptor::pool::ptr    Shared pointer to descriptor pool
- */
-inline descriptor::pool::ptr make_descriptor_pool() {
-    return std::make_shared<descriptor::pool>();
-}
 
 } // namespace lava

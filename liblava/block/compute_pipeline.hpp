@@ -24,6 +24,17 @@ struct compute_pipeline : pipeline {
     /// List of compute pipelines
     using list = std::vector<ptr>;
 
+    /**
+     * @brief Make a new compute pipeline
+     * @param device            Vulkan device
+     * @param pipeline_cache    Pipeline cache
+     * @return ptr              Shared pointer to compute pipeline
+     */
+    static ptr make(device_p device,
+                    VkPipelineCache pipeline_cache = 0) {
+        return std::make_shared<compute_pipeline>(device, pipeline_cache);
+    }
+
     /// Pipeline constructors
     using pipeline::pipeline;
 
@@ -87,16 +98,5 @@ private:
     /// Shader stage
     shader_stage::ptr shader_stage;
 };
-
-/**
- * @brief Make a new compute pipeline
- * @param device                    Vulkan device
- * @param pipeline_cache            Pipeline cache
- * @return compute_pipeline::ptr    Shared pointer to compute pipeline
- */
-inline compute_pipeline::ptr make_compute_pipeline(device_p device,
-                                                   VkPipelineCache pipeline_cache = 0) {
-    return std::make_shared<compute_pipeline>(device, pipeline_cache);
-}
 
 } // namespace lava

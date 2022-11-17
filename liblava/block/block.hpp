@@ -40,6 +40,14 @@ struct command : entity {
     bool active = true;
 
     /**
+     * @brief Make a new command
+     * @return ptr    Shared pointer to command
+     */
+    static ptr make() {
+        return std::make_shared<command>();
+    }
+
+    /**
      * @brief Create a new command
      * @param device           Vulkan device
      * @param frame_count      Number of frames
@@ -74,6 +82,14 @@ struct block : entity {
 
     /// List of blocks
     using clist = std::vector<cptr>;
+
+    /**
+     * @brief Make a new block
+     * @return ptr    Shared pointer to block
+     */
+    static ptr make() {
+        return std::make_shared<block>();
+    }
 
     /**
      * @brief Destroy the block
@@ -240,21 +256,5 @@ private:
 
 /// Block type
 using block_t = block;
-
-/**
- * @brief Make a new command
- * @return command::ptr    Shared pointer to command
- */
-inline command::ptr make_command() {
-    return std::make_shared<command>();
-}
-
-/**
- * @brief Make a new block
- * @return block::ptr    Shared pointer to block
- */
-inline block::ptr make_block() {
-    return std::make_shared<block>();
-}
 
 } // namespace lava

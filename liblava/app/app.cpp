@@ -339,7 +339,7 @@ bool app::create_imgui() {
 
     shading.get_pass()->add(imgui.get_pipeline());
 
-    imgui_fonts = make_texture();
+    imgui_fonts = texture::make();
     if (!imgui.upload_fonts(imgui_fonts))
         return false;
 

@@ -25,6 +25,15 @@ struct physical_device : entity {
     using ref = physical_device const&;
 
     /**
+     * @brief Make a new physical device
+     * @param vk_physical_device    Vulkan physical device
+     * @return ptr                  Shared pointer to physical device
+     */
+    static ptr make(VkPhysicalDevice vk_physical_device) {
+        return std::make_shared<physical_device>(vk_physical_device);
+    }
+
+    /**
      * @brief Construct a new physical device
      */
     physical_device() = default;

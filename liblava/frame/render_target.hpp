@@ -22,6 +22,14 @@ struct render_target : entity {
     using ptr = std::shared_ptr<render_target>;
 
     /**
+     * @brief Make a new render target
+     * @return ptr    Shared pointer to render target
+     */
+    static ptr make() {
+        return std::make_shared<render_target>();
+    }
+
+    /**
      * @brief Create a new render target
      * @param device     Vulkan device
      * @param surface    Vulkan surface

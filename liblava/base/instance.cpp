@@ -214,7 +214,7 @@ bool instance::enumerate_physical_devices() {
         return false;
 
     for (auto& device : devices)
-        physical_devices.emplace_back(std::make_shared<physical_device>(device));
+        physical_devices.emplace_back(physical_device::make(device));
 
     return true;
 }

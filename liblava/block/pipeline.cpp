@@ -105,18 +105,10 @@ void pipeline::shader_stage::destroy() {
 }
 
 //-----------------------------------------------------------------------------
-pipeline::shader_stage::ptr make_pipeline_shader_stage(VkShaderStageFlagBits stage) {
-    auto shaderStage = std::make_shared<pipeline::shader_stage>();
-
-    shaderStage->set_stage(stage);
-    return shaderStage;
-}
-
-//-----------------------------------------------------------------------------
 pipeline::shader_stage::ptr create_pipeline_shader_stage(device_p device,
                                                          cdata::ref data,
                                                          VkShaderStageFlagBits stage) {
-    auto shaderStage = make_pipeline_shader_stage(stage);
+    auto shaderStage = pipeline::shader_stage::make(stage);
 
     if (!shaderStage->create(device, data))
         return nullptr;

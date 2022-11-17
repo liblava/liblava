@@ -54,11 +54,11 @@ int main(int argc, char* argv[]) {
     render_pipeline::ptr pipeline;
 
     app.on_create = [&]() {
-        layout = make_pipeline_layout();
+        layout = pipeline_layout::make();
         if (!layout->create(app.device))
             return false;
 
-        pipeline = make_render_pipeline(app.device, app.pipeline_cache);
+        pipeline = render_pipeline::make(app.device, app.pipeline_cache);
         pipeline->set_layout(layout);
 
         if (!pipeline->add_shader({ vert_shader, sizeof(vert_shader) },

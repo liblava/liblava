@@ -75,6 +75,14 @@ struct texture : entity {
     };
 
     /**
+     * @brief Make a new texture
+     * @return ptr    Shared pointer to texture
+     */
+    static ptr make() {
+        return std::make_shared<texture>();
+    }
+
+    /**
      * @brief Destroy the texture
      */
     ~texture() {
@@ -181,14 +189,6 @@ private:
     /// Upload buffer
     buffer::ptr upload_buffer;
 };
-
-/**
- * @brief Make a new texture
- * @return texture::ptr    Shared pointer to texture
- */
-inline texture::ptr make_texture() {
-    return std::make_shared<texture>();
-}
 
 /**
  * @brief Texture staging

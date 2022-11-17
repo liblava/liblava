@@ -113,17 +113,11 @@ void image::destroy(bool view_only) {
 }
 
 //-----------------------------------------------------------------------------
-image::ptr make_image(VkFormat format,
-                      VkImage vk_image) {
-    return std::make_shared<image>(format, vk_image);
-}
-
-//-----------------------------------------------------------------------------
 image::ptr create_image(device_p device,
                         VkFormat format,
                         uv2 size,
                         VkImage vk_image) {
-    auto image = make_image(format, vk_image);
+    auto image = image::make(format, vk_image);
 
     if (!image->create(device, size, VMA_MEMORY_USAGE_AUTO))
         return nullptr;
@@ -139,7 +133,7 @@ image::ptr grab_image(image::ptr source) {
     auto const width = size.x;
     auto const height = size.y;
 
-    auto image = make_image(VK_FORMAT_R8G8B8A8_UNORM);
+    auto image = image::make(VK_FORMAT_R8G8B8A8_UNORM);
     if (!image)
         return nullptr;
 
