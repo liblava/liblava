@@ -99,6 +99,7 @@ add_library(lava.core
   ${LIBLAVA_DIR}/core/data.hpp
   ${LIBLAVA_DIR}/core/def.hpp
   ${LIBLAVA_DIR}/core/id.hpp
+  ${LIBLAVA_DIR}/core/misc.hpp
   ${LIBLAVA_DIR}/core/time.hpp
   ${LIBLAVA_DIR}/core/types.hpp
   ${LIBLAVA_DIR}/core/version.hpp
@@ -142,7 +143,6 @@ add_library(lava.util
   ${LIBLAVA_DIR}/util/hex.hpp
   ${LIBLAVA_DIR}/util/log.hpp
   ${LIBLAVA_DIR}/util/math.hpp
-  ${LIBLAVA_DIR}/util/misc.hpp
   ${LIBLAVA_DIR}/util/random.hpp
   ${LIBLAVA_DIR}/util/telegram.hpp
   ${LIBLAVA_DIR}/util/thread.hpp

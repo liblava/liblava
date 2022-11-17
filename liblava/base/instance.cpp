@@ -7,8 +7,8 @@
 
 #include <liblava/base/instance.hpp>
 #include <liblava/base/memory.hpp>
+#include <liblava/core/misc.hpp>
 #include <liblava/util/log.hpp>
-#include <liblava/util/misc.hpp>
 
 #define VK_LAYER_KHRONOS_VALIDATION_NAME "VK_LAYER_KHRONOS_validation"
 #define VK_LAYER_RENDERDOC_CAPTURE_NAME "VK_LAYER_RENDERDOC_Capture"

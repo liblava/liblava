@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <picosha2.h>
 #include <liblava/core/types.hpp>
 
 #define GLM_FORCE_RADIANS
@@ -188,6 +189,19 @@ inline mat4 perspective_matrix(uv2 size,
                float(size.x) / size.y,
                0.1f,
                far_plane);
+}
+
+/**
+ * @brief Get SHA-256 hash of string
+ * @param value      Value to hash
+ * @return string    Hash result
+ */
+inline string hash256(string_ref value) {
+    std::vector<uc8> hash(picosha2::k_digest_size);
+    picosha2::hash256(value.begin(), value.end(),
+                      hash.begin(), hash.end());
+
+    return picosha2::bytes_to_hex_string(hash.begin(), hash.end());
 }
 
 } // namespace lava

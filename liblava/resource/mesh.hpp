@@ -7,11 +7,11 @@
 
 #pragma once
 
+#include <liblava/core/misc.hpp>
 #include <liblava/resource/buffer.hpp>
 #include <liblava/resource/primitive.hpp>
 #include <liblava/util/hex.hpp>
 #include <liblava/util/log.hpp>
-#include <liblava/util/misc.hpp>
 
 namespace lava {
 

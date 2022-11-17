@@ -1,5 +1,5 @@
 /**
- * @file         liblava/util/misc.hpp
+ * @file         liblava/core/misc.hpp
  * @brief        Miscellaneous helpers
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <picosha2.h>
 #include <cstring>
 #include <liblava/core/types.hpp>
 #include <utility>
@@ -243,19 +242,6 @@ inline auto end(reversion_wrapper<T> w) {
 template<typename T>
 inline reversion_wrapper<T> reverse(T&& iterable) {
     return { iterable };
-}
-
-/**
- * @brief Get SHA-256 hash of string
- * @param value      Value to hash
- * @return string    Hash result
- */
-inline string hash256(string_ref value) {
-    std::vector<uc8> hash(picosha2::k_digest_size);
-    picosha2::hash256(value.begin(), value.end(),
-                      hash.begin(), hash.end());
-
-    return picosha2::bytes_to_hex_string(hash.begin(), hash.end());
 }
 
 } // namespace lava

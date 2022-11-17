@@ -5,10 +5,10 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include <liblava/core/misc.hpp>
 #include <liblava/resource/format.hpp>
 #include <liblava/resource/texture.hpp>
 #include <liblava/util/log.hpp>
-#include <liblava/util/misc.hpp>
 
 namespace lava {
 
