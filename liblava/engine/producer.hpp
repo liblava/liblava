@@ -12,11 +12,13 @@
 
 namespace lava {
 
-/// folder
+/// Shader folder
 constexpr name _shader_path_ = "shader/";
+
+/// Temp folder
 constexpr name _temp_path_ = "temp/";
 
-/// cache
+/// Hash file
 constexpr name _hash_json_ = "hash.json";
 
 /**

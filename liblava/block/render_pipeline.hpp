@@ -209,7 +209,6 @@ struct render_pipeline : pipeline {
 
     /**
      * @brief Add color blend attachment (default)
-     * @param attachment    Pipeline color blend attachment state
      */
     void add_color_blend_attachment();
 
