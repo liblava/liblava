@@ -9,7 +9,6 @@
 #include <liblava/file/file.hpp>
 #include <liblava/file/file_utils.hpp>
 #include <liblava/file/json_file.hpp>
-#include <liblava/util/log.hpp>
 
 namespace lava {
 

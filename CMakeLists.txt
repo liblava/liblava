@@ -183,7 +183,7 @@ target_include_directories(lava.file PUBLIC
   )
 
 target_link_libraries(lava.file PUBLIC
-  lava::util
+  lava::core
   physfs-static
   )
 

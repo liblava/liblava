@@ -9,6 +9,7 @@
 #include <liblava/app/imgui.hpp>
 #include <liblava/base/debug_utils.hpp>
 #include <liblava/resource/format.hpp>
+#include <liblava/util/log.hpp>
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_INCLUDE_VULKAN

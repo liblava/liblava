@@ -136,7 +136,7 @@
 
 [![file](https://img.shields.io/badge/lava-file-blue.svg)](liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-blue.svg)](liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-blue.svg)](liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-blue.svg)](liblava/file/json_file.hpp) [![json](https://img.shields.io/badge/lava-json-blue.svg)](liblava/file/json.hpp)
 
-- *require* [util](#lava-util)
+- *require* [core](#lava-core)
 
 ## lava [util](liblava/util)
 

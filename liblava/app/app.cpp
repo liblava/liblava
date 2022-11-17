@@ -195,7 +195,9 @@ bool app::setup_file_system() {
         return false;
     }
 
-    fs.mount_res(log());
+    auto const res_list = fs.mount_res();
+    for (auto& res : res_list)
+        log()->debug("mount {}", res);
 
     if (cmd_line[{ "-c", "--clean" }]) {
         fs.clean_pref_dir();

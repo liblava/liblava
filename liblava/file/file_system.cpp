@@ -7,7 +7,6 @@
 
 #include <physfs.h>
 #include <liblava/file/file_system.hpp>
-#include <liblava/util/log.hpp>
 
 namespace lava {
 
@@ -103,7 +102,7 @@ void file_system::terminate() {
 }
 
 //-----------------------------------------------------------------------------
-void file_system::mount_res(logger log) {
+string_list file_system::mount_res() {
 #if LAVA_DEBUG
     #if _WIN32
     res_path = "../../res/";
@@ -114,9 +113,11 @@ void file_system::mount_res(logger log) {
     res_path = "res/";
 #endif
 
+    string_list result;
+
     if (std::filesystem::exists(get_res_dir()))
         if (file_system::mount(res_path))
-            log->debug("mount {}", get_res_dir());
+            result.push_back(get_res_dir());
 
     auto cwd_res_dir = std::filesystem::current_path()
                            .append("res/")
@@ -126,12 +127,14 @@ void file_system::mount_res(logger log) {
     if (std::filesystem::exists(cwd_res_dir)
         && (cwd_res_dir != get_res_dir()))
         if (file_system::mount(cwd_res_dir))
-            log->debug("mount {}", cwd_res_dir);
+            result.push_back(cwd_res_dir);
 
     string archive_file = "res.zip";
     if (std::filesystem::exists({ archive_file }))
         if (file_system::mount(archive_file))
-            log->debug("mount {}", archive_file);
+            result.push_back(archive_file);
+
+    return result;
 }
 
 //-----------------------------------------------------------------------------
