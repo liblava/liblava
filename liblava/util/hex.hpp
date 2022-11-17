@@ -1,5 +1,5 @@
 /**
- * @file         liblava/core/hex.hpp
+ * @file         liblava/util/hex.hpp
  * @brief        Hex point, cell and grid
  * @see          https://www.redblobgames.com/grids/hexagons/
  * @authors      Lava Block OÜ and contributors
