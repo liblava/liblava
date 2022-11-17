@@ -431,6 +431,7 @@ target_link_libraries(lava.engine PUBLIC
   )
 
 set(LIBLAVA_ENGINE_LIBRARIES "shaderc")
+set(LIBLAVA_ENGINE_LIBRARIES ${LIBLAVA_ENGINE_LIBRARIES} PARENT_SCOPE)
 
 set_target_properties(lava.engine PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.engine PROPERTY EXPORT_NAME engine)
