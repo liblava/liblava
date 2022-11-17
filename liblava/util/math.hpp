@@ -1,5 +1,5 @@
 /**
- * @file         liblava/core/math.hpp
+ * @file         liblava/util/math.hpp
  * @brief        Math helpers
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License

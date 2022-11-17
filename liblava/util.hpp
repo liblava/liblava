@@ -8,6 +8,7 @@
 #pragma once
 
 #include <liblava/util/log.hpp>
+#include <liblava/util/math.hpp>
 #include <liblava/util/misc.hpp>
 #include <liblava/util/random.hpp>
 #include <liblava/util/telegram.hpp>

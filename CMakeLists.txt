@@ -100,7 +100,6 @@ add_library(lava.core
   ${LIBLAVA_DIR}/core/def.hpp
   ${LIBLAVA_DIR}/core/hex.hpp
   ${LIBLAVA_DIR}/core/id.hpp
-  ${LIBLAVA_DIR}/core/math.hpp
   ${LIBLAVA_DIR}/core/time.hpp
   ${LIBLAVA_DIR}/core/types.hpp
   ${LIBLAVA_DIR}/core/version.hpp
@@ -108,7 +107,6 @@ add_library(lava.core
 
 target_include_directories(lava.core INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<BUILD_INTERFACE:${glm_SOURCE_DIR}>
   )
 
 target_compile_features(lava.core INTERFACE cxx_std_20)
@@ -143,6 +141,7 @@ message(STATUS ">> lava::util")
 add_library(lava.util
   ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp
   ${LIBLAVA_DIR}/util/log.hpp
+  ${LIBLAVA_DIR}/util/math.hpp
   ${LIBLAVA_DIR}/util/misc.hpp
   ${LIBLAVA_DIR}/util/random.hpp
   ${LIBLAVA_DIR}/util/telegram.hpp
@@ -151,6 +150,7 @@ add_library(lava.util
 
 target_include_directories(lava.util PUBLIC
   $<BUILD_INTERFACE:${PicoSHA2_SOURCE_DIR}>
+  $<BUILD_INTERFACE:${glm_SOURCE_DIR}>
   )
 
 target_link_libraries(lava.util INTERFACE

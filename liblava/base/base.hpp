@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <liblava/core/math.hpp>
 #include <liblava/core/version.hpp>
+#include <liblava/util/math.hpp>
 
 // clang-format off
 
