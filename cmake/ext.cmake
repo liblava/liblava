@@ -49,6 +49,7 @@ cpmaddpackage(
     "PHYSFS_ARCHIVE_VDF OFF"
     "PHYSFS_BUILD_SHARED OFF"
     "PHYSFS_BUILD_TEST OFF"
+    "PHYSFS_BUILD_DOCS OFF"
     )
 
 cpmaddpackage(
