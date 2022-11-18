@@ -177,8 +177,11 @@ add_library(lava.file
   ${LIBLAVA_DIR}/file/json.hpp
   )
 
-target_include_directories(lava.file PUBLIC
+target_include_directories(lava.file PRIVATE
   $<BUILD_INTERFACE:${physfs_SOURCE_DIR}/src>
+  )
+
+target_include_directories(lava.file PUBLIC
   $<BUILD_INTERFACE:${json_SOURCE_DIR}/single_include>
   )
 
@@ -268,7 +271,7 @@ add_library(lava.asset
   ${LIBLAVA_DIR}/asset/write_image.hpp
   )
 
-target_include_directories(lava.asset PUBLIC
+target_include_directories(lava.asset PRIVATE
   $<BUILD_INTERFACE:${stb_SOURCE_DIR}>
   $<BUILD_INTERFACE:${gli_SOURCE_DIR}>
   $<BUILD_INTERFACE:${tinyobjloader_SOURCE_DIR}>
@@ -306,8 +309,11 @@ add_library(lava.frame
   ${LIBLAVA_DIR}/frame/window.hpp
   )
 
-target_include_directories(lava.frame PUBLIC
+target_include_directories(lava.frame PRIVATE
   $<BUILD_INTERFACE:${glfw_SOURCE_DIR}/include>
+  )
+
+target_include_directories(lava.frame PUBLIC
   $<BUILD_INTERFACE:${argh_SOURCE_DIR}>
   )
 
@@ -398,6 +404,10 @@ target_include_directories(lava.app PUBLIC
   $<BUILD_INTERFACE:${IconFontCppHeaders_SOURCE_DIR}>
   )
 
+target_include_directories(lava.app PRIVATE
+  $<BUILD_INTERFACE:${glfw_SOURCE_DIR}/include>
+  )
+
 target_link_libraries(lava.app PUBLIC
   lava::block
   lava::frame
@@ -422,7 +432,7 @@ add_library(lava.engine
   ${LIBLAVA_DIR}/engine/property.hpp
   )
 
-target_include_directories(lava.engine PUBLIC
+target_include_directories(lava.engine PRIVATE
   $<BUILD_INTERFACE:${shaderc_SOURCE_DIR}/libshaderc/include>
   )
 
