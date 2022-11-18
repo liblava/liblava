@@ -42,7 +42,7 @@ set(imgui_GITHUB ocornut/imgui)
 set(imgui_TAG 5bb287494096461f90eb5d18135f7c4809efd2f5)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG 38cfe22b8b1e353e168811f8daad5dc7b8730fd0)
+set(imgui_docking_TAG 9964740a47fda96ee937cfea272ccac85dc6a500)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG c214f6f2d1a7253bb0e9f195c2dc5b0659dc99ef)
