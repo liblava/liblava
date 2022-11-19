@@ -302,14 +302,12 @@ int main(int argc, char* argv[]) {
         return input_ignore;
     });
 
-    gamepad pad;
-
     app.on_update = [&](delta dt) {
         if (app.camera.activated()) {
             app.camera.update_view(dt, app.input.get_mouse_position());
 
-            if (pad.ready() && pad.update())
-                app.camera.update_view(dt, pad);
+            if (app.pad.ready() && app.pad.update())
+                app.camera.update_view(dt, app.pad);
         }
 
         if (update_spawn_matrix) {

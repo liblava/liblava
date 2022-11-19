@@ -35,6 +35,9 @@ struct engine : app {
     /// Producer
     producer_t producer;
 
+    /// Gamepad
+    gamepad pad;
+
 private:
     /**
      * @brief Handle configuration file
