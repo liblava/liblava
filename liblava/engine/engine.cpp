@@ -16,7 +16,14 @@ bool engine::setup() {
     on_setup = [&]() {
         props.parse(get_cmd_line());
 
-        return props.check();
+        if (!props.check()) {
+            log()->error("prop check failed");
+            log()->error("make sure res path is set correctly and props are available");
+
+            return false;
+        }
+
+        return true;
     };
 
     if (!app::setup())
