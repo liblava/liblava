@@ -7,6 +7,7 @@
 
 #include <liblava/base/instance.hpp>
 #include <liblava/base/platform.hpp>
+#include <liblava/core/misc.hpp>
 #include <liblava/util/log.hpp>
 
 namespace lava {
@@ -46,7 +47,7 @@ device::ptr platform::create(device::create_param::ref param) {
 
     result->set_allocator(allocator);
 
-    list.push_back(result);
+    devices.push_back(result);
     return result;
 }
 
@@ -61,16 +62,28 @@ device_p platform::create_device(index pd) {
 
 //-----------------------------------------------------------------------------
 void platform::wait_idle() {
-    for (auto& device : list)
+    for (auto& device : devices)
         device->wait_for_idle();
 }
 
 //-----------------------------------------------------------------------------
+bool platform::remove(id::ref device_id) {
+    for (auto const& device : devices) {
+        if (device->get_id() == device_id) {
+            lava::remove(devices, device);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//-----------------------------------------------------------------------------
 void platform::clear() {
-    for (auto& device : list)
+    for (auto& device : devices)
         device->destroy();
 
-    list.clear();
+    devices.clear();
 }
 
 } // namespace lava

@@ -40,14 +40,21 @@ struct platform {
      * @brief Get all devices
      * @return device::list const&    List of devices
      */
-    device::list const& get_all() const {
-        return list;
+    device::list const& get_devices() const {
+        return devices;
     }
 
     /**
      * @brief Wait for idle on all managed devices
      */
     void wait_idle();
+
+    /**
+     * @brief Remove device from platform
+     * @param device_id    Id of device
+     * @return Remove was successful or failed
+     */
+    bool remove(id::ref device_id);
 
     /**
      * @brief Clear all managed devices
@@ -62,7 +69,7 @@ struct platform {
 
 private:
     /// List of managed devices
-    device::list list;
+    device::list devices;
 };
 
 /// Platform type
