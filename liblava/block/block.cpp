@@ -111,16 +111,16 @@ id block::add_cmd(command::process_func func, bool active) {
 }
 
 //-----------------------------------------------------------------------------
-void block::remove_cmd(id::ref cmd) {
-    if (!commands.count(cmd))
+void block::remove_cmd(id::ref cmd_id) {
+    if (!commands.count(cmd_id))
         return;
 
-    auto command = commands.at(cmd);
+    auto command = commands.at(cmd_id);
     command->destroy(device, cmd_pools);
 
     remove(cmd_order, (command::cptr)(command.get()));
 
-    commands.erase(cmd);
+    commands.erase(cmd_id);
 }
 
 //-----------------------------------------------------------------------------
@@ -158,19 +158,19 @@ bool block::process(index frame) {
 }
 
 //-----------------------------------------------------------------------------
-bool block::activated(id::ref command) {
-    if (!commands.count(command))
+bool block::activated(id::ref cmd_id) {
+    if (!commands.count(cmd_id))
         return false;
 
-    return commands.at(command)->active;
+    return commands.at(cmd_id)->active;
 }
 
 //-----------------------------------------------------------------------------
-bool block::set_active(id::ref command, bool active) {
-    if (!commands.count(command))
+bool block::set_active(id::ref cmd_id, bool active) {
+    if (!commands.count(cmd_id))
         return false;
 
-    commands.at(command)->active = active;
+    commands.at(cmd_id)->active = active;
     return true;
 }
 

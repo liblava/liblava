@@ -47,7 +47,7 @@ void benchmark(frame& app, benchmark_data& data) {
 
     data.values.resize(data.buffer_size);
 
-    app.add_run([&](id::ref run) {
+    app.add_run([&](id::ref run_id) {
         auto current = get_current_timestamp_ms();
 
         auto pre = data.start_timestamp + data.offset;
@@ -69,7 +69,7 @@ void benchmark(frame& app, benchmark_data& data) {
             return run_continue;
         }
 
-        app.remove(run);
+        app.remove(run_id);
 
         app.add_run_once([&]() {
             if (!write_frames_json(data))

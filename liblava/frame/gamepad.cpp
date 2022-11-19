@@ -14,33 +14,33 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-gamepad::gamepad(gamepad_id_ref id)
-: id(id) {
+gamepad::gamepad(gamepad_id_ref pad_id)
+: pad_id(pad_id) {
     if (ready())
         update();
 }
 
 //-----------------------------------------------------------------------------
 name gamepad::get_name() const {
-    return glfwGetGamepadName(to_i32(id));
+    return glfwGetGamepadName(to_i32(pad_id));
 }
 
 //-----------------------------------------------------------------------------
 bool gamepad::ready() const {
-    return glfwJoystickIsGamepad(to_i32(id));
+    return glfwJoystickPresent(to_i32(pad_id));
 }
 
 //-----------------------------------------------------------------------------
 bool gamepad::update() {
-    return glfwGetGamepadState(to_i32(id), (GLFWgamepadstate*) &state)
+    return glfwGetGamepadState(to_i32(pad_id), (GLFWgamepadstate*) &state)
            == GLFW_TRUE;
 }
 
 //-----------------------------------------------------------------------------
 gamepad_manager::gamepad_manager() {
-    glfwSetJoystickCallback([](int jid, int e) {
-        for (auto const& [id, event] : gamepad_manager::singleton().map)
-            if (event(gamepad(gamepad_id(jid)), e == GLFW_CONNECTED))
+    glfwSetJoystickCallback([](int pad_id, int e) {
+        for (auto const& [func_id, event] : gamepad_manager::singleton().map)
+            if (event(gamepad(gamepad_id(pad_id)), e == GLFW_CONNECTED))
                 break;
     });
 }
@@ -48,27 +48,25 @@ gamepad_manager::gamepad_manager() {
 //-----------------------------------------------------------------------------
 id gamepad_manager::add(listener_func event) {
     auto id = ids::instance().next();
-
     map.emplace(id, event);
-
     return id;
 }
 
 //-----------------------------------------------------------------------------
-void gamepad_manager::remove(id::ref id) {
-    if (!map.count(id))
+void gamepad_manager::remove(id::ref func_id) {
+    if (!map.count(func_id))
         return;
 
-    map.erase(id);
+    map.erase(func_id);
 }
 
 //-----------------------------------------------------------------------------
 gamepad::list gamepads() {
     gamepad::list result;
 
-    for (auto id = GLFW_JOYSTICK_1; id < GLFW_JOYSTICK_LAST; ++id) {
-        if (glfwJoystickIsGamepad(id))
-            result.emplace_back(gamepad_id(id));
+    for (auto pad_id = GLFW_JOYSTICK_1; pad_id < GLFW_JOYSTICK_LAST; ++pad_id) {
+        if (glfwJoystickIsGamepad(pad_id))
+            result.emplace_back(gamepad_id(pad_id));
     }
 
     return result;

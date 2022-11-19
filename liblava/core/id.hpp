@@ -131,18 +131,18 @@ inline id add_id_map(T const& object,
 
 /**
  * @brief Remove object from id map
- * @tparam T        Type of object
- * @param object    Object to remove
- * @param map       Target map
+ * @tparam T           Type of object
+ * @param object_id    Object to remove
+ * @param map          Target map
  * @return Removed object from map or object not found
  */
 template<typename T>
-inline bool remove_id_map(id::ref object,
+inline bool remove_id_map(id::ref object_id,
                           std::map<id, T>& map) {
-    if (!map.count(object))
+    if (!map.count(object_id))
         return false;
 
-    map.erase(object);
+    map.erase(object_id);
 
     return true;
 }
@@ -248,29 +248,29 @@ struct id_registry {
 
     /**
      * @brief Check if object exists in registry
-     * @param object    Object to check
+     * @param object_id    Object to check
      * @return Object exists or not
      */
-    bool exists(id::ref object) const {
-        return objects.count(object);
+    bool exists(id::ref object_id) const {
+        return objects.count(object_id);
     }
 
     /**
      * @brief Get the object by id
-     * @param object    Object id
-     * @return ptr      Shared pointer to object
+     * @param object_id    Object id
+     * @return ptr         Shared pointer to object
      */
-    ptr get(id::ref object) const {
-        return objects.at(object);
+    ptr get(id::ref object_id) const {
+        return objects.at(object_id);
     }
 
     /**
      * @brief Get the meta by id
-     * @param object    Object id
-     * @return Meta     Meta object
+     * @param object_id    Object id
+     * @return Meta        Meta object
      */
-    Meta const& get_meta(id::ref object) const {
-        return meta.at(object);
+    Meta const& get_meta(id::ref object_id) const {
+        return meta.at(object_id);
     }
 
     /**
@@ -291,26 +291,26 @@ struct id_registry {
 
     /**
      * @brief Update meta of object
-     * @param object    Object id
-     * @param meta      Meta to update
+     * @param object_id    Object id
+     * @param meta         Meta to update
      * @return Meta updated or not
      */
-    bool update(id::ref object,
+    bool update(id::ref object_id,
                 Meta const& meta) {
-        if (!exists(object))
+        if (!exists(object_id))
             return false;
 
-        meta.at(object) = meta;
+        meta.at(object_id) = meta;
         return true;
     }
 
     /**
      * @brief Remove object from registry
-     * @param object    Object id
+     * @param object_id    Object id
      */
-    void remove(id::ref object) {
-        objects.erase(object);
-        meta.erase(object);
+    void remove(id::ref object_id) {
+        objects.erase(object_id);
+        meta.erase(object_id);
     }
 
     /**

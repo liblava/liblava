@@ -25,7 +25,7 @@ LAVA_STAGE(2, "run loop") {
 
     ui32 count = 0;
 
-    frame.add_run([&](id::ref run) {
+    frame.add_run([&](id::ref run_id) {
         sleep(one_second);
         count++;
 
@@ -61,7 +61,7 @@ LAVA_STAGE(3, "window input") {
         return input_ignore;
     });
 
-    frame.add_run([&](id::ref run) {
+    frame.add_run([&](id::ref run_id) {
         input.handle_events();
 
         if (window.close_request())
@@ -186,7 +186,7 @@ LAVA_STAGE(4, "clear color") {
     render_target->on_swapchain_start = build_cmd_bufs;
     render_target->on_swapchain_stop = clean_cmd_bufs;
 
-    frame.add_run([&](id::ref run) {
+    frame.add_run([&](id::ref run_id) {
         input.handle_events();
 
         if (window.close_request())
@@ -294,7 +294,7 @@ LAVA_STAGE(5, "color block") {
                                     image_range);
     });
 
-    frame.add_run([&](id::ref run) {
+    frame.add_run([&](id::ref run_id) {
         input.handle_events();
 
         if (window.close_request())

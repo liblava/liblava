@@ -176,10 +176,10 @@ struct frame : interface, no_copy_no_move {
 
     /**
      * @brief Remove a function from framework
-     * @param id    Id of function
+     * @param func_id    Id of function
      * @return Remove was successful or failed
      */
-    bool remove(id::ref id);
+    bool remove(id::ref func_id);
 
     /**
      * @brief Get the running time

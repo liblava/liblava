@@ -485,7 +485,7 @@ void app::handle_input() {
         return input_ignore;
     });
 
-    add_run([&](id::ref run) {
+    add_run([&](id::ref run_id) {
         input.handle_events();
         input.set_mouse_position(window.get_mouse_position());
 
@@ -499,7 +499,7 @@ void app::handle_input() {
 
 //-----------------------------------------------------------------------------
 void app::handle_window() {
-    add_run([&](id::ref run) {
+    add_run([&](id::ref run_id) {
         if (window.close_request())
             return shut_down();
 
@@ -559,7 +559,7 @@ void app::handle_window() {
 void app::update() {
     run_time.system = now();
 
-    add_run([&](id::ref run) {
+    add_run([&](id::ref run_id) {
         auto dt = ms(0);
         auto const time = now();
 
@@ -585,7 +585,7 @@ void app::update() {
 
 //-----------------------------------------------------------------------------
 void app::render() {
-    add_run([&](id::ref run) {
+    add_run([&](id::ref run_id) {
         if (window.iconified()) {
             sleep(one_ms);
             return run_continue;

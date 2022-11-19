@@ -61,7 +61,7 @@ LAVA_STAGE(7, "forward shading") {
     if (!renderer.create(render_target->get_swapchain()))
         return error::create_failed;
 
-    frame.add_run([&](id::ref run) {
+    frame.add_run([&](id::ref run_id) {
         input.handle_events();
 
         if (window.close_request())
@@ -121,7 +121,7 @@ LAVA_STAGE(8, "gamepad") {
 
     log()->info("Waiting some seconds for gamepads...");
 
-    frame.add_run([&](id::ref run) {
+    frame.add_run([&](id::ref run_id) {
         sleep(one_second);
 
         if (frame.get_running_time_sec() > 10.)

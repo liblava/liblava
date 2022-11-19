@@ -104,9 +104,9 @@ struct gamepad {
 
     /**
      * @brief Construct a new gamepad
-     * @param id    Gamepad id
+     * @param pad_id    Gamepad id
      */
-    explicit gamepad(gamepad_id_ref id = gamepad_id::_1);
+    explicit gamepad(gamepad_id_ref pad_id = gamepad_id::_1);
 
     /**
      * @brief Check if gamepad is active
@@ -143,7 +143,7 @@ struct gamepad {
      * @return gamepad_id_ref    Gamepad id
      */
     gamepad_id_ref get_pad_id() const {
-        return id;
+        return pad_id;
     }
 
     /**
@@ -162,7 +162,7 @@ struct gamepad {
 
 private:
     /// Gamepad id
-    gamepad_id id;
+    gamepad_id pad_id;
 
     /**
      * @brief Gamepad state
@@ -210,9 +210,9 @@ struct gamepad_manager {
 
     /**
      * @brief Remove listener
-     * @param id    Id of function
+     * @param func_id    Id of function
      */
-    void remove(id::ref id);
+    void remove(id::ref func_id);
 
 private:
     /**

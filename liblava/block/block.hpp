@@ -140,14 +140,14 @@ struct block : entity {
     /**
      * @see remove_command
      */
-    void remove_cmd(id::ref cmd);
+    void remove_cmd(id::ref cmd_id);
 
     /**
      * @brief Remove the command
-     * @param cmd    Command id
+     * @param cmd_id    Command id
      */
-    void remove_command(id::ref cmd) {
-        remove_cmd(cmd);
+    void remove_command(id::ref cmd_id) {
+        remove_cmd(cmd_id);
     }
 
     /**
@@ -167,21 +167,21 @@ struct block : entity {
 
     /**
      * @brief Get the command buffer
-     * @param cmd                 Command id
+     * @param cmd_id              Command id
      * @return VkCommandBuffer    Vulkan command buffer
      */
-    VkCommandBuffer get_command_buffer(id::ref cmd) const {
-        return commands.at(cmd)->buffers.at(current_frame);
+    VkCommandBuffer get_command_buffer(id::ref cmd_id) const {
+        return commands.at(cmd_id)->buffers.at(current_frame);
     }
 
     /**
      * @brief Get the command buffer
-     * @param cmd                 Command id
+     * @param cmd_id              Command id
      * @param frame               Frame index
      * @return VkCommandBuffer    Vulkan command buffer
      */
-    VkCommandBuffer get_command_buffer(id::ref cmd, index frame) const {
-        return commands.at(cmd)->buffers.at(frame);
+    VkCommandBuffer get_command_buffer(id::ref cmd_id, index frame) const {
+        return commands.at(cmd_id)->buffers.at(frame);
     }
 
     /**
@@ -216,18 +216,18 @@ struct block : entity {
 
     /**
      * @brief Check if command is activated
-     * @param command    Command id
+     * @param cmd_id    Command id
      * @return Command is active or not
      */
-    bool activated(id::ref command);
+    bool activated(id::ref cmd_id);
 
     /**
      * @brief Set the command active
-     * @param command    Command id
-     * @param active     Active state
+     * @param cmd_id    Command id
+     * @param active    Active state
      * @return Set was successful or failed
      */
-    bool set_active(id::ref command, bool active = true);
+    bool set_active(id::ref cmd_id, bool active = true);
 
     /**
      * @brief Get the device

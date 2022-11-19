@@ -78,7 +78,7 @@ if (!frame.ready())
 
 ui32 count = 0;
 
-frame.add_run([&](id::ref run) {
+frame.add_run([&](id::ref run_id) {
     sleep(one_second);
     count++;
 
@@ -121,7 +121,7 @@ input.key.listeners.add([&](key_event::ref event) {
     return input_ignore;
 });
 
-frame.add_run([&](id::ref run) {
+frame.add_run([&](id::ref run_id) {
     input.handle_events();
 
     if (window.close_request())
@@ -253,7 +253,7 @@ if (!build_cmd_bufs())
 render_target->on_swapchain_start = build_cmd_bufs;
 render_target->on_swapchain_stop = clean_cmd_bufs;
 
-frame.add_run([&](id::ref run) {
+frame.add_run([&](id::ref run_id) {
     input.handle_events();
 
     if (window.close_request())

@@ -152,9 +152,9 @@ private:
      * @param message    Message to discharge
      */
     void discharge(telegram::ref message) {
-        pool.enqueue([&, message](id::ref thread) {
+        pool.enqueue([&, message](id::ref thread_id) {
             if (on_message)
-                on_message(message, thread);
+                on_message(message, thread_id);
         });
     }
 
