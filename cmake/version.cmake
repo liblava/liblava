@@ -24,7 +24,7 @@ set(stb_GITHUB nothings/stb)
 set(stb_TAG 8b5f1f37b5b75829fc72d38e7b5d4bcbf8a26d55)
 
 set(tinyobjloader_GITHUB syoyo/tinyobjloader)
-set(tinyobjloader_TAG 0fd8b20bc2c071010ce26a2adfaee16ec0875049)
+set(tinyobjloader_TAG 640df370865bbd12bb7ec165478ea6d02d892f47)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
 set(Vulkan-Headers_TAG 974db1cedec26504fd07abd5220d846bde13ffbd)
@@ -48,7 +48,7 @@ set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG c214f6f2d1a7253bb0e9f195c2dc5b0659dc99ef)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 1a7f71afb42983b8b21bef656260964eb3852942)
+set(SPIRV-Tools_TAG 46ca66e6991f16c89e17ebc9b86995143be2c706)
 
 set(glslang_GITHUB KhronosGroup/glslang)
 set(glslang_TAG 88fd417b0bb7d91755961c70e846d274c182f2b0)
