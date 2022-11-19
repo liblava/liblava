@@ -32,8 +32,8 @@ int main(int argc, char* argv[]) {
 
         stage::map const& stages = driver.get_stages();
         for (auto& [id, stage] : stages)
-            app.props.add(stage->descr,
-                          stage->descr + "/" + _screenshot_ + ".png");
+            app.props.add(stage->name,
+                          stage->name + "/" + _screenshot_ + ".png");
 
         app.props.add(_vertex_, "demo/demo.vert");
         app.props.add(_fragment_, "demo/demo.frag");
@@ -121,7 +121,7 @@ int main(int argc, char* argv[]) {
                     .dstBinding = 0,
                     .descriptorCount = 1,
                     .descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                    .pImageInfo = app.producer.get_texture(stage->descr)
+                    .pImageInfo = app.producer.get_texture(stage->name)
                                       ->get_descriptor_info(),
                 };
 
@@ -218,7 +218,7 @@ int main(int argc, char* argv[]) {
 
                 ImGui::SameLine(0.f, 15.f);
 
-                if (ImGui::Button(str(stages.at(selected)->descr)))
+                if (ImGui::Button(str(stages.at(selected)->name)))
                     play();
             }
 

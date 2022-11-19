@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 
             for (auto& [id, stage] : stages) {
                 auto stage_label = fmt::format("{}. {}",
-                                               id, stage->descr);
+                                               id, stage->name);
 
                 if (ImGui::Button(str(stage_label))) {
                     result.selected = id;

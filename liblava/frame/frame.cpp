@@ -209,16 +209,18 @@ bool frame::run_step() {
     handle_events(wait_for_events);
 
     if (!run_once_list.empty()) {
-        for (auto& func : run_once_list)
+        for (auto& func : run_once_list) {
             if (!func())
                 return false;
+        }
 
         run_once_list.clear();
     }
 
-    for (auto& [id, func] : run_map)
+    for (auto& [id, func] : run_map) {
         if (!func(id))
             return false;
+    }
 
     if (!run_remove_list.empty())
         trigger_run_remove();
@@ -240,7 +242,6 @@ bool frame::shut_down() {
 id frame::add_run(run_func_ref func) {
     auto id = ids::instance().next();
     run_map.emplace(id, func);
-
     return id;
 }
 
@@ -248,7 +249,6 @@ id frame::add_run(run_func_ref func) {
 id frame::add_run_end(run_end_func_ref func) {
     auto id = ids::instance().next();
     run_end_map.emplace(id, func);
-
     return id;
 }
 

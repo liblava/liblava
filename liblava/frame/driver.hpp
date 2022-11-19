@@ -23,19 +23,19 @@ struct stage {
 
     /**
      * @brief Construct a new stage
-     * @param id       Stage id
-     * @param descr    Stage description
-     * @param func     Stage function
+     * @param id      Stage id
+     * @param name    Stage name
+     * @param func    Stage function
      */
     explicit stage(ui32 id,
-                   name descr,
+                   string_ref name,
                    func func);
 
     /// Stage id
     index id = 0;
 
-    /// Stage description
-    string descr;
+    /// Stage name
+    string name;
 
     /// Called on stage run
     func on_func;
@@ -79,6 +79,7 @@ struct driver {
      * @param stage    Stage to add
      */
     void add_stage(stage* stage) {
+        assert(!stages.count(stage->id) && "stage id already defined.");
         stages.emplace(stage->id, stage);
     }
 
@@ -127,8 +128,8 @@ private:
 /// String concatenation
 #define STR(n, m) STR_(n, m)
 
-/// Lava stage macro
+/// lava stage macro
 #define LAVA_STAGE(ID, NAME) \
-    i32 STR(STAGE_FUNC, ID)(argh::parser argh); \
+    lava::i32 STR(STAGE_FUNC, ID)(argh::parser argh); \
     lava::stage STR(STAGE_OBJ, ID)(ID, NAME, ::STR(STAGE_FUNC, ID)); \
-    i32 STR(STAGE_FUNC, ID)(argh::parser argh)
+    lava::i32 STR(STAGE_FUNC, ID)(argh::parser argh)

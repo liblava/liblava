@@ -20,7 +20,7 @@ i32 driver::run(argh::parser cmd_line) {
 
     if (cmd_line[{ "-ls", "--stages" }]) {
         for (auto& [id, stage] : stages)
-            std::cout << id << ". " << stage->descr << std::endl;
+            std::cout << id << ". " << stage->name << std::endl;
 
         return to_i32(stages.size());
     }
@@ -32,7 +32,7 @@ i32 driver::run(argh::parser cmd_line) {
         }
 
         auto& stage = stages.at(id);
-        std::cout << "stage " << id << " - " << stage->descr << std::endl;
+        std::cout << "stage " << id << " - " << stage->name << std::endl;
         return stage->on_func(cmd_line);
     }
 
@@ -52,7 +52,7 @@ i32 driver::run(argh::parser cmd_line) {
             auto& stage = stages.at(result.selected);
 
             std::cout << "stage " << result.selected
-                      << " - " << stage->descr << std::endl;
+                      << " - " << stage->name << std::endl;
 
             auto stage_result = stage->on_func(cmd_line);
             if (stage_result < 0)
@@ -70,9 +70,9 @@ i32 driver::run(argh::parser cmd_line) {
 
 //-----------------------------------------------------------------------------
 stage::stage(ui32 id,
-             name descr,
+             string_ref name,
              func func)
-: id(id), descr(descr), on_func(func) {
+: id(id), name(name), on_func(func) {
     assert((id != 0) && "stage id not defined.");
     driver::instance().add_stage(this);
 }
