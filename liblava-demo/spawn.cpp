@@ -200,7 +200,7 @@ int main(int argc, char* argv[]) {
 
         imgui_left_spacing(2);
 
-        ImGui::TextUnformatted(icon(ICON_FA_CHESS_ROOK));
+        ImGui::TextUnformatted(to_char(ICON_FA_CHESS_ROOK));
 
         ImGui::SameLine(0.f, 15.f);
 
@@ -229,7 +229,7 @@ int main(int argc, char* argv[]) {
 
         imgui_left_spacing(2);
 
-        ImGui::TextUnformatted(icon(ICON_FA_VIDEO));
+        ImGui::TextUnformatted(to_char(ICON_FA_VIDEO));
 
         ImGui::SameLine(0.f, 15.f);
 

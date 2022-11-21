@@ -208,12 +208,12 @@ int main(int argc, char* argv[]) {
                 app.draw_about(draw_no_separator, show_fps ? draw_fps : draw_no_fps,
                                draw_no_spacing);
 
-                if (ImGui::Button(icon(ICON_FA_ARROW_LEFT)))
+                if (ImGui::Button(to_char(ICON_FA_ARROW_LEFT)))
                     previous();
 
                 ImGui::SameLine();
 
-                if (ImGui::Button(icon(ICON_FA_ARROW_RIGHT)))
+                if (ImGui::Button(to_char(ICON_FA_ARROW_RIGHT)))
                     next();
 
                 ImGui::SameLine(0.f, 15.f);

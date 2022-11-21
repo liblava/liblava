@@ -267,11 +267,11 @@ inline index to_index(auto value) {
 }
 
 /**
- * @brief Convert to icon
+ * @brief Convert to pointer const char
  * @param value           Source value
  * @return char const*    Converted value
  */
-inline char const* icon(auto value) {
+inline char const* to_char(auto value) {
     return (char const*) value;
 }
 

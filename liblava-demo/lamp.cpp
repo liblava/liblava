@@ -198,15 +198,15 @@ int main(int argc, char* argv[]) {
         ImGui::Begin(app.get_name());
 
         if (ImGui::Button(pipeline->activated()
-                              ? icon(ICON_FA_LIGHTBULB)
-                              : icon(ICON_FA_POWER_OFF)))
+                              ? to_char(ICON_FA_LIGHTBULB)
+                              : to_char(ICON_FA_POWER_OFF)))
             pipeline->toggle();
 
         ImGui::SameLine(0.f, 20.f);
 
         if (ImGui::Button(auto_play
-                              ? icon(ICON_FA_PLAY)
-                              : icon(ICON_FA_PAUSE)))
+                              ? to_char(ICON_FA_PLAY)
+                              : to_char(ICON_FA_PAUSE)))
             auto_play = !auto_play;
 
         ImGui::SameLine();
