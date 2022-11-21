@@ -75,6 +75,9 @@ struct app : frame {
     /// Main camera
     camera_t camera;
 
+    /// Gamepad
+    gamepad pad;
+
     /// Texture staging
     staging_t staging;
 
