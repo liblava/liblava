@@ -689,6 +689,14 @@ app.config.handle_key_events = false;
 <br />
 
 ```bash
+--resource={str}, -res={str}
+```
+
+* **str** &nbsp; resource file or path (relative to app directory) &nbsp; *for example: *mod.zip*
+
+<br />
+
+```bash
 --paused={0|1}, -p={0|1}
 ```
 
@@ -719,7 +727,6 @@ app.config.handle_key_events = false;
 
 * **0** &nbsp; hide imgui
 * **1** &nbsp; show imgui
-
 
 <br />
 

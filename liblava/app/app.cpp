@@ -195,9 +195,27 @@ bool app::setup_file_system() {
         return false;
     }
 
-    auto const res_list = fs.mount_res();
-    for (auto& res : res_list)
+    auto res_list = fs.mount_res();
+
+    if (auto res = cmd_line({ "-res", "--resource" })) {
+        auto res_str = res.str();
+        remove_punctuation_marks(res_str);
+
+        auto const res_dir = fs.get_full_base_dir(res_str);
+
+        if (std::filesystem::exists(res_dir)) {
+            if (fs.mount(res_dir))
+                res_list.push_back(res_dir);
+            else
+                log()->error("res not mounted: {}", res_dir);
+        } else {
+            log()->error("res not found: {}", res_dir);
+        }
+    }
+
+    for (auto& res : res_list) {
         log()->debug("mount {}", res);
+    }
 
     if (cmd_line[{ "-c", "--clean" }]) {
         fs.clean_pref_dir();
@@ -206,7 +224,6 @@ bool app::setup_file_system() {
 
     if (cmd_line[{ "-cc", "--clean_cache" }]) {
         std::filesystem::remove_all(fs.get_pref_dir() + _cache_path_);
-
         log()->info("clean cache");
     }
 
@@ -384,7 +401,6 @@ void app::destroy_target() {
         on_destroy();
 
     renderer.destroy();
-
     shading.destroy();
     target->destroy();
 }
@@ -576,8 +592,9 @@ void app::update() {
 
             dt = to_ms(to_sec(dt) * run_time.speed);
             run_time.current += dt;
-        } else
+        } else {
             dt = ms(0);
+        }
 
         return on_update ? on_update(to_delta(dt)) : run_continue;
     });
@@ -628,13 +645,13 @@ string app::screenshot() {
 
     image->destroy();
 
-    if (saved) {
-        log()->info("screenshot: {}", path);
-        return path;
-    } else {
+    if (!saved) {
         log()->error("screenshot failed: {}", path);
         return {};
     }
+
+    log()->info("screenshot: {}", path);
+    return path;
 }
 
 //-----------------------------------------------------------------------------
@@ -657,9 +674,8 @@ void app::draw_about(bool separator,
 
     ImGui::Text("%s %s", _liblava_, str(version_string()));
 
-    if (config.handle_key_events && ImGui::IsItemHovered()) {
+    if (config.handle_key_events && ImGui::IsItemHovered())
         ImGui::SetTooltip("%s", str(to_string(tooltips)));
-    }
 
     if (fps) {
         if (spacing)
