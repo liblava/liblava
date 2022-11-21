@@ -409,7 +409,7 @@ int main(int argc, char* argv[]) {
 
     // handle backbuffer resize
 
-    resize_callback.on_created = [&](VkAttachmentsRef, rect area) {
+    resize_callback.on_created = [&](VkAttachmentsRef, rect::ref area) {
         // update uniform buffer
         g_ubo.camPos = { 0.f, 0.f, -1.25f };
         g_ubo.lightCount = g_lights.size();

@@ -15,9 +15,6 @@
 
 namespace lava {
 
-/// Default log file
-constexpr name _lava_log_file_ = "lava.log";
-
 /// Logger
 using logger = std::shared_ptr<spdlog::logger>;
 
@@ -115,7 +112,7 @@ struct log_config {
     name logger = _lava_;
 
     /// Log file
-    name file = _lava_log_file_;
+    name file = "lava.log";
 
     /// Log level
     i32 level = -1;

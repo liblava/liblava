@@ -14,14 +14,14 @@ namespace lava {
 render_pass::render_pass(device_p d)
 : device(d) {
     callback.on_created =
-        [&](VkAttachmentsRef target_attachments, rect area) { return on_target_created(
-                                                                  target_attachments, area); };
+        [&](VkAttachmentsRef target_attachments, rect::ref area) { return on_target_created(
+                                                                       target_attachments, area); };
     callback.on_destroyed = [&]() { on_target_destroyed(); };
 }
 
 //-----------------------------------------------------------------------------
 bool render_pass::create(VkAttachmentsRef target_attachments,
-                         rect area) {
+                         rect::ref area) {
     std::vector<VkAttachmentDescription> attachment_descriptions;
 
     for (auto& attachment : attachments)
@@ -151,7 +151,7 @@ v3 render_pass::get_clear_color() const {
 
 //-----------------------------------------------------------------------------
 bool render_pass::on_target_created(VkAttachmentsRef target_attachments,
-                                    rect a) {
+                                    rect::ref a) {
     area = a;
     framebuffers.resize(target_attachments.size());
 

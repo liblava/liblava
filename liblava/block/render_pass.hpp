@@ -45,7 +45,7 @@ struct render_pass : entity {
      * @return Create was successful or failed
      */
     bool create(VkAttachmentsRef target_attachments,
-                rect area);
+                rect::ref area);
 
     /**
      * @brief Destroy the render pass
@@ -249,7 +249,7 @@ private:
      * @return Create was successful or failed
      */
     bool on_target_created(VkAttachmentsRef target_attachments,
-                           rect area);
+                           rect::ref area);
 
     /**
      * @brief Called on target destroyed

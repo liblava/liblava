@@ -216,7 +216,7 @@ struct target_callback {
     using clist = std::vector<cptr>;
 
     /// Created function
-    using created_func = std::function<bool(VkAttachmentsRef, rect)>;
+    using created_func = std::function<bool(VkAttachmentsRef, rect::ref)>;
 
     /// Called on target created
     created_func on_created;
