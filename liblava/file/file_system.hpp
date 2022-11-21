@@ -29,8 +29,15 @@ struct file_system : no_copy_no_move {
     string get_base_dir();
 
     /**
+     * @brief Get the path relative to base directory
+     * @param path       Path to add to base directory
+     * @return string    Relative base directory path
+     */
+    string get_full_base_dir(string_ref path);
+
+    /**
      * @brief Get the preferences directory
-     * @return name    Preferences directory
+     * @return string    Preferences directory
      */
     string get_pref_dir();
 
@@ -63,8 +70,8 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Get the real directory of file
-     * @param file     Target file
-     * @return name    Real directory of file
+     * @param file       Target file
+     * @return string    Real directory of file
      */
     string get_real_dir(string_ref file);
 
@@ -95,13 +102,13 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Mount resource directories and files
-     * @return List of mounted resources
+     * @return string_list    List of mounted resources
      */
     string_list mount_res();
 
     /**
-     * @brief Create a folder in the preferences directory (default: data)
-     * @param name      Name of folder
+     * @brief Create a folder in the preferences directory
+     * @param name    Name of folder (default: data)
      * @return Folder created or not
      */
     bool create_folder(string_ref name = "data");
@@ -113,7 +120,7 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Get the organization name
-     * @return name    Name of organization
+     * @return string_ref    Name of organization
      */
     string_ref get_org() const {
         return org;
@@ -121,7 +128,7 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Get the application name
-     * @return name    Name of application
+     * @return string_ref    Name of application
      */
     string_ref get_app() const {
         return app;
@@ -129,7 +136,7 @@ struct file_system : no_copy_no_move {
 
     /**
      * @brief Get the extension name
-     * @return name    Name of extension
+     * @return string_ref    Name of extension
      */
     string_ref get_ext() const {
         return ext;
