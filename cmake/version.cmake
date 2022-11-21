@@ -27,7 +27,7 @@ set(tinyobjloader_GITHUB syoyo/tinyobjloader)
 set(tinyobjloader_TAG 640df370865bbd12bb7ec165478ea6d02d892f47)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
-set(Vulkan-Headers_TAG 974db1cedec26504fd07abd5220d846bde13ffbd)
+set(Vulkan-Headers_TAG b092b2fccc812453c1d0ec0a829eb8f34f174803)
 
 set(volk_GITHUB zeux/volk)
 set(volk_TAG fd052833a74a3db60423af7fa825e4c77218e34f)
