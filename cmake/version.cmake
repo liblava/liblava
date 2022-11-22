@@ -18,7 +18,7 @@ set(json_GITHUB nlohmann/json)
 set(json_TAG a3e6e26dc83a726b292f5be0492fcc408663ce55)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG 4f800773393d3ebac13c1fcd946a315d4d72bcd9)
+set(spdlog_TAG 50e8b2d982e40266f61b9a0d023c008322c650cb)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG 8b5f1f37b5b75829fc72d38e7b5d4bcbf8a26d55)
@@ -60,4 +60,4 @@ set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG 65cc7fd2ae39a7a543767f661b096d7d521ee4f0)
+set(Catch2_TAG a20200be7e29e4be4929167b3bc56bb03d30ca4a)
