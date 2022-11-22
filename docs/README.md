@@ -692,7 +692,7 @@ app.config.handle_key_events = false;
 --resource={str}, -res={str}
 ```
 
-* **str** &nbsp; resource file or path (relative to app directory) &nbsp; *for example: *mod.zip*
+* **str** &nbsp; resource file or path (relative to app directory) &nbsp; *for example: mod.zip*
 
 <br />
 

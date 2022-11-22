@@ -211,6 +211,11 @@ struct app : frame {
 
 private:
     /**
+     * @brief Mount resource paths and files
+     */
+    void mount_resource();
+
+    /**
      * @brief Set up file system
      * @return Setup was successful or failed
      */

@@ -182,22 +182,10 @@ bool app::setup() {
 }
 
 //-----------------------------------------------------------------------------
-bool app::setup_file_system() {
-    log()->debug("physfs {}", to_string(fs.get_version()));
-
-    auto& cmd_line = get_cmd_line();
-
-    if (!fs.initialize(cmd_line[0],
-                       config.org,
-                       get_name(),
-                       config.ext)) {
-        log()->error("init file system");
-        return false;
-    }
-
+void app::mount_resource() {
     auto res_list = fs.mount_res();
 
-    if (auto res = cmd_line({ "-res", "--resource" })) {
+    if (auto res = get_cmd_line()({ "-res", "--resource" })) {
         auto res_str = res.str();
         remove_punctuation_marks(res_str);
 
@@ -216,6 +204,23 @@ bool app::setup_file_system() {
     for (auto& res : res_list) {
         log()->debug("mount {}", res);
     }
+}
+
+//-----------------------------------------------------------------------------
+bool app::setup_file_system() {
+    log()->debug("physfs {}", to_string(fs.get_version()));
+
+    auto& cmd_line = get_cmd_line();
+
+    if (!fs.initialize(cmd_line[0],
+                       config.org,
+                       get_name(),
+                       config.ext)) {
+        log()->error("init file system");
+        return false;
+    }
+
+    mount_resource();
 
     if (cmd_line[{ "-c", "--clean" }]) {
         fs.clean_pref_dir();
