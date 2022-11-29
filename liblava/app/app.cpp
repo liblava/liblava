@@ -15,7 +15,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-app::app(frame_env env)
+app::app(frame_env::ref env)
 : frame(env), window(env.info.app_name) {
     parse_config(env.cmd_line);
 }
@@ -410,21 +410,6 @@ void app::destroy_target() {
     target->destroy();
 }
 
-/**
- * @brief Add app tooltips
- *
- * @param app    Target app
- */
-void add_tooltips(app* app) {
-    app->add_tooltip(_pause_, key::space, mod::control);
-    app->add_tooltip(_imgui_, key::tab, mod::control);
-    app->add_tooltip(_v_sync_, key::backspace, mod::alt);
-    app->add_tooltip(_fullscreen_, key::enter, mod::alt);
-    app->add_tooltip(_benchmark_, key::b, mod::control);
-    app->add_tooltip(_screenshot_, key::p, mod::control);
-    app->add_tooltip(_quit_, key::q, mod::control);
-}
-
 //-----------------------------------------------------------------------------
 void app::handle_keys() {
     input.key.listeners.add([&](key_event::ref event) {
@@ -478,11 +463,25 @@ void app::handle_keys() {
     });
 }
 
+/**
+ * @brief Add app tooltips
+ * @param tooltips    Tooltip list
+ */
+void add_tooltips(tooltip_list& tooltips) {
+    tooltips.add(_pause_, key::space, mod::control);
+    tooltips.add(_imgui_, key::tab, mod::control);
+    tooltips.add(_v_sync_, key::backspace, mod::alt);
+    tooltips.add(_fullscreen_, key::enter, mod::alt);
+    tooltips.add(_benchmark_, key::b, mod::control);
+    tooltips.add(_screenshot_, key::p, mod::control);
+    tooltips.add(_quit_, key::q, mod::control);
+}
+
 //-----------------------------------------------------------------------------
 void app::handle_input() {
     input.add(&imgui.get_input_callback());
 
-    add_tooltips(this);
+    add_tooltips(tooltips);
 
     handle_keys();
 
@@ -660,11 +659,6 @@ string app::screenshot() {
 }
 
 //-----------------------------------------------------------------------------
-void app::add_tooltip(string_ref name, key_t key, mod_t mod) {
-    tooltips.emplace_back(name, key, mod);
-}
-
-//-----------------------------------------------------------------------------
 void app::draw_about(bool separator,
                      bool fps,
                      bool spacing) const {
@@ -680,7 +674,7 @@ void app::draw_about(bool separator,
     ImGui::Text("%s %s", _liblava_, str(version_string()));
 
     if (config.handle_key_events && ImGui::IsItemHovered())
-        ImGui::SetTooltip("%s", str(to_string(tooltips)));
+        ImGui::SetTooltip("%s", str(tooltips.format_string()));
 
     if (fps) {
         if (spacing)

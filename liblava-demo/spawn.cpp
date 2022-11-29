@@ -31,9 +31,9 @@ int main(int argc, char* argv[]) {
 
     app.props.add("spawn", "spawn/lava-spawn-game.obj");
 
-    app.add_tooltip("first person", key::enter);
-    app.add_tooltip("lock rotation", key::r);
-    app.add_tooltip("lock z", key::z);
+    app.tooltips.add("first person", key::enter);
+    app.tooltips.add("lock rotation", key::r);
+    app.tooltips.add("lock z", key::z);
 
     if (!app.setup())
         return error::not_ready;

@@ -690,10 +690,53 @@ struct tooltip {
 };
 
 /**
- * @brief Convert tooltips to string
- * @param tooltips    List of tooltips
- * @return string     String representation
+ * @brief Tooltip list
  */
-string to_string(tooltip::list const& tooltips);
+struct tooltip_list {
+    /**
+     * @brief Add a tooltip
+     * @param name    Name of tooltip
+     * @param key     Input key
+     * @param mod     Input mod (default: none)
+     */
+    void add(string_ref name,
+             key_t key,
+             mod_t mod = mod::none) {
+        tooltips.emplace_back(name, key, mod);
+    }
+
+    /**
+     * @brief Clear tooltips
+     */
+    void clear() {
+        tooltips.clear();
+    }
+
+    /**
+     * @brief Get tooltips
+     * @return tooltip::list    List of tooltips
+     */
+    tooltip::list const& get_list() const {
+        return tooltips;
+    }
+
+    /**
+     * @brief Set a new tooltip list
+     * @param list    List of tooltips
+     */
+    void set(tooltip::list const& list) {
+        tooltips = list;
+    }
+
+    /**
+     * @brief Convert tooltips to string
+     * @return string    String representation
+     */
+    string format_string() const;
+
+private:
+    /// List of tooltips
+    tooltip::list tooltips;
+};
 
 } // namespace lava

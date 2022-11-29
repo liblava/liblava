@@ -225,11 +225,11 @@ int main(int argc, char* argv[]) {
             ImGui::End();
         };
 
-        app.add_tooltip("play demo", key::enter);
-        app.add_tooltip("next demo", key::right);
-        app.add_tooltip("previous demo", key::left);
-        app.add_tooltip("fps counter", key::tab);
-        app.add_tooltip("refresh", key::space);
+        app.tooltips.add("play demo", key::enter);
+        app.tooltips.add("next demo", key::right);
+        app.tooltips.add("previous demo", key::left);
+        app.tooltips.add("fps counter", key::tab);
+        app.tooltips.add("refresh", key::space);
 
         app.input.key.listeners.add([&](key_event::ref event) {
             if (event.pressed(key::enter))

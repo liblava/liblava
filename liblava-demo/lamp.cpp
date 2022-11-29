@@ -88,7 +88,7 @@ int main(int argc, char* argv[]) {
                            ICON_MIN_FA, ICON_MAX_FA);
     app.props.add(_font_icon_, app.config.imgui_font.icon_file);
 
-    app.add_tooltip("auto play", key::enter);
+    app.tooltips.add("auto play", key::enter);
 
     if (!app.setup())
         return error::not_ready;

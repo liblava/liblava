@@ -383,7 +383,7 @@ string to_string(mod m) {
 }
 
 //-----------------------------------------------------------------------------
-string to_string(tooltip::list const& tooltips) {
+string tooltip_list::format_string() const {
     string result;
 
     auto skip_first = true;

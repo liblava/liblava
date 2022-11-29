@@ -42,7 +42,7 @@ struct app : frame {
      * @brief Construct a new app
      * @param env    Frame environment
      */
-    explicit app(frame_env env);
+    explicit app(frame_env::ref env);
 
     /**
      * @brief Construct a new app
@@ -68,6 +68,9 @@ struct app : frame {
 
     /// ImGui configuration
     imgui::config imgui_config;
+
+    /// Tooltip list
+    tooltip_list tooltips;
 
     /// Vulkan device
     device_p device = nullptr;
@@ -177,31 +180,6 @@ struct app : frame {
      * @return string    Screenshot file path (empty: failed)
      */
     string screenshot();
-
-    /**
-     * @brief Add a tooltip
-     * @param name    Name of tooltip
-     * @param key     Input key
-     * @param mod     Input mod (default: none)
-     */
-    void add_tooltip(string_ref name,
-                     key_t key,
-                     mod_t mod = mod::none);
-
-    /**
-     * @brief Clear tooltips
-     */
-    void clear_tooltips() {
-        tooltips.clear();
-    }
-
-    /**
-     * @brief Get tooltips
-     * @return tooltip::list    List of tooltips
-     */
-    tooltip::list get_tooltips() const {
-        return tooltips;
-    }
 
     /**
      * @brief Parse config
@@ -330,9 +308,6 @@ private:
 
     /// Benchmark frames
     benchmark_data frames;
-
-    /// List of tooltips
-    tooltip::list tooltips;
 };
 
 } // namespace lava
