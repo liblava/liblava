@@ -67,7 +67,7 @@ struct version {
     i32 release = 0;
 
     /// Version stage
-    version_stage stage = version_stage::alpha;
+    version_stage stage = version_stage::release;
 
     /// Version revision
     i32 rev = 0;

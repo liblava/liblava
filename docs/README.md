@@ -623,15 +623,15 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 <br />
 
-| shortcut          |         action | default |         config.json |
-| :---------------- | -------------: | :------ | ------------------: |
-| *alt + enter*     | **fullscreen** | off     | "window/fullscreen" |
-| *alt + backspace* |     **v-sync** | off     |        "app/v-sync" |
-| *control + tab*   |      **imgui** | on      |         "app/imgui" |
-| *control + space* |      **pause** | off     |        "app/paused" |
-| *control + b*     |  **benchmark** |         |                     |
-| *control + p*     | **screenshot** |         |                     |
-| *control + q*     |       **quit** |         |                     |
+| shortcut          |         action | default |       config.json |
+| :---------------- | -------------: | :------ | ----------------: |
+| *alt + enter*     | **fullscreen** | off     | window/fullscreen |
+| *alt + backspace* |     **v-sync** | off     |        app/v-sync |
+| *control + tab*   |      **imgui** | on      |         app/imgui |
+| *control + space* |      **pause** | off     |        app/paused |
+| *control + b*     |  **benchmark** |         |                   |
+| *control + p*     | **screenshot** |         |                   |
+| *control + q*     |       **quit** |         |                   |
 
 <br />
 

@@ -14,7 +14,7 @@ message(STATUS "  _|  _|  _|    _|      _|      _|    _|        _|  _|        _|
 message(STATUS "  _|  _|  _|_|_|        _|        _|_|_|          _|            _|_|_|  ")
 message(STATUS "                                                                        ")
 message(STATUS "========================================================================")
-message(STATUS " 2022 alpha / 0.7.3                                        MIT licensed ")
+message(STATUS " 2022 / 0.7.3                                              MIT licensed ")
 message(STATUS "========================================================================")
 message(STATUS " https://git.io/liblava                          https://lava-block.com ")
 message(STATUS "========================================================================")
