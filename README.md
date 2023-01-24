@@ -45,6 +45,29 @@
 
 <br />
 
+# Take a look
+
+```c++
+#include "liblava/lava.hpp"
+#include "imgui.h"
+
+int main(int argc, char* argv[]) {
+
+    lava::app app("imgui demo", { argc, argv });
+    if (!app.setup())
+        return error::not_ready;
+
+    app.imgui.on_draw = []() {
+
+        ImGui::ShowDemoWindow();
+    };
+
+    return app.run();
+}
+```
+
+<br />
+
 # Demos
 
 |||
