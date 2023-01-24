@@ -23,8 +23,8 @@
 #define LAVA_BUILD_TIME __TIME__
 
 #define LAVA_VERSION_MAJOR 0
-#define LAVA_VERSION_MINOR 7
-#define LAVA_VERSION_PATCH 3
+#define LAVA_VERSION_MINOR 8
+#define LAVA_VERSION_PATCH 0
 
 #ifndef LAVA_ASSERT
     #include <cassert>

@@ -61,13 +61,13 @@ enum class version_stage {
  */
 struct version {
     /// Version year
-    i32 year = 2022;
+    i32 year = 2023;
 
     /// Version release
     i32 release = 0;
 
     /// Version stage
-    version_stage stage = version_stage::release;
+    version_stage stage = version_stage::preview;
 
     /// Version revision
     i32 rev = 0;
