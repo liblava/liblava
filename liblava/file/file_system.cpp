@@ -5,8 +5,8 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <physfs.h>
-#include <liblava/file/file_system.hpp>
+#include "liblava/file/file_system.hpp"
+#include "physfs.h"
 
 namespace lava {
 

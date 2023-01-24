@@ -5,8 +5,8 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/app/forward_shading.hpp>
-#include <liblava/resource/format.hpp>
+#include "liblava/app/forward_shading.hpp"
+#include "liblava/resource/format.hpp"
 
 namespace lava {
 

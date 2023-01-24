@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <liblava/app/def.hpp>
-#include <liblava/frame/frame.hpp>
+#include "liblava/app/def.hpp"
+#include "liblava/frame/frame.hpp"
 
 namespace lava {
 

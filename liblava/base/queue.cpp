@@ -5,8 +5,8 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/base/queue.hpp>
-#include <liblava/core/misc.hpp>
+#include "liblava/base/queue.hpp"
+#include "liblava/core/misc.hpp"
 
 namespace lava {
 

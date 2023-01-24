@@ -5,11 +5,11 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/asset/write_image.hpp>
-#include <liblava/resource/format.hpp>
+#include "liblava/asset/write_image.hpp"
+#include "liblava/resource/format.hpp"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb_image_write.h>
+#include "stb_image_write.h"
 
 namespace lava {
 

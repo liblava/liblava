@@ -5,8 +5,8 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/base/instance.hpp>
-#include <liblava/base/physical_device.hpp>
+#include "liblava/base/instance.hpp"
+#include "liblava/base/physical_device.hpp"
 
 namespace lava {
 

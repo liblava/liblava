@@ -5,7 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <catch2/catch_test_macros.hpp>
-#include <liblava/lava.hpp>
+#include "catch2/catch_test_macros.hpp"
+#include "liblava/lava.hpp"
 
 using namespace lava;

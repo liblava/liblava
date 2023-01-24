@@ -5,8 +5,8 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include "liblava/frame/renderer.hpp"
 #include <array>
-#include <liblava/frame/renderer.hpp>
 
 namespace lava {
 

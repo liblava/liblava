@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include <liblava/app/app.hpp>
-#include <liblava/engine/producer.hpp>
-#include <liblava/engine/property.hpp>
+#include "liblava/app/app.hpp"
+#include "liblava/engine/producer.hpp"
+#include "liblava/engine/property.hpp"
 
 namespace lava {
 

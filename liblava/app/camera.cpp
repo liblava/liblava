@@ -5,7 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/app/camera.hpp>
+#include "liblava/app/camera.hpp"
 
 namespace lava {
 

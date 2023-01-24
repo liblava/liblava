@@ -5,10 +5,10 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/asset/image_loader.hpp>
+#include "liblava/asset/image_loader.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
+#include "stb_image.h"
 
 namespace lava {
 

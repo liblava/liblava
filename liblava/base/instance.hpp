@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <liblava/base/physical_device.hpp>
+#include "liblava/base/physical_device.hpp"
 
 namespace lava {
 

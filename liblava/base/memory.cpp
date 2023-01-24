@@ -5,9 +5,9 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/base/device.hpp>
-#include <liblava/base/instance.hpp>
-#include <liblava/base/memory.hpp>
+#include "liblava/base/memory.hpp"
+#include "liblava/base/device.hpp"
+#include "liblava/base/instance.hpp"
 
 #ifdef _WIN32
     #pragma warning(push, 4)
@@ -25,7 +25,7 @@
 
 #define VMA_STATIC_VULKAN_FUNCTIONS 0
 #define VMA_IMPLEMENTATION
-#include <vk_mem_alloc.h>
+#include "vk_mem_alloc.h"
 
 #ifdef _WIN32
     #pragma warning(pop)

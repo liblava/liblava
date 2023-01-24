@@ -6,7 +6,7 @@
  */
 
 #include <array>
-#include <liblava/block/descriptor.hpp>
+#include "liblava/block/descriptor.hpp"
 
 namespace lava {
 

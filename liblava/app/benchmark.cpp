@@ -5,9 +5,9 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/app/benchmark.hpp>
-#include <liblava/core/misc.hpp>
-#include <liblava/file.hpp>
+#include "liblava/app/benchmark.hpp"
+#include "liblava/core/misc.hpp"
+#include "liblava/file.hpp"
 
 namespace lava {
 

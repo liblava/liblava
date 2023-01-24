@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <liblava/core/data.hpp>
+#include "liblava/core/data.hpp"
 
 namespace lava {
 

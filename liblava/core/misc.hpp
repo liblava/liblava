@@ -8,7 +8,7 @@
 #pragma once
 
 #include <cstring>
-#include <liblava/core/types.hpp>
+#include "liblava/core/types.hpp"
 #include <utility>
 
 namespace lava {

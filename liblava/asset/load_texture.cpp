@@ -5,9 +5,9 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/asset/load_texture.hpp>
-#include <liblava/file.hpp>
-#include <liblava/resource/format.hpp>
+#include "liblava/asset/load_texture.hpp"
+#include "liblava/file.hpp"
+#include "liblava/resource/format.hpp"
 
 #ifdef _WIN32
     #pragma warning(push, 4)
@@ -26,7 +26,7 @@
     #pragma GCC diagnostic ignored "-Wdeprecated-enum-enum-conversion"
 #endif
 
-#include <gli/gli.hpp>
+#include "gli/gli.hpp"
 
 #ifdef _WIN32
     #pragma warning(pop)
@@ -34,7 +34,7 @@
     #pragma GCC diagnostic pop
 #endif
 
-#include <stb_image.h>
+#include "stb_image.h"
 
 namespace lava {
 

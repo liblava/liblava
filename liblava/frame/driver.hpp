@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <liblava/frame/argh.hpp>
+#include "liblava/frame/argh.hpp"
 
 namespace lava {
 

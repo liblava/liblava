@@ -5,11 +5,11 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/base/debug_utils.hpp>
+#include "liblava/base/debug_utils.hpp"
 
 #if LAVA_DEBUG_UTILS
-    #include <liblava/base/instance.hpp>
     #include <optional>
+    #include "liblava/base/instance.hpp"
 
 namespace lava {
 

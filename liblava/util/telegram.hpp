@@ -9,7 +9,7 @@
 
 #include <any>
 #include <cmath>
-#include <liblava/util/thread.hpp>
+#include "liblava/util/thread.hpp"
 #include <set>
 
 namespace lava {

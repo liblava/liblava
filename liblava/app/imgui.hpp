@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include <liblava/block/render_pipeline.hpp>
-#include <liblava/file.hpp>
-#include <liblava/frame/input.hpp>
-#include <liblava/resource/texture.hpp>
+#include "liblava/block/render_pipeline.hpp"
+#include "liblava/file.hpp"
+#include "liblava/frame/input.hpp"
+#include "liblava/resource/texture.hpp"
 
 // fwd
 struct GLFWwindow;

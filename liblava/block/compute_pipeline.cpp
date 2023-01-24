@@ -5,8 +5,8 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/block/compute_pipeline.hpp>
-#include <liblava/util/log.hpp>
+#include "liblava/block/compute_pipeline.hpp"
+#include "liblava/util/log.hpp"
 
 namespace lava {
 

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <liblava/file/json.hpp>
+#include "liblava/file/json.hpp"
 
 namespace lava {
 

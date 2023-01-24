@@ -5,11 +5,11 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/base/memory.hpp>
-#include <liblava/core/misc.hpp>
-#include <liblava/core/time.hpp>
-#include <liblava/frame/frame.hpp>
-#include <liblava/util/log.hpp>
+#include "liblava/base/memory.hpp"
+#include "liblava/core/misc.hpp"
+#include "liblava/core/time.hpp"
+#include "liblava/frame/frame.hpp"
+#include "liblava/util/log.hpp"
 
 #if _WIN32 && LAVA_DEBUG
     #include <windows.h>
@@ -17,7 +17,7 @@
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
+#include "GLFW/glfw3.h"
 
 namespace lava {
 

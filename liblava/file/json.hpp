@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <liblava/core/types.hpp>
-#include <nlohmann/json.hpp>
+#include "liblava/core/types.hpp"
+#include "nlohmann/json.hpp"
 
 namespace lava {
 

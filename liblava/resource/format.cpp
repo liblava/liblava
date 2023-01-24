@@ -5,8 +5,8 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/base/memory.hpp>
-#include <liblava/resource/format.hpp>
+#include "liblava/base/memory.hpp"
+#include "liblava/resource/format.hpp"
 
 namespace lava {
 

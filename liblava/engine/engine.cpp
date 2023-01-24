@@ -5,7 +5,7 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/engine/engine.hpp>
+#include "liblava/engine/engine.hpp"
 
 namespace lava {
 

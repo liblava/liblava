@@ -9,7 +9,7 @@
 
 #include <cstdint>
 #include <functional>
-#include <liblava/core/def.hpp>
+#include "liblava/core/def.hpp"
 #include <map>
 #include <string>
 #include <string_view>

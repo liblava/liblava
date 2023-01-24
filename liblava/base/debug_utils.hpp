@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <liblava/base/base.hpp>
-#include <liblava/core/def.hpp>
+#include "liblava/base/base.hpp"
+#include "liblava/core/def.hpp"
 
 /// Only active in debug - enable for release profiling
 #ifndef LAVA_DEBUG_UTILS

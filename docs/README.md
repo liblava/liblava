@@ -44,7 +44,7 @@ The good news is that **liblava** can help you...
 <br />
 
 ```c++
-#include <liblava/lava.hpp>
+#include "liblava/lava.hpp"
 
 using namespace lava;
 ```

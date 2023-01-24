@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include <liblava/frame/gamepad.hpp>
-#include <liblava/frame/input.hpp>
-#include <liblava/resource/buffer.hpp>
+#include "liblava/frame/gamepad.hpp"
+#include "liblava/frame/input.hpp"
+#include "liblava/resource/buffer.hpp"
 
 namespace lava {
 

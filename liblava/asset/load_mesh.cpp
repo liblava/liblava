@@ -5,8 +5,8 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include <liblava/asset/load_mesh.hpp>
-#include <liblava/file.hpp>
+#include "liblava/asset/load_mesh.hpp"
+#include "liblava/file.hpp"
 
 #ifdef _WIN32
     #pragma warning(push, 4)
@@ -16,7 +16,7 @@
 #endif
 
 #define TINYOBJLOADER_IMPLEMENTATION
-#include <tiny_obj_loader.h>
+#include "tiny_obj_loader.h"
 
 #ifdef _WIN32
     #pragma warning(pop)

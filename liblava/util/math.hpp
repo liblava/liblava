@@ -7,14 +7,14 @@
 
 #pragma once
 
-#include <picosha2.h>
-#include <liblava/core/types.hpp>
+#include "picosha2.h"
+#include "liblava/core/types.hpp"
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 namespace lava {
 

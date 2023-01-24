@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <liblava/resource/buffer.hpp>
-#include <liblava/resource/image.hpp>
+#include "liblava/resource/buffer.hpp"
+#include "liblava/resource/image.hpp"
 
 namespace lava {
 
