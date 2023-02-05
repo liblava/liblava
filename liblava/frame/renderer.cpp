@@ -153,30 +153,40 @@ optional_index renderer::begin_frame() {
 bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
     LAVA_ASSERT(!cmd_buffers.empty());
 
-    std::array<VkSemaphore, 1> const wait_semaphores = {
-        image_acquired_semaphores[current_sync]
+    std::vector<VkSemaphore> wait_semaphores = {
+            image_acquired_semaphores[current_sync]
     };
+    wait_semaphores.insert(wait_semaphores.end(), user_frame_wait_semaphores.begin(), user_frame_wait_semaphores.end());
+
+    std::vector<VkPipelineStageFlags> wait_stages = {
+            VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
+    };
+    wait_stages.insert(wait_stages.end(), user_frame_wait_stages.begin(), user_frame_wait_stages.end());
+
     std::array<VkSemaphore, 1> const sync_present_semaphores = {
-        render_complete_semaphores[current_sync]
+            render_complete_semaphores[current_sync]
     };
 
-    VkPipelineStageFlags const wait_stage =
-        VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+    std::vector<VkSemaphore> signal_semaphores = {
+            render_complete_semaphores[current_sync]
+    };
+    signal_semaphores.insert(signal_semaphores.end(), user_frame_signal_semaphores.begin(), user_frame_signal_semaphores.end());
+
+    LAVA_ASSERT(user_frame_wait_semaphores.size() == user_frame_wait_stages.size());
 
     VkSubmitInfo const submit_info{
-        .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
-        .waitSemaphoreCount = to_ui32(wait_semaphores.size()),
-        .pWaitSemaphores = wait_semaphores.data(),
-        .pWaitDstStageMask = &wait_stage,
-        .commandBufferCount = to_ui32(cmd_buffers.size()),
-        .pCommandBuffers = cmd_buffers.data(),
-        .signalSemaphoreCount = to_ui32(sync_present_semaphores.size()),
-        .pSignalSemaphores = sync_present_semaphores.data(),
+            .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
+            .waitSemaphoreCount = to_ui32(wait_semaphores.size()),
+            .pWaitSemaphores = wait_semaphores.data(),
+            .pWaitDstStageMask = wait_stages.data(),
+            .commandBufferCount = to_ui32(cmd_buffers.size()),
+            .pCommandBuffers = cmd_buffers.data(),
+            .signalSemaphoreCount = to_ui32(signal_semaphores.size()),
+            .pSignalSemaphores = signal_semaphores.data(),
     };
 
     std::array<VkSubmitInfo, 1> const submit_infos = { submit_info };
     VkFence current_fence = fences[current_sync];
-
     if (!device->vkQueueSubmit(graphics_queue.vk_queue,
                                to_ui32(submit_infos.size()),
                                submit_infos.data(),
