@@ -16,15 +16,18 @@ bool buffer::create(device_p d,
                     size_t size,
                     VkBufferUsageFlags usage,
                     bool mapped,
-                    VmaMemoryUsage memory_usage) {
+                    VmaMemoryUsage memory_usage,
+                    VkSharingMode sharing_mode,
+                    const std::vector<uint32_t> &shared_queue_family_indices) {
     device = d;
 
     VkBufferCreateInfo buffer_info{
-        .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
-        .size = size,
-        .usage = usage,
-        .sharingMode = VK_SHARING_MODE_EXCLUSIVE,
-        .queueFamilyIndexCount = 0,
+            .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
+            .size = size,
+            .usage = usage,
+            .sharingMode = VK_SHARING_MODE_EXCLUSIVE,
+            .queueFamilyIndexCount = (uint32_t)shared_queue_family_indices.size(),
+            .pQueueFamilyIndices = shared_queue_family_indices.data()
     };
 
     VmaAllocationCreateFlags const alloc_flags = mapped
@@ -81,13 +84,17 @@ bool buffer::create_mapped(device_p d,
                            void const* data,
                            size_t size,
                            VkBufferUsageFlags usage,
-                           VmaMemoryUsage memory_usage) {
+                           VmaMemoryUsage memory_usage,
+                           VkSharingMode sharing_mode,
+                           const std::vector<uint32_t> &shared_queue_family_indices) {
     return create(d,
                   data,
                   size,
                   usage,
                   true,
-                  memory_usage);
+                  memory_usage,
+                  sharing_mode,
+                  shared_queue_family_indices);
 }
 
 //-----------------------------------------------------------------------------

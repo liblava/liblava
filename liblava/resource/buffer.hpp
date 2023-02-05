@@ -38,12 +38,14 @@ struct buffer : entity {
 
     /**
      * @brief Create a new buffer
-     * @param device          Vulkan device
-     * @param data            Buffer data
-     * @param size            Data size
-     * @param usage           Buffer usage flags
-     * @param mapped          Map the buffer
-     * @param memory_usage    Memory usage
+     * @param device                 Vulkan device
+     * @param data                   Buffer data
+     * @param size                   Data size
+     * @param usage                  Buffer usage flags
+     * @param mapped                 Map the buffer
+     * @param memory_usage           Memory usage
+     * @param sharing_mode           Sharing mode
+     * @param shared_queue_indices   Queue indices (ignored unless sharing_mode == VK_SHARING_MODE_CONCURRENT)
      * @return Create was successful or failed
      */
     bool create(device_p device,
@@ -51,22 +53,29 @@ struct buffer : entity {
                 size_t size,
                 VkBufferUsageFlags usage,
                 bool mapped = false,
-                VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY);
+                VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY,
+                VkSharingMode sharing_mode = VK_SHARING_MODE_EXCLUSIVE,
+                const std::vector<uint32_t> &shared_queue_family_indices = {});
 
     /**
      * @brief Create a new mapped buffer
-     * @param device          Vulkan device
-     * @param data            Buffer data
-     * @param size            Data size
-     * @param usage           Buffer usage flags
-     * @param memory_usage    Memory usage
+     * @param device                 Vulkan device
+     * @param data                   Buffer data
+     * @param size                   Data size
+     * @param usage                  Buffer usage flags
+     * @param memory_usage           Memory usage
+     * @param sharing_mode           Sharing mode
+     * @param shared_queue_indices   Queue indices (ignored unless sharing_mode == VK_SHARING_MODE_CONCURRENT)
      * @return Create was successful or failed
      */
     bool create_mapped(device_p device,
                        void const* data,
                        size_t size,
                        VkBufferUsageFlags usage,
-                       VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
+                       VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU,
+                       VkSharingMode sharing_mode = VK_SHARING_MODE_EXCLUSIVE,
+                       const std::vector<uint32_t> &shared_queue_family_indices = {});
+
 
     /**
      * @brief Destroy the buffer
