@@ -18,14 +18,15 @@ bool buffer::create(device_p d,
                     bool mapped,
                     VmaMemoryUsage memory_usage,
                     VkSharingMode sharing_mode,
-                    const std::vector<uint32_t> &shared_queue_family_indices) {
+                    const std::vector<uint32_t> &shared_queue_family_indices,
+                    int alignment) {
     device = d;
 
     VkBufferCreateInfo buffer_info{
             .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
             .size = size,
             .usage = usage,
-            .sharingMode = VK_SHARING_MODE_EXCLUSIVE,
+            .sharingMode = sharing_mode,
             .queueFamilyIndexCount = (uint32_t)shared_queue_family_indices.size(),
             .pQueueFamilyIndices = shared_queue_family_indices.data()
     };
@@ -39,15 +40,29 @@ bool buffer::create(device_p d,
         .usage = memory_usage,
     };
 
-    if (failed(vmaCreateBuffer(device->alloc(),
-                               &buffer_info,
-                               &alloc_info,
-                               &vk_buffer,
-                               &allocation,
-                               &allocation_info))) {
-        log()->error("create buffer");
-        return false;
+    if(alignment >= 0){
+        if (failed(vmaCreateBufferWithAlignment(device->alloc(),
+                                   &buffer_info,
+                                   &alloc_info,
+                                   alignment,
+                                   &vk_buffer,
+                                   &allocation,
+                                   &allocation_info))) {
+            log()->error("create buffer");
+            return false;
+        }
+    }else{
+        if (failed(vmaCreateBuffer(device->alloc(),
+                                   &buffer_info,
+                                   &alloc_info,
+                                   &vk_buffer,
+                                   &allocation,
+                                   &allocation_info))) {
+            log()->error("create buffer");
+            return false;
+        }
     }
+
 
     if (!mapped) {
         if (data) {
@@ -86,7 +101,8 @@ bool buffer::create_mapped(device_p d,
                            VkBufferUsageFlags usage,
                            VmaMemoryUsage memory_usage,
                            VkSharingMode sharing_mode,
-                           const std::vector<uint32_t> &shared_queue_family_indices) {
+                           const std::vector<uint32_t> &shared_queue_family_indices,
+                           int alignment) {
     return create(d,
                   data,
                   size,
@@ -94,7 +110,8 @@ bool buffer::create_mapped(device_p d,
                   true,
                   memory_usage,
                   sharing_mode,
-                  shared_queue_family_indices);
+                  shared_queue_family_indices,
+                  alignment);
 }
 
 //-----------------------------------------------------------------------------
