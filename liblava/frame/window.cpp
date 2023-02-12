@@ -5,9 +5,9 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include "liblava/frame/window.hpp"
 #include "liblava/base/device.hpp"
 #include "liblava/base/instance.hpp"
-#include "liblava/frame/window.hpp"
 #include "liblava/util/log.hpp"
 
 #define GLFW_INCLUDE_NONE
@@ -332,6 +332,14 @@ void window::get_mouse_position(r64& x, r64& y) const {
 mouse_position window::get_mouse_position() const {
     mouse_position result;
     get_mouse_position(result.x, result.y);
+
+    return result;
+}
+
+//-----------------------------------------------------------------------------
+v2 window::get_content_scale() const {
+    v2 result;
+    glfwGetWindowContentScale(handle, &result.x, &result.y);
 
     return result;
 }
