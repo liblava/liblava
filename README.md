@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 
     lava::app app("imgui demo", { argc, argv });
     if (!app.setup())
-        return error::not_ready;
+        return lava::error::not_ready;
 
     app.imgui.on_draw = []() {
 
