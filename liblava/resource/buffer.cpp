@@ -18,17 +18,17 @@ bool buffer::create(device_p d,
                     bool mapped,
                     VmaMemoryUsage memory_usage,
                     VkSharingMode sharing_mode,
-                    const std::vector<uint32_t> &shared_queue_family_indices,
-                    int alignment) {
+                    std::vector<ui32> const& shared_queue_family_indices,
+                    i32 alignment) {
     device = d;
 
     VkBufferCreateInfo buffer_info{
-            .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
-            .size = size,
-            .usage = usage,
-            .sharingMode = sharing_mode,
-            .queueFamilyIndexCount = (uint32_t)shared_queue_family_indices.size(),
-            .pQueueFamilyIndices = shared_queue_family_indices.data()
+        .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
+        .size = size,
+        .usage = usage,
+        .sharingMode = sharing_mode,
+        .queueFamilyIndexCount = to_ui32(shared_queue_family_indices.size()),
+        .pQueueFamilyIndices = shared_queue_family_indices.data()
     };
 
     VmaAllocationCreateFlags const alloc_flags = mapped
@@ -40,18 +40,18 @@ bool buffer::create(device_p d,
         .usage = memory_usage,
     };
 
-    if(alignment >= 0){
+    if (alignment >= 0) {
         if (failed(vmaCreateBufferWithAlignment(device->alloc(),
-                                   &buffer_info,
-                                   &alloc_info,
-                                   alignment,
-                                   &vk_buffer,
-                                   &allocation,
-                                   &allocation_info))) {
-            log()->error("create buffer");
+                                                &buffer_info,
+                                                &alloc_info,
+                                                alignment,
+                                                &vk_buffer,
+                                                &allocation,
+                                                &allocation_info))) {
+            log()->error("create buffer with alignment");
             return false;
         }
-    }else{
+    } else {
         if (failed(vmaCreateBuffer(device->alloc(),
                                    &buffer_info,
                                    &alloc_info,
@@ -62,7 +62,6 @@ bool buffer::create(device_p d,
             return false;
         }
     }
-
 
     if (!mapped) {
         if (data) {
@@ -101,8 +100,8 @@ bool buffer::create_mapped(device_p d,
                            VkBufferUsageFlags usage,
                            VmaMemoryUsage memory_usage,
                            VkSharingMode sharing_mode,
-                           const std::vector<uint32_t> &shared_queue_family_indices,
-                           int alignment) {
+                           std::vector<ui32> const& shared_queue_family_indices,
+                           i32 alignment) {
     return create(d,
                   data,
                   size,

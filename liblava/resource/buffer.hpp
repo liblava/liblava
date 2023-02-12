@@ -38,15 +38,15 @@ struct buffer : entity {
 
     /**
      * @brief Create a new buffer
-     * @param device                 Vulkan device
-     * @param data                   Buffer data
-     * @param size                   Data size
-     * @param usage                  Buffer usage flags
-     * @param mapped                 Map the buffer
-     * @param memory_usage           Memory usage
-     * @param sharing_mode           Sharing mode
-     * @param shared_queue_indices   Queue indices (ignored unless sharing_mode == VK_SHARING_MODE_CONCURRENT)
-     * @param alignment              Minimum alignment to be used when placing the buffer inside a larger memory block negative -> no minimum alignment
+     * @param device                         Vulkan device
+     * @param data                           Buffer data
+     * @param size                           Data size
+     * @param usage                          Buffer usage flags
+     * @param mapped                         Map the buffer
+     * @param memory_usage                   Memory usage
+     * @param sharing_mode                   Sharing mode
+     * @param shared_queue_family_indices    Queue indices (ignored unless sharing_mode == VK_SHARING_MODE_CONCURRENT)
+     * @param alignment                      Minimum alignment to be used when placing the buffer inside a larger memory block negative -> no minimum alignment
      * @return Create was successful or failed
      */
     bool create(device_p device,
@@ -56,19 +56,19 @@ struct buffer : entity {
                 bool mapped = false,
                 VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY,
                 VkSharingMode sharing_mode = VK_SHARING_MODE_EXCLUSIVE,
-                const std::vector<uint32_t> &shared_queue_family_indices = {},
-                int alignment = -1);
+                std::vector<ui32> const& shared_queue_family_indices = {},
+                i32 alignment = -1);
 
     /**
      * @brief Create a new mapped buffer
-     * @param device                 Vulkan device
-     * @param data                   Buffer data
-     * @param size                   Data size
-     * @param usage                  Buffer usage flags
-     * @param memory_usage           Memory usage
-     * @param sharing_mode           Sharing mode
-     * @param shared_queue_indices   Queue indices (ignored unless sharing_mode == VK_SHARING_MODE_CONCURRENT)
-     * @param alignment              Minimum alignment to be used when placing the buffer inside a larger memory block negative -> no minimum alignment
+     * @param device                         Vulkan device
+     * @param data                           Buffer data
+     * @param size                           Data size
+     * @param usage                          Buffer usage flags
+     * @param memory_usage                   Memory usage
+     * @param sharing_mode                   Sharing mode
+     * @param shared_queue_family_indices    Queue indices (ignored unless sharing_mode == VK_SHARING_MODE_CONCURRENT)
+     * @param alignment                      Minimum alignment to be used when placing the buffer inside a larger memory block negative -> no minimum alignment
      * @return Create was successful or failed
      */
     bool create_mapped(device_p device,
@@ -77,9 +77,8 @@ struct buffer : entity {
                        VkBufferUsageFlags usage,
                        VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU,
                        VkSharingMode sharing_mode = VK_SHARING_MODE_EXCLUSIVE,
-                       const std::vector<uint32_t> &shared_queue_family_indices = {},
-                       int alignment = -1);
-
+                       std::vector<ui32> const& shared_queue_family_indices = {},
+                       i32 alignment = -1);
 
     /**
      * @brief Destroy the buffer
