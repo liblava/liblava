@@ -21,8 +21,8 @@
     #include "GLFW/glfw3native.h" // glfwGetWin32Window
 #endif
 
-#include "imgui.h"
 #include "glm/gtc/color_space.hpp"
+#include "imgui.h"
 
 namespace lava {
 

@@ -9,8 +9,8 @@
 
 #include <any>
 #include <cmath>
-#include "liblava/util/thread.hpp"
 #include <set>
+#include "liblava/util/thread.hpp"
 
 namespace lava {
 

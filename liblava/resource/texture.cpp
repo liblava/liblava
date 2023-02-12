@@ -5,9 +5,9 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include "liblava/resource/texture.hpp"
 #include "liblava/core/misc.hpp"
 #include "liblava/resource/format.hpp"
-#include "liblava/resource/texture.hpp"
 #include "liblava/util/log.hpp"
 
 namespace lava {

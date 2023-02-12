@@ -5,10 +5,10 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include "liblava/frame/frame.hpp"
 #include "liblava/base/memory.hpp"
 #include "liblava/core/misc.hpp"
 #include "liblava/core/time.hpp"
-#include "liblava/frame/frame.hpp"
 #include "liblava/util/log.hpp"
 
 #if _WIN32 && LAVA_DEBUG

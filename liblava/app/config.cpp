@@ -5,8 +5,8 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include "liblava/app/app.hpp"
 #include "liblava/app/config.hpp"
+#include "liblava/app/app.hpp"
 #include "liblava/app/icon.hpp"
 #include "liblava/asset/image_loader.hpp"
 

@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "picosha2.h"
 #include "liblava/core/types.hpp"
+#include "picosha2.h"
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE

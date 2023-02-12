@@ -5,9 +5,9 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include "liblava/frame/driver.hpp"
 #include <iostream>
 #include "liblava/core/misc.hpp"
-#include "liblava/frame/driver.hpp"
 
 namespace lava {
 

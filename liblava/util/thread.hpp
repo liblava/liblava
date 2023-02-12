@@ -9,10 +9,10 @@
 
 #include <condition_variable>
 #include <deque>
-#include "liblava/core/id.hpp"
-#include "liblava/core/time.hpp"
 #include <mutex>
 #include <thread>
+#include "liblava/core/id.hpp"
+#include "liblava/core/time.hpp"
 
 namespace lava {
 

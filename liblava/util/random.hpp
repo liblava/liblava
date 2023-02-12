@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "liblava/core/types.hpp"
 #include <random>
+#include "liblava/core/types.hpp"
 
 namespace lava {
 

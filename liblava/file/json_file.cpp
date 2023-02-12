@@ -5,10 +5,10 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
+#include "liblava/file/json_file.hpp"
 #include "liblava/core/misc.hpp"
 #include "liblava/file/file.hpp"
 #include "liblava/file/file_utils.hpp"
-#include "liblava/file/json_file.hpp"
 
 namespace lava {
 

@@ -9,9 +9,9 @@
 #pragma once
 
 #include <cmath>
-#include "liblava/core/types.hpp"
 #include <numbers>
 #include <unordered_map>
+#include "liblava/core/types.hpp"
 
 namespace lava {
 

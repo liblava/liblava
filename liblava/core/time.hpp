@@ -9,8 +9,8 @@
 
 #include <chrono>
 #include <iomanip>
-#include "liblava/core/types.hpp"
 #include <sstream>
+#include "liblava/core/types.hpp"
 
 namespace lava {
 

@@ -9,10 +9,10 @@
 
 #include <atomic>
 #include <deque>
-#include "liblava/core/types.hpp"
 #include <memory>
 #include <mutex>
 #include <set>
+#include "liblava/core/types.hpp"
 
 namespace lava {
 

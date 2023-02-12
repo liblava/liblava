@@ -469,20 +469,20 @@ mesh_template_data<T> create_mesh_data(mesh_type type) {
     mesh_template_data<T> return_mesh_data;
 
     constexpr bool auto_position = requires(const T t) {
-        t.position;
-    };
+                                       t.position;
+                                   };
     static_assert(auto_position,
                   "Vertex struct `T` must contain field `position`");
 
     constexpr bool auto_colors = requires(const T t) {
-        t.color;
-    };
+                                     t.color;
+                                 };
     constexpr bool auto_normals = requires(const T t) {
-        t.normal;
-    };
+                                      t.normal;
+                                  };
     constexpr bool auto_uvs = requires(const T t) {
-        t.uv;
-    };
+                                  t.uv;
+                              };
 
     using PosType = decltype(T::position);
 
