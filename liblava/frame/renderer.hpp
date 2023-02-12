@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include "liblava/frame/swapchain.hpp"
 #include <optional>
+#include "liblava/frame/swapchain.hpp"
 
 namespace lava {
 
@@ -72,15 +72,14 @@ struct renderer : entity {
         return device;
     }
 
-    ///The frame waits additionally for these semaphores (Usefully for additional CommandBuffers)
-    std::vector<VkSemaphore> user_frame_wait_semaphores{};
+    /// The frame waits additionally for these semaphores (Usefully for additional CommandBuffers)
+    VkSemaphores user_frame_wait_semaphores;
 
-    ///To user_frame_wait_semaphores corresponding pipeline wait stages
-    std::vector<VkPipelineStageFlags> user_frame_wait_stages{};
+    /// To user_frame_wait_semaphores corresponding pipeline wait stages
+    VkPipelineStageFlagsList user_frame_wait_stages;
 
-    ///The frame additionally signals these semaphores (Usefully for additional CommandBuffers)
-    std::vector<VkSemaphore> user_frame_signal_semaphores{};
-
+    /// The frame additionally signals these semaphores (Usefully for additional CommandBuffers)
+    VkSemaphores user_frame_signal_semaphores;
 
     /// Destroy function
     using destroy_func = std::function<void()>;
