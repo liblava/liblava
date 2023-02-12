@@ -92,6 +92,9 @@ using VkVertexInputAttributeDescriptions = std::vector<VkVertexInputAttributeDes
 /// List of Vulkan pipeline color blend attachment states
 using VkPipelineColorBlendAttachmentStates = std::vector<VkPipelineColorBlendAttachmentState>;
 
+/// List of Vulkan pipeline stage flags
+using VkPipelineStageFlagsList = std::vector<VkPipelineStageFlags>;
+
 /// List of Vulkan dynamic states
 using VkDynamicStates = std::vector<VkDynamicState>;
 
