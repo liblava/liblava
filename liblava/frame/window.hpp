@@ -204,6 +204,12 @@ struct window : entity {
     void get_mouse_position(r64& x, r64& y) const;
 
     /**
+     * @brief Get the content scale
+     * @return v2    Window content scale
+     */
+    v2 get_content_scale() const;
+
+    /**
      * @brief Get the mouse position in window
      * @return mouse_position    Position of mouse
      */
