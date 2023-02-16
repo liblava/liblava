@@ -53,7 +53,7 @@
 
 int main(int argc, char* argv[]) {
 
-    lava::app app("imgui demo", { argc, argv });
+    lava::engine app("imgui demo", { argc, argv });
     if (!app.setup())
         return lava::error::not_ready;
 
