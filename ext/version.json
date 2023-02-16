@@ -51,7 +51,7 @@
         "name": "tinyobjloader",
         "github": "syoyo/tinyobjloader",
         "branch": "release",
-        "tag": "0fc802cf468d23b9d205890b76b268f61b948e6d"
+        "tag": "ed48fa93268ef2c3e930370fd2fa760de30aee18"
     },
     {
         "name": "Vulkan-Headers",
@@ -81,13 +81,13 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "f0ac68ad35d3ad99f12e583665374e9861a1cb7b"
+        "tag": "752603bc70bc0fc24846f27b816f04c9fc356453"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "345184330b438cb0aafcd6ff8ac1d3820f19b808"
+        "tag": "e25e4526cd41cd6536194de098540d54244f54e9"
     },
     {
         "name": "SPIRV-Headers",
@@ -99,7 +99,7 @@
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "72213813611134fffc36e061c1b1c029adfa6e91"
+        "tag": "956114df28aabc899696f6843c67eb821bd82864"
     },
     {
         "name": "glslang",
