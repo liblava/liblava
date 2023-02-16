@@ -16,7 +16,11 @@ bool check(VkResult result) {
         return true;
 
     if (result > 0) {
-        log()->critical("VkResult {}", to_string(result));
+        if (result == VK_SUBOPTIMAL_KHR)
+            log()->warn("VkResult {}", to_string(result));
+        else
+            log()->critical("VkResult {}", to_string(result));
+
         return false;
     }
 
