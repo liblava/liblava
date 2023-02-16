@@ -226,7 +226,7 @@ int main(int argc, char* argv[]) {
         gbuffer_write_sets[1].pImageInfo = tex_normal->get_descriptor_info();
         gbuffer_write_sets[2].pImageInfo = tex_roughness->get_descriptor_info();
 
-        app.device->vkUpdateDescriptorSets(gbuffer_write_sets.size(),
+        app.device->vkUpdateDescriptorSets(to_ui32(gbuffer_write_sets.size()),
                                            gbuffer_write_sets.data());
 
         gbuffer_pipeline_layout->add(gbuffer_set_layout);
@@ -459,7 +459,7 @@ int main(int argc, char* argv[]) {
         lighting_write_sets[g_attachments.size() + 1].pBufferInfo =
             light_buffer.get_descriptor_info();
 
-        app.device->vkUpdateDescriptorSets(lighting_write_sets.size(),
+        app.device->vkUpdateDescriptorSets(to_ui32(lighting_write_sets.size()),
                                            lighting_write_sets.data());
 
         // create framebuffer (and renderpass if necessary)

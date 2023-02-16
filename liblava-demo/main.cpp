@@ -15,7 +15,7 @@ using namespace lava;
 int main(int argc, char* argv[]) {
     driver& driver = driver::instance();
 
-    ui32 selected = driver.get_stages().size();
+    ui32 selected = to_ui32(driver.get_stages().size());
 
     driver.on_run = [&](argh::parser argh) {
         driver::result result;
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
         };
 
         auto next = [&]() {
-            selected = (selected == 1) ? stages.size() : --selected;
+            selected = (selected == 1) ? to_ui32(stages.size()) : --selected;
             alpha = 0.f;
         };
 
@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
                                              { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                                                to_ui32(stages.size()) },
                                          },
-                                         stages.size()))
+                                         to_ui32(stages.size())))
                 return false;
 
             layout = pipeline_layout::make();

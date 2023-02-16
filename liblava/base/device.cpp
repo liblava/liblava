@@ -100,7 +100,7 @@ bool device::create(create_param::ref param) {
     for (auto i = 0u; i < param.queue_family_infos.size(); ++i) {
         queue_create_info_list[i].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
         queue_create_info_list[i].queueFamilyIndex = param.queue_family_infos[i].family_index;
-        queue_create_info_list[i].queueCount = param.queue_family_infos[i].queues.size();
+        queue_create_info_list[i].queueCount = to_ui32(param.queue_family_infos[i].queues.size());
 
         for (auto j = 0u; j < param.queue_family_infos[i].queues.size(); ++j)
             priorities.at(i).push_back(param.queue_family_infos[i].queues.at(j).priority);

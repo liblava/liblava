@@ -25,7 +25,7 @@ void set_all_queues(queue_family_info::list& list,
 
     for (auto& queue_family : properties) {
         queue_family_info family_info;
-        family_info.family_index = list.size();
+        family_info.family_index = to_ui32(list.size());
         for (auto queue_count = 0;
              queue_count < queue_family.queueCount;
              ++queue_count) {
@@ -77,7 +77,7 @@ bool add_queues(queue_family_info::list& list,
     }
 
     // first look for a free family with the same flags (in reverse order)
-    i32 family_index_count = free_properties.size();
+    i32 family_index_count = to_i32(free_properties.size());
     for (auto family_index = family_index_count - 1;
          family_index >= 0;
          --family_index) {

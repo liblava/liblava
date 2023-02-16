@@ -62,7 +62,7 @@ void benchmark(frame& app, benchmark_data& data) {
                 return run_abort;
             }
 
-            data.values.at(data.current) = (current - bench).count();
+            data.values.at(data.current) = to_ui32((current - bench).count());
 
             data.current++;
 
