@@ -45,16 +45,16 @@ struct image : entity {
 
     /**
      * @brief Create a new image
-     * @param device                   Vulkan device
-     * @param size                     Image size
-     * @param memory_usage             Memory usage
-     * @param mip_levels_generation    Enable mip levels generation
+     * @param device              Vulkan device
+     * @param size                Image size
+     * @param memory_usage        Memory usage
+     * @param allocation_flags    Allocation flags
      * @return Create was successful or failed
      */
     bool create(device_p device,
                 uv2 size,
                 VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY,
-                bool mip_levels_generation = false);
+                VmaAllocationCreateFlags allocation_flags = 0);
 
     /**
      * @brief Destroy the image

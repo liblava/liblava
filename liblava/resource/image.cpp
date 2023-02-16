@@ -63,13 +63,14 @@ image::image(VkFormat format,
 bool image::create(device_p d,
                    uv2 size,
                    VmaMemoryUsage memory_usage,
-                   bool mip_levels_generation) {
+                   VmaAllocationCreateFlags allocation_flags) {
     device = d;
 
     info.extent = { size.x, size.y, 1 };
 
     if (!vk_image) {
         VmaAllocationCreateInfo const create_info{
+            .flags = allocation_flags,
             .usage = memory_usage,
         };
 
@@ -139,7 +140,10 @@ image::ptr grab_image(image::ptr source) {
 
     image->set_tiling(VK_IMAGE_TILING_LINEAR);
 
-    if (!image->create(device, size, VMA_MEMORY_USAGE_AUTO_PREFER_HOST))
+    if (!image->create(device,
+                       size,
+                       VMA_MEMORY_USAGE_AUTO_PREFER_HOST,
+                       VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT))
         return nullptr;
 
     return one_time_submit(device, device->graphics_queue(), [&](VkCommandBuffer cmd_buf) {
