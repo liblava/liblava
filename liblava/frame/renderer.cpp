@@ -115,7 +115,7 @@ optional_index renderer::begin_frame() {
                                                 current_semaphore,
                                                 0,
                                                 &current_frame);
-    if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
+    if (result.value == VK_ERROR_OUT_OF_DATE_KHR || result.value == VK_SUBOPTIMAL_KHR) {
         target->request_reload();
         return std::nullopt;
     }
@@ -210,7 +210,7 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
     };
 
     auto result = device->vkQueuePresentKHR(graphics_queue.vk_queue, &present_info);
-    if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
+    if (result.value == VK_ERROR_OUT_OF_DATE_KHR || result.value == VK_SUBOPTIMAL_KHR) {
         target->request_reload();
         return true;
     }
