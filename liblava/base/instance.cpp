@@ -33,7 +33,10 @@ VKAPI_ATTR VkBool32 VKAPI_CALL
         log()->error(message_header);
         log()->error(callback_data->pMessage);
 
-        LAVA_ASSERT(!"check validation error");
+        // unpreventable error application is still ok see: https://github.com/KhronosGroup/Vulkan-ValidationLayers/issues/1340
+        if (string(callback_data->pMessageIdName) != "VUID-VkSwapchainCreateInfoKHR-imageExtent-01274")
+            LAVA_ASSERT(!"check validation error");
+
     } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
         log()->warn(message_header);
         log()->warn(callback_data->pMessage);
