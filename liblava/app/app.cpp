@@ -108,11 +108,24 @@ bool app::create_block() {
 bool app::create_pipeline_cache() {
     file_data pipeline_cache_data(string(_cache_path_) + _pipeline_cache_file_);
 
-    VkPipelineCacheCreateInfo const create_info = {
-        .sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO,
-        .initialDataSize = pipeline_cache_data.size,
-        .pInitialData = pipeline_cache_data.ptr,
+    VkPipelineCacheCreateInfo create_info = {
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO
     };
+
+    if (pipeline_cache_data.ptr) {
+        auto cache_header = (VkPipelineCacheHeaderVersionOne const*) pipeline_cache_data.ptr;
+
+        if ((cache_header->deviceID == device->get_properties().deviceID)
+            && (cache_header->vendorID == device->get_properties().vendorID)
+            && (memcmp(cache_header->pipelineCacheUUID,
+                       device->get_properties().pipelineCacheUUID,
+                       VK_UUID_SIZE)
+                == 0)) {
+            create_info.initialDataSize = pipeline_cache_data.size;
+            create_info.pInitialData = pipeline_cache_data.ptr;
+        }
+    }
+
     return check(device->call().vkCreatePipelineCache(device->get(),
                                                       &create_info,
                                                       memory::instance().alloc(),
