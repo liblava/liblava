@@ -9,7 +9,7 @@
         "name": "glfw",
         "github": "glfw/glfw",
         "branch": "master",
-        "tag": "8f470597d625ae28758c16b4293dd42d63e8a83a"
+        "tag": "9b1f63bad99e584ac961769bd1ae157613cdaef4"
     },
     {
         "name": "gli",
@@ -39,7 +39,7 @@
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "da14258533cb951ce85087ceb45556e0b8253660"
+        "tag": "d07e8cb576ccb5533f479dd1258e5b609ab010a6"
     },
     {
         "name": "stb",
@@ -57,13 +57,13 @@
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "115820a6e5ff35881046a8e3920c2514c73e4a63"
+        "tag": "a3dd2655a3a68c2a67c55a0f8b77dcb8b166ada2"
     },
     {
         "name": "volk",
         "github": "zeux/volk",
         "branch": "master",
-        "tag": "f51cfb6578e81acda634c8e69badc5016bccc95e"
+        "tag": "743562f4bb8f6a1bdb48ec39eccd784c1276f546"
     },
     {
         "name": "VulkanMemoryAllocator",
@@ -93,19 +93,19 @@
         "name": "SPIRV-Headers",
         "github": "KhronosGroup/SPIRV-Headers",
         "branch": "master",
-        "tag": "aa331ab0ffcb3a67021caa1a0c1c9017712f2f31"
+        "tag": "295cf5fb3bfe2454360e82b26bae7fc0de699abe"
     },
     {
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "b955c468b189f4480d045a157b62b68540ba6e07"
+        "tag": "6c714f191e3b6cfbd886c1b1e766e8a4893be481"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "9cdfc5a511e8fa9c0713a1c84503be74e7fae029"
+        "tag": "2ca0ee3ba4ed94e95f16c3d5b500a0a76b133ed1"
     },
     {
         "name": "shaderc",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "9ff3cde87b1d8c61d2d97c34bdc71f0ec0a34a9c"
+        "tag": "69f35a5ac8ee4cb60dce7afe6978f10871baa718"
     }
 ]
