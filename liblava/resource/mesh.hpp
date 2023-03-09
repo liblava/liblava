@@ -658,9 +658,9 @@ mesh_template_data<T> create_mesh_data(mesh_type type) {
             //         color_component = 1;
             //     }
             // }
-            if constexpr (std::is_same<decltype(vert.color), glm::vec3>::value) {
+            if constexpr (std::is_same_v<decltype(vert.color), glm::vec3>) {
                 vert.color = { 1, 1, 1 };
-            } else if constexpr (std::is_same<decltype(vert.color), glm::vec4>::value) {
+            } else if constexpr (std::is_same_v<decltype(vert.color), glm::vec4>) {
                 vert.color = { 1, 1, 1, 1 };
             } else {
                 for (size_t i = 0; i < vert.color.size(); i++) {
