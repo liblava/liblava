@@ -9,7 +9,7 @@
         "name": "glfw",
         "github": "glfw/glfw",
         "branch": "master",
-        "tag": "9b1f63bad99e584ac961769bd1ae157613cdaef4"
+        "tag": "9a87635686c7fcb63ca63149c5b179b85a53a725"
     },
     {
         "name": "gli",
@@ -33,13 +33,13 @@
         "name": "json",
         "github": "nlohmann/json",
         "branch": "develop",
-        "tag": "b2306145e1789368e6f261680e8dc007e91cc986"
+        "tag": "bbe337c3a30d5f6eea418b4aee399525536de37a"
     },
     {
         "name": "spdlog",
         "github": "gabime/spdlog",
         "branch": "v1.x",
-        "tag": "d07e8cb576ccb5533f479dd1258e5b609ab010a6"
+        "tag": "2a861d28bd839e070b49638e35de7ed9e9d13de3"
     },
     {
         "name": "stb",
@@ -69,7 +69,7 @@
         "name": "VulkanMemoryAllocator",
         "github": "GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator",
         "branch": "master",
-        "tag": "dd09767ff6059d0acd664f6b4407d71cef3c5014"
+        "tag": "66afe099f1cf1f79c270471e9c0f02139072057d"
     },
     {
         "name": "IconFontCppHeaders",
@@ -81,37 +81,37 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "bfce7750b168b5a857b4379596236dda7b58bd39"
+        "tag": "b5f93810367e401c1e72978bab8b7a33013486c4"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "e25e4526cd41cd6536194de098540d54244f54e9"
+        "tag": "e2cede6542d2d6c83598d4d34dc51de84aeb282f"
     },
     {
         "name": "SPIRV-Headers",
         "github": "KhronosGroup/SPIRV-Headers",
         "branch": "master",
-        "tag": "295cf5fb3bfe2454360e82b26bae7fc0de699abe"
+        "tag": "1feaf4414eb2b353764d01d88f8aa4bcc67b60db"
     },
     {
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "6c714f191e3b6cfbd886c1b1e766e8a4893be481"
+        "tag": "42267721e1d67ccc9fada23899357bb9b25ace23"
     },
     {
         "name": "glslang",
         "github": "KhronosGroup/glslang",
         "branch": "master",
-        "tag": "2ca0ee3ba4ed94e95f16c3d5b500a0a76b133ed1"
+        "tag": "cd2082e0584d4e39d11e3f401184e0d558ab304f"
     },
     {
         "name": "shaderc",
         "github": "google/shaderc",
         "branch": "main",
-        "tag": "dde14deee743b1ae4ec8ad541f3cd268941051bb"
+        "tag": "1e65440db8ad3d4535796bd1a718f296b8a4975e"
     },
     {
         "name": "PicoSHA2",
@@ -123,6 +123,6 @@
         "name": "Catch2",
         "github": "catchorg/Catch2",
         "branch": "devel",
-        "tag": "69f35a5ac8ee4cb60dce7afe6978f10871baa718"
+        "tag": "3220ae6d4aff68edb27fa6b34d2e4f909a770e19"
     }
 ]
