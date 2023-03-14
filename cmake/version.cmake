@@ -15,10 +15,10 @@ set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG 9266e773d34c341877bd32671d674df20c6fd904)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG bbe337c3a30d5f6eea418b4aee399525536de37a)
+set(json_TAG 546370c9e778d99e7176641123e5cc1d0b62acab)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG 2a861d28bd839e070b49638e35de7ed9e9d13de3)
+set(spdlog_TAG 706ad7059125f32158dad4441938c08fa910f143)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG 5736b15f7ea0ffb08dd38af21067c314d6a3aae9)
@@ -27,10 +27,10 @@ set(tinyobjloader_GITHUB syoyo/tinyobjloader)
 set(tinyobjloader_TAG 54684096e4ab1fcff9e7571888489e48d018c7fb)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
-set(Vulkan-Headers_TAG a3dd2655a3a68c2a67c55a0f8b77dcb8b166ada2)
+set(Vulkan-Headers_TAG d732b2de303ce505169011d438178191136bfb00)
 
 set(volk_GITHUB zeux/volk)
-set(volk_TAG 743562f4bb8f6a1bdb48ec39eccd784c1276f546)
+set(volk_TAG fdfa4937d416e01455325059930d15b5d2b1ba1f)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
 set(VulkanMemoryAllocator_TAG 66afe099f1cf1f79c270471e9c0f02139072057d)
@@ -39,16 +39,16 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG fdeaa7dacef4507cccce0fb1df75b0f7546e15d4)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG b5f93810367e401c1e72978bab8b7a33013486c4)
+set(imgui_TAG f3f6295d532b98e322691afb8ef418209d963786)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG e2cede6542d2d6c83598d4d34dc51de84aeb282f)
+set(imgui_docking_TAG 9e30fb0ec1b44dc1b041db6bdd53b130b2a18509)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG 1feaf4414eb2b353764d01d88f8aa4bcc67b60db)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 42267721e1d67ccc9fada23899357bb9b25ace23)
+set(SPIRV-Tools_TAG 25f6c0cea5a573a1c9ebe334a44b096a30708fba)
 
 set(glslang_GITHUB KhronosGroup/glslang)
 set(glslang_TAG cd2082e0584d4e39d11e3f401184e0d558ab304f)
@@ -60,4 +60,4 @@ set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG 3220ae6d4aff68edb27fa6b34d2e4f909a770e19)
+set(Catch2_TAG 7b4dd326c0cf85b40ba9268fcda055a9cd8af2ff)
