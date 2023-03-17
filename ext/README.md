@@ -1,13 +1,13 @@
 
 <br />
 
-<a href="https://git.io/liblava">
+<a href="https://liblava.dev">
     <img align="left" src="../docs/assets/liblava_200px.png" width="110">
 </a>
 
 <br />
 
-<a href="https://git.io/liblava"><img src="../docs/assets/liblava.svg"></a>
+<a href="https://liblava.dev"><img src="../docs/assets/liblava.svg"></a>
 
 **A modern and easy-to-use library for the Vulkan® API**
 
@@ -24,4 +24,4 @@ python ext/update.py > ext/version.json
 
 <br />
 
-<a href="https://git.io/liblava"><img src="../docs/assets/liblava_200px.png" width="50"></a>
+<a href="https://liblava.dev"><img src="../docs/assets/liblava_200px.png" width="50"></a>

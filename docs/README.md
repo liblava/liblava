@@ -1,12 +1,12 @@
 <br />
 
-<a href="https://git.io/liblava">
+<a href="https://liblava.dev">
     <img align="left" src="assets/liblava_200px.png" width="110">
 </a>
 
 <br />
 
-<a href="https://liblava.github.io"><img src="assets/liblava.svg"></a> &nbsp; *Documentation*
+<a href="https://liblava.dev"><img src="assets/liblava.svg"></a> &nbsp; *Documentation*
 
 **A modern and easy-to-use library for the Vulkan® API**
 
@@ -16,7 +16,7 @@
 
 <br />
 
-> **Need help?** &nbsp; Please feel free to ask us on ➜ [Discord](https://discord.lava-block.com)
+> **Need help?** &nbsp; Please feel free to ask us on ➜ [Discord](https://discord.liblava.dev)
 
 > **New to Vulkan?** &nbsp; Take a look at this ➜ [Vulkan Guide](https://github.com/KhronosGroup/Vulkan-Guide)
 <br />Check [Awesome Vulkan ecosystem](http://www.vinjn.com/awesome-vulkan/) for tutorials, samples and books.
@@ -399,7 +399,7 @@ int main(int argc, char* argv[]) {
 
 <br />
 
-**What's next?** ➜ Check some [demo](https://thelavablock.itch.io/lava-demo) or use the [template](#template) and start coding...
+**What's next?** ➜ Check some [demo](https://demo.liblava.dev) or use the [template](#template) and start coding...
 
 <br />
 
@@ -1072,4 +1072,4 @@ You can find the demonstration projects in the `liblava-demo/` folder.
 
 <br />
 
-<a href="https://git.io/liblava"><img src="assets/liblava_200px.png" width="50"></a>
+<a href="https://liblava.dev"><img src="assets/liblava_200px.png" width="50"></a>

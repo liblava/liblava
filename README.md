@@ -1,18 +1,18 @@
 <br />
 
-<a href="https://git.io/liblava">
+<a href="https://liblava.dev">
     <img align="left" src="docs/assets/liblava_200px.png" width="110">
 </a>
 
 <br />
 
-<a href="https://git.io/liblava"><img src="docs/assets/liblava.svg"></a>
+<a href="https://liblava.dev"><img src="docs/assets/liblava.svg"></a>
 
 **A modern and easy-to-use library for the Vulkan® API**
 
 <br />
 
-[![version](https://img.shields.io/badge/2023_preview-0.8.0-cf1020)](https://github.com/liblava/liblava/tags) [![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) &nbsp; [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.lava-block.com) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://donate.lava-block.com) [![Twitter Follow](https://img.shields.io/badge/follow-@liblava-00acee)](https://twitter.com/liblava)
+[![version](https://img.shields.io/badge/2023_preview-0.8.0-cf1020)](https://github.com/liblava/liblava/tags) [![License](https://img.shields.io/github/license/liblava/liblava)](#license) [![CodeFactor](https://img.shields.io/codefactor/grade/github/liblava/liblava)](https://www.codefactor.io/repository/github/liblava/liblava) &nbsp; [![Discord](https://img.shields.io/discord/439508141722435595)](https://discord.liblava.dev) [![Donate](https://img.shields.io/badge/donate-PayPal-3b7bbf.svg)](https://donate.liblava.dev) [![Twitter Follow](https://img.shields.io/badge/follow-@liblava-00acee)](https://twitter.com/liblava)
 
 <br />
 
@@ -22,7 +22,7 @@
 
 <br />
 
-➜ &nbsp; [Download](https://github.com/liblava/liblava/releases) &nbsp; • &nbsp; [Documentation](https://liblava.github.io) (Tutorial + Guide) &nbsp; • &nbsp; [Projects](#projects) &nbsp; • &nbsp; [Modules](#modules) &nbsp; • &nbsp; [Collaborate](#collaborate)
+➜ &nbsp; [Download](https://github.com/liblava/liblava/releases) &nbsp; • &nbsp; [Documentation](https://docs.liblava.dev) (Tutorial + Guide) &nbsp; • &nbsp; [Projects](#projects) &nbsp; • &nbsp; [Modules](#modules) &nbsp; • &nbsp; [Collaborate](#collaborate)
 
 <br />
 
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
 
 |||
 |:-|:-|
-| ![demo](res/demo/screenshot.png) | [![lava demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo/main.cpp)<br />**free download on ➜ [itch.io](https://thelavablock.itch.io/lava-demo)**<br /><br /> The collection includes all stages to play around. - *You can easily switch between them.* |
+| ![demo](res/demo/screenshot.png) | [![lava demo](https://img.shields.io/badge/lava-demo-brightgreen.svg)](liblava-demo/main.cpp)<br />**free download on ➜ [itch.io](https://demo.liblava.dev)**<br /><br /> The collection includes all stages to play around. - *You can easily switch between them.* |
 |||
 
 ## Stages
@@ -198,13 +198,13 @@ If you want to **contribute** - we suggest the following:
 
 <br />
 
-**Need help?** &nbsp; Please feel free to ask us on ➜ [Discord](https://discord.lava-block.com)
+**Need help?** &nbsp; Please feel free to ask us on ➜ [Discord](https://discord.liblava.dev)
 
 <br />
 
 | Help maintenance and development | Every star and follow motivates |
 |---------:|:---------|
-| [![paypal](https://www.paypalobjects.com/en_US/i/btn//btn_donate_SM.gif)](https://donate.lava-block.com) | [![GitHub Stars](https://img.shields.io/github/stars/liblava/liblava?style=social)](https://github.com/liblava/liblava/stargazers) &nbsp; [![Twitter URL](https://img.shields.io/twitter/follow/liblava?style=social)](https://twitter.com/liblava) |
+| [![paypal](https://www.paypalobjects.com/en_US/i/btn//btn_donate_SM.gif)](https://donate.liblava.dev) | [![GitHub Stars](https://img.shields.io/github/stars/liblava/liblava?style=social)](https://github.com/liblava/liblava/stargazers) &nbsp; [![Twitter URL](https://img.shields.io/twitter/follow/liblava?style=social)](https://twitter.com/liblava) |
 
 <br />
 
@@ -223,4 +223,4 @@ Copyright (c) 2018-present - <a href="https://lava-block.com">Lava Block OÜ</a>
 <br />
 <br />
 
-<a href="https://git.io/liblava"><img src="docs/assets/liblava_200px.png" width="50"></a>
+<a href="https://liblava.dev"><img src="docs/assets/liblava_200px.png" width="50"></a>
