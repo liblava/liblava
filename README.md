@@ -18,7 +18,7 @@
 
 **lava**  provides **essentials** for **low-level graphics** - suited for **prototyping**, **tooling**, **profiling** and **education**. 
 
-> **This lean framework** is written in **neat C++20** and it strives for a **modular rolling release** as far as possible. We *don't* want to promise too much... but **lava runs** really smoothly **on Windows** and **Linux**.
+> **This lean framework** is written in **neat C++23** and it strives for a **modular rolling release** as far as possible. We *don't* want to promise too much... but **lava runs** really smoothly **on Windows** and **Linux**.
 
 <br />
 

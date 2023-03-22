@@ -20,15 +20,15 @@ jobs:
     - name: Prepare (ubuntu)
       run: |
            sudo apt-get update
-           sudo apt-get install -y gcc-11 g++-11
+           sudo apt-get install -y gcc-12 g++-12
            sudo apt-get install -y libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
       if: matrix.os == 'ubuntu-latest'
 
     - name: Configure (ubuntu)
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{github.workspace}}/install -DCMAKE_VERBOSE_MAKEFILE=ON
       env:
-        CC:   gcc-11
-        CXX:  g++-11
+        CC:   gcc-12
+        CXX:  g++-12
       if: matrix.os == 'ubuntu-latest'
 
     - name: Configure (windows)
