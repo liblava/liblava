@@ -55,8 +55,12 @@ if(LIBLAVA_EXTERNALS)
 
   set(EXT_FOLDER "ext")
   set_target_properties(spdlog PROPERTIES FOLDER ${EXT_FOLDER})
-  set_target_properties(Catch2 PROPERTIES FOLDER ${EXT_FOLDER})
-  set_target_properties(Catch2WithMain PROPERTIES FOLDER ${EXT_FOLDER})
+
+  if(LIBLAVA_TEST)
+    set_target_properties(Catch2 PROPERTIES FOLDER ${EXT_FOLDER})
+    set_target_properties(Catch2WithMain PROPERTIES FOLDER ${EXT_FOLDER})
+  endif()
+
   set_target_properties(physfs-static PROPERTIES FOLDER ${EXT_FOLDER})
 
   set(LIBSHADERC_FOLDER "libshaderc")
