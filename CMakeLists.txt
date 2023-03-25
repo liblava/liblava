@@ -289,6 +289,38 @@ set_property(TARGET lava.asset PROPERTY EXPORT_NAME asset)
 
 add_library(lava::asset ALIAS lava.asset)
 
+message(STATUS ">> lava::block")
+
+add_library(lava.block
+  ${LIBLAVA_DIR}/block/attachment.hpp
+  ${LIBLAVA_DIR}/block/block.cpp
+  ${LIBLAVA_DIR}/block/block.hpp
+  ${LIBLAVA_DIR}/block/compute_pipeline.cpp
+  ${LIBLAVA_DIR}/block/compute_pipeline.hpp
+  ${LIBLAVA_DIR}/block/def.hpp
+  ${LIBLAVA_DIR}/block/descriptor.cpp
+  ${LIBLAVA_DIR}/block/descriptor.hpp
+  ${LIBLAVA_DIR}/block/pipeline.cpp
+  ${LIBLAVA_DIR}/block/pipeline.hpp
+  ${LIBLAVA_DIR}/block/pipeline_layout.cpp
+  ${LIBLAVA_DIR}/block/pipeline_layout.hpp
+  ${LIBLAVA_DIR}/block/render_pass.cpp
+  ${LIBLAVA_DIR}/block/render_pass.hpp
+  ${LIBLAVA_DIR}/block/render_pipeline.cpp
+  ${LIBLAVA_DIR}/block/render_pipeline.hpp
+  ${LIBLAVA_DIR}/block/subpass.cpp
+  ${LIBLAVA_DIR}/block/subpass.hpp
+  )
+
+target_link_libraries(lava.block PUBLIC
+  lava::base
+  )
+
+set_target_properties(lava.block PROPERTIES FOLDER "liblava")
+set_property(TARGET lava.block PROPERTY EXPORT_NAME block)
+
+add_library(lava::block ALIAS lava.block)
+
 message(STATUS ">> lava::frame")
 
 add_library(lava.frame
@@ -329,38 +361,6 @@ set_target_properties(lava.frame PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.frame PROPERTY EXPORT_NAME frame)
 
 add_library(lava::frame ALIAS lava.frame)
-
-message(STATUS ">> lava::block")
-
-add_library(lava.block
-  ${LIBLAVA_DIR}/block/attachment.hpp
-  ${LIBLAVA_DIR}/block/block.cpp
-  ${LIBLAVA_DIR}/block/block.hpp
-  ${LIBLAVA_DIR}/block/compute_pipeline.cpp
-  ${LIBLAVA_DIR}/block/compute_pipeline.hpp
-  ${LIBLAVA_DIR}/block/def.hpp
-  ${LIBLAVA_DIR}/block/descriptor.cpp
-  ${LIBLAVA_DIR}/block/descriptor.hpp
-  ${LIBLAVA_DIR}/block/pipeline.cpp
-  ${LIBLAVA_DIR}/block/pipeline.hpp
-  ${LIBLAVA_DIR}/block/pipeline_layout.cpp
-  ${LIBLAVA_DIR}/block/pipeline_layout.hpp
-  ${LIBLAVA_DIR}/block/render_pass.cpp
-  ${LIBLAVA_DIR}/block/render_pass.hpp
-  ${LIBLAVA_DIR}/block/render_pipeline.cpp
-  ${LIBLAVA_DIR}/block/render_pipeline.hpp
-  ${LIBLAVA_DIR}/block/subpass.cpp
-  ${LIBLAVA_DIR}/block/subpass.hpp
-  )
-
-target_link_libraries(lava.block PUBLIC
-  lava::base
-  )
-
-set_target_properties(lava.block PROPERTIES FOLDER "liblava")
-set_property(TARGET lava.block PROPERTY EXPORT_NAME block)
-
-add_library(lava::block ALIAS lava.block)
 
 message(STATUS ">> lava::app")
 
@@ -514,8 +514,8 @@ install(TARGETS
   lava.base
   lava.resource
   lava.asset
-  lava.frame
   lava.block
+  lava.frame
   lava.app
   lava.engine
   spdlog
