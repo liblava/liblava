@@ -2,9 +2,8 @@ cmake_minimum_required(VERSION 3.25)
 
 project(liblava VERSION 0.8.0 LANGUAGES C CXX)
 
-message(STATUS "")
 message(STATUS "========================================================================")
-message(STATUS " Copyright (c) 2018-present, Lava Block OÜ and contributors             ")
+message(STATUS " Copyright (c) 2018-present, Lava Block OÜ and contributors")
 message(STATUS "========================================================================")
 message(STATUS "                                                                        ")
 message(STATUS "  _|  _|  _|            _|                                              ")
@@ -14,10 +13,7 @@ message(STATUS "  _|  _|  _|    _|      _|      _|    _|        _|  _|        _|
 message(STATUS "  _|  _|  _|_|_|        _|        _|_|_|          _|            _|_|_|  ")
 message(STATUS "                                                                        ")
 message(STATUS "========================================================================")
-message(STATUS " 2023 preview / 0.8.0          MIT licensed         https://liblava.dev ")
-message(STATUS "========================================================================")
-message(STATUS "> Making lava flow...                                                   ")
-message(STATUS ">> Configuring may take a little longer the first time - so be patient  ")
+message(STATUS " https://liblava.dev        2023 preview / 0.8.0           MIT licensed ")
 
 option(LIBLAVA_TEST "Enable Test" TRUE)
 option(LIBLAVA_DEMO "Enable Demo" TRUE)
@@ -45,6 +41,12 @@ if(NOT DEFINED CMAKE_SUPPRESS_DEVELOPER_WARNINGS)
 endif()
 
 include(GNUInstallDirs)
+
+find_program(CCACHE_PROGRAM ccache)
+if(CCACHE_PROGRAM)
+  message(STATUS "> ccache found")
+  set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
+endif()
 
 if(LIBLAVA_EXTERNALS)
   message(STATUS "========================================================================")
@@ -88,7 +90,7 @@ if(LIBLAVA_EXTERNALS)
 endif()
 
 message(STATUS "========================================================================")
-message(STATUS "> module")
+message(STATUS "> modules")
 
 message(STATUS ">> lava::core")
 
