@@ -307,39 +307,4 @@ inline size_t next_pow_2(size_t x) {
     return x;
 }
 
-#ifndef __GNUC__
-    /// Duplicate string
-    #define strndup(p, n) _strdup(p)
-#endif
-
-/**
- * @brief Convert data size to human readable string
- * @param sz        Size to convert
- * @return char*    Human readable size string
- */
-inline char* human_readable(size_t const sz) {
-    auto const buffer_size = 32;
-
-    char const prefixes[] = "KMGTPEZY";
-    char buf[buffer_size];
-    auto which = -1;
-
-    auto result = to_r64(sz);
-    while (result > 1024 && which < 7) {
-        result /= 1024;
-        ++which;
-    }
-
-    char unit[] = "\0i";
-    if (which >= 0)
-        unit[0] = prefixes[which];
-
-    snprintf(buf, buffer_size, "%.2f %sB", result, unit);
-    return strndup(buf, buffer_size);
-}
-
-#ifndef __GNUC__
-    #undef strndup
-#endif
-
 } // namespace lava
