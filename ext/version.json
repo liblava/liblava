@@ -27,7 +27,7 @@
         "name": "physfs",
         "github": "icculus/physfs",
         "branch": "main",
-        "tag": "9266e773d34c341877bd32671d674df20c6fd904"
+        "tag": "57d36e0ed241439cb7a6a82133128c470462d738"
     },
     {
         "name": "json",
@@ -57,13 +57,13 @@
         "name": "Vulkan-Headers",
         "github": "KhronosGroup/Vulkan-Headers",
         "branch": "main",
-        "tag": "8a397558c4d2a4bf9e64e900c45a7e65664c32b2"
+        "tag": "870a531486f77dfaf124395de80ed38867400d31"
     },
     {
         "name": "volk",
         "github": "zeux/volk",
         "branch": "master",
-        "tag": "5e9877395a6e20fb3f054e4e2a1a89f8d568a952"
+        "tag": "1b0d77cd6d229970e375a3f5ffecfde27dc12799"
     },
     {
         "name": "VulkanMemoryAllocator",
@@ -81,25 +81,25 @@
         "name": "imgui",
         "github": "ocornut/imgui",
         "branch": "master",
-        "tag": "b47507951edebca602c824fde97dc4ad03316b87"
+        "tag": "085fa42b7df25cff3030a8c58547bb6c95d284f5"
     },
     {
         "name": "imgui_docking",
         "github": "ocornut/imgui",
         "branch": "docking",
-        "tag": "d2291df55190e2f070af2635863f47a96d378a52"
+        "tag": "031148dc56d70158b3ad84d9be95b04bb3f5baaf"
     },
     {
         "name": "SPIRV-Headers",
         "github": "KhronosGroup/SPIRV-Headers",
         "branch": "master",
-        "tag": "cfbe4feef20c3c0628712c2792624f0221e378ac"
+        "tag": "7f1d2f4158704337aff1f739c8e494afc5716e7e"
     },
     {
         "name": "SPIRV-Tools",
         "github": "KhronosGroup/SPIRV-Tools",
         "branch": "master",
-        "tag": "25ad5e19f193429b737433d5f6151062ddbc1680"
+        "tag": "6110f30a36775e4d452968407f12b16694df2cc8"
     },
     {
         "name": "glslang",
@@ -111,7 +111,7 @@
         "name": "shaderc",
         "github": "google/shaderc",
         "branch": "main",
-        "tag": "606f9384adf56926a6a72a7e9ca4f76167db70f8"
+        "tag": "f9eb1c730c20c5fa7aab81cf7074c22c6342274f"
     },
     {
         "name": "PicoSHA2",
