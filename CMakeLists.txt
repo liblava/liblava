@@ -48,6 +48,11 @@ if(CCACHE_PROGRAM)
   set(CMAKE_CXX_COMPILER_LAUNCHER "${CCACHE_PROGRAM}")
 endif()
 
+if(CMAKE_HOST_WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  add_compile_options($<$<OR:$<COMPILE_LANGUAGE:C>,$<COMPILE_LANGUAGE:CXX>>:/MP>)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+endif()
+
 if(LIBLAVA_EXTERNALS)
   message(STATUS "========================================================================")
   message(STATUS "> CPM.cmake")
@@ -118,10 +123,6 @@ target_compile_features(lava.core INTERFACE cxx_std_23)
 target_link_libraries(lava.core INTERFACE
   Threads::Threads
   )
-
-if(${CMAKE_SYSTEM_NAME} MATCHES "Windows" AND NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
   target_compile_options(lava.core INTERFACE "-Wno-psabi")
