@@ -211,7 +211,7 @@ bool frame::run_step() {
     if (!run_once_list.empty()) {
         for (auto& func : run_once_list) {
             if (!func())
-                return false;
+                return run_abort;
         }
 
         run_once_list.clear();
@@ -219,13 +219,13 @@ bool frame::run_step() {
 
     for (auto& [id, func] : run_map) {
         if (!func(id))
-            return false;
+            return run_abort;
     }
 
     if (!run_remove_list.empty())
         trigger_run_remove();
 
-    return true;
+    return run_continue;
 }
 
 //-----------------------------------------------------------------------------
