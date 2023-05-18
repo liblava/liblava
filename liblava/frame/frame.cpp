@@ -93,8 +93,8 @@ void handle_env(frame_env& env) {
     log_command_line(cmd_line);
 
     if (env.log.level >= 0)
-        log()->info("log {}", spdlog::level::to_string_view(
-                                  (spdlog::level::level_enum) env.log.level));
+        log()->info("log level: {}", spdlog::level::to_string_view(
+                                         (spdlog::level::level_enum) env.log.level));
 }
 
 //-----------------------------------------------------------------------------
@@ -109,10 +109,10 @@ bool frame::setup() {
     handle_env(env);
 
     glfwSetErrorCallback([](i32 error, name description) {
-        log()->error("glfw {} - {}", error, description);
+        log()->error("glfw: {} - {}", error, description);
     });
 
-    log()->debug("glfw {}", glfwGetVersionString());
+    log()->info("glfw: {}", glfwGetVersionString());
 
     if (glfwInit() != GLFW_TRUE) {
         log()->error("init glfw");
@@ -132,7 +132,7 @@ bool frame::setup() {
         return false;
     }
 
-    log()->info("vulkan {}", to_string(get_instance_version()));
+    log()->info("vulkan: {}", to_string(get_instance_version()));
 
     auto glfw_extensions_count = 0u;
     auto glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);

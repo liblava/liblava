@@ -87,7 +87,7 @@ void benchmark(frame& app, benchmark_data& data) {
     data.current = 0;
     data.start_timestamp = get_current_timestamp_ms();
 
-    log()->info("benchmark in {} sec for {} sec",
+    log()->info("benchmark start in {} sec for {} sec",
                 to_sec(data.offset), to_sec(data.time));
 }
 
@@ -144,7 +144,7 @@ bool write_frames_json(benchmark_data& data) {
 
     file file(file_path.string(), file_mode::write);
     if (!file.opened()) {
-        log()->error("save benchmark ({}) - {}",
+        log()->error("save benchmark ({}) = {}",
                      file_path.string(), j.dump());
         return false;
     }
@@ -153,7 +153,7 @@ bool write_frames_json(benchmark_data& data) {
 
     file.write(jString.data(), jString.size());
 
-    log()->info("benchmark ({}) - {}",
+    log()->info("benchmark ({}) = {}",
                 file_path.string(), j.dump());
     return true;
 }

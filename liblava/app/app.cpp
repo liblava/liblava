@@ -215,13 +215,13 @@ void app::mount_resource() {
     }
 
     for (auto& res : res_list) {
-        log()->debug("mount {}", res);
+        log()->info("mount: {}", res);
     }
 }
 
 //-----------------------------------------------------------------------------
 bool app::setup_file_system() {
-    log()->debug("physfs {}", to_string(fs.get_version()));
+    log()->info("physfs: {}", to_string(fs.get_version()));
 
     auto& cmd_line = get_cmd_line();
 
@@ -325,7 +325,7 @@ void app::setup_run() {
         config.update_window_state();
 
         if (!config_file.save())
-            log()->error("save config file {}", config_file.get());
+            log()->error("save config file: {}", config_file.get());
 
         config_file.clear();
 

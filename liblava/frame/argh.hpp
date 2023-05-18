@@ -22,7 +22,7 @@ using cmd_line = argh::parser const&;
 inline void log_command_line(cmd_line cmd_line) {
     if (!cmd_line.pos_args().empty()) {
         for (auto const& pos_arg : cmd_line.pos_args())
-            log()->info("cmd {}", pos_arg);
+            log()->info("cmd: {}", pos_arg);
     }
 
     if (!cmd_line.flags().empty()) {

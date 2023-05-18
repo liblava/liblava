@@ -17,14 +17,14 @@ bool check(VkResult result) {
 
     if (result > 0) {
         if (result == VK_SUBOPTIMAL_KHR)
-            log()->warn("VkResult {}", to_string(result));
+            log()->warn("VkResult: {}", to_string(result));
         else
-            log()->critical("VkResult {}", to_string(result));
+            log()->critical("VkResult: {}", to_string(result));
 
         return false;
     }
 
-    log()->error("VkResult {}", to_string(result));
+    log()->error("VkResult: {}", to_string(result));
     return false;
 }
 

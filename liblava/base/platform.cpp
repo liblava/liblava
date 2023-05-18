@@ -5,8 +5,8 @@
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include "liblava/base/instance.hpp"
 #include "liblava/base/platform.hpp"
+#include "liblava/base/instance.hpp"
 #include "liblava/core/misc.hpp"
 #include "liblava/util/log.hpp"
 
@@ -18,7 +18,7 @@ device::ptr platform::create(index pd) {
 
     if (pd > 0) {
         if (pd >= instance::singleton().get_physical_devices().size()) {
-            log()->error("create device - no physical device {}", pd);
+            log()->error("create device - no physical device: {}", pd);
             return nullptr;
         }
 

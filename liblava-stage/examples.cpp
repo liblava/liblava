@@ -109,15 +109,15 @@ LAVA_STAGE(8, "gamepad") {
         ui32 id = pad.get_id();
 
         if (active)
-            log()->info("gamepad {} - active ({})", id, pad.get_name());
+            log()->info("gamepad: {} - active ({})", id, pad.get_name());
         else
-            log()->info("gamepad {} - inactive", id);
+            log()->info("gamepad: {} - inactive", id);
 
         return input_ignore;
     });
 
     for (gamepad& pad : gamepads())
-        log()->info("gamepad {} - active ({})", pad.get_id(), pad.get_name());
+        log()->info("gamepad: {} - active ({})", pad.get_id(), pad.get_name());
 
     log()->info("Waiting some seconds for gamepads...");
 
