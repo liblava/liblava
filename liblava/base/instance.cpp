@@ -19,33 +19,46 @@ namespace lava {
  * @see https://khronos.org/registry/vulkan/specs/1.3-extensions/man/html/PFN_vkDebugUtilsMessengerCallbackEXT.html
  */
 VKAPI_ATTR VkBool32 VKAPI_CALL
-    validation_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
-                        VkDebugUtilsMessageTypeFlagsEXT message_type,
-                        const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
-                        void* user_data) {
-    auto message_header = callback_data->pMessageIdName != nullptr
-                              ? fmt::format("validation: {} ({})",
-                                            callback_data->pMessageIdName,
-                                            callback_data->messageIdNumber)
-                              : fmt::format("validation: ({})", callback_data->messageIdNumber);
+    debug_messenger_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
+                             VkDebugUtilsMessageTypeFlagsEXT message_type,
+                             const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
+                             void* user_data) {
+    string type;
+    if (message_type == VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT)
+        type = "general";
+    else if (message_type == VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT)
+        type = "validation";
+    else if (message_type == VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT)
+        type = "performance";
+    else if (message_type == VK_DEBUG_UTILS_MESSAGE_TYPE_DEVICE_ADDRESS_BINDING_BIT_EXT)
+        type = "device address binding";
 
-    if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
-        log()->error(message_header);
-        log()->error(callback_data->pMessage);
+    auto log_msg = callback_data->pMessageIdName != nullptr
+                       ? fmt::format("debug utils ({}): {} ({})",
+                                     type,
+                                     callback_data->pMessageIdName,
+                                     callback_data->messageIdNumber)
+                       : fmt::format("debug utils ({}): ({})",
+                                     type,
+                                     callback_data->messageIdNumber);
+
+    string message(callback_data->pMessage);
+    trim(message);
+
+    log_msg += " - " + message;
+
+    if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT)
+        log()->trace(log_msg);
+    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
+        log()->info(log_msg);
+    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
+        log()->warn(log_msg);
+    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
+        log()->error(log_msg);
 
         // unpreventable error application is still ok see: https://github.com/KhronosGroup/Vulkan-ValidationLayers/issues/1340
         if (string(callback_data->pMessageIdName) != "VUID-VkSwapchainCreateInfoKHR-imageExtent-01274")
-            LAVA_ASSERT(!"check validation error");
-
-    } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) {
-        log()->warn(message_header);
-        log()->warn(callback_data->pMessage);
-    } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT) {
-        log()->info(message_header);
-        log()->info(callback_data->pMessage);
-    } else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT) {
-        log()->trace(message_header);
-        log()->trace(callback_data->pMessage);
+            LAVA_ASSERT(!"check debug utils error");
     }
 
     return VK_FALSE;
@@ -143,7 +156,7 @@ bool instance::create(create_param& param,
         return false;
 
     if (debug.utils)
-        if (!create_validation_report())
+        if (!create_debug_messenger())
             return false;
 
     return true;
@@ -157,7 +170,7 @@ void instance::destroy() {
     physical_devices.clear();
 
     if (debug.utils)
-        destroy_validation_report();
+        destroy_debug_messenger();
 
     vkDestroyInstance(vk_instance,
                       memory::instance().alloc());
@@ -165,15 +178,16 @@ void instance::destroy() {
 }
 
 //-----------------------------------------------------------------------------
-bool instance::create_validation_report() {
+bool instance::create_debug_messenger() {
     VkDebugUtilsMessengerCreateInfoEXT create_info{
         .sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT,
         .messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT
                            | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT,
         .messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT
                        | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT
-                       | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT,
-        .pfnUserCallback = validation_callback,
+                       | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT
+                       | VK_DEBUG_UTILS_MESSAGE_TYPE_DEVICE_ADDRESS_BINDING_BIT_EXT,
+        .pfnUserCallback = debug_messenger_callback,
     };
 
     if (debug.verbose)
@@ -187,7 +201,7 @@ bool instance::create_validation_report() {
 }
 
 //-----------------------------------------------------------------------------
-void instance::destroy_validation_report() {
+void instance::destroy_debug_messenger() {
     if (!debug_messenger)
         return;
 

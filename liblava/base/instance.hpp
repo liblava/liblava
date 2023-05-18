@@ -162,15 +162,15 @@ private:
     bool enumerate_physical_devices();
 
     /**
-     * @brief Create a validation report
+     * @brief Create a debug messenger
      * @return Create was successful or failed
      */
-    bool create_validation_report();
+    bool create_debug_messenger();
 
     /**
-     * @brief Destroy the validation report
+     * @brief Destroy the debug messenger
      */
-    void destroy_validation_report();
+    void destroy_debug_messenger();
 
     /// Vulkan instance
     VkInstance vk_instance = nullptr;
