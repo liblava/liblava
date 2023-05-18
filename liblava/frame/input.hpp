@@ -222,8 +222,8 @@ using mod_t = mod;
 
 /**
  * @brief Check if mod is active
- * @param m         Target mod
- * @param c         Mod to check
+ * @param m    Target mod
+ * @param c    Mod to check
  * @return Mod is active or not
  */
 inline bool check_mod(mod m, mod c) {
@@ -273,7 +273,7 @@ struct key_event {
 
     /**
      * @brief Check if key is pressed
-     * @param k         Key to check
+     * @param k    Key to check
      * @return Key is pressed or not
      */
     bool pressed(key_ref k) const {
@@ -282,7 +282,7 @@ struct key_event {
 
     /**
      * @brief Check if key is released
-     * @param k         Key to check
+     * @param k    Key to check
      * @return Key is released or not
      */
     bool released(key_ref k) const {
@@ -291,7 +291,7 @@ struct key_event {
 
     /**
      * @brief Check if key is repeated
-     * @param k         Key to check
+     * @param k    Key to check
      * @return Key is repeated or not
      */
     bool repeated(key_ref k) const {
@@ -308,8 +308,8 @@ struct key_event {
 
     /**
      * @brief Check if key is pressed with mod
-     * @param k         Key to check
-     * @param m         Mods to check
+     * @param k    Key to check
+     * @param m    Mods to check
      * @return Key is pressed with mod or not
      */
     bool pressed(key_ref k, mod_ref m) const {
@@ -441,7 +441,7 @@ struct mouse_button_event {
 
     /**
      * @brief Check if mouse button is pressed
-     * @param b         Mouse button to check
+     * @param b    Mouse button to check
      * @return Mouse button is pressed or not
      */
     bool pressed(mouse_button_ref b) const {
@@ -450,7 +450,7 @@ struct mouse_button_event {
 
     /**
      * @brief Check if mouse button is released
-     * @param b         Mouse button to check
+     * @param b    Mouse button to check
      * @return Mouse button is released or not
      */
     bool released(mouse_button_ref b) const {
