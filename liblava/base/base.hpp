@@ -137,28 +137,28 @@ inline bool failed(VkResult result) {
 string to_string(VkResult result);
 
 /**
- * @brief Convert a version to string
+ * @brief Convert a Vulkan version to string
  * @param version    Version to convert
  * @return string    String of version
  */
 string version_to_string(ui32 version);
 
 /**
- * @brief Convert a version to internal version
- * @param version         Version to convert
- * @return int_version    Converted version
+ * @brief Convert a Vulkan version to internal version
+ * @param version         Vulkan version to convert
+ * @return int_version    Converted internal version
  */
 int_version to_version(ui32 version);
 
 /**
- * @brief Convert a version to Vulkan version
+ * @brief Convert an internal version to Vulkan version
  * @param version    Internal version to convert
  * @return ui32      Converted Vulkan version
  */
 ui32 to_version(int_version version);
 
 /**
- * @brief Vulkan api versions
+ * @brief Vulkan API versions
  */
 enum class api_version : index {
     v1_0 = 0,
@@ -168,7 +168,7 @@ enum class api_version : index {
 };
 
 /**
- * @brief Convert a version to Vulkan API version
+ * @brief Convert a Vulkan version to API version
  * @param version         Vulkan version to convert
  * @return api_version    Converted API version
  */
