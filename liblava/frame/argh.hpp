@@ -8,7 +8,7 @@
 #pragma once
 
 #include "argh.h"
-#include "liblava/util/log.hpp"
+#include "liblava/core/types.hpp"
 
 namespace lava {
 
@@ -19,21 +19,15 @@ using cmd_line = argh::parser const&;
  * @brief Log command line
  * @param cmd_line    Command line arguments
  */
-inline void log_command_line(cmd_line cmd_line) {
-    if (!cmd_line.pos_args().empty()) {
-        for (auto const& pos_arg : cmd_line.pos_args())
-            log()->info("cmd: {}", pos_arg);
-    }
+void log_command_line(cmd_line cmd_line);
 
-    if (!cmd_line.flags().empty()) {
-        for (auto const& flag : cmd_line.flags())
-            log()->info("cmd flag: {}", flag);
-    }
-
-    if (!cmd_line.params().empty()) {
-        for (auto const& [key, value] : cmd_line.params())
-            log()->info("cmd param: {} = {}", key, value);
-    }
-}
+/**
+ * @brief Get the value from command line arguments
+ * @param cmd_line    Command line arguments
+ * @param names       Argument names
+ * @return string     Value of command line argument
+ */
+string get_cmd(cmd_line cmd_line,
+               std::initializer_list<name const> names);
 
 } // namespace lava

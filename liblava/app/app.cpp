@@ -28,10 +28,7 @@ app::app(name name, argh::parser cmd_line)
 
 //-----------------------------------------------------------------------------
 void app::parse_config(argh::parser cmd_line) {
-    if (auto id = cmd_line({ "-id", "--identification" })) {
-        config.id = id.str();
-        remove_punctuation_marks(config.id);
-    }
+    config.id = get_cmd(cmd_line, { "-id", "--identification" });
 
     if (auto fullscreen = -1; cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)
         config.window_state->fullscreen = fullscreen == 1;
@@ -198,10 +195,8 @@ bool app::setup() {
 void app::mount_resource() {
     auto res_list = fs.mount_res();
 
-    if (auto res = get_cmd_line()({ "-res", "--resource" })) {
-        auto res_str = res.str();
-        remove_punctuation_marks(res_str);
-
+    auto res_str = get_cmd(get_cmd_line(), { "-res", "--resource" });
+    if (!res_str.empty()) {
         auto const res_dir = fs.get_full_base_dir(res_str);
 
         if (std::filesystem::exists(res_dir)) {

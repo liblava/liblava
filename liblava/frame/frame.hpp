@@ -12,6 +12,7 @@
 #include "liblava/base/platform.hpp"
 #include "liblava/core/time.hpp"
 #include "liblava/frame/argh.hpp"
+#include "liblava/util/log.hpp"
 
 namespace lava {
 

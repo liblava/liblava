@@ -24,18 +24,10 @@ bool parse(cmd_line cmd_line, benchmark_data& data) {
     if (auto offset = -1; cmd_line({ "-bmo", "--benchmark_offset" }) >> offset)
         data.offset = ms{ offset };
 
-    if (auto file = cmd_line({ "-bmf", "--benchmark_file" })) {
-        data.file = file.str();
-        remove_punctuation_marks(data.file);
-    }
-
-    if (auto path = cmd_line({ "-bmp", "--benchmark_path" })) {
-        data.path = path.str();
-        remove_punctuation_marks(data.path);
-    }
+    data.file = get_cmd(cmd_line, { "-bmf", "--benchmark_file" });
+    data.path = get_cmd(cmd_line, { "-bmp", "--benchmark_path" });
 
     cmd_line({ "-bmx", "--benchmark_exit" }) >> data.exit;
-
     cmd_line({ "-bmb", "--benchmark_buffer" }) >> data.buffer_size;
 
     return true;

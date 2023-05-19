@@ -84,10 +84,8 @@ void property::parse(cmd_line cmd_line) {
     for (auto& [name, prop] : map) {
         auto cmd_arg = "--" + name;
 
-        if (auto value = cmd_line(cmd_arg)) {
-            auto filename = value.str();
-            remove_punctuation_marks(filename);
-
+        auto filename = get_cmd(cmd_line, { cmd_arg.c_str() });
+        if (!filename.empty()) {
             prop.filename = filename;
 
             log()->debug("prop parse: {} = {}",

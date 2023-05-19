@@ -327,6 +327,7 @@ add_library(lava::block ALIAS lava.block)
 message(STATUS ">> lava::frame")
 
 add_library(lava.frame
+  ${LIBLAVA_DIR}/frame/argh.cpp
   ${LIBLAVA_DIR}/frame/argh.hpp
   ${LIBLAVA_DIR}/frame/driver.cpp
   ${LIBLAVA_DIR}/frame/driver.hpp
