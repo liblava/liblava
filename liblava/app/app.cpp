@@ -28,7 +28,9 @@ app::app(name name, argh::parser cmd_line)
 
 //-----------------------------------------------------------------------------
 void app::parse_config(argh::parser cmd_line) {
-    config.id = get_cmd(cmd_line, { "-id", "--identification" });
+    auto config_id = get_cmd(cmd_line, { "-id", "--identification" });
+    if (!config_id.empty())
+        config.id = config_id;
 
     if (auto fullscreen = -1; cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)
         config.window_state->fullscreen = fullscreen == 1;
