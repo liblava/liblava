@@ -98,7 +98,7 @@ void property::parse(cmd_line cmd_line) {
 void property::set_config(json_ref j) {
     for (auto& [name, prop] : map) {
         if (j.count(name)) {
-            auto filename = j[name];
+            string filename = j[name];
 
             if (prop.filename == filename)
                 continue;
