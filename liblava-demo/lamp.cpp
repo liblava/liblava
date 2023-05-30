@@ -191,7 +191,7 @@ int main(int argc, char* argv[]) {
         return input_ignore;
     });
 
-    app.imgui.on_draw = [&]() {
+    app.imgui.layers.add("info", [&]() {
         ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
         ImGui::SetNextWindowSize({ 265, 275 }, ImGuiCond_FirstUseEver);
 
@@ -227,7 +227,7 @@ int main(int argc, char* argv[]) {
         app.draw_about();
 
         ImGui::End();
-    };
+    });
 
     dimmer depth_dimmer;
     dimmer color_dimmer;

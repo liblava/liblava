@@ -188,7 +188,7 @@ int main(int argc, char* argv[]) {
 
         bool show_fps = false;
 
-        app.imgui.on_draw = [&]() {
+        app.imgui.layers.add("select demo", [&]() {
             ImGuiWindowFlags const win_flags = ImGuiWindowFlags_NoDecoration
                                                | ImGuiWindowFlags_AlwaysAutoResize
                                                | ImGuiWindowFlags_NoSavedSettings
@@ -223,7 +223,7 @@ int main(int argc, char* argv[]) {
             }
 
             ImGui::End();
-        };
+        });
 
         app.tooltips.add("play demo", key::enter);
         app.tooltips.add("next demo", key::right);

@@ -268,6 +268,15 @@ void imgui::setup(GLFWwindow* w, config config) {
 
         return capture_mouse();
     };
+
+    on_draw = [&]() {
+        for (auto const& layer : layers.get_all()) {
+            if (!layer->active)
+                continue;
+
+            layer->on_func();
+        };
+    };
 }
 
 #define MAP_BUTTON(NAV_NO, BUTTON_NO) \

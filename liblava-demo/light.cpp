@@ -481,7 +481,7 @@ int main(int argc, char* argv[]) {
         }
     };
 
-    app.imgui.on_draw = [&]() {
+    app.imgui.layers.add("info", [&]() {
         ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
         ImGui::SetNextWindowSize({ 210, 110 }, ImGuiCond_FirstUseEver);
 
@@ -490,7 +490,7 @@ int main(int argc, char* argv[]) {
         app.draw_about(draw_no_separator);
 
         ImGui::End();
-    };
+    });
 
     app.on_destroy = [&]() {
         app.target->remove_callback(&resize_callback);

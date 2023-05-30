@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
         layout->destroy();
     };
 
-    app.imgui.on_draw = [&]() {
+    app.imgui.layers.add("info", [&]() {
         ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
         ImGui::SetNextWindowSize({ 260, 135 }, ImGuiCond_FirstUseEver);
 
@@ -113,7 +113,7 @@ int main(int argc, char* argv[]) {
         app.draw_about();
 
         ImGui::End();
-    };
+    });
 
     app.add_run_end([&]() {
         triangle->destroy();

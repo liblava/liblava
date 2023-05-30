@@ -57,10 +57,10 @@ int main(int argc, char* argv[]) {
     if (!app.setup())
         return lava::error::not_ready;
 
-    app.imgui.on_draw = []() {
+    app.imgui.layers.add("demo window", []() {
 
         ImGui::ShowDemoWindow();
-    };
+    });
 
     return app.run();
 }
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
 
 [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](liblava/app/camera.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](liblava/app/forward_shading.hpp)
 
-[![benchmark](https://img.shields.io/badge/lava-benchmark-brightgreen.svg)](liblava/app/benchmark.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](liblava/app/config.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.hpp)
+[![benchmark](https://img.shields.io/badge/lava-benchmark-brightgreen.svg)](liblava/app/benchmark.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](liblava/app/config.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.hpp) [![layer](https://img.shields.io/badge/lava-layer-brightgreen.svg)](liblava/app/layer.hpp)
 
 &nbsp; ➜ &nbsp; *require* [frame](#lava-frame) + [block](#lava-block) + [asset](#lava-asset)
 

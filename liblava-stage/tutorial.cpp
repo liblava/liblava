@@ -329,9 +329,9 @@ LAVA_STAGE(6, "imgui demo") {
     if (!app.setup())
         return error::not_ready;
 
-    app.imgui.on_draw = []() {
+    app.imgui.layers.add("demo window", []() {
         ImGui::ShowDemoWindow();
-    };
+    });
 
     return app.run();
 }

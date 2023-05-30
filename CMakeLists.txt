@@ -401,6 +401,7 @@ add_library(lava.app
   ${LIBLAVA_DIR}/app/icon.hpp
   ${LIBLAVA_DIR}/app/imgui.cpp
   ${LIBLAVA_DIR}/app/imgui.hpp
+  ${LIBLAVA_DIR}/app/layer.hpp
   ${IMGUI_FILES}
   ${APP_SHADERS}
   )

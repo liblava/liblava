@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
 
         auto const& stages = driver.get_stages();
 
-        app.imgui.on_draw = [&]() {
+        app.imgui.layers.add("select stage", [&]() {
             ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
             ImGui::SetNextWindowSize({ 260, 120 + to_r32(stages.size() * 30) },
                                      ImGuiCond_FirstUseEver);
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
             app.draw_about();
 
             ImGui::End();
-        };
+        });
 
         result.driver = app.run();
         return result;

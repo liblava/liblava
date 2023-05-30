@@ -192,7 +192,7 @@ int main(int argc, char* argv[]) {
 
     bool update_spawn_matrix = false;
 
-    app.imgui.on_draw = [&]() {
+    app.imgui.layers.add("info", [&]() {
         ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
         ImGui::SetNextWindowSize({ 330, 485 }, ImGuiCond_FirstUseEver);
 
@@ -280,7 +280,7 @@ int main(int argc, char* argv[]) {
         app.draw_about();
 
         ImGui::End();
-    };
+    });
 
     app.input.key.listeners.add([&](key_event::ref event) {
         if (app.imgui.capture_mouse())

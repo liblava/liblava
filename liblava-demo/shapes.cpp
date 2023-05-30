@@ -212,7 +212,7 @@ int main(int argc, char* argv[]) {
         layout->destroy();
     };
 
-    app.imgui.on_draw = [&]() {
+    app.imgui.layers.add("info", [&]() {
         ImGui::Begin(app.get_name());
 
         if (ImGui::Selectable("Triangle", current_mesh == mesh_type::triangle))
@@ -229,7 +229,7 @@ int main(int argc, char* argv[]) {
         app.draw_about();
 
         ImGui::End();
-    };
+    });
 
     app.on_update = [&](delta dt) {
         rotation_vector += v3{ 0, 1.f, 0 } * dt;
