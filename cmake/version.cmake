@@ -9,55 +9,55 @@ set(gli_GITHUB g-truc/gli)
 set(gli_TAG 779b99ac6656e4d30c3b24e96e0136a59649a869)
 
 set(glm_GITHUB g-truc/glm)
-set(glm_TAG efec5db081e3aad807d0731e172ac597f6a39447)
+set(glm_TAG 5c46b9c07008ae65cb81ab79cd677ecc1934b903)
 
 set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG 957176bcf1db005e2528242636f644d9121013d5)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG a0c1318830519eac027a31edec1a99ce1ae5670e)
+set(json_TAG 254395e5f7731b5595e7c11ac4b929c923582114)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG d1eb68154f2a60c7d59e99d1504e6c6ac03fedb4)
+set(spdlog_TAG 199cc0a6d89d304c4330578286b68910f8ad30c8)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG 5736b15f7ea0ffb08dd38af21067c314d6a3aae9)
 
 set(tinyobjloader_GITHUB syoyo/tinyobjloader)
-set(tinyobjloader_TAG bca2719a11e688b85ce9af21dcb156f3d8b918bc)
+set(tinyobjloader_TAG f2575c576326adadf0872303ec65e9f27ff85ea6)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
-set(Vulkan-Headers_TAG 3df77fb3e4e0961f7f01de9a9ae20dfdcfc4910a)
+set(Vulkan-Headers_TAG 605dc6d3e789630d24310435121cd0c7d51b6483)
 
 set(volk_GITHUB zeux/volk)
-set(volk_TAG a0c591f6cc8141d8cdda2b21b354ebbbd99441a1)
+set(volk_TAG 98a66a5b95f00cc88dda15e1633708d2b316a3e4)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
 set(VulkanMemoryAllocator_TAG 0e89587db3ebee4d463f191bd296374c5fafc8ea)
 
 set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
-set(IconFontCppHeaders_TAG 321a095aa2704fa8b8c3a2b366eeca247a9825a5)
+set(IconFontCppHeaders_TAG 90da8021ec7c7792c454c3f43516595754a91765)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 7e03ae32403f85f6c86f0c884a8243e2e14e483f)
+set(imgui_TAG 4fab72b40e2972f5d56fc884ed5797446238844e)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG f0f3b927e0a36ccf06c7a6d29e586f49365f50d7)
+set(imgui_docking_TAG 066487799881ecde84282ace80d033dcc1c70f5e)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
-set(SPIRV-Headers_TAG 69155b22b3b1f2d0cfed48f59167d9792de1fd79)
+set(SPIRV-Headers_TAG 8e2ad27488ed2f87c068c01a8f5e8979f7086405)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 673d8bfcb6b1cd18977da539d8809237f7fb14e1)
+set(SPIRV-Tools_TAG 93c13345e176f3f8bdb4b07e59c5e3365b3dbf44)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG b587425025dc6547a2cdbc27220c845fa21ff861)
+set(glslang_TAG a6662c53ced629a9d94611276743cbcde896b6af)
 
 set(shaderc_GITHUB google/shaderc)
-set(shaderc_TAG 95ea3c915aa48ecdeda2f14db73983d1be3f9209)
+set(shaderc_TAG 4dc596ddc2702092c670e828745dc3e0338d83c1)
 
 set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG dff7513b289f823fec91010f8898b8a01f7dcd12)
+set(Catch2_TAG 91317366304dc6b29a6ebc9670c703192e9f4f42)
