@@ -57,6 +57,8 @@ struct unique_data;
 struct id;
 struct ids;
 struct entity;
+struct layer;
+struct layer_list;
 struct timer;
 struct run_time;
 struct no_copy_no_move;

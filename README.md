@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
 
 [![app](https://img.shields.io/badge/lava-app-brightgreen.svg)](liblava/app/app.hpp) [![camera](https://img.shields.io/badge/lava-camera-brightgreen.svg)](liblava/app/camera.hpp) [![forward_shading](https://img.shields.io/badge/lava-forward_shading-brightgreen.svg)](liblava/app/forward_shading.hpp)
 
-[![benchmark](https://img.shields.io/badge/lava-benchmark-brightgreen.svg)](liblava/app/benchmark.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](liblava/app/config.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.hpp) [![layer](https://img.shields.io/badge/lava-layer-brightgreen.svg)](liblava/app/layer.hpp)
+[![benchmark](https://img.shields.io/badge/lava-benchmark-brightgreen.svg)](liblava/app/benchmark.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](liblava/app/config.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.hpp)
 
 &nbsp; ➜ &nbsp; *require* [frame](#lava-frame) + [block](#lava-block) + [asset](#lava-asset)
 
@@ -171,7 +171,7 @@ int main(int argc, char* argv[]) {
 
 ## lava [core](liblava/core)
 
-[![data](https://img.shields.io/badge/lava-data-blue.svg)](liblava/core/data.hpp) [![id](https://img.shields.io/badge/lava-id-blue.svg)](liblava/core/id.hpp) [![misc](https://img.shields.io/badge/lava-misc-blue.svg)](liblava/core/misc.hpp) [![time](https://img.shields.io/badge/lava-time-blue.svg)](liblava/core/time.hpp) [![types](https://img.shields.io/badge/lava-types-blue.svg)](liblava/core/types.hpp) [![version](https://img.shields.io/badge/lava-version-blue.svg)](liblava/core/version.hpp)
+[![data](https://img.shields.io/badge/lava-data-blue.svg)](liblava/core/data.hpp) [![id](https://img.shields.io/badge/lava-id-blue.svg)](liblava/core/id.hpp) [![layer](https://img.shields.io/badge/lava-layer-blue.svg)](liblava/core/layer.hpp) [![misc](https://img.shields.io/badge/lava-misc-blue.svg)](liblava/core/misc.hpp) [![time](https://img.shields.io/badge/lava-time-blue.svg)](liblava/core/time.hpp) [![types](https://img.shields.io/badge/lava-types-blue.svg)](liblava/core/types.hpp) [![version](https://img.shields.io/badge/lava-version-blue.svg)](liblava/core/version.hpp)
 
 <br />
 

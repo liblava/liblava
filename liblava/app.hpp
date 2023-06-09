@@ -14,4 +14,3 @@
 #include "liblava/app/def.hpp"
 #include "liblava/app/forward_shading.hpp"
 #include "liblava/app/imgui.hpp"
-#include "liblava/app/layer.hpp"
