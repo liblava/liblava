@@ -11,6 +11,10 @@
 #include "liblava/core/time.hpp"
 #include "liblava/util/log.hpp"
 
+#ifndef LAVA_DEBUG_CONFIG
+    #define LAVA_DEBUG_CONFIG LAVA_DEBUG
+#endif
+
 #if _WIN32 && LAVA_DEBUG
     #include <windows.h>
 #endif

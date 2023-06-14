@@ -15,10 +15,6 @@
     #define LAVA_DEBUG 1
 #endif
 
-#ifndef LAVA_DEBUG_CONFIG
-    #define LAVA_DEBUG_CONFIG LAVA_DEBUG
-#endif
-
 #define LAVA_BUILD_DATE __DATE__
 #define LAVA_BUILD_TIME __TIME__
 
