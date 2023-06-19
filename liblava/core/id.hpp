@@ -41,6 +41,18 @@ struct id {
     /// String map by ids
     using string_map = std::map<id, string>;
 
+    /**
+     * @brief Construct a new id
+     */
+    id() = default;
+
+    /**
+     * @brief Construct a new id
+     * @param value    Value of id
+     */
+    id(index value)
+    : value(value) {}
+
     /// Value
     index value = no_index;
 
