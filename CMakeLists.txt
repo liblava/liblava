@@ -108,7 +108,6 @@ add_library(lava.core
   ${LIBLAVA_DIR}/core/data.hpp
   ${LIBLAVA_DIR}/core/def.hpp
   ${LIBLAVA_DIR}/core/id.hpp
-  ${LIBLAVA_DIR}/core/layer.hpp
   ${LIBLAVA_DIR}/core/misc.hpp
   ${LIBLAVA_DIR}/core/time.hpp
   ${LIBLAVA_DIR}/core/types.hpp
@@ -147,6 +146,7 @@ message(STATUS ">> lava::util")
 add_library(lava.util
   ${CMAKE_CURRENT_BINARY_DIR}/empty.cpp
   ${LIBLAVA_DIR}/util/hex.hpp
+  ${LIBLAVA_DIR}/util/layer.hpp
   ${LIBLAVA_DIR}/util/log.hpp
   ${LIBLAVA_DIR}/util/math.hpp
   ${LIBLAVA_DIR}/util/random.hpp

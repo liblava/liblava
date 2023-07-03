@@ -1,5 +1,5 @@
 /**
- * @file         liblava/core/layer.hpp
+ * @file         liblava/util/layer.hpp
  * @brief        Layering
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License

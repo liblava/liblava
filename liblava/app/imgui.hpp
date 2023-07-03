@@ -8,10 +8,10 @@
 #pragma once
 
 #include "liblava/block/render_pipeline.hpp"
-#include "liblava/core/layer.hpp"
 #include "liblava/file.hpp"
 #include "liblava/frame/input.hpp"
 #include "liblava/resource/texture.hpp"
+#include "liblava/util/layer.hpp"
 
 // fwd
 struct GLFWwindow;
