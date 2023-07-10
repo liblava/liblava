@@ -624,8 +624,8 @@ void app::render() {
             return run_continue;
         }
 
-        if (config.fps_cap != 0.0f) {
-            auto const frame_time_ms = (1000.0f / config.fps_cap);
+        if (config.fps_cap != 0) {
+            auto const frame_time_ms = (1000.f / config.fps_cap);
             auto const next_render_time = last_render_time
                                           + us(to_i32(frame_time_ms * 1000));
             if (get_current_timestamp_us() < next_render_time)
@@ -705,7 +705,7 @@ void app::draw_about(bool separator,
         auto fps_info = string("%.f fps");
         if (v_sync())
             fps_info += " (v-sync)";
-        if (fps_cap() != 0.0f)
+        if (fps_cap() != 0)
             fps_info += " (cap)";
 
         ImGui::Text(str(fps_info), ImGui::GetIO().Framerate);

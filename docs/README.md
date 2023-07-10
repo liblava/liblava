@@ -676,7 +676,7 @@ app.config.handle_key_events = false;
 --fps_cap={n}, -fps={n}
 ```
 
-* **n** &nbsp; frames per second cap &nbsp; *disable: n = 0.0*
+* **n** &nbsp; frames per second cap &nbsp; *disable: n = 0*
 
 <br />
 

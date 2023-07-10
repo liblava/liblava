@@ -133,9 +133,9 @@ struct app : frame {
 
     /**
      * @brief Frames per second cap setting
-     * @return Frames per second cap value (deactived: 0.0)
+     * @return Frames per second cap value (deactived: 0)
      */
-    r32 fps_cap() const {
+    ui32 fps_cap() const {
         return config.fps_cap;
     }
 
