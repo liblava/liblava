@@ -23,11 +23,20 @@ using milliseconds = std::chrono::milliseconds;
 /// Milliseconds
 using ms = milliseconds;
 
+/// Microseconds
+using microseconds = std::chrono::microseconds;
+
+/// Microseconds
+using us = microseconds;
+
 /// One second
 constexpr seconds const one_second = seconds(1);
 
 /// One millisecond
 constexpr ms const one_ms = ms(1);
+
+/// One microsecond
+constexpr us const one_us = us(1);
 
 /// Clock
 using clock = std::chrono::high_resolution_clock;
@@ -61,6 +70,15 @@ inline delta to_dt(milliseconds ms) {
  */
 inline real to_sec(milliseconds ms) {
     return ms.count() / 1000.;
+}
+
+/**
+ * @brief Convert milliseconds to fixed seconds
+ * @param ms      Milliseconds to convert
+ * @return i32    Converted fixed seconds
+ */
+inline i32 to_sec_fix(milliseconds ms) {
+    return to_i32(to_sec(ms));
 }
 
 /**
@@ -188,6 +206,15 @@ inline string get_current_time() {
  */
 inline ms get_current_timestamp_ms() {
     return std::chrono::duration_cast<ms>(
+        clock::now().time_since_epoch());
+}
+
+/**
+ * @brief Get the current timestamp in microseconds
+ * @return us    Timestamp in us
+ */
+inline us get_current_timestamp_us() {
+    return std::chrono::duration_cast<us>(
         clock::now().time_since_epoch());
 }
 

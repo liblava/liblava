@@ -673,6 +673,14 @@ app.config.handle_key_events = false;
 <br />
 
 ```bash
+--fps_cap={n}, -fps={n}
+```
+
+* **n** &nbsp; frames per second cap &nbsp; *disable: n = 0.0*
+
+<br />
+
+```bash
 --physical_device={n}, -pd={n}
 ```
 

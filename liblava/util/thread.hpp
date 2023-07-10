@@ -17,6 +17,14 @@
 namespace lava {
 
 /**
+ * @brief Sleep for seconds
+ * @param time    Seconds to sleep
+ */
+inline void sleep(seconds time) {
+    std::this_thread::sleep_for(time);
+}
+
+/**
  * @brief Sleep for milliseconds
  * @param time    Milliseconds to sleep
  */
@@ -25,10 +33,10 @@ inline void sleep(ms time) {
 }
 
 /**
- * @brief Sleep for seconds
- * @param time    Seconds to sleep
+ * @brief Sleep for microseconds
+ * @param time    Microseconds to sleep
  */
-inline void sleep(seconds time) {
+inline void sleep(us time) {
     std::this_thread::sleep_for(time);
 }
 

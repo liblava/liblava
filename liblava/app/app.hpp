@@ -132,6 +132,14 @@ struct app : frame {
     }
 
     /**
+     * @brief Frames per second cap setting
+     * @return Frames per second cap value (deactived: 0.0)
+     */
+    r32 fps_cap() const {
+        return config.fps_cap;
+    }
+
+    /**
      * @brief Get the frame counter
      * @return ui32    Number of rendered frames
      */
@@ -299,6 +307,9 @@ private:
 
     /// Number of frames rendered
     ui32 frame_counter = 0;
+
+    /// Last render time
+    us last_render_time{ 0 };
 
     /// Configuration file callback
     json_file::callback config_callback;

@@ -48,6 +48,8 @@ void app::parse_config(argh::parser cmd_line) {
         config.window_state->height = height;
 
     cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
+    cmd_line({ "-fps", "--fps_cap" }) >> config.fps_cap;
+
     cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
 }
 
@@ -622,7 +624,17 @@ void app::render() {
             return run_continue;
         }
 
-        auto frame_index = renderer.begin_frame();
+        if (config.fps_cap != 0.0f) {
+            auto const frame_time_ms = (1000.0f / config.fps_cap);
+            auto const next_render_time = last_render_time
+                                          + us(to_i32(frame_time_ms * 1000));
+            if (get_current_timestamp_us() < next_render_time)
+                return run_continue;
+        }
+
+        last_render_time = get_current_timestamp_us();
+
+        auto const frame_index = renderer.begin_frame();
         if (!frame_index.has_value())
             return run_continue;
 
@@ -690,10 +702,13 @@ void app::draw_about(bool separator,
         if (spacing)
             imgui_left_spacing();
 
+        auto fps_info = string("%.f fps");
         if (v_sync())
-            ImGui::Text("%.f fps (v-sync)", ImGui::GetIO().Framerate);
-        else
-            ImGui::Text("%.f fps", ImGui::GetIO().Framerate);
+            fps_info += " (v-sync)";
+        if (fps_cap() != 0.0f)
+            fps_info += " (cap)";
+
+        ImGui::Text(str(fps_info), ImGui::GetIO().Framerate);
 
         if (run_time.paused) {
             ImGui::SameLine();

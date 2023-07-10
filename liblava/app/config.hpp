@@ -36,6 +36,9 @@ struct app_config : configurable {
     /// Activate V-Sync
     bool v_sync = false;
 
+    /// Frames per second cap
+    r32 fps_cap = 0.0;
+
     /// Request surface formats
     surface_format_request surface;
 
