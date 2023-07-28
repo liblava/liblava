@@ -188,7 +188,7 @@ bool app::setup() {
 
     setup_run();
 
-    if (parse(cmd_line, frames))
+    if (parse_benchmark(get_cmd_line(), frames))
         benchmark(*this, frames);
 
     return true;

@@ -53,7 +53,7 @@ struct benchmark_data {
  * @param data        Benchmark data
  * @return Benchmark data is parsed or not ready
  */
-bool parse(cmd_line cmd_line, benchmark_data& data);
+bool parse_benchmark(cmd_line cmd_line, benchmark_data& data);
 
 /**
  * @brief Start a benchmark run

@@ -12,7 +12,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool parse(cmd_line cmd_line, benchmark_data& data) {
+bool parse_benchmark(cmd_line cmd_line, benchmark_data& data) {
     if (!(cmd_line[{ "-bm", "--benchmark" }]))
         return false;
 
