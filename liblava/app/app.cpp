@@ -17,17 +17,17 @@ namespace lava {
 //-----------------------------------------------------------------------------
 app::app(frame_env::ref env)
 : frame(env), window(env.info.app_name) {
-    parse_config(env.cmd_line);
 }
 
 //-----------------------------------------------------------------------------
 app::app(name name, argh::parser cmd_line)
 : frame(frame_env(name, cmd_line)), window(name) {
-    parse_config(cmd_line);
 }
 
 //-----------------------------------------------------------------------------
-void app::parse_config(argh::parser cmd_line) {
+void app::parse_config() {
+    auto& cmd_line = get_cmd_line();
+
     auto config_id = get_cmd(cmd_line, { "-id", "--identification" });
     if (!config_id.empty())
         config.id = config_id;
@@ -51,6 +51,14 @@ void app::parse_config(argh::parser cmd_line) {
     cmd_line({ "-fps", "--fps_cap" }) >> config.fps_cap;
 
     cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
+
+    if (auto paused = -1; cmd_line({ "-p", "--paused" }) >> paused)
+        run_time.paused = paused == 1;
+
+    if (auto delta = -1; cmd_line({ "-d", "--delta" }) >> delta)
+        run_time.fix_delta = ms(delta);
+
+    cmd_line({ "-s", "--speed" }) >> run_time.speed;
 }
 
 //-----------------------------------------------------------------------------
@@ -164,16 +172,7 @@ bool app::setup() {
         return false;
 
     handle_config();
-
-    auto& cmd_line = get_cmd_line();
-
-    if (auto paused = -1; cmd_line({ "-p", "--paused" }) >> paused)
-        run_time.paused = paused == 1;
-
-    if (auto delta = -1; cmd_line({ "-d", "--delta" }) >> delta)
-        run_time.fix_delta = ms(delta);
-
-    cmd_line({ "-s", "--speed" }) >> run_time.speed;
+    parse_config();
 
     if (on_setup && !on_setup())
         return false;

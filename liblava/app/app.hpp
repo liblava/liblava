@@ -189,12 +189,6 @@ struct app : frame {
      */
     string screenshot();
 
-    /**
-     * @brief Parse config
-     * @param cmd_line    Command line arguments
-     */
-    void parse_config(argh::parser cmd_line);
-
 private:
     /**
      * @brief Mount resource paths and files
@@ -229,6 +223,11 @@ private:
      * @brief Set up run
      */
     void setup_run();
+
+    /**
+     * @brief Parse config
+     */
+    void parse_config();
 
     /**
      * @brief Handle configuration file
