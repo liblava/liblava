@@ -160,6 +160,7 @@ cpmaddpackage(
     "SHADERC_SKIP_EXAMPLES ON"
     # "SHADERC_SKIP_INSTALL ON"
     "SHADERC_SKIP_COPYRIGHT_CHECK ON"
+    "SHADERC_ENABLE_SHARED_CRT ON"
     )
 
 cpmaddpackage(
