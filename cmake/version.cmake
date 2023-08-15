@@ -18,19 +18,19 @@ set(json_GITHUB nlohmann/json)
 set(json_TAG 5d2754306d67d1e654a1a34e1d2e74439a9d53b3)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG 371bc8ebe2d1b2f3996005717dfabdb6963855ad)
+set(spdlog_TAG cedfeeb95f3af11df7d3b1e7e0d3b86b334dc23b)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG 5736b15f7ea0ffb08dd38af21067c314d6a3aae9)
 
 set(tinyobjloader_GITHUB syoyo/tinyobjloader)
-set(tinyobjloader_TAG f5569db1ffb3b0222663ba38a7a9b3f6a461c469)
+set(tinyobjloader_TAG 853f059d778058a43c954850e561a231934b33a7)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
-set(Vulkan-Headers_TAG a3b683653e6a498514ef8a1865594810e91c594c)
+set(Vulkan-Headers_TAG 85c2334e92e215cce34e8e0ed8b2dce4700f4a50)
 
 set(volk_GITHUB zeux/volk)
-set(volk_TAG 7d1780e5e0d7ea1b7fb1d2d3bd14cf3200f33a59)
+set(volk_TAG c1fc502109e539078d53c90ee1da9f32abbb0054)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
 set(VulkanMemoryAllocator_TAG 6eb62e1515072827db992c2befd80b71b2d04329)
@@ -39,25 +39,25 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 1a083cca7d650c0615e32a1d39d56892a2ce8c5b)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG b7a7d673b96f08b1e8a7195aa59307730bbf3c54)
+set(imgui_TAG 983b95bc874edf8fa9528a6bbfa6bdb57893c8d3)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG f8704cd085c4347f835c21dc12a3951924143872)
+set(imgui_docking_TAG f422e7826f57d09ba4e8eb069353ef5eec0a41ef)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
-set(SPIRV-Headers_TAG f14a663c84e8da4776bd615ac19450aa4d03cd71)
+set(SPIRV-Headers_TAG 45fc02a6c67016b3e5ff6e4896a61544a40f90f8)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 1d14d84f291805ce845a0e5b9775e5e0ab11995b)
+set(SPIRV-Tools_TAG fddcc8cedca662b0e90690f2556d46f359e5a9a8)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG bfd96d3044e1e2b0522a71166203ed4ddcf8d6e5)
+set(glslang_TAG 76b52ebf77833908dc4c0dd6c70a9c357ac720bd)
 
 set(shaderc_GITHUB google/shaderc)
-set(shaderc_TAG 4d98dac61ee4857ea0691a2b9a48aee44eb409db)
+set(shaderc_TAG e166325b24d79d64bfa47065328890ce116ea642)
 
 set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG 4acc51828f7f93f3b2058a63f54d112af4034503)
+set(Catch2_TAG e09de7222c47ba1bb589985246d5d33e5f01b8fd)
