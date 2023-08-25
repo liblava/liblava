@@ -427,7 +427,7 @@ bool producer::valid_shader(string_ref name) const {
             }
 
             auto file_hash = hash256({ data.ptr, data.size });
-            if (file_hash != value) {
+            if (file_hash != string(value)) {
                 valid = false;
                 break;
             }
