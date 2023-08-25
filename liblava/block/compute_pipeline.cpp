@@ -40,7 +40,7 @@ bool compute_pipeline::setup() {
         .stage = shader_stage->get_create_info(),
         .layout = layout->get(),
         .basePipelineHandle = 0,
-        .basePipelineIndex = -1,
+        .basePipelineIndex = undef,
     };
 
     std::array<VkComputePipelineCreateInfo, 1> const info = { create_info };

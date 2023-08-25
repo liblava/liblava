@@ -72,7 +72,8 @@ void handle_env(frame_env& env) {
     if (cmd_line[{ "-u", "--utils" }])
         env.debug.utils = true;
 
-    if (auto log_level = -1; cmd_line({ "-l", "--log" }) >> log_level) {
+    if (auto log_level = undef;
+        cmd_line({ "-l", "--log" }) >> log_level) {
         env.log.level = log_level;
 
         if (log_level == SPDLOG_LEVEL_TRACE)

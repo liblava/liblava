@@ -284,7 +284,7 @@ bool render_pipeline::setup() {
         .renderPass = render_pass,
         .subpass = to_ui32(subpass),
         .basePipelineHandle = 0,
-        .basePipelineIndex = -1,
+        .basePipelineIndex = undef,
     };
 
     std::array<VkGraphicsPipelineCreateInfo, 1> const vk_info = { vk_create_info };

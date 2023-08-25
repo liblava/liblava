@@ -125,6 +125,9 @@ using void_p = void*;
 /// Const void pointer
 using void_cp = void const*;
 
+/// Undefined value
+constexpr i32 const undef = -1;
+
 /// Flag
 using flag = ui32;
 

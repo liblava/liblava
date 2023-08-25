@@ -25,7 +25,7 @@ enum class file_type : index {
 };
 
 /// File error result
-constexpr i64 const file_error_result = -1;
+constexpr i64 const file_error_result = undef;
 
 /**
  * @brief Check file error result

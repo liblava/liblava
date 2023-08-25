@@ -57,7 +57,7 @@ struct buffer : entity {
                 VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY,
                 VkSharingMode sharing_mode = VK_SHARING_MODE_EXCLUSIVE,
                 std::vector<ui32> const& shared_queue_family_indices = {},
-                i32 alignment = -1);
+                i32 alignment = undef);
 
     /**
      * @brief Create a new mapped buffer
@@ -78,7 +78,7 @@ struct buffer : entity {
                        VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU,
                        VkSharingMode sharing_mode = VK_SHARING_MODE_EXCLUSIVE,
                        std::vector<ui32> const& shared_queue_family_indices = {},
-                       i32 alignment = -1);
+                       i32 alignment = undef);
 
     /**
      * @brief Destroy the buffer

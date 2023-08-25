@@ -115,7 +115,7 @@ struct log_config {
     name file = "lava.log";
 
     /// Log level
-    i32 level = -1;
+    i32 level = undef;
 
     /// Log to console, else file
     bool debug = false;

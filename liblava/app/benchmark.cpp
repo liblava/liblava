@@ -18,10 +18,12 @@ bool parse_benchmark(cmd_line cmd_line, benchmark_data& data) {
 
     data = {};
 
-    if (auto time = -1; cmd_line({ "-bmt", "--benchmark_time" }) >> time)
+    if (auto time = undef;
+        cmd_line({ "-bmt", "--benchmark_time" }) >> time)
         data.time = ms{ time };
 
-    if (auto offset = -1; cmd_line({ "-bmo", "--benchmark_offset" }) >> offset)
+    if (auto offset = undef;
+        cmd_line({ "-bmo", "--benchmark_offset" }) >> offset)
         data.offset = ms{ offset };
 
     data.file = get_cmd(cmd_line, { "-bmf", "--benchmark_file" });

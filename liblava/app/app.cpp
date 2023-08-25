@@ -32,19 +32,24 @@ void app::parse_config() {
     if (!config_id.empty())
         config.id = config_id;
 
-    if (auto fullscreen = -1; cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)
+    if (auto fullscreen = undef;
+        cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)
         config.window_state->fullscreen = fullscreen == 1;
 
-    if (auto x_pos = -1; cmd_line({ "-wx", "--x_pos" }) >> x_pos)
+    if (auto x_pos = undef;
+        cmd_line({ "-wx", "--x_pos" }) >> x_pos)
         config.window_state->x = x_pos;
 
-    if (auto y_pos = -1; cmd_line({ "-wy", "--y_pos" }) >> y_pos)
+    if (auto y_pos = undef;
+        cmd_line({ "-wy", "--y_pos" }) >> y_pos)
         config.window_state->y = y_pos;
 
-    if (auto width = -1; cmd_line({ "-ww", "--width" }) >> width)
+    if (auto width = undef;
+        cmd_line({ "-ww", "--width" }) >> width)
         config.window_state->width = width;
 
-    if (auto height = -1; cmd_line({ "-wh", "--height" }) >> height)
+    if (auto height = undef;
+        cmd_line({ "-wh", "--height" }) >> height)
         config.window_state->height = height;
 
     cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
@@ -52,10 +57,11 @@ void app::parse_config() {
 
     cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
 
-    if (auto paused = -1; cmd_line({ "-p", "--paused" }) >> paused)
+    if (auto paused = undef;
+        cmd_line({ "-p", "--paused" }) >> paused)
         run_time.paused = paused == 1;
 
-    if (auto delta = -1;
+    if (auto delta = undef;
         cmd_line({ "-dt", "--delta" }) >> delta)
         run_time.fix_delta = ms(delta);
 
@@ -381,7 +387,7 @@ bool app::create_imgui() {
 
     staging.add(imgui_fonts);
 
-    if (auto imgui_active = -1;
+    if (auto imgui_active = undef;
         get_cmd_line()({ "-ig", "--imgui" }) >> imgui_active)
         imgui.set_active(imgui_active == 1);
 

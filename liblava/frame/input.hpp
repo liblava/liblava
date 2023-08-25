@@ -16,7 +16,7 @@ namespace lava {
  * @brief Input keys
  */
 enum class key : i32 {
-    unknown = -1,
+    unknown = undef,
 
     /* printable keys */
 
