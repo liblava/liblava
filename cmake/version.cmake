@@ -39,10 +39,10 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 1a083cca7d650c0615e32a1d39d56892a2ce8c5b)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 040e818d7215b648e216c25fa51c6093e273f651)
+set(imgui_TAG 4a7810e9928749b658b80d3c3d81143a40f00276)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG 11613013860d149667302a258041dcd832069f36)
+set(imgui_docking_TAG 61d35972e2ee0e2ee473290fcc2e265ea5b7be38)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
 set(SPIRV-Headers_TAG d790ced752b5bfc06b6988baadef6eb2d16bdf96)
@@ -51,7 +51,7 @@ set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
 set(SPIRV-Tools_TAG 1b3c4cb6855f7db1636985e1652ebbf91f81cd50)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG adfcaba7ae7bac77037e68d7fb755efff3bae74c)
+set(glslang_TAG f1cb8608b390a7f51b4ae0d62cd415ba47a59b86)
 
 set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG e166325b24d79d64bfa47065328890ce116ea642)
