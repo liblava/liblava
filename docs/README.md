@@ -950,7 +950,7 @@ cmake --build . --parallel
 
 <br />
 
-*Problems* building or running on **Ubuntu**? - Try this:
+Problems building or running on **Ubuntu**? - Try this:
 
 ```bash
 sudo apt-get install libxi-dev libatomic-ops-dev libatomic1
