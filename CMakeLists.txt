@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.27)
 
 project(liblava VERSION 0.8.0 LANGUAGES C CXX)
 

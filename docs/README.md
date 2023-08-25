@@ -931,7 +931,7 @@ app.config.handle_key_events = false;
 ## Requirements
 
 * **C++23** compatible compiler
-* [CMake](https://cmake.org) **3.25+**
+* [CMake](https://cmake.org) **3.27+**
 * [Python](http://www.python.org) **3** &nbsp; *for utility scripts*
 * [Vulkan SDK](https://vulkan.lunarg.com) &nbsp; *for debugging only*
 
