@@ -714,7 +714,7 @@ app.config.handle_key_events = false;
 <br />
 
 ```bash
---delta={n}, -d={n}
+--delta={n}, -dt={n}
 ```
 
 * **n** &nbsp; fixed delta in milliseconds &nbsp; *disable: n = 0*

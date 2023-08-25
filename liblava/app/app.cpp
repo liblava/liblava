@@ -55,7 +55,8 @@ void app::parse_config() {
     if (auto paused = -1; cmd_line({ "-p", "--paused" }) >> paused)
         run_time.paused = paused == 1;
 
-    if (auto delta = -1; cmd_line({ "-d", "--delta" }) >> delta)
+    if (auto delta = -1;
+        cmd_line({ "-dt", "--delta" }) >> delta)
         run_time.fix_delta = ms(delta);
 
     cmd_line({ "-s", "--speed" }) >> run_time.speed;
