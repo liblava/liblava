@@ -58,7 +58,6 @@ int main(int argc, char* argv[]) {
         return lava::error::not_ready;
 
     app.imgui.layers.add("demo window", []() {
-
         ImGui::ShowDemoWindow();
     });
 
