@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
 
 [![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](liblava/engine/engine.hpp) [![producer](https://img.shields.io/badge/lava-producer-brightgreen.svg)](liblava/engine/producer.hpp) [![property](https://img.shields.io/badge/lava-property-brightgreen.svg)](liblava/engine/property.hpp)
 
-&nbsp; ➜ &nbsp; *require* [app](#lava-app)
+&nbsp; ➜ &nbsp; *depends on [app](#lava-app)*
 
 ## lava [app](liblava/app)
 
@@ -112,7 +112,7 @@ int main(int argc, char* argv[]) {
 
 [![benchmark](https://img.shields.io/badge/lava-benchmark-brightgreen.svg)](liblava/app/benchmark.hpp) [![config](https://img.shields.io/badge/lava-config-brightgreen.svg)](liblava/app/config.hpp) [![imgui](https://img.shields.io/badge/lava-imgui-brightgreen.svg)](liblava/app/imgui.hpp)
 
-&nbsp; ➜ &nbsp; *require* [frame](#lava-frame) + [block](#lava-block) + [asset](#lava-asset)
+&nbsp; ➜ &nbsp; *depends on [frame](#lava-frame) + [block](#lava-block) + [asset](#lava-asset)*
 
 ## lava [frame](liblava/frame)
 
@@ -120,7 +120,7 @@ int main(int argc, char* argv[]) {
 
 [![render_target](https://img.shields.io/badge/lava-render_target-brightgreen.svg)](liblava/frame/render_target.hpp) [![renderer](https://img.shields.io/badge/lava-renderer-brightgreen.svg)](liblava/frame/renderer.hpp) [![swapchain](https://img.shields.io/badge/lava-swapchain-brightgreen.svg)](liblava/frame/swapchain.hpp) [![window](https://img.shields.io/badge/lava-window-brightgreen.svg)](liblava/frame/window.hpp)
 
-&nbsp; ➜ &nbsp; *require* [resource](#lava-resource)
+&nbsp; ➜ &nbsp; *depends on [resource](#lava-resource)*
 
 <br />
 
@@ -130,13 +130,13 @@ int main(int argc, char* argv[]) {
 
 [![compute_pipeline](https://img.shields.io/badge/lava-compute_pipeline-red.svg)](liblava/block/compute_pipeline.hpp) [![render_pipeline](https://img.shields.io/badge/lava-render_pipeline-red.svg)](liblava/block/render_pipeline.hpp) [![pipeline](https://img.shields.io/badge/lava-pipeline-red.svg)](liblava/block/pipeline.hpp) [![pipeline_layout](https://img.shields.io/badge/lava-pipeline_layout-red.svg)](liblava/block/pipeline_layout.hpp)
 
-&nbsp; ➜ &nbsp; *require* [base](#lava-base)
+&nbsp; ➜ &nbsp; *depends on [base](#lava-base)*
 
 ## lava [asset](liblava/asset)
 
 [![image_loader](https://img.shields.io/badge/lava-image_loader-red.svg)](liblava/asset/image_loader.hpp) [![load_mesh](https://img.shields.io/badge/lava-load_mesh-red.svg)](liblava/asset/load_mesh.hpp) [![load_texture](https://img.shields.io/badge/lava-load_texture-red.svg)](liblava/asset/load_texture.hpp) [![write_image](https://img.shields.io/badge/lava-write_image-red.svg)](liblava/asset/write_image.hpp)
 
-&nbsp; ➜ &nbsp; *require* [resource](#lava-resource) + [file](#lava-file)
+&nbsp; ➜ &nbsp; *depends on [resource](#lava-resource) + [file](#lava-file)*
 
 ## lava [resource](liblava/resource)
 
@@ -144,7 +144,7 @@ int main(int argc, char* argv[]) {
 
 [![format](https://img.shields.io/badge/lava-format-red.svg)](liblava/resource/format.hpp) [![image](https://img.shields.io/badge/lava-image-red.svg)](liblava/resource/image.hpp) [![texture](https://img.shields.io/badge/lava-texture-red.svg)](liblava/resource/texture.hpp)
 
-&nbsp; ➜ &nbsp; *require* [base](#lava-base)
+&nbsp; ➜ &nbsp; *depends on [base](#lava-base)*
 
 ## lava [base](liblava/base)
 
@@ -152,7 +152,7 @@ int main(int argc, char* argv[]) {
 
 [![platform](https://img.shields.io/badge/lava-platform-red.svg)](liblava/base/platform.hpp) [![device](https://img.shields.io/badge/lava-device-red.svg)](liblava/base/device.hpp) [![physical_device](https://img.shields.io/badge/lava-physical_device-red.svg)](liblava/base/physical_device.hpp)
 
-&nbsp; ➜ &nbsp; *require* [util](#lava-util)
+&nbsp; ➜ &nbsp; *depends on [util](#lava-util)*
 
 <br />
 
@@ -160,7 +160,7 @@ int main(int argc, char* argv[]) {
 
 [![file](https://img.shields.io/badge/lava-file-blue.svg)](liblava/file/file.hpp) [![file_system](https://img.shields.io/badge/lava-file_system-blue.svg)](liblava/file/file_system.hpp) [![file_utils](https://img.shields.io/badge/lava-file_utils-blue.svg)](liblava/file/file_utils.hpp) [![json_file](https://img.shields.io/badge/lava-json_file-blue.svg)](liblava/file/json_file.hpp) [![json](https://img.shields.io/badge/lava-json-blue.svg)](liblava/file/json.hpp)
 
-&nbsp; ➜ &nbsp; *require* [core](#lava-core)
+&nbsp; ➜ &nbsp; *depends on [core](#lava-core)*
 
 ## lava [util](liblava/util)
 
@@ -168,7 +168,7 @@ int main(int argc, char* argv[]) {
 
 [![hex](https://img.shields.io/badge/lava-hex-blue.svg)](liblava/util/hex.hpp) [![layer](https://img.shields.io/badge/lava-layer-blue.svg)](liblava/util/layer.hpp) [![telegram](https://img.shields.io/badge/lava-telegram-blue.svg)](liblava/util/telegram.hpp)
 
-&nbsp; ➜ &nbsp; *require* [core](#lava-core)
+&nbsp; ➜ &nbsp; *depends on [core](#lava-core)*
 
 ## lava [core](liblava/core)
 
