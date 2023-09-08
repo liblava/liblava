@@ -23,7 +23,7 @@ jobs:
         enable-latex: true
 
     - name: Install Doxybook2
-      uses: engineerd/configurator@v0.0.8
+      uses: engineerd/configurator@v0.0.9
       with:
         name: doxybook2
         pathInArchive: bin/doxybook2
