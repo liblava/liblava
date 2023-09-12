@@ -64,14 +64,10 @@ using attachment_array = std::array<gbuffer_attachment, gbuffer_attachment::coun
 
 /// G-Buffer attachments
 attachment_array g_attachments = {
-    gbuffer_attachment{ { VK_FORMAT_R8G8B8A8_UNORM },
-                        VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT },
-    gbuffer_attachment{ { VK_FORMAT_R16G16B16A16_SFLOAT },
-                        VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT },
-    gbuffer_attachment{ { VK_FORMAT_R16G16_SFLOAT },
-                        VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT },
-    gbuffer_attachment{ { VK_FORMAT_D32_SFLOAT, VK_FORMAT_D16_UNORM },
-                        VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT },
+    gbuffer_attachment{ { VK_FORMAT_R8G8B8A8_UNORM }, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT },
+    gbuffer_attachment{ { VK_FORMAT_R16G16B16A16_SFLOAT }, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT },
+    gbuffer_attachment{ { VK_FORMAT_R16G16_SFLOAT }, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT },
+    gbuffer_attachment{ { VK_FORMAT_D32_SFLOAT, VK_FORMAT_D16_UNORM }, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT },
 };
 
 /// Array of lights
@@ -90,8 +86,7 @@ light_array const g_lights = {
  * @param attachments          Array of attachments
  * @return render_pass::ptr    Shared pointer to render pass
  */
-render_pass::ptr create_gbuffer_renderpass(app const& app,
-                                           attachment_array& attachments);
+render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments);
 
 //-----------------------------------------------------------------------------
 name _tex_normal_ = "tex_normal";
@@ -169,6 +164,7 @@ int main(int argc, char* argv[]) {
     descriptor::pool descriptor_pool;
 
     render_pass::ptr gbuffer_renderpass = render_pass::make(app.device);
+
     descriptor::ptr gbuffer_set_layout = descriptor::make();
     VkDescriptorSet gbuffer_set = VK_NULL_HANDLE;
     pipeline_layout::ptr gbuffer_pipeline_layout = pipeline_layout::make();
@@ -211,8 +207,7 @@ int main(int argc, char* argv[]) {
             return false;
 
         std::vector<VkWriteDescriptorSet> gbuffer_write_sets;
-        for (descriptor::binding::ptr const& binding :
-             gbuffer_set_layout->get_bindings()) {
+        for (descriptor::binding::ptr const& binding : gbuffer_set_layout->get_bindings()) {
             VkDescriptorSetLayoutBinding const& info = binding->get();
 
             gbuffer_write_sets.push_back({ .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
@@ -230,9 +225,8 @@ int main(int argc, char* argv[]) {
                                            gbuffer_write_sets.data());
 
         gbuffer_pipeline_layout->add(gbuffer_set_layout);
-        gbuffer_pipeline_layout->add_push_constant_range(
-            { VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-              0, sizeof(glsl::PushConstantData) });
+        gbuffer_pipeline_layout->add_push_constant_range({ VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+                                                           0, sizeof(glsl::PushConstantData) });
 
         if (!gbuffer_pipeline_layout->create(app.device))
             return false;
@@ -280,15 +274,16 @@ int main(int argc, char* argv[]) {
             for (auto i = 0u; i < object_instances.size(); ++i) {
                 glsl::PushConstantData const pc = {
                     .model = object_instances[i],
-                    .color = v3(1.0f),
-                    .metallic = float(i % 2),
+                    .color = v3(1.f),
+                    .metallic = r32(i % 2),
                     .enableNormalMapping = 1 - (i % 2)
                 };
-                app.device->call().vkCmdPushConstants(
-                    cmd_buf,
-                    gbuffer_pipeline_layout->get(),
-                    VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-                    0, sizeof(pc), &pc);
+                app.device->call().vkCmdPushConstants(cmd_buf,
+                                                      gbuffer_pipeline_layout->get(),
+                                                      VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+                                                      0,
+                                                      sizeof(pc),
+                                                      &pc);
 
                 object->draw(cmd_buf);
             }
@@ -322,11 +317,10 @@ int main(int argc, char* argv[]) {
             return false;
 
         VkPipelineColorBlendAttachmentState const lighting_blend_state = {
-            .colorWriteMask =
-                VK_COLOR_COMPONENT_R_BIT
-                | VK_COLOR_COMPONENT_G_BIT
-                | VK_COLOR_COMPONENT_B_BIT
-                | VK_COLOR_COMPONENT_A_BIT
+            .colorWriteMask = VK_COLOR_COMPONENT_R_BIT
+                              | VK_COLOR_COMPONENT_G_BIT
+                              | VK_COLOR_COMPONENT_B_BIT
+                              | VK_COLOR_COMPONENT_A_BIT
         };
 
         if (!lighting_pipeline->add_shader(app.producer.get_shader(_lighting_vertex_),
@@ -384,18 +378,18 @@ int main(int argc, char* argv[]) {
     };
 
     app.on_update = [&](delta dt) {
-        float const seconds = to_sec(app.run_time.current);
+        r32 const seconds = to_sec(app.run_time.current);
 
-        constexpr float distance = 1.25f;
-        float const left = -distance * (object_instances.size() - 1) * 0.5f;
+        constexpr r32 distance = 1.25f;
+        r32 const left = -distance * (object_instances.size() - 1) * 0.5f;
 
         for (auto i = 0u; i < object_instances.size(); ++i) {
-            float const x = left + distance * i;
+            r32 const x = left + distance * i;
 
             v3 axis = v3(0.f);
             axis[i % 3] = 1.f;
 
-            mat4 model = mat4(1.0f);
+            mat4 model = mat4(1.f);
             model = glm::translate(model, { x, 0.f, 0.f });
             model = glm::rotate(model,
                                 glm::radians(std::fmod(seconds * 45.f, 360.f)),
@@ -430,8 +424,7 @@ int main(int argc, char* argv[]) {
 
         // update lighting descriptor set with new G-Buffer image handles
         std::vector<VkWriteDescriptorSet> lighting_write_sets;
-        for (descriptor::binding::ptr const& binding :
-             lighting_set_layout->get_bindings()) {
+        for (descriptor::binding::ptr const& binding : lighting_set_layout->get_bindings()) {
             VkDescriptorSetLayoutBinding const& info = binding->get();
 
             lighting_write_sets.push_back(
@@ -453,11 +446,8 @@ int main(int argc, char* argv[]) {
             lighting_write_sets[i].pImageInfo = &lighting_images[i];
         }
 
-        lighting_write_sets[g_attachments.size() + 0].pBufferInfo =
-            ubo_buffer.get_descriptor_info();
-
-        lighting_write_sets[g_attachments.size() + 1].pBufferInfo =
-            light_buffer.get_descriptor_info();
+        lighting_write_sets[g_attachments.size() + 0].pBufferInfo = ubo_buffer.get_descriptor_info();
+        lighting_write_sets[g_attachments.size() + 1].pBufferInfo = light_buffer.get_descriptor_info();
 
         app.device->vkUpdateDescriptorSets(to_ui32(lighting_write_sets.size()),
                                            lighting_write_sets.data());
@@ -523,9 +513,9 @@ int main(int argc, char* argv[]) {
 bool gbuffer_attachment::create(app const& app, ui32 index) {
     usage |= VK_IMAGE_USAGE_SAMPLED_BIT;
 
-    VkFormat_optional format = get_supported_format(
-        app.device->get_vk_physical_device(),
-        requested_formats, usage);
+    VkFormat_optional format = find_supported_format(app.device->get_vk_physical_device(),
+                                                     requested_formats,
+                                                     usage);
 
     if (!format.has_value())
         return false;
@@ -534,12 +524,9 @@ bool gbuffer_attachment::create(app const& app, ui32 index) {
     image_handle->set_usage(usage);
 
     renderpass_attachment = attachment::make(*format);
-    renderpass_attachment->set_op(VK_ATTACHMENT_LOAD_OP_CLEAR,
-                                  VK_ATTACHMENT_STORE_OP_STORE);
-    renderpass_attachment->set_stencil_op(VK_ATTACHMENT_LOAD_OP_DONT_CARE,
-                                          VK_ATTACHMENT_STORE_OP_DONT_CARE);
-    renderpass_attachment->set_layouts(VK_IMAGE_LAYOUT_UNDEFINED,
-                                       VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+    renderpass_attachment->set_op(VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE);
+    renderpass_attachment->set_stencil_op(VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE);
+    renderpass_attachment->set_layouts(VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
     subpass_reference.attachment = index;
     subpass_reference.layout = (usage & VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT)
@@ -550,8 +537,7 @@ bool gbuffer_attachment::create(app const& app, ui32 index) {
 }
 
 //-----------------------------------------------------------------------------
-render_pass::ptr create_gbuffer_renderpass(app const& app,
-                                           attachment_array& attachments) {
+render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments) {
     VkClearValues clear_values(attachments.size(), { .color = { 0.f, 0.f, 0.f, 1.f } });
     clear_values[gbuffer_attachment::depth] = { .depthStencil = { 1.f, 0 } };
 
@@ -574,33 +560,30 @@ render_pass::ptr create_gbuffer_renderpass(app const& app,
     sub->set_depth_stencil_attachment(attachments[gbuffer_attachment::depth].subpass_reference);
     pass->add(sub);
 
-    subpass_dependency::ptr dependency = subpass_dependency::make(VK_SUBPASS_EXTERNAL,
-                                                                  0);
+    subpass_dependency::ptr dependency = subpass_dependency::make(VK_SUBPASS_EXTERNAL, 0);
+
     // wait for previous fragment shader to finish reading before clearing attachments
-    dependency->set_stage_mask(
-        VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
-        VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
-            | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT);
+    dependency->set_stage_mask(VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,
+                               VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT);
+
     // we need a memory barrier because this isn't a standard write-after-read hazard
     // subpass deps have an implicit attachment layout transition,
     // so the dst access mask must be correct
-    dependency->set_access_mask(0,
-                                VK_ACCESS_COLOR_ATTACHMENT_READ_BIT
-                                    | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT
-                                    | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT
-                                    | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT);
+    dependency->set_access_mask(0, VK_ACCESS_COLOR_ATTACHMENT_READ_BIT
+                                       | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT
+                                       | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT
+                                       | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT);
     pass->add(dependency);
 
-    dependency = subpass_dependency::make(pass->get_subpass_count() - 1,
-                                          VK_SUBPASS_EXTERNAL);
+    dependency = subpass_dependency::make(pass->get_subpass_count() - 1, VK_SUBPASS_EXTERNAL);
+
     // don't run any fragment shader (sample attachments)
     // before we're done writing to attachments
-    dependency->set_stage_mask(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
-                                   | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
+    dependency->set_stage_mask(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_LATE_FRAGMENT_TESTS_BIT,
                                VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+
     // make attachment writes visible to subsequent reads
-    dependency->set_access_mask(VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT
-                                    | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
+    dependency->set_access_mask(VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
                                 VK_ACCESS_SHADER_READ_BIT);
     pass->add(dependency);
 
