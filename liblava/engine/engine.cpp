@@ -54,12 +54,12 @@ void engine::handle_config() {
         if (!j_config.count(_props_))
             return;
 
-        props.set_config(j_config[_props_]);
+        props.set_json(j_config[_props_]);
     };
 
     config_callback.on_save = [&]() {
         json j;
-        j[config.id][_props_] = props.get_config();
+        j[config.id][_props_] = props.get_json();
         return j;
     };
 

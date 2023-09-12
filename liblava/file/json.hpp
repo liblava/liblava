@@ -23,16 +23,16 @@ using json_ref = json const&;
  */
 struct configurable : interface {
     /**
-     * @brief Set config
+     * @brief Set json config
      * @param j    Json file
      */
-    virtual void set_config(json_ref j) = 0;
+    virtual void set_json(json_ref j) = 0;
 
     /**
-     * @brief Get config
+     * @brief Get json config
      * @return json    Json file
      */
-    virtual json get_config() const = 0;
+    virtual json get_json() const = 0;
 };
 
 } // namespace lava

@@ -59,7 +59,7 @@ void from_json(json_ref j, window::state& w) {
 }
 
 //-----------------------------------------------------------------------------
-void app_config::set_config(json_ref j) {
+void app_config::set_json(json_ref j) {
     if (j.count(_app_)) {
         auto j_app = j[_app_];
 
@@ -90,7 +90,7 @@ void app_config::set_config(json_ref j) {
 }
 
 //-----------------------------------------------------------------------------
-json app_config::get_config() const {
+json app_config::get_json() const {
     json j;
 
     j[_app_][_paused_] = context->run_time.paused;

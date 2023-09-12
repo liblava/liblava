@@ -51,17 +51,11 @@ struct app_config : configurable {
     /// Identification
     string id = _default_;
 
-    /**
-     * @brief Set config
-     * @param j    Json file
-     */
-    void set_config(json_ref j) override;
+    /// @see configurable::set_json
+    void set_json(json_ref j) override;
 
-    /**
-     * @brief Get config
-     * @return json    Json file
-     */
-    json get_config() const override;
+    /// @see configurable::get_json
+    json get_json() const override;
 
     /**
      * @brief Update window state

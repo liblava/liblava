@@ -76,12 +76,12 @@ void app::handle_config() {
         if (!j.count(config.id))
             return;
 
-        config.set_config(j[config.id]);
+        config.set_json(j[config.id]);
     };
 
     config_callback.on_save = [&]() {
         json j;
-        j[config.id] = config.get_config();
+        j[config.id] = config.get_json();
         return j;
     };
 

@@ -95,7 +95,7 @@ void property::parse(cmd_line cmd_line) {
 }
 
 //-----------------------------------------------------------------------------
-void property::set_config(json_ref j) {
+void property::set_json(json_ref j) {
     for (auto& [name, prop] : map) {
         if (j.count(name)) {
             string filename = j[name];
@@ -112,7 +112,7 @@ void property::set_config(json_ref j) {
 }
 
 //-----------------------------------------------------------------------------
-json property::get_config() const {
+json property::get_json() const {
     json j;
 
     for (auto& [name, prop] : map)
