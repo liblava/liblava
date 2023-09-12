@@ -377,7 +377,7 @@ string to_string(mod m) {
     if (check_mod(m, mod::num_lock))
         result += "num_lock ";
 
-    lava::rtrim(result);
+    lava::trim_end(result);
 
     return result;
 }

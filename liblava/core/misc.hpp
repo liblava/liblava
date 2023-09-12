@@ -63,7 +63,7 @@ inline void append(std::vector<T>& list, std::vector<T>& items) {
  * @brief Trim string only from start (in place)
  * @param s    String to trim
  */
-inline void ltrim(string& s) {
+inline void trim_start(string& s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](uchar ch) {
                 return !std::isspace(ch);
             }));
@@ -73,7 +73,7 @@ inline void ltrim(string& s) {
  * @brief Trim string only from end (in place)
  * @param s    String to trim
  */
-inline void rtrim(string& s) {
+inline void trim_end(string& s) {
     s.erase(std::find_if(s.rbegin(), s.rend(), [](uchar ch) {
                 return !std::isspace(ch);
             }).base(),
@@ -85,8 +85,8 @@ inline void rtrim(string& s) {
  * @param s    String to trim
  */
 inline void trim(string& s) {
-    ltrim(s);
-    rtrim(s);
+    trim_start(s);
+    trim_end(s);
 }
 
 /**
@@ -94,8 +94,8 @@ inline void trim(string& s) {
  * @param s          String to trim
  * @return string    Trimmed string
  */
-inline string ltrim_copy(string s) {
-    ltrim(s);
+inline string trim_start_copy(string s) {
+    trim_start(s);
     return s;
 }
 
@@ -104,8 +104,8 @@ inline string ltrim_copy(string s) {
  * @param s          String to trim
  * @return string    Trimmed string
  */
-inline string rtrim_copy(string s) {
-    rtrim(s);
+inline string trim_end_copy(string s) {
+    trim_end(s);
     return s;
 }
 
