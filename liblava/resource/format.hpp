@@ -90,27 +90,38 @@ void format_num_blocks(VkFormat format,
 /**
  * @brief Get format block size
  * @param format    Target format
+ * @param aspect    Target aspect
  * @return ui32     Size of block
  */
-ui32 format_block_size(VkFormat format);
+ui32 format_block_size(VkFormat format,
+                       VkImageAspectFlags aspect);
 
 /**
- * @brief Get the supported depth format
+ * @brief Get format block size (with respective aspect mask)
+ * @param format    Target format
+ * @return ui32     Size of block
+ */
+inline ui32 format_block_size(VkFormat format) {
+    return format_block_size(format, format_aspect_mask(format));
+};
+
+/**
+ * @brief Find the supported depth format
  * @param physical_device       Physical device
  * @return VkFormat_optional    Optional format
  */
-VkFormat_optional get_supported_depth_format(VkPhysicalDevice physical_device);
+VkFormat_optional find_supported_depth_format(VkPhysicalDevice physical_device);
 
 /**
- * @brief Get the supported format
+ * @brief Find the supported format
  * @param physical_device       Physical device
  * @param possible_formats      List of possible formats
  * @param usage                 Image usage flags
  * @return VkFormat_optional    Optional format
  */
-VkFormat_optional get_supported_format(VkPhysicalDevice physical_device,
-                                       VkFormats const& possible_formats,
-                                       VkImageUsageFlags usage);
+VkFormat_optional find_supported_format(VkPhysicalDevice physical_device,
+                                        VkFormats const& possible_formats,
+                                        VkImageUsageFlags usage);
 
 /**
  * @brief Get image memory barrier
@@ -208,15 +219,15 @@ struct surface_format_request {
 };
 
 /**
- * @brief Get the surface format
+ * @brief Find the surface format
  * @param device                 Vulkan device
  * @param surface                Vulkan surface
  * @param request                Surface format request
  * @return VkSurfaceFormatKHR    Chosen surface format
  */
-VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device,
-                                      VkSurfaceKHR surface,
-                                      surface_format_request request = {});
+VkSurfaceFormatKHR find_surface_format(VkPhysicalDevice device,
+                                       VkSurfaceKHR surface,
+                                       surface_format_request request = {});
 
 /**
  * @brief Check if format supports bltting

@@ -77,9 +77,9 @@ render_target::ptr create_target(window* window,
     if (!device->surface_supported(surface))
         return nullptr;
 
-    auto surface_format = get_surface_format(device->get_vk_physical_device(),
-                                             surface,
-                                             request);
+    auto surface_format = find_surface_format(device->get_vk_physical_device(),
+                                              surface,
+                                              request);
 
     if (surface_format.format == VK_FORMAT_UNDEFINED) {
         vkDestroySurfaceKHR(instance::singleton().get(),

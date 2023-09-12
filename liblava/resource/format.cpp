@@ -3,10 +3,11 @@
  * @brief        Vulkan format
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
+ * @see          https://github.com/Themaister/Granite
  */
 
-#include "liblava/base/memory.hpp"
 #include "liblava/resource/format.hpp"
+#include "liblava/base/memory.hpp"
 
 namespace lava {
 
@@ -45,6 +46,7 @@ bool format_srgb(VkFormat format) {
     case VK_FORMAT_B8G8R8_SRGB:
     case VK_FORMAT_R8G8B8A8_SRGB:
     case VK_FORMAT_B8G8R8A8_SRGB:
+    case VK_FORMAT_A8B8G8R8_SRGB_PACK32:
     case VK_FORMAT_BC1_RGB_SRGB_BLOCK:
     case VK_FORMAT_BC1_RGBA_SRGB_BLOCK:
     case VK_FORMAT_BC2_SRGB_BLOCK:
@@ -164,35 +166,34 @@ void format_block_dim(VkFormat format,
         fmt(BC2_SRGB_BLOCK, 4, 4);
         fmt(BC3_UNORM_BLOCK, 4, 4);
         fmt(BC3_SRGB_BLOCK, 4, 4);
+        fmt(BC4_UNORM_BLOCK, 4, 4);
+        fmt(BC4_SNORM_BLOCK, 4, 4);
+        fmt(BC5_UNORM_BLOCK, 4, 4);
+        fmt(BC5_SNORM_BLOCK, 4, 4);
+        fmt(BC6H_UFLOAT_BLOCK, 4, 4);
+        fmt(BC6H_SFLOAT_BLOCK, 4, 4);
+        fmt(BC7_SRGB_BLOCK, 4, 4);
+        fmt(BC7_UNORM_BLOCK, 4, 4);
 
-        fmt(ASTC_4x4_SRGB_BLOCK, 4, 4);
-        fmt(ASTC_5x4_SRGB_BLOCK, 5, 4);
-        fmt(ASTC_5x5_SRGB_BLOCK, 5, 5);
-        fmt(ASTC_6x5_SRGB_BLOCK, 6, 5);
-        fmt(ASTC_6x6_SRGB_BLOCK, 6, 6);
-        fmt(ASTC_8x5_SRGB_BLOCK, 8, 5);
-        fmt(ASTC_8x6_SRGB_BLOCK, 8, 6);
-        fmt(ASTC_8x8_SRGB_BLOCK, 8, 8);
-        fmt(ASTC_10x5_SRGB_BLOCK, 10, 5);
-        fmt(ASTC_10x6_SRGB_BLOCK, 10, 6);
-        fmt(ASTC_10x8_SRGB_BLOCK, 10, 8);
-        fmt(ASTC_10x10_SRGB_BLOCK, 10, 10);
-        fmt(ASTC_12x10_SRGB_BLOCK, 12, 10);
-        fmt(ASTC_12x12_SRGB_BLOCK, 12, 12);
-        fmt(ASTC_4x4_UNORM_BLOCK, 4, 4);
-        fmt(ASTC_5x4_UNORM_BLOCK, 5, 4);
-        fmt(ASTC_5x5_UNORM_BLOCK, 5, 5);
-        fmt(ASTC_6x5_UNORM_BLOCK, 6, 5);
-        fmt(ASTC_6x6_UNORM_BLOCK, 6, 6);
-        fmt(ASTC_8x5_UNORM_BLOCK, 8, 5);
-        fmt(ASTC_8x6_UNORM_BLOCK, 8, 6);
-        fmt(ASTC_8x8_UNORM_BLOCK, 8, 8);
-        fmt(ASTC_10x5_UNORM_BLOCK, 10, 5);
-        fmt(ASTC_10x6_UNORM_BLOCK, 10, 6);
-        fmt(ASTC_10x8_UNORM_BLOCK, 10, 8);
-        fmt(ASTC_10x10_UNORM_BLOCK, 10, 10);
-        fmt(ASTC_12x10_UNORM_BLOCK, 12, 10);
-        fmt(ASTC_12x12_UNORM_BLOCK, 12, 12);
+#define astc_fmt(w, h) \
+    fmt(ASTC_##w##x##h##_UNORM_BLOCK, w, h); \
+    fmt(ASTC_##w##x##h##_SRGB_BLOCK, w, h); \
+    fmt(ASTC_##w##x##h##_SFLOAT_BLOCK_EXT, w, h)
+
+        astc_fmt(4, 4);
+        astc_fmt(5, 4);
+        astc_fmt(5, 5);
+        astc_fmt(6, 5);
+        astc_fmt(6, 6);
+        astc_fmt(8, 5);
+        astc_fmt(8, 6);
+        astc_fmt(8, 8);
+        astc_fmt(10, 5);
+        astc_fmt(10, 6);
+        astc_fmt(10, 8);
+        astc_fmt(10, 10);
+        astc_fmt(12, 10);
+        astc_fmt(12, 12);
 
     default:
         width = 1;
@@ -201,6 +202,7 @@ void format_block_dim(VkFormat format,
     }
 
 #undef fmt
+#undef astc_fmt
 }
 
 //-----------------------------------------------------------------------------
@@ -224,10 +226,14 @@ void format_num_blocks(VkFormat format,
 }
 
 //-----------------------------------------------------------------------------
-ui32 format_block_size(VkFormat format) {
+ui32 format_block_size(VkFormat format, VkImageAspectFlags aspect) {
 #define fmt(x, bpp) \
     case VK_FORMAT_##x: \
         return bpp
+
+#define fmt2(x, bpp0, bpp1) \
+    case VK_FORMAT_##x: \
+        return aspect == VK_IMAGE_ASPECT_PLANE_0_BIT ? bpp0 : bpp1
 
     switch (format) {
         fmt(R4G4_UNORM_PACK8, 1);
@@ -346,13 +352,17 @@ ui32 format_block_size(VkFormat format) {
         fmt(R64G64B64A64_SFLOAT, 32);
         fmt(B10G11R11_UFLOAT_PACK32, 4);
         fmt(E5B9G9R9_UFLOAT_PACK32, 4);
+
         fmt(D16_UNORM, 2);
         fmt(X8_D24_UNORM_PACK32, 4);
         fmt(D32_SFLOAT, 4);
         fmt(S8_UINT, 1);
-        fmt(D16_UNORM_S8_UINT, 3); // doesn't make sense.
-        fmt(D24_UNORM_S8_UINT, 4);
-        fmt(D32_SFLOAT_S8_UINT, 5); // doesn't make sense.
+
+    case VK_FORMAT_D16_UNORM_S8_UINT:
+        return aspect == VK_IMAGE_ASPECT_DEPTH_BIT ? 2 : 1;
+    case VK_FORMAT_D24_UNORM_S8_UINT:
+    case VK_FORMAT_D32_SFLOAT_S8_UINT:
+        return aspect == VK_IMAGE_ASPECT_DEPTH_BIT ? 4 : 1;
 
         // ETC2
         fmt(ETC2_R8G8B8A8_UNORM_BLOCK, 16);
@@ -375,46 +385,86 @@ ui32 format_block_size(VkFormat format) {
         fmt(BC2_SRGB_BLOCK, 16);
         fmt(BC3_UNORM_BLOCK, 16);
         fmt(BC3_SRGB_BLOCK, 16);
+        fmt(BC4_UNORM_BLOCK, 8);
+        fmt(BC4_SNORM_BLOCK, 8);
+        fmt(BC5_UNORM_BLOCK, 16);
+        fmt(BC5_SNORM_BLOCK, 16);
+        fmt(BC6H_UFLOAT_BLOCK, 16);
+        fmt(BC6H_SFLOAT_BLOCK, 16);
+        fmt(BC7_SRGB_BLOCK, 16);
+        fmt(BC7_UNORM_BLOCK, 16);
 
         // ASTC
-        fmt(ASTC_4x4_SRGB_BLOCK, 16);
-        fmt(ASTC_5x4_SRGB_BLOCK, 16);
-        fmt(ASTC_5x5_SRGB_BLOCK, 16);
-        fmt(ASTC_6x5_SRGB_BLOCK, 16);
-        fmt(ASTC_6x6_SRGB_BLOCK, 16);
-        fmt(ASTC_8x5_SRGB_BLOCK, 16);
-        fmt(ASTC_8x6_SRGB_BLOCK, 16);
-        fmt(ASTC_8x8_SRGB_BLOCK, 16);
-        fmt(ASTC_10x5_SRGB_BLOCK, 16);
-        fmt(ASTC_10x6_SRGB_BLOCK, 16);
-        fmt(ASTC_10x8_SRGB_BLOCK, 16);
-        fmt(ASTC_10x10_SRGB_BLOCK, 16);
-        fmt(ASTC_12x10_SRGB_BLOCK, 16);
-        fmt(ASTC_12x12_SRGB_BLOCK, 16);
-        fmt(ASTC_4x4_UNORM_BLOCK, 16);
-        fmt(ASTC_5x4_UNORM_BLOCK, 16);
-        fmt(ASTC_5x5_UNORM_BLOCK, 16);
-        fmt(ASTC_6x5_UNORM_BLOCK, 16);
-        fmt(ASTC_6x6_UNORM_BLOCK, 16);
-        fmt(ASTC_8x5_UNORM_BLOCK, 16);
-        fmt(ASTC_8x6_UNORM_BLOCK, 16);
-        fmt(ASTC_8x8_UNORM_BLOCK, 16);
-        fmt(ASTC_10x5_UNORM_BLOCK, 16);
-        fmt(ASTC_10x6_UNORM_BLOCK, 16);
-        fmt(ASTC_10x8_UNORM_BLOCK, 16);
-        fmt(ASTC_10x10_UNORM_BLOCK, 16);
-        fmt(ASTC_12x10_UNORM_BLOCK, 16);
-        fmt(ASTC_12x12_UNORM_BLOCK, 16);
+#define astc_fmt(w, h) \
+    fmt(ASTC_##w##x##h##_UNORM_BLOCK, 16); \
+    fmt(ASTC_##w##x##h##_SRGB_BLOCK, 16); \
+    fmt(ASTC_##w##x##h##_SFLOAT_BLOCK_EXT, 16)
+
+        astc_fmt(4, 4);
+        astc_fmt(5, 4);
+        astc_fmt(5, 5);
+        astc_fmt(6, 5);
+        astc_fmt(6, 6);
+        astc_fmt(8, 5);
+        astc_fmt(8, 6);
+        astc_fmt(8, 8);
+        astc_fmt(10, 5);
+        astc_fmt(10, 6);
+        astc_fmt(10, 8);
+        astc_fmt(10, 10);
+        astc_fmt(12, 10);
+        astc_fmt(12, 12);
+
+        fmt(G8B8G8R8_422_UNORM, 4);
+        fmt(B8G8R8G8_422_UNORM, 4);
+
+        fmt(G8_B8_R8_3PLANE_420_UNORM, 1);
+        fmt2(G8_B8R8_2PLANE_420_UNORM, 1, 2);
+        fmt(G8_B8_R8_3PLANE_422_UNORM, 1);
+        fmt2(G8_B8R8_2PLANE_422_UNORM, 1, 2);
+        fmt(G8_B8_R8_3PLANE_444_UNORM, 1);
+
+        fmt(R10X6_UNORM_PACK16, 2);
+        fmt(R10X6G10X6_UNORM_2PACK16, 4);
+        fmt(R10X6G10X6B10X6A10X6_UNORM_4PACK16, 8);
+        fmt(G10X6B10X6G10X6R10X6_422_UNORM_4PACK16, 8);
+        fmt(B10X6G10X6R10X6G10X6_422_UNORM_4PACK16, 8);
+        fmt(G10X6_B10X6_R10X6_3PLANE_420_UNORM_3PACK16, 2);
+        fmt(G10X6_B10X6_R10X6_3PLANE_422_UNORM_3PACK16, 2);
+        fmt(G10X6_B10X6_R10X6_3PLANE_444_UNORM_3PACK16, 2);
+        fmt2(G10X6_B10X6R10X6_2PLANE_420_UNORM_3PACK16, 2, 4);
+        fmt2(G10X6_B10X6R10X6_2PLANE_422_UNORM_3PACK16, 2, 4);
+
+        fmt(R12X4_UNORM_PACK16, 2);
+        fmt(R12X4G12X4_UNORM_2PACK16, 4);
+        fmt(R12X4G12X4B12X4A12X4_UNORM_4PACK16, 8);
+        fmt(G12X4B12X4G12X4R12X4_422_UNORM_4PACK16, 8);
+        fmt(B12X4G12X4R12X4G12X4_422_UNORM_4PACK16, 8);
+        fmt(G12X4_B12X4_R12X4_3PLANE_420_UNORM_3PACK16, 2);
+        fmt(G12X4_B12X4_R12X4_3PLANE_422_UNORM_3PACK16, 2);
+        fmt(G12X4_B12X4_R12X4_3PLANE_444_UNORM_3PACK16, 2);
+        fmt2(G12X4_B12X4R12X4_2PLANE_420_UNORM_3PACK16, 2, 4);
+        fmt2(G12X4_B12X4R12X4_2PLANE_422_UNORM_3PACK16, 2, 4);
+
+        fmt(G16B16G16R16_422_UNORM, 8);
+        fmt(B16G16R16G16_422_UNORM, 8);
+        fmt(G16_B16_R16_3PLANE_420_UNORM, 2);
+        fmt(G16_B16_R16_3PLANE_422_UNORM, 2);
+        fmt(G16_B16_R16_3PLANE_444_UNORM, 2);
+        fmt2(G16_B16R16_2PLANE_420_UNORM, 2, 4);
+        fmt2(G16_B16R16_2PLANE_422_UNORM, 2, 4);
 
     default:
         LAVA_ASSERT(0 && "Unknown format.");
         return 0;
     }
 #undef fmt
+#undef fmt2
+#undef astc_fmt
 }
 
 //-----------------------------------------------------------------------------
-VkFormat_optional get_supported_depth_format(VkPhysicalDevice physical_device) {
+VkFormat_optional find_supported_depth_format(VkPhysicalDevice physical_device) {
     VkFormat const depth_formats[] = {
         VK_FORMAT_D32_SFLOAT_S8_UINT,
         VK_FORMAT_D32_SFLOAT,
@@ -438,9 +488,9 @@ VkFormat_optional get_supported_depth_format(VkPhysicalDevice physical_device) {
 }
 
 //-----------------------------------------------------------------------------
-VkFormat_optional get_supported_format(VkPhysicalDevice physical_device,
-                                       VkFormats const& possible_formats,
-                                       VkImageUsageFlags usage) {
+VkFormat_optional find_supported_format(VkPhysicalDevice physical_device,
+                                        VkFormats const& possible_formats,
+                                        VkImageUsageFlags usage) {
     VkFormatFeatureFlags features = 0;
     if (usage & VK_IMAGE_USAGE_TRANSFER_SRC_BIT)
         features |= VK_FORMAT_FEATURE_TRANSFER_SRC_BIT;
@@ -643,9 +693,9 @@ void insert_image_memory_barrier(device_p device,
 }
 
 //-----------------------------------------------------------------------------
-VkSurfaceFormatKHR get_surface_format(VkPhysicalDevice device,
-                                      VkSurfaceKHR surface,
-                                      surface_format_request request) {
+VkSurfaceFormatKHR find_surface_format(VkPhysicalDevice device,
+                                       VkSurfaceKHR surface,
+                                       surface_format_request request) {
     auto count = 0u;
     check(vkGetPhysicalDeviceSurfaceFormatsKHR(device,
                                                surface,
