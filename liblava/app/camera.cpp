@@ -184,7 +184,7 @@ mat4 camera::get_projection() const {
 }
 
 //-----------------------------------------------------------------------------
-mat4 camera::get_view_projection() const {
+mat4 camera::calc_view_projection() const {
     return projection * view;
 }
 

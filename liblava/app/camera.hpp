@@ -78,10 +78,10 @@ struct camera : entity {
     mat4 get_projection() const;
 
     /**
-     * @brief Get the camera's combined 4x4 view/projection matrix
+     * @brief Calc the camera's combined 4x4 view/projection matrix
      * @return mat4    Combined view/projection matrix
      */
-    mat4 get_view_projection() const;
+    mat4 calc_view_projection() const;
 
     /**
      * @brief Handle key event
