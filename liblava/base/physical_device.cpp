@@ -115,7 +115,7 @@ string physical_device::get_device_type_string() const {
 }
 
 //-----------------------------------------------------------------------------
-int_version physical_device::get_driver_version() const {
+sem_version physical_device::get_driver_version() const {
     return to_version(properties.driverVersion);
 }
 

@@ -12,34 +12,34 @@
 namespace lava {
 
 /**
- * @brief Internal version
+ * @brief Semantic version
  */
-struct internal_version {
+struct semantic_version {
     /// Major version
-    i32 major = LAVA_VERSION_MAJOR;
+    ui32 major = LAVA_VERSION_MAJOR;
 
     /// Minor version
-    i32 minor = LAVA_VERSION_MINOR;
+    ui32 minor = LAVA_VERSION_MINOR;
 
     /// Patch version
-    i32 patch = LAVA_VERSION_PATCH;
+    ui32 patch = LAVA_VERSION_PATCH;
 
     /**
      * @brief Default compare operators
      */
-    auto operator<=>(internal_version const&) const = default;
+    auto operator<=>(semantic_version const&) const = default;
 };
 
-/// Internal version
-using int_version = internal_version;
+/// Semantic version
+using sem_version = semantic_version;
 
 /**
- * @brief Convert string to internal version
+ * @brief Convert string to semantic version
  * @param str             String to convert
- * @return int_version    Internal version
+ * @return sem_version    Semantic version
  */
-inline int_version to_version(string_ref str) {
-    int_version result{ 0, 0, 0 };
+inline sem_version to_version(string_ref str) {
+    sem_version result{ 0, 0, 0 };
     sscanf(str.c_str(), "%d.%d.%d",
            &result.major, &result.minor, &result.patch);
     return result;

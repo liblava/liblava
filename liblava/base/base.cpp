@@ -83,7 +83,7 @@ string to_string(VkResult result) {
 }
 
 //-----------------------------------------------------------------------------
-string version_to_string(ui32 version) {
+string vk_version_to_string(VkVersion version) {
     return fmt::format("{}.{}.{}",
                        VK_API_VERSION_MAJOR(version),
                        VK_API_VERSION_MINOR(version),
@@ -91,14 +91,14 @@ string version_to_string(ui32 version) {
 }
 
 //-----------------------------------------------------------------------------
-int_version to_version(ui32 version) {
-    return { (i32) VK_API_VERSION_MAJOR(version),
-             (i32) VK_API_VERSION_MINOR(version),
-             (i32) VK_API_VERSION_PATCH(version) };
+sem_version to_version(VkVersion version) {
+    return { VK_API_VERSION_MAJOR(version),
+             VK_API_VERSION_MINOR(version),
+             VK_API_VERSION_PATCH(version) };
 }
 
 //-----------------------------------------------------------------------------
-ui32 to_version(int_version version) {
+VkVersion to_vk_version(sem_version version) {
     return VK_MAKE_API_VERSION(0,
                                version.major,
                                version.minor,
@@ -106,7 +106,7 @@ ui32 to_version(int_version version) {
 }
 
 //-----------------------------------------------------------------------------
-api_version to_api_version(ui32 version) {
+api_version to_api_version(VkVersion version) {
     switch (to_version(version).minor) {
     case 1:
         return api_version::v1_1;

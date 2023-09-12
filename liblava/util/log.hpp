@@ -29,11 +29,11 @@ inline string to_string(string_ref id, string_ref name) {
 }
 
 /**
- * @brief Convert internal version to string
- * @param version    Internal version to convert
+ * @brief Convert semantic version to string
+ * @param version    Semantic version to convert
  * @return string    String representation
  */
-inline string to_string(int_version const& version) {
+inline string to_string(sem_version const& version) {
     return fmt::format("{}.{}.{}",
                        version.major,
                        version.minor,
@@ -41,18 +41,18 @@ inline string to_string(int_version const& version) {
 }
 
 /**
- * @brief Convert global internal version to string
+ * @brief Convert global semantic version to string
  * @return string    String representation
  */
-inline string internal_version_string() {
-    return to_string(int_version{});
+inline string semantic_version_string() {
+    return to_string(sem_version{});
 }
 
 /**
- * @see internal_version_string
+ * @see semantic_version_string
  */
-inline string int_version_string() {
-    return internal_version_string();
+inline string sem_version_string() {
+    return semantic_version_string();
 }
 
 /**

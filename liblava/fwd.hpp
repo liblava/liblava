@@ -63,7 +63,7 @@ struct timer;
 struct run_time;
 struct no_copy_no_move;
 struct interface;
-struct internal_version;
+struct semantic_version;
 struct version;
 
 // liblava/engine.hpp

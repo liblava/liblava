@@ -133,9 +133,9 @@ struct physical_device : entity {
 
     /**
      * @brief Get the driver version
-     * @return int_version    Driver version
+     * @return sem_version    Driver version
      */
-    int_version get_driver_version() const;
+    sem_version get_driver_version() const;
 
     /**
      * @brief Check if swapchain is supported

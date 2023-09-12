@@ -114,9 +114,9 @@ bool instance::create(create_param& param,
     VkApplicationInfo application_info{
         .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
         .pApplicationName = info.app_name,
-        .applicationVersion = to_version(info.app_version),
+        .applicationVersion = to_vk_version(info.app_version),
         .pEngineName = info.engine_name,
-        .engineVersion = to_version(info.engine_version),
+        .engineVersion = to_vk_version(info.engine_version),
     };
 
     switch (info.req_api_version) {
@@ -265,7 +265,7 @@ bool check(instance::create_param::ref param) {
 }
 
 //-----------------------------------------------------------------------------
-int_version get_instance_version() {
+sem_version get_instance_version() {
     ui32 instance_version = VK_API_VERSION_1_0;
 
     auto enumerate_instance_version =
@@ -274,7 +274,7 @@ int_version get_instance_version() {
     if (enumerate_instance_version)
         enumerate_instance_version(&instance_version);
 
-    int_version version;
+    sem_version version;
     version.major = VK_VERSION_MAJOR(instance_version);
     version.minor = VK_VERSION_MINOR(instance_version);
     version.patch = VK_VERSION_PATCH(VK_HEADER_VERSION);

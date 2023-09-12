@@ -20,6 +20,9 @@
 
 namespace lava {
 
+/// Vulkan version
+using VkVersion = ui32;
+
 /// Vulkan object handle
 using VkObjectHandle = ui64;
 
@@ -141,21 +144,21 @@ string to_string(VkResult result);
  * @param version    Version to convert
  * @return string    String of version
  */
-string version_to_string(ui32 version);
+string vk_version_to_string(VkVersion version);
 
 /**
- * @brief Convert a Vulkan version to internal version
+ * @brief Convert a Vulkan version to semantic version
  * @param version         Vulkan version to convert
- * @return int_version    Converted internal version
+ * @return sem_version    Converted semantic version
  */
-int_version to_version(ui32 version);
+sem_version to_version(VkVersion version);
 
 /**
- * @brief Convert an internal version to Vulkan version
- * @param version    Internal version to convert
- * @return ui32      Converted Vulkan version
+ * @brief Convert a semantic version to Vulkan version
+ * @param version       Semantic version to convert
+ * @return VkVersion    Converted Vulkan version
  */
-ui32 to_version(int_version version);
+VkVersion to_vk_version(sem_version version);
 
 /**
  * @brief Vulkan API versions
@@ -172,7 +175,7 @@ enum class api_version : index {
  * @param version         Vulkan version to convert
  * @return api_version    Converted API version
  */
-api_version to_api_version(ui32 version);
+api_version to_api_version(VkVersion version);
 
 /**
  * @brief Vulkan result
