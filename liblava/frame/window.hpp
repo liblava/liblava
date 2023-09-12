@@ -454,10 +454,10 @@ struct window : entity {
     void set_icon(data_cptr data, uv2 size);
 
     /**
-     * @brief Get the monitor index of the window
+     * @brief Detect the monitor index of the window
      * @return index    Monitor index
      */
-    index get_monitor() const;
+    index detect_monitor() const;
 
     /**
      * @brief Center the window on the monitor

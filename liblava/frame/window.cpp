@@ -154,7 +154,7 @@ window::state window::get_state() const {
     state.decorated = decorated();
     state.maximized = maximized();
 
-    state.monitor = get_monitor();
+    state.monitor = detect_monitor();
 
     return state;
 }
@@ -466,7 +466,7 @@ void window::set_icon(data_cptr data, uv2 size) {
 }
 
 //-----------------------------------------------------------------------------
-index window::get_monitor() const {
+index window::detect_monitor() const {
     auto window_x = 0;
     auto window_y = 0;
     glfwGetWindowPos(handle,
