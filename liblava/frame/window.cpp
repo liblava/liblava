@@ -355,7 +355,7 @@ void window::show_mouse_cursor() {
 }
 
 //-----------------------------------------------------------------------------
-float window::get_aspect_ratio() const {
+r32 window::get_aspect_ratio() const {
     return framebuffer_height != 0
                ? to_r32(framebuffer_width) / to_r32(framebuffer_height)
                : 0.f;

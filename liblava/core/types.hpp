@@ -310,7 +310,7 @@ struct interface {
 
 /**
  * @brief Combine hash seed with value - from boost (functional/hash)
- * @see http://www.boost.org/doc/libs/1_77_0/doc/html/hash/combine.html
+ * @see https://www.boost.org/doc/libs/1_77_0/doc/html/hash/combine.html
  * @tparam T      Type of value
  * @param seed    Seed to combine
  * @param val     Value to combine
@@ -329,27 +329,27 @@ inline void hash_combine(size_t& seed,
  * @param val     Hash value
  */
 template<typename T>
-inline void hash_val(size_t& seed,
-                     T const& val) {
+inline void hash_value(size_t& seed,
+                       T const& val) {
     hash_combine(seed, val);
 }
 
 /**
- * @see hash_val<T>()
+ * @see hash_value<T>()
  */
 template<typename T, typename... Types>
-inline void hash_val(size_t& seed,
-                     T const& val,
-                     Types const&... args) {
+inline void hash_value(size_t& seed,
+                       T const& val,
+                       Types const&... args) {
     hash_combine(seed, val);
-    hash_val(seed, args...);
+    hash_value(seed, args...);
 }
 
 /**
- * @see hash_val<T>()
+ * @see hash_value<T>()
  */
 template<typename... Types>
-inline size_t hash_val(Types const&... args) {
+inline size_t hash_value(Types const&... args) {
     size_t seed = 0;
     hash_val(seed, args...);
     return seed;
@@ -361,14 +361,14 @@ inline size_t hash_val(Types const&... args) {
 struct pair_hash {
     /**
      * @brief Hash operator
-     * @tparam T1       Type of first
-     * @tparam T2       Type of second
+     * @tparam T1        Type of first
+     * @tparam T2        Type of second
      * @param p          Hash pair
      * @return size_t    Hash value
      */
     template<class T1, class T2>
     size_t operator()(std::pair<T1, T2> const& p) const {
-        return hash_val(p.first, p.second);
+        return hash_value(p.first, p.second);
     }
 };
 

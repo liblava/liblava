@@ -227,9 +227,9 @@ struct window : entity {
 
     /**
      * @brief Get the aspect ratio of window
-     * @return float    Aspect ratio
+     * @return r32    Aspect ratio
      */
-    float get_aspect_ratio() const;
+    r32 get_aspect_ratio() const;
 
     /**
      * @brief Show the window

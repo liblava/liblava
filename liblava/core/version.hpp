@@ -48,7 +48,7 @@ inline sem_version to_version(string_ref str) {
 /**
  * @brief Version stages
  */
-enum class version_stage {
+enum class version_stage : index {
     preview,
     alpha,
     beta,
@@ -61,16 +61,16 @@ enum class version_stage {
  */
 struct version {
     /// Version year
-    i32 year = 2023;
+    ui32 year = 2023;
 
     /// Version release
-    i32 release = 0;
+    ui32 release = 0;
 
     /// Version stage
     version_stage stage = version_stage::preview;
 
     /// Version revision
-    i32 rev = 0;
+    ui32 rev = 0;
 };
 
 /// Build date

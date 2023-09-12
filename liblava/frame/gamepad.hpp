@@ -14,7 +14,7 @@ namespace lava {
 /**
  * @brief Gamepad ids
  */
-enum class gamepad_id : ui32 {
+enum class gamepad_id : index {
     _1 = 0,
     _2,
     _3,

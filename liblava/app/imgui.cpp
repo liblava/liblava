@@ -64,8 +64,8 @@ void imgui::handle_mouse_button_event(i32 button, i32 action, i32 mods) {
 //-----------------------------------------------------------------------------
 void imgui::handle_scroll_event(r64 x_offset, r64 y_offset) {
     auto& io = ImGui::GetIO();
-    io.MouseWheelH += static_cast<float>(x_offset);
-    io.MouseWheel += static_cast<float>(y_offset);
+    io.MouseWheelH += static_cast<r32>(x_offset);
+    io.MouseWheel += static_cast<r32>(y_offset);
 }
 
 //-----------------------------------------------------------------------------
@@ -110,13 +110,13 @@ void imgui::update_mouse_pos_and_buttons() {
             glfwGetCursorPos(window, &mouse_x, &mouse_y);
 
 #ifdef __APPLE__
-            float scale_x, scale_y;
+            r32 scale_x, scale_y;
             glfwGetWindowContentScale(window, &scale_x, &scale_y);
             mouse_x *= scale_x;
             mouse_y *= scale_y;
 #endif
 
-            io.MousePos = ImVec2((float) mouse_x, (float) mouse_y);
+            io.MousePos = ImVec2((r32) mouse_x, (r32) mouse_y);
         }
     }
 }
@@ -179,7 +179,7 @@ void imgui::setup(GLFWwindow* w, config config) {
     } else {
         ImGui::StyleColorsDark();
         style.Colors[ImGuiCol_TitleBg] = ImVec4(0.8f, 0.f, 0.f, 0.4f);
-        style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.8f, 0.f, 0.0f, 1.f);
+        style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.8f, 0.f, 0.f, 1.f);
         style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.f, 0.f, 0.f, 0.1f);
         style.Colors[ImGuiCol_MenuBarBg] = ImVec4(1.f, 0.f, 0.f, 0.4f);
         style.Colors[ImGuiCol_Header] = ImVec4(0.8f, 0.f, 0.f, 0.4f);
@@ -187,7 +187,7 @@ void imgui::setup(GLFWwindow* w, config config) {
         style.Colors[ImGuiCol_HeaderHovered] = ImVec4(1.f, 0.f, 0.f, 0.5f);
         style.Colors[ImGuiCol_CheckMark] = ImVec4(1.f, 0.f, 0.f, 0.8f);
         style.Colors[ImGuiCol_WindowBg] = ImVec4(0.059f, 0.059f, 0.059f, 0.863f);
-        style.Colors[ImGuiCol_ResizeGrip] = ImVec4(0.f, 0.f, 0.f, 0.0f);
+        style.Colors[ImGuiCol_ResizeGrip] = ImVec4(0.f, 0.f, 0.f, 0.f);
     }
 
     if (config.font_data.ptr) {
@@ -282,11 +282,11 @@ void imgui::setup(GLFWwindow* w, config config) {
 #define MAP_BUTTON(NAV_NO, BUTTON_NO) \
     { \
         if (buttons_count > BUTTON_NO && buttons[BUTTON_NO] == GLFW_PRESS) \
-            io.NavInputs[NAV_NO] = 1.0f; \
+            io.NavInputs[NAV_NO] = 1.f; \
     }
 #define MAP_ANALOG(NAV_NO, AXIS_NO, V0, V1) \
     { \
-        float v = (axes_count > AXIS_NO) ? axes[AXIS_NO] : V0; \
+        r32 v = (axes_count > AXIS_NO) ? axes[AXIS_NO] : V0; \
         v = (v - V0) / (V1 - V0); \
         if (v > 1.f) \
             v = 1.f; \
@@ -609,24 +609,24 @@ void imgui::render_draw_lists(VkCommandBuffer cmd_buf) {
 
     auto& io = ImGui::GetIO();
 
-    float scale[2];
+    r32 scale[2];
     scale[0] = 2.f / io.DisplaySize.x;
     scale[1] = 2.f / io.DisplaySize.y;
     device->call().vkCmdPushConstants(cmd_buf,
                                       layout->get(),
                                       VK_SHADER_STAGE_VERTEX_BIT,
-                                      sizeof(float) * 0,
-                                      sizeof(float) * 2,
+                                      sizeof(r32) * 0,
+                                      sizeof(r32) * 2,
                                       scale);
 
-    float translate[2];
+    r32 translate[2];
     translate[0] = -1.f;
     translate[1] = -1.f;
     device->call().vkCmdPushConstants(cmd_buf,
                                       layout->get(),
                                       VK_SHADER_STAGE_VERTEX_BIT,
-                                      sizeof(float) * 2,
-                                      sizeof(float) * 2,
+                                      sizeof(r32) * 2,
+                                      sizeof(r32) * 2,
                                       translate);
 
     auto vtx_offset = 0u;

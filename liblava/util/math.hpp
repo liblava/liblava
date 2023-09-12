@@ -178,15 +178,15 @@ constexpr v3 const default_color = v3{ 0.8118f,
  * @return mat4        Calculated matrix
  */
 inline mat4 perspective_matrix(uv2 size,
-                               float fov = 90.f,
-                               float far_plane = 5.f) {
+                               r32 fov = 90.f,
+                               r32 far_plane = 5.f) {
     // Vulkan NDC is right-handed with Y pointing down
     // we flip Y which makes it left-handed
     return glm::scale(glm::identity<glm::mat4>(),
                       { 1.f, -1.f, 1.f })
            * glm::perspectiveLH_ZO(
                glm::radians(fov),
-               float(size.x) / size.y,
+               r32(size.x) / size.y,
                0.1f,
                far_plane);
 }

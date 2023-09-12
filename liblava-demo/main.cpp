@@ -196,7 +196,7 @@ int main(int argc, char* argv[]) {
                                                | ImGuiWindowFlags_NoNav
                                                | ImGuiWindowFlags_NoMove;
 
-            float const pad = 50.0f;
+            r32 const pad = 50.f;
             ImGuiViewport const* viewport = ImGui::GetMainViewport();
             ImVec2 win_pos(viewport->WorkPos.x + pad,
                            viewport->WorkPos.y + pad);

@@ -1,9 +1,9 @@
 /**
  * @file         liblava/util/hex.hpp
  * @brief        Hex point, cell and grid
- * @see          https://www.redblobgames.com/grids/hexagons/
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
+ * @see          https://www.redblobgames.com/grids/hexagons/
  */
 
 #pragma once
