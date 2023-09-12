@@ -85,7 +85,7 @@ LAVA_STAGE(7, "forward shading") {
         if (!block.process(*current_frame))
             return run_abort;
 
-        return renderer.end_frame(block.get_buffers());
+        return renderer.end_frame(block.collect_buffers());
     });
 
     frame.add_run_end([&]() {

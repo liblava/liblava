@@ -362,7 +362,7 @@ All we need to do now is to process that `block` in the **run** loop:
 if (!block.process(*current_frame))
     return run_abort;
 
-return renderer.end_frame(block.get_buffers());
+return renderer.end_frame(block.collect_buffers());
 ```
 
 And call the `renderer` with our recorded **command buffers**.

@@ -649,7 +649,7 @@ void app::render() {
         if (!block.process(*frame_index))
             return run_abort;
 
-        return renderer.end_frame(block.get_buffers());
+        return renderer.end_frame(block.collect_buffers());
     });
 }
 

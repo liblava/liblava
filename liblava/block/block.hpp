@@ -185,10 +185,10 @@ struct block : entity {
     }
 
     /**
-     * @brief Get the buffers
+     * @brief Collect the buffers
      * @return VkCommandBuffers    List of Vulkan command buffers
      */
-    VkCommandBuffers get_buffers() {
+    VkCommandBuffers collect_buffers() {
         VkCommandBuffers result;
 
         for (auto& cmd : cmd_order)
