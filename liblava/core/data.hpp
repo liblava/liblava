@@ -57,6 +57,15 @@ inline data_ptr as_ptr(auto* value) {
 }
 
 /**
+ * @brief Cast to const data pointer
+ * @param value         Value to cast
+ * @return data_cptr    Const data pointer
+ */
+inline data_cptr as_cptr(auto* value) {
+    return (data_cptr) value;
+}
+
+/**
  * @brief Align value up
  * @param value    Value to align
  * @param align    Target alignment
@@ -172,14 +181,17 @@ struct data {
      * @brief Set and allocate data by length
      * @param length   Length of data
      * @param mode     Data mode
+     * @return Allocate was successful or failed (mode: alloc)
      */
-    void set(size_t length,
+    bool set(size_t length,
              data_mode mode = data_mode::alloc) {
         size = length;
         alignment = align<data_ptr>();
 
         if (mode == data_mode::alloc)
-            allocate();
+            return allocate();
+
+        return true;
     }
 
     /**
