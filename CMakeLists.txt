@@ -183,12 +183,11 @@ add_library(lava.file
   ${LIBLAVA_DIR}/file/json.hpp
   )
 
-target_include_directories(lava.file PRIVATE
-  $<BUILD_INTERFACE:${physfs_SOURCE_DIR}/src>
-  )
-
-target_include_directories(lava.file PUBLIC
+target_include_directories(lava.file
+  PUBLIC
   $<BUILD_INTERFACE:${json_SOURCE_DIR}/single_include>
+  PRIVATE
+  $<BUILD_INTERFACE:${physfs_SOURCE_DIR}/src>
   )
 
 target_link_libraries(lava.file PUBLIC
@@ -348,12 +347,11 @@ add_library(lava.frame
   ${LIBLAVA_DIR}/frame/window.hpp
   )
 
-target_include_directories(lava.frame PRIVATE
-  $<BUILD_INTERFACE:${glfw_SOURCE_DIR}/include>
-  )
-
-target_include_directories(lava.frame PUBLIC
+target_include_directories(lava.frame
+  PUBLIC
   $<BUILD_INTERFACE:${argh_SOURCE_DIR}>
+  PRIVATE
+  $<BUILD_INTERFACE:${glfw_SOURCE_DIR}/include>
   )
 
 target_link_libraries(lava.frame PUBLIC
@@ -406,12 +404,11 @@ add_library(lava.app
   ${APP_SHADERS}
   )
 
-target_include_directories(lava.app PUBLIC
+target_include_directories(lava.app
+  PUBLIC
   $<BUILD_INTERFACE:${imgui_SOURCE_DIR}>
   $<BUILD_INTERFACE:${IconFontCppHeaders_SOURCE_DIR}>
-  )
-
-target_include_directories(lava.app PRIVATE
+  PRIVATE
   $<BUILD_INTERFACE:${glfw_SOURCE_DIR}/include>
   )
 
