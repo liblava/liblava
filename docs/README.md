@@ -588,7 +588,7 @@ The **last stages** in this list are further **examples**.
 ### Run *imgui demo*
 
 ```bash
-lava -s=6
+lava -st=6
 
 lava --stage=6
 ```

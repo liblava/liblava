@@ -26,7 +26,7 @@ i32 driver::run(argh::parser cmd_line) {
     }
 
     if (auto id = undef;
-        cmd_line({ "-s", "--stage" }) >> id) {
+        cmd_line({ "-st", "--stage" }) >> id) {
         if (!stages.count(id)) {
             std::cerr << "stage " << id << " not found" << std::endl;
             return error::stage_not_found;
