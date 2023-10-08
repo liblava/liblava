@@ -15,7 +15,7 @@ set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG 7931b9b3f4ca3b0685fe35f105a3e5c2a1e0d1ed)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG fac07e22c5d7dd0423ccf31c02db5603d27e6556)
+set(json_TAG edffad036d5a93ab5a10f72a7d835eeb0d2948f9)
 
 set(spdlog_GITHUB gabime/spdlog)
 set(spdlog_TAG 91807c2e718890ca2c0c88620326c6919ce041f4)
@@ -27,10 +27,10 @@ set(tinyobjloader_GITHUB syoyo/tinyobjloader)
 set(tinyobjloader_TAG ee45fb41db95bf9563f2a41bc63adfa18475c2ee)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
-set(Vulkan-Headers_TAG 7e691380166fb1cd9b193ac9db896bc23a4ea9ad)
+set(Vulkan-Headers_TAG bbe0f575ebd6098369f0ac6c6a43532732ed0ba6)
 
 set(volk_GITHUB zeux/volk)
-set(volk_TAG 14c12ad857b53fa0ce084c92a7790225e45b2f67)
+set(volk_TAG 127acea8b96874d4f0740fb8fd349b3ba6b9f5c0)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
 set(VulkanMemoryAllocator_TAG 2f382df218d7e8516dee3b3caccb819a62b571a2)
@@ -39,19 +39,19 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 1a083cca7d650c0615e32a1d39d56892a2ce8c5b)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 701a047ac0759c12350f682f8308b4ecbec4be68)
+set(imgui_TAG 001f102f3871a175a2b83b6ef99babab7d579a1d)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG f8aed6499fc713b245b863ccc25b412133296de2)
+set(imgui_docking_TAG 72ebd91567148b4d3dca073c7229c4c0462a0586)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
-set(SPIRV-Headers_TAG 79743b899fde5c954897b2694291002626358fac)
+set(SPIRV-Headers_TAG e867c06631767a2d96424cbec530f9ee5e78180f)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 1bc0e6f59abc3c9cd75f93baef47e9612a448045)
+set(SPIRV-Tools_TAG 933db564ca660477b360480b8a1d7589d7c6694e)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG b0ed4788858157e271779a7726cccc1149a05407)
+set(glslang_TAG 5ff0c048b7242e173357bf28024cdee79edbcea8)
 
 set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG 00defdd7b98737565fe690d24981a47eeb40ff1c)
