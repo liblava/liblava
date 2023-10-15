@@ -122,7 +122,7 @@ bool app::create_block() {
 
 //-----------------------------------------------------------------------------
 bool app::create_pipeline_cache() {
-    file_data pipeline_cache_data(string(_cache_path_) + _pipeline_cache_file_);
+    file_data const pipeline_cache_data(string(_cache_path_) + _pipeline_cache_file_);
 
     VkPipelineCacheCreateInfo create_info = {
         .sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO
@@ -205,7 +205,7 @@ bool app::setup() {
 void app::mount_resource() {
     auto res_list = fs.mount_res();
 
-    auto res_str = get_cmd(get_cmd_line(), { "-res", "--resource" });
+    auto const res_str = get_cmd(get_cmd_line(), { "-res", "--resource" });
     if (!res_str.empty()) {
         auto const res_dir = fs.get_full_base_dir(res_str);
 
@@ -219,7 +219,7 @@ void app::mount_resource() {
         }
     }
 
-    for (auto& res : res_list) {
+    for (auto const& res : res_list) {
         log()->info("mount: {}", res);
     }
 }
@@ -228,7 +228,7 @@ void app::mount_resource() {
 bool app::setup_file_system() {
     log()->info("physfs: {}", to_string(fs.get_version()));
 
-    auto& cmd_line = get_cmd_line();
+    auto const& cmd_line = get_cmd_line();
 
     if (!fs.initialize(cmd_line[0],
                        config.org,
@@ -359,7 +359,7 @@ void app::setup_run() {
 //-----------------------------------------------------------------------------
 bool app::create_imgui() {
     if (config.imgui_font.file.empty()) {
-        auto font_files = fs.enumerate_files(_font_path_);
+        auto const font_files = fs.enumerate_files(_font_path_);
         if (!font_files.empty())
             config.imgui_font.file = fmt::format("{}{}",
                                                  _font_path_, font_files.front());
