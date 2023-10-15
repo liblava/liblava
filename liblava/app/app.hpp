@@ -189,6 +189,13 @@ struct app : frame {
      */
     string screenshot();
 
+    /**
+     * Switch config id
+     * @param id    Config id
+     * @return Switch was successful of failed
+     */
+    bool switch_config(string_ref id);
+
 private:
     /**
      * @brief Mount resource paths and files
@@ -225,14 +232,16 @@ private:
     void setup_run();
 
     /**
-     * @brief Parse config
+     * @brief Parse command line
      */
-    void parse_config();
+    void parse_cmd_line();
 
     /**
-     * @brief Handle configuration file
+     * @brief Load configuration file
+     * @param config_id    Config id
+     * @return Load was successful or failed
      */
-    void handle_config();
+    bool load_config(string_ref config_id);
 
     /**
      * @brief Handle inputs

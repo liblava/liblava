@@ -25,12 +25,8 @@ app::app(name name, argh::parser cmd_line)
 }
 
 //-----------------------------------------------------------------------------
-void app::parse_config() {
+void app::parse_cmd_line() {
     auto& cmd_line = get_cmd_line();
-
-    auto config_id = get_cmd(cmd_line, { "-id", "--identification" });
-    if (!config_id.empty())
-        config.id = config_id;
 
     if (auto fullscreen = undef;
         cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)
@@ -69,7 +65,9 @@ void app::parse_config() {
 }
 
 //-----------------------------------------------------------------------------
-void app::handle_config() {
+bool app::load_config(string_ref config_id) {
+    config.id = config_id;
+
     config.context = this;
 
     config_callback.on_load = [&](json_ref j) {
@@ -86,7 +84,7 @@ void app::handle_config() {
     };
 
     config_file.add(&config_callback);
-    config_file.load();
+    return config_file.load();
 }
 
 //-----------------------------------------------------------------------------
@@ -178,8 +176,15 @@ bool app::setup() {
     if (!setup_file_system())
         return false;
 
-    handle_config();
-    parse_config();
+    auto const config_id = get_cmd(get_cmd_line(),
+                                   { "-id", "--identification" });
+    if (!config_id.empty()) {
+        if (!load_config(config_id))
+            return false;
+    } else if (!load_config(config.id))
+        return false;
+
+    parse_cmd_line();
 
     if (on_setup && !on_setup())
         return false;
@@ -685,6 +690,22 @@ string app::screenshot() {
 
     log()->info("screenshot: {}", path);
     return path;
+}
+
+//-----------------------------------------------------------------------------
+bool app::switch_config(string_ref id) {
+    if (id == config.id)
+        return true;
+
+    if (!load_config(id))
+        return false;
+
+    window.set_state(config.window_state.value());
+    window.set_save_name(id);
+
+    window.update_title();
+
+    return true;
 }
 
 //-----------------------------------------------------------------------------

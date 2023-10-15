@@ -160,6 +160,51 @@ window::state window::get_state() const {
 }
 
 //-----------------------------------------------------------------------------
+void window::set_state(window::state& state) {
+    if (state.fullscreen) {
+        auto monitor = glfwGetPrimaryMonitor();
+        auto mode = glfwGetVideoMode(monitor);
+
+        if (state.monitor != 0) {
+            auto monitor_count = 0;
+            auto monitors = glfwGetMonitors(&monitor_count);
+
+            if (state.monitor < monitor_count) {
+                monitor = monitors[state.monitor];
+                mode = glfwGetVideoMode(monitor);
+            }
+        }
+        auto monitor_pos_x = 0;
+        auto monitor_pos_y = 0;
+        glfwGetMonitorPos(monitor, &monitor_pos_x, &monitor_pos_y);
+        glfwSetWindowMonitor(handle,
+                             monitor,
+                             monitor_pos_x,
+                             monitor_pos_y,
+                             mode->width,
+                             mode->height,
+                             GLFW_DONT_CARE);
+    } else {
+        glfwSetWindowPos(handle, state.x, state.y);
+        glfwSetWindowSize(handle, state.width, state.height);
+    }
+
+    fullscreen_active = state.fullscreen;
+
+    pos_x = state.x;
+    pos_y = state.y;
+    width = state.width;
+    height = state.height;
+
+    set_floating(state.floating);
+    set_resizable(state.resizable);
+    set_decorated(state.decorated);
+
+    if (state.maximized)
+        maximize();
+}
+
+//-----------------------------------------------------------------------------
 void window::set_title(string_ref text) {
     title = text;
 

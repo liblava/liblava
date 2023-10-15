@@ -96,7 +96,7 @@ struct window : entity {
 
     /**
      * @brief Create a new window with optional state
-     * @param state     Window state
+     * @param state    Window state
      * @return Create was successful or failed
      */
     bool create(state::optional state = {});
@@ -111,6 +111,12 @@ struct window : entity {
      * @return state    Window state
      */
     state get_state() const;
+
+    /**
+     * @brief Set the window state
+     * @param s    Window state
+     */
+    void set_state(state& s);
 
     /**
      * @brief Set the window title
