@@ -255,10 +255,11 @@ bool app::setup_file_system() {
 
 //-----------------------------------------------------------------------------
 bool app::setup_window() {
-    if (config.id != _default_) {
-        window.set_save_name(config.id);
+    if (get_cmd_line()[{ "-wt", "--title" }])
         window.show_save_title();
-    }
+
+    if (config.id != _default_)
+        window.set_save_name(config.id);
 
     if (!window.create(config.window_state))
         return false;

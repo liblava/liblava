@@ -787,6 +787,14 @@ app.config.handle_key_events = false;
 
 <br />
 
+```bash
+--title, -wt
+```
+
+* show window save **title**
+
+<br />
+
 ## frame
 
 > You need the [Vulkan SDK](https://vulkan.lunarg.com) installed for debugging.
