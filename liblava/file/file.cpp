@@ -38,14 +38,16 @@ bool file::open(string_ref p, file_mode m) {
     } else {
         if (mode == file_mode::write) {
             o_stream = std::ofstream(path,
-                                     std::ofstream::binary);
+                                     std::ios::binary);
             if (o_stream.is_open())
                 type = file_type::f_stream;
         } else {
             i_stream = std::ifstream(path,
-                                     std::ios::binary | std::ios::ate);
+                                     std::ios::binary);
             if (i_stream.is_open())
                 type = file_type::f_stream;
+
+            i_stream.seekg(0, i_stream.beg);
         }
     }
 
@@ -85,13 +87,13 @@ i64 file::get_size() const {
     } else if (type == file_type::f_stream) {
         if (mode == file_mode::write) {
             auto current = o_stream.tellp();
-            o_stream.seekp(0, std::ostream::end);
+            o_stream.seekp(0, o_stream.end);
             auto result = o_stream.tellp();
             o_stream.seekp(current);
             return result;
         } else {
             auto current = i_stream.tellg();
-            i_stream.seekg(0, std::istream::end);
+            i_stream.seekg(0, i_stream.end);
             auto result = i_stream.tellg();
             i_stream.seekg(current);
             return result;
@@ -106,13 +108,10 @@ i64 file::read(data_ptr data, ui64 size) {
     if (mode == file_mode::write)
         return file_error_result;
 
-    if (type == file_type::fs) {
+    if (type == file_type::fs)
         return PHYSFS_readBytes(fs_file, data, size);
-    } else if (type == file_type::f_stream) {
-        i_stream.seekg(0, std::ios::beg);
-        i_stream.read(data, size);
-        return to_i64(size);
-    }
+    else if (type == file_type::f_stream)
+        return i_stream.read(data, size).gcount();
 
     return file_error_result;
 }
@@ -138,9 +137,9 @@ i64 file::seek(ui64 position) {
         return PHYSFS_seek(fs_file, position);
     } else if (type == file_type::f_stream) {
         if (mode == file_mode::write)
-            o_stream.seekp(position, std::ostream::cur);
+            o_stream.seekp(position);
         else
-            i_stream.seekg(position, std::ostream::cur);
+            i_stream.seekg(position);
 
         return tell();
     }
