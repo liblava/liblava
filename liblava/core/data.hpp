@@ -141,7 +141,7 @@ inline void free_data(void* data) {
  */
 inline void* realloc_data(void* data,
                           size_t size,
-                          size_t alignment) {
+                          size_t alignment = sizeof(c8)) {
 #if _WIN32
     return _aligned_realloc(data, size, alignment);
 #else
