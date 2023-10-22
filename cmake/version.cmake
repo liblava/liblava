@@ -15,7 +15,7 @@ set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG 7931b9b3f4ca3b0685fe35f105a3e5c2a1e0d1ed)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG edffad036d5a93ab5a10f72a7d835eeb0d2948f9)
+set(json_TAG 58d6aa58316a84fc770bdd0409934cdfdf0697dc)
 
 set(spdlog_GITHUB gabime/spdlog)
 set(spdlog_TAG ff205fd29a4a2f6ebcbecffd149153256d89a671)
@@ -27,10 +27,10 @@ set(tinyobjloader_GITHUB syoyo/tinyobjloader)
 set(tinyobjloader_TAG ee45fb41db95bf9563f2a41bc63adfa18475c2ee)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
-set(Vulkan-Headers_TAG 7b3466a1f47a9251ac1113efbe022ff016e2f95b)
+set(Vulkan-Headers_TAG 374f9fd97520f6dd1b80745de09208d878ab4a52)
 
 set(volk_GITHUB zeux/volk)
-set(volk_TAG cdd08788bb7062031606d3da51e268f6bd491864)
+set(volk_TAG 41c8f70e805142d529653d8bc87a5b2f259c619d)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
 set(VulkanMemoryAllocator_TAG 2f382df218d7e8516dee3b3caccb819a62b571a2)
@@ -39,19 +39,19 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 1a083cca7d650c0615e32a1d39d56892a2ce8c5b)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 0b8c6b9bcefd420ec0e59f0596f0190f6551fc10)
+set(imgui_TAG 313676d200f093e2694b5cfca574f72a2b116c85)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG 83c433682883aaa6f9583a4a84d1ae4bd8d1e977)
+set(imgui_docking_TAG 2a6d7b1eaa1851e5b53d8c7a361a8d54f5a9ae8c)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
-set(SPIRV-Headers_TAG 4183b260f4cccae52a89efdfcdd43c4897989f42)
+set(SPIRV-Headers_TAG 88bc5e321c2839707df8b1ab534e243e00744177)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG 661f429b11e4392139a6c0630ceb3e3182cdb0f4)
+set(SPIRV-Tools_TAG 01e851be93a4be2d91194ed6ec8626038aae5bfb)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG be564292f00c5bf0d7251c11f1c9618eb1117762)
+set(glslang_TAG 7fa0731a803e8c02347756df41e0b606a4a34e2d)
 
 set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG 0d6f72f3ec57fe68377363d9e810385e6b6e37e1)
