@@ -180,9 +180,9 @@ bool app::setup() {
                                    { "-id", "--identification" });
     if (!config_id.empty()) {
         if (!load_config(config_id))
-            return false;
+            log()->debug("new config id (cmd line): {}", config_id);
     } else if (!load_config(config.id))
-        return false;
+        log()->debug("new config id: {}", config.id);
 
     parse_cmd_line();
 
@@ -698,7 +698,7 @@ bool app::switch_config(string_ref id) {
         return true;
 
     if (!load_config(id))
-        return false;
+        log()->debug("new config id (switch): {}", id);
 
     window.set_state(config.window_state.value());
     window.set_save_name(id);
