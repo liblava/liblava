@@ -9,6 +9,6 @@ void main() {
     outFragColor = mix(vec4((inNormal.x + 1) / 2,
                             (inNormal.y + 1) / 2,
                             (inNormal.z + 1) / 2, 1),
-                        inColor, 
-                        gl_FragCoord.y / 1000);
+                       inColor,
+                       gl_FragCoord.y / 1000);
 }
