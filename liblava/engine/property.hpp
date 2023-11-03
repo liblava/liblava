@@ -51,6 +51,21 @@ struct property : configurable {
              string_ref filename);
 
     /**
+     * @brief Remove a prop
+     * @param name    Name of prop
+     */
+    void remove(string_ref name);
+
+    /**
+     * @brief Install a prop (add + load)
+     * @param name        Name of prop
+     * @param filename    File name of prop
+     * @return Install was successful or failed
+     */
+    bool install(string_ref name,
+                 string_ref filename);
+
+    /**
      * @brief Get prop data
      * @param name      Name of prop
      * @return cdata    Prop const data

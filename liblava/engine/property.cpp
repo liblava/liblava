@@ -21,6 +21,21 @@ void property::add(string_ref name,
 }
 
 //-----------------------------------------------------------------------------
+void property::remove(string_ref name) {
+    if (!map.count(name))
+        return;
+
+    map.erase(name);
+}
+
+//-----------------------------------------------------------------------------
+bool property::install(string_ref name,
+                       string_ref filename) {
+    add(name, filename);
+    return load(name);
+}
+
+//-----------------------------------------------------------------------------
 cdata property::operator()(string_ref name) {
     auto& prop = map.at(name);
     if (prop.data.ptr)
