@@ -351,7 +351,7 @@ inline void hash_value(size_t& seed,
 template<typename... Types>
 inline size_t hash_value(Types const&... args) {
     size_t seed = 0;
-    hash_val(seed, args...);
+    hash_value(seed, args...);
     return seed;
 }
 
