@@ -418,7 +418,7 @@ target_link_libraries(lava.app PUBLIC
   lava::asset
   )
 
-target_compile_definitions(lava.app PRIVATE IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
+# target_compile_definitions(lava.app PRIVATE IMGUI_DISABLE_OBSOLETE_FUNCTIONS)
 
 set_target_properties(lava.app PROPERTIES FOLDER "liblava")
 set_property(TARGET lava.app PROPERTY EXPORT_NAME app)
