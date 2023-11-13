@@ -166,9 +166,9 @@ inline auto ceil_div(auto x, auto y) {
 }
 
 /// Default color (Lava color: CF1020 : 207, 16, 32)
-constexpr v3 const default_color = v3{ 0.8118f,
-                                       0.0627f,
-                                       0.1255f };
+v3 const default_color = v3{ 0.8118f,
+                             0.0627f,
+                             0.1255f };
 
 /**
  * @brief Calculate perspective matrix

@@ -678,9 +678,9 @@ template<typename PosType,
          size_t vert_count,
          bool is_complex>
 constexpr std::array<PosType, vert_count> make_primitive_positions_cube() {
+    // clang-format off
     if constexpr (is_complex) {
-        // clang-format off
-        constexpr std::array<PosType, 24> positions = {{
+        std::array<PosType, 24> const positions = {{
             // front
             { 1, 1, 1 }, { -1, 1, 1}, { -1, -1, 1 }, { 1, -1, 1 },
             // back
@@ -696,7 +696,7 @@ constexpr std::array<PosType, vert_count> make_primitive_positions_cube() {
         }};
         return positions;
     } else {
-        constexpr std::array<PosType, 8> positions = {{
+        std::array<PosType, 8> const positions = {{
             { -1, -1, -1 },
             { -1, -1, 1 },
             { -1, 1, -1 },
@@ -716,7 +716,7 @@ template<bool is_complex>
 std::vector<index> make_primitive_indices_cube() {
     // clang-format off
     if constexpr (is_complex) {
-        std::vector<index> indices = {
+        std::vector<index> const indices = {
             0, 1, 2,
             2, 3, 0,
             4, 7, 6,
@@ -733,7 +733,7 @@ std::vector<index> make_primitive_indices_cube() {
         return indices;
     } else {
         // clockwise winding order
-        std::vector<index> indices = {
+        std::vector<index> const indices = {
             // left
             0, 1, 2,
             2, 1, 3,
@@ -763,9 +763,9 @@ template<typename NormType>
 constexpr std::array<NormType, 6> make_primitive_normals_cube() {
     // clang-format off
     // front, back, left, right, bottom, and top normals, in that order
-    constexpr std::array<NormType, 6> normals = {{ { 0, 0, 1 },  { 0, 0, -1 },
-                                                   { -1, 0, 0 }, { 1, 0, 0 },
-                                                   { 0, 1, 0 },  { 0, -1, 0 }, }};
+    std::array<NormType, 6> const normals = {{ { 0, 0, 1 },  { 0, 0, -1 },
+                                               { -1, 0, 0 }, { 1, 0, 0 },
+                                               { 0, 1, 0 },  { 0, -1, 0 }, }};
     // clang-format on
     return normals;
 }
@@ -774,7 +774,7 @@ constexpr std::array<NormType, 6> make_primitive_normals_cube() {
 template<typename UVType>
 constexpr std::array<UVType, 24> make_primitive_uvs_cube() {
     // clang-format off
-    constexpr std::array<UVType, 24> uvs = {{
+    std::array<UVType, 24> const uvs = {{
         { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 }, // front
         { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, 0 }, // back
         { 1, 1 }, { 0, 1 }, { 0, 0 }, { 1, 0 }, // left
