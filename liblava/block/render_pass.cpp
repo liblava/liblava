@@ -130,14 +130,19 @@ void render_pass::process(VkCommandBuffer cmd_buf,
 
 //-----------------------------------------------------------------------------
 void render_pass::set_clear_color(v3 value) {
-    clear_values.resize(2);
-
     clear_values[0].color.float32[0] = value.r;
     clear_values[0].color.float32[1] = value.g;
     clear_values[0].color.float32[2] = value.b;
     clear_values[0].color.float32[3] = 1.f;
 
     clear_values[1].depthStencil = { 1.f, 0 };
+
+    for (index i = 2u; i < clear_values.size(); ++i) {
+        clear_values[i].color.float32[0] = value.r;
+        clear_values[i].color.float32[1] = value.g;
+        clear_values[i].color.float32[2] = value.b;
+        clear_values[i].color.float32[3] = 1.f;
+    }
 }
 
 //-----------------------------------------------------------------------------

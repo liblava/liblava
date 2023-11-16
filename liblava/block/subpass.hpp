@@ -114,6 +114,11 @@ struct subpass : entity {
      */
     void set_color_attachments(VkAttachmentReferences const& attachments);
 
+    void add_color_attachment(index attachment,
+                              VkImageLayout layout);
+    void add_color_attachment(VkAttachmentReference attachment);
+    void add_color_attachments(VkAttachmentReferences const& attachments);
+
     /**
      * @brief Set the depth stencil attachment
      * @param attachment    Index of attachment

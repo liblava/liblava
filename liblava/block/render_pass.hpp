@@ -134,6 +134,10 @@ struct render_pass : entity {
         subpasses.push_back(subpass);
     }
 
+    void set_clears_count(index count) {
+        clear_values.resize(count);
+    }
+
     /**
      * @brief Set the clear values
      * @param values    List of clear values
@@ -219,8 +223,8 @@ private:
     /// List of subpasses
     subpass::list subpasses;
 
-    /// List of clear values
-    VkClearValues clear_values = {};
+    /// List of clear values, initialized with at least two.
+    VkClearValues clear_values = VkClearValues(2);
 
     /// Rectangle area
     rect area;

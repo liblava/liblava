@@ -64,6 +64,9 @@ struct forward_shading {
         return depth_stencil;
     }
 
+    std::vector<attachment::ptr> extra_color_attachments;
+    std::vector<image::ptr> extra_image_views;
+
 private:
     /// Render target
     render_target::ptr target;

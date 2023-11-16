@@ -35,9 +35,15 @@ bool forward_shading::create(render_target::ptr t) {
                                       VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
         pass->add(depth_attachment);
 
+        for (auto attachment : extra_color_attachments)
+            pass->add(attachment);
+
         auto subpass = subpass::make(VK_PIPELINE_BIND_POINT_GRAPHICS);
-        subpass->set_color_attachment(0, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+        subpass->add_color_attachment(0, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
         subpass->set_depth_stencil_attachment(1, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
+        for (size_t i = 0u; i < extra_color_attachments.size(); ++i)
+            subpass->add_color_attachment(i + 2, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+        pass->set_clears_count(2 + extra_color_attachments.size());
         pass->add(subpass);
 
         auto first_subpass_dependency = subpass_dependency::make(VK_SUBPASS_EXTERNAL, 0);
@@ -87,6 +93,9 @@ bool forward_shading::create(render_target::ptr t) {
 
             attachments.push_back(backbuffer->get_view());
             attachments.push_back(depth_stencil->get_view());
+            for (auto& a : extra_image_views) {
+                attachments.push_back(a->get_view());
+            }
 
             result.push_back(attachments);
         }

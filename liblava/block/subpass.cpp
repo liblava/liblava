@@ -69,6 +69,32 @@ void subpass::set_color_attachments(VkAttachmentReferences const& attachments) {
 }
 
 //-----------------------------------------------------------------------------
+void subpass::add_color_attachment(index attachment,
+                                   VkImageLayout layout) {
+    VkAttachmentReference reference;
+    reference.attachment = attachment;
+    reference.layout = layout;
+
+    add_color_attachment(reference);
+}
+
+//-----------------------------------------------------------------------------
+void subpass::add_color_attachment(VkAttachmentReference attachment) {
+    VkAttachmentReferences attachments;
+    attachments.push_back(attachment);
+    add_color_attachments(attachments);
+}
+
+//-----------------------------------------------------------------------------
+void subpass::add_color_attachments(VkAttachmentReferences const& attachments) {
+    for (auto& attachment : attachments)
+        color_attachments.push_back(attachment);
+
+    description.colorAttachmentCount = to_ui32(color_attachments.size());
+    description.pColorAttachments = color_attachments.data();
+}
+
+//-----------------------------------------------------------------------------
 void subpass::set_depth_stencil_attachment(index attachment,
                                            VkImageLayout layout) {
     VkAttachmentReference reference;
