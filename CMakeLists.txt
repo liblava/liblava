@@ -72,7 +72,7 @@ if(LIBLAVA_EXTERNALS)
 
   set(LIBSHADERC_FOLDER "libshaderc")
   set_target_properties(shaderc PROPERTIES FOLDER ${LIBSHADERC_FOLDER})
-  set_target_properties(shaderc_combined_genfile PROPERTIES FOLDER ${LIBSHADERC_FOLDER})
+  set_target_properties(shaderc_combined PROPERTIES FOLDER ${LIBSHADERC_FOLDER})
   set_target_properties(shaderc_shared PROPERTIES FOLDER ${LIBSHADERC_FOLDER})
   set_target_properties(shaderc_util PROPERTIES FOLDER ${LIBSHADERC_FOLDER})
   set_target_properties(testdata PROPERTIES FOLDER ${LIBSHADERC_FOLDER})
