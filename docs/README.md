@@ -21,6 +21,8 @@
 > **New to Vulkan?** &nbsp; Take a look at this ➜ [Vulkan Guide](https://github.com/KhronosGroup/Vulkan-Guide)
 <br />Check [Awesome Vulkan ecosystem](http://www.vinjn.com/awesome-vulkan/) for tutorials, samples and books.
 
+**Latest Vulkan documentation: [Specification and Proposals](https://docs.vulkan.org/)**
+
 <br />
 
 <br />
