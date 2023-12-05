@@ -54,7 +54,7 @@ set(glslang_GITHUB KhronosGroup/glslang)
 set(glslang_TAG 72b403ad715ee42f17a93a088c3dc755345aea7b)
 
 set(shaderc_GITHUB google/shaderc)
-set(shaderc_TAG aaa44b544909600381e1a180074ed7f544e48410)
+set(shaderc_TAG 40bced4e1e205ecf44630d2dfa357655b6dabd04)
 
 set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
