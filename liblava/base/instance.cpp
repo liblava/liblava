@@ -24,13 +24,13 @@ VKAPI_ATTR VkBool32 VKAPI_CALL
                              const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
                              void* user_data) {
     string type;
-    if (message_type == VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT)
+    if (message_type & VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT)
         type = "general";
-    else if (message_type == VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT)
+    else if (message_type & VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT)
         type = "validation";
-    else if (message_type == VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT)
+    else if (message_type & VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT)
         type = "performance";
-    else if (message_type == VK_DEBUG_UTILS_MESSAGE_TYPE_DEVICE_ADDRESS_BINDING_BIT_EXT)
+    else if (message_type & VK_DEBUG_UTILS_MESSAGE_TYPE_DEVICE_ADDRESS_BINDING_BIT_EXT)
         type = "device address binding";
 
     auto log_msg = callback_data->pMessageIdName != nullptr
@@ -47,17 +47,20 @@ VKAPI_ATTR VkBool32 VKAPI_CALL
 
     log_msg += " - " + message;
 
-    if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT)
+    if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT)
         log()->trace(log_msg);
-    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
+    else if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
         log()->info(log_msg);
-    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
+    else if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
         log()->warn(log_msg);
-    else if (message_severity == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
+    else if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
         log()->error(log_msg);
 
-        // unpreventable error application is still ok see: https://github.com/KhronosGroup/Vulkan-ValidationLayers/issues/1340
-        if (string(callback_data->pMessageIdName) != "VUID-VkSwapchainCreateInfoKHR-imageExtent-01274")
+        auto const skip_assert = callback_data->pMessageIdName
+                                 && (string(callback_data->pMessageIdName) == "VUID-VkSwapchainCreateInfoKHR-imageExtent-01274");
+        // unpreventable error application is still ok, see: https://github.com/KhronosGroup/Vulkan-ValidationLayers/issues/1340
+
+        if (!skip_assert)
             LAVA_ASSERT(!"check debug utils error");
     }
 
