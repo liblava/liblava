@@ -443,7 +443,7 @@ void app::handle_keys() {
         }
 
         if (config.handle_key_events) {
-            if (event.mod == mod::control) {
+            if (check_mod(event.mod, mod::control)) {
                 if (event.pressed(key::q))
                     return shut_down();
 
@@ -467,7 +467,7 @@ void app::handle_keys() {
                     screenshot();
                     return input_done;
                 }
-            } else if (event.mod == mod::alt) {
+            } else if (check_mod(event.mod, mod::alt)) {
                 if (event.pressed(key::enter)) {
                     window.set_fullscreen(!window.fullscreen());
                     return input_done;
