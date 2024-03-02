@@ -49,7 +49,7 @@ void app::parse_cmd_line() {
         config.window_state->height = height;
 
     cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
-    cmd_line({ "-tb", "--triple_buffer" }) >> config.triple_buffer;
+    cmd_line({ "-tb", "--triple_buffering" }) >> config.triple_buffer;
     cmd_line({ "-fps", "--fps_cap" }) >> config.fps_cap;
 
     cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
