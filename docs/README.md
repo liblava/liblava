@@ -675,6 +675,15 @@ app.config.handle_key_events = false;
 <br />
 
 ```bash
+--triple_buffering={0|1}, -tb={0|1}
+```
+
+* **0** &nbsp; triple buffering off
+* **1** &nbsp; triple buffering on
+
+<br />
+
+```bash
 --fps_cap={n}, -fps={n}
 ```
 
