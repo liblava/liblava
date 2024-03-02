@@ -132,6 +132,14 @@ struct app : frame {
     }
 
     /**
+     * @brief Triple buffering setting
+     * @return VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR or not
+     */
+    bool triple_buffer() const {
+        return config.triple_buffer;
+    }
+
+    /**
      * @brief Frames per second cap setting
      * @return Frames per second cap value (deactived: 0)
      */

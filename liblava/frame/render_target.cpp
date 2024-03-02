@@ -16,12 +16,14 @@ bool render_target::create(device_p device,
                            VkSurfaceKHR surface,
                            VkSurfaceFormatKHR format,
                            uv2 size,
-                           bool v_sync) {
+                           bool v_sync,
+                           bool triple_buffer) {
     if (!target.create(device,
                        surface,
                        format,
                        size,
-                       v_sync))
+                       v_sync,
+                       triple_buffer))
         return false;
 
     swapchain_callback.on_created = [&]() {
@@ -69,6 +71,7 @@ void render_target::destroy() {
 render_target::ptr create_target(window* window,
                                  device_p device,
                                  bool v_sync,
+                                 bool triple_buffer,
                                  surface_format_request request) {
     auto surface = window->create_surface();
     if (!surface)
@@ -97,7 +100,8 @@ render_target::ptr create_target(window* window,
                         surface,
                         surface_format,
                         { width, height },
-                        v_sync))
+                        v_sync,
+                        triple_buffer))
         return nullptr;
 
     auto target_ptr = target.get();
