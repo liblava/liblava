@@ -31,18 +31,20 @@ struct render_target : entity {
 
     /**
      * @brief Create a new render target
-     * @param device     Vulkan device
-     * @param surface    Vulkan surface
-     * @param format     Surface format
-     * @param size       Size of target
-     * @param v_sync     V-Sync enabled
+     * @param device        Vulkan device
+     * @param surface       Vulkan surface
+     * @param format        Surface format
+     * @param size          Size of target
+     * @param v_sync        V-Sync enabled
+     * @param triple_buffer VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR
      * @return Create was successful or failed
      */
     bool create(device_p device,
                 VkSurfaceKHR surface,
                 VkSurfaceFormatKHR format,
                 uv2 size,
-                bool v_sync = false);
+                bool v_sync = false,
+                bool triple_buffer = true);
 
     /**
      * @brief Destroy the render target
@@ -207,12 +209,14 @@ private:
  * @param window                 Target window
  * @param device                 Vulkan device
  * @param v_sync                 V-Sync enabled
+ * @param triple_buffer          VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR
  * @param request                Surface format request
  * @return render_target::ptr    Shared pointer to render target
  */
 render_target::ptr create_target(window* window,
                                  device_p device,
                                  bool v_sync = false,
+                                 bool triple_buffer = true,
                                  surface_format_request request = {});
 
 /**
@@ -224,10 +228,30 @@ render_target::ptr create_target(window* window,
  */
 inline render_target::ptr create_target_v_sync(window* window,
                                                device_p device,
+                                               bool triple_buffer,
                                                surface_format_request request = {}) {
     return create_target(window,
                          device,
                          true,
+                         triple_buffer,
+                         request);
+}
+
+/**
+ * @brief Create a new render target that prefers VK_PRESENT_MODE_IMMEDIATE_KHR over VK_PRESENT_MODE_MAILBOX_KHR
+ * @param window                 Target window
+ * @param device                 Vulkan device
+ * @param request                Surface format request
+ * @return render_target::ptr    Shared pointer to render target
+ */
+inline render_target::ptr create_target_no_triple_buffer(window* window,
+                                                         device_p device,
+                                                         bool v_sync,
+                                                         surface_format_request request = {}) {
+    return create_target(window,
+                         device,
+                         v_sync,
+                         false,
                          request);
 }
 

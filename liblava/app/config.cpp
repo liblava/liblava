@@ -78,6 +78,9 @@ void app_config::set_json(json_ref j) {
         if (j_app.count(_v_sync_))
             v_sync = j_app[_v_sync_];
 
+        if (j_app.count(_triple_buffer_))
+            triple_buffer = j_app[_triple_buffer_];
+
         if (j_app.count(_fps_cap_))
             fps_cap = j_app[_fps_cap_];
 
@@ -98,6 +101,7 @@ json app_config::get_json() const {
     j[_app_][_delta_] = context->run_time.fix_delta.count();
     j[_app_][_imgui_] = context->imgui.activated();
     j[_app_][_v_sync_] = v_sync;
+    j[_app_][_triple_buffer_] = triple_buffer;
     j[_app_][_fps_cap_] = fps_cap;
 
     j[_app_][_physical_device_] = physical_device;

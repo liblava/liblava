@@ -36,6 +36,9 @@ struct app_config : configurable {
     /// Activate V-Sync
     bool v_sync = false;
 
+    /// Prefer VK_PRESENT_MODE_MAILBOX_KHR over VK_PRESENT_MODE_IMMEDIATE_KHR
+    bool triple_buffer = true;
+
     /// Frames per second cap
     ui32 fps_cap = 0;
 

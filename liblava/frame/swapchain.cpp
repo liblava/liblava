@@ -17,12 +17,14 @@ bool swapchain::create(device_p d,
                        VkSurfaceKHR s,
                        VkSurfaceFormatKHR f,
                        uv2 sz,
-                       bool v) {
+                       bool v,
+                       bool t) {
     device = d;
     surface = s;
     format = f;
     size = sz;
     v_sync_active = v;
+    triple_buffer_active = t;
 
     return setup();
 }
@@ -75,16 +77,28 @@ VkPresentModeKHR swapchain::choose_present_mode(
     VkPresentModeKHRs const& present_modes) const {
     if (v_sync())
         return VK_PRESENT_MODE_FIFO_KHR;
+    
+    if (triple_buffer()) {
+        if (std::find(present_modes.begin(), present_modes.end(),
+                      VK_PRESENT_MODE_MAILBOX_KHR)
+            != present_modes.end())
+            return VK_PRESENT_MODE_MAILBOX_KHR;
 
-    if (std::find(present_modes.begin(), present_modes.end(),
-                  VK_PRESENT_MODE_MAILBOX_KHR)
-        != present_modes.end())
-        return VK_PRESENT_MODE_MAILBOX_KHR;
+        if (std::find(present_modes.begin(), present_modes.end(),
+                      VK_PRESENT_MODE_IMMEDIATE_KHR)
+            != present_modes.end())
+            return VK_PRESENT_MODE_IMMEDIATE_KHR;
+    } else {
+        if (std::find(present_modes.begin(), present_modes.end(),
+                      VK_PRESENT_MODE_IMMEDIATE_KHR)
+            != present_modes.end())
+            return VK_PRESENT_MODE_IMMEDIATE_KHR;
 
-    if (std::find(present_modes.begin(), present_modes.end(),
-                  VK_PRESENT_MODE_IMMEDIATE_KHR)
-        != present_modes.end())
-        return VK_PRESENT_MODE_IMMEDIATE_KHR;
+        if (std::find(present_modes.begin(), present_modes.end(),
+                      VK_PRESENT_MODE_MAILBOX_KHR)
+            != present_modes.end())
+            return VK_PRESENT_MODE_MAILBOX_KHR;
+    }
 
     return VK_PRESENT_MODE_FIFO_KHR;
 }

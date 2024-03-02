@@ -29,6 +29,7 @@ constexpr name _paused_ = "paused";
 constexpr name _physical_device_ = "physical device";
 constexpr name _speed_ = "speed";
 constexpr name _v_sync_ = "v-sync";
+constexpr name _triple_buffer_ = "triple buffering";
 constexpr name _fps_cap_ = "fps cap";
 
 constexpr name _window_ = "window";

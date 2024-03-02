@@ -17,18 +17,20 @@ namespace lava {
 struct swapchain : entity {
     /**
      * @brief Create a new swapchain
-     * @param device     Vulkan device
-     * @param surface    Vulkan surface
-     * @param format     Surface format
-     * @param size       Size of swapchain
-     * @param v_sync     V-Sync enabled
+     * @param device        Vulkan device
+     * @param surface       Vulkan surface
+     * @param format        Surface format
+     * @param size          Size of swapchain
+     * @param v_sync        V-Sync enabled
+     * @param triple_buffer VK_PRESENT_MODE_MAILBOX_KHR preffered over VK_PRESENT_MODE_IMMEDIATE_KHR
      * @return Create was successful or failed
      */
     bool create(device_p device,
                 VkSurfaceKHR surface,
                 VkSurfaceFormatKHR format,
                 uv2 size,
-                bool v_sync = false);
+                bool v_sync = false,
+                bool triple_buffer = true);
 
     /**
      * @brief Destroy the swapchain
@@ -154,6 +156,14 @@ struct swapchain : entity {
     }
 
     /**
+     * @brief Check if VK_PRESENT_MODE_MAILBOX_KHR is preferred over VK_PRESENT_MODE_IMMEDIATE_KHR
+     * @return VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR or not
+     */
+    bool triple_buffer() const {
+        return triple_buffer_active;
+    }
+
+    /**
      * @brief Check if surface is supported by queue family index
      * @param queue_family    Queue family index
      * @return Surface is supported by queue family or not
@@ -214,6 +224,9 @@ private:
 
     /// V-Sync active state
     bool v_sync_active = false;
+
+    /// Prefer VK_PRESENT_MODE_MAILBOX_KHR over VK_PRESENT_MODE_IMMEDIATE_KHR state
+    bool triple_buffer_active = true;
 
     /// List of swapchain callbacks
     callback::list callbacks;
