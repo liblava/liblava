@@ -228,12 +228,11 @@ render_target::ptr create_target(window* window,
  */
 inline render_target::ptr create_target_v_sync(window* window,
                                                device_p device,
-                                               bool triple_buffer,
                                                surface_format_request request = {}) {
     return create_target(window,
                          device,
                          true,
-                         triple_buffer,
+                         true,
                          request);
 }
 
@@ -246,11 +245,10 @@ inline render_target::ptr create_target_v_sync(window* window,
  */
 inline render_target::ptr create_target_no_triple_buffer(window* window,
                                                          device_p device,
-                                                         bool v_sync,
                                                          surface_format_request request = {}) {
     return create_target(window,
                          device,
-                         v_sync,
+                         false,
                          false,
                          request);
 }

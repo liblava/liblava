@@ -22,7 +22,7 @@ struct swapchain : entity {
      * @param format        Surface format
      * @param size          Size of swapchain
      * @param v_sync        V-Sync enabled
-     * @param triple_buffer VK_PRESENT_MODE_MAILBOX_KHR preffered over VK_PRESENT_MODE_IMMEDIATE_KHR
+     * @param triple_buffer VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR
      * @return Create was successful or failed
      */
     bool create(device_p device,
