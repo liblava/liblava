@@ -57,6 +57,14 @@ struct app : frame {
      */
     virtual bool setup();
 
+    /**
+     * @brief Headless mode:
+     * no window, no input, no camera, no renderer,
+     * no block, no target, no shading, no gamepad.
+     * Enable it before calling the setup method
+     */
+    bool headless = false;
+
     /// Main window
     window_t window;
 

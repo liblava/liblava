@@ -192,13 +192,19 @@ bool app::setup() {
     if (on_setup && !on_setup())
         return false;
 
-    if (!setup_window())
+    if (headless)
+        log()->trace("headless mode");
+
+    if (!headless && !setup_window())
         return false;
 
     if (!setup_device())
         return false;
 
-    if (!setup_render())
+    if (!create_pipeline_cache())
+        log()->warn("app pipeline cache not created");
+
+    if (!headless && !setup_render())
         return false;
 
     setup_run();
@@ -307,9 +313,6 @@ bool app::setup_device() {
 
 //-----------------------------------------------------------------------------
 bool app::setup_render() {
-    if (!create_pipeline_cache())
-        log()->warn("app pipeline cache not created");
-
     if (!create_target())
         return false;
 
@@ -330,31 +333,39 @@ bool app::setup_render() {
 
 //-----------------------------------------------------------------------------
 void app::setup_run() {
-    handle_input();
-    handle_window();
+    if (!headless) {
+        handle_input();
+        handle_window();
+    }
 
     update();
-    render();
+
+    if (!headless)
+        render();
 
     add_run_end([&]() {
-        config.update_window_state();
+        if (!headless)
+            config.update_window_state();
 
         if (!config_file.save())
             log()->error("save config file: {}", config_file.get());
 
         config_file.clear();
 
-        camera.destroy();
+        if (!headless) {
+            camera.destroy();
 
-        destroy_imgui();
+            destroy_imgui();
 
-        block.destroy();
+            block.destroy();
 
-        destroy_target();
+            destroy_target();
+        }
 
         destroy_pipeline_cache();
 
-        window.destroy();
+        if (!headless)
+            window.destroy();
 
         fs.terminate();
     });
@@ -665,6 +676,9 @@ void app::render() {
 
 //-----------------------------------------------------------------------------
 string app::screenshot() {
+    if (headless)
+        return {};
+
     auto backbuffer_image = target->get_backbuffer(renderer.get_frame());
     if (!backbuffer_image)
         return {};
@@ -704,10 +718,12 @@ bool app::switch_config(string_ref id) {
     if (!load_config(id))
         log()->debug("new config id (switch): {}", id);
 
-    window.set_state(config.window_state.value());
-    window.set_save_name(id);
+    if (!headless) {
+        window.set_state(config.window_state.value());
+        window.set_save_name(id);
 
-    window.update_title();
+        window.update_title();
+    }
 
     return true;
 }
@@ -716,6 +732,9 @@ bool app::switch_config(string_ref id) {
 void app::draw_about(bool separator,
                      bool fps,
                      bool spacing) const {
+    if (headless)
+        return;
+
     if (separator)
         ImGui::Separator();
 
