@@ -1012,7 +1012,7 @@ cmake --build . --config Release --target install --parallel
 First find the package in your `CMakeLists.txt`
 
 ```cmake
-find_package(lava 0.8.0 REQUIRED)
+find_package(lava 0.8.1 REQUIRED)
 
 ...
 

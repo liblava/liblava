@@ -20,7 +20,7 @@
 
 #define LAVA_VERSION_MAJOR 0
 #define LAVA_VERSION_MINOR 8
-#define LAVA_VERSION_PATCH 0
+#define LAVA_VERSION_PATCH 1
 
 #ifndef LAVA_ASSERT
     #include <cassert>

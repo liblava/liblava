@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.27)
 
-project(liblava VERSION 0.8.0 LANGUAGES C CXX)
+project(liblava VERSION 0.8.1 LANGUAGES C CXX)
 
 message(STATUS "========================================================================")
 message(STATUS " Copyright (c) 2018-present, Lava Block OÜ and contributors")
@@ -13,7 +13,7 @@ message(STATUS "  _|  _|  _|    _|      _|      _|    _|        _|  _|        _|
 message(STATUS "  _|  _|  _|_|_|        _|        _|_|_|          _|            _|_|_|  ")
 message(STATUS "                                                                        ")
 message(STATUS "========================================================================")
-message(STATUS " https://liblava.dev        2023 preview / 0.8.0           MIT licensed ")
+message(STATUS " https://liblava.dev        2024 preview / 0.8.1           MIT licensed ")
 
 option(LIBLAVA_TEST "Enable Test" TRUE)
 option(LIBLAVA_DEMO "Enable Demo" TRUE)
