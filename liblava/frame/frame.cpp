@@ -113,6 +113,8 @@ bool frame::setup() {
 
     handle_env(env);
 
+    log()->info("=== frame ===");
+
     glfwSetErrorCallback([](i32 error, name description) {
         log()->error("glfw: {} - {}", error, description);
     });
@@ -155,8 +157,6 @@ bool frame::setup() {
     }
 
     initialized = true;
-
-    log()->info("---");
 
     return true;
 }

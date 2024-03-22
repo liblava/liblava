@@ -15,17 +15,17 @@ namespace lava {
 void log_command_line(cmd_line cmd_line) {
     if (!cmd_line.pos_args().empty()) {
         for (auto const& pos_arg : cmd_line.pos_args())
-            log()->info("cmd: {}", pos_arg);
+            log()->debug("cmd: {}", pos_arg);
     }
 
     if (!cmd_line.flags().empty()) {
         for (auto const& flag : cmd_line.flags())
-            log()->info("cmd flag: {}", flag);
+            log()->debug("cmd flag: {}", flag);
     }
 
     if (!cmd_line.params().empty()) {
         for (auto const& [key, value] : cmd_line.params())
-            log()->info("cmd param: {} = {}", key, value);
+            log()->debug("cmd param: {} = {}", key, value);
     }
 }
 

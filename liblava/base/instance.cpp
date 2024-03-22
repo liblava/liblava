@@ -50,7 +50,7 @@ debug_messenger_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity
     if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT)
         log()->trace(log_msg);
     else if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
-        log()->info(log_msg);
+        log()->trace(log_msg);
     else if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
         log()->warn(log_msg);
     else if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {

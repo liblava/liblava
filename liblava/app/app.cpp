@@ -187,6 +187,8 @@ bool app::setup() {
 
     parse_cmd_line();
 
+    log()->info("=== app ===");
+
     if (on_setup && !on_setup())
         return false;
 
@@ -226,7 +228,7 @@ void app::mount_resource() {
     }
 
     for (auto const& res : res_list) {
-        log()->info("mount: {}", res);
+        log()->debug("mount: {}", res);
     }
 }
 
