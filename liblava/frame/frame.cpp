@@ -293,12 +293,12 @@ void handle_events(bool wait) {
 }
 
 //-----------------------------------------------------------------------------
-void handle_events(ms timeout) {
+void handle_events_timeout(ms timeout) {
     glfwWaitEventsTimeout(to_sec(timeout));
 }
 
 //-----------------------------------------------------------------------------
-void handle_events(seconds timeout) {
+void handle_events_timeout(seconds timeout) {
     glfwWaitEventsTimeout(to_r64(timeout.count()));
 }
 

@@ -313,16 +313,16 @@ private:
 void handle_events(bool wait = false);
 
 /**
- * @brief Handle events
+ * @brief Handle events with timeout
  * @param timeout    Wait timeout in milliseconds
  */
-void handle_events(ms timeout);
+void handle_events_timeout(ms timeout);
 
 /**
- * @brief Handle events
+ * @brief Handle events with timeout
  * @param timeout    Wait timeout in seconds
  */
-void handle_events(seconds timeout);
+void handle_events_timeout(seconds timeout);
 
 /**
  * @brief Post an empty event
