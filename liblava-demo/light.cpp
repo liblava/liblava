@@ -64,10 +64,10 @@ using attachment_array = std::array<gbuffer_attachment, gbuffer_attachment::coun
 
 /// G-Buffer attachments
 attachment_array g_attachments = {
-    gbuffer_attachment{ { VK_FORMAT_R8G8B8A8_UNORM }, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT },
-    gbuffer_attachment{ { VK_FORMAT_R16G16B16A16_SFLOAT }, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT },
-    gbuffer_attachment{ { VK_FORMAT_R16G16_SFLOAT }, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT },
-    gbuffer_attachment{ { VK_FORMAT_D32_SFLOAT, VK_FORMAT_D16_UNORM }, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT },
+    gbuffer_attachment{{VK_FORMAT_R8G8B8A8_UNORM}, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT},
+    gbuffer_attachment{{VK_FORMAT_R16G16B16A16_SFLOAT}, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT},
+    gbuffer_attachment{{VK_FORMAT_R16G16_SFLOAT}, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT},
+    gbuffer_attachment{{VK_FORMAT_D32_SFLOAT, VK_FORMAT_D16_UNORM}, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT},
 };
 
 /// Array of lights
@@ -75,10 +75,9 @@ using light_array = std::array<glsl::LightData, 3>;
 
 /// Lights
 light_array const g_lights = {
-    glsl::LightData{ { 2.f, 2.f, 2.5f }, 10.f, { 30.f, 10.f, 10.f } },
-    glsl::LightData{ { -2.f, -2.f, -0.5f }, 10.f, { 10.f, 30.f, 10.f } },
-    glsl::LightData{ { 0.f, 0.f, -1.5f }, 10.f, { 10.f, 10.f, 30.f } }
-};
+    glsl::LightData{{2.f, 2.f, 2.5f}, 10.f, {30.f, 10.f, 10.f}},
+    glsl::LightData{{-2.f, -2.f, -0.5f}, 10.f, {10.f, 30.f, 10.f}},
+    glsl::LightData{{0.f, 0.f, -1.5f}, 10.f, {10.f, 10.f, 30.f}}};
 
 /**
  * @brief Create a G-Buffer renderpass
@@ -152,8 +151,7 @@ int main(int argc, char* argv[]) {
         .sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO,
         .magFilter = VK_FILTER_NEAREST,
         .minFilter = VK_FILTER_NEAREST,
-        .mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST
-    };
+        .mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST};
     VkSampler sampler;
     if (!app.device->vkCreateSampler(&sampler_info, &sampler))
         return error::create_failed;
@@ -178,10 +176,10 @@ int main(int argc, char* argv[]) {
     app.on_create = [&]() {
         VkDescriptorPoolSizes const pool_sizes = {
             // one uniform buffer for each pass (G-Buffer + Lighting)
-            { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1 * 2 },
-            { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1 }, // light buffer
-            { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-              2 /* normal + roughness texture */ + g_attachments.size() },
+            {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1 * 2},
+            {VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1}, // light buffer
+            {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+             2 /* normal + roughness texture */ + g_attachments.size()},
         };
         constexpr ui32 max_sets = 2; // one for each pass
         if (!descriptor_pool.create(app.device, pool_sizes, max_sets))
@@ -210,11 +208,11 @@ int main(int argc, char* argv[]) {
         for (descriptor::binding::ptr const& binding : gbuffer_set_layout->get_bindings()) {
             VkDescriptorSetLayoutBinding const& info = binding->get();
 
-            gbuffer_write_sets.push_back({ .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
-                                           .dstSet = gbuffer_set,
-                                           .dstBinding = info.binding,
-                                           .descriptorCount = info.descriptorCount,
-                                           .descriptorType = info.descriptorType });
+            gbuffer_write_sets.push_back({.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+                                          .dstSet = gbuffer_set,
+                                          .dstBinding = info.binding,
+                                          .descriptorCount = info.descriptorCount,
+                                          .descriptorType = info.descriptorType});
         }
 
         gbuffer_write_sets[0].pBufferInfo = ubo_buffer.get_descriptor_info();
@@ -225,8 +223,8 @@ int main(int argc, char* argv[]) {
                                            gbuffer_write_sets.data());
 
         gbuffer_pipeline_layout->add(gbuffer_set_layout);
-        gbuffer_pipeline_layout->add_push_constant_range({ VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-                                                           0, sizeof(glsl::PushConstantData) });
+        gbuffer_pipeline_layout->add_push_constant_range({VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+                                                          0, sizeof(glsl::PushConstantData)});
 
         if (!gbuffer_pipeline_layout->create(app.device))
             return false;
@@ -235,8 +233,7 @@ int main(int argc, char* argv[]) {
             .colorWriteMask = VK_COLOR_COMPONENT_R_BIT
                               | VK_COLOR_COMPONENT_G_BIT
                               | VK_COLOR_COMPONENT_B_BIT
-                              | VK_COLOR_COMPONENT_A_BIT
-        };
+                              | VK_COLOR_COMPONENT_A_BIT};
 
         if (!gbuffer_pipeline->add_shader(app.producer.get_shader(_gbuffer_vertex_),
                                           VK_SHADER_STAGE_VERTEX_BIT))
@@ -253,13 +250,13 @@ int main(int argc, char* argv[]) {
         gbuffer_pipeline->set_depth_compare_op(VK_COMPARE_OP_LESS);
         gbuffer_pipeline->set_rasterization_cull_mode(VK_CULL_MODE_NONE);
 
-        gbuffer_pipeline->set_vertex_input_binding({ 0, sizeof(vertex),
-                                                     VK_VERTEX_INPUT_RATE_VERTEX });
+        gbuffer_pipeline->set_vertex_input_binding({0, sizeof(vertex),
+                                                    VK_VERTEX_INPUT_RATE_VERTEX});
 
         gbuffer_pipeline->set_vertex_input_attributes({
-            { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position)) },
-            { 1, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(vertex, uv)) },
-            { 2, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, normal)) },
+            {0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position))},
+            {1, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(vertex, uv))},
+            {2, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, normal))},
         });
 
         gbuffer_pipeline->set_layout(gbuffer_pipeline_layout);
@@ -276,8 +273,7 @@ int main(int argc, char* argv[]) {
                     .model = object_instances[i],
                     .color = v3(1.f),
                     .metallic = r32(i % 2),
-                    .enableNormalMapping = 1 - (i % 2)
-                };
+                    .enableNormalMapping = 1 - (i % 2)};
                 app.device->call().vkCmdPushConstants(cmd_buf,
                                                       gbuffer_pipeline_layout->get(),
                                                       VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
@@ -320,8 +316,7 @@ int main(int argc, char* argv[]) {
             .colorWriteMask = VK_COLOR_COMPONENT_R_BIT
                               | VK_COLOR_COMPONENT_G_BIT
                               | VK_COLOR_COMPONENT_B_BIT
-                              | VK_COLOR_COMPONENT_A_BIT
-        };
+                              | VK_COLOR_COMPONENT_A_BIT};
 
         if (!lighting_pipeline->add_shader(app.producer.get_shader(_lighting_vertex_),
                                            VK_SHADER_STAGE_VERTEX_BIT))
@@ -356,7 +351,7 @@ int main(int argc, char* argv[]) {
 
         // the resize callback creates the G-Buffer images and renderpass,
         // call it once manually
-        if (!resize_callback.on_created({}, { { 0, 0 }, app.target->get_size() }))
+        if (!resize_callback.on_created({}, {{0, 0}, app.target->get_size()}))
             return false;
 
         // renderpasses have been created at this point, actually create the pipelines
@@ -390,11 +385,11 @@ int main(int argc, char* argv[]) {
             axis[i % 3] = 1.f;
 
             mat4 model = mat4(1.f);
-            model = glm::translate(model, { x, 0.f, 0.f });
+            model = glm::translate(model, {x, 0.f, 0.f});
             model = glm::rotate(model,
                                 glm::radians(std::fmod(seconds * 45.f, 360.f)),
                                 axis);
-            model = glm::scale(model, { 0.5f, 0.5f, 0.5f });
+            model = glm::scale(model, {0.5f, 0.5f, 0.5f});
             object_instances[i] = model;
         }
 
@@ -405,13 +400,13 @@ int main(int argc, char* argv[]) {
 
     resize_callback.on_created = [&](VkAttachmentsRef, rect::ref area) {
         // update uniform buffer
-        g_ubo.camPos = { 0.f, 0.f, -1.25f };
+        g_ubo.camPos = {0.f, 0.f, -1.25f};
         g_ubo.lightCount = g_lights.size();
-        g_ubo.view = glm::lookAtLH(g_ubo.camPos, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+        g_ubo.view = glm::lookAtLH(g_ubo.camPos, {0.f, 0.f, 0.f}, {0.f, 1.f, 0.f});
         g_ubo.projection = perspective_matrix(area.get_size(), 90.f, 3.f);
         g_ubo.invProjection = glm::inverse(g_ubo.projection);
         g_ubo.resolution = area.get_size();
-        *(decltype(g_ubo)*) ubo_buffer.get_mapped_data() = g_ubo;
+        *(decltype(g_ubo)*)ubo_buffer.get_mapped_data() = g_ubo;
 
         // (re-)create G-Buffer attachments and collect views for framebuffer creation
         VkImageViews views;
@@ -428,11 +423,11 @@ int main(int argc, char* argv[]) {
             VkDescriptorSetLayoutBinding const& info = binding->get();
 
             lighting_write_sets.push_back(
-                { .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
-                  .dstSet = lighting_set,
-                  .dstBinding = info.binding,
-                  .descriptorCount = info.descriptorCount,
-                  .descriptorType = info.descriptorType });
+                {.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
+                 .dstSet = lighting_set,
+                 .dstBinding = info.binding,
+                 .descriptorCount = info.descriptorCount,
+                 .descriptorType = info.descriptorType});
         }
 
         std::array<VkDescriptorImageInfo, g_attachments.size()> lighting_images;
@@ -440,8 +435,7 @@ int main(int argc, char* argv[]) {
             lighting_images[i] = {
                 .sampler = sampler,
                 .imageView = g_attachments[i].image_handle->get_view(),
-                .imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
-            };
+                .imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL};
 
             lighting_write_sets[i].pImageInfo = &lighting_images[i];
         }
@@ -454,9 +448,9 @@ int main(int argc, char* argv[]) {
 
         // create framebuffer (and renderpass if necessary)
         if (gbuffer_renderpass->get() == VK_NULL_HANDLE)
-            return gbuffer_renderpass->create({ views }, area);
+            return gbuffer_renderpass->create({views}, area);
         else
-            return gbuffer_renderpass->get_target_callback().on_created({ views }, area);
+            return gbuffer_renderpass->get_target_callback().on_created({views}, area);
     };
 
     resize_callback.on_destroyed = [&]() {
@@ -472,8 +466,8 @@ int main(int argc, char* argv[]) {
     };
 
     app.imgui.layers.add("info", [&]() {
-        ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize({ 210, 110 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({30, 30}, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({210, 110}, ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
 
@@ -538,8 +532,8 @@ bool gbuffer_attachment::create(app const& app, ui32 index) {
 
 //-----------------------------------------------------------------------------
 render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments) {
-    VkClearValues clear_values(attachments.size(), { .color = { 0.f, 0.f, 0.f, 1.f } });
-    clear_values[gbuffer_attachment::depth] = { .depthStencil = { 1.f, 0 } };
+    VkClearValues clear_values(attachments.size(), {.color = {0.f, 0.f, 0.f, 1.f}});
+    clear_values[gbuffer_attachment::depth] = {.depthStencil = {1.f, 0}};
 
     render_pass::ptr pass = render_pass::make(app.device);
     pass->set_clear_values(clear_values);

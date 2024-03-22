@@ -250,16 +250,16 @@ private:
     r64 scroll_pos = 0.0;
 
     /// Up input keys
-    keys up_keys{ key::w };
+    keys up_keys{key::w};
 
     /// Down input keys
-    keys down_keys{ key::s };
+    keys down_keys{key::s};
 
     /// Left input keys
-    keys left_keys{ key::a };
+    keys left_keys{key::a};
 
     /// Right input keys
-    keys right_keys{ key::d };
+    keys right_keys{key::d};
 
     /// Vulkan buffer
     buffer::ptr data;

@@ -325,7 +325,7 @@ private:
     ui32 frame_counter = 0;
 
     /// Last render time
-    us last_render_time{ 0 };
+    us last_render_time{0};
 
     /// Configuration file callback
     json_file::callback config_callback;

@@ -20,7 +20,7 @@ namespace lava {
  * @param events            Events to handle
  * @param input_callback    Input callback
  */
-template<typename T>
+template <typename T>
 void _handle_events(input_events<T>& events,
                     input_callback::func<T> input_callback) {
     for (auto const& event : events) {

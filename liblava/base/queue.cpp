@@ -29,7 +29,7 @@ void set_all_queues(queue_family_info::list& list,
         for (auto queue_count = 0;
              queue_count < queue_family.queueCount;
              ++queue_count) {
-            queue_info info{ queue_family.queueFlags, 1.f };
+            queue_info info{queue_family.queueFlags, 1.f};
             family_info.queues.push_back(info);
         }
 
@@ -116,7 +116,7 @@ bool add_dedicated_queues(queue_family_info::list& list,
         queue_family_info family_info;
         family_info.family_index = family_index;
         for (auto queue_count = 0; queue_count < properties.at(family_index).queueCount; ++queue_count) {
-            queue_info info{ properties.at(family_index).queueFlags, priority };
+            queue_info info{properties.at(family_index).queueFlags, priority};
             family_info.queues.push_back(info);
         }
 

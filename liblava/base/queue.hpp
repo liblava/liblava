@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <deque>
 #include "liblava/base/base.hpp"
+#include <deque>
 
 namespace lava {
 
@@ -94,7 +94,7 @@ struct queue_family_info {
              ui32 count = 1,
              r32 priority = 1.f) {
         for (auto i = 0u; i < count; ++i) {
-            queue_info info{ flags, priority };
+            queue_info info{flags, priority};
             queues.push_back(info);
         }
     }

@@ -19,10 +19,10 @@ namespace lava {
  * @see https://khronos.org/registry/vulkan/specs/1.3-extensions/man/html/PFN_vkDebugUtilsMessengerCallbackEXT.html
  */
 VKAPI_ATTR VkBool32 VKAPI_CALL
-    debug_messenger_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
-                             VkDebugUtilsMessageTypeFlagsEXT message_type,
-                             const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
-                             void* user_data) {
+debug_messenger_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity,
+                         VkDebugUtilsMessageTypeFlagsEXT message_type,
+                         const VkDebugUtilsMessengerCallbackDataEXT* callback_data,
+                         void* user_data) {
     string type;
     if (message_type & VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT)
         type = "general";
@@ -272,8 +272,8 @@ sem_version get_instance_version() {
     ui32 instance_version = VK_API_VERSION_1_0;
 
     auto enumerate_instance_version =
-        (PFN_vkEnumerateInstanceVersion) vkGetInstanceProcAddr(nullptr,
-                                                               "vkEnumerateInstanceVersion");
+        (PFN_vkEnumerateInstanceVersion)vkGetInstanceProcAddr(nullptr,
+                                                              "vkEnumerateInstanceVersion");
     if (enumerate_instance_version)
         enumerate_instance_version(&instance_version);
 

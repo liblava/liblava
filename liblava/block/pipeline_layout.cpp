@@ -51,7 +51,7 @@ void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf,
                                           index first_set,
                                           offset_list offsets,
                                           VkPipelineBindPoint bind_point) {
-    std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
+    std::array<VkDescriptorSet, 1> const descriptor_sets = {descriptor_set};
 
     device->call().vkCmdBindDescriptorSets(cmd_buf,
                                            bind_point,

@@ -8,8 +8,8 @@
 #include "liblava/base/debug_utils.hpp"
 
 #if LAVA_DEBUG_UTILS
-    #include <optional>
     #include "liblava/base/instance.hpp"
+    #include <optional>
 
 namespace lava {
 

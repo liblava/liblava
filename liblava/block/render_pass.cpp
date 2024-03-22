@@ -90,7 +90,7 @@ void render_pass::begin(VkCommandBuffer cmd_buf,
         .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
         .renderPass = vk_render_pass,
         .framebuffer = framebuffers[frame],
-        .renderArea = { { origin.x, origin.y }, { size.x, size.y } },
+        .renderArea = {{origin.x, origin.y}, {size.x, size.y}},
         .clearValueCount = to_ui32(clear_values.size()),
         .pClearValues = clear_values.data(),
     };
@@ -137,7 +137,7 @@ void render_pass::set_clear_color(v3 value) {
     clear_values[0].color.float32[2] = value.b;
     clear_values[0].color.float32[3] = 1.f;
 
-    clear_values[1].depthStencil = { 1.f, 0 };
+    clear_values[1].depthStencil = {1.f, 0};
 }
 
 //-----------------------------------------------------------------------------

@@ -25,7 +25,7 @@ constexpr name _fmt_save_title_ = "{} [{}]";
  * @param handle    Window handle
  * @return int      Result
  */
-template<int attr>
+template <int attr>
 int attribute_set(GLFWwindow* handle) {
     return glfwGetWindowAttrib(handle, attr);
 }
@@ -36,7 +36,7 @@ int attribute_set(GLFWwindow* handle) {
  * @param handle    Window handle
  * @return Attribute is set or not
  */
-template<int attr>
+template <int attr>
 bool bool_attribute_set(GLFWwindow* handle) {
     return attribute_set<attr>(handle) == 1;
 }
@@ -236,10 +236,10 @@ void window::handle_mouse_message() {
 
                                    if (window->input)
                                        window->input->mouse_button.add(
-                                           { window->get_id(),
-                                             mouse_button(button),
-                                             action_t(action),
-                                             mod_t(mods) });
+                                           {window->get_id(),
+                                            mouse_button(button),
+                                            action_t(action),
+                                            mod_t(mods)});
                                });
 
     glfwSetCursorPosCallback(handle,
@@ -250,8 +250,8 @@ void window::handle_mouse_message() {
 
                                  if (window->input)
                                      window->input->mouse_move.add(
-                                         { window->get_id(),
-                                           { x_position, y_position } });
+                                         {window->get_id(),
+                                          {x_position, y_position}});
                              });
 
     glfwSetCursorEnterCallback(handle, [](GLFWwindow* handle, i32 entered) {
@@ -260,8 +260,8 @@ void window::handle_mouse_message() {
             return;
 
         if (window->input)
-            window->input->mouse_active.add({ window->get_id(),
-                                              entered > 0 });
+            window->input->mouse_active.add({window->get_id(),
+                                             entered > 0});
     });
 }
 
@@ -291,11 +291,11 @@ void window::handle_message() {
                                return;
 
                            window->input->key.add(
-                               { window->get_id(),
-                                 key_t(key),
-                                 action_t(action),
-                                 mod_t(mods),
-                                 scancode });
+                               {window->get_id(),
+                                key_t(key),
+                                action_t(action),
+                                mod_t(mods),
+                                scancode});
                        });
 
     glfwSetScrollCallback(handle,
@@ -306,7 +306,7 @@ void window::handle_message() {
 
                               if (window->input)
                                   window->input->scroll.add(
-                                      { window->get_id(), x_offset, y_offset });
+                                      {window->get_id(), x_offset, y_offset});
                           });
 
     handle_mouse_message();
@@ -319,8 +319,8 @@ void window::handle_message() {
 
                             if (window->input)
                                 window->input->path_drop.add(
-                                    { window->get_id(),
-                                      { paths, paths + amt } });
+                                    {window->get_id(),
+                                     {paths, paths + amt}});
                         });
 }
 
@@ -341,12 +341,12 @@ void window::set_size(ui32 w, ui32 h) {
 
 //-----------------------------------------------------------------------------
 void window::get_size(ui32& w, ui32& h) const {
-    glfwGetWindowSize(handle, (i32*) &w, (i32*) &h);
+    glfwGetWindowSize(handle, (i32*)&w, (i32*)&h);
 }
 
 //-----------------------------------------------------------------------------
 void window::get_framebuffer_size(ui32& w, ui32& h) const {
-    glfwGetFramebufferSize(handle, (i32*) &w, (i32*) &h);
+    glfwGetFramebufferSize(handle, (i32*)&w, (i32*)&h);
 }
 
 //-----------------------------------------------------------------------------
@@ -505,7 +505,7 @@ void window::set_icon(data_cptr data, uv2 size) {
     GLFWimage images[1];
     images[0].width = size.x;
     images[0].height = size.y;
-    images[0].pixels = (uc8*) data;
+    images[0].pixels = (uc8*)data;
 
     glfwSetWindowIcon(handle, 1, images);
 }

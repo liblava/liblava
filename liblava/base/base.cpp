@@ -102,9 +102,9 @@ string vk_version_to_string(VkVersion version) {
 
 //-----------------------------------------------------------------------------
 sem_version to_version(VkVersion version) {
-    return { VK_API_VERSION_MAJOR(version),
-             VK_API_VERSION_MINOR(version),
-             VK_API_VERSION_PATCH(version) };
+    return {VK_API_VERSION_MAJOR(version),
+            VK_API_VERSION_MINOR(version),
+            VK_API_VERSION_PATCH(version)};
 }
 
 //-----------------------------------------------------------------------------

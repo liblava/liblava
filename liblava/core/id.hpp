@@ -7,12 +7,12 @@
 
 #pragma once
 
+#include "liblava/core/types.hpp"
 #include <atomic>
 #include <deque>
 #include <memory>
 #include <mutex>
 #include <set>
-#include "liblava/core/types.hpp"
 
 namespace lava {
 
@@ -97,7 +97,7 @@ constexpr id const undef_id = id();
  * @return id      Converted value
  */
 inline id to_id(auto value) {
-    return { static_cast<index>(value) };
+    return {static_cast<index>(value)};
 }
 
 /**
@@ -118,12 +118,12 @@ struct ids {
      * @return id    Next id
      */
     id next() {
-        return { ++next_id };
+        return {++next_id};
     }
 
 private:
     /// Next id
-    std::atomic<index> next_id = { no_index };
+    std::atomic<index> next_id = {no_index};
 };
 
 /**
@@ -133,7 +133,7 @@ private:
  * @param map       Target map
  * @return id       Id of object in map
  */
-template<typename T>
+template <typename T>
 inline id add_id_map(T const& object,
                      std::map<id, T>& map) {
     auto next = ids::instance().next();
@@ -148,7 +148,7 @@ inline id add_id_map(T const& object,
  * @param map          Target map
  * @return Removed object from map or object not found
  */
-template<typename T>
+template <typename T>
 inline bool remove_id_map(id::ref object_id,
                           std::map<id, T>& map) {
     if (!map.count(object_id))
@@ -163,7 +163,7 @@ inline bool remove_id_map(id::ref object_id,
  * @brief Id listeners
  * @tparam T    Listener
  */
-template<typename T>
+template <typename T>
 struct id_listeners {
     /**
      * @brief Add listener to map
@@ -224,7 +224,7 @@ private:
  * @tparam T       Type of objects hold in registry
  * @tparam Meta    Meta type for object
  */
-template<typename T, typename Meta>
+template <typename T, typename Meta>
 struct id_registry {
     /// Shared pointer to id registry
     using ptr = std::shared_ptr<T>;

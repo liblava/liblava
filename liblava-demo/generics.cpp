@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
     float_triangle_data.vertices.at(1).color = v4(0.f, 1.f, 0.f, 1.f);
     float_triangle_data.vertices.at(2).color = v4(0.f, 0.f, 1.f, 1.f);
     float_triangle_data.scale(0.5f);
-    float_triangle_data.move({ 0.5f, 0, 0 });
+    float_triangle_data.move({0.5f, 0, 0});
     if (!float_triangle->reload())
         return error::create_failed;
 
@@ -177,11 +177,11 @@ int main(int argc, char* argv[]) {
 
         float_pipeline->add(shader_stage);
 
-        float_pipeline->set_vertex_input_binding({ 0, sizeof(vertex),
-                                                   VK_VERTEX_INPUT_RATE_VERTEX });
+        float_pipeline->set_vertex_input_binding({0, sizeof(vertex),
+                                                  VK_VERTEX_INPUT_RATE_VERTEX});
         float_pipeline->set_vertex_input_attributes({
-            { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position)) },
-            { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color)) },
+            {0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position))},
+            {1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color))},
         });
         float_pipeline->set_layout(layout);
         if (!float_pipeline->create(render_pass->get()))
@@ -195,12 +195,12 @@ int main(int argc, char* argv[]) {
 
             int_pipeline->add(shader_stage);
 
-            int_pipeline->set_vertex_input_binding({ 0,
-                                                     sizeof(int_vertex),
-                                                     VK_VERTEX_INPUT_RATE_VERTEX });
+            int_pipeline->set_vertex_input_binding({0,
+                                                    sizeof(int_vertex),
+                                                    VK_VERTEX_INPUT_RATE_VERTEX});
             int_pipeline->set_vertex_input_attributes({
-                { 0, 0, VK_FORMAT_R32G32B32_SINT, to_ui32(offsetof(int_vertex, position)) },
-                { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(int_vertex, color)) },
+                {0, 0, VK_FORMAT_R32G32B32_SINT, to_ui32(offsetof(int_vertex, position))},
+                {1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(int_vertex, color))},
             });
             int_pipeline->set_layout(layout);
             if (!int_pipeline->create(render_pass->get()))
@@ -215,14 +215,14 @@ int main(int argc, char* argv[]) {
 
             double_pipeline->add(shader_stage);
 
-            double_pipeline->set_vertex_input_binding({ 0,
-                                                        sizeof(double_vertex),
-                                                        VK_VERTEX_INPUT_RATE_VERTEX });
+            double_pipeline->set_vertex_input_binding({0,
+                                                       sizeof(double_vertex),
+                                                       VK_VERTEX_INPUT_RATE_VERTEX});
             double_pipeline->set_vertex_input_attributes({
-                { 0, 0, VK_FORMAT_R64G64B64_SFLOAT,
-                  to_ui32(offsetof(double_vertex, position)) },
-                { 2, 0, VK_FORMAT_R32G32B32A32_SFLOAT,
-                  to_ui32(offsetof(double_vertex, color)) },
+                {0, 0, VK_FORMAT_R64G64B64_SFLOAT,
+                 to_ui32(offsetof(double_vertex, position))},
+                {2, 0, VK_FORMAT_R32G32B32A32_SFLOAT,
+                 to_ui32(offsetof(double_vertex, color))},
             });
 
             double_pipeline->set_layout(layout);
@@ -254,8 +254,8 @@ int main(int argc, char* argv[]) {
     };
 
     app.imgui.layers.add("info", [&]() {
-        ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize({ 220, 200 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({30, 30}, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({220, 200}, ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
 

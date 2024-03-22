@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <fstream>
 #include "liblava/core/data.hpp"
+#include <fstream>
 
 // fwd
 struct PHYSFS_File;

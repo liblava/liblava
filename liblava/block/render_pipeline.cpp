@@ -99,7 +99,7 @@ render_pipeline::render_pipeline(device_p d,
     dynamic_state.dynamicStateCount = 0;
     dynamic_state.pDynamicStates = nullptr;
 
-    set_dynamic_states({ VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR });
+    set_dynamic_states({VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR});
 }
 
 //-----------------------------------------------------------------------------
@@ -287,7 +287,7 @@ bool render_pipeline::setup() {
         .basePipelineIndex = undef,
     };
 
-    std::array<VkGraphicsPipelineCreateInfo, 1> const vk_info = { vk_create_info };
+    std::array<VkGraphicsPipelineCreateInfo, 1> const vk_info = {vk_create_info};
 
     return check(device->call().vkCreateGraphicsPipelines(device->get(),
                                                           pipeline_cache,
@@ -321,8 +321,8 @@ void render_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf,
     viewportParam.maxDepth = 1.f;
 
     VkRect2D scissorParam;
-    scissorParam.offset = { 0, 0 };
-    scissorParam.extent = { size.x, size.y };
+    scissorParam.offset = {0, 0};
+    scissorParam.extent = {size.x, size.y};
 
     if (sizing == sizing_mode::absolute) {
         viewportParam = viewport;
@@ -342,13 +342,13 @@ void render_pipeline::set_viewport_and_scissor(VkCommandBuffer cmd_buf,
         scissor = scissorParam;
     }
 
-    std::array<VkViewport, 1> const viewports = { viewportParam };
+    std::array<VkViewport, 1> const viewports = {viewportParam};
     vkCmdSetViewport(cmd_buf,
                      0,
                      to_ui32(viewports.size()),
                      viewports.data());
 
-    std::array<VkRect2D, 1> const scissors = { scissorParam };
+    std::array<VkRect2D, 1> const scissors = {scissorParam};
     vkCmdSetScissor(cmd_buf,
                     0,
                     to_ui32(scissors.size()),

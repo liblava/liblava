@@ -18,16 +18,16 @@ namespace lava {
  * @param w    Window state
  */
 void to_json(json& j, window::state::ref w) {
-    j = json{ { _x_, w.x },
-              { _y_, w.y },
-              { _width_, w.width },
-              { _height_, w.height },
-              { _fullscreen_, w.fullscreen },
-              { _floating_, w.floating },
-              { _resizable_, w.resizable },
-              { _decorated_, w.decorated },
-              { _maximized_, w.maximized },
-              { _monitor_, w.monitor } };
+    j = json{{_x_, w.x},
+             {_y_, w.y},
+             {_width_, w.width},
+             {_height_, w.height},
+             {_fullscreen_, w.fullscreen},
+             {_floating_, w.floating},
+             {_resizable_, w.resizable},
+             {_decorated_, w.decorated},
+             {_maximized_, w.maximized},
+             {_monitor_, w.monitor}};
 }
 
 /**
@@ -123,7 +123,7 @@ void set_window_icon(window& window, string_ref icon_file) {
     if (icon.ready()) {
         window.set_icon(icon.get(), icon.get_dimensions());
     } else {
-        image_loader default_icon({ icon_png, icon_png_len });
+        image_loader default_icon({icon_png, icon_png_len});
         window.set_icon(default_icon.get(), default_icon.get_dimensions());
     }
 }

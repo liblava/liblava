@@ -6,8 +6,8 @@
  */
 
 #include "liblava/frame/renderer.hpp"
-#include <array>
 #include "liblava/core/misc.hpp"
+#include <array>
 
 namespace lava {
 
@@ -86,7 +86,7 @@ optional_index renderer::begin_frame() {
     if (!active)
         return std::nullopt;
 
-    std::array<VkFence, 1> const wait_fences = { fences[current_sync] };
+    std::array<VkFence, 1> const wait_fences = {fences[current_sync]};
 
     for (;;) {
         auto result = device->vkWaitForFences(to_ui32(wait_fences.size()),
@@ -155,24 +155,20 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
     LAVA_ASSERT(!cmd_buffers.empty());
 
     VkSemaphores wait_semaphores = {
-        image_acquired_semaphores[current_sync]
-    };
+        image_acquired_semaphores[current_sync]};
     if (!user_frame_wait_semaphores.empty())
         append(wait_semaphores, user_frame_wait_semaphores);
 
     VkPipelineStageFlagsList wait_stages = {
-        VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
-    };
+        VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
     if (!user_frame_wait_stages.empty())
         append(wait_stages, user_frame_wait_stages);
 
     std::array<VkSemaphore, 1> const sync_present_semaphores = {
-        render_complete_semaphores[current_sync]
-    };
+        render_complete_semaphores[current_sync]};
 
     VkSemaphores signal_semaphores = {
-        render_complete_semaphores[current_sync]
-    };
+        render_complete_semaphores[current_sync]};
     if (!user_frame_signal_semaphores.empty())
         append(signal_semaphores, user_frame_signal_semaphores);
 
@@ -189,7 +185,7 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
         .pSignalSemaphores = signal_semaphores.data(),
     };
 
-    std::array<VkSubmitInfo, 1> const submit_infos = { submit_info };
+    std::array<VkSubmitInfo, 1> const submit_infos = {submit_info};
     VkFence current_fence = fences[current_sync];
     if (!device->vkQueueSubmit(graphics_queue.vk_queue,
                                to_ui32(submit_infos.size()),
@@ -197,8 +193,8 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
                                current_fence))
         return false;
 
-    std::array<VkSwapchainKHR, 1> const swapchains = { target->get() };
-    std::array<ui32, 1> const indices = { current_frame };
+    std::array<VkSwapchainKHR, 1> const swapchains = {target->get()};
+    std::array<ui32, 1> const indices = {current_frame};
 
     VkPresentInfoKHR const present_info{
         .sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,

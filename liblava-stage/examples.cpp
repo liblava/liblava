@@ -50,9 +50,9 @@ LAVA_STAGE(7, "forward shading") {
         return error::create_failed;
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
-        render_pass->set_clear_color({ random(1.f),
-                                       random(1.f),
-                                       random(1.f) });
+        render_pass->set_clear_color({random(1.f),
+                                      random(1.f),
+                                      random(1.f)});
 
         render_pass->process(cmd_buf, block.get_current_frame());
     });

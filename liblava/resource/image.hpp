@@ -90,7 +90,7 @@ struct image : entity {
      * @return uv2    Image size
      */
     uv2 get_size() const {
-        return { info.extent.width, info.extent.height };
+        return {info.extent.width, info.extent.height};
     }
 
     /**

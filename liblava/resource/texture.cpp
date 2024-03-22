@@ -192,7 +192,7 @@ bool texture::stage(VkCommandBuffer cmd_buf) {
             .bufferImageHeight = size.y,
             .imageSubresource = subresource_layers,
             .imageOffset = {},
-            .imageExtent = { size.x, size.y, 1 },
+            .imageExtent = {size.x, size.y, 1},
         };
 
         regions.push_back(region);

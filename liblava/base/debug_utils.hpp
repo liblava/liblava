@@ -147,7 +147,7 @@ inline void set_object_tag(VkDevice device,
  * @brief Scoped debug util label
  * @tparam T    VkCommandBuffer or VkQueue
  */
-template<typename T>
+template <typename T>
 struct scoped_label {
     /**
      * @brief Construct a new scoped label

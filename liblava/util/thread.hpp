@@ -7,12 +7,12 @@
 
 #pragma once
 
+#include "liblava/core/id.hpp"
+#include "liblava/core/time.hpp"
 #include <condition_variable>
 #include <deque>
 #include <mutex>
 #include <thread>
-#include "liblava/core/id.hpp"
-#include "liblava/core/time.hpp"
 
 namespace lava {
 

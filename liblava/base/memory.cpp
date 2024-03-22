@@ -33,7 +33,7 @@
     #pragma GCC diagnostic pop
 #endif
 
-#define LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA (void*) (intptr_t) 20180208
+#define LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA (void*)(intptr_t)20180208
 
 namespace lava {
 
@@ -98,7 +98,7 @@ memory::memory() {
 
 //-----------------------------------------------------------------------------
 bool allocator::create(device_cptr device, VmaAllocatorCreateFlags flags) {
-    VmaVulkanFunctions const vulkan_function {
+    VmaVulkanFunctions const vulkan_function{
         .vkGetInstanceProcAddr = vkGetInstanceProcAddr,
         .vkGetDeviceProcAddr = vkGetDeviceProcAddr,
         .vkGetPhysicalDeviceProperties = vkGetPhysicalDeviceProperties,
@@ -164,7 +164,7 @@ index find_memory_type_with_properties(VkPhysicalDeviceMemoryProperties properti
     for (auto i = 0u; i < len; ++i) {
         if ((bits & 1) == 1)
             if ((properties.memoryTypes[i].propertyFlags & required_properties) == required_properties)
-                return (int) i;
+                return (int)i;
 
         bits >>= 1;
     }

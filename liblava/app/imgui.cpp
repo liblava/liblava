@@ -104,7 +104,7 @@ void imgui::update_mouse_pos_and_buttons() {
     if (glfwGetWindowAttrib(window, GLFW_FOCUSED)) {
         if (io.WantSetMousePos) {
             glfwSetCursorPos(window,
-                             (double) mouse_pos_backup.x, (double) mouse_pos_backup.y);
+                             (double)mouse_pos_backup.x, (double)mouse_pos_backup.y);
         } else {
             double mouse_x, mouse_y;
             glfwGetCursorPos(window, &mouse_x, &mouse_y);
@@ -116,7 +116,7 @@ void imgui::update_mouse_pos_and_buttons() {
             mouse_y *= scale_y;
 #endif
 
-            io.MousePos = ImVec2((r32) mouse_x, (r32) mouse_y);
+            io.MousePos = ImVec2((r32)mouse_x, (r32)mouse_y);
         }
     }
 }
@@ -203,8 +203,8 @@ void imgui::setup(GLFWwindow* w, config config) {
     }
 
     if (config.icon.font_data.ptr) {
-        icons_range = { config.icon.range_begin,
-                        config.icon.range_end, 0 };
+        icons_range = {config.icon.range_begin,
+                       config.icon.range_end, 0};
 
         ImFontConfig icon_config;
         icon_config.MergeMode = true;
@@ -223,7 +223,7 @@ void imgui::setup(GLFWwindow* w, config config) {
     io.GetClipboardTextFn = get_clipboard_text;
     io.ClipboardUserData = window;
 #if defined(_WIN32)
-    ImGui::GetMainViewport()->PlatformHandleRaw = (void*) glfwGetWin32Window(window);
+    ImGui::GetMainViewport()->PlatformHandleRaw = (void*)glfwGetWin32Window(window);
 #endif // _WIN32
 
     mouse_cursors.resize(ImGuiMouseCursor_COUNT);
@@ -304,17 +304,17 @@ void imgui::new_frame() {
 
     glfwGetWindowSize(window, &w, &h);
     glfwGetFramebufferSize(window, &display_w, &display_h);
-    io.DisplaySize = ImVec2((r32) w, (r32) h);
+    io.DisplaySize = ImVec2((r32)w, (r32)h);
     io.DisplayFramebufferScale = ImVec2(w > 0
-                                            ? ((r32) display_w / w)
+                                            ? ((r32)display_w / w)
                                             : 0,
                                         h > 0
-                                            ? ((r32) display_h / h)
+                                            ? ((r32)display_h / h)
                                             : 0);
 
     auto now = glfwGetTime();
     io.DeltaTime = current_time > 0.0
-                       ? (r32) (now - current_time)
+                       ? (r32)(now - current_time)
                        : (1.f / 60.f);
     current_time = now;
 
@@ -327,18 +327,18 @@ void imgui::new_frame() {
         auto const* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &axes_count);
         auto const* buttons = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &buttons_count);
 
-        MAP_BUTTON(ImGuiNavInput_Activate, 0); // Cross / A
-        MAP_BUTTON(ImGuiNavInput_Cancel, 1); // Circle / B
-        MAP_BUTTON(ImGuiNavInput_Menu, 2); // Square / X
-        MAP_BUTTON(ImGuiNavInput_Input, 3); // Triangle / Y
-        MAP_BUTTON(ImGuiNavInput_DpadLeft, 13); // D-Pad Left
+        MAP_BUTTON(ImGuiNavInput_Activate, 0);   // Cross / A
+        MAP_BUTTON(ImGuiNavInput_Cancel, 1);     // Circle / B
+        MAP_BUTTON(ImGuiNavInput_Menu, 2);       // Square / X
+        MAP_BUTTON(ImGuiNavInput_Input, 3);      // Triangle / Y
+        MAP_BUTTON(ImGuiNavInput_DpadLeft, 13);  // D-Pad Left
         MAP_BUTTON(ImGuiNavInput_DpadRight, 11); // D-Pad Right
-        MAP_BUTTON(ImGuiNavInput_DpadUp, 10); // D-Pad Up
-        MAP_BUTTON(ImGuiNavInput_DpadDown, 12); // D-Pad Down
-        MAP_BUTTON(ImGuiNavInput_FocusPrev, 4); // L1 / LB
-        MAP_BUTTON(ImGuiNavInput_FocusNext, 5); // R1 / RB
-        MAP_BUTTON(ImGuiNavInput_TweakSlow, 4); // L1 / LB
-        MAP_BUTTON(ImGuiNavInput_TweakFast, 5); // R1 / RB
+        MAP_BUTTON(ImGuiNavInput_DpadUp, 10);    // D-Pad Up
+        MAP_BUTTON(ImGuiNavInput_DpadDown, 12);  // D-Pad Down
+        MAP_BUTTON(ImGuiNavInput_FocusPrev, 4);  // L1 / LB
+        MAP_BUTTON(ImGuiNavInput_FocusNext, 5);  // R1 / RB
+        MAP_BUTTON(ImGuiNavInput_TweakSlow, 4);  // L1 / LB
+        MAP_BUTTON(ImGuiNavInput_TweakFast, 5);  // R1 / RB
         MAP_ANALOG(ImGuiNavInput_LStickLeft, 0, -0.3f, -0.9f);
         MAP_ANALOG(ImGuiNavInput_LStickRight, 0, +0.3f, +0.9f);
         MAP_ANALOG(ImGuiNavInput_LStickUp, 1, +0.3f, +0.9f);
@@ -368,18 +368,18 @@ bool imgui::create(render_pipeline::ptr p, index mf) {
         index_buffers.push_back(buffer::make());
     }
 
-    pipeline->set_vertex_input_binding({ 0, sizeof(ImDrawVert), VK_VERTEX_INPUT_RATE_VERTEX });
+    pipeline->set_vertex_input_binding({0, sizeof(ImDrawVert), VK_VERTEX_INPUT_RATE_VERTEX});
     pipeline->set_vertex_input_attributes({
-        { 0, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(ImDrawVert, pos)) },
-        { 1, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(ImDrawVert, uv)) },
-        { 2, 0, VK_FORMAT_R8G8B8A8_UNORM, to_ui32(offsetof(ImDrawVert, col)) },
+        {0, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(ImDrawVert, pos))},
+        {1, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(ImDrawVert, uv))},
+        {2, 0, VK_FORMAT_R8G8B8A8_UNORM, to_ui32(offsetof(ImDrawVert, col))},
     });
 
-    if (!pipeline->add_shader({ imgui_vert_shader, sizeof(imgui_vert_shader) },
+    if (!pipeline->add_shader({imgui_vert_shader, sizeof(imgui_vert_shader)},
                               VK_SHADER_STAGE_VERTEX_BIT))
         return false;
 
-    if (!pipeline->add_shader({ imgui_frag_shader, sizeof(imgui_frag_shader) },
+    if (!pipeline->add_shader({imgui_frag_shader, sizeof(imgui_frag_shader)},
                               VK_SHADER_STAGE_FRAGMENT_BIT))
         return false;
 
@@ -394,12 +394,12 @@ bool imgui::create(render_pipeline::ptr p, index mf) {
 
     descriptor_pool = descriptor::pool::make();
     if (!descriptor_pool->create(device,
-                                 { { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1 } }))
+                                 {{VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1}}))
         return false;
 
     layout = pipeline_layout::make();
     layout->add(descriptor);
-    layout->add({ VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(r32) * 4 });
+    layout->add({VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(r32) * 4});
 
     if (!layout->create(device))
         return false;
@@ -420,7 +420,7 @@ bool imgui::create(render_pipeline::ptr p, index mf) {
 
         scoped_label label(cmd_buf,
                            _lava_gui_,
-                           { 0.9f, 0.75f, 0.f, 1.f });
+                           {0.9f, 0.75f, 0.f, 1.f});
 
         render(cmd_buf);
     };
@@ -535,8 +535,8 @@ void imgui::prepare_draw_lists(ImDrawData* draw_data) {
             return;
     }
 
-    auto vtx_dst = (ImDrawVert*) vertex_buffers[frame]->get_mapped_data();
-    auto idx_dst = (ImDrawIdx*) index_buffers[frame]->get_mapped_data();
+    auto vtx_dst = (ImDrawVert*)vertex_buffers[frame]->get_mapped_data();
+    auto idx_dst = (ImDrawIdx*)index_buffers[frame]->get_mapped_data();
 
     for (auto i = 0; i < draw_data->CmdListsCount; ++i) {
         auto const* cmd_list = draw_data->CmdLists[i];
@@ -564,7 +564,7 @@ void imgui::prepare_draw_lists(ImDrawData* draw_data) {
         .size = VK_WHOLE_SIZE,
     };
 
-    std::array<VkMappedMemoryRange, 2> const ranges = { vertex_range, index_range };
+    std::array<VkMappedMemoryRange, 2> const ranges = {vertex_range, index_range};
     check(device->call().vkFlushMappedMemoryRanges(device->get(),
                                                    to_ui32(ranges.size()),
                                                    ranges.data()));
@@ -580,8 +580,8 @@ void imgui::render_draw_lists(VkCommandBuffer cmd_buf) {
 
     layout->bind(cmd_buf, descriptor_set);
 
-    std::array<VkDeviceSize, 1> const vertex_offset = { 0 };
-    std::array<VkBuffer, 1> const buffers = { vertex_buffers[frame]->get() };
+    std::array<VkDeviceSize, 1> const vertex_offset = {0};
+    std::array<VkBuffer, 1> const buffers = {vertex_buffers[frame]->get()};
     device->call().vkCmdBindVertexBuffers(cmd_buf,
                                           0,
                                           to_ui32(buffers.size()),
@@ -601,7 +601,7 @@ void imgui::render_draw_lists(VkCommandBuffer cmd_buf) {
     viewport.minDepth = 0.f;
     viewport.maxDepth = 1.f;
 
-    std::array<VkViewport, 1> const viewports = { viewport };
+    std::array<VkViewport, 1> const viewports = {viewport};
     device->call().vkCmdSetViewport(cmd_buf,
                                     0,
                                     to_ui32(viewports.size()),
@@ -640,17 +640,16 @@ void imgui::render_draw_lists(VkCommandBuffer cmd_buf) {
             } else {
                 VkRect2D scissor;
                 scissor.offset = {
-                    (i32) (cmd->ClipRect.x) > 0
-                        ? (i32) (cmd->ClipRect.x)
+                    (i32)(cmd->ClipRect.x) > 0
+                        ? (i32)(cmd->ClipRect.x)
                         : 0,
-                    (i32) (cmd->ClipRect.y) > 0
-                        ? (i32) (cmd->ClipRect.y)
-                        : 0
-                };
-                scissor.extent = { (ui32) (cmd->ClipRect.z - cmd->ClipRect.x),
-                                   (ui32) (cmd->ClipRect.w - cmd->ClipRect.y + 1) };
+                    (i32)(cmd->ClipRect.y) > 0
+                        ? (i32)(cmd->ClipRect.y)
+                        : 0};
+                scissor.extent = {(ui32)(cmd->ClipRect.z - cmd->ClipRect.x),
+                                  (ui32)(cmd->ClipRect.w - cmd->ClipRect.y + 1)};
 
-                std::array<VkRect2D, 1> const scissors = { scissor };
+                std::array<VkRect2D, 1> const scissors = {scissor};
                 device->call().vkCmdSetScissor(cmd_buf,
                                                0,
                                                to_ui32(scissors.size()),
@@ -680,7 +679,7 @@ bool imgui::upload_fonts(texture::ptr texture) {
     ImGui::GetIO().Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
     auto const font_format = VK_FORMAT_R8G8B8A8_UNORM;
-    if (!texture->create(device, { width, height }, font_format))
+    if (!texture->create(device, {width, height}, font_format))
         return false;
 
     auto const upload_size = width * height * format_block_size(font_format);
@@ -696,7 +695,7 @@ bool imgui::upload_fonts(texture::ptr texture) {
         .pImageInfo = texture->get_descriptor_info(),
     };
 
-    device->vkUpdateDescriptorSets({ write_desc });
+    device->vkUpdateDescriptorSets({write_desc});
 
     return true;
 }
@@ -741,7 +740,7 @@ void setup_imgui_font_icons(imgui::font& font, string filename, ui16 min, ui16 m
 //-----------------------------------------------------------------------------
 void imgui_left_spacing(ui32 top) {
     for (auto i = 0u; i < top; ++i)
-        ImGui::Dummy({ 0.f, 2.f });
+        ImGui::Dummy({0.f, 2.f});
     ImGui::SameLine(0.f, 5.f);
 }
 

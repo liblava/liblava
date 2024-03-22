@@ -12,7 +12,7 @@ using namespace lava;
 
 //-----------------------------------------------------------------------------
 int main(int argc, char* argv[]) {
-    engine app("template", { argc, argv });
+    engine app("template", {argc, argv});
     if (!app.setup())
         return error::not_ready;
 

@@ -22,10 +22,10 @@ enum class key : i32 {
 
     space = 32,
     apostrophe = 29, /* ' */
-    comma = 44, /* , */
-    minus = 45, /* - */
-    period = 46, /* . */
-    slash = 47, /* / */
+    comma = 44,      /* , */
+    minus = 45,      /* - */
+    period = 46,     /* . */
+    slash = 47,      /* / */
 
     _0 = 48,
     _1,
@@ -39,7 +39,7 @@ enum class key : i32 {
     _9,
 
     semicolon = 59, /* ; */
-    equal = 61, /* = */
+    equal = 61,     /* = */
 
     a = 65,
     b,
@@ -68,10 +68,10 @@ enum class key : i32 {
     y,
     z,
 
-    left_bracket = 91, /* [ */
-    backslash = 92, /* \ */
+    left_bracket = 91,  /* [ */
+    backslash = 92,     /* \ */
     right_bracket = 93, /* ] */
-    grave_accent = 96, /* ` */
+    grave_accent = 96,  /* ` */
 
     world_1 = 161, /* non-US #1 */
     world_2 = 162, /* non-US #2 */
@@ -521,7 +521,7 @@ struct input_callback {
      * @brief Input callback functions
      * @tparam T    Type of callback
      */
-    template<typename T>
+    template <typename T>
     using func = std::function<bool(typename T::ref)>;
 
     /// Called on key event
@@ -547,7 +547,7 @@ struct input_callback {
  * @brief List of input events
  * @tparam T    Type of event
  */
-template<typename T>
+template <typename T>
 struct input_events : T::list {
     /**
      * @brief Add event to list

@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <optional>
 #include "liblava/base/device.hpp"
+#include <optional>
 
 namespace lava {
 

@@ -63,17 +63,17 @@ void frame_env::set_default() {
 void handle_env(frame_env& env) {
     auto cmd_line = env.cmd_line;
 
-    if (cmd_line[{ "-d", "--debug" }])
+    if (cmd_line[{"-d", "--debug"}])
         env.debug.validation = true;
 
-    if (cmd_line[{ "-r", "--renderdoc" }])
+    if (cmd_line[{"-r", "--renderdoc"}])
         env.debug.render_doc = true;
 
-    if (cmd_line[{ "-u", "--utils" }])
+    if (cmd_line[{"-u", "--utils"}])
         env.debug.utils = true;
 
     if (auto log_level = undef;
-        cmd_line({ "-l", "--log" }) >> log_level) {
+        cmd_line({"-l", "--log"}) >> log_level) {
         env.log.level = log_level;
 
         if (log_level == SPDLOG_LEVEL_TRACE)
@@ -99,7 +99,7 @@ void handle_env(frame_env& env) {
 
     if (env.log.level >= 0)
         log()->info("log level: {}", spdlog::level::to_string_view(
-                                         (spdlog::level::level_enum) env.log.level));
+                                         (spdlog::level::level_enum)env.log.level));
 }
 
 //-----------------------------------------------------------------------------

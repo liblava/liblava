@@ -34,7 +34,7 @@ inline texture::ptr load_texture(device_p device,
                                  string_ref filename,
                                  VkFormat format = VK_FORMAT_R8G8B8A8_SRGB,
                                  texture_type type = texture_type::tex_2d) {
-    return load_texture(device, { filename, format }, type);
+    return load_texture(device, {filename, format}, type);
 }
 
 /**
@@ -46,7 +46,7 @@ inline texture::ptr load_texture(device_p device,
  * @return texture::ptr    Loaded texture
  */
 texture::ptr create_default_texture(device_p device,
-                                    uv2 size = { 512, 512 },
+                                    uv2 size = {512, 512},
                                     v3 color = v3(1.f),
                                     r32 alpha = 0.7529f);
 

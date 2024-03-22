@@ -98,7 +98,7 @@ bool forward_shading::create(render_target::ptr t) {
         depth_stencil->destroy();
     };
 
-    if (!pass->create(target->on_create_attachments(), { {}, target->get_size() }))
+    if (!pass->create(target->on_create_attachments(), {{}, target->get_size()}))
         return false;
 
     target->add_callback(&pass->get_target_callback());

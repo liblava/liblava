@@ -11,10 +11,9 @@
 //-----------------------------------------------------------------------------
 TEST_CASE("queue setup - GeForce GTX 1060", "[queue]") {
     VkQueueFamilyPropertiesList properties{
-        { VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 16 },
-        { VK_QUEUE_TRANSFER_BIT, 2 },
-        { VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 8 }
-    };
+        {VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 16},
+        {VK_QUEUE_TRANSFER_BIT, 2},
+        {VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 8}};
 
     queue_family_info::list list;
 
@@ -57,10 +56,9 @@ TEST_CASE("queue setup - GeForce GTX 1060", "[queue]") {
 //-----------------------------------------------------------------------------
 TEST_CASE("queue setup - Radeon RX 580 Series", "[queue]") {
     VkQueueFamilyPropertiesList properties{
-        { VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 1 },
-        { VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 2 },
-        { VK_QUEUE_TRANSFER_BIT, 2 }
-    };
+        {VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 1},
+        {VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 2},
+        {VK_QUEUE_TRANSFER_BIT, 2}};
 
     queue_family_info::list list;
 
@@ -96,8 +94,7 @@ TEST_CASE("queue setup - Radeon RX 580 Series", "[queue]") {
 //-----------------------------------------------------------------------------
 TEST_CASE("queue setup - Intel(R) HD Graphics 620", "[queue]") {
     VkQueueFamilyPropertiesList properties{
-        { VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 1 }
-    };
+        {VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT, 1}};
 
     queue_family_info::list list;
 

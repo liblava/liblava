@@ -32,7 +32,7 @@ bool gamepad::ready() const {
 
 //-----------------------------------------------------------------------------
 bool gamepad::update() {
-    return glfwGetGamepadState(to_i32(pad_id), (GLFWgamepadstate*) &state)
+    return glfwGetGamepadState(to_i32(pad_id), (GLFWgamepadstate*)&state)
            == GLFW_TRUE;
 }
 

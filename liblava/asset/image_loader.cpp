@@ -28,7 +28,7 @@ image_loader::image_loader(string_ref filename) {
     i32 tex_width, tex_height, tex_channels = 0;
 
     if (image_file.opened())
-        data = as_ptr(stbi_load_from_memory((stbi_uc const*) data_guard.ptr,
+        data = as_ptr(stbi_load_from_memory((stbi_uc const*)data_guard.ptr,
                                             to_i32(data_guard.size),
                                             &tex_width, &tex_height,
                                             &tex_channels, STBI_rgb_alpha));
@@ -40,7 +40,7 @@ image_loader::image_loader(string_ref filename) {
     if (!data)
         return;
 
-    dimensions = { tex_width, tex_height };
+    dimensions = {tex_width, tex_height};
     channels = tex_channels;
 }
 
@@ -48,7 +48,7 @@ image_loader::image_loader(string_ref filename) {
 image_loader::image_loader(cdata::ref image) {
     i32 tex_width, tex_height, tex_channels = 0;
 
-    data = as_ptr(stbi_load_from_memory((stbi_uc const*) image.ptr,
+    data = as_ptr(stbi_load_from_memory((stbi_uc const*)image.ptr,
                                         to_i32(image.size),
                                         &tex_width, &tex_height,
                                         &tex_channels, STBI_rgb_alpha));
@@ -56,7 +56,7 @@ image_loader::image_loader(cdata::ref image) {
     if (!data)
         return;
 
-    dimensions = { tex_width, tex_height };
+    dimensions = {tex_width, tex_height};
     channels = tex_channels;
 }
 

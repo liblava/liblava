@@ -19,7 +19,7 @@ namespace lava {
  * @brief Templated mesh data
  * @tparam T    Input vertex struct
  */
-template<typename T = vertex>
+template <typename T = vertex>
 struct mesh_template_data {
     /// List of vertices
     std::vector<T> vertices;
@@ -33,7 +33,7 @@ public:
      * @tparam PosType    Coordinate element typename
      * @param offset      Position offset
      */
-    template<typename PosType = r32>
+    template <typename PosType = r32>
     void move(std::array<PosType, 3> offset) {
         for (T& vertex : vertices) {
             for (auto i = 0u; i < 3; ++i) {
@@ -59,7 +59,7 @@ public:
      * @tparam PosType    Coordinate element typename
      * @param factors     Array of position scaling factors
      */
-    template<typename PosType = r32>
+    template <typename PosType = r32>
     void scale_vector(std::array<PosType, 3> factors) {
         for (T& vertex : vertices) {
             for (auto i = 0u; i < 3; ++i) {
@@ -73,7 +73,7 @@ public:
  * @brief Temporary templated mesh
  * @tparam T    Vertex struct typename
  */
-template<typename T = vertex>
+template <typename T = vertex>
 struct mesh_template : entity {
     /// Shared pointer to mesh
     using ptr = std::shared_ptr<mesh_template<T>>;
@@ -262,11 +262,11 @@ private:
 };
 
 //-----------------------------------------------------------------------------
-template<typename T>
+template <typename T>
 void mesh_template<T>::bind(VkCommandBuffer cmd_buf) const {
     if (vertex_buffer && vertex_buffer->valid()) {
-        std::array<VkDeviceSize, 1> const buffer_offsets = { 0 };
-        std::array<VkBuffer, 1> const buffers = { vertex_buffer->get() };
+        std::array<VkDeviceSize, 1> const buffer_offsets = {0};
+        std::array<VkBuffer, 1> const buffers = {vertex_buffer->get()};
 
         vkCmdBindVertexBuffers(cmd_buf, 0,
                                to_ui32(buffers.size()), buffers.data(),
@@ -281,7 +281,7 @@ void mesh_template<T>::bind(VkCommandBuffer cmd_buf) const {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T>
+template <typename T>
 void mesh_template<T>::draw(VkCommandBuffer cmd_buf) const {
     if (!data.indices.empty())
         vkCmdDrawIndexed(cmd_buf,
@@ -294,7 +294,7 @@ void mesh_template<T>::draw(VkCommandBuffer cmd_buf) const {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T>
+template <typename T>
 void mesh_template<T>::destroy() {
     vertex_buffer = nullptr;
     index_buffer = nullptr;
@@ -302,7 +302,7 @@ void mesh_template<T>::destroy() {
 }
 
 //-----------------------------------------------------------------------------
-template<typename T>
+template <typename T>
 bool mesh_template<T>::reload() {
     auto dev = device;
     destroy();
@@ -322,13 +322,13 @@ bool mesh_template<T>::reload() {
  * @param type                      Mesh type
  * @return mesh_template_data<T>    Mesh data
  */
-template<typename T = vertex,
-         bool generate_colors = true,
-         bool generate_normals = true,
-         bool generate_uvs = true,
-         bool has_colors = true,
-         bool has_normals = true,
-         bool has_uvs = true>
+template <typename T = vertex,
+          bool generate_colors = true,
+          bool generate_normals = true,
+          bool generate_uvs = true,
+          bool has_colors = true,
+          bool has_normals = true,
+          bool has_uvs = true>
 mesh_template_data<T> create_mesh_data(mesh_type type);
 
 /**
@@ -344,18 +344,18 @@ mesh_template_data<T> create_mesh_data(mesh_type type);
  * @param type                                  Mesh type
  * @return std::shared_ptr<mesh_template<T>>    Shared pointer to mesh
  */
-template<typename T = vertex,
-         bool generate_colors = true,
-         bool generate_normals = true,
-         bool generate_uvs = true,
-         bool has_colors = true,
-         bool has_normals = true,
-         bool has_uvs = true>
+template <typename T = vertex,
+          bool generate_colors = true,
+          bool generate_normals = true,
+          bool generate_uvs = true,
+          bool has_colors = true,
+          bool has_normals = true,
+          bool has_uvs = true>
 std::shared_ptr<mesh_template<T>> create_mesh(device_p& device,
                                               mesh_type type);
 
 //-----------------------------------------------------------------------------
-template<typename T>
+template <typename T>
 bool mesh_template<T>::create(device_p d,
                               bool m,
                               VmaMemoryUsage mu) {
@@ -401,7 +401,7 @@ bool mesh_template<T>::create(device_p d,
  * @tparam is_complex                                   Complex state
  * @return constexpr std::array<PosType, vert_count>    Array of positions
  */
-template<typename PosType, size_t vert_count, bool is_complex>
+template <typename PosType, size_t vert_count, bool is_complex>
 constexpr std::array<PosType, vert_count> make_primitive_positions_cube();
 
 //-----------------------------------------------------------------------------
@@ -414,7 +414,7 @@ constexpr std::array<PosType, vert_count> make_primitive_positions_cube();
  * @tparam is_complex            Complex state
  * @return std::vector<index>    Array for indices
  */
-template<bool is_complex>
+template <bool is_complex>
 std::vector<index> make_primitive_indices_cube();
 
 /**
@@ -422,7 +422,7 @@ std::vector<index> make_primitive_indices_cube();
  * @tparam NormType                             Type of normal
  * @return constexpr std::array<NormType, 6>    Array of normals
  */
-template<typename NormType>
+template <typename NormType>
 constexpr std::array<NormType, 6> make_primitive_normals_cube();
 
 /**
@@ -430,17 +430,17 @@ constexpr std::array<NormType, 6> make_primitive_normals_cube();
  * @tparam UVType                              Type of uv
  * @return constexpr std::array<UVType, 24>    Array of uvs
  */
-template<typename UVType>
+template <typename UVType>
 constexpr std::array<UVType, 24> make_primitive_uvs_cube();
 
 //-----------------------------------------------------------------------------
-template<typename T,
-         bool generate_colors,
-         bool generate_normals,
-         bool generate_uvs,
-         bool has_colors,
-         bool has_normals,
-         bool has_uvs>
+template <typename T,
+          bool generate_colors,
+          bool generate_normals,
+          bool generate_uvs,
+          bool has_colors,
+          bool has_normals,
+          bool has_uvs>
 std::shared_ptr<mesh_template<T>> create_mesh(device_p& device,
                                               mesh_type type) {
     std::shared_ptr<mesh_template<T>> return_mesh =
@@ -458,13 +458,13 @@ std::shared_ptr<mesh_template<T>> create_mesh(device_p& device,
 }
 
 //-----------------------------------------------------------------------------
-template<typename T,
-         bool generate_colors,
-         bool generate_normals,
-         bool generate_uvs,
-         bool has_colors,
-         bool has_normals,
-         bool has_uvs>
+template <typename T,
+          bool generate_colors,
+          bool generate_normals,
+          bool generate_uvs,
+          bool has_colors,
+          bool has_normals,
+          bool has_uvs>
 mesh_template_data<T> create_mesh_data(mesh_type type) {
     mesh_template_data<T> return_mesh_data;
 
@@ -520,20 +520,20 @@ mesh_template_data<T> create_mesh_data(mesh_type type) {
     case mesh_type::triangle: {
         return_mesh_data.vertices.reserve(3);
         T vert_one;
-        vert_one.position = { 1, 1, 0 };
+        vert_one.position = {1, 1, 0};
         T vert_two;
-        vert_two.position = { -1, 1, 0 };
+        vert_two.position = {-1, 1, 0};
         T vert_three;
-        vert_three.position = { 0, -1, 0 };
+        vert_three.position = {0, -1, 0};
         if constexpr (generate_uvs && auto_uvs) {
-            vert_one.uv = { 1, 1 };
-            vert_two.uv = { 0, 1 };
-            vert_three.uv = { 0.5, 0 };
+            vert_one.uv = {1, 1};
+            vert_two.uv = {0, 1};
+            vert_three.uv = {0.5, 0};
         }
         if constexpr (generate_normals && auto_normals) {
-            vert_one.normal = { 1, 1, 0 };
-            vert_two.normal = { -1, 1, 0 };
-            vert_three.normal = { 0, -1, 0 };
+            vert_one.normal = {1, 1, 0};
+            vert_two.normal = {-1, 1, 0};
+            vert_three.normal = {0, -1, 0};
         }
         return_mesh_data.vertices.push_back(vert_one);
         return_mesh_data.vertices.push_back(vert_two);
@@ -545,24 +545,24 @@ mesh_template_data<T> create_mesh_data(mesh_type type) {
         return_mesh_data.vertices.reserve(4);
         return_mesh_data.indices.reserve(6);
         T vert_one;
-        vert_one.position = { 1, 1, 0 };
+        vert_one.position = {1, 1, 0};
         T vert_two;
-        vert_two.position = { -1, 1, 0 };
+        vert_two.position = {-1, 1, 0};
         T vert_three;
-        vert_three.position = { -1, -1, 0 };
+        vert_three.position = {-1, -1, 0};
         T vert_four;
-        vert_four.position = { 1, -1, 0 };
+        vert_four.position = {1, -1, 0};
         if constexpr (generate_uvs && auto_uvs) {
-            vert_one.uv = { 1, 1 };
-            vert_two.uv = { 0, 1 };
-            vert_three.uv = { 0, 0 };
-            vert_four.uv = { 1, 0 };
+            vert_one.uv = {1, 1};
+            vert_two.uv = {0, 1};
+            vert_three.uv = {0, 0};
+            vert_four.uv = {1, 0};
         }
         if constexpr (generate_normals && auto_normals) {
-            vert_one.normal = { 0, 0, 1 };
-            vert_two.normal = { 0, 0, 1 };
-            vert_three.normal = { 0, 0, 1 };
-            vert_four.normal = { 0, 0, 1 };
+            vert_one.normal = {0, 0, 1};
+            vert_two.normal = {0, 0, 1};
+            vert_three.normal = {0, 0, 1};
+            vert_four.normal = {0, 0, 1};
         }
         // clang-format off
         return_mesh_data.indices = {
@@ -582,10 +582,10 @@ mesh_template_data<T> create_mesh_data(mesh_type type) {
         return_mesh_data.indices.reserve(18);
         hex_layout layout;
         layout.orientation = hex_layout_point_y;
-        layout.size = { 1, 1 };
+        layout.size = {1, 1};
         auto hex_corners = hex_polygon_corners(layout, {});
         T vert_center;
-        vert_center.position = { 0, 0, 0 };
+        vert_center.position = {0, 0, 0};
         T vert_sw;
         PosType temp;
         temp[0] = hex_corners.at(0).x;
@@ -613,22 +613,22 @@ mesh_template_data<T> create_mesh_data(mesh_type type) {
         temp[1] = hex_corners.at(5).y;
         vert_s.position = temp;
         if constexpr (generate_uvs && auto_uvs) {
-            vert_center.uv = { 0, 0 };
-            vert_sw.uv = { 1, 0 };
-            vert_nw.uv = { 0, 1 };
-            vert_n.uv = { 1, 1 };
-            vert_ne.uv = { 1, 0 };
-            vert_se.uv = { 0, 1 };
-            vert_s.uv = { 1, 1 };
+            vert_center.uv = {0, 0};
+            vert_sw.uv = {1, 0};
+            vert_nw.uv = {0, 1};
+            vert_n.uv = {1, 1};
+            vert_ne.uv = {1, 0};
+            vert_se.uv = {0, 1};
+            vert_s.uv = {1, 1};
         }
         if constexpr (generate_normals && auto_normals) {
-            vert_center.normal = { 0, 0, 1 };
-            vert_sw.normal = { 0, 0, 1 };
-            vert_nw.normal = { 0, 0, 1 };
-            vert_n.normal = { 0, 0, 1 };
-            vert_ne.normal = { 0, 0, 1 };
-            vert_se.normal = { 0, 0, 1 };
-            vert_s.normal = { 0, 0, 1 };
+            vert_center.normal = {0, 0, 1};
+            vert_sw.normal = {0, 0, 1};
+            vert_nw.normal = {0, 0, 1};
+            vert_n.normal = {0, 0, 1};
+            vert_ne.normal = {0, 0, 1};
+            vert_se.normal = {0, 0, 1};
+            vert_s.normal = {0, 0, 1};
         }
         // clang-format off
         return_mesh_data.indices = {
@@ -659,9 +659,9 @@ mesh_template_data<T> create_mesh_data(mesh_type type) {
             //     }
             // }
             if constexpr (std::is_same_v<decltype(vert.color), glm::vec3>) {
-                vert.color = { 1, 1, 1 };
+                vert.color = {1, 1, 1};
             } else if constexpr (std::is_same_v<decltype(vert.color), glm::vec4>) {
-                vert.color = { 1, 1, 1, 1 };
+                vert.color = {1, 1, 1, 1};
             } else {
                 for (size_t i = 0; i < vert.color.size(); i++) {
                     vert.color[i] = 1;
@@ -674,9 +674,9 @@ mesh_template_data<T> create_mesh_data(mesh_type type) {
 }
 
 //-----------------------------------------------------------------------------
-template<typename PosType,
-         size_t vert_count,
-         bool is_complex>
+template <typename PosType,
+          size_t vert_count,
+          bool is_complex>
 constexpr std::array<PosType, vert_count> make_primitive_positions_cube() {
     // clang-format off
     if constexpr (is_complex) {
@@ -712,7 +712,7 @@ constexpr std::array<PosType, vert_count> make_primitive_positions_cube() {
 }
 
 //-----------------------------------------------------------------------------
-template<bool is_complex>
+template <bool is_complex>
 std::vector<index> make_primitive_indices_cube() {
     // clang-format off
     if constexpr (is_complex) {
@@ -759,7 +759,7 @@ std::vector<index> make_primitive_indices_cube() {
 }
 
 //-----------------------------------------------------------------------------
-template<typename NormType>
+template <typename NormType>
 constexpr std::array<NormType, 6> make_primitive_normals_cube() {
     // clang-format off
     // front, back, left, right, bottom, and top normals, in that order
@@ -771,7 +771,7 @@ constexpr std::array<NormType, 6> make_primitive_normals_cube() {
 }
 
 //-----------------------------------------------------------------------------
-template<typename UVType>
+template <typename UVType>
 constexpr std::array<UVType, 24> make_primitive_uvs_cube() {
     // clang-format off
     std::array<UVType, 24> const uvs = {{

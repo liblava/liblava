@@ -8,10 +8,10 @@
 
 #pragma once
 
+#include "liblava/core/types.hpp"
 #include <cmath>
 #include <numbers>
 #include <unordered_map>
-#include "liblava/core/types.hpp"
 
 namespace lava {
 
@@ -61,7 +61,7 @@ struct hex_cell {
      * @return pair    Hex pair
      */
     inline pair to_pair() const {
-        return { q, r };
+        return {q, r};
     }
 
     /**
@@ -69,9 +69,9 @@ struct hex_cell {
      * @param cell    Another hex cell
      */
     inline void add(hex_cell const& cell) {
-        *this = { q + cell.q,
-                  r + cell.r,
-                  s + cell.s };
+        *this = {q + cell.q,
+                 r + cell.r,
+                 s + cell.s};
     }
 
     /**
@@ -79,9 +79,9 @@ struct hex_cell {
      * @param cell    Another hex cell
      */
     inline void substract(hex_cell const& cell) {
-        *this = { q - cell.q,
-                  r - cell.r,
-                  s - cell.s };
+        *this = {q - cell.q,
+                 r - cell.r,
+                 s - cell.s};
     }
 
     /**
@@ -89,23 +89,23 @@ struct hex_cell {
      * @param factor    Scaling factor
      */
     inline void scale(i32 factor) {
-        *this = { q * factor,
-                  r * factor,
-                  s * factor };
+        *this = {q * factor,
+                 r * factor,
+                 s * factor};
     }
 
     /**
      * @brief Rotate to left
      */
     inline void rotate_left() {
-        *this = { -s, -q, -r };
+        *this = {-s, -q, -r};
     }
 
     /**
      * @brief Rotate to right
      */
     inline void rotate_right() {
-        *this = { -r, -s, -q };
+        *this = {-r, -s, -q};
     }
 };
 
@@ -125,8 +125,8 @@ inline i32 hex_get_s(i32 q, i32 r) {
  * @return hex_cell    Hex cell
  */
 inline hex_cell hex_cell_from_pair(hex_cell::pair const& pair) {
-    return { pair.first, pair.second,
-             hex_get_s(pair.first, pair.second) };
+    return {pair.first, pair.second,
+            hex_get_s(pair.first, pair.second)};
 }
 
 /**
@@ -217,13 +217,12 @@ struct hex_layout {
 
 /// List of hex directions
 hex_cell::list const hex_directions{
-    { 1, 0, -1 },
-    { 1, -1, 0 },
-    { 0, -1, 1 },
-    { -1, 0, 1 },
-    { -1, 1, 0 },
-    { 0, 1, -1 }
-};
+    {1, 0, -1},
+    {1, -1, 0},
+    {0, -1, 1},
+    {-1, 0, 1},
+    {-1, 1, 0},
+    {0, 1, -1}};
 
 /**
  * @brief Get the hex cell from direction
@@ -249,13 +248,12 @@ inline hex_cell hex_neighbor(hex_cell const& cell,
 
 /// List of hex diagonals
 hex_cell::list const hex_diagonals{
-    { 2, -1, -1 },
-    { -1, -2, 1 },
-    { -1, -1, 2 },
-    { -2, 1, 1 },
-    { -1, 2, -1 },
-    { 1, 1, -2 }
-};
+    {2, -1, -1},
+    {-1, -2, 1},
+    {-1, -1, 2},
+    {-2, 1, 1},
+    {-1, 2, -1},
+    {1, 1, -2}};
 
 /**
  * @brief Get the diagonal from direction
@@ -324,7 +322,7 @@ inline hex_cell hex_round(hex_frac_cell const& cell) {
     else
         si = -qi - ri;
 
-    return { qi, ri, si };
+    return {qi, ri, si};
 }
 
 /**
@@ -340,8 +338,7 @@ inline hex_frac_cell hex_lerp(hex_frac_cell const& a,
     return {
         a.q * (1.f - t) + b.q * t,
         a.r * (1.f - t) + b.r * t,
-        a.s * (1.f - t) + b.s * t
-    };
+        a.s * (1.f - t) + b.s * t};
 }
 
 /**
@@ -352,12 +349,12 @@ inline hex_frac_cell hex_lerp(hex_frac_cell const& a,
  */
 inline hex_cell::list hex_line(hex_cell const& a,
                                hex_cell const& b) {
-    auto const a_nudge = hex_frac_cell{ a.q + 0.000001f,
-                                        a.r + 0.000001f,
-                                        a.s - 0.000002f };
-    auto const b_nudge = hex_frac_cell{ b.q + 0.000001f,
-                                        b.r + 0.000001f,
-                                        b.s - 0.000002f };
+    auto const a_nudge = hex_frac_cell{a.q + 0.000001f,
+                                       a.r + 0.000001f,
+                                       a.s - 0.000002f};
+    auto const b_nudge = hex_frac_cell{b.q + 0.000001f,
+                                       b.r + 0.000001f,
+                                       b.s - 0.000002f};
 
     ui32 const n = hex_distance(a, b);
     auto const step = 1.0 / std::max(n, 1u);
@@ -389,8 +386,8 @@ inline hex_offset_coord hex_q_offset_from_cube(hex_offset offset,
                                                hex_cell const& cell) {
     auto const& col = cell.q;
     auto const row = cell.r
-                     + to_i32((cell.q + (i32) offset * (cell.q & 1)) / 2);
-    return { col, row };
+                     + to_i32((cell.q + (i32)offset * (cell.q & 1)) / 2);
+    return {col, row};
 }
 
 /**
@@ -403,9 +400,9 @@ inline hex_cell hex_q_offset_to_cube(hex_offset offset,
                                      hex_offset_coord const& coord) {
     auto const& q = coord.col;
     auto const r = coord.row
-                   - to_i32((coord.col + (i32) offset * (coord.col & 1)) / 2);
+                   - to_i32((coord.col + (i32)offset * (coord.col & 1)) / 2);
     auto const s = -q - r;
-    return { q, r, s };
+    return {q, r, s};
 }
 
 /**
@@ -417,9 +414,9 @@ inline hex_cell hex_q_offset_to_cube(hex_offset offset,
 inline hex_offset_coord hex_r_offset_from_cube(hex_offset offset,
                                                hex_cell const& cell) {
     auto const col = cell.q
-                     + to_i32((cell.r + (i32) offset * (cell.r & 1)) / 2);
+                     + to_i32((cell.r + (i32)offset * (cell.r & 1)) / 2);
     auto const& row = cell.r;
-    return { col, row };
+    return {col, row};
 }
 
 /**
@@ -431,10 +428,10 @@ inline hex_offset_coord hex_r_offset_from_cube(hex_offset offset,
 inline hex_cell hex_r_offset_to_cube(hex_offset offset,
                                      hex_offset_coord const& coord) {
     auto const q = coord.col
-                   - to_i32((coord.row + (i32) offset * (coord.row & 1)) / 2);
+                   - to_i32((coord.row + (i32)offset * (coord.row & 1)) / 2);
     auto const& r = coord.row;
     auto const s = -q - r;
-    return { q, r, s };
+    return {q, r, s};
 }
 
 /**
@@ -445,7 +442,7 @@ inline hex_cell hex_r_offset_to_cube(hex_offset offset,
 inline hex_doubled_coord hex_q_doubled_from_cube(hex_cell const& cell) {
     auto const& col = cell.q;
     auto const row = 2 * cell.r + cell.q;
-    return { col, row };
+    return {col, row};
 }
 
 /**
@@ -457,7 +454,7 @@ inline hex_cell hex_q_doubled_to_cube(hex_doubled_coord const& coord) {
     auto const& q = coord.col;
     auto const r = to_i32((coord.row - coord.col) / 2);
     auto const s = -q - r;
-    return { q, r, s };
+    return {q, r, s};
 }
 
 /**
@@ -468,7 +465,7 @@ inline hex_cell hex_q_doubled_to_cube(hex_doubled_coord const& coord) {
 inline hex_doubled_coord hex_r_doubled_from_cube(hex_cell const& cell) {
     auto const col = 2 * cell.q + cell.r;
     auto const& row = cell.r;
-    return { col, row };
+    return {col, row};
 }
 
 /**
@@ -480,7 +477,7 @@ inline hex_cell hex_r_doubled_to_cube(hex_doubled_coord const& coord) {
     auto const q = to_i32((coord.col - coord.row) / 2);
     auto const& r = coord.row;
     auto const s = -q - r;
-    return { q, r, s };
+    return {q, r, s};
 }
 
 /// Hex point Y layout
@@ -493,8 +490,7 @@ hex_orientation const hex_layout_point_y = {
     -1.f / 3.f,
     0.f,
     2.f / 3.f,
-    0.5f
-};
+    0.5f};
 
 /// Hex flat layout
 hex_orientation const hex_layout_flat = {
@@ -506,8 +502,7 @@ hex_orientation const hex_layout_flat = {
     0.f,
     -1.f / 3.f,
     std::sqrt(3.f) / 3.f,
-    0.f
-};
+    0.f};
 
 /**
  * @brief Convert the hex cell to pixel
@@ -522,7 +517,7 @@ inline hex_point hex_to_pixel(hex_layout const& layout,
     auto const& origin = layout.origin;
     auto const x = (m.f0 * cell.q + m.f1 * cell.r) * size.x;
     auto const y = (m.f2 * cell.q + m.f3 * cell.r) * size.y;
-    return { x + origin.x, y + origin.y };
+    return {x + origin.x, y + origin.y};
 }
 
 /**
@@ -536,11 +531,11 @@ inline hex_frac_cell hex_pixel_to_cell(hex_layout const& layout,
     auto const& m = layout.orientation;
     auto const& size = layout.size;
     auto const& origin = layout.origin;
-    auto const pt = hex_point{ (p.x - origin.x) / size.x,
-                               (p.y - origin.y) / size.y };
+    auto const pt = hex_point{(p.x - origin.x) / size.x,
+                              (p.y - origin.y) / size.y};
     auto const q = m.b0 * pt.x + m.b1 * pt.y;
     auto const r = m.b2 * pt.x + m.b3 * pt.y;
-    return { q, r, -q - r };
+    return {q, r, -q - r};
 }
 
 /**
@@ -556,8 +551,8 @@ inline hex_point hex_corner_offset(hex_layout const& layout,
     auto const angle = 2.
                        * std::numbers::pi_v<r32> * (m.start_angle - corner)
                        / 6.f;
-    return { size.x * (r32) std::cos(angle),
-             size.y * (r32) std::sin(angle) };
+    return {size.x * (r32)std::cos(angle),
+            size.y * (r32)std::sin(angle)};
 }
 
 /**
@@ -572,8 +567,8 @@ inline hex_point::list hex_polygon_corners(hex_layout const& layout,
     auto const center = hex_to_pixel(layout, cell);
     for (int i = 0u; i < 6; ++i) {
         auto const offset = hex_corner_offset(layout, i);
-        corners.push_back({ center.x + offset.x,
-                            center.y + offset.y });
+        corners.push_back({center.x + offset.x,
+                           center.y + offset.y});
     }
     return corners;
 }
@@ -593,8 +588,7 @@ inline hex_point hex_get_corner(hex_point const& center,
 
     return {
         center.x + size * std::cos(angle_rad),
-        center.y + size * std::sin(angle_rad)
-    };
+        center.y + size * std::sin(angle_rad)};
 }
 
 /**
@@ -639,13 +633,12 @@ inline string to_string(hex_cardinal_direction direction) {
 
 /// List of hex cardinal directions
 hex_cell::list const hex_cardinal_directions{
-    { 1, 0, -1 },
-    { 0, 1, -1 },
-    { -1, 1, 0 },
-    { -1, 0, 1 },
-    { 0, -1, 1 },
-    { 1, -1, 0 }
-};
+    {1, 0, -1},
+    {0, 1, -1},
+    {-1, 1, 0},
+    {-1, 0, 1},
+    {0, -1, 1},
+    {1, -1, 0}};
 
 /**
  * @brief Get the hex cell from cardinal direction
@@ -653,7 +646,7 @@ hex_cell::list const hex_cardinal_directions{
  * @return hex_cell    Hex cell
  */
 inline hex_cell hex_get(hex_cardinal_direction direction) {
-    return hex_cardinal_directions[(index) direction];
+    return hex_cardinal_directions[(index)direction];
 }
 
 /**
@@ -662,10 +655,10 @@ inline hex_cell hex_get(hex_cardinal_direction direction) {
  * @return hex_cardinal_direction    Hex cardinal direction
  */
 inline hex_cardinal_direction hex_opposite(hex_cardinal_direction direction) {
-    if ((index) direction < 3)
-        return hex_cardinal_direction((i32) direction + 3);
+    if ((index)direction < 3)
+        return hex_cardinal_direction((i32)direction + 3);
     else
-        return hex_cardinal_direction((i32) direction - 3);
+        return hex_cardinal_direction((i32)direction - 3);
 }
 
 /// Hex inner radius factor = sqrt(3) / 2
@@ -714,8 +707,7 @@ struct hex_grid {
         layout = {
             orientation,
             {},
-            { outer_radius, outer_radius }
-        };
+            {outer_radius, outer_radius}};
     }
 
     /**
@@ -726,7 +718,7 @@ struct hex_grid {
      */
     hex_cell find(r32 x, r32 y) const {
         return hex_round(hex_pixel_to_cell(layout,
-                                           { x, y }));
+                                           {x, y}));
     }
 
     /**

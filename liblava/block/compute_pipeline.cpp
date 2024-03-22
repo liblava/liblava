@@ -43,7 +43,7 @@ bool compute_pipeline::setup() {
         .basePipelineIndex = undef,
     };
 
-    std::array<VkComputePipelineCreateInfo, 1> const info = { create_info };
+    std::array<VkComputePipelineCreateInfo, 1> const info = {create_info};
 
     return check(device->call().vkCreateComputePipelines(device->get(),
                                                          pipeline_cache,

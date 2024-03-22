@@ -7,9 +7,9 @@
 
 #pragma once
 
+#include "liblava/core/types.hpp"
 #include <cstring>
 #include <utility>
-#include "liblava/core/types.hpp"
 
 namespace lava {
 
@@ -31,7 +31,7 @@ inline bool exists(names_ref list, name item) {
  * @param list    List of items
  * @param item    Item to remove
  */
-template<typename T>
+template <typename T>
 inline void remove(std::vector<T>& list, T item) {
     list.erase(std::remove(list.begin(), list.end(), item), list.end());
 }
@@ -43,7 +43,7 @@ inline void remove(std::vector<T>& list, T item) {
  * @param item      Item to check
  * @return Item exists or not found
  */
-template<typename T>
+template <typename T>
 inline bool contains(std::vector<T>& list, T item) {
     return std::find(list.begin(), list.end(), item) != list.end();
 }
@@ -54,7 +54,7 @@ inline bool contains(std::vector<T>& list, T item) {
  * @param list     List of items
  * @param items    Items to append
  */
-template<typename T>
+template <typename T>
 inline void append(std::vector<T>& list, std::vector<T>& items) {
     list.insert(list.end(), items.begin(), items.end());
 }
@@ -205,7 +205,7 @@ inline string remove_chars_if_not_copy(string s, string_ref allowed) {
  * @brief Reversion Wrapper
  * @tparam T    Type to iterate
  */
-template<typename T>
+template <typename T>
 struct reversion_wrapper {
     /// Iterable to wrap
     T& iterable;
@@ -217,7 +217,7 @@ struct reversion_wrapper {
  * @param w        Reversion wrapper
  * @return auto    Iterator
  */
-template<typename T>
+template <typename T>
 inline auto begin(reversion_wrapper<T> w) {
     return std::rbegin(w.iterable);
 }
@@ -228,7 +228,7 @@ inline auto begin(reversion_wrapper<T> w) {
  * @param w        Reversion wrapper
  * @return auto    Iterator
  */
-template<typename T>
+template <typename T>
 inline auto end(reversion_wrapper<T> w) {
     return std::rend(w.iterable);
 }
@@ -239,9 +239,9 @@ inline auto end(reversion_wrapper<T> w) {
  * @param iterable                 Iterable
  * @return reversion_wrapper<T>    Wrapper
  */
-template<typename T>
+template <typename T>
 inline reversion_wrapper<T> reverse(T&& iterable) {
-    return { iterable };
+    return {iterable};
 }
 
 } // namespace lava

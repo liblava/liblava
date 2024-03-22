@@ -63,8 +63,8 @@ struct rect {
      */
     rect(i32 left, i32 top,
          ui32 width, ui32 height)
-    : left_top({ left, top }) {
-        set_size({ width, height });
+    : left_top({left, top}) {
+        set_size({width, height});
     }
 
     /**
@@ -76,7 +76,7 @@ struct rect {
     rect(iv2 const& left_top,
          ui32 width, ui32 height)
     : left_top(left_top) {
-        set_size({ width, height });
+        set_size({width, height});
     }
 
     /**
@@ -113,8 +113,8 @@ struct rect {
     uv2 get_size() const {
         LAVA_ASSERT(left_top.x <= right_bottom.x);
         LAVA_ASSERT(left_top.y <= right_bottom.y);
-        return { right_bottom.x - left_top.x,
-                 right_bottom.y - left_top.y };
+        return {right_bottom.x - left_top.x,
+                right_bottom.y - left_top.y};
     }
 
     /**
@@ -166,9 +166,9 @@ inline auto ceil_div(auto x, auto y) {
 }
 
 /// Default color (Lava color: CF1020 : 207, 16, 32)
-v3 const default_color = v3{ 0.8118f,
-                             0.0627f,
-                             0.1255f };
+v3 const default_color = v3{0.8118f,
+                            0.0627f,
+                            0.1255f};
 
 /**
  * @brief Calculate perspective matrix
@@ -183,7 +183,7 @@ inline mat4 perspective_matrix(uv2 size,
     // Vulkan NDC is right-handed with Y pointing down
     // we flip Y which makes it left-handed
     return glm::scale(glm::identity<glm::mat4>(),
-                      { 1.f, -1.f, 1.f })
+                      {1.f, -1.f, 1.f})
            * glm::perspectiveLH_ZO(
                glm::radians(fov),
                r32(size.x) / size.y,

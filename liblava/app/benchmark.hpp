@@ -17,10 +17,10 @@ namespace lava {
  */
 struct benchmark_data {
     /// Benchmark duration
-    ms time = ms{ 10000 };
+    ms time = ms{10000};
 
     /// Warm up time
-    ms offset = ms{ 5000 };
+    ms offset = ms{5000};
 
     /// Output file
     string file = _benchmark_json_;
@@ -44,7 +44,7 @@ struct benchmark_data {
     index current = 0;
 
     /// Benchmark start timestamp
-    ms start_timestamp = ms{ 0 };
+    ms start_timestamp = ms{0};
 };
 
 /**

@@ -157,8 +157,7 @@ bool device::create(create_param::ref param) {
             auto priority = queue_create_info_list[i].pQueuePriorities[queue_index];
 
             queue queue{
-                vk_queue, queue_family_flags, queue_family_index, priority
-            };
+                vk_queue, queue_family_flags, queue_family_index, priority};
 
             if (flags & VK_QUEUE_GRAPHICS_BIT)
                 graphics_queue_list.push_front(queue);
@@ -250,8 +249,7 @@ bool one_time_submit_pool(device_p device,
         VkCommandPoolCreateInfo const create_info = {
             .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
             .flags = VK_COMMAND_POOL_CREATE_TRANSIENT_BIT,
-            .queueFamilyIndex = to_ui32(queue.family)
-        };
+            .queueFamilyIndex = to_ui32(queue.family)};
         if (!device->vkCreateCommandPool(&create_info, &pool))
             return false;
     }
@@ -264,8 +262,7 @@ bool one_time_submit_pool(device_p device,
 
     VkCommandBufferBeginInfo const begin_info = {
         .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
-        .flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT
-    };
+        .flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT};
     if (!check(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
         return false;
 
@@ -275,14 +272,13 @@ bool one_time_submit_pool(device_p device,
 
     VkFence fence = VK_NULL_HANDLE;
     VkFenceCreateInfo const fence_info = {
-        .sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO
-    };
+        .sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO};
     if (!device->vkCreateFence(&fence_info, &fence))
         return false;
 
-    VkSubmitInfo const submit_info = { .sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
-                                       .commandBufferCount = 1,
-                                       .pCommandBuffers = &cmd_buf };
+    VkSubmitInfo const submit_info = {.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO,
+                                      .commandBufferCount = 1,
+                                      .pCommandBuffers = &cmd_buf};
     if (!device->vkQueueSubmit(queue.vk_queue, 1, &submit_info, fence)) {
         device->vkDestroyFence(fence);
         return false;

@@ -61,21 +61,21 @@ int main(int argc, char* argv[]) {
         pipeline = render_pipeline::make(app.device, app.pipeline_cache);
         pipeline->set_layout(layout);
 
-        if (!pipeline->add_shader({ vert_shader, sizeof(vert_shader) },
+        if (!pipeline->add_shader({vert_shader, sizeof(vert_shader)},
                                   VK_SHADER_STAGE_VERTEX_BIT))
             return false;
 
-        if (!pipeline->add_shader({ frag_shader, sizeof(frag_shader) },
+        if (!pipeline->add_shader({frag_shader, sizeof(frag_shader)},
                                   VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
         pipeline->add_color_blend_attachment();
 
-        pipeline->set_vertex_input_binding({ 0, sizeof(vertex), VK_VERTEX_INPUT_RATE_VERTEX });
+        pipeline->set_vertex_input_binding({0, sizeof(vertex), VK_VERTEX_INPUT_RATE_VERTEX});
 
         pipeline->set_vertex_input_attributes({
-            { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position)) },
-            { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color)) },
+            {0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position))},
+            {1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color))},
         });
 
         pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
@@ -98,8 +98,8 @@ int main(int argc, char* argv[]) {
     };
 
     app.imgui.layers.add("info", [&]() {
-        ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize({ 260, 135 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({30, 30}, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({260, 135}, ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
 

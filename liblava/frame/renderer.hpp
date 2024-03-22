@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <optional>
 #include "liblava/frame/swapchain.hpp"
+#include <optional>
 
 namespace lava {
 

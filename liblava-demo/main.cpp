@@ -94,15 +94,15 @@ int main(int argc, char* argv[]) {
             descriptor_pool = descriptor::pool::make();
             if (!descriptor_pool->create(app.device,
                                          {
-                                             { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                                               to_ui32(stages.size()) },
+                                             {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                                              to_ui32(stages.size())},
                                          },
                                          to_ui32(stages.size())))
                 return false;
 
             layout = pipeline_layout::make();
-            layout->add_push_constant_range({ VK_SHADER_STAGE_FRAGMENT_BIT,
-                                              0, sizeof(r32) * 4 });
+            layout->add_push_constant_range({VK_SHADER_STAGE_FRAGMENT_BIT,
+                                             0, sizeof(r32) * 4});
 
             layout->add(descriptor);
 
@@ -125,7 +125,7 @@ int main(int argc, char* argv[]) {
                                       ->get_descriptor_info(),
                 };
 
-                app.device->vkUpdateDescriptorSets({ write_desc_sampler });
+                app.device->vkUpdateDescriptorSets({write_desc_sampler});
 
                 descriptor_sets.push_back(descriptor_set);
             }
@@ -254,5 +254,5 @@ int main(int argc, char* argv[]) {
         return result;
     };
 
-    return driver.run({ argc, argv });
+    return driver.run({argc, argv});
 }

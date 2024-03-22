@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
     if (!spawn_mesh)
         return error::create_failed;
 
-    texture::ptr default_texture = app.producer.create_texture({ 4096, 4096 });
+    texture::ptr default_texture = app.producer.create_texture({4096, 4096});
     if (!default_texture)
         return error::create_failed;
 
@@ -90,11 +90,11 @@ int main(int argc, char* argv[]) {
         pipeline->set_depth_test_and_write();
         pipeline->set_depth_compare_op(VK_COMPARE_OP_LESS_OR_EQUAL);
 
-        pipeline->set_vertex_input_binding({ 0, sizeof(vertex), VK_VERTEX_INPUT_RATE_VERTEX });
+        pipeline->set_vertex_input_binding({0, sizeof(vertex), VK_VERTEX_INPUT_RATE_VERTEX});
         pipeline->set_vertex_input_attributes({
-            { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position)) },
-            { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color)) },
-            { 2, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(vertex, uv)) },
+            {0, 0, VK_FORMAT_R32G32B32_SFLOAT, to_ui32(offsetof(vertex, position))},
+            {1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, to_ui32(offsetof(vertex, color))},
+            {2, 0, VK_FORMAT_R32G32_SFLOAT, to_ui32(offsetof(vertex, uv))},
         });
 
         descriptor = descriptor::make();
@@ -114,8 +114,8 @@ int main(int argc, char* argv[]) {
         descriptor_pool = descriptor::pool::make();
         if (!descriptor_pool->create(app.device,
                                      {
-                                         { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1 },
-                                         { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2 },
+                                         {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1},
+                                         {VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 2},
                                      }))
             return false;
 
@@ -156,9 +156,9 @@ int main(int argc, char* argv[]) {
             .pImageInfo = default_texture->get_descriptor_info(),
         };
 
-        app.device->vkUpdateDescriptorSets({ write_desc_ubo_camera,
-                                             write_desc_ubo_spawn,
-                                             write_desc_sampler });
+        app.device->vkUpdateDescriptorSets({write_desc_ubo_camera,
+                                            write_desc_ubo_spawn,
+                                            write_desc_sampler});
 
         render_pass::ptr render_pass = app.shading.get_pass();
 
@@ -186,15 +186,15 @@ int main(int argc, char* argv[]) {
         layout->destroy();
     };
 
-    v3 spawn_position{ 0.f };
-    v3 spawn_rotation{ 0.f };
-    v3 spawn_scale{ 1.f };
+    v3 spawn_position{0.f};
+    v3 spawn_rotation{0.f};
+    v3 spawn_scale{1.f};
 
     bool update_spawn_matrix = false;
 
     app.imgui.layers.add("info", [&]() {
-        ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize({ 330, 485 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({30, 30}, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({330, 485}, ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
 
@@ -208,9 +208,9 @@ int main(int argc, char* argv[]) {
 
         ImGui::Spacing();
 
-        update_spawn_matrix |= ImGui::DragFloat3("position##spawn", (r32*) &spawn_position, 0.01f);
-        update_spawn_matrix |= ImGui::DragFloat3("rotation##spawn", (r32*) &spawn_rotation, 0.1f);
-        update_spawn_matrix |= ImGui::DragFloat3("scale##spawn", (r32*) &spawn_scale, 0.1f);
+        update_spawn_matrix |= ImGui::DragFloat3("position##spawn", (r32*)&spawn_position, 0.01f);
+        update_spawn_matrix |= ImGui::DragFloat3("rotation##spawn", (r32*)&spawn_rotation, 0.1f);
+        update_spawn_matrix |= ImGui::DragFloat3("scale##spawn", (r32*)&spawn_scale, 0.1f);
 
         ImGui::Spacing();
 
@@ -246,8 +246,8 @@ int main(int argc, char* argv[]) {
 
         ImGui::Spacing();
 
-        ImGui::DragFloat3("position##camera", (r32*) &app.camera.position, 0.01f);
-        ImGui::DragFloat3("rotation##camera", (r32*) &app.camera.rotation, 0.1f);
+        ImGui::DragFloat3("position##camera", (r32*)&app.camera.position, 0.01f);
+        ImGui::DragFloat3("rotation##camera", (r32*)&app.camera.rotation, 0.1f);
 
         ImGui::Spacing();
 

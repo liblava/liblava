@@ -123,8 +123,7 @@ LAVA_STAGE(4, "clear color") {
         };
 
         VkClearColorValue const clear_color = {
-            random(1.f), random(1.f), random(1.f), 0.f
-        };
+            random(1.f), random(1.f), random(1.f), 0.f};
 
         VkImageSubresourceRange const image_range{
             .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
@@ -199,7 +198,7 @@ LAVA_STAGE(4, "clear color") {
         if (!current_frame.has_value())
             return run_continue;
 
-        return renderer.end_frame({ cmd_bufs[*current_frame] });
+        return renderer.end_frame({cmd_bufs[*current_frame]});
     });
 
     frame.add_run_end([&]() {
@@ -253,8 +252,7 @@ LAVA_STAGE(5, "color block") {
 
     block.add_command([&](VkCommandBuffer cmd_buf) {
         VkClearColorValue const clear_color = {
-            random(1.f), random(1.f), random(1.f), 0.f
-        };
+            random(1.f), random(1.f), random(1.f), 0.f};
 
         VkImageSubresourceRange const image_range{
             .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,

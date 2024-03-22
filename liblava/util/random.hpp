@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <random>
 #include "liblava/core/types.hpp"
+#include <random>
 
 namespace lava {
 
@@ -42,7 +42,7 @@ struct random_generator {
      * @param high    Highest number
      * @return T      Random number
      */
-    template<typename T = real>
+    template <typename T = real>
     T get(T low, T high) {
         std::uniform_real_distribution<T> dist(low, high);
         return dist(mt);

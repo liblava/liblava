@@ -7,13 +7,13 @@
 
 #pragma once
 
+#include "liblava/core/def.hpp"
 #include <cstdint>
 #include <functional>
 #include <map>
 #include <string>
 #include <string_view>
 #include <vector>
-#include "liblava/core/def.hpp"
 
 namespace lava {
 
@@ -275,7 +275,7 @@ inline index to_index(auto value) {
  * @return char const*    Converted value
  */
 inline char const* to_char(auto value) {
-    return (char const*) value;
+    return (char const*)value;
 }
 
 /**
@@ -315,7 +315,7 @@ struct interface {
  * @param seed    Seed to combine
  * @param val     Value to combine
  */
-template<typename T>
+template <typename T>
 inline void hash_combine(size_t& seed,
                          T const& val) {
     seed ^= std::hash<T>()(val) + 0x9e3779b9
@@ -328,7 +328,7 @@ inline void hash_combine(size_t& seed,
  * @param seed    Seed for hash
  * @param val     Hash value
  */
-template<typename T>
+template <typename T>
 inline void hash_value(size_t& seed,
                        T const& val) {
     hash_combine(seed, val);
@@ -337,7 +337,7 @@ inline void hash_value(size_t& seed,
 /**
  * @see hash_value<T>()
  */
-template<typename T, typename... Types>
+template <typename T, typename... Types>
 inline void hash_value(size_t& seed,
                        T const& val,
                        Types const&... args) {
@@ -348,7 +348,7 @@ inline void hash_value(size_t& seed,
 /**
  * @see hash_value<T>()
  */
-template<typename... Types>
+template <typename... Types>
 inline size_t hash_value(Types const&... args) {
     size_t seed = 0;
     hash_value(seed, args...);
@@ -366,7 +366,7 @@ struct pair_hash {
      * @param p          Hash pair
      * @return size_t    Hash value
      */
-    template<class T1, class T2>
+    template <class T1, class T2>
     size_t operator()(std::pair<T1, T2> const& p) const {
         return hash_value(p.first, p.second);
     }

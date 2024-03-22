@@ -199,7 +199,7 @@ public:
 
         auto container = new std::array<std::string, 2>;
         (*container)[0] = name;
-        (*container)[1] = { file_data.ptr, file_data.size };
+        (*container)[1] = {file_data.ptr, file_data.size};
 
         if (file_hash_map)
             file_hash_map->emplace(filename, hash256(container->at(1)));
@@ -321,7 +321,7 @@ data producer::compile_shader(cdata product,
 
     log()->debug("compiling shader: {} - {}", name, filename);
 
-    string product_str = { product.ptr, product.size };
+    string product_str = {product.ptr, product.size};
 
     shaderc::PreprocessedSourceCompilationResult result =
         compiler.PreprocessGlsl(product_str,
@@ -335,7 +335,7 @@ data producer::compile_shader(cdata product,
     }
 
     shaderc::SpvCompilationResult module =
-        compiler.CompileGlslToSpv({ result.cbegin(), result.cend() },
+        compiler.CompileGlslToSpv({result.cbegin(), result.cend()},
                                   shader_type,
                                   str(name),
                                   options);
@@ -348,8 +348,8 @@ data producer::compile_shader(cdata product,
     file_hash_map.emplace(filename, hash256(product_str));
     update_hash(name, file_hash_map);
 
-    std::vector<ui32> const module_result = { module.cbegin(),
-                                              module.cend() };
+    std::vector<ui32> const module_result = {module.cbegin(),
+                                             module.cend()};
 
     auto data_size = module_result.size() * sizeof(ui32);
     log()->info("shader compiled: {} - {} bytes", name, data_size);
@@ -426,7 +426,7 @@ bool producer::valid_shader(string_ref name) const {
                 break;
             }
 
-            auto file_hash = hash256({ data.ptr, data.size });
+            auto file_hash = hash256({data.ptr, data.size});
             if (file_hash != string(value)) {
                 valid = false;
                 break;

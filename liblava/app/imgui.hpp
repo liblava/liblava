@@ -368,7 +368,7 @@ private:
     GLFWwindow* window = nullptr;
 
     /// Mouse just pressed state
-    bool mouse_just_pressed[5] = { false, false, false, false, false };
+    bool mouse_just_pressed[5] = {false, false, false, false, false};
 
     /// Current time
     r64 current_time = 0.0;

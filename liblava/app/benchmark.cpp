@@ -13,24 +13,24 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 bool parse_benchmark(cmd_line cmd_line, benchmark_data& data) {
-    if (!(cmd_line[{ "-bm", "--benchmark" }]))
+    if (!(cmd_line[{"-bm", "--benchmark"}]))
         return false;
 
     data = {};
 
     if (auto time = undef;
-        cmd_line({ "-bmt", "--benchmark_time" }) >> time)
-        data.time = ms{ time };
+        cmd_line({"-bmt", "--benchmark_time"}) >> time)
+        data.time = ms{time};
 
     if (auto offset = undef;
-        cmd_line({ "-bmo", "--benchmark_offset" }) >> offset)
-        data.offset = ms{ offset };
+        cmd_line({"-bmo", "--benchmark_offset"}) >> offset)
+        data.offset = ms{offset};
 
-    data.file = get_cmd(cmd_line, { "-bmf", "--benchmark_file" });
-    data.path = get_cmd(cmd_line, { "-bmp", "--benchmark_path" });
+    data.file = get_cmd(cmd_line, {"-bmf", "--benchmark_file"});
+    data.path = get_cmd(cmd_line, {"-bmp", "--benchmark_path"});
 
-    cmd_line({ "-bmx", "--benchmark_exit" }) >> data.exit;
-    cmd_line({ "-bmb", "--benchmark_buffer" }) >> data.buffer_size;
+    cmd_line({"-bmx", "--benchmark_exit"}) >> data.exit;
+    cmd_line({"-bmb", "--benchmark_buffer"}) >> data.buffer_size;
 
     return true;
 }
@@ -94,8 +94,8 @@ bool write_frames_json(benchmark_data& data) {
 
     auto timestamp_count = data.current;
 
-    auto timestamps = benchmark_data::list{ data.values.begin(),
-                                            data.values.begin() + timestamp_count };
+    auto timestamps = benchmark_data::list{data.values.begin(),
+                                           data.values.begin() + timestamp_count};
 
     j[_timestamps_] = timestamps;
 
@@ -127,7 +127,7 @@ bool write_frames_json(benchmark_data& data) {
                                               frame_durations.end());
     j[_benchmark_][_avg_] = std::accumulate(frame_durations.begin(),
                                             frame_durations.end(), 0)
-                            / (r32) frame_count;
+                            / (r32)frame_count;
 
     auto file_path = std::filesystem::path(data.file);
 

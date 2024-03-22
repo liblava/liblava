@@ -6,8 +6,8 @@
  */
 
 #include "liblava/frame/driver.hpp"
-#include <iostream>
 #include "liblava/core/misc.hpp"
+#include <iostream>
 
 namespace lava {
 
@@ -18,7 +18,7 @@ i32 driver::run(argh::parser cmd_line) {
         return error::stages_empty;
     }
 
-    if (cmd_line[{ "-ls", "--stages" }]) {
+    if (cmd_line[{"-ls", "--stages"}]) {
         for (auto& [id, stage] : stages)
             std::cout << id << ". " << stage->name << std::endl;
 
@@ -26,7 +26,7 @@ i32 driver::run(argh::parser cmd_line) {
     }
 
     if (auto id = undef;
-        cmd_line({ "-st", "--stage" }) >> id) {
+        cmd_line({"-st", "--stage"}) >> id) {
         if (!stages.count(id)) {
             std::cerr << "stage " << id << " not found" << std::endl;
             return error::stage_not_found;

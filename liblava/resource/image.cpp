@@ -21,7 +21,7 @@ image::image(VkFormat format,
         .flags = 0,
         .imageType = VK_IMAGE_TYPE_2D,
         .format = format,
-        .extent = { 0, 0, 1 },
+        .extent = {0, 0, 1},
         .mipLevels = 1,
         .arrayLayers = 1,
         .samples = VK_SAMPLE_COUNT_1_BIT,
@@ -54,7 +54,7 @@ image::image(VkFormat format,
             VK_COMPONENT_SWIZZLE_R,
             VK_COMPONENT_SWIZZLE_G,
             VK_COMPONENT_SWIZZLE_B,
-            VK_COMPONENT_SWIZZLE_A },
+            VK_COMPONENT_SWIZZLE_A},
         .subresourceRange = subresource_range,
     };
 }
@@ -66,7 +66,7 @@ bool image::create(device_p d,
                    VmaAllocationCreateFlags allocation_flags) {
     device = d;
 
-    info.extent = { size.x, size.y, 1 };
+    info.extent = {size.x, size.y, 1};
 
     if (!vk_image) {
         VmaAllocationCreateInfo const create_info{
@@ -156,7 +156,7 @@ image::ptr grab_image(image::ptr source) {
                                     VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
                                     VK_PIPELINE_STAGE_TRANSFER_BIT,
                                     VK_PIPELINE_STAGE_TRANSFER_BIT,
-                                    VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
+                                    VkImageSubresourceRange{VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1});
         insert_image_memory_barrier(device,
                                     cmd_buf,
                                     source->get(),
@@ -166,7 +166,7 @@ image::ptr grab_image(image::ptr source) {
                                     VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
                                     VK_PIPELINE_STAGE_TRANSFER_BIT,
                                     VK_PIPELINE_STAGE_TRANSFER_BIT,
-                                    VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
+                                    VkImageSubresourceRange{VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1});
 
         if (support_blit(device->get_vk_physical_device(),
                          source->get_format())) {
@@ -207,7 +207,7 @@ image::ptr grab_image(image::ptr source) {
             VkImageCopy const image_copy_region = {
                 .srcSubresource = subresource_layers,
                 .dstSubresource = subresource_layers,
-                .extent = { width, height, 1 },
+                .extent = {width, height, 1},
             };
 
             vkCmdCopyImage(
@@ -230,7 +230,7 @@ image::ptr grab_image(image::ptr source) {
             VK_IMAGE_LAYOUT_GENERAL,
             VK_PIPELINE_STAGE_TRANSFER_BIT,
             VK_PIPELINE_STAGE_TRANSFER_BIT,
-            VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
+            VkImageSubresourceRange{VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1});
         insert_image_memory_barrier(
             device,
             cmd_buf,
@@ -241,7 +241,7 @@ image::ptr grab_image(image::ptr source) {
             VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
             VK_PIPELINE_STAGE_TRANSFER_BIT,
             VK_PIPELINE_STAGE_TRANSFER_BIT,
-            VkImageSubresourceRange{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 });
+            VkImageSubresourceRange{VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1});
     })
                ? image
                : nullptr;

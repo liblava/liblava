@@ -77,7 +77,7 @@ VkPresentModeKHR swapchain::choose_present_mode(
     VkPresentModeKHRs const& present_modes) const {
     if (v_sync())
         return VK_PRESENT_MODE_FIFO_KHR;
-    
+
     if (triple_buffer()) {
         if (std::find(present_modes.begin(), present_modes.end(),
                       VK_PRESENT_MODE_MAILBOX_KHR)

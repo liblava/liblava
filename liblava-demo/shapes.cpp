@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 
     // all shapes will share the same world-space matrix in this example
     mat4 world_matrix = glm::identity<mat4>();
-    v3 rotation_vector = v3{ 0, 0, 0 };
+    v3 rotation_vector = v3{0, 0, 0};
 
     buffer world_matrix_buffer;
     if (!world_matrix_buffer.create_mapped(app.device,
@@ -104,15 +104,15 @@ int main(int argc, char* argv[]) {
                                   VK_SHADER_STAGE_FRAGMENT_BIT))
             return false;
 
-        pipeline->set_vertex_input_binding({ 0,
-                                             sizeof(vertex),
-                                             VK_VERTEX_INPUT_RATE_VERTEX });
+        pipeline->set_vertex_input_binding({0,
+                                            sizeof(vertex),
+                                            VK_VERTEX_INPUT_RATE_VERTEX});
 
         // only send position and color to shaders for this demo
         pipeline->set_vertex_input_attributes({
-            { 0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(vertex, position) },
-            { 1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, offsetof(vertex, color) },
-            { 2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(vertex, normal) },
+            {0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(vertex, position)},
+            {1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, offsetof(vertex, color)},
+            {2, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(vertex, normal)},
         });
 
         // descriptor sets must be made to transfer the shapes' world matrix
@@ -128,7 +128,7 @@ int main(int argc, char* argv[]) {
             return false;
 
         descriptor_pool = descriptor::pool::make();
-        if (!descriptor_pool->create(app.device, { { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 3 } }))
+        if (!descriptor_pool->create(app.device, {{VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 3}}))
             return false;
 
         layout = pipeline_layout::make();
@@ -163,9 +163,9 @@ int main(int argc, char* argv[]) {
             .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
             .pBufferInfo = rotation_buffer.get_descriptor_info(),
         };
-        app.device->vkUpdateDescriptorSets({ write_desc_ubo_camera,
-                                             write_desc_ubo_world,
-                                             write_desc_ubo_rotation });
+        app.device->vkUpdateDescriptorSets({write_desc_ubo_camera,
+                                            write_desc_ubo_world,
+                                            write_desc_ubo_rotation});
 
         render_pass::ptr render_pass = app.shading.get_pass();
 
@@ -232,7 +232,7 @@ int main(int argc, char* argv[]) {
     });
 
     app.on_update = [&](delta dt) {
-        rotation_vector += v3{ 0, 1.f, 0 } * dt;
+        rotation_vector += v3{0, 1.f, 0} * dt;
         memcpy(as_ptr(rotation_buffer.get_mapped_data()),
                &rotation_vector, sizeof(rotation_vector));
 

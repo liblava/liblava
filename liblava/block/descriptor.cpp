@@ -127,7 +127,7 @@ VkDescriptorSet descriptor::allocate_set(VkDescriptorPool pool) {
 //-----------------------------------------------------------------------------
 bool descriptor::free_set(VkDescriptorSet& descriptor_set,
                           VkDescriptorPool pool) {
-    std::array<VkDescriptorSet, 1> const descriptor_sets = { descriptor_set };
+    std::array<VkDescriptorSet, 1> const descriptor_sets = {descriptor_set};
 
     auto result = check(device->call().vkFreeDescriptorSets(device->get(),
                                                             pool,

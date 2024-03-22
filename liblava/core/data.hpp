@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <string.h>
 #include "liblava/core/types.hpp"
+#include <string.h>
 
 namespace lava {
 
@@ -53,7 +53,7 @@ struct data_provider {
  * @return data_ptr    Data pointer
  */
 inline data_ptr as_ptr(auto* value) {
-    return (data_ptr) value;
+    return (data_ptr)value;
 }
 
 /**
@@ -62,7 +62,7 @@ inline data_ptr as_ptr(auto* value) {
  * @return data_cptr    Const data pointer
  */
 inline data_cptr as_cptr(auto* value) {
-    return (data_cptr) value;
+    return (data_cptr)value;
 }
 
 /**
@@ -96,7 +96,7 @@ inline size_t align(size_t size,
  * @param min        Minimal alignment
  * @return size_t    Aligned size
  */
-template<typename T>
+template <typename T>
 inline size_t align(size_t min = 0) {
     return align(sizeof(T), min);
 }

@@ -470,8 +470,7 @@ VkFormat_optional find_supported_depth_format(VkPhysicalDevice physical_device) 
         VK_FORMAT_D32_SFLOAT,
         VK_FORMAT_D24_UNORM_S8_UINT,
         VK_FORMAT_D16_UNORM_S8_UINT,
-        VK_FORMAT_D16_UNORM
-    };
+        VK_FORMAT_D16_UNORM};
 
     for (auto& format : depth_formats) {
         VkFormatProperties format_props;
@@ -481,7 +480,7 @@ VkFormat_optional find_supported_depth_format(VkPhysicalDevice physical_device) 
 
         if (format_props.optimalTilingFeatures
             & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT)
-            return { format };
+            return {format};
     }
 
     return std::nullopt;
@@ -512,7 +511,7 @@ VkFormat_optional find_supported_format(VkPhysicalDevice physical_device,
                                             &format_props);
 
         if ((format_props.optimalTilingFeatures & features) == features)
-            return { format };
+            return {format};
     }
 
     return std::nullopt;
@@ -711,7 +710,7 @@ VkSurfaceFormatKHR find_surface_format(VkPhysicalDevice device,
     if (count == 1) {
         if ((formats[0].format == VK_FORMAT_UNDEFINED)
             && !request.formats.empty())
-            return { request.formats.front(), request.color_space };
+            return {request.formats.front(), request.color_space};
         else
             return formats[0];
     }

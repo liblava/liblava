@@ -18,7 +18,7 @@ bool write_image_png(device_p device,
                      image::ptr image,
                      string_ref filename,
                      bool swizzle) {
-    VkImageSubresource subResource{ VK_IMAGE_ASPECT_COLOR_BIT, 0, 0 };
+    VkImageSubresource subResource{VK_IMAGE_ASPECT_COLOR_BIT, 0, 0};
     VkSubresourceLayout subResourceLayout;
     vkGetImageSubresourceLayout(device->get(),
                                 image->get(),
@@ -37,7 +37,7 @@ bool write_image_png(device_p device,
                 0,
                 VK_WHOLE_SIZE,
                 0,
-                (void**) &img_data_ptr);
+                (void**)&img_data_ptr);
 
     img_data_ptr += subResourceLayout.offset;
 

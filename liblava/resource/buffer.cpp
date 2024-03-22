@@ -28,8 +28,7 @@ bool buffer::create(device_p d,
         .usage = usage,
         .sharingMode = sharing_mode,
         .queueFamilyIndexCount = to_ui32(shared_queue_family_indices.size()),
-        .pQueueFamilyIndices = shared_queue_family_indices.data()
-    };
+        .pQueueFamilyIndices = shared_queue_family_indices.data()};
 
     VmaAllocationCreateFlags const alloc_flags = mapped
                                                      ? VMA_ALLOCATION_CREATE_MAPPED_BIT
@@ -68,7 +67,7 @@ bool buffer::create(device_p d,
             data_ptr map = nullptr;
             if (failed(vmaMapMemory(device->alloc(),
                                     allocation,
-                                    (void**) (&map)))) {
+                                    (void**)(&map)))) {
                 log()->error("map buffer memory");
                 return false;
             }
@@ -133,8 +132,7 @@ VkDeviceAddress buffer::get_address() const {
     if (device->call().vkGetBufferDeviceAddressKHR) {
         VkBufferDeviceAddressInfoKHR addr_info{
             .sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO_KHR,
-            .buffer = vk_buffer
-        };
+            .buffer = vk_buffer};
         return device->call().vkGetBufferDeviceAddressKHR(device->get(),
                                                           &addr_info);
     } else {

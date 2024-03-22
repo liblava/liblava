@@ -62,8 +62,8 @@ texture::ptr create_gli_texture_2d(device_p device,
 
     for (auto m = 0u; m < mip_levels; ++m) {
         texture::mip_level level;
-        level.extent = { tex[m].extent().x,
-                         tex[m].extent().y };
+        level.extent = {tex[m].extent().x,
+                        tex[m].extent().y};
         level.size = to_ui32(tex[m].size());
 
         layer.levels.push_back(level);
@@ -74,8 +74,8 @@ texture::ptr create_gli_texture_2d(device_p device,
 
     auto texture = texture::make();
 
-    uv2 const size = { tex[0].extent().x,
-                       tex[0].extent().y };
+    uv2 const size = {tex[0].extent().x,
+                      tex[0].extent().y};
     if (!texture->create(device,
                          size,
                          format,
@@ -105,8 +105,8 @@ texture::layer::list create_layer_list(auto const& tex, ui32 layer_count) {
 
         for (auto m = 0u; m < mip_levels; ++m) {
             texture::mip_level level;
-            level.extent = { tex[i][m].extent().x,
-                             tex[i][m].extent().y };
+            level.extent = {tex[i][m].extent().x,
+                            tex[i][m].extent().y};
             level.size = to_ui32(tex[i][m].size());
 
             layer.levels.push_back(level);
@@ -140,8 +140,8 @@ texture::ptr create_gli_texture_array(device_p device,
 
     auto texture = texture::make();
 
-    uv2 const size = { tex[0].extent().x,
-                       tex[0].extent().y };
+    uv2 const size = {tex[0].extent().x,
+                      tex[0].extent().y};
     if (!texture->create(device,
                          size,
                          format,
@@ -177,8 +177,8 @@ texture::ptr create_gli_texture_cube_map(device_p device,
 
     auto texture = texture::make();
 
-    uv2 const size = { tex[0].extent().x,
-                       tex[0].extent().y };
+    uv2 const size = {tex[0].extent().x,
+                      tex[0].extent().y};
     if (!texture->create(device,
                          size,
                          format,
@@ -206,7 +206,7 @@ texture::ptr create_stbi_texture(device_p device,
     stbi_uc* data = nullptr;
 
     if (file.opened())
-        data = stbi_load_from_memory((stbi_uc const*) temp_data.ptr,
+        data = stbi_load_from_memory((stbi_uc const*)temp_data.ptr,
                                      to_i32(temp_data.size),
                                      &tex_width,
                                      &tex_height,
@@ -224,7 +224,7 @@ texture::ptr create_stbi_texture(device_p device,
 
     auto texture = texture::make();
 
-    uv2 const size = { tex_width, tex_height };
+    uv2 const size = {tex_width, tex_height};
     auto const font_format = VK_FORMAT_R8G8B8A8_SRGB;
     if (!texture->create(device, size, font_format))
         return nullptr;
@@ -245,12 +245,12 @@ texture::ptr load_texture(device_p device,
                           file_format file_format,
                           texture_type type) {
     auto use_gli = extension(file_format.path,
-                             { "DDS", "KTX", "KMG" });
+                             {"DDS", "KTX", "KMG"});
     auto use_stbi = false;
 
     if (!use_gli)
         use_stbi = extension(file_format.path,
-                             { "JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC" });
+                             {"JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC"});
 
     if (!use_gli && !use_stbi)
         return nullptr;

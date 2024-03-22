@@ -32,7 +32,7 @@ bool render_target::create(device_p device,
 
             for (auto& callback : target_callbacks)
                 if (!callback->on_created(target_attachments,
-                                          { {}, get_size() }))
+                                          {{}, get_size()}))
                     return false;
         }
 
@@ -99,7 +99,7 @@ render_target::ptr create_target(window* window,
     if (!target->create(device,
                         surface,
                         surface_format,
-                        { width, height },
+                        {width, height},
                         v_sync,
                         triple_buffer))
         return nullptr;
@@ -108,7 +108,7 @@ render_target::ptr create_target(window* window,
 
     window->on_resize =
         [&, target_ptr](ui32 new_width, ui32 new_height) {
-            return target_ptr->resize({ new_width, new_height });
+            return target_ptr->resize({new_width, new_height});
         };
 
     return target;

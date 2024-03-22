@@ -7,11 +7,11 @@
 
 #pragma once
 
-#include <memory>
 #include "liblava/core/version.hpp"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/spdlog.h"
+#include <memory>
 
 namespace lava {
 
@@ -130,13 +130,13 @@ inline logger setup_log(log_config config = {}) {
         auto log = spdlog::stdout_color_mt(config.logger);
         log->set_level((config.level < 0)
                            ? spdlog::level::debug
-                           : (spdlog::level::level_enum) config.level);
+                           : (spdlog::level::level_enum)config.level);
         return log;
     } else {
         auto log = spdlog::basic_logger_mt(config.logger, config.file);
         log->set_level((config.level < 0)
                            ? spdlog::level::warn
-                           : (spdlog::level::level_enum) config.level);
+                           : (spdlog::level::level_enum)config.level);
         return log;
     }
 }

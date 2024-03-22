@@ -39,7 +39,7 @@ bool property::install(string_ref name,
 cdata property::operator()(string_ref name) {
     auto& prop = map.at(name);
     if (prop.data.ptr)
-        return { prop.data.ptr, prop.data.size };
+        return {prop.data.ptr, prop.data.size};
 
     if (!load_file_data(prop.filename, prop.data)) {
         log()->error("prop get: {} = {}",
@@ -47,7 +47,7 @@ cdata property::operator()(string_ref name) {
         return {};
     }
 
-    return { prop.data.ptr, prop.data.size };
+    return {prop.data.ptr, prop.data.size};
 }
 
 //-----------------------------------------------------------------------------
@@ -99,7 +99,7 @@ void property::parse(cmd_line cmd_line) {
     for (auto& [name, prop] : map) {
         auto cmd_arg = "--" + name;
 
-        auto filename = get_cmd(cmd_line, { cmd_arg.c_str() });
+        auto filename = get_cmd(cmd_line, {cmd_arg.c_str()});
         if (!filename.empty()) {
             prop.filename = filename;
 

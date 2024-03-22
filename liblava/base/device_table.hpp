@@ -32,7 +32,7 @@ struct device_table {
                                               pCreateInfo,
                                               pAllocator,
                                               pView);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -55,7 +55,7 @@ struct device_table {
                                             pCreateInfo,
                                             pAllocator,
                                             pSampler);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -78,7 +78,7 @@ struct device_table {
                                                  pCreateInfo,
                                                  pAllocator,
                                                  pShaderModule);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -101,7 +101,7 @@ struct device_table {
                                           pCreateInfo,
                                           pAllocator,
                                           pFence);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -124,7 +124,7 @@ struct device_table {
                                               pCreateInfo,
                                               pAllocator,
                                               pSemaphore);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -150,9 +150,9 @@ struct device_table {
                                             waitAll,
                                             timeout);
         if ((result == VK_TIMEOUT) && (timeout != UINT64_MAX))
-            return { false, result };
+            return {false, result};
 
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -163,7 +163,7 @@ struct device_table {
         auto result = table.vkResetFences(vk_device,
                                           fenceCount,
                                           pFences);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -177,7 +177,7 @@ struct device_table {
                                           submitCount,
                                           pSubmits,
                                           fence);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -194,7 +194,7 @@ struct device_table {
                                                   semaphore,
                                                   fence,
                                                   pImageIndex);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -204,7 +204,7 @@ struct device_table {
                                 const VkPresentInfoKHR* pPresentInfo) {
         auto result = table.vkQueuePresentKHR(queue,
                                               pPresentInfo);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -217,7 +217,7 @@ struct device_table {
                                                  pCreateInfo,
                                                  pAllocator,
                                                  pSwapchain);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -249,7 +249,7 @@ struct device_table {
                                                     swapchain,
                                                     pSwapchainImageCount,
                                                     pSwapchainImages);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -262,7 +262,7 @@ struct device_table {
                                                 pCreateInfo,
                                                 pAllocator,
                                                 pCommandPool);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -296,7 +296,7 @@ struct device_table {
         auto result = table.vkAllocateCommandBuffers(vk_device,
                                                      pAllocateInfo,
                                                      pCommandBuffers);
-        return { check(result), result };
+        return {check(result), result};
     }
 
     /**
@@ -395,7 +395,7 @@ struct device_table {
     /**
      * @see https://www.khronos.org/registry/vulkan/specs/1.3/html/vkspec.html#vkUpdateDescriptorSets
      */
-    template<std::size_t SIZE>
+    template <std::size_t SIZE>
     void vkUpdateDescriptorSets(std::array<VkWriteDescriptorSet, SIZE> const& descriptor_writes) {
         vkUpdateDescriptorSets(to_i32(descriptor_writes.size()),
                                descriptor_writes.data());
@@ -404,7 +404,7 @@ struct device_table {
     /**
      * @see https://www.khronos.org/registry/vulkan/specs/1.3/html/vkspec.html#vkUpdateDescriptorSets
      */
-    template<std::size_t SIZE>
+    template <std::size_t SIZE>
     void vkUpdateDescriptorSets(std::array<VkCopyDescriptorSet, SIZE> const& descriptor_copies) {
         vkUpdateDescriptorSets(0,
                                nullptr,
@@ -415,7 +415,7 @@ struct device_table {
     /**
      * @see https://www.khronos.org/registry/vulkan/specs/1.3/html/vkspec.html#vkUpdateDescriptorSets
      */
-    template<std::size_t WRITE_SIZE, std::size_t COPY_SIZE>
+    template <std::size_t WRITE_SIZE, std::size_t COPY_SIZE>
     void vkUpdateDescriptorSets(std::array<VkWriteDescriptorSet, WRITE_SIZE> const& descriptor_writes,
                                 std::array<VkCopyDescriptorSet, COPY_SIZE> const& descriptor_copies) {
         vkUpdateDescriptorSets(to_i32(descriptor_writes.size()),

@@ -12,8 +12,8 @@
 #include "liblava/util/math.hpp"
 
 #define VK_NO_PROTOTYPES
-#include <optional>
 #include "vulkan/vulkan.h"
+#include <optional>
 
 /// fwd
 struct GLFWwindow;

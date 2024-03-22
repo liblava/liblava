@@ -7,10 +7,10 @@
 
 #pragma once
 
+#include "liblava/core/types.hpp"
 #include <chrono>
 #include <iomanip>
 #include <sstream>
-#include "liblava/core/types.hpp"
 
 namespace lava {
 
@@ -135,19 +135,19 @@ private:
  */
 struct run_time {
     /// Current milliseconds
-    ms current{ 0 };
+    ms current{0};
 
     /// Clock milliseconds
-    ms clock{ 16 };
+    ms clock{16};
 
     /// System milliseconds
-    ms system{ 0 };
+    ms system{0};
 
     /// Delta milliseconds
-    ms delta{ 0 };
+    ms delta{0};
 
     /// Fix delta milliseconds (0 = deactivated)
-    ms fix_delta{ 0 };
+    ms fix_delta{0};
 
     /// Speed factor
     r32 speed = 1.f;
@@ -171,7 +171,7 @@ using run_time_t = run_time;
  * @param format         String format
  * @return string        Converted string
  */
-template<typename CLOCK_TYPE = std::chrono::system_clock>
+template <typename CLOCK_TYPE = std::chrono::system_clock>
 inline string timestamp(const typename CLOCK_TYPE::time_point& time_point,
                         string_ref format = "%Y-%m-%d %H-%M-%S") {
     auto ms = std::chrono::duration_cast<milliseconds>(

@@ -29,40 +29,40 @@ void app::parse_cmd_line() {
     auto& cmd_line = get_cmd_line();
 
     if (auto fullscreen = undef;
-        cmd_line({ "-wf", "--fullscreen" }) >> fullscreen)
+        cmd_line({"-wf", "--fullscreen"}) >> fullscreen)
         config.window_state->fullscreen = fullscreen == 1;
 
     if (auto x_pos = undef;
-        cmd_line({ "-wx", "--x_pos" }) >> x_pos)
+        cmd_line({"-wx", "--x_pos"}) >> x_pos)
         config.window_state->x = x_pos;
 
     if (auto y_pos = undef;
-        cmd_line({ "-wy", "--y_pos" }) >> y_pos)
+        cmd_line({"-wy", "--y_pos"}) >> y_pos)
         config.window_state->y = y_pos;
 
     if (auto width = undef;
-        cmd_line({ "-ww", "--width" }) >> width)
+        cmd_line({"-ww", "--width"}) >> width)
         config.window_state->width = width;
 
     if (auto height = undef;
-        cmd_line({ "-wh", "--height" }) >> height)
+        cmd_line({"-wh", "--height"}) >> height)
         config.window_state->height = height;
 
-    cmd_line({ "-vs", "--v_sync" }) >> config.v_sync;
-    cmd_line({ "-tb", "--triple_buffering" }) >> config.triple_buffer;
-    cmd_line({ "-fps", "--fps_cap" }) >> config.fps_cap;
+    cmd_line({"-vs", "--v_sync"}) >> config.v_sync;
+    cmd_line({"-tb", "--triple_buffering"}) >> config.triple_buffer;
+    cmd_line({"-fps", "--fps_cap"}) >> config.fps_cap;
 
-    cmd_line({ "-pd", "--physical_device" }) >> config.physical_device;
+    cmd_line({"-pd", "--physical_device"}) >> config.physical_device;
 
     if (auto paused = undef;
-        cmd_line({ "-p", "--paused" }) >> paused)
+        cmd_line({"-p", "--paused"}) >> paused)
         run_time.paused = paused == 1;
 
     if (auto delta = undef;
-        cmd_line({ "-dt", "--delta" }) >> delta)
+        cmd_line({"-dt", "--delta"}) >> delta)
         run_time.fix_delta = ms(delta);
 
-    cmd_line({ "-s", "--speed" }) >> run_time.speed;
+    cmd_line({"-s", "--speed"}) >> run_time.speed;
 }
 
 //-----------------------------------------------------------------------------
@@ -98,14 +98,14 @@ bool app::create_block() {
     block_command = block.add_cmd([&](VkCommandBuffer cmd_buf) {
         scoped_label block_mark(cmd_buf,
                                 _lava_block_,
-                                { default_color, 1.f });
+                                {default_color, 1.f});
 
         auto const current_frame = block.get_current_frame();
 
         {
             scoped_label stage_mark(cmd_buf,
                                     _lava_texture_staging_,
-                                    { 0.f, 0.13f, 0.4f, 1.f });
+                                    {0.f, 0.13f, 0.4f, 1.f});
 
             staging.stage(cmd_buf, current_frame);
         }
@@ -124,11 +124,11 @@ bool app::create_pipeline_cache() {
     file_data const pipeline_cache_data(string(_cache_path_) + _pipeline_cache_file_);
 
     VkPipelineCacheCreateInfo create_info = {
-        .sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO
+        .sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO,
     };
 
     if (pipeline_cache_data.ptr) {
-        auto cache_header = (VkPipelineCacheHeaderVersionOne const*) pipeline_cache_data.ptr;
+        auto cache_header = (VkPipelineCacheHeaderVersionOne const*)pipeline_cache_data.ptr;
 
         if ((cache_header->deviceID == device->get_properties().deviceID)
             && (cache_header->vendorID == device->get_properties().vendorID)
@@ -178,7 +178,7 @@ bool app::setup() {
         return false;
 
     auto const config_id = get_cmd(get_cmd_line(),
-                                   { "-id", "--identification" });
+                                   {"-id", "--identification"});
     if (!config_id.empty()) {
         if (!load_config(config_id))
             log()->debug("new config id (cmd line): {}", config_id);
@@ -211,7 +211,7 @@ bool app::setup() {
 void app::mount_resource() {
     auto res_list = fs.mount_res();
 
-    auto const res_str = get_cmd(get_cmd_line(), { "-res", "--resource" });
+    auto const res_str = get_cmd(get_cmd_line(), {"-res", "--resource"});
     if (!res_str.empty()) {
         auto const res_dir = fs.get_full_base_dir(res_str);
 
@@ -246,12 +246,12 @@ bool app::setup_file_system() {
 
     mount_resource();
 
-    if (cmd_line[{ "-c", "--clean" }]) {
+    if (cmd_line[{"-c", "--clean"}]) {
         fs.clean_pref_dir();
         log()->info("clean preferences");
     }
 
-    if (cmd_line[{ "-cc", "--clean_cache" }]) {
+    if (cmd_line[{"-cc", "--clean_cache"}]) {
         std::filesystem::remove_all(fs.get_pref_dir() + _cache_path_);
         log()->info("clean cache");
     }
@@ -261,7 +261,7 @@ bool app::setup_file_system() {
 
 //-----------------------------------------------------------------------------
 bool app::setup_window() {
-    if (get_cmd_line()[{ "-wt", "--title" }])
+    if (get_cmd_line()[{"-wt", "--title"}])
         window.show_save_title();
 
     if (config.id != _default_)
@@ -276,7 +276,7 @@ bool app::setup_window() {
 
     set_window_icon(window);
 
-    if (get_cmd_line()[{ "-wc", "--center" }])
+    if (get_cmd_line()[{"-wc", "--center"}])
         window.center();
 
     return true;
@@ -396,7 +396,7 @@ bool app::create_imgui() {
     staging.add(imgui_fonts);
 
     if (auto imgui_active = undef;
-        get_cmd_line()({ "-ig", "--imgui" }) >> imgui_active)
+        get_cmd_line()({"-ig", "--imgui"}) >> imgui_active)
         imgui.set_active(imgui_active == 1);
 
     return true;

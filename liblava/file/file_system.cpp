@@ -15,7 +15,7 @@ sem_version file_system::get_version() {
     PHYSFS_Version result;
     PHYSFS_getLinkedVersion(&result);
 
-    return { result.major, result.minor, result.patch };
+    return {result.major, result.minor, result.patch};
 }
 
 //-----------------------------------------------------------------------------

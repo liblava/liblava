@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
         return error::not_ready;
 
     r32 lamp_depth = .03f;
-    v4 lamp_color{ .3f, .15f, .15f, 1.f };
+    v4 lamp_color{.3f, .15f, .15f, 1.f};
 
     render_pipeline::ptr pipeline;
     pipeline_layout::ptr layout;
@@ -115,8 +115,8 @@ int main(int argc, char* argv[]) {
         pipeline->set_rasterization_front_face(VK_FRONT_FACE_COUNTER_CLOCKWISE);
 
         layout = pipeline_layout::make();
-        layout->add_push_constant_range({ VK_SHADER_STAGE_FRAGMENT_BIT,
-                                          0, sizeof(r32) * 8 });
+        layout->add_push_constant_range({VK_SHADER_STAGE_FRAGMENT_BIT,
+                                         0, sizeof(r32) * 8});
 
         if (!layout->create(app.device))
             return false;
@@ -192,8 +192,8 @@ int main(int argc, char* argv[]) {
     });
 
     app.imgui.layers.add("info", [&]() {
-        ImGui::SetNextWindowPos({ 30, 30 }, ImGuiCond_FirstUseEver);
-        ImGui::SetNextWindowSize({ 265, 275 }, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowPos({30, 30}, ImGuiCond_FirstUseEver);
+        ImGui::SetNextWindowSize({265, 275}, ImGuiCond_FirstUseEver);
 
         ImGui::Begin(app.get_name());
 
@@ -216,10 +216,10 @@ int main(int argc, char* argv[]) {
         ImGui::Separator();
 
         ImGui::DragFloat("depth", &lamp_depth, 0.0001f, 0.01f, 1.f, "%.4f");
-        ImGui::ColorEdit4("color", (r32*) &lamp_color);
+        ImGui::ColorEdit4("color", (r32*)&lamp_color);
 
         v3 clear_color = app.shading.get_pass()->get_clear_color();
-        if (ImGui::ColorEdit3("ground", (r32*) &clear_color))
+        if (ImGui::ColorEdit3("ground", (r32*)&clear_color))
             app.shading.get_pass()->set_clear_color(clear_color);
 
         ImGui::DragFloat("speed", &app.run_time.speed, 0.001f, -10.f, 10.f, "x %.3f");

@@ -7,15 +7,15 @@
 
 #pragma once
 
+#include "liblava/util/thread.hpp"
 #include <any>
 #include <cmath>
 #include <set>
-#include "liblava/util/thread.hpp"
 
 namespace lava {
 
 /// Minimal telegram delay in milliseconds
-constexpr ms const telegram_min_delay{ 250 };
+constexpr ms const telegram_min_delay{250};
 
 /// Any type
 using any = std::any;
@@ -131,7 +131,7 @@ struct dispatcher {
                      current_time,
                      info);
 
-        if (delay == ms{ 0 }) {
+        if (delay == ms{0}) {
             discharge(msg); // now
             return;
         }
