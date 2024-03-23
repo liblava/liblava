@@ -1,6 +1,6 @@
 /**
  * @file         liblava/util/telegram.hpp
- * @brief        Telegram dispatcher
+ * @brief        Message dispatcher
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
@@ -27,38 +27,41 @@ struct telegram {
     /// Reference to telegram
     using ref = telegram const&;
 
+    /// Set of telegrams
+    using set = std::set<telegram>;
+
     /**
      * @brief Construct a new telegram
      * @param sender           Sender id
      * @param receiver         Receiver id
-     * @param msg              Telegram message
+     * @param msg              Message id
      * @param dispatch_time    Dispatch time
      * @param info             Telegram information
      */
     explicit telegram(id::ref sender,
                       id::ref receiver,
-                      id::ref msg,
+                      index msg,
                       ms dispatch_time = {},
                       any info = {})
     : sender(sender), receiver(receiver),
-      msg(msg), dispatch_time(dispatch_time),
+      id(msg), dispatch_time(dispatch_time),
       info(std::move(info)) {}
 
     /**
      * @brief Equal operator
-     * @param rhs       Another telegram
+     * @param rhs    Another telegram
      * @return Telegram is equal or not
      */
     bool operator==(ref rhs) const {
         return ((dispatch_time - rhs.dispatch_time) < telegram_min_delay)
                && (sender == rhs.sender)
                && (receiver == rhs.receiver)
-               && (msg == rhs.msg);
+               && (id == rhs.id);
     }
 
     /**
      * @brief Time order operator
-     * @param rhs       Another telegram
+     * @param rhs    Another telegram
      * @return Telegram is earlier or later
      */
     bool operator<(ref rhs) const {
@@ -74,8 +77,8 @@ struct telegram {
     /// Receiver id
     id receiver;
 
-    /// Telegram message
-    id msg;
+    /// Message id
+    index id = no_index;
 
     /// Dispatch time
     ms dispatch_time;
@@ -85,9 +88,35 @@ struct telegram {
 };
 
 /**
- * @brief Telegram dispatcher
+ * @brief Telegraph station
  */
-struct dispatcher {
+struct telegraph : interface {
+    /**
+     * @brief Send message to dispatcher
+     * @param receiver    Receiver id
+     * @param sender      Sender id
+     * @param message     Message id
+     * @param delay       Delay time
+     * @param info        Telegram information
+     */
+    virtual void send_message(id::ref receiver,
+                              id::ref sender,
+                              index message,
+                              ms delay = {},
+                              any const& info = {}) = 0;
+};
+
+/**
+ * @brief Message dispatcher
+ */
+struct message_dispatcher : telegraph {
+    /**
+     * @brief Destroy the dispatcher
+     */
+    ~message_dispatcher() {
+        teardown();
+    }
+
     /**
      * @brief Set up the dispatcher
      * @param thread_count    Number of threads
@@ -112,19 +141,12 @@ struct dispatcher {
         dispatch_delayed_messages(current_time);
     }
 
-    /**
-     * @brief Add message to dispatcher
-     * @param receiver    Receiver id
-     * @param sender      Sender id
-     * @param message     Telegram message
-     * @param delay       Delay time
-     * @param info        Telegram information
-     */
-    void add_message(id::ref receiver,
-                     id::ref sender,
-                     id::ref message,
-                     ms delay = {},
-                     any const& info = {}) {
+    /// @see telegraph::send_message
+    void send_message(id::ref receiver,
+                      id::ref sender,
+                      index message,
+                      ms delay = {},
+                      any const& info = {}) override {
         telegram msg(sender,
                      receiver,
                      message,
@@ -143,8 +165,45 @@ struct dispatcher {
     /// Message function
     using message_func = std::function<void(telegram::ref, id::ref)>;
 
-    /// Called on message handling
-    message_func on_message;
+    /**
+     * @brief Add dispatch
+     * @param target    Sender id
+     * @param func      Dispatch function
+     * @return Dispatch added or not
+     */
+    bool add_dispatch(id::ref target, message_func func) {
+        std::lock_guard guard(lock);
+
+        if (dispatches.count(target))
+            return false;
+
+        dispatches.emplace(target, func);
+        return true;
+    }
+
+    /**
+     * @brief Remove dispatch
+     * @param target    Sender id
+     * @return Dispatch removed or not
+     */
+    bool remove_dispatch(id::ref target) {
+        std::lock_guard guard(lock);
+
+        if (!dispatches.count(target))
+            return false;
+
+        dispatches.erase(target);
+        return true;
+    }
+
+    /**
+     * @brief Check if dispatch is registered
+     * @param target    Sender id
+     * @return Dispatch exists or not
+     */
+    bool has_dispatch(id::ref target) const {
+        return dispatches.count(target);
+    }
 
 private:
     /**
@@ -153,8 +212,12 @@ private:
      */
     void discharge(telegram::ref message) {
         pool.enqueue([&, message](id::ref thread_id) {
-            if (on_message)
-                on_message(message, thread_id);
+            std::lock_guard guard(lock);
+
+            auto dispatch = get_dispatch(message.receiver);
+            LAVA_ASSERT(dispatch);
+            if (dispatch)
+                dispatch(message, thread_id);
         });
     }
 
@@ -164,13 +227,32 @@ private:
      */
     void dispatch_delayed_messages(ms time) {
         while (!messages.empty()
-               && (messages.begin()->dispatch_time < time)
-               && (messages.begin()->dispatch_time > ms{})) {
+               && (messages.begin()->dispatch_time < time)) {
             discharge(*messages.begin());
 
             messages.erase(messages.begin());
         }
     }
+
+    /**
+     * @brief Get dispatch receiver
+     * @param target    Receiver id
+     */
+    message_func get_dispatch(id::ref target) {
+        if (!dispatches.count(target))
+            return nullptr;
+
+        return dispatches.at(target);
+    }
+
+    /// Map of dispatches
+    using dispatch_map = std::map<id, message_func>;
+
+    /// Registered dispatches
+    dispatch_map dispatches;
+
+    /// Lock for dispatches
+    std::mutex lock;
 
     /// Time in milliseconds
     ms current_time;
@@ -179,7 +261,7 @@ private:
     thread_pool pool;
 
     /// List of messages
-    std::set<telegram> messages;
+    telegram::set messages;
 };
 
 } // namespace lava

@@ -13,6 +13,7 @@
 #include "liblava/core/time.hpp"
 #include "liblava/frame/argh.hpp"
 #include "liblava/util/log.hpp"
+#include "liblava/util/telegram.hpp"
 
 namespace lava {
 
@@ -61,6 +62,9 @@ struct frame_env {
 
     /// Intance debug configuration
     instance::debug_config debug;
+
+    /// Message dispatcher threads
+    ui32 telegraph_thread_count = 4;
 };
 
 /**
@@ -243,6 +247,9 @@ struct frame : interface, no_copy_no_move {
 
     /// Stage platform
     platform_t platform;
+
+    /// Message dispatcher
+    message_dispatcher telegraph;
 
 private:
     /**

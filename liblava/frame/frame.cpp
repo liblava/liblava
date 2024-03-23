@@ -156,6 +156,8 @@ bool frame::setup() {
         return false;
     }
 
+    telegraph.setup(env.telegraph_thread_count);
+
     initialized = true;
 
     return true;
@@ -165,6 +167,8 @@ bool frame::setup() {
 void frame::teardown() {
     if (!initialized)
         return;
+
+    telegraph.teardown();
 
     platform.clear();
 
@@ -212,6 +216,8 @@ frame::result frame::run() {
 //-----------------------------------------------------------------------------
 bool frame::run_step() {
     handle_events(wait_for_events);
+
+    telegraph.update(run_time.current);
 
     if (!run_once_list.empty()) {
         for (auto& func : run_once_list) {

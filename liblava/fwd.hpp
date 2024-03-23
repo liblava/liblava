@@ -123,7 +123,8 @@ struct rect;
 struct random_generator;
 struct pseudo_random_generator;
 struct telegram;
-struct dispatcher;
+struct telegraph;
+struct message_dispatcher;
 struct thread_pool;
 
 } // namespace lava
