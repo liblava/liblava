@@ -18,7 +18,7 @@ set(json_GITHUB nlohmann/json)
 set(json_TAG 199dea11b17c533721b26249e2dcaee6ca1d51d3)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG 73e2e02b42b2d52fc07b88ceb7f91cf95c5f564f)
+set(spdlog_TAG ec661f98dc37a789eba4466b46e94a105939d49a)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG ae721c50eaf761660b4f90cc590453cdb0c2acd0)
