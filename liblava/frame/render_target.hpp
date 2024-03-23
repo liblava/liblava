@@ -31,12 +31,12 @@ struct render_target : entity {
 
     /**
      * @brief Create a new render target
-     * @param device        Vulkan device
-     * @param surface       Vulkan surface
-     * @param format        Surface format
-     * @param size          Size of target
-     * @param v_sync        V-Sync enabled
-     * @param triple_buffer VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR
+     * @param device           Vulkan device
+     * @param surface          Vulkan surface
+     * @param format           Surface format
+     * @param size             Size of target
+     * @param v_sync           V-Sync enabled
+     * @param triple_buffer    VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR
      * @return Create was successful or failed
      */
     bool create(device_p device,
