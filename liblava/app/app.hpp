@@ -104,9 +104,6 @@ struct app : frame {
     /// Render target
     render_target::ptr target;
 
-    /// Run time
-    run_time_t run_time;
-
     /// File system
     file_system fs;
 

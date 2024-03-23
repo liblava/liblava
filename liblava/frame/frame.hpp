@@ -238,6 +238,9 @@ struct frame : interface, no_copy_no_move {
         wait_for_events = value;
     }
 
+    /// Run time
+    run_time_t run_time;
+
     /// Stage platform
     platform_t platform;
 
