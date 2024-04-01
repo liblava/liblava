@@ -91,7 +91,6 @@ if(LIBLAVA_EXTERNALS)
   set_target_properties(enum_string_mapping PROPERTIES FOLDER ${SPIRV_TOOLS_FOLDER})
   set_target_properties(extinst_tables PROPERTIES FOLDER ${SPIRV_TOOLS_FOLDER})
   set_target_properties(spirv-tools-pkg-config PROPERTIES FOLDER ${SPIRV_TOOLS_FOLDER})
-  set_target_properties(spirv-tools-shared-pkg-config PROPERTIES FOLDER ${SPIRV_TOOLS_FOLDER})
 endif()
 
 message(STATUS "========================================================================")
