@@ -357,7 +357,7 @@ inline hex_cell::list hex_line(hex_cell const& a,
                                        b.s - 0.000002f};
 
     ui32 const n = hex_distance(a, b);
-    auto const step = 1.0 / std::max(n, 1u);
+    auto const step = 1.f / std::max(n, 1u);
 
     hex_cell::list results;
     for (auto i = 0u; i <= n; ++i)
