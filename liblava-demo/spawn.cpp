@@ -239,10 +239,10 @@ int main(int argc, char* argv[]) {
 
         ImGui::SameLine(0.f, 10.f);
 
-        bool first_person = app.camera.mode == camera_mode::first_person;
+        bool first_person = app.camera.mode == camera::mode::first_person;
         if (ImGui::Checkbox("first person##camera", &first_person))
-            app.camera.mode = first_person ? camera_mode::first_person
-                                           : camera_mode::look_at;
+            app.camera.mode = first_person ? camera::mode::first_person
+                                           : camera::mode::look_at;
 
         ImGui::Spacing();
 
@@ -287,9 +287,9 @@ int main(int argc, char* argv[]) {
             return input_ignore;
 
         if (event.pressed(key::enter)) {
-            app.camera.mode = app.camera.mode == camera_mode::first_person
-                                  ? camera_mode::look_at
-                                  : camera_mode::first_person;
+            app.camera.mode = app.camera.mode == camera::mode::first_person
+                                  ? camera::mode::look_at
+                                  : camera::mode::first_person;
             return input_done;
         }
 

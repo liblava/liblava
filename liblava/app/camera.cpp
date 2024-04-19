@@ -91,7 +91,7 @@ void camera::update_view(delta dt, mouse_position mouse_pos) {
         scroll_pos = 0.0;
     }
 
-    if (mode == camera_mode::first_person && moving()) {
+    if (mode == mode::first_person && moving()) {
         move_first_person(dt);
     }
 
@@ -102,7 +102,7 @@ void camera::update_view(delta dt, mouse_position mouse_pos) {
 
     auto trans_m = glm::translate(mat4(1.f), -position);
 
-    if (mode == camera_mode::first_person)
+    if (mode == mode::first_person)
         view = rot_m * trans_m;
     else
         view = trans_m * rot_m;
@@ -116,7 +116,7 @@ void camera::update_view(delta dt, gamepad::ref pad) {
     const auto dead_zone = 0.2f;
     const auto range = 1.f - dead_zone;
 
-    if (mode == camera_mode::first_person) {
+    if (mode == mode::first_person) {
         v3 front;
         front.x = -cos(glm::radians(rotation.x)) * sin(glm::radians(rotation.y));
         front.y = sin(glm::radians(rotation.x));

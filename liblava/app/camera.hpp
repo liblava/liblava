@@ -14,14 +14,6 @@
 namespace lava {
 
 /**
- * @brief Camera modes
- */
-enum class camera_mode : index {
-    first_person = 0,
-    look_at,
-};
-
-/**
  * @brief First Person / Look At camera
  */
 struct camera : entity {
@@ -33,6 +25,14 @@ struct camera : entity {
 
     /// List of cameras
     using list = std::vector<ptr>;
+
+    /**
+     * @brief Camera modes
+     */
+    enum class mode : index {
+        first_person = 0,
+        look_at,
+    };
 
     /**
      * @brief Create a camera
@@ -204,7 +204,7 @@ struct camera : entity {
     r32 aspect_ratio = 1.77f;
 
     /// Camera mode
-    camera_mode mode = camera_mode::first_person;
+    mode mode = mode::first_person;
 
     /// Lock Z axis movement
     bool lock_z = false;
