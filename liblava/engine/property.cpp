@@ -36,10 +36,10 @@ bool property::install(string_ref name,
 }
 
 //-----------------------------------------------------------------------------
-cdata property::operator()(string_ref name) {
+c_data property::operator()(string_ref name) {
     auto& prop = map.at(name);
-    if (prop.data.ptr)
-        return {prop.data.ptr, prop.data.size};
+    if (prop.data.addr)
+        return {prop.data.addr, prop.data.size};
 
     if (!load_file_data(prop.filename, prop.data)) {
         log()->error("prop get: {} = {}",
@@ -47,7 +47,7 @@ cdata property::operator()(string_ref name) {
         return {};
     }
 
-    return {prop.data.ptr, prop.data.size};
+    return {prop.data.addr, prop.data.size};
 }
 
 //-----------------------------------------------------------------------------
@@ -69,7 +69,7 @@ bool property::check() {
 //-----------------------------------------------------------------------------
 bool property::load(string_ref name) {
     auto& prop = map.at(name);
-    if (prop.data.ptr)
+    if (prop.data.addr)
         prop.data = {}; // reload
 
     if (!load_file_data(prop.filename, prop.data)) {

@@ -372,7 +372,7 @@ private:
  * @return VkShaderModule    Shader module
  */
 VkShaderModule create_shader_module(device_p device,
-                                    cdata::ref data);
+                                    c_data::ref data);
 
 /// One time command function
 using one_time_command_func = std::function<void(VkCommandBuffer)>;

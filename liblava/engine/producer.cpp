@@ -102,8 +102,8 @@ bool producer::add_texture(texture::ptr product) {
 }
 
 //-----------------------------------------------------------------------------
-cdata producer::get_shader(string_ref name,
-                           bool reload) {
+c_data producer::get_shader(string_ref name,
+                            bool reload) {
     if (shaders.count(name)) {
         if (!reload)
             return shaders.at(name);
@@ -137,13 +137,13 @@ cdata producer::get_shader(string_ref name,
         context->props.unload(name);
 
     auto product = context->props(name);
-    if (!product.ptr)
+    if (!product.addr)
         return {};
 
     auto module_data = compile_shader(product,
                                       name,
                                       context->props.get_filename(name));
-    if (!module_data.ptr)
+    if (!module_data.addr)
         return {};
 
     context->props.unload(name);
@@ -152,7 +152,7 @@ cdata producer::get_shader(string_ref name,
 
     file file(filename, file_mode::write);
     if (file.opened())
-        if (!file.write(module_data.ptr, module_data.size))
+        if (!file.write(module_data.addr, module_data.size))
             log()->warn("shader not cached: {}", filename);
 
     shaders.emplace(name, module_data);
@@ -194,12 +194,12 @@ public:
 
         auto filename = file_path.string();
         file_data file_data(filename);
-        if (!file_data.ptr)
+        if (!file_data.addr)
             return nullptr;
 
         auto container = new std::array<std::string, 2>;
         (*container)[0] = name;
-        (*container)[1] = {file_data.ptr, file_data.size};
+        (*container)[1] = {file_data.addr, file_data.size};
 
         if (file_hash_map)
             file_hash_map->emplace(filename, hash256(container->at(1)));
@@ -269,7 +269,7 @@ shaderc_shader_kind get_shader_kind(string_ref filename) {
 }
 
 //-----------------------------------------------------------------------------
-data producer::compile_shader(cdata product,
+data producer::compile_shader(c_data product,
                               string_ref name, string_ref filename) const {
     shaderc::Compiler compiler;
     shaderc::CompileOptions options;
@@ -321,7 +321,7 @@ data producer::compile_shader(cdata product,
 
     log()->debug("compiling shader: {} - {}", name, filename);
 
-    string product_str = {product.ptr, product.size};
+    string product_str = {product.addr, product.size};
 
     shaderc::PreprocessedSourceCompilationResult result =
         compiler.PreprocessGlsl(product_str,
@@ -356,7 +356,7 @@ data producer::compile_shader(cdata product,
 
     data module_data;
     module_data.set(data_size);
-    memcpy(module_data.ptr,
+    memcpy(module_data.addr,
            module_result.data(),
            data_size);
 
@@ -426,7 +426,7 @@ bool producer::valid_shader(string_ref name) const {
                 break;
             }
 
-            auto file_hash = hash256({data.ptr, data.size});
+            auto file_hash = hash256({data.addr, data.size});
             if (file_hash != string(value)) {
                 valid = false;
                 break;

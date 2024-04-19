@@ -322,7 +322,7 @@ int main(int argc, char* argv[]) {
 
             spawn_model = glm::scale(spawn_model, spawn_scale);
 
-            memcpy(as_ptr(spawn_model_buffer.get_mapped_data()), &spawn_model, sizeof(mat4));
+            memcpy(data::as_ptr(spawn_model_buffer.get_mapped_data()), &spawn_model, sizeof(mat4));
 
             update_spawn_matrix = false;
         }

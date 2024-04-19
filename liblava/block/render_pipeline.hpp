@@ -240,7 +240,7 @@ struct render_pipeline : pipeline {
      * @param stage     Shader stage flag bits
      * @return Add was successful or failed
      */
-    bool add_shader_stage(cdata::ref data,
+    bool add_shader_stage(c_data::ref data,
                           VkShaderStageFlagBits stage);
 
     /**
@@ -249,7 +249,7 @@ struct render_pipeline : pipeline {
      * @param stage     Shader stage flag bits
      * @return Add was successful or failed
      */
-    bool add_shader(cdata::ref data,
+    bool add_shader(c_data::ref data,
                     VkShaderStageFlagBits stage) {
         return add_shader_stage(data, stage);
     }

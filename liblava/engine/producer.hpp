@@ -72,19 +72,19 @@ struct producer {
 
     /**
      * @brief Generate shader by prop name
-     * @param name      Name of shader
-     * @param reload    Reload shader
-     * @return cdata    Shader data
+     * @param name       Name of shader
+     * @param reload     Reload shader
+     * @return c_data    Shader data
      */
-    cdata get_shader(string_ref name,
-                     bool reload = false);
+    c_data get_shader(string_ref name,
+                      bool reload = false);
 
     /**
      * @brief Regenerate shader by prop name
-     * @param name      Name of shader
-     * @return cdata    Shader data
+     * @param name       Name of shader
+     * @return c_data    Shader data
      */
-    cdata reload_shader(string_ref name) {
+    c_data reload_shader(string_ref name) {
         return get_shader(name, true);
     }
 
@@ -95,7 +95,7 @@ struct producer {
      * @param filename        Shader filename
      * @return data           Compiled shader data
      */
-    data compile_shader(cdata product,
+    data compile_shader(c_data product,
                         string_ref name,
                         string_ref filename) const;
 

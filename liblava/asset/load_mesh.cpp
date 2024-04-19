@@ -46,13 +46,13 @@ mesh::ptr load_mesh(device_p device, string_ref filename, string_ref temp_dir) {
                 temp_file += get_filename_from(target_file, true);
 
                 unique_data temp_data(file.get_size());
-                if (!temp_data.ptr)
+                if (!temp_data.addr)
                     return nullptr;
 
-                if (file_error(file.read(temp_data.ptr)))
+                if (file_error(file.read(temp_data.addr)))
                     return nullptr;
 
-                if (!write_file(temp_file, temp_data.ptr, temp_data.size))
+                if (!write_file(temp_file, temp_data.addr, temp_data.size))
                     return nullptr;
 
                 target_file = temp_file;

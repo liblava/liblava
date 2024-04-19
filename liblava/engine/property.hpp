@@ -67,10 +67,10 @@ struct property : configurable {
 
     /**
      * @brief Get prop data
-     * @param name      Name of prop
-     * @return cdata    Prop const data
+     * @param name       Name of prop
+     * @return c_data    Prop const data
      */
-    cdata operator()(string_ref name);
+    c_data operator()(string_ref name);
 
     /**
      * @brief Get file name of prop
@@ -106,7 +106,7 @@ struct property : configurable {
      * @return Prop data is empty or not
      */
     bool empty(string_ref name) const {
-        return map.at(name).data.ptr == nullptr;
+        return map.at(name).data.addr == nullptr;
     }
 
     /**

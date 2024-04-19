@@ -127,8 +127,8 @@ bool app::create_pipeline_cache() {
         .sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO,
     };
 
-    if (pipeline_cache_data.ptr) {
-        auto cache_header = (VkPipelineCacheHeaderVersionOne const*)pipeline_cache_data.ptr;
+    if (pipeline_cache_data.addr) {
+        auto cache_header = (VkPipelineCacheHeaderVersionOne const*)pipeline_cache_data.addr;
 
         if ((cache_header->deviceID == device->get_properties().deviceID)
             && (cache_header->vendorID == device->get_properties().vendorID)
@@ -137,7 +137,7 @@ bool app::create_pipeline_cache() {
                        VK_UUID_SIZE)
                 == 0)) {
             create_info.initialDataSize = pipeline_cache_data.size;
-            create_info.pInitialData = pipeline_cache_data.ptr;
+            create_info.pInitialData = pipeline_cache_data.addr;
         }
     }
 
@@ -153,12 +153,12 @@ void app::destroy_pipeline_cache() {
     if (check(vkGetPipelineCacheData(device->get(), pipeline_cache, &size, nullptr))) {
         unique_data pipeline_cache_data(size);
 
-        if (check(vkGetPipelineCacheData(device->get(), pipeline_cache, &size, pipeline_cache_data.ptr))) {
+        if (check(vkGetPipelineCacheData(device->get(), pipeline_cache, &size, pipeline_cache_data.addr))) {
             fs.create_folder(_cache_path_);
 
             file file(string(_cache_path_) + _pipeline_cache_file_, file_mode::write);
             if (file.opened())
-                if (!file.write(pipeline_cache_data.ptr, pipeline_cache_data.size))
+                if (!file.write(pipeline_cache_data.addr, pipeline_cache_data.size))
                     log()->warn("app pipeline cache not saved: {}", file.get_path());
         }
     }

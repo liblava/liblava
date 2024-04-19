@@ -220,11 +220,11 @@ VkPhysicalDeviceProperties const& device::get_properties() const {
 }
 
 //-----------------------------------------------------------------------------
-VkShaderModule create_shader_module(device_p device, cdata::ref data) {
+VkShaderModule create_shader_module(device_p device, c_data::ref data) {
     VkShaderModuleCreateInfo shader_module_create_info{
         .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
         .codeSize = data.size,
-        .pCode = reinterpret_cast<const ui32*>(data.ptr),
+        .pCode = reinterpret_cast<const ui32*>(data.addr),
     };
 
     VkShaderModule result;

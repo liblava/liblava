@@ -104,7 +104,7 @@ i64 file::get_size() const {
 }
 
 //-----------------------------------------------------------------------------
-i64 file::read(data_ptr data, ui64 size) {
+i64 file::read(data::ptr data, ui64 size) {
     if (mode == file_mode::write)
         return file_error_result;
 
@@ -117,7 +117,7 @@ i64 file::read(data_ptr data, ui64 size) {
 }
 
 //-----------------------------------------------------------------------------
-i64 file::write(data_cptr data, ui64 size) {
+i64 file::write(data::c_ptr data, ui64 size) {
     if (mode != file_mode::write)
         return file_error_result;
 

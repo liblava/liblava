@@ -26,7 +26,7 @@ struct image_loader {
      * @brief Construct a new image data from memory
      * @param image    Memory data to load
      */
-    explicit image_loader(cdata::ref image);
+    explicit image_loader(c_data::ref image);
 
     /**
      * @brief Destroy the image data
@@ -43,9 +43,9 @@ struct image_loader {
 
     /**
      * @brief Get image data
-     * @return data_ptr    Image data pointer
+     * @return data::c_ptr    Image data pointer
      */
-    data_cptr get() const {
+    data::c_ptr get() const {
         return data;
     }
 
@@ -75,7 +75,7 @@ struct image_loader {
 
 private:
     /// Pointer to data
-    data_ptr data = nullptr;
+    data::ptr data = nullptr;
 
     /// Dimensions
     uv2 dimensions = uv2(0, 0);

@@ -233,7 +233,7 @@ int main(int argc, char* argv[]) {
 
     app.on_update = [&](delta dt) {
         rotation_vector += v3{0, 1.f, 0} * dt;
-        memcpy(as_ptr(rotation_buffer.get_mapped_data()),
+        memcpy(data::as_ptr(rotation_buffer.get_mapped_data()),
                &rotation_vector, sizeof(rotation_vector));
 
         if (app.camera.activated())

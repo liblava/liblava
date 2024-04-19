@@ -95,7 +95,7 @@ struct file : no_copy_no_move {
      * @param data    Data to read
      * @return i64    File size
      */
-    i64 read(data_ptr data) {
+    i64 read(data::ptr data) {
         return read(data,
                     to_ui64(get_size()));
     }
@@ -106,7 +106,7 @@ struct file : no_copy_no_move {
      * @param size    File size
      * @return i64    File size
      */
-    i64 read(data_ptr data, ui64 size);
+    i64 read(data::ptr data, ui64 size);
 
     /**
      * @brief Write data to file
@@ -114,7 +114,7 @@ struct file : no_copy_no_move {
      * @param size    File size
      * @return i64    File size
      */
-    i64 write(data_cptr data, ui64 size);
+    i64 write(data::c_ptr data, ui64 size);
 
     /**
      * @brief Seek to position in the file

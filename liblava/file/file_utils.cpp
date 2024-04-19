@@ -100,10 +100,10 @@ bool load_file_data(string_ref filename, data& target) {
         return false;
 
     target.set(to_size_t(file.get_size()));
-    if (!target.ptr)
+    if (!target.addr)
         return false;
 
-    return !file_error(file.read(target.ptr));
+    return !file_error(file.read(target.addr));
 }
 
 //-----------------------------------------------------------------------------

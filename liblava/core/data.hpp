@@ -12,59 +12,6 @@
 
 namespace lava {
 
-/// Data pointer
-using data_ptr = char*;
-
-/// Const data pointer
-using data_cptr = char const*;
-
-/**
- * @brief Data provider
- */
-struct data_provider {
-    /**
-     * @brief Allocation function
-     */
-    using alloc_func = std::function<data_ptr(size_t, size_t)>;
-
-    /// Called on allocation
-    alloc_func on_alloc;
-
-    /**
-     * @brief Free function
-     */
-    using free_func = std::function<void()>;
-
-    /// Called on free
-    free_func on_free;
-
-    /**
-     * @brief Reallocation function
-     */
-    using realloc_func = std::function<data_ptr(data_ptr, size_t, size_t)>;
-
-    /// Called on reallocation
-    realloc_func on_realloc;
-};
-
-/**
- * @brief Cast to data pointer
- * @param value        Value to cast
- * @return data_ptr    Data pointer
- */
-inline data_ptr as_ptr(auto* value) {
-    return (data_ptr)value;
-}
-
-/**
- * @brief Cast to const data pointer
- * @param value         Value to cast
- * @return data_cptr    Const data pointer
- */
-inline data_cptr as_cptr(auto* value) {
-    return (data_cptr)value;
-}
-
 /**
  * @brief Align value up
  * @param value    Value to align
@@ -150,19 +97,43 @@ inline void* realloc_data(void* data,
 }
 
 /**
- * @brief Data modes
- */
-enum class data_mode : index {
-    alloc = 0,
-    no_alloc
-};
-
-/**
  * @brief Data wrapper
  */
 struct data {
     /// Reference to data wrapper
     using ref = data const&;
+
+    /// Data pointer
+    using ptr = char*;
+
+    /// Const data pointer
+    using c_ptr = char const*;
+
+    /**
+     * @brief Cast to data pointer
+     * @param value    Value to cast
+     * @return ptr     Data pointer
+     */
+    static inline ptr as_ptr(auto* value) {
+        return (ptr)value;
+    }
+
+    /**
+     * @brief Cast to const data pointer
+     * @param value     Value to cast
+     * @return c_ptr    Const data pointer
+     */
+    static inline c_ptr as_c_ptr(auto* value) {
+        return (c_ptr)value;
+    }
+
+    /**
+     * @brief Data modes
+     */
+    enum class mode : index {
+        alloc = 0,
+        no_alloc
+    };
 
     /**
      * @brief Construct a new data
@@ -171,11 +142,11 @@ struct data {
 
     /**
      * @brief Construct a new data
-     * @param ptr     Data pointer
+     * @param addr    Data pointer
      * @param size    Size of data
      */
-    data(auto* ptr, size_t size)
-    : ptr(as_ptr(ptr)), size(size) {}
+    data(auto* addr, size_t size)
+    : addr(as_ptr(addr)), size(size) {}
 
     /**
      * @brief Set and allocate data by length
@@ -184,11 +155,11 @@ struct data {
      * @return Allocate was successful or failed (mode: alloc)
      */
     bool set(size_t length,
-             data_mode mode = data_mode::alloc) {
+             mode mode = mode::alloc) {
         size = length;
-        alignment = align<data_ptr>();
+        alignment = align<data::ptr>();
 
-        if (mode == data_mode::alloc)
+        if (mode == mode::alloc)
             return allocate();
 
         return true;
@@ -199,31 +170,31 @@ struct data {
      * @return Allocate was successful or failed
      */
     bool allocate() {
-        ptr = as_ptr(alloc_data(size, alignment));
-        return ptr != nullptr;
+        addr = as_ptr(alloc_data(size, alignment));
+        return addr != nullptr;
     }
 
     /**
      * @brief Free data
      */
     void free() {
-        if (!ptr)
+        if (!addr)
             return;
 
-        free_data(ptr);
-        ptr = nullptr;
+        free_data(addr);
+        addr = nullptr;
     }
 
     /**
      * @brief Pointer to end of data
-     * @return data_ptr    Pointer to end
+     * @return ptr    Pointer to end
      */
-    data_ptr end() const {
-        return ptr + size;
+    ptr end() const {
+        return addr + size;
     }
 
-    /// Pointer to data
-    data_ptr ptr = nullptr;
+    /// Pointer address
+    ptr addr = nullptr;
 
     /// Size of data
     size_t size = 0;
@@ -233,35 +204,64 @@ struct data {
 };
 
 /**
+ * @brief Data provider
+ */
+struct data_provider {
+    /**
+     * @brief Allocation function
+     */
+    using alloc_func = std::function<data::ptr(size_t, size_t)>;
+
+    /// Called on allocation
+    alloc_func on_alloc;
+
+    /**
+     * @brief Free function
+     */
+    using free_func = std::function<void()>;
+
+    /// Called on free
+    free_func on_free;
+
+    /**
+     * @brief Reallocation function
+     */
+    using realloc_func = std::function<data::ptr(data::ptr, size_t, size_t)>;
+
+    /// Called on reallocation
+    realloc_func on_realloc;
+};
+
+/**
  * @brief Const data wrapper
  */
-struct cdata {
+struct c_data {
     /// Reference to const data wrapper
-    using ref = cdata const&;
+    using ref = c_data const&;
 
     /**
      * @brief Construct a new const data
      */
-    cdata() = default;
+    c_data() = default;
 
     /**
      * @brief Construct a new const data
-     * @param ptr       Pointer to data
+     * @param addr      Pointer to data
      * @param length    Length of data
      */
-    cdata(void const* ptr,
-          size_t length)
-    : ptr(as_ptr(ptr)), size(length) {}
+    c_data(void const* addr,
+           size_t length)
+    : addr(data::as_ptr(addr)), size(length) {}
 
     /**
      * @brief Construct a new const data from other data
      * @param data    Source data
      */
-    cdata(data::ref data)
-    : cdata(data.ptr, data.size) {}
+    c_data(data::ref data)
+    : c_data(data.addr, data.size) {}
 
     /// Const data pointer
-    data_cptr ptr = nullptr;
+    data::c_ptr addr = nullptr;
 
     /// Size of data
     size_t size = 0;
@@ -280,7 +280,7 @@ struct unique_data : data {
      * @param mode      Data mode
      */
     unique_data(size_t length = 0,
-                data_mode mode = data_mode::alloc) {
+                data::mode mode = data::mode::alloc) {
         if (length)
             set(length, mode);
     }
@@ -290,7 +290,7 @@ struct unique_data : data {
      * @param data    Source data
      */
     explicit unique_data(data::ref data) {
-        ptr = data.ptr;
+        addr = data.addr;
         size = data.size;
         alignment = data.alignment;
     }

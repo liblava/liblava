@@ -50,7 +50,7 @@ struct compute_pipeline : pipeline {
      * @param stage     Shader stage flag bits
      * @return Set was successful or failed
      */
-    bool set_shader_stage(cdata::ref data,
+    bool set_shader_stage(c_data::ref data,
                           VkShaderStageFlagBits stage);
 
     /**

@@ -35,10 +35,10 @@ bool json_file::load() {
     if (data.size == 0)
         return false;
 
-    if (!json::accept(data.ptr, data.end()))
+    if (!json::accept(data.addr, data.end()))
         return false;
 
-    auto j = json::parse(data.ptr, data.end());
+    auto j = json::parse(data.addr, data.end());
 
     for (auto callback : callbacks)
         callback->on_load(j);
@@ -52,8 +52,8 @@ bool json_file::save() {
 
     unique_data data;
     if (load_file_data(path, data) && (data.size > 0))
-        if (json::accept(data.ptr, data.end()))
-            j = json::parse(data.ptr, data.end());
+        if (json::accept(data.addr, data.end()))
+            j = json::parse(data.addr, data.end());
 
     for (auto callback : callbacks) {
         auto d = callback->on_save();

@@ -190,11 +190,11 @@ void imgui::setup(GLFWwindow* w, config config) {
         style.Colors[ImGuiCol_ResizeGrip] = ImVec4(0.f, 0.f, 0.f, 0.f);
     }
 
-    if (config.font_data.ptr) {
+    if (config.font_data.addr) {
         ImFontConfig font_config;
         font_config.FontDataOwnedByAtlas = false;
 
-        io.Fonts->AddFontFromMemoryTTF(config.font_data.ptr,
+        io.Fonts->AddFontFromMemoryTTF(config.font_data.addr,
                                        to_i32(config.font_data.size),
                                        config.font_size,
                                        &font_config);
@@ -202,7 +202,7 @@ void imgui::setup(GLFWwindow* w, config config) {
         io.Fonts->AddFontDefault();
     }
 
-    if (config.icon.font_data.ptr) {
+    if (config.icon.font_data.addr) {
         icons_range = {config.icon.range_begin,
                        config.icon.range_end, 0};
 
@@ -212,7 +212,7 @@ void imgui::setup(GLFWwindow* w, config config) {
         icon_config.PixelSnapH = true;
         icon_config.FontDataOwnedByAtlas = false;
 
-        io.Fonts->AddFontFromMemoryTTF(config.icon.font_data.ptr,
+        io.Fonts->AddFontFromMemoryTTF(config.icon.font_data.addr,
                                        to_i32(config.icon.font_data.size),
                                        config.icon.size,
                                        &icon_config,

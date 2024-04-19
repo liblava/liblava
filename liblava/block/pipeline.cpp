@@ -71,19 +71,19 @@ void pipeline::shader_stage::add_specialization_entry(
 
 //-----------------------------------------------------------------------------
 bool pipeline::shader_stage::create(device_p d,
-                                    cdata::ref shader_data,
-                                    cdata::ref specialization_data) {
+                                    c_data::ref shader_data,
+                                    c_data::ref specialization_data) {
     device = d;
 
     if (specialization_data.size > 0) {
         specialization_data_copy.free();
         specialization_data_copy.set(specialization_data.size);
-        memcpy(specialization_data_copy.ptr,
-               specialization_data.ptr,
+        memcpy(specialization_data_copy.addr,
+               specialization_data.addr,
                specialization_data.size);
 
         specialization_info.dataSize = specialization_data_copy.size;
-        specialization_info.pData = specialization_data_copy.ptr;
+        specialization_info.pData = specialization_data_copy.addr;
     }
 
     create_info.module = create_shader_module(device, shader_data);
@@ -106,7 +106,7 @@ void pipeline::shader_stage::destroy() {
 
 //-----------------------------------------------------------------------------
 pipeline::shader_stage::ptr create_pipeline_shader_stage(device_p device,
-                                                         cdata::ref data,
+                                                         c_data::ref data,
                                                          VkShaderStageFlagBits stage) {
     auto shaderStage = pipeline::shader_stage::make(stage);
 

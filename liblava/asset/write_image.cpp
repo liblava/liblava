@@ -41,7 +41,7 @@ bool write_image_png(device_p device,
 
     img_data_ptr += subResourceLayout.offset;
 
-    data img_data(as_ptr(img_data_ptr), subResourceLayout.size);
+    data img_data(data::as_ptr(img_data_ptr), subResourceLayout.size);
     auto const img_data_block_size = format_block_size(image->get_format());
 
     auto const size = image->get_size();
@@ -57,12 +57,12 @@ bool write_image_png(device_p device,
             auto const row_rgb = y * width * rgb_data_block_size;
             auto const row_img = y * subResourceLayout.rowPitch;
             for (auto x = 0u; x < width; ++x) {
-                rgb_data.ptr[(x * rgb_data_block_size) + row_rgb] =
-                    img_data.ptr[(x * img_data_block_size) + 2 + row_img];
-                rgb_data.ptr[(x * rgb_data_block_size) + 1 + row_rgb] =
-                    img_data.ptr[(x * img_data_block_size) + 1 + row_img];
-                rgb_data.ptr[(x * rgb_data_block_size) + 2 + row_rgb] =
-                    img_data.ptr[(x * img_data_block_size) + row_img];
+                rgb_data.addr[(x * rgb_data_block_size) + row_rgb] =
+                    img_data.addr[(x * img_data_block_size) + 2 + row_img];
+                rgb_data.addr[(x * rgb_data_block_size) + 1 + row_rgb] =
+                    img_data.addr[(x * img_data_block_size) + 1 + row_img];
+                rgb_data.addr[(x * rgb_data_block_size) + 2 + row_rgb] =
+                    img_data.addr[(x * img_data_block_size) + row_img];
             }
         }
     } else {
@@ -70,12 +70,12 @@ bool write_image_png(device_p device,
             auto const row_rgb = y * width * rgb_data_block_size;
             auto const row_img = y * subResourceLayout.rowPitch;
             for (auto x = 0u; x < width; ++x) {
-                rgb_data.ptr[(x * rgb_data_block_size) + row_rgb] =
-                    img_data.ptr[(x * img_data_block_size) + row_img];
-                rgb_data.ptr[(x * rgb_data_block_size) + 1 + row_rgb] =
-                    img_data.ptr[(x * img_data_block_size) + 1 + row_img];
-                rgb_data.ptr[(x * rgb_data_block_size) + 2 + row_rgb] =
-                    img_data.ptr[(x * img_data_block_size) + 2 + row_img];
+                rgb_data.addr[(x * rgb_data_block_size) + row_rgb] =
+                    img_data.addr[(x * img_data_block_size) + row_img];
+                rgb_data.addr[(x * rgb_data_block_size) + 1 + row_rgb] =
+                    img_data.addr[(x * img_data_block_size) + 1 + row_img];
+                rgb_data.addr[(x * rgb_data_block_size) + 2 + row_rgb] =
+                    img_data.addr[(x * img_data_block_size) + 2 + row_img];
             }
         }
     }
@@ -86,7 +86,7 @@ bool write_image_png(device_p device,
                           width,
                           height,
                           rgb_data_block_size,
-                          rgb_data.ptr,
+                          rgb_data.addr,
                           width * rgb_data_block_size);
 }
 

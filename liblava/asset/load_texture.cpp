@@ -50,7 +50,7 @@ texture::ptr create_gli_texture_2d(device_p device,
                                    file::ref file,
                                    VkFormat format,
                                    unique_data::ref temp_data) {
-    gli::texture2d tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+    gli::texture2d tex(file.opened() ? gli::load(temp_data.addr, temp_data.size)
                                      : gli::load(file.get_path()));
     LAVA_ASSERT(!tex.empty());
     if (tex.empty())
@@ -130,7 +130,7 @@ texture::ptr create_gli_texture_array(device_p device,
                                       file::ref file,
                                       VkFormat format,
                                       unique_data::ref temp_data) {
-    gli::texture2d_array tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+    gli::texture2d_array tex(file.opened() ? gli::load(temp_data.addr, temp_data.size)
                                            : gli::load(file.get_path()));
     LAVA_ASSERT(!tex.empty());
     if (tex.empty())
@@ -167,7 +167,7 @@ texture::ptr create_gli_texture_cube_map(device_p device,
                                          file::ref file,
                                          VkFormat format,
                                          unique_data::ref temp_data) {
-    gli::texture_cube tex(file.opened() ? gli::load(temp_data.ptr, temp_data.size)
+    gli::texture_cube tex(file.opened() ? gli::load(temp_data.addr, temp_data.size)
                                         : gli::load(file.get_path()));
     LAVA_ASSERT(!tex.empty());
     if (tex.empty())
@@ -206,7 +206,7 @@ texture::ptr create_stbi_texture(device_p device,
     stbi_uc* data = nullptr;
 
     if (file.opened())
-        data = stbi_load_from_memory((stbi_uc const*)temp_data.ptr,
+        data = stbi_load_from_memory((stbi_uc const*)temp_data.addr,
                                      to_i32(temp_data.size),
                                      &tex_width,
                                      &tex_height,
@@ -256,13 +256,13 @@ texture::ptr load_texture(device_p device,
         return nullptr;
 
     file file(file_format.path);
-    unique_data temp_data(file.get_size(), data_mode::no_alloc);
+    unique_data temp_data(file.get_size(), data::mode::no_alloc);
 
     if (file.opened()) {
         if (!temp_data.allocate())
             return nullptr;
 
-        if (file_error(file.read(temp_data.ptr)))
+        if (file_error(file.read(temp_data.addr)))
             return nullptr;
     }
 
@@ -317,7 +317,7 @@ texture::ptr create_default_texture(device_p device,
 
     i32 const block_size = format_block_size(format);
     unique_data data(size.x * size.y * block_size);
-    memset(data.ptr, 0, data.size);
+    memset(data.addr, 0, data.size);
 
     ui32 const color_r = 255 * color.r;
     ui32 const color_g = 255 * color.g;
@@ -330,16 +330,16 @@ texture::ptr create_default_texture(device_p device,
                                + (y * size.y * block_size);
             if (((y % 128 < 64) && (x % 128 < 64))
                 || ((y % 128 >= 64) && (x % 128 >= 64))) {
-                data.ptr[index] = color_r;
-                data.ptr[index + 1] = color_g;
-                data.ptr[index + 2] = color_b;
+                data.addr[index] = color_r;
+                data.addr[index + 1] = color_g;
+                data.addr[index + 2] = color_b;
             }
 
-            data.ptr[index + 3] = color_a;
+            data.addr[index + 3] = color_a;
         }
     }
 
-    if (!result->upload(data.ptr, data.size))
+    if (!result->upload(data.addr, data.size))
         return nullptr;
 
     return result;

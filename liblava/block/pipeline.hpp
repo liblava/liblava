@@ -189,8 +189,8 @@ struct pipeline : entity {
          * @return Create was successful or failed
          */
         bool create(device_p device,
-                    cdata::ref shader_data,
-                    cdata::ref specialization_data = data());
+                    c_data::ref shader_data,
+                    c_data::ref specialization_data = data());
 
         /**
          * @brief Destroy the shader stage
@@ -262,7 +262,7 @@ private:
  * @return pipeline::shader_stage::ptr    Shared pointer to pipeline shader stage
  */
 pipeline::shader_stage::ptr create_pipeline_shader_stage(device_p device,
-                                                         cdata::ref data,
+                                                         c_data::ref data,
                                                          VkShaderStageFlagBits stage);
 
 } // namespace lava

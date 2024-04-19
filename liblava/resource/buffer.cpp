@@ -64,7 +64,7 @@ bool buffer::create(device_p d,
 
     if (!mapped) {
         if (data) {
-            data_ptr map = nullptr;
+            data::ptr map = nullptr;
             if (failed(vmaMapMemory(device->alloc(),
                                     allocation,
                                     (void**)(&map)))) {
