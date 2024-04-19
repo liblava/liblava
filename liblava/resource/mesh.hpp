@@ -76,22 +76,22 @@ public:
 template <typename T = vertex>
 struct mesh_template : entity {
     /// Shared pointer to mesh
-    using ptr = std::shared_ptr<mesh_template<T>>;
+    using s_ptr = std::shared_ptr<mesh_template<T>>;
 
     /// Map of meshes
-    using map = std::map<id, ptr>;
+    using map = std::map<id, s_ptr>;
 
     /// List of meshes
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /// List of vertices
     using vertex_list = std::vector<T>;
 
     /**
      * @brief Make a new mesh
-     * @return ptr    Shared pointer to mesh
+     * @return s_ptr    Shared pointer to mesh
      */
-    static ptr make() {
+    static s_ptr make() {
         return std::make_shared<mesh_template<T>>();
     }
 
@@ -227,17 +227,17 @@ struct mesh_template : entity {
 
     /**
      * @brief Get the vertex buffer of the mesh
-     * @return buffer::ptr    Shared pointer to buffer
+     * @return buffer::s_ptr    Shared pointer to buffer
      */
-    buffer::ptr get_vertex_buffer() {
+    buffer::s_ptr get_vertex_buffer() {
         return vertex_buffer;
     }
 
     /**
      * @brief Get the index buffer of the mesh
-     * @return buffer::ptr    Shared pointer to buffer
+     * @return buffer::s_ptr    Shared pointer to buffer
      */
-    buffer::ptr get_index_buffer() {
+    buffer::s_ptr get_index_buffer() {
         return index_buffer;
     }
 
@@ -249,10 +249,10 @@ private:
     mesh_template_data<T> data;
 
     /// Vertex buffer
-    buffer::ptr vertex_buffer;
+    buffer::s_ptr vertex_buffer;
 
     /// Index buffer
-    buffer::ptr index_buffer;
+    buffer::s_ptr index_buffer;
 
     /// Mapped state
     bool mapped = false;

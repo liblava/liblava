@@ -17,19 +17,19 @@ namespace lava {
  */
 struct attachment {
     /// Shared pointer to attachment
-    using ptr = std::shared_ptr<attachment>;
+    using s_ptr = std::shared_ptr<attachment>;
 
     /// List of attachments
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new attachment
      * @param format     Attachment format
      * @param samples    Sample count flag bits
-     * @return ptr       Shared pointer to attachment
+     * @return s_ptr     Shared pointer to attachment
      */
-    static ptr make(VkFormat format = VK_FORMAT_UNDEFINED,
-                    VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
+    static s_ptr make(VkFormat format = VK_FORMAT_UNDEFINED,
+                      VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
         return std::make_shared<attachment>(format, samples);
     }
 

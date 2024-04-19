@@ -17,23 +17,23 @@ namespace lava {
  */
 struct layer : entity {
     /// Shared pointer to layer
-    using ptr = std::shared_ptr<layer>;
+    using s_ptr = std::shared_ptr<layer>;
 
     /// Map of layers
-    using map = std::map<id, ptr>;
+    using map = std::map<id, s_ptr>;
 
     /// List of layers
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /// Layer function
     using func = std::function<void()>;
 
     /**
      * @brief Make a new layer
-     * @param name    Name of layer
-     * @return ptr    Shared pointer to layer
+     * @param name      Name of layer
+     * @return s_ptr    Shared pointer to layer
      */
-    static ptr make(string_ref name) {
+    static s_ptr make(string_ref name) {
         return std::make_shared<layer>(name);
     }
 
@@ -58,6 +58,9 @@ struct layer : entity {
  * @brief Layer list
  */
 struct layer_list {
+    /// Pointer to layer list
+    using ptr = layer_list*;
+
     /**
      * @brief Add a new layer
      * @param name      Name of layer
@@ -82,7 +85,7 @@ struct layer_list {
      * @brief Add a layer
      * @param layer    Layer to add
      */
-    void add(layer::ptr layer) {
+    void add(layer::s_ptr layer) {
         layers.push_back(layer);
     }
 
@@ -102,7 +105,7 @@ struct layer_list {
      * @param layer_id       Id of layer
      * @return layer::ptr    Shared pointer to layer
      */
-    layer::ptr get(id::ref layer_id) {
+    layer::s_ptr get(id::ref layer_id) {
         for (auto const& layer : layers)
             if (layer->get_id() == layer_id)
                 return layer;
@@ -145,8 +148,5 @@ private:
     /// List of layers
     layer::list layers;
 };
-
-/// Layer type
-using layer_list_t = layer_list;
 
 } // namespace lava

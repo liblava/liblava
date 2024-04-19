@@ -16,23 +16,23 @@ namespace lava {
  */
 struct pipeline_layout : entity {
     /// Shared pointer to pipeline layout
-    using ptr = std::shared_ptr<pipeline_layout>;
+    using s_ptr = std::shared_ptr<pipeline_layout>;
 
     /// List of pipeline layouts
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new pipeline layout
      * @return ptr    Shared pointer to pipeline layout
      */
-    static ptr make() {
+    static s_ptr make() {
         return std::make_shared<pipeline_layout>();
     }
 
     /**
      * @see add_descriptor
      */
-    void add(descriptor::ptr const& descriptor) {
+    void add(descriptor::s_ptr const& descriptor) {
         descriptors.push_back(descriptor);
     }
 
@@ -47,7 +47,7 @@ struct pipeline_layout : entity {
      * @brief Add descriptor
      * @param descriptor    Descriptor
      */
-    void add_descriptor(descriptor::ptr const& descriptor) {
+    void add_descriptor(descriptor::s_ptr const& descriptor) {
         add(descriptor);
     }
 

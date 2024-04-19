@@ -11,7 +11,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool forward_shading::create(render_target::ptr t) {
+bool forward_shading::create(render_target::s_ptr t) {
     target = t;
 
     auto depth_format = find_supported_depth_format(target->get_device()->get_vk_physical_device());

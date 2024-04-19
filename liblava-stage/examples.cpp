@@ -33,7 +33,7 @@ LAVA_STAGE(7, "forward shading") {
     if (!device)
         return error::create_failed;
 
-    render_target::ptr render_target = create_target(&window, device);
+    render_target::s_ptr render_target = create_target(&window, device);
     if (!render_target)
         return error::create_failed;
 
@@ -41,7 +41,7 @@ LAVA_STAGE(7, "forward shading") {
     if (!shading.create(render_target))
         return error::create_failed;
 
-    render_pass::ptr render_pass = shading.get_pass();
+    render_pass::s_ptr render_pass = shading.get_pass();
 
     block block;
     if (!block.create(device,

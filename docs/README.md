@@ -166,7 +166,7 @@ lava::device::ptr device = frame.platform.create_device();
 if (!device)
     return error::create_failed;
 
-lava::render_target::ptr render_target = create_target(&window, device);
+lava::render_target::s_ptr render_target = create_target(&window, device);
 if (!render_target)
     return error::create_failed;
 
@@ -450,7 +450,7 @@ void use_buffer_on_stack() {
 Or look at this method where it is returned as a *shared pointer*:
 
 ```c++
-buffer::ptr use_buffer_on_heap() {
+buffer::s_ptr use_buffer_on_heap() {
 
     auto buf = buffer::make();
 
@@ -470,7 +470,7 @@ buffer::ptr use_buffer_on_heap() {
 It is made this way:
 
 ```c++
-mesh::ptr my_mesh = mesh::make();
+mesh::s_ptr my_mesh = mesh::make();
 
 my_mesh->add_data( /* Pass in a lava::mesh_data object */ );
 my_mesh->create(device);
@@ -489,7 +489,7 @@ It takes a `mesh_type` argument to specify what kind of primitive to build:
 The function is called in this way:
 
 ```c++
-mesh::ptr cube;
+mesh::s_ptr cube;
 cube = create_mesh(device, mesh_type::cube);
 ```
 
@@ -515,7 +515,7 @@ struct int_vertex {
     std::array<i32, 3> position;
     v4 color;
 };
-mesh_template<int_vertex>::ptr int_triangle;
+mesh_template<int_vertex>::s_ptr int_triangle;
 ```
 
 <br />
@@ -545,7 +545,7 @@ struct custom_vertex {
     v3 normal;
     v2 uv;
 };
-mesh_template<custom_vertex>::ptr triangle;
+mesh_template<custom_vertex>::s_ptr triangle;
 
 // Generate three vertices with positions and uvs, but not colors or normals
 triangle = create_mesh<custom_vertex, false, false, true>

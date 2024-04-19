@@ -15,7 +15,7 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 bool write_image_png(device::ptr device,
-                     image::ptr image,
+                     image::s_ptr image,
                      string_ref filename,
                      bool swizzle) {
     VkImageSubresource subResource{VK_IMAGE_ASPECT_COLOR_BIT, 0, 0};

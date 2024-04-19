@@ -16,22 +16,22 @@ namespace lava {
  */
 struct compute_pipeline : pipeline {
     /// Shared pointer to compute pipeline
-    using ptr = std::shared_ptr<compute_pipeline>;
+    using s_ptr = std::shared_ptr<compute_pipeline>;
 
     /// Map of compute pipelines
-    using map = std::map<id, ptr>;
+    using map = std::map<id, s_ptr>;
 
     /// List of compute pipelines
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new compute pipeline
      * @param device            Vulkan device
      * @param pipeline_cache    Pipeline cache
-     * @return ptr              Shared pointer to compute pipeline
+     * @return s_ptr            Shared pointer to compute pipeline
      */
-    static ptr make(device::ptr device,
-                    VkPipelineCache pipeline_cache = 0) {
+    static s_ptr make(device::ptr device,
+                      VkPipelineCache pipeline_cache = 0) {
         return std::make_shared<compute_pipeline>(device, pipeline_cache);
     }
 
@@ -57,15 +57,15 @@ struct compute_pipeline : pipeline {
      * @brief Set shader stage
      * @param stage    Shader state
      */
-    void set(shader_stage::ptr const& stage) {
+    void set(shader_stage::s_ptr const& stage) {
         shader_stage = stage;
     }
 
     /**
      * @brief Get the shader stage
-     * @return shader_stage::ptr const&    Shader state
+     * @return shader_stage::s_ptr const&    Shader state
      */
-    shader_stage::ptr const& get_shader_stage() const {
+    shader_stage::s_ptr const& get_shader_stage() const {
         return shader_stage;
     }
 
@@ -79,7 +79,7 @@ struct compute_pipeline : pipeline {
      * @brief Copy configuration from source
      * @param source    Compute pipeline
      */
-    void copy_from(ptr const& source) {
+    void copy_from(s_ptr const& source) {
         source->copy_to(this);
     }
 
@@ -96,7 +96,7 @@ private:
     void teardown() override;
 
     /// Shader stage
-    shader_stage::ptr shader_stage;
+    shader_stage::s_ptr shader_stage;
 };
 
 } // namespace lava

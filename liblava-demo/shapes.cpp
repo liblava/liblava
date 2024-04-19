@@ -50,14 +50,14 @@ int main(int argc, char* argv[]) {
         return error::create_failed;
 
     // initialize meshes. By default, these make vertex
-    std::array<mesh::ptr, 4> meshes;
+    std::array<mesh::s_ptr, 4> meshes;
 
-    mesh::ptr triangle = create_mesh(app.device, mesh_type::triangle);
+    mesh::s_ptr triangle = create_mesh(app.device, mesh_type::triangle);
     if (!triangle)
         return error::create_failed;
     meshes[0] = triangle;
 
-    mesh::ptr quad = create_mesh(app.device, mesh_type::quad);
+    mesh::s_ptr quad = create_mesh(app.device, mesh_type::quad);
     if (!quad)
         return error::create_failed;
     meshes[1] = quad;
@@ -65,12 +65,12 @@ int main(int argc, char* argv[]) {
     // this cube definition does not have normals:
     // cube = create_mesh<vertex, false, false, true>(app.device, mesh_type::cube);
     // this cube definition does have normals:
-    mesh::ptr cube = create_mesh(app.device, mesh_type::cube);
+    mesh::s_ptr cube = create_mesh(app.device, mesh_type::cube);
     if (!cube)
         return error::create_failed;
     meshes[2] = cube;
 
-    mesh::ptr hexagon = create_mesh(app.device, mesh_type::hexagon);
+    mesh::s_ptr hexagon = create_mesh(app.device, mesh_type::hexagon);
     if (!hexagon)
         return error::create_failed;
     meshes[3] = hexagon;
@@ -83,12 +83,12 @@ int main(int argc, char* argv[]) {
     mesh_type current_mesh = mesh_type::cube;
 
     // a descriptor is needed for representing the world-space matrix
-    descriptor::ptr descriptor;
-    descriptor::pool::ptr descriptor_pool;
+    descriptor::s_ptr descriptor;
+    descriptor::pool::s_ptr descriptor_pool;
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 
-    render_pipeline::ptr pipeline;
-    pipeline_layout::ptr layout;
+    render_pipeline::s_ptr pipeline;
+    pipeline_layout::s_ptr layout;
 
     app.on_create = [&]() {
         pipeline = render_pipeline::make(app.device, app.pipeline_cache);
@@ -167,7 +167,7 @@ int main(int argc, char* argv[]) {
                                             write_desc_ubo_world,
                                             write_desc_ubo_rotation});
 
-        render_pass::ptr render_pass = app.shading.get_pass();
+        render_pass::s_ptr render_pass = app.shading.get_pass();
 
         if (!pipeline->create(render_pass->get()))
             return false;

@@ -18,21 +18,21 @@
 
 namespace lava {
 
-/// Const pointer to device
-using device_cptr = device const*;
-
 /**
  * @brief Vulkan allocator
  */
 struct allocator {
     /// Shared pointer to a allocator
-    using ptr = std::shared_ptr<allocator>;
+    using s_ptr = std::shared_ptr<allocator>;
+
+    /// Const pointer to device
+    using device_c_ptr = device const*;
 
     /**
      * @brief Make a new allocator
-     * @return ptr    Shared pointer to allocator
+     * @return s_ptr    Shared pointer to allocator
      */
-    static ptr make() {
+    static s_ptr make() {
         return std::make_shared<allocator>();
     }
 
@@ -54,7 +54,7 @@ struct allocator {
      * @param flags     VMA allocator create flags
      * @return Create was successful or failed
      */
-    bool create(device_cptr device,
+    bool create(device_c_ptr device,
                 VmaAllocatorCreateFlags flags = 0);
 
     /**
@@ -85,12 +85,12 @@ private:
 
 /**
  * @brief Create a allocator
- * @param device             Vulkan device
- * @param flags              VMA allocator create flags
- * @return allocator::ptr    Allocator
+ * @param device               Vulkan device
+ * @param flags                VMA allocator create flags
+ * @return allocator::s_ptr    Allocator
  */
-inline allocator::ptr create_allocator(device_cptr device,
-                                       VmaAllocatorCreateFlags flags = 0) {
+inline allocator::s_ptr create_allocator(allocator::device_c_ptr device,
+                                         VmaAllocatorCreateFlags flags = 0) {
     auto result = allocator::make();
     if (!result->create(device, flags))
         return nullptr;

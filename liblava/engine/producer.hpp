@@ -25,50 +25,53 @@ constexpr name _hash_json_ = "hash.json";
  * @brief Producer
  */
 struct producer {
+    /// Pointer to producer
+    using ptr = producer*;
+
     /// Engine
     engine* context = nullptr;
 
     /**
      * @brief Create a mesh product
-     * @param mesh_type     Type of mesh
-     * @return mesh::ptr    Mesh
+     * @param mesh_type       Type of mesh
+     * @return mesh::s_ptr    Mesh
      */
-    mesh::ptr create_mesh(mesh_type mesh_type);
+    mesh::s_ptr create_mesh(mesh_type mesh_type);
 
     /**
      * @brief Get mesh by prop name
-     * @param name          Name of prop
-     * @return mesh::ptr    Mesh
+     * @param name            Name of prop
+     * @return mesh::s_ptr    Mesh
      */
-    mesh::ptr get_mesh(string_ref name);
+    mesh::s_ptr get_mesh(string_ref name);
 
     /**
      * @brief Add mesh to products
      * @param mesh      Mesh
      * @return Added to products or already exists
      */
-    bool add_mesh(mesh::ptr mesh);
+    bool add_mesh(mesh::s_ptr mesh);
 
     /**
      * @brief Create a texture product
-     * @param size             Size of texture
-     * @return texture::ptr    Default texture
+     * @param size               Size of texture
+     * @return texture::s_ptr    Default texture
      */
-    texture::ptr create_texture(uv2 size);
+    texture::s_ptr create_texture(uv2 size);
 
     /**
      * @brief Get texture by prop name
-     * @param name             Name of prop
-     * @return texture::ptr    Texture
+     * @param name               Name of prop
+     * @return texture::s_ptr    Texture
      */
-    texture::ptr get_texture(string_ref name);
+    texture::s_ptr get_texture(string_ref name);
 
     /**
      * @brief Add texture to products
      * @param product    Texture
      * @return Added to products or already exists
      */
-    bool add_texture(texture::ptr product);
+    bool add_texture(texture::s_ptr product);
 
     /**
      * @brief Generate shader by prop name
@@ -163,8 +166,5 @@ private:
     /// Shader products
     shader_map shaders;
 };
-
-/// Producer type
-using producer_t = producer;
 
 } // namespace lava

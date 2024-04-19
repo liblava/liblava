@@ -59,7 +59,7 @@ int main(int argc, char* argv[]) {
         return error::not_ready;
 
     // initialize a float triangle
-    mesh::ptr float_triangle;
+    mesh::s_ptr float_triangle;
     // these template arguments are optional
     float_triangle = create_mesh<vertex,
                                  false, true, false>(app.device,
@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
         std::array<int, 3> position;
         v4 color;
     };
-    mesh_template<int_vertex>::ptr int_triangle;
+    mesh_template<int_vertex>::s_ptr int_triangle;
 
     if (int_supported) {
         // except for the first one, these template arguments are optional
@@ -106,7 +106,7 @@ int main(int argc, char* argv[]) {
         std::array<double, 3> position;
         v4 color;
     };
-    mesh_template<double_vertex>::ptr double_triangle;
+    mesh_template<double_vertex>::s_ptr double_triangle;
 
     if (double_supported) {
         // except for the first one, these template arguments are optional
@@ -126,13 +126,13 @@ int main(int argc, char* argv[]) {
             return error::create_failed;
     }
 
-    render_pipeline::ptr float_pipeline;
-    render_pipeline::ptr int_pipeline;
-    render_pipeline::ptr double_pipeline;
-    pipeline_layout::ptr layout;
+    render_pipeline::s_ptr float_pipeline;
+    render_pipeline::s_ptr int_pipeline;
+    render_pipeline::s_ptr double_pipeline;
+    pipeline_layout::s_ptr layout;
 
     app.on_create = [&]() {
-        render_pass::ptr render_pass = app.shading.get_pass();
+        render_pass::s_ptr render_pass = app.shading.get_pass();
 
         layout = pipeline_layout::make();
         if (!layout->create(app.device))
@@ -163,7 +163,7 @@ int main(int argc, char* argv[]) {
             };
         }
 
-        pipeline::shader_stage::ptr shader_stage = create_pipeline_shader_stage(
+        pipeline::shader_stage::s_ptr shader_stage = create_pipeline_shader_stage(
             app.device,
             app.producer.get_shader(_triangle_frag_),
             VK_SHADER_STAGE_FRAGMENT_BIT);

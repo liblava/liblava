@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     if (!app.setup())
         return error::not_ready;
 
-    mesh::ptr spawn_mesh;
+    mesh::s_ptr spawn_mesh;
 
     ms mesh_load_time;
     {
@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
     if (!spawn_mesh)
         return error::create_failed;
 
-    texture::ptr default_texture = app.producer.create_texture({4096, 4096});
+    texture::s_ptr default_texture = app.producer.create_texture({4096, 4096});
     if (!default_texture)
         return error::create_failed;
 
@@ -68,11 +68,11 @@ int main(int argc, char* argv[]) {
                                           VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT))
         return error::create_failed;
 
-    render_pipeline::ptr pipeline;
-    pipeline_layout::ptr layout;
+    render_pipeline::s_ptr pipeline;
+    pipeline_layout::s_ptr layout;
 
-    descriptor::ptr descriptor;
-    descriptor::pool::ptr descriptor_pool;
+    descriptor::s_ptr descriptor;
+    descriptor::pool::s_ptr descriptor_pool;
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
 
     app.on_create = [&]() {
@@ -160,7 +160,7 @@ int main(int argc, char* argv[]) {
                                             write_desc_ubo_spawn,
                                             write_desc_sampler});
 
-        render_pass::ptr render_pass = app.shading.get_pass();
+        render_pass::s_ptr render_pass = app.shading.get_pass();
 
         if (!pipeline->create(render_pass->get()))
             return false;

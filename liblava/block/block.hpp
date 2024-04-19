@@ -16,16 +16,16 @@ namespace lava {
  */
 struct command : entity {
     /// Shared pointer to command
-    using ptr = std::shared_ptr<command>;
+    using s_ptr = std::shared_ptr<command>;
 
     /// Const pointer to command
-    using cptr = command const*;
+    using c_ptr = command const*;
 
     /// Map of commands
-    using map = std::map<id, ptr>;
+    using map = std::map<id, s_ptr>;
 
     /// List of commands
-    using clist = std::vector<cptr>;
+    using c_list = std::vector<c_ptr>;
 
     /// List of command buffers
     VkCommandBuffers buffers = {};
@@ -41,9 +41,9 @@ struct command : entity {
 
     /**
      * @brief Make a new command
-     * @return ptr    Shared pointer to command
+     * @return s_ptr    Shared pointer to command
      */
-    static ptr make() {
+    static s_ptr make() {
         return std::make_shared<command>();
     }
 
@@ -71,23 +71,26 @@ struct command : entity {
  * @brief Block of commands
  */
 struct block : entity {
+    /// Pointer to block
+    using ptr = block*;
+
     /// Shared pointer to block
-    using ptr = std::shared_ptr<block>;
+    using s_ptr = std::shared_ptr<block>;
 
     /// Const pointer to block
-    using cptr = command const*;
+    using c_ptr = block const*;
 
     /// Map of blocks
-    using map = std::map<id, ptr>;
+    using map = std::map<id, s_ptr>;
 
     /// List of blocks
-    using clist = std::vector<cptr>;
+    using c_list = std::vector<c_ptr>;
 
     /**
      * @brief Make a new block
-     * @return ptr    Shared pointer to block
+     * @return s_ptr    Shared pointer to block
      */
-    static ptr make() {
+    static s_ptr make() {
         return std::make_shared<block>();
     }
 
@@ -208,9 +211,9 @@ struct block : entity {
 
     /**
      * @brief Get the cmd order
-     * @return command::list const&    List of commands
+     * @return command::c_list const&    List of commands
      */
-    command::clist const& get_cmd_order() const {
+    command::c_list const& get_cmd_order() const {
         return cmd_order;
     }
 
@@ -251,10 +254,7 @@ private:
     command::map commands;
 
     /// Ordered list of commands
-    command::clist cmd_order;
+    command::c_list cmd_order;
 };
-
-/// Block type
-using block_t = block;
 
 } // namespace lava

@@ -16,22 +16,22 @@ namespace lava {
  */
 struct image : entity {
     /// Shared pointer to image
-    using ptr = std::shared_ptr<image>;
+    using s_ptr = std::shared_ptr<image>;
 
     /// Map of images
-    using map = std::map<id, ptr>;
+    using map = std::map<id, s_ptr>;
 
     /// List of images
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new image
      * @param format      Image format
      * @param vk_image    Vulkan image
-     * @return ptr        Shared pointer to image
+     * @return s_ptr      Shared pointer to image
      */
-    static ptr make(VkFormat format,
-                    VkImage vk_image = 0) {
+    static s_ptr make(VkFormat format,
+                      VkImage vk_image = 0) {
         return std::make_shared<image>(format, vk_image);
     }
 
@@ -248,22 +248,22 @@ private:
 
 /**
  * @brief Create a new image
- * @param device         Vulkan device
- * @param format         Image format
- * @param size           Image size
- * @param vk_image       Vulkan image
- * @return image::ptr    Shared pointer to image
+ * @param device           Vulkan device
+ * @param format           Image format
+ * @param size             Image size
+ * @param vk_image         Vulkan image
+ * @return image::s_ptr    Shared pointer to image
  */
-image::ptr create_image(device::ptr device,
-                        VkFormat format,
-                        uv2 size,
-                        VkImage vk_image = 0);
+image::s_ptr create_image(device::ptr device,
+                          VkFormat format,
+                          uv2 size,
+                          VkImage vk_image = 0);
 
 /**
  * @brief Grab an image (with blit/copy)
- * @param source         Source image
- * @return image::ptr    Grabbed image
+ * @param source           Source image
+ * @return image::s_ptr    Grabbed image
  */
-image::ptr grab_image(image::ptr source);
+image::s_ptr grab_image(image::s_ptr source);
 
 } // namespace lava

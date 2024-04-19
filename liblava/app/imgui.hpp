@@ -28,6 +28,9 @@ constexpr const r32 default_imgui_font_size = 18.f;
  * @brief ImGui integration
  */
 struct imgui {
+    /// Pointer to imgui
+    using ptr = imgui*;
+
     /**
      * @brief Construct a new ImGui
      */
@@ -120,10 +123,10 @@ struct imgui {
 
     /**
      * @brief Set up default ImGui
-     * @param window    Target window
+     * @param win    Target window
      */
-    void setup(GLFWwindow* window) {
-        setup(window, config());
+    void setup(GLFWwindow* win) {
+        setup(win, config());
     }
 
     /**
@@ -132,7 +135,7 @@ struct imgui {
      * @param max_frames    Number of frames
      * @return Create was successful or failed
      */
-    bool create(render_pipeline::ptr pipeline, index max_frames);
+    bool create(render_pipeline::s_ptr pipeline, index max_frames);
 
     /**
      * @brief Create pipeline for ImGui with device
@@ -171,7 +174,7 @@ struct imgui {
      * @param texture    Texture to upload
      * @return Upload was successful or failed
      */
-    bool upload_fonts(texture::ptr texture);
+    bool upload_fonts(texture::s_ptr texture);
 
     /**
      * @brief Destroy ImGui
@@ -188,9 +191,9 @@ struct imgui {
 
     /**
      * @brief Get the pipeline
-     * @return render_pipeline::ptr    Render pipeline
+     * @return render_pipeline::s_ptr    Render pipeline
      */
-    render_pipeline::ptr get_pipeline() {
+    render_pipeline::s_ptr get_pipeline() {
         return pipeline;
     }
 
@@ -335,10 +338,10 @@ private:
     bool initialized = false;
 
     /// Render pipeline
-    render_pipeline::ptr pipeline;
+    render_pipeline::s_ptr pipeline;
 
     /// Pipeline layout
-    pipeline_layout::ptr layout;
+    pipeline_layout::s_ptr layout;
 
     /// Buffer memory alignment
     size_t buffer_memory_alignment = 256;
@@ -356,10 +359,10 @@ private:
     buffer::list index_buffers;
 
     /// Vulkan descriptor
-    descriptor_ptr descriptor;
+    descriptor::s_ptr descriptor;
 
     /// Vulkan descriptor pool
-    descriptor::pool::ptr descriptor_pool;
+    descriptor::pool::s_ptr descriptor_pool;
 
     /// Vulkan descriptor set
     VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
@@ -388,9 +391,6 @@ private:
     /// Font icons range
     std::array<ui16, 3> icons_range;
 };
-
-/// Imgui type
-using imgui_t = imgui;
 
 /**
  * @brief Set up ImGui font

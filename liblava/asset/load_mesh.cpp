@@ -27,7 +27,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-mesh::ptr load_mesh(device::ptr device, string_ref filename, string_ref temp_dir) {
+mesh::s_ptr load_mesh(device::ptr device, string_ref filename, string_ref temp_dir) {
     if (extension(filename, "OBJ")) {
         tinyobj::attrib_t attrib;
         std::vector<tinyobj::shape_t> shapes;

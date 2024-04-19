@@ -20,17 +20,17 @@ struct descriptor : entity {
      */
     struct binding {
         /// Shared pointer to binding
-        using ptr = std::shared_ptr<binding>;
+        using s_ptr = std::shared_ptr<binding>;
 
         /// List of bindings
-        using list = std::vector<ptr>;
+        using list = std::vector<s_ptr>;
 
         /**
          * @brief Make a new descriptor binding
          * @param index    Binding index
          * @return ptr     Shared pointer to descriptor binding
          */
-        static ptr make(index index) {
+        static s_ptr make(index index) {
             auto result = std::make_shared<binding>();
             result->set(index);
             result->set_count(1);
@@ -100,16 +100,16 @@ struct descriptor : entity {
      */
     struct pool : entity {
         /// Shared pointer to pool
-        using ptr = std::shared_ptr<pool>;
+        using s_ptr = std::shared_ptr<pool>;
 
         /// List of pools
-        using list = std::vector<ptr>;
+        using list = std::vector<s_ptr>;
 
         /**
          * @brief Make a new descriptor pool
-         * @return ptr    Shared pointer to descriptor pool
+         * @return s_ptr    Shared pointer to descriptor pool
          */
-        static ptr make() {
+        static s_ptr make() {
             return std::make_shared<descriptor::pool>();
         }
 
@@ -179,16 +179,16 @@ struct descriptor : entity {
     };
 
     /// Shared pointer to descriptor
-    using ptr = std::shared_ptr<descriptor>;
+    using s_ptr = std::shared_ptr<descriptor>;
 
     /// List of descriptors
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new descriptor
-     * @return ptr    Shared pointer to descriptor
+     * @return s_ptr    Shared pointer to descriptor
      */
-    static ptr make() {
+    static s_ptr make() {
         return std::make_shared<descriptor>();
     }
 
@@ -213,7 +213,7 @@ struct descriptor : entity {
      * @brief Add binding
      * @param binding    Descriptor binding
      */
-    void add(binding::ptr const& binding) {
+    void add(binding::s_ptr const& binding) {
         bindings.push_back(binding);
     }
 
@@ -336,8 +336,5 @@ private:
     /// List of descriptor bindings
     binding::list bindings;
 };
-
-/// Shared pointer to descriptor
-using descriptor_ptr = descriptor::ptr;
 
 } // namespace lava

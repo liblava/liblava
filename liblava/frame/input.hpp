@@ -589,6 +589,9 @@ constexpr bool const input_done = true;
  * @brief Input handling
  */
 struct input {
+    /// Pointer to input
+    using ptr = input*;
+
     /// List of key events
     input_key_events key;
 
@@ -656,9 +659,6 @@ private:
     /// List of input callbacks
     input_callback::clist callbacks;
 };
-
-/// Input type
-using input_t = input;
 
 /**
  * @brief Tooltip

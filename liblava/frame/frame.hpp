@@ -246,7 +246,7 @@ struct frame : interface, no_copy_no_move {
     run_time_t run_time;
 
     /// Stage platform
-    platform_t platform;
+    platform platform;
 
     /// Message dispatcher
     message_dispatcher telegraph;

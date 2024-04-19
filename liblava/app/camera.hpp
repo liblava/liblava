@@ -18,13 +18,13 @@ namespace lava {
  */
 struct camera : entity {
     /// Shared pointer to camera
-    using ptr = std::shared_ptr<camera>;
+    using s_ptr = std::shared_ptr<camera>;
 
     /// Map of cameras
-    using map = std::map<id, ptr>;
+    using map = std::map<id, s_ptr>;
 
     /// List of cameras
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Camera modes
@@ -262,7 +262,7 @@ private:
     keys right_keys{key::d};
 
     /// Vulkan buffer
-    buffer::ptr data;
+    buffer::s_ptr data;
 
     /// Buffer size (projection + view)
     size_t size = sizeof(mat4) * 2;

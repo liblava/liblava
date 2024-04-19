@@ -97,7 +97,7 @@ memory::memory() {
 }
 
 //-----------------------------------------------------------------------------
-bool allocator::create(device_cptr device, VmaAllocatorCreateFlags flags) {
+bool allocator::create(device_c_ptr device, VmaAllocatorCreateFlags flags) {
     VmaVulkanFunctions const vulkan_function{
         .vkGetInstanceProcAddr = vkGetInstanceProcAddr,
         .vkGetDeviceProcAddr = vkGetDeviceProcAddr,

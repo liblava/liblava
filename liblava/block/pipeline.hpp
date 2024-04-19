@@ -16,10 +16,10 @@ namespace lava {
  */
 struct pipeline : entity {
     /// Shared pointer to pipeline
-    using ptr = std::shared_ptr<pipeline>;
+    using s_ptr = std::shared_ptr<pipeline>;
 
     /// List of pipelines
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /// Pipeline process function
     using process_func = std::function<void(VkCommandBuffer)>;
@@ -122,9 +122,9 @@ struct pipeline : entity {
 
     /**
      * @brief Get the layout
-     * @return pipeline_layout::ptr    Pipeline layout
+     * @return pipeline_layout::s_ptr    Pipeline layout
      */
-    pipeline_layout::ptr get_layout() const {
+    pipeline_layout::s_ptr get_layout() const {
         return layout;
     }
 
@@ -132,7 +132,7 @@ struct pipeline : entity {
      * @brief Set the layout
      * @param value    Pipeline layout
      */
-    void set_layout(pipeline_layout::ptr const& value) {
+    void set_layout(pipeline_layout::s_ptr const& value) {
         layout = value;
     }
 
@@ -141,17 +141,17 @@ struct pipeline : entity {
      */
     struct shader_stage {
         /// Shared pointer to shader stage
-        using ptr = std::shared_ptr<shader_stage>;
+        using s_ptr = std::shared_ptr<shader_stage>;
 
         /// List of shader stages
-        using list = std::vector<ptr>;
+        using list = std::vector<s_ptr>;
 
         /**
          * @brief Make a new pipline shader stage
-         * @param stage    Shader stage flag bits
-         * @return ptr     Shared pointer to shader stage
+         * @param stage     Shader stage flag bits
+         * @return s_ptr    Shared pointer to shader stage
          */
-        static ptr make(VkShaderStageFlagBits stage) {
+        static s_ptr make(VkShaderStageFlagBits stage) {
             auto result = std::make_shared<shader_stage>();
             result->set_stage(stage);
             return result;
@@ -244,7 +244,7 @@ protected:
     VkPipelineCache pipeline_cache = VK_NULL_HANDLE;
 
     /// Pipeline layout
-    pipeline_layout::ptr layout;
+    pipeline_layout::s_ptr layout;
 
 private:
     /// Active state
@@ -256,13 +256,13 @@ private:
 
 /**
  * @brief Create a new pipeline shader stage
- * @param device                          Vulkan device
- * @param data                            Shader data
- * @param stage                           Shader stage flag bits
- * @return pipeline::shader_stage::ptr    Shared pointer to pipeline shader stage
+ * @param device                            Vulkan device
+ * @param data                              Shader data
+ * @param stage                             Shader stage flag bits
+ * @return pipeline::shader_stage::s_ptr    Shared pointer to pipeline shader stage
  */
-pipeline::shader_stage::ptr create_pipeline_shader_stage(device::ptr device,
-                                                         c_data::ref data,
-                                                         VkShaderStageFlagBits stage);
+pipeline::shader_stage::s_ptr create_pipeline_shader_stage(device::ptr device,
+                                                           c_data::ref data,
+                                                           VkShaderStageFlagBits stage);
 
 } // namespace lava

@@ -33,7 +33,7 @@ struct forward_shading {
      * @param target    Render target
      * @return Create was successful or failed
      */
-    bool create(render_target::ptr target);
+    bool create(render_target::s_ptr target);
 
     /**
      * @brief Destroy the forward shading
@@ -42,9 +42,9 @@ struct forward_shading {
 
     /**
      * @brief Get the render pass
-     * @return render_pass::ptr    Render pass
+     * @return render_pass::s_ptr    Render pass
      */
-    render_pass::ptr get_pass() const {
+    render_pass::s_ptr get_pass() const {
         return pass;
     }
 
@@ -58,21 +58,21 @@ struct forward_shading {
 
     /**
      * @brief Get the depth stencil image
-     * @return image::ptr    Depth stencil Image
+     * @return image::s_ptr    Depth stencil Image
      */
-    image::ptr get_depth_stencil() const {
+    image::s_ptr get_depth_stencil() const {
         return depth_stencil;
     }
 
 private:
     /// Render target
-    render_target::ptr target;
+    render_target::s_ptr target;
 
     /// Render pass
-    render_pass::ptr pass;
+    render_pass::s_ptr pass;
 
     /// Depth stencil image
-    image::ptr depth_stencil;
+    image::s_ptr depth_stencil;
 };
 
 } // namespace lava

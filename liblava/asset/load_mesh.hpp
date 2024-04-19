@@ -13,13 +13,13 @@ namespace lava {
 
 /**
  * @brief Load mesh from file
- * @param device        Vulkan device
- * @param filename      File to load
- * @param temp_dir      Temporary directory
- * @return mesh::ptr    Loaded mesh
+ * @param device          Vulkan device
+ * @param filename        File to load
+ * @param temp_dir        Temporary directory
+ * @return mesh::s_ptr    Loaded mesh
  */
-mesh::ptr load_mesh(device::ptr device,
-                    string_ref filename,
-                    string_ref temp_dir);
+mesh::s_ptr load_mesh(device::ptr device,
+                      string_ref filename,
+                      string_ref temp_dir);
 
 } // namespace lava

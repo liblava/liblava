@@ -320,15 +320,15 @@ struct device : device_table, entity {
      * @brief Set the allocator for this device
      * @param value    Allocator
      */
-    void set_allocator(allocator::ptr value) {
+    void set_allocator(allocator::s_ptr value) {
         mem_allocator = value;
     }
 
     /**
      * @brief Get the allocator of this device
-     * @return allocator::ptr    Allocator
+     * @return allocator::s_ptr    Allocator
      */
-    allocator::ptr get_allocator() {
+    allocator::s_ptr get_allocator() {
         return mem_allocator;
     }
 
@@ -362,7 +362,7 @@ private:
     VkPhysicalDeviceFeatures features{};
 
     /// Device allocator
-    allocator::ptr mem_allocator;
+    allocator::s_ptr mem_allocator;
 };
 
 /**

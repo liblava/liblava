@@ -38,7 +38,7 @@ void subpass::clear_pipelines() {
 }
 
 //-----------------------------------------------------------------------------
-void subpass::remove(render_pipeline::ptr pipeline) {
+void subpass::remove(render_pipeline::s_ptr pipeline) {
     lava::remove(pipelines, std::move(pipeline));
 }
 

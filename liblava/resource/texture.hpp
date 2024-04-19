@@ -41,13 +41,13 @@ struct file_format {
  */
 struct texture : entity {
     /// Shared pointer to texture
-    using ptr = std::shared_ptr<texture>;
+    using s_ptr = std::shared_ptr<texture>;
 
     /// Map of textures
-    using map = std::map<id, ptr>;
+    using map = std::map<id, s_ptr>;
 
     /// List of textures
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Texture mip level
@@ -76,9 +76,9 @@ struct texture : entity {
 
     /**
      * @brief Make a new texture
-     * @return ptr    Shared pointer to texture
+     * @return s_ptr    Shared pointer to texture
      */
-    static ptr make() {
+    static s_ptr make() {
         return std::make_shared<texture>();
     }
 
@@ -140,9 +140,9 @@ struct texture : entity {
 
     /**
      * @brief Get the image of the texture
-     * @return image::ptr    Shared pointer to image
+     * @return image::s_ptr    Shared pointer to image
      */
-    image::ptr get_image() {
+    image::s_ptr get_image() {
         return img;
     }
 
@@ -172,7 +172,7 @@ struct texture : entity {
 
 private:
     /// Texture image
-    image::ptr img;
+    image::s_ptr img;
 
     /// Texture type
     texture_type type = texture_type::none;
@@ -187,18 +187,21 @@ private:
     VkDescriptorImageInfo descriptor = {};
 
     /// Upload buffer
-    buffer::ptr upload_buffer;
+    buffer::s_ptr upload_buffer;
 };
 
 /**
  * @brief Texture staging
  */
 struct staging {
+    /// Pointer to staging
+    using ptr = staging*;
+
     /**
      * @brief Add texture for staging
      * @param texture    Texture to stage
      */
-    void add(texture::ptr texture) {
+    void add(texture::s_ptr texture) {
         todo.push_back(texture);
     }
 
@@ -237,9 +240,6 @@ private:
     /// Map of staged textures
     frame_stage_map staged;
 };
-
-/// Staging type
-using staging_t = staging;
 
 /// Texture registry
 using texture_registry = id_registry<texture, file_format>;

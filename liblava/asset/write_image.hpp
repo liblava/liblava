@@ -20,7 +20,7 @@ namespace lava {
  * @return Write was successful or failed
  */
 bool write_image_png(device::ptr device,
-                     image::ptr image,
+                     image::s_ptr image,
                      string_ref filename,
                      bool swizzle);
 

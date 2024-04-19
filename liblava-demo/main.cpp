@@ -64,11 +64,11 @@ int main(int argc, char* argv[]) {
             app.shut_down();
         };
 
-        render_pipeline::ptr pipeline;
-        pipeline_layout::ptr layout;
+        render_pipeline::s_ptr pipeline;
+        pipeline_layout::s_ptr layout;
 
-        descriptor::ptr descriptor;
-        descriptor::pool::ptr descriptor_pool;
+        descriptor::s_ptr descriptor;
+        descriptor::pool::s_ptr descriptor_pool;
         VkDescriptorSets descriptor_sets;
 
         app.on_create = [&]() {
@@ -130,7 +130,7 @@ int main(int argc, char* argv[]) {
                 descriptor_sets.push_back(descriptor_set);
             }
 
-            render_pass::ptr render_pass = app.shading.get_pass();
+            render_pass::s_ptr render_pass = app.shading.get_pass();
 
             if (!pipeline->create(render_pass->get()))
                 return false;

@@ -66,13 +66,13 @@ struct app : frame {
     bool headless = false;
 
     /// Main window
-    window_t window;
+    window window;
 
     /// Window input
-    input_t input;
+    input input;
 
     /// ImGui handling
-    imgui_t imgui;
+    imgui imgui;
 
     /// ImGui configuration
     imgui::config imgui_config;
@@ -90,19 +90,19 @@ struct app : frame {
     gamepad pad;
 
     /// Texture staging
-    staging_t staging;
+    staging staging;
 
     /// Basic block
-    block_t block;
+    block block;
 
     /// Plain renderer
-    renderer_t renderer;
+    renderer renderer;
 
     /// Forward shading
     forward_shading shading;
 
     /// Render target
-    render_target::ptr target;
+    render_target::s_ptr target;
 
     /// File system
     file_system fs;
@@ -321,7 +321,7 @@ private:
     void destroy_pipeline_cache();
 
     /// Texture for ImGui fonts
-    texture::ptr imgui_fonts;
+    texture::s_ptr imgui_fonts;
 
     /// Toggle V-Sync state
     bool toggle_v_sync = false;

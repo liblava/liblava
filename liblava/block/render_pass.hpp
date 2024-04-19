@@ -18,17 +18,17 @@ namespace lava {
  */
 struct render_pass : entity {
     /// Shared pointer to render pass
-    using ptr = std::shared_ptr<render_pass>;
+    using s_ptr = std::shared_ptr<render_pass>;
 
     /// List of render passes
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new render pass
      * @param device    Vulkan device
-     * @return ptr      Shared pointer to render pass
+     * @return s_ptr    Shared pointer to render pass
      */
-    static ptr make(device::ptr device) {
+    static s_ptr make(device::ptr device) {
         return std::make_shared<render_pass>(device);
     }
 
@@ -114,7 +114,7 @@ struct render_pass : entity {
      * @brief Add an attachment
      * @param attachment    Attachment
      */
-    void add(attachment::ptr const& attachment) {
+    void add(attachment::s_ptr const& attachment) {
         attachments.push_back(attachment);
     }
 
@@ -122,7 +122,7 @@ struct render_pass : entity {
      * @brief Add a subpass dependency
      * @param dependency    Subpass dependency
      */
-    void add(subpass_dependency::ptr const& dependency) {
+    void add(subpass_dependency::s_ptr const& dependency) {
         dependencies.push_back(dependency);
     }
 
@@ -130,7 +130,7 @@ struct render_pass : entity {
      * @brief Add a subpass
      * @param subpass    Subpass
      */
-    void add(subpass::ptr const& subpass) {
+    void add(subpass::s_ptr const& subpass) {
         subpasses.push_back(subpass);
     }
 
@@ -167,7 +167,7 @@ struct render_pass : entity {
      * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void add(render_pipeline::ptr pipeline,
+    void add(render_pipeline::s_ptr pipeline,
              index subpass = 0) {
         subpasses.at(subpass)->add(pipeline);
     }
@@ -177,7 +177,7 @@ struct render_pass : entity {
      * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void add_front(render_pipeline::ptr pipeline,
+    void add_front(render_pipeline::s_ptr pipeline,
                    index subpass = 0) {
         subpasses.at(subpass)->add_front(pipeline);
     }
@@ -187,7 +187,7 @@ struct render_pass : entity {
      * @param pipeline    Render pipeline
      * @param subpass     Subpass
      */
-    void remove(render_pipeline::ptr pipeline,
+    void remove(render_pipeline::s_ptr pipeline,
                 index subpass = 0) {
         subpasses.at(subpass)->remove(pipeline);
     }

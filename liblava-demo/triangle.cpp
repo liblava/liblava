@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     if (!app.setup())
         return error::not_ready;
 
-    mesh::ptr triangle = create_mesh(app.device, mesh_type::triangle);
+    mesh::s_ptr triangle = create_mesh(app.device, mesh_type::triangle);
     if (!triangle)
         return error::create_failed;
 
@@ -50,8 +50,8 @@ int main(int argc, char* argv[]) {
     if (!triangle->reload())
         return error::create_failed;
 
-    pipeline_layout::ptr layout;
-    render_pipeline::ptr pipeline;
+    pipeline_layout::s_ptr layout;
+    render_pipeline::s_ptr pipeline;
 
     app.on_create = [&]() {
         layout = pipeline_layout::make();
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
             triangle->bind_draw(cmd_buf);
         };
 
-        render_pass::ptr render_pass = app.shading.get_pass();
+        render_pass::s_ptr render_pass = app.shading.get_pass();
 
         if (!pipeline->create(render_pass->get()))
             return false;

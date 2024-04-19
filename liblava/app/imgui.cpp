@@ -357,7 +357,7 @@ void imgui::new_frame() {
 #undef MAP_ANALOG
 
 //-----------------------------------------------------------------------------
-bool imgui::create(render_pipeline::ptr p, index mf) {
+bool imgui::create(render_pipeline::s_ptr p, index mf) {
     pipeline = std::move(p);
 
     device = pipeline->get_device();
@@ -671,7 +671,7 @@ void imgui::render_draw_lists(VkCommandBuffer cmd_buf) {
 }
 
 //-----------------------------------------------------------------------------
-bool imgui::upload_fonts(texture::ptr texture) {
+bool imgui::upload_fonts(texture::s_ptr texture) {
     uchar* pixels = nullptr;
 
     auto width = 0;

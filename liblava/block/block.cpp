@@ -118,7 +118,7 @@ void block::remove_cmd(id::ref cmd_id) {
     auto command = commands.at(cmd_id);
     command->destroy(device, cmd_pools);
 
-    remove(cmd_order, (command::cptr)(command.get()));
+    remove(cmd_order, (command::c_ptr)(command.get()));
 
     commands.erase(cmd_id);
 }

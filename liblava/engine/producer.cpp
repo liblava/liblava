@@ -17,7 +17,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-mesh::ptr producer::create_mesh(mesh_type mesh_type) {
+mesh::s_ptr producer::create_mesh(mesh_type mesh_type) {
     auto product = lava::create_mesh(context->device,
                                      mesh_type);
     if (!add_mesh(product))
@@ -27,7 +27,7 @@ mesh::ptr producer::create_mesh(mesh_type mesh_type) {
 }
 
 //-----------------------------------------------------------------------------
-mesh::ptr producer::get_mesh(string_ref name) {
+mesh::s_ptr producer::get_mesh(string_ref name) {
     for (auto& [id, meta] : meshes.get_all_meta()) {
         if (meta == name)
             return meshes.get(id);
@@ -48,7 +48,7 @@ mesh::ptr producer::get_mesh(string_ref name) {
 }
 
 //-----------------------------------------------------------------------------
-bool producer::add_mesh(mesh::ptr product) {
+bool producer::add_mesh(mesh::s_ptr product) {
     if (!product)
         return false;
 
@@ -60,7 +60,7 @@ bool producer::add_mesh(mesh::ptr product) {
 }
 
 //-----------------------------------------------------------------------------
-texture::ptr producer::create_texture(uv2 size) {
+texture::s_ptr producer::create_texture(uv2 size) {
     auto product = create_default_texture(context->device,
                                           size);
     if (!add_texture(product))
@@ -70,7 +70,7 @@ texture::ptr producer::create_texture(uv2 size) {
 }
 
 //-----------------------------------------------------------------------------
-texture::ptr producer::get_texture(string_ref name) {
+texture::s_ptr producer::get_texture(string_ref name) {
     for (auto& [id, meta] : textures.get_all_meta()) {
         if (meta == name)
             return textures.get(id);
@@ -88,7 +88,7 @@ texture::ptr producer::get_texture(string_ref name) {
 }
 
 //-----------------------------------------------------------------------------
-bool producer::add_texture(texture::ptr product) {
+bool producer::add_texture(texture::s_ptr product) {
     if (!product)
         return false;
 

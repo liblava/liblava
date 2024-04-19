@@ -16,13 +16,13 @@ namespace lava {
  */
 struct render_pipeline : pipeline {
     /// Shared pointer to render pipeline
-    using ptr = std::shared_ptr<render_pipeline>;
+    using s_ptr = std::shared_ptr<render_pipeline>;
 
     /// Map of render pipelines
-    using map = std::map<id, ptr>;
+    using map = std::map<id, s_ptr>;
 
     /// List of render pipelines
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Sizing modes
@@ -60,10 +60,10 @@ struct render_pipeline : pipeline {
      * @brief Make a new render pipeline
      * @param device            Vulkan device
      * @param pipeline_cache    Pipeline cache
-     * @return ptr              Shared pointer to render pipeline
+     * @return s_ptr            Shared pointer to render pipeline
      */
-    static ptr make(device::ptr device,
-                    VkPipelineCache pipeline_cache = 0) {
+    static s_ptr make(device::ptr device,
+                      VkPipelineCache pipeline_cache = 0) {
         return std::make_shared<render_pipeline>(device, pipeline_cache);
     }
 
@@ -258,7 +258,7 @@ struct render_pipeline : pipeline {
      * @brief Add shader stage
      * @param shader_stage    Shader stage
      */
-    void add(shader_stage::ptr const& shader_stage) {
+    void add(shader_stage::s_ptr const& shader_stage) {
         shader_stages.push_back(shader_stage);
     }
 
@@ -359,7 +359,7 @@ struct render_pipeline : pipeline {
      * @brief Copy pipeline configuration from source
      * @param source    Render pipeline
      */
-    void copy_from(ptr const& source) {
+    void copy_from(s_ptr const& source) {
         source->copy_to(this);
     }
 

@@ -42,10 +42,10 @@ struct gbuffer_attachment {
     VkImageUsageFlags usage;
 
     /// Image handle
-    image::ptr image_handle;
+    image::s_ptr image_handle;
 
     /// Render pass attachment
-    attachment::ptr renderpass_attachment;
+    attachment::s_ptr renderpass_attachment;
 
     /// Subpass attachment reference
     VkAttachmentReference subpass_reference;
@@ -81,11 +81,11 @@ light_array const g_lights = {
 
 /**
  * @brief Create a G-Buffer renderpass
- * @param app                  Application
- * @param attachments          Array of attachments
- * @return render_pass::ptr    Shared pointer to render pass
+ * @param app                    Application
+ * @param attachments            Array of attachments
+ * @return render_pass::s_ptr    Shared pointer to render pass
  */
-render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments);
+render_pass::s_ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments);
 
 //-----------------------------------------------------------------------------
 name _tex_normal_ = "tex_normal";
@@ -123,15 +123,15 @@ int main(int argc, char* argv[]) {
     // create global immutable resources
     // destroyed in app.producer
 
-    mesh::ptr object = app.producer.create_mesh(mesh_type::quad);
+    mesh::s_ptr object = app.producer.create_mesh(mesh_type::quad);
     if (!object)
         return error::create_failed;
 
     using object_array = std::array<mat4, 2>;
     object_array object_instances;
 
-    texture::ptr tex_normal = app.producer.get_texture(_tex_normal_);
-    texture::ptr tex_roughness = app.producer.get_texture(_tex_roughness_);
+    texture::s_ptr tex_normal = app.producer.get_texture(_tex_normal_);
+    texture::s_ptr tex_roughness = app.producer.get_texture(_tex_roughness_);
     if (!tex_normal || !tex_roughness)
         return error::create_failed;
 
@@ -161,17 +161,17 @@ int main(int argc, char* argv[]) {
 
     descriptor::pool descriptor_pool;
 
-    render_pass::ptr gbuffer_renderpass = render_pass::make(app.device);
+    render_pass::s_ptr gbuffer_renderpass = render_pass::make(app.device);
 
-    descriptor::ptr gbuffer_set_layout = descriptor::make();
+    descriptor::s_ptr gbuffer_set_layout = descriptor::make();
     VkDescriptorSet gbuffer_set = VK_NULL_HANDLE;
-    pipeline_layout::ptr gbuffer_pipeline_layout = pipeline_layout::make();
-    render_pipeline::ptr gbuffer_pipeline = render_pipeline::make(app.device, app.pipeline_cache);
+    pipeline_layout::s_ptr gbuffer_pipeline_layout = pipeline_layout::make();
+    render_pipeline::s_ptr gbuffer_pipeline = render_pipeline::make(app.device, app.pipeline_cache);
 
-    descriptor::ptr lighting_set_layout = descriptor::make();
+    descriptor::s_ptr lighting_set_layout = descriptor::make();
     VkDescriptorSet lighting_set = VK_NULL_HANDLE;
-    pipeline_layout::ptr lighting_pipeline_layout = pipeline_layout::make();
-    render_pipeline::ptr lighting_pipeline = render_pipeline::make(app.device, app.pipeline_cache);
+    pipeline_layout::s_ptr lighting_pipeline_layout = pipeline_layout::make();
+    render_pipeline::s_ptr lighting_pipeline = render_pipeline::make(app.device, app.pipeline_cache);
 
     app.on_create = [&]() {
         VkDescriptorPoolSizes const pool_sizes = {
@@ -205,7 +205,7 @@ int main(int argc, char* argv[]) {
             return false;
 
         std::vector<VkWriteDescriptorSet> gbuffer_write_sets;
-        for (descriptor::binding::ptr const& binding : gbuffer_set_layout->get_bindings()) {
+        for (descriptor::binding::s_ptr const& binding : gbuffer_set_layout->get_bindings()) {
             VkDescriptorSetLayoutBinding const& info = binding->get();
 
             gbuffer_write_sets.push_back({.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
@@ -346,7 +346,7 @@ int main(int argc, char* argv[]) {
         };
 
         // use lava's default backbuffer renderpass
-        render_pass::ptr lighting_renderpass = app.shading.get_pass();
+        render_pass::s_ptr lighting_renderpass = app.shading.get_pass();
         lighting_renderpass->add_front(lighting_pipeline);
 
         // the resize callback creates the G-Buffer images and renderpass,
@@ -419,7 +419,7 @@ int main(int argc, char* argv[]) {
 
         // update lighting descriptor set with new G-Buffer image handles
         std::vector<VkWriteDescriptorSet> lighting_write_sets;
-        for (descriptor::binding::ptr const& binding : lighting_set_layout->get_bindings()) {
+        for (descriptor::binding::s_ptr const& binding : lighting_set_layout->get_bindings()) {
             VkDescriptorSetLayoutBinding const& info = binding->get();
 
             lighting_write_sets.push_back(
@@ -531,11 +531,11 @@ bool gbuffer_attachment::create(app const& app, ui32 index) {
 }
 
 //-----------------------------------------------------------------------------
-render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments) {
+render_pass::s_ptr create_gbuffer_renderpass(app const& app, attachment_array& attachments) {
     VkClearValues clear_values(attachments.size(), {.color = {0.f, 0.f, 0.f, 1.f}});
     clear_values[gbuffer_attachment::depth] = {.depthStencil = {1.f, 0}};
 
-    render_pass::ptr pass = render_pass::make(app.device);
+    render_pass::s_ptr pass = render_pass::make(app.device);
     pass->set_clear_values(clear_values);
 
     VkAttachmentReferences color_attachments;
@@ -549,12 +549,12 @@ render_pass::ptr create_gbuffer_renderpass(app const& app, attachment_array& att
             color_attachments.push_back(attachments[i].subpass_reference);
     }
 
-    subpass::ptr sub = subpass::make();
+    subpass::s_ptr sub = subpass::make();
     sub->set_color_attachments(color_attachments);
     sub->set_depth_stencil_attachment(attachments[gbuffer_attachment::depth].subpass_reference);
     pass->add(sub);
 
-    subpass_dependency::ptr dependency = subpass_dependency::make(VK_SUBPASS_EXTERNAL, 0);
+    subpass_dependency::s_ptr dependency = subpass_dependency::make(VK_SUBPASS_EXTERNAL, 0);
 
     // wait for previous fragment shader to finish reading before clearing attachments
     dependency->set_stage_mask(VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT,

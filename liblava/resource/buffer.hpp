@@ -16,16 +16,16 @@ namespace lava {
  */
 struct buffer : entity {
     /// Shared pointer to buffer
-    using ptr = std::shared_ptr<buffer>;
+    using s_ptr = std::shared_ptr<buffer>;
 
     /// List of buffers
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new buffer
-     * @return ptr    Shared pointer to buffer
+     * @return s_ptr    Shared pointer to buffer
      */
-    static ptr make() {
+    static s_ptr make() {
         return std::make_shared<buffer>();
     }
 

@@ -19,6 +19,9 @@ using optional_index = std::optional<index>;
  * @brief Plain renderer
  */
 struct renderer : entity {
+    /// Pointer to renderer
+    using ptr = renderer*;
+
     /**
      * @brief Create a new renderer
      * @param target    Swapchain target
@@ -121,8 +124,5 @@ private:
     /// List of render complete semaphores
     VkSemaphores render_complete_semaphores = {};
 };
-
-/// Renderer type
-using renderer_t = renderer;
 
 } // namespace lava

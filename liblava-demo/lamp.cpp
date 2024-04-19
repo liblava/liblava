@@ -96,8 +96,8 @@ int main(int argc, char* argv[]) {
     r32 lamp_depth = .03f;
     v4 lamp_color{.3f, .15f, .15f, 1.f};
 
-    render_pipeline::ptr pipeline;
-    pipeline_layout::ptr layout;
+    render_pipeline::s_ptr pipeline;
+    pipeline_layout::s_ptr layout;
 
     app.on_create = [&]() {
         pipeline = render_pipeline::make(app.device, app.pipeline_cache);
@@ -124,7 +124,7 @@ int main(int argc, char* argv[]) {
         pipeline->set_layout(layout);
         pipeline->set_auto_size(true);
 
-        render_pass::ptr render_pass = app.shading.get_pass();
+        render_pass::s_ptr render_pass = app.shading.get_pass();
 
         if (!pipeline->create(render_pass->get()))
             return false;

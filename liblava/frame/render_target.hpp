@@ -19,13 +19,13 @@ namespace lava {
  */
 struct render_target : entity {
     /// Shared pointer to render target
-    using ptr = std::shared_ptr<render_target>;
+    using s_ptr = std::shared_ptr<render_target>;
 
     /**
      * @brief Make a new render target
-     * @return ptr    Shared pointer to render target
+     * @return s_ptr    Shared pointer to render target
      */
-    static ptr make() {
+    static s_ptr make() {
         return std::make_shared<render_target>();
     }
 
@@ -125,10 +125,10 @@ struct render_target : entity {
 
     /**
      * @brief Get the backbuffer by frame index
-     * @param index          Frame index
-     * @return image::ptr    Backbuffer image
+     * @param index            Frame index
+     * @return image::s_ptr    Backbuffer image
      */
-    inline image::ptr get_backbuffer(index index) {
+    inline image::s_ptr get_backbuffer(index index) {
         auto& backbuffers = get_backbuffers();
         if (index >= backbuffers.size())
             return nullptr;
@@ -206,29 +206,29 @@ private:
 
 /**
  * @brief Create a new render target
- * @param window                 Target window
- * @param device                 Vulkan device
- * @param v_sync                 V-Sync enabled
- * @param triple_buffer          VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR
- * @param request                Surface format request
- * @return render_target::ptr    Shared pointer to render target
+ * @param window                   Target window
+ * @param device                   Vulkan device
+ * @param v_sync                   V-Sync enabled
+ * @param triple_buffer            VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR
+ * @param request                  Surface format request
+ * @return render_target::s_ptr    Shared pointer to render target
  */
-render_target::ptr create_target(window* window,
-                                 device::ptr device,
-                                 bool v_sync = false,
-                                 bool triple_buffer = true,
-                                 surface_format_request request = {});
+render_target::s_ptr create_target(window* window,
+                                   device::ptr device,
+                                   bool v_sync = false,
+                                   bool triple_buffer = true,
+                                   surface_format_request request = {});
 
 /**
  * @brief Create a new render target with V-Sync enabled
- * @param window                 Target window
- * @param device                 Vulkan device
- * @param request                Surface format request
- * @return render_target::ptr    Shared pointer to render target
+ * @param window                   Target window
+ * @param device                   Vulkan device
+ * @param request                  Surface format request
+ * @return render_target::s_ptr    Shared pointer to render target
  */
-inline render_target::ptr create_target_v_sync(window* window,
-                                               device::ptr device,
-                                               surface_format_request request = {}) {
+inline render_target::s_ptr create_target_v_sync(window* window,
+                                                 device::ptr device,
+                                                 surface_format_request request = {}) {
     return create_target(window,
                          device,
                          true,
@@ -238,14 +238,14 @@ inline render_target::ptr create_target_v_sync(window* window,
 
 /**
  * @brief Create a new render target that prefers VK_PRESENT_MODE_IMMEDIATE_KHR over VK_PRESENT_MODE_MAILBOX_KHR
- * @param window                 Target window
- * @param device                 Vulkan device
- * @param request                Surface format request
- * @return render_target::ptr    Shared pointer to render target
+ * @param window                   Target window
+ * @param device                   Vulkan device
+ * @param request                  Surface format request
+ * @return render_target::s_ptr    Shared pointer to render target
  */
-inline render_target::ptr create_target_no_triple_buffer(window* window,
-                                                         device::ptr device,
-                                                         surface_format_request request = {}) {
+inline render_target::s_ptr create_target_no_triple_buffer(window* window,
+                                                           device::ptr device,
+                                                           surface_format_request request = {}) {
     return create_target(window,
                          device,
                          false,

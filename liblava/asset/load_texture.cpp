@@ -40,16 +40,16 @@ namespace lava {
 
 /**
  * @brief Create a gli 2D texture
- * @param device           Vulkan device
- * @param file             File to load
- * @param format           Format of texture
- * @param temp_data        Data of texture
- * @return texture::ptr    Loaded texture
+ * @param device             Vulkan device
+ * @param file               File to load
+ * @param format             Format of texture
+ * @param temp_data          Data of texture
+ * @return texture::s_ptr    Loaded texture
  */
-texture::ptr create_gli_texture_2d(device::ptr device,
-                                   file::ref file,
-                                   VkFormat format,
-                                   unique_data::ref temp_data) {
+texture::s_ptr create_gli_texture_2d(device::ptr device,
+                                     file::ref file,
+                                     VkFormat format,
+                                     unique_data::ref temp_data) {
     gli::texture2d tex(file.opened() ? gli::load(temp_data.addr, temp_data.size)
                                      : gli::load(file.get_path()));
     LAVA_ASSERT(!tex.empty());
@@ -120,16 +120,16 @@ texture::layer::list create_layer_list(auto const& tex, ui32 layer_count) {
 
 /**
  * @brief Create a gli array texture
- * @param device           Vulkan device
- * @param file             File to load
- * @param format           Format of texture
- * @param temp_data        Data of texture
- * @return texture::ptr    Loaded texture
+ * @param device             Vulkan device
+ * @param file               File to load
+ * @param format             Format of texture
+ * @param temp_data          Data of texture
+ * @return texture::s_ptr    Loaded texture
  */
-texture::ptr create_gli_texture_array(device::ptr device,
-                                      file::ref file,
-                                      VkFormat format,
-                                      unique_data::ref temp_data) {
+texture::s_ptr create_gli_texture_array(device::ptr device,
+                                        file::ref file,
+                                        VkFormat format,
+                                        unique_data::ref temp_data) {
     gli::texture2d_array tex(file.opened() ? gli::load(temp_data.addr, temp_data.size)
                                            : gli::load(file.get_path()));
     LAVA_ASSERT(!tex.empty());
@@ -157,16 +157,16 @@ texture::ptr create_gli_texture_array(device::ptr device,
 
 /**
  * @brief Create a gli cube map texture
- * @param device           Vulkan device
- * @param file             File to load
- * @param format           Format of texture
- * @param temp_data        Data of texture
- * @return texture::ptr    Loaded texture
+ * @param device             Vulkan device
+ * @param file               File to load
+ * @param format             Format of texture
+ * @param temp_data          Data of texture
+ * @return texture::s_ptr    Loaded texture
  */
-texture::ptr create_gli_texture_cube_map(device::ptr device,
-                                         file::ref file,
-                                         VkFormat format,
-                                         unique_data::ref temp_data) {
+texture::s_ptr create_gli_texture_cube_map(device::ptr device,
+                                           file::ref file,
+                                           VkFormat format,
+                                           unique_data::ref temp_data) {
     gli::texture_cube tex(file.opened() ? gli::load(temp_data.addr, temp_data.size)
                                         : gli::load(file.get_path()));
     LAVA_ASSERT(!tex.empty());
@@ -194,14 +194,14 @@ texture::ptr create_gli_texture_cube_map(device::ptr device,
 
 /**
  * @brief Create a stbi texture
- * @param device           Vulkan device
- * @param file             File to load
- * @param temp_data        Data of texture
- * @return texture::ptr    Loaded texture
+ * @param device             Vulkan device
+ * @param file               File to load
+ * @param temp_data          Data of texture
+ * @return texture::s_ptr    Loaded texture
  */
-texture::ptr create_stbi_texture(device::ptr device,
-                                 file::ref file,
-                                 unique_data::ref temp_data) {
+texture::s_ptr create_stbi_texture(device::ptr device,
+                                   file::ref file,
+                                   unique_data::ref temp_data) {
     i32 tex_width = 0, tex_height = 0;
     stbi_uc* data = nullptr;
 
@@ -241,9 +241,9 @@ texture::ptr create_stbi_texture(device::ptr device,
 }
 
 //-----------------------------------------------------------------------------
-texture::ptr load_texture(device::ptr device,
-                          file_format file_format,
-                          texture_type type) {
+texture::s_ptr load_texture(device::ptr device,
+                            file_format file_format,
+                            texture_type type) {
     auto use_gli = extension(file_format.path,
                              {"DDS", "KTX", "KMG"});
     auto use_stbi = false;
@@ -305,10 +305,10 @@ texture::ptr load_texture(device::ptr device,
 }
 
 //-----------------------------------------------------------------------------
-texture::ptr create_default_texture(device::ptr device,
-                                    uv2 size,
-                                    v3 color,
-                                    r32 alpha) {
+texture::s_ptr create_default_texture(device::ptr device,
+                                      uv2 size,
+                                      v3 color,
+                                      r32 alpha) {
     auto result = texture::make();
 
     auto const format = VK_FORMAT_R8G8B8A8_UNORM;

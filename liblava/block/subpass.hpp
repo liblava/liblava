@@ -16,18 +16,18 @@ namespace lava {
  */
 struct subpass : entity {
     /// Shared pointer to subpass
-    using ptr = std::shared_ptr<subpass>;
+    using s_ptr = std::shared_ptr<subpass>;
 
     /// List of subpasses
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new subpass
      * @param pipeline_bind_point    Pipeline bind point
-     * @return ptr                   Shared pointer to subpass
+     * @return s_ptr                 Shared pointer to subpass
      */
-    static ptr make(VkPipelineBindPoint pipeline_bind_point =
-                        VK_PIPELINE_BIND_POINT_GRAPHICS) {
+    static s_ptr make(VkPipelineBindPoint pipeline_bind_point =
+                          VK_PIPELINE_BIND_POINT_GRAPHICS) {
         auto result = std::make_shared<subpass>();
         result->set(pipeline_bind_point);
         return result;
@@ -47,7 +47,7 @@ struct subpass : entity {
      * @brief Add a render pipeline to the back of the subpass
      * @param pipeline    Render pipeline
      */
-    void add(render_pipeline::ptr const& pipeline) {
+    void add(render_pipeline::s_ptr const& pipeline) {
         pipelines.push_back(pipeline);
     }
 
@@ -55,7 +55,7 @@ struct subpass : entity {
      * @brief Add a render pipeline to the fronst of the subpass
      * @param pipeline    Render pipeline
      */
-    void add_front(render_pipeline::ptr const& pipeline) {
+    void add_front(render_pipeline::s_ptr const& pipeline) {
         pipelines.insert(pipelines.begin(), pipeline);
     }
 
@@ -63,7 +63,7 @@ struct subpass : entity {
      * @brief Remove the render pipeline
      * @param pipeline    Render pipeline
      */
-    void remove(render_pipeline::ptr pipeline);
+    void remove(render_pipeline::s_ptr pipeline);
 
     /**
      * @brief Clear all pipelines
@@ -226,22 +226,22 @@ private:
  */
 struct subpass_dependency {
     /// Shared pointer to subpass dependency
-    using ptr = std::shared_ptr<subpass_dependency>;
+    using s_ptr = std::shared_ptr<subpass_dependency>;
 
     /// List of subpass dependencies
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new subpass dependency
      * @param src_subpass         Source subpass
      * @param dst_subpass         Destination subpass
      * @param dependency_flags    Dependency flags
-     * @return ptr                Shared pointer to subpass dependency
+     * @return s_ptr              Shared pointer to subpass dependency
      */
-    static ptr make(ui32 src_subpass,
-                    ui32 dst_subpass,
-                    VkDependencyFlags dependency_flags =
-                        VK_DEPENDENCY_BY_REGION_BIT) {
+    static s_ptr make(ui32 src_subpass,
+                      ui32 dst_subpass,
+                      VkDependencyFlags dependency_flags =
+                          VK_DEPENDENCY_BY_REGION_BIT) {
         auto result = std::make_shared<subpass_dependency>();
         result->set_subpass(src_subpass, dst_subpass);
         result->set_dependency_flags(dependency_flags);

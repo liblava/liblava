@@ -70,14 +70,17 @@ struct window : entity {
         index monitor = 0;
     };
 
+    /// Pointer to window
+    using ptr = window*;
+
     /// Shared pointer to window
-    using ptr = std::shared_ptr<window>;
+    using s_ptr = std::shared_ptr<window>;
 
     /// Window event function
-    using event = std::function<void(ptr)>;
+    using event = std::function<void(s_ptr)>;
 
     /// Map of windows
-    using map = std::map<id, ptr>;
+    using map = std::map<id, s_ptr>;
 
     /// Reference to window
     using ref = window const&;
@@ -419,7 +422,7 @@ struct window : entity {
      * @brief Assign input callback
      * @param callback    Input callbacl
      */
-    void assign(input* callback) {
+    void assign(input::ptr callback) {
         input = callback;
     }
 
@@ -485,7 +488,7 @@ private:
     GLFWwindow* handle = nullptr;
 
     /// Input handling
-    input_t* input = nullptr;
+    input::ptr input = nullptr;
 
     /// Window title
     string title = _lava_;
@@ -523,9 +526,6 @@ private:
     /// Window height
     ui32 height = 0;
 };
-
-/// Window type
-using window_t = window;
 
 /**
  * @brief Create a new surface

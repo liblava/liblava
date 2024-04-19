@@ -114,10 +114,10 @@ void image::destroy(bool view_only) {
 }
 
 //-----------------------------------------------------------------------------
-image::ptr create_image(device::ptr device,
-                        VkFormat format,
-                        uv2 size,
-                        VkImage vk_image) {
+image::s_ptr create_image(device::ptr device,
+                          VkFormat format,
+                          uv2 size,
+                          VkImage vk_image) {
     auto image = image::make(format, vk_image);
 
     if (!image->create(device, size, VMA_MEMORY_USAGE_AUTO))
@@ -127,7 +127,7 @@ image::ptr create_image(device::ptr device,
 }
 
 //-----------------------------------------------------------------------------
-image::ptr grab_image(image::ptr source) {
+image::s_ptr grab_image(image::s_ptr source) {
     auto device = source->get_device();
 
     auto const size = source->get_size();

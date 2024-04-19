@@ -15,6 +15,9 @@ namespace lava {
  * @brief Stage platform
  */
 struct platform {
+    /// Pointer to platform
+    using ptr = platform*;
+
     /**
      * @brief Create a managed device from a physical device
      * @param physical_device    Index of physical device
@@ -71,8 +74,5 @@ private:
     /// List of managed devices
     device::list devices;
 };
-
-/// Platform type
-using platform_t = platform;
 
 } // namespace lava

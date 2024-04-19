@@ -68,11 +68,11 @@ void render_target::destroy() {
 }
 
 //-----------------------------------------------------------------------------
-render_target::ptr create_target(window* window,
-                                 device::ptr device,
-                                 bool v_sync,
-                                 bool triple_buffer,
-                                 surface_format_request request) {
+render_target::s_ptr create_target(window* window,
+                                   device::ptr device,
+                                   bool v_sync,
+                                   bool triple_buffer,
+                                   surface_format_request request) {
     auto surface = window->create_surface();
     if (!surface)
         return nullptr;

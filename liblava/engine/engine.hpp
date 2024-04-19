@@ -20,6 +20,9 @@ constexpr name _props_ = "props";
  * @brief Engine
  */
 struct engine : app {
+    // Pointer to engine
+    using ptr = engine*;
+
     /// App constructors
     using app::app;
 
@@ -33,7 +36,7 @@ struct engine : app {
     property props;
 
     /// Producer
-    producer_t producer;
+    producer producer;
 
 private:
     /**

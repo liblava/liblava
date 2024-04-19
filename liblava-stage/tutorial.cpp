@@ -97,7 +97,7 @@ LAVA_STAGE(4, "clear color") {
     if (!device)
         return error::create_failed;
 
-    render_target::ptr render_target = create_target(&window, device);
+    render_target::s_ptr render_target = create_target(&window, device);
     if (!render_target)
         return error::create_failed;
 
@@ -235,7 +235,7 @@ LAVA_STAGE(5, "color block") {
     if (!device)
         return error::create_failed;
 
-    render_target::ptr render_target = create_target(&window, device);
+    render_target::s_ptr render_target = create_target(&window, device);
     if (!render_target)
         return error::create_failed;
 

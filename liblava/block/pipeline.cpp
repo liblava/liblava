@@ -105,9 +105,9 @@ void pipeline::shader_stage::destroy() {
 }
 
 //-----------------------------------------------------------------------------
-pipeline::shader_stage::ptr create_pipeline_shader_stage(device::ptr device,
-                                                         c_data::ref data,
-                                                         VkShaderStageFlagBits stage) {
+pipeline::shader_stage::s_ptr create_pipeline_shader_stage(device::ptr device,
+                                                           c_data::ref data,
+                                                           VkShaderStageFlagBits stage) {
     auto shaderStage = pipeline::shader_stage::make(stage);
 
     if (!shaderStage->create(device, data))
