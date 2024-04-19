@@ -32,7 +32,7 @@ struct pipeline : entity {
      * @param device            Vulkan device
      * @param pipeline_cache    Pipeline cache
      */
-    explicit pipeline(device_p device,
+    explicit pipeline(device::ptr device,
                       VkPipelineCache pipeline_cache = 0);
 
     /**
@@ -114,9 +114,9 @@ struct pipeline : entity {
 
     /**
      * @brief Get the device
-     * @return device_p    Vulkan device
+     * @return device::ptr    Vulkan device
      */
-    device_p get_device() {
+    device::ptr get_device() {
         return device;
     }
 
@@ -188,7 +188,7 @@ struct pipeline : entity {
          * @param specialization_data    Specialization data
          * @return Create was successful or failed
          */
-        bool create(device_p device,
+        bool create(device::ptr device,
                     c_data::ref shader_data,
                     c_data::ref specialization_data = data());
 
@@ -207,7 +207,7 @@ struct pipeline : entity {
 
     private:
         /// Vulkan device
-        device_p device = nullptr;
+        device::ptr device = nullptr;
 
         /// Pipeline shader stage create information
         VkPipelineShaderStageCreateInfo create_info;
@@ -235,7 +235,7 @@ protected:
     virtual void teardown() = 0;
 
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     /// Vulkan pipeline
     VkPipeline vk_pipeline = VK_NULL_HANDLE;
@@ -261,7 +261,7 @@ private:
  * @param stage                           Shader stage flag bits
  * @return pipeline::shader_stage::ptr    Shared pointer to pipeline shader stage
  */
-pipeline::shader_stage::ptr create_pipeline_shader_stage(device_p device,
+pipeline::shader_stage::ptr create_pipeline_shader_stage(device::ptr device,
                                                          c_data::ref data,
                                                          VkShaderStageFlagBits stage);
 

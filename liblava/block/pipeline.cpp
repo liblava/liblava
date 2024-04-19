@@ -11,9 +11,9 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-pipeline::pipeline(device_p d,
+pipeline::pipeline(device::ptr dev,
                    VkPipelineCache pipeline_cache)
-: device(d), pipeline_cache(pipeline_cache) {}
+: device(dev), pipeline_cache(pipeline_cache) {}
 
 //-----------------------------------------------------------------------------
 pipeline::~pipeline() {
@@ -70,7 +70,7 @@ void pipeline::shader_stage::add_specialization_entry(
 }
 
 //-----------------------------------------------------------------------------
-bool pipeline::shader_stage::create(device_p d,
+bool pipeline::shader_stage::create(device::ptr d,
                                     c_data::ref shader_data,
                                     c_data::ref specialization_data) {
     device = d;
@@ -105,7 +105,7 @@ void pipeline::shader_stage::destroy() {
 }
 
 //-----------------------------------------------------------------------------
-pipeline::shader_stage::ptr create_pipeline_shader_stage(device_p device,
+pipeline::shader_stage::ptr create_pipeline_shader_stage(device::ptr device,
                                                          c_data::ref data,
                                                          VkShaderStageFlagBits stage) {
     auto shaderStage = pipeline::shader_stage::make(stage);

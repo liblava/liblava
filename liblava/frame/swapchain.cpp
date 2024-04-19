@@ -13,7 +13,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool swapchain::create(device_p d,
+bool swapchain::create(device::ptr d,
                        VkSurfaceKHR s,
                        VkSurfaceFormatKHR f,
                        uv2 sz,

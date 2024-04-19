@@ -11,8 +11,8 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-render_pass::render_pass(device_p d)
-: device(d) {
+render_pass::render_pass(device::ptr dev)
+: device(dev) {
     callback.on_created =
         [&](VkAttachmentsRef target_attachments, rect::ref area) { return on_target_created(
                                                                        target_attachments, area); };

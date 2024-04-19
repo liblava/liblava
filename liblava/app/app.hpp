@@ -81,7 +81,7 @@ struct app : frame {
     tooltip_list tooltips;
 
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     /// Main camera
     camera_t camera;

@@ -62,7 +62,7 @@ struct render_pipeline : pipeline {
      * @param pipeline_cache    Pipeline cache
      * @return ptr              Shared pointer to render pipeline
      */
-    static ptr make(device_p device,
+    static ptr make(device::ptr device,
                     VkPipelineCache pipeline_cache = 0) {
         return std::make_shared<render_pipeline>(device, pipeline_cache);
     }
@@ -72,7 +72,7 @@ struct render_pipeline : pipeline {
      * @param device            Vulkan device
      * @param pipeline_cache    Pipeline cache
      */
-    explicit render_pipeline(device_p device,
+    explicit render_pipeline(device::ptr device,
                              VkPipelineCache pipeline_cache);
 
     /**

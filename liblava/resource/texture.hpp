@@ -98,7 +98,7 @@ struct texture : entity {
      * @param type      Texture type
      * @return Create was successful or failed
      */
-    bool create(device_p device,
+    bool create(device::ptr device,
                 uv2 size,
                 VkFormat format,
                 layer::list const& layers = {},

@@ -54,7 +54,7 @@ struct command : entity {
      * @param command_pools    List of command pools
      * @return Create was successful or failed
      */
-    bool create(device_p device,
+    bool create(device::ptr device,
                 index frame_count,
                 VkCommandPools command_pools);
 
@@ -63,7 +63,7 @@ struct command : entity {
      * @param device           Vulkan device
      * @param command_pools    List of command pools
      */
-    void destroy(device_p device,
+    void destroy(device::ptr device,
                  VkCommandPools command_pools);
 };
 
@@ -105,7 +105,7 @@ struct block : entity {
      * @param queue_family    Queue family index
      * @return Create was successful or failed
      */
-    bool create(device_p device,
+    bool create(device::ptr device,
                 index frame_count,
                 index queue_family);
 
@@ -231,15 +231,15 @@ struct block : entity {
 
     /**
      * @brief Get the device
-     * @return device_p    Vulkan device
+     * @return device::ptr    Vulkan device
      */
-    device_p get_device() {
+    device::ptr get_device() {
         return device;
     }
 
 private:
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     /// Current frame index
     index current_frame = 0;

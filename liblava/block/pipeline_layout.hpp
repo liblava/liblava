@@ -86,7 +86,7 @@ struct pipeline_layout : entity {
      * @param device    Vulkan device
      * @return Create was successful or failed
      */
-    bool create(device_p device);
+    bool create(device::ptr device);
 
     /**
      * @brief Destroy the pipeline layout
@@ -103,9 +103,9 @@ struct pipeline_layout : entity {
 
     /**
      * @brief Get the device
-     * @return device_p    Vulkan device
+     * @return device::ptr    Vulkan device
      */
-    device_p get_device() {
+    device::ptr get_device() {
         return device;
     }
 
@@ -159,7 +159,7 @@ struct pipeline_layout : entity {
 
 private:
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     /// Pipeline layout
     VkPipelineLayout layout = VK_NULL_HANDLE;

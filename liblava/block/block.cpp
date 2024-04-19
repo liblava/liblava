@@ -12,7 +12,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool command::create(device_p device,
+bool command::create(device::ptr device,
                      index frame_count,
                      VkCommandPools cmd_pools) {
     buffers.resize(frame_count);
@@ -36,7 +36,7 @@ bool command::create(device_p device,
 }
 
 //-----------------------------------------------------------------------------
-void command::destroy(device_p device,
+void command::destroy(device::ptr device,
                       VkCommandPools cmd_pools) {
     for (auto i = 0u; i < buffers.size(); ++i)
         device->call().vkFreeCommandBuffers(device->get(),
@@ -46,10 +46,10 @@ void command::destroy(device_p device,
 }
 
 //-----------------------------------------------------------------------------
-bool block::create(device_p d,
+bool block::create(device::ptr dev,
                    index frame_count,
                    index queue_family) {
-    device = d;
+    device = dev;
 
     current_frame = 0;
 

@@ -14,7 +14,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool write_image_png(device_p device,
+bool write_image_png(device::ptr device,
                      image::ptr image,
                      string_ref filename,
                      bool swizzle) {

@@ -46,7 +46,7 @@ namespace lava {
  * @param temp_data        Data of texture
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_gli_texture_2d(device_p device,
+texture::ptr create_gli_texture_2d(device::ptr device,
                                    file::ref file,
                                    VkFormat format,
                                    unique_data::ref temp_data) {
@@ -126,7 +126,7 @@ texture::layer::list create_layer_list(auto const& tex, ui32 layer_count) {
  * @param temp_data        Data of texture
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_gli_texture_array(device_p device,
+texture::ptr create_gli_texture_array(device::ptr device,
                                       file::ref file,
                                       VkFormat format,
                                       unique_data::ref temp_data) {
@@ -163,7 +163,7 @@ texture::ptr create_gli_texture_array(device_p device,
  * @param temp_data        Data of texture
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_gli_texture_cube_map(device_p device,
+texture::ptr create_gli_texture_cube_map(device::ptr device,
                                          file::ref file,
                                          VkFormat format,
                                          unique_data::ref temp_data) {
@@ -199,7 +199,7 @@ texture::ptr create_gli_texture_cube_map(device_p device,
  * @param temp_data        Data of texture
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_stbi_texture(device_p device,
+texture::ptr create_stbi_texture(device::ptr device,
                                  file::ref file,
                                  unique_data::ref temp_data) {
     i32 tex_width = 0, tex_height = 0;
@@ -241,7 +241,7 @@ texture::ptr create_stbi_texture(device_p device,
 }
 
 //-----------------------------------------------------------------------------
-texture::ptr load_texture(device_p device,
+texture::ptr load_texture(device::ptr device,
                           file_format file_format,
                           texture_type type) {
     auto use_gli = extension(file_format.path,
@@ -305,7 +305,7 @@ texture::ptr load_texture(device_p device,
 }
 
 //-----------------------------------------------------------------------------
-texture::ptr create_default_texture(device_p device,
+texture::ptr create_default_texture(device::ptr device,
                                     uv2 size,
                                     v3 color,
                                     r32 alpha) {

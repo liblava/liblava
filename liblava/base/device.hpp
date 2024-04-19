@@ -15,24 +15,24 @@
 
 namespace lava {
 
-/// Pointer to device
-using device_p = device*;
-
-/// Const pointer to device
-using device_cp = device const*;
-
-/// Const pointer to a physical device
-using physical_device_cp = physical_device const*;
-
 /**
  * @brief Vulkan device
  */
 struct device : device_table, entity {
+    /// Pointer to device
+    using ptr = device*;
+
+    /// Const pointer to device
+    using c_ptr = device const*;
+
     /// Shared pointer to a device
-    using ptr = std::shared_ptr<device>;
+    using s_ptr = std::shared_ptr<device>;
 
     /// List of devices
-    using list = std::vector<ptr>;
+    using list = std::vector<s_ptr>;
+
+    /// Const pointer to a physical device
+    using physical_device_c_ptr = physical_device const*;
 
     /**
      * @brief Device create parameters
@@ -42,7 +42,7 @@ struct device : device_table, entity {
         using ref = create_param const&;
 
         /// Physical device
-        physical_device_cp physical_device = nullptr;
+        physical_device_c_ptr physical_device = nullptr;
 
         /// VMA flags
         VmaAllocatorCreateFlags vma_flags = 0;
@@ -126,9 +126,9 @@ struct device : device_table, entity {
 
     /**
      * @brief Make a new device
-     * @return ptr    Shared pointer to device
+     * @return s_ptr    Shared pointer to device
      */
-    static ptr make() {
+    static s_ptr make() {
         return std::make_shared<device>();
     }
 
@@ -285,9 +285,9 @@ struct device : device_table, entity {
 
     /**
      * @brief Get the physical device
-     * @return physical_device_cp    Physical device
+     * @return physical_device_c_ptr    Physical device
      */
-    physical_device_cp get_physical_device() const {
+    physical_device_c_ptr get_physical_device() const {
         return physical_device;
     }
 
@@ -344,7 +344,7 @@ struct device : device_table, entity {
 
 private:
     /// Physical device
-    physical_device_cp physical_device = nullptr;
+    physical_device_c_ptr physical_device = nullptr;
 
     /// List of qraphics queues
     queue::list graphics_queue_list;
@@ -371,7 +371,7 @@ private:
  * @param data               Shader data
  * @return VkShaderModule    Shader module
  */
-VkShaderModule create_shader_module(device_p device,
+VkShaderModule create_shader_module(device::ptr device,
                                     c_data::ref data);
 
 /// One time command function
@@ -385,7 +385,7 @@ using one_time_command_func = std::function<void(VkCommandBuffer)>;
  * @param callback    Function to be called
  * @return Submit was successful or failed
  */
-bool one_time_submit_pool(device_p device,
+bool one_time_submit_pool(device::ptr device,
                           VkCommandPool pool,
                           queue::ref queue,
                           one_time_command_func callback);
@@ -397,7 +397,7 @@ bool one_time_submit_pool(device_p device,
  * @param callback    Function to be called
  * @return Submit was successful or failed
  */
-inline bool one_time_submit(device_p device,
+inline bool one_time_submit(device::ptr device,
                             queue::ref queue,
                             one_time_command_func callback) {
     return one_time_submit_pool(device,

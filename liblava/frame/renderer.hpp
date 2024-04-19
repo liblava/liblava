@@ -66,9 +66,9 @@ struct renderer : entity {
 
     /**
      * @brief Get the device
-     * @return device_p    Vulkan device
+     * @return device::ptr    Vulkan device
      */
-    device_p get_device() {
+    device::ptr get_device() {
         return device;
     }
 
@@ -92,7 +92,7 @@ struct renderer : entity {
 
 private:
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     /// Graphics queue
     queue graphics_queue;

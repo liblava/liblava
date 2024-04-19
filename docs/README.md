@@ -162,7 +162,7 @@ input.key.listeners.add([&](key_event::ref event) {
     return input_ignore;
 });
 
-lava::device_p device = frame.platform.create_device();
+lava::device::ptr device = frame.platform.create_device();
 if (!device)
     return error::create_failed;
 

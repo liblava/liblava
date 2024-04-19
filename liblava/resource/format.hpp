@@ -145,7 +145,7 @@ VkImageMemoryBarrier image_memory_barrier(VkImage image,
  * @param src_stage_mask       Source pipeline stage flags
  * @param dst_stage_mask       Destination pipeline stage flags
  */
-void set_image_layout(device_p device,
+void set_image_layout(device::ptr device,
                       VkCommandBuffer cmd_buffer,
                       VkImage image,
                       VkImageLayout old_image_layout,
@@ -165,7 +165,7 @@ void set_image_layout(device_p device,
  * @param src_stage_mask      Source pipeline stage flags
  * @param dst_stage_mask      Destination pipeline stage flags
  */
-void set_image_layout(device_p device,
+void set_image_layout(device::ptr device,
                       VkCommandBuffer cmd_buffer,
                       VkImage image,
                       VkImageAspectFlags aspect_mask,
@@ -187,7 +187,7 @@ void set_image_layout(device_p device,
  * @param dst_stage_mask       Destination pipeline stage flags
  * @param subresource_range    Image subresource range
  */
-void insert_image_memory_barrier(device_p device,
+void insert_image_memory_barrier(device::ptr device,
                                  VkCommandBuffer cmd_buffer,
                                  VkImage image,
                                  VkAccessFlags src_access_mask,

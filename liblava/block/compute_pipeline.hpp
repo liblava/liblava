@@ -30,7 +30,7 @@ struct compute_pipeline : pipeline {
      * @param pipeline_cache    Pipeline cache
      * @return ptr              Shared pointer to compute pipeline
      */
-    static ptr make(device_p device,
+    static ptr make(device::ptr device,
                     VkPipelineCache pipeline_cache = 0) {
         return std::make_shared<compute_pipeline>(device, pipeline_cache);
     }

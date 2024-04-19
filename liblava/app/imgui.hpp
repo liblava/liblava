@@ -136,31 +136,31 @@ struct imgui {
 
     /**
      * @brief Create pipeline for ImGui with device
-     * @param device            Vulkan device
+     * @param dev               Vulkan device
      * @param frames            Number of frames
      * @param pipeline_cache    Pipeline cache
      * @return Create was successful or failed
      */
-    bool create(device_p device,
+    bool create(device::ptr dev,
                 index frames,
                 VkPipelineCache pipeline_cache) {
-        return create(render_pipeline::make(device, pipeline_cache),
+        return create(render_pipeline::make(dev, pipeline_cache),
                       frames);
     }
 
     /**
      * @brief Create pipeline for ImGui with device and render pass
-     * @param device            Vulkan device
+     * @param dev               Vulkan device
      * @param frames            Number of frames
      * @param pass              Render pass
      * @param pipeline_cache    Pipeline cache
      * @return Create was successful or failed
      */
-    bool create(device_p device,
+    bool create(device::ptr dev,
                 index frames,
                 VkRenderPass pass,
                 VkPipelineCache pipeline_cache = 0) {
-        if (!create(device, frames, pipeline_cache))
+        if (!create(dev, frames, pipeline_cache))
             return false;
 
         return pipeline->create(pass);
@@ -329,7 +329,7 @@ private:
     void render(VkCommandBuffer cmd_buf);
 
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     // Initialized state
     bool initialized = false;

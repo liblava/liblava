@@ -60,7 +60,7 @@ image::image(VkFormat format,
 }
 
 //-----------------------------------------------------------------------------
-bool image::create(device_p d,
+bool image::create(device::ptr d,
                    uv2 size,
                    VmaMemoryUsage memory_usage,
                    VmaAllocationCreateFlags allocation_flags) {
@@ -114,7 +114,7 @@ void image::destroy(bool view_only) {
 }
 
 //-----------------------------------------------------------------------------
-image::ptr create_image(device_p device,
+image::ptr create_image(device::ptr device,
                         VkFormat format,
                         uv2 size,
                         VkImage vk_image) {

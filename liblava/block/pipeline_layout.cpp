@@ -11,8 +11,8 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool pipeline_layout::create(device_p d) {
-    device = d;
+bool pipeline_layout::create(device::ptr dev) {
+    device = dev;
 
     VkDescriptorSetLayouts layouts;
     for (auto& layout : descriptors)

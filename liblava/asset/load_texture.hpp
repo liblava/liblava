@@ -18,7 +18,7 @@ namespace lava {
  * @param type             Type of texture
  * @return texture::ptr    Loaded texture
  */
-texture::ptr load_texture(device_p device,
+texture::ptr load_texture(device::ptr device,
                           file_format file_format,
                           texture_type type = texture_type::tex_2d);
 
@@ -30,7 +30,7 @@ texture::ptr load_texture(device_p device,
  * @param type             Type of texture
  * @return texture::ptr    Loaded texture
  */
-inline texture::ptr load_texture(device_p device,
+inline texture::ptr load_texture(device::ptr device,
                                  string_ref filename,
                                  VkFormat format = VK_FORMAT_R8G8B8A8_SRGB,
                                  texture_type type = texture_type::tex_2d) {
@@ -45,7 +45,7 @@ inline texture::ptr load_texture(device_p device,
  * @param alpha            Alpha value of texture
  * @return texture::ptr    Loaded texture
  */
-texture::ptr create_default_texture(device_p device,
+texture::ptr create_default_texture(device::ptr device,
                                     uv2 size = {512, 512},
                                     v3 color = v3(1.f),
                                     r32 alpha = 0.7529f);

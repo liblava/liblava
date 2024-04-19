@@ -220,7 +220,7 @@ VkPhysicalDeviceProperties const& device::get_properties() const {
 }
 
 //-----------------------------------------------------------------------------
-VkShaderModule create_shader_module(device_p device, c_data::ref data) {
+VkShaderModule create_shader_module(device::ptr device, c_data::ref data) {
     VkShaderModuleCreateInfo shader_module_create_info{
         .sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
         .codeSize = data.size,
@@ -237,7 +237,7 @@ VkShaderModule create_shader_module(device_p device, c_data::ref data) {
 }
 
 //-----------------------------------------------------------------------------
-bool one_time_submit_pool(device_p device,
+bool one_time_submit_pool(device::ptr device,
                           VkCommandPool pool,
                           queue::ref queue,
                           one_time_command_func callback) {

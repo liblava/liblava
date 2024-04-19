@@ -28,7 +28,7 @@ struct render_pass : entity {
      * @param device    Vulkan device
      * @return ptr      Shared pointer to render pass
      */
-    static ptr make(device_p device) {
+    static ptr make(device::ptr device) {
         return std::make_shared<render_pass>(device);
     }
 
@@ -36,7 +36,7 @@ struct render_pass : entity {
      * @brief Construct a new render pass
      * @param device    Vulkan device
      */
-    explicit render_pass(device_p device);
+    explicit render_pass(device::ptr device);
 
     /**
      * @brief Create a new render pass
@@ -62,9 +62,9 @@ struct render_pass : entity {
 
     /**
      * @brief Get the device
-     * @return device_p    Vulkan device
+     * @return device::ptr    Vulkan device
      */
-    device_p get_device() {
+    device::ptr get_device() {
         return device;
     }
 
@@ -202,7 +202,7 @@ struct render_pass : entity {
 
 private:
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     /// Vulkan render pass
     VkRenderPass vk_render_pass = VK_NULL_HANDLE;

@@ -18,23 +18,23 @@ struct platform {
     /**
      * @brief Create a managed device from a physical device
      * @param physical_device    Index of physical device
-     * @return device::ptr       Vulkan device
+     * @return device::s_ptr     Vulkan device
      */
-    device::ptr create(index physical_device = 0);
+    device::s_ptr create(index physical_device = 0);
 
     /**
      * @brief Create a managed device with create parameters
-     * @param param           Create parameters
-     * @return device::ptr    Vulkan device
+     * @param param             Create parameters
+     * @return device::s_ptr    Vulkan device
      */
-    device::ptr create(device::create_param::ref param);
+    device::s_ptr create(device::create_param::ref param);
 
     /**
      * @brief Create a managed device
      * @param physical_device    Physical device
-     * @return device_p          Pointer to device
+     * @return device::s_ptr     Pointer to device
      */
-    device_p create_device(index physical_device = 0);
+    device::ptr create_device(index physical_device = 0);
 
     /**
      * @brief Get all devices

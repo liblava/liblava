@@ -11,9 +11,9 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-render_pipeline::render_pipeline(device_p d,
+render_pipeline::render_pipeline(device::ptr dev,
                                  VkPipelineCache pipeline_cache)
-: pipeline(d, pipeline_cache) {
+: pipeline(dev, pipeline_cache) {
     info.vertex_input_state.sType =
         VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
     info.vertex_input_state.pNext = nullptr;

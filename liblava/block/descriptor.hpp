@@ -121,7 +121,7 @@ struct descriptor : entity {
          * @param flags     Create flags
          * @return Create was successful or failed
          */
-        bool create(device_p device,
+        bool create(device::ptr device,
                     VkDescriptorPoolSizesRef sizes,
                     ui32 max = 1,
                     VkDescriptorPoolCreateFlags flags =
@@ -142,9 +142,9 @@ struct descriptor : entity {
 
         /**
          * @brief Get the device
-         * @return device_p    Vulkan device
+         * @return device::ptr    Vulkan device
          */
-        device_p get_device() {
+        device::ptr get_device() {
             return device;
         }
 
@@ -166,7 +166,7 @@ struct descriptor : entity {
 
     private:
         /// Vulkan device
-        device_p device = nullptr;
+        device::ptr device = nullptr;
 
         /// Vulkan descriptor pool
         VkDescriptorPool vk_pool = VK_NULL_HANDLE;
@@ -222,7 +222,7 @@ struct descriptor : entity {
      * @param device    Vulkan device
      * @return Create was successful or failed
      */
-    bool create(device_p device);
+    bool create(device::ptr device);
 
     /**
      * @brief Destroy the descriptor
@@ -255,9 +255,9 @@ struct descriptor : entity {
 
     /**
      * @brief Get the device
-     * @return device_p    Vulkan device
+     * @return device::ptr    Vulkan device
      */
-    device_p get_device() {
+    device::ptr get_device() {
         return device;
     }
 
@@ -328,7 +328,7 @@ struct descriptor : entity {
 
 private:
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     /// Vulkan descriptor set layout
     VkDescriptorSetLayout layout = VK_NULL_HANDLE;

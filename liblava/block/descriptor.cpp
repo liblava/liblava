@@ -20,7 +20,7 @@ descriptor::binding::binding() {
 }
 
 //-----------------------------------------------------------------------------
-bool descriptor::pool::create(device_p d,
+bool descriptor::pool::create(device::ptr d,
                               VkDescriptorPoolSizesRef s,
                               ui32 m,
                               VkDescriptorPoolCreateFlags flags) {
@@ -58,8 +58,8 @@ void descriptor::pool::destroy() {
 }
 
 //-----------------------------------------------------------------------------
-bool descriptor::create(device_p d) {
-    device = d;
+bool descriptor::create(device::ptr dev) {
+    device = dev;
 
     VkDescriptorSetLayoutBindings layoutBindings;
 

@@ -51,7 +51,7 @@ struct image : entity {
      * @param allocation_flags    Allocation flags
      * @return Create was successful or failed
      */
-    bool create(device_p device,
+    bool create(device::ptr device,
                 uv2 size,
                 VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_GPU_ONLY,
                 VmaAllocationCreateFlags allocation_flags = 0);
@@ -71,9 +71,9 @@ struct image : entity {
 
     /**
      * @brief Get the device
-     * @return device_p    Vulkan device
+     * @return device::ptr    Vulkan device
      */
-    device_p get_device() {
+    device::ptr get_device() {
         return device;
     }
 
@@ -225,7 +225,7 @@ struct image : entity {
 
 private:
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     /// Vulkan image
     VkImage vk_image = VK_NULL_HANDLE;
@@ -254,7 +254,7 @@ private:
  * @param vk_image       Vulkan image
  * @return image::ptr    Shared pointer to image
  */
-image::ptr create_image(device_p device,
+image::ptr create_image(device::ptr device,
                         VkFormat format,
                         uv2 size,
                         VkImage vk_image = 0);

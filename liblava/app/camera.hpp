@@ -39,7 +39,7 @@ struct camera : entity {
      * @param device    Vulkan device
      * @return Create was successful or failed
      */
-    bool create(device_p device);
+    bool create(device::ptr device);
 
     /**
      * @brief Destroy the camera

@@ -11,7 +11,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool buffer::create(device_p d,
+bool buffer::create(device::ptr dev,
                     void const* data,
                     size_t size,
                     VkBufferUsageFlags usage,
@@ -20,7 +20,7 @@ bool buffer::create(device_p d,
                     VkSharingMode sharing_mode,
                     std::vector<ui32> const& shared_queue_family_indices,
                     i32 alignment) {
-    device = d;
+    device = dev;
 
     VkBufferCreateInfo buffer_info{
         .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
@@ -93,7 +93,7 @@ bool buffer::create(device_p d,
 }
 
 //-----------------------------------------------------------------------------
-bool buffer::create_mapped(device_p d,
+bool buffer::create_mapped(device::ptr dev,
                            void const* data,
                            size_t size,
                            VkBufferUsageFlags usage,
@@ -101,7 +101,7 @@ bool buffer::create_mapped(device_p d,
                            VkSharingMode sharing_mode,
                            std::vector<ui32> const& shared_queue_family_indices,
                            i32 alignment) {
-    return create(d,
+    return create(dev,
                   data,
                   size,
                   usage,

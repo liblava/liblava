@@ -49,7 +49,7 @@ struct buffer : entity {
      * @param alignment                      Minimum alignment to be used when placing the buffer inside a larger memory block negative -> no minimum alignment
      * @return Create was successful or failed
      */
-    bool create(device_p device,
+    bool create(device::ptr device,
                 void const* data,
                 size_t size,
                 VkBufferUsageFlags usage,
@@ -71,7 +71,7 @@ struct buffer : entity {
      * @param alignment                      Minimum alignment to be used when placing the buffer inside a larger memory block negative -> no minimum alignment
      * @return Create was successful or failed
      */
-    bool create_mapped(device_p device,
+    bool create_mapped(device::ptr device,
                        void const* data,
                        size_t size,
                        VkBufferUsageFlags usage,
@@ -87,9 +87,9 @@ struct buffer : entity {
 
     /**
      * @brief Get the device
-     * @return device_p    Vulkan device
+     * @return device::ptr    Vulkan device
      */
-    device_p get_device() {
+    device::ptr get_device() {
         return device;
     }
 
@@ -173,7 +173,7 @@ struct buffer : entity {
 
 private:
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     /// Vulkan buffer
     VkBuffer vk_buffer = VK_NULL_HANDLE;

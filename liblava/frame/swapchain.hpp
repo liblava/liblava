@@ -25,7 +25,7 @@ struct swapchain : entity {
      * @param triple_buffer VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR
      * @return Create was successful or failed
      */
-    bool create(device_p device,
+    bool create(device::ptr device,
                 VkSurfaceKHR surface,
                 VkSurfaceFormatKHR format,
                 uv2 size,
@@ -61,9 +61,9 @@ struct swapchain : entity {
 
     /**
      * @brief Get the device
-     * @return device_p    Vulkan device
+     * @return device::ptr    Vulkan device
      */
-    device_p get_device() {
+    device::ptr get_device() {
         return device;
     }
 
@@ -202,7 +202,7 @@ private:
     void destroy_backbuffer_views();
 
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     /// Vulkan surface
     VkSurfaceKHR surface = VK_NULL_HANDLE;

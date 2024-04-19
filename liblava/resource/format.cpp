@@ -605,7 +605,7 @@ void set_dst_access_mask(VkImageMemoryBarrier& barrier,
 }
 
 //-----------------------------------------------------------------------------
-void set_image_layout(device_p device,
+void set_image_layout(device::ptr device,
                       VkCommandBuffer cmd_buffer,
                       VkImage image,
                       VkImageLayout old_image_layout,
@@ -634,7 +634,7 @@ void set_image_layout(device_p device,
 }
 
 //-----------------------------------------------------------------------------
-void set_image_layout(device_p device,
+void set_image_layout(device::ptr device,
                       VkCommandBuffer cmd_buffer,
                       VkImage image,
                       VkImageAspectFlags aspect_mask,
@@ -661,7 +661,7 @@ void set_image_layout(device_p device,
 }
 
 //-----------------------------------------------------------------------------
-void insert_image_memory_barrier(device_p device,
+void insert_image_memory_barrier(device::ptr device,
                                  VkCommandBuffer cmd_buffer,
                                  VkImage image,
                                  VkAccessFlags src_access_mask,

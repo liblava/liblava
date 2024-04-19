@@ -13,7 +13,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-device::ptr platform::create(index pd) {
+device::s_ptr platform::create(index pd) {
     auto physical_device = &instance::singleton().get_first_physical_device();
 
     if (pd > 0) {
@@ -36,7 +36,7 @@ device::ptr platform::create(index pd) {
 }
 
 //-----------------------------------------------------------------------------
-device::ptr platform::create(device::create_param::ref param) {
+device::s_ptr platform::create(device::create_param::ref param) {
     auto result = device::make();
     if (!result->create(param))
         return nullptr;
@@ -52,7 +52,7 @@ device::ptr platform::create(device::create_param::ref param) {
 }
 
 //-----------------------------------------------------------------------------
-device_p platform::create_device(index pd) {
+device::ptr platform::create_device(index pd) {
     auto device = create(pd);
     if (!device)
         return nullptr;

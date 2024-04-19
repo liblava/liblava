@@ -39,7 +39,7 @@ struct render_target : entity {
      * @param triple_buffer    VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR
      * @return Create was successful or failed
      */
-    bool create(device_p device,
+    bool create(device::ptr device,
                 VkSurfaceKHR surface,
                 VkSurfaceFormatKHR format,
                 uv2 size,
@@ -93,9 +93,9 @@ struct render_target : entity {
 
     /**
      * @brief Get the device
-     * @return device_p    Vulkan device
+     * @return device::ptr    Vulkan device
      */
-    device_p get_device() {
+    device::ptr get_device() {
         return target.get_device();
     }
 
@@ -214,7 +214,7 @@ private:
  * @return render_target::ptr    Shared pointer to render target
  */
 render_target::ptr create_target(window* window,
-                                 device_p device,
+                                 device::ptr device,
                                  bool v_sync = false,
                                  bool triple_buffer = true,
                                  surface_format_request request = {});
@@ -227,7 +227,7 @@ render_target::ptr create_target(window* window,
  * @return render_target::ptr    Shared pointer to render target
  */
 inline render_target::ptr create_target_v_sync(window* window,
-                                               device_p device,
+                                               device::ptr device,
                                                surface_format_request request = {}) {
     return create_target(window,
                          device,
@@ -244,7 +244,7 @@ inline render_target::ptr create_target_v_sync(window* window,
  * @return render_target::ptr    Shared pointer to render target
  */
 inline render_target::ptr create_target_no_triple_buffer(window* window,
-                                                         device_p device,
+                                                         device::ptr device,
                                                          surface_format_request request = {}) {
     return create_target(window,
                          device,

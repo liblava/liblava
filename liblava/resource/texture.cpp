@@ -13,7 +13,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool texture::create(device_p device,
+bool texture::create(device::ptr device,
                      uv2 size,
                      VkFormat format,
                      layer::list const& l,

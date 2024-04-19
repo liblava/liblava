@@ -18,7 +18,7 @@ namespace lava {
  * @param temp_dir      Temporary directory
  * @return mesh::ptr    Loaded mesh
  */
-mesh::ptr load_mesh(device_p device,
+mesh::ptr load_mesh(device::ptr device,
                     string_ref filename,
                     string_ref temp_dir);
 

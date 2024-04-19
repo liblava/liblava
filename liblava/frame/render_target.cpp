@@ -12,7 +12,7 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool render_target::create(device_p device,
+bool render_target::create(device::ptr device,
                            VkSurfaceKHR surface,
                            VkSurfaceFormatKHR format,
                            uv2 size,
@@ -69,7 +69,7 @@ void render_target::destroy() {
 
 //-----------------------------------------------------------------------------
 render_target::ptr create_target(window* window,
-                                 device_p device,
+                                 device::ptr device,
                                  bool v_sync,
                                  bool triple_buffer,
                                  surface_format_request request) {

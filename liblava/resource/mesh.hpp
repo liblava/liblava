@@ -109,7 +109,7 @@ struct mesh_template : entity {
      * @param memory_usage    Memory usage
      * @return Create was successful or failed
      */
-    bool create(device_p device,
+    bool create(device::ptr device,
                 bool mapped = false,
                 VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU);
 
@@ -243,7 +243,7 @@ struct mesh_template : entity {
 
 private:
     /// Vulkan device
-    device_p device = nullptr;
+    device::ptr device = nullptr;
 
     /// Mesh data
     mesh_template_data<T> data;
@@ -351,12 +351,12 @@ template <typename T = vertex,
           bool has_colors = true,
           bool has_normals = true,
           bool has_uvs = true>
-std::shared_ptr<mesh_template<T>> create_mesh(device_p& device,
+std::shared_ptr<mesh_template<T>> create_mesh(device::ptr& device,
                                               mesh_type type);
 
 //-----------------------------------------------------------------------------
 template <typename T>
-bool mesh_template<T>::create(device_p d,
+bool mesh_template<T>::create(device::ptr d,
                               bool m,
                               VmaMemoryUsage mu) {
     device = d;
@@ -441,7 +441,7 @@ template <typename T,
           bool has_colors,
           bool has_normals,
           bool has_uvs>
-std::shared_ptr<mesh_template<T>> create_mesh(device_p& device,
+std::shared_ptr<mesh_template<T>> create_mesh(device::ptr& device,
                                               mesh_type type) {
     std::shared_ptr<mesh_template<T>> return_mesh =
         std::make_shared<mesh_template<T>>();
