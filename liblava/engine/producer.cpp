@@ -121,14 +121,14 @@ c_data producer::get_shader(string_ref name,
             if (load_file_data(filename, module_data)) {
                 shaders.emplace(name, module_data);
 
-                log()->info("shader cache: {} - {} bytes",
-                            name, module_data.size);
+                logger()->info("shader cache: {} - {} bytes",
+                               name, module_data.size);
 
                 return module_data;
             }
         }
 
-        log()->info("shader cache invalid: {}", name);
+        logger()->info("shader cache invalid: {}", name);
 
         reload = true;
     }
@@ -153,7 +153,7 @@ c_data producer::get_shader(string_ref name,
     file file(filename, file_mode::write);
     if (file.opened())
         if (!file.write(module_data.addr, module_data.size))
-            log()->warn("shader not cached: {}", filename);
+            logger()->warn("shader not cached: {}", filename);
 
     shaders.emplace(name, module_data);
 
@@ -319,7 +319,7 @@ data producer::compile_shader(c_data product,
         options.SetTargetSpirv(shaderc_spirv_version_1_0);
     }
 
-    log()->debug("compiling shader: {} - {}", name, filename);
+    logger()->debug("compiling shader: {} - {}", name, filename);
 
     string product_str = {product.addr, product.size};
 
@@ -330,7 +330,7 @@ data producer::compile_shader(c_data product,
                                 options);
 
     if (result.GetCompilationStatus() != shaderc_compilation_status_success) {
-        log()->error("preprocess shader: {} - {}", name, result.GetErrorMessage());
+        logger()->error("preprocess shader: {} - {}", name, result.GetErrorMessage());
         return {};
     }
 
@@ -341,7 +341,7 @@ data producer::compile_shader(c_data product,
                                   options);
 
     if (module.GetCompilationStatus() != shaderc_compilation_status_success) {
-        log()->error("compile shader: {} - {}", name, module.GetErrorMessage());
+        logger()->error("compile shader: {} - {}", name, module.GetErrorMessage());
         return {};
     }
 
@@ -352,7 +352,7 @@ data producer::compile_shader(c_data product,
                                              module.cend()};
 
     auto data_size = module_result.size() * sizeof(ui32);
-    log()->info("shader compiled: {} - {} bytes", name, data_size);
+    logger()->info("shader compiled: {} - {} bytes", name, data_size);
 
     data module_data;
     module_data.set(data_size);

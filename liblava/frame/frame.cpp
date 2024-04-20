@@ -80,26 +80,26 @@ void handle_env(frame_env& env) {
             env.debug.verbose = true;
     }
 
-    global_logger::singleton().set(setup_log(env.log));
+    global_logger::singleton().set(log::setup(env.log));
 
     if (sem_version{} != env.info.app_version) {
-        log()->info(">>> {} / {} - {} / {} - {} {}", version_string(),
-                    sem_version_string(),
-                    env.info.app_name,
-                    to_string(env.info.app_version),
-                    _build_date, _build_time);
+        logger()->info(">>> {} / {} - {} / {} - {} {}", version_string(),
+                       sem_version_string(),
+                       env.info.app_name,
+                       to_string(env.info.app_version),
+                       _build_date, _build_time);
     } else {
-        log()->info(">>> {} / {} - {} - {} {}", version_string(),
-                    sem_version_string(),
-                    env.info.app_name,
-                    _build_date, _build_time);
+        logger()->info(">>> {} / {} - {} - {} {}", version_string(),
+                       sem_version_string(),
+                       env.info.app_name,
+                       _build_date, _build_time);
     }
 
     log_command_line(cmd_line);
 
     if (env.log.level >= 0)
-        log()->info("log level: {}", spdlog::level::to_string_view(
-                                         (spdlog::level::level_enum)env.log.level));
+        logger()->info("log level: {}", spdlog::level::to_string_view(
+                                            (spdlog::level::level_enum)env.log.level));
 }
 
 //-----------------------------------------------------------------------------
@@ -113,21 +113,21 @@ bool frame::setup() {
 
     handle_env(env);
 
-    log()->info("=== frame ===");
+    logger()->info("=== frame ===");
 
     glfwSetErrorCallback([](i32 error, name description) {
-        log()->error("glfw: {} - {}", error, description);
+        logger()->error("glfw: {} - {}", error, description);
     });
 
-    log()->info("glfw: {}", glfwGetVersionString());
+    logger()->info("glfw: {}", glfwGetVersionString());
 
     if (glfwInit() != GLFW_TRUE) {
-        log()->error("init glfw");
+        logger()->error("init glfw");
         return false;
     }
 
     if (glfwVulkanSupported() != GLFW_TRUE) {
-        log()->error("vulkan not supported");
+        logger()->error("vulkan not supported");
         return false;
     }
 
@@ -135,11 +135,11 @@ bool frame::setup() {
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
     if (failed(volkInitialize())) {
-        log()->error("init volk");
+        logger()->error("init volk");
         return false;
     }
 
-    log()->info("vulkan: {}", to_string(get_instance_version()));
+    logger()->info("vulkan: {}", to_string(get_instance_version()));
 
     auto glfw_extensions_count = 0u;
     auto glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
@@ -152,7 +152,7 @@ bool frame::setup() {
 #endif
 
     if (!instance::singleton().create(env.param, env.debug, env.info)) {
-        log()->error("create instance");
+        logger()->error("create instance");
         return false;
     }
 
@@ -176,11 +176,11 @@ void frame::teardown() {
 
     glfwTerminate();
 
-    log()->info("<<<");
-    log()->flush();
+    logger()->info("<<<");
+    logger()->flush();
 
     global_logger::singleton().reset();
-    teardown_log(env.log);
+    log::teardown(env.log);
 
     initialized = false;
 }

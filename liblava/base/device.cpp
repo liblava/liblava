@@ -19,35 +19,35 @@ namespace lava {
 void log_verify_queues_failed(verify_queues_result result) {
     switch (result) {
     case verify_queues_result::empty_list: {
-        log()->error("create device - verify queues - param with empty list");
+        logger()->error("create device - verify queues - param with empty list");
         break;
     }
     case verify_queues_result::no_properties: {
-        log()->error("create device - verify queues - no device family properties");
+        logger()->error("create device - verify queues - no device family properties");
         break;
     }
     case verify_queues_result::duplicate_family_index: {
-        log()->error("create device - verify queues - duplicate family index");
+        logger()->error("create device - verify queues - duplicate family index");
         break;
     }
     case verify_queues_result::no_family_index: {
-        log()->error("create device - verify queues - family index is not available");
+        logger()->error("create device - verify queues - family index is not available");
         break;
     }
     case verify_queues_result::no_queues: {
-        log()->error("create device - verify queues - undefined queues in family");
+        logger()->error("create device - verify queues - undefined queues in family");
         break;
     }
     case verify_queues_result::too_many_queues: {
-        log()->error("create device - verify queues - number of queues is incorrect");
+        logger()->error("create device - verify queues - number of queues is incorrect");
         break;
     }
     case verify_queues_result::no_compatible_flags: {
-        log()->error("create device - verify queues - no compatible flags in queue");
+        logger()->error("create device - verify queues - no compatible flags in queue");
         break;
     }
     default:
-        log()->error("create device - verify queues");
+        logger()->error("create device - verify queues");
     }
 }
 
@@ -126,7 +126,7 @@ bool device::create(create_param::ref param) {
                               &create_info,
                               memory::instance().alloc(),
                               &vk_device))) {
-        log()->error("create device");
+        logger()->error("create device");
         return false;
     }
 

@@ -372,7 +372,7 @@ bool mesh_template<T>::create(device::ptr d,
                                    VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                    mapped,
                                    memory_usage)) {
-            log()->error("create mesh vertex buffer");
+            logger()->error("create mesh vertex buffer");
             return false;
         }
     }
@@ -386,7 +386,7 @@ bool mesh_template<T>::create(device::ptr d,
                                   VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
                                   mapped,
                                   memory_usage)) {
-            log()->error("create mesh index buffer");
+            logger()->error("create mesh index buffer");
             return false;
         }
     }

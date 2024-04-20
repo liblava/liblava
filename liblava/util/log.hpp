@@ -16,7 +16,7 @@
 namespace lava {
 
 /// Logger
-using logger = std::shared_ptr<spdlog::logger>;
+using s_logger = std::shared_ptr<spdlog::logger>;
 
 /**
  * @brief Convert id and name to string
@@ -104,50 +104,54 @@ inline string version_string() {
     return to_string(version{});
 }
 
-/**
- * @brief Log configuration
- */
-struct log_config {
-    /// Logger name
-    name logger = _lava_;
+namespace log {
 
-    /// Log file
-    name file = "lava.log";
+    /**
+     * @brief Log configuration
+     */
+    struct config {
+        /// Logger name
+        name logger = _lava_;
 
-    /// Log level
-    i32 level = undef;
+        /// Log file
+        name file = "lava.log";
 
-    /// Log to console, else file
-    bool debug = false;
-};
+        /// Log level
+        i32 level = undef;
 
-/**
- * @brief Set up logging
- * @param config    Log configuration
- */
-inline logger setup_log(log_config config = {}) {
-    if (config.debug) {
-        auto log = spdlog::stdout_color_mt(config.logger);
-        log->set_level((config.level < 0)
-                           ? spdlog::level::debug
-                           : (spdlog::level::level_enum)config.level);
-        return log;
-    } else {
-        auto log = spdlog::basic_logger_mt(config.logger, config.file);
-        log->set_level((config.level < 0)
-                           ? spdlog::level::warn
-                           : (spdlog::level::level_enum)config.level);
-        return log;
+        /// Log to console, else file
+        bool debug = false;
+    };
+
+    /**
+     * @brief Set up logging
+     * @param config    Log configuration
+     */
+    inline s_logger setup(config config = {}) {
+        if (config.debug) {
+            auto log = spdlog::stdout_color_mt(config.logger);
+            log->set_level((config.level < 0)
+                               ? spdlog::level::debug
+                               : (spdlog::level::level_enum)config.level);
+            return log;
+        } else {
+            auto log = spdlog::basic_logger_mt(config.logger, config.file);
+            log->set_level((config.level < 0)
+                               ? spdlog::level::warn
+                               : (spdlog::level::level_enum)config.level);
+            return log;
+        }
     }
-}
 
-/**
- * @brief Tear down logging
- * @param config    Log configuration
- */
-inline void teardown_log(log_config config = {}) {
-    spdlog::drop(config.logger);
-}
+    /**
+     * @brief Tear down logging
+     * @param config    Log configuration
+     */
+    inline void teardown(config config = {}) {
+        spdlog::drop(config.logger);
+    }
+
+} // namespace log
 
 /**
  * @brief Global logger
@@ -166,7 +170,7 @@ struct global_logger {
      * @brief Get logger
      * @return logger    Logger
      */
-    logger get() {
+    s_logger get() {
         return log;
     }
 
@@ -174,7 +178,7 @@ struct global_logger {
      * @brief Set logger
      * @param l    Logger
      */
-    void set(lava::logger l) {
+    void set(lava::s_logger l) {
         log = l;
     }
 
@@ -187,14 +191,14 @@ struct global_logger {
 
 private:
     /// Logger
-    logger log;
+    s_logger log;
 };
 
 /**
  * @brief Get global logger
  * @return logger    Logger
  */
-inline logger log() {
+inline s_logger logger() {
     return global_logger::singleton().get();
 }
 

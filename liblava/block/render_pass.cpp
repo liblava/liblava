@@ -51,7 +51,7 @@ bool render_pass::create(VkAttachmentsRef target_attachments,
                                                  &create_info,
                                                  memory::instance().alloc(),
                                                  &vk_render_pass))) {
-        log()->error("create render pass");
+        logger()->error("create render pass");
         return false;
     }
 
@@ -174,7 +174,7 @@ bool render_pass::on_target_created(VkAttachmentsRef target_attachments,
                                                       &create_info,
                                                       memory::instance().alloc(),
                                                       &framebuffers[count]))) {
-            log()->error("create render pass target");
+            logger()->error("create render pass target");
             return false;
         }
 

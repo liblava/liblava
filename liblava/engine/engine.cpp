@@ -17,7 +17,7 @@ bool engine::setup() {
         props.parse(get_cmd_line());
 
         if (!props.check()) {
-            log()->error("check props - make sure res is set correctly and props are available");
+            logger()->error("check props - make sure res is set correctly and props are available");
 
             return false;
         }

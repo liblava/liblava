@@ -18,7 +18,7 @@ device::s_ptr platform::create(index pd) {
 
     if (pd > 0) {
         if (pd >= instance::singleton().get_physical_devices().size()) {
-            log()->error("create device - no physical device: {}", pd);
+            logger()->error("create device - no physical device: {}", pd);
             return nullptr;
         }
 

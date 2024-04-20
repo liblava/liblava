@@ -19,13 +19,13 @@ void compute_pipeline::bind(VkCommandBuffer cmd_buf) {
 bool compute_pipeline::set_shader_stage(c_data::ref data,
                                         VkShaderStageFlagBits stage) {
     if (!data.addr) {
-        log()->error("compute pipeline shader stage data");
+        logger()->error("compute pipeline shader stage data");
         return false;
     }
 
     auto shader_stage = create_pipeline_shader_stage(device, data, stage);
     if (!shader_stage) {
-        log()->error("create compute pipeline shader stage");
+        logger()->error("create compute pipeline shader stage");
         return false;
     }
 

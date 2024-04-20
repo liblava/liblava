@@ -27,7 +27,7 @@ bool command::create(device::ptr device,
         if (failed(device->call().vkAllocateCommandBuffers(device->get(),
                                                            &allocate_info,
                                                            &buffers.at(i)))) {
-            log()->error("create command buffers");
+            logger()->error("create command buffers");
             return false;
         }
     }
@@ -65,7 +65,7 @@ bool block::create(device::ptr dev,
                                                       &create_info,
                                                       memory::instance().alloc(),
                                                       &cmd_pools.at(i)))) {
-            log()->error("create block command pool");
+            logger()->error("create block command pool");
             return false;
         }
     }
@@ -130,7 +130,7 @@ bool block::process(index frame) {
     if (failed(device->call().vkResetCommandPool(device->get(),
                                                  cmd_pools.at(frame),
                                                  0))) {
-        log()->error("block reset command pool");
+        logger()->error("block reset command pool");
         return false;
     }
 

@@ -47,7 +47,7 @@ bool buffer::create(device::ptr dev,
                                                 &vk_buffer,
                                                 &allocation,
                                                 &allocation_info))) {
-            log()->error("create buffer with alignment");
+            logger()->error("create buffer with alignment");
             return false;
         }
     } else {
@@ -57,7 +57,7 @@ bool buffer::create(device::ptr dev,
                                    &vk_buffer,
                                    &allocation,
                                    &allocation_info))) {
-            log()->error("create buffer");
+            logger()->error("create buffer");
             return false;
         }
     }
@@ -68,7 +68,7 @@ bool buffer::create(device::ptr dev,
             if (failed(vmaMapMemory(device->alloc(),
                                     allocation,
                                     (void**)(&map)))) {
-                log()->error("map buffer memory");
+                logger()->error("map buffer memory");
                 return false;
             }
 

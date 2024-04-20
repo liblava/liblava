@@ -80,7 +80,7 @@ bool image::create(device::ptr d,
                                   &vk_image,
                                   &allocation,
                                   nullptr))) {
-            log()->error("create image");
+            logger()->error("create image");
             return false;
         }
     }

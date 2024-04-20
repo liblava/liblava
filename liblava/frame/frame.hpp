@@ -52,7 +52,7 @@ struct frame_env {
     argh::parser cmd_line;
 
     /// Logging configuration
-    log_config log;
+    log::config log;
 
     /// Instance information
     instance_info info;

@@ -17,7 +17,7 @@ void property::add(string_ref name,
                    string_ref filename) {
     map.emplace(name, filename);
 
-    log()->trace("prop: {} = {}", name, filename);
+    logger()->trace("prop: {} = {}", name, filename);
 }
 
 //-----------------------------------------------------------------------------
@@ -42,8 +42,8 @@ c_data property::operator()(string_ref name) {
         return {prop.data.addr, prop.data.size};
 
     if (!load_file_data(prop.filename, prop.data)) {
-        log()->error("prop get: {} = {}",
-                     name, prop.filename);
+        logger()->error("prop get: {} = {}",
+                        name, prop.filename);
         return {};
     }
 
@@ -56,8 +56,8 @@ bool property::check() {
 
     for (auto& [name, prop] : map) {
         if (!context->fs.exists(prop.filename)) {
-            log()->warn("prop missing: {} = {}",
-                        name, prop.filename);
+            logger()->warn("prop missing: {} = {}",
+                           name, prop.filename);
 
             result = false;
         }
@@ -73,8 +73,8 @@ bool property::load(string_ref name) {
         prop.data = {}; // reload
 
     if (!load_file_data(prop.filename, prop.data)) {
-        log()->error("prop load: {} = {}",
-                     name, prop.filename);
+        logger()->error("prop load: {} = {}",
+                        name, prop.filename);
         return false;
     }
 
@@ -85,8 +85,8 @@ bool property::load(string_ref name) {
 bool property::load_all() {
     for (auto& [name, prop] : map) {
         if (!load_file_data(name, prop.data)) {
-            log()->error("prop load (all): {} = {}",
-                         name, prop.filename);
+            logger()->error("prop load (all): {} = {}",
+                            name, prop.filename);
             return false;
         }
     }
@@ -103,8 +103,8 @@ void property::parse(cmd_line cmd_line) {
         if (!filename.empty()) {
             prop.filename = filename;
 
-            log()->debug("prop parse: {} = {}",
-                         name, filename);
+            logger()->debug("prop parse: {} = {}",
+                            name, filename);
         }
     }
 }
@@ -120,8 +120,8 @@ void property::set_json(json_ref j) {
 
             prop.filename = filename;
 
-            log()->debug("prop config: {} = {}",
-                         name, filename);
+            logger()->debug("prop config: {} = {}",
+                            name, filename);
         }
     }
 }

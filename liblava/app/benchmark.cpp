@@ -52,7 +52,7 @@ void benchmark(frame& app, benchmark_data& data) {
         auto end = bench + data.time;
         if (current <= end) {
             if (data.current >= data.buffer_size) {
-                log()->error("benchmark buffer overflow: {}", data.buffer_size);
+                logger()->error("benchmark buffer overflow: {}", data.buffer_size);
                 return run_abort;
             }
 
@@ -81,8 +81,8 @@ void benchmark(frame& app, benchmark_data& data) {
     data.current = 0;
     data.start_timestamp = get_current_timestamp_ms();
 
-    log()->info("benchmark start in {} sec for {} sec",
-                to_sec(data.offset), to_sec(data.time));
+    logger()->info("benchmark start in {} sec for {} sec",
+                   to_sec(data.offset), to_sec(data.time));
 }
 
 //-----------------------------------------------------------------------------
@@ -138,8 +138,8 @@ bool write_frames_json(benchmark_data& data) {
 
     file file(file_path.string(), file_mode::write);
     if (!file.opened()) {
-        log()->error("save benchmark ({}) = {}",
-                     file_path.string(), j.dump());
+        logger()->error("save benchmark ({}) = {}",
+                        file_path.string(), j.dump());
         return false;
     }
 
@@ -147,8 +147,8 @@ bool write_frames_json(benchmark_data& data) {
 
     file.write(jString.data(), jString.size());
 
-    log()->info("benchmark ({}) = {}",
-                file_path.string(), j.dump());
+    logger()->info("benchmark ({}) = {}",
+                   file_path.string(), j.dump());
     return true;
 }
 

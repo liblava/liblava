@@ -706,10 +706,10 @@ void setup_imgui_font(imgui::config& config, imgui::font::ref font) {
         if (load_file_data(font.file, config.font_data)) {
             config.font_size = font.size;
 
-            log()->info("load: {}", font.file);
+            logger()->info("load: {}", font.file);
         } else {
-            log()->error("setup_imgui_font - cannot load font file: {}",
-                         font.file);
+            logger()->error("setup_imgui_font - cannot load font file: {}",
+                            font.file);
         }
     }
 
@@ -721,10 +721,10 @@ void setup_imgui_font(imgui::config& config, imgui::font::ref font) {
             config.icon.range_begin = font.icon_range_begin;
             config.icon.range_end = font.icon_range_end;
 
-            log()->info("load: {}", font.icon_file);
+            logger()->info("load: {}", font.icon_file);
         } else {
-            log()->error("setup_imgui_font - cannot load font icon file: {}",
-                         font.icon_file);
+            logger()->error("setup_imgui_font - cannot load font icon file: {}",
+                            font.icon_file);
         }
     }
 }

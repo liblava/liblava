@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
         int_supported = support_vertex_buffer_format(physical_device->get(),
                                                      VK_FORMAT_R32G32B32_SINT);
         if (!int_supported)
-            log()->warn("int vertex buffer format is not supported");
+            logger()->warn("int vertex buffer format is not supported");
 
         // check double support
         if (physical_device->get_features().shaderFloat64
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 
             double_supported = true;
         } else
-            log()->warn("double vertex buffer format is not supported");
+            logger()->warn("double vertex buffer format is not supported");
     };
 
     app.props.add(_triangle_frag_, "generics/triangle.frag");

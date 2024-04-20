@@ -48,13 +48,13 @@ debug_messenger_callback(VkDebugUtilsMessageSeverityFlagBitsEXT message_severity
     log_msg += " - " + message;
 
     if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT)
-        log()->trace(log_msg);
+        logger()->trace(log_msg);
     else if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT)
-        log()->trace(log_msg);
+        logger()->trace(log_msg);
     else if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
-        log()->warn(log_msg);
+        logger()->warn(log_msg);
     else if (message_severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) {
-        log()->error(log_msg);
+        logger()->error(log_msg);
 
         auto const skip_assert = callback_data->pMessageIdName
                                  && (string(callback_data->pMessageIdName) == "VUID-VkSwapchainCreateInfoKHR-imageExtent-01274");
@@ -90,13 +90,13 @@ bool instance::check_debug(create_param& param) const {
     }
 
     if (!check(param)) {
-        log()->error("create instance param");
+        logger()->error("create instance param");
 
         for (auto& extension : param.extensions)
-            log()->debug("extension: {}", extension);
+            logger()->debug("extension: {}", extension);
 
         for (auto& layer : param.layers)
-            log()->debug("layer: {}", layer);
+            logger()->debug("layer: {}", layer);
 
         return false;
     }

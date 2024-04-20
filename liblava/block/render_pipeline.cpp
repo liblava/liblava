@@ -226,7 +226,7 @@ void render_pipeline::clear_dynamic_states() {
 bool render_pipeline::add_shader_stage(c_data::ref data,
                                        VkShaderStageFlagBits stage) {
     if (!data.addr) {
-        log()->error("graphics pipeline shader stage data");
+        logger()->error("graphics pipeline shader stage data");
         return false;
     }
 
@@ -234,7 +234,7 @@ bool render_pipeline::add_shader_stage(c_data::ref data,
                                                      data,
                                                      stage);
     if (!shader_stage) {
-        log()->error("create graphics pipeline shader stage");
+        logger()->error("create graphics pipeline shader stage");
         return false;
     }
 

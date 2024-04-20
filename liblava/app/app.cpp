@@ -159,7 +159,7 @@ void app::destroy_pipeline_cache() {
             file file(string(_cache_path_) + _pipeline_cache_file_, file_mode::write);
             if (file.opened())
                 if (!file.write(pipeline_cache_data.addr, pipeline_cache_data.size))
-                    log()->warn("app pipeline cache not saved: {}", file.get_path());
+                    logger()->warn("app pipeline cache not saved: {}", file.get_path());
         }
     }
 
@@ -181,19 +181,19 @@ bool app::setup() {
                                    {"-id", "--identification"});
     if (!config_id.empty()) {
         if (!load_config(config_id))
-            log()->debug("new config id (cmd line): {}", config_id);
+            logger()->debug("new config id (cmd line): {}", config_id);
     } else if (!load_config(config.id))
-        log()->debug("new config id: {}", config.id);
+        logger()->debug("new config id: {}", config.id);
 
     parse_cmd_line();
 
-    log()->info("=== app ===");
+    logger()->info("=== app ===");
 
     if (on_setup && !on_setup())
         return false;
 
     if (headless)
-        log()->trace("headless mode");
+        logger()->trace("headless mode");
 
     if (!headless && !setup_window())
         return false;
@@ -202,7 +202,7 @@ bool app::setup() {
         return false;
 
     if (!create_pipeline_cache())
-        log()->warn("app pipeline cache not created");
+        logger()->warn("app pipeline cache not created");
 
     if (!headless && !setup_render())
         return false;
@@ -227,20 +227,20 @@ void app::mount_resource() {
             if (fs.mount(res_dir))
                 res_list.push_back(res_dir);
             else
-                log()->error("res not mounted: {}", res_dir);
+                logger()->error("res not mounted: {}", res_dir);
         } else {
-            log()->error("res not found: {}", res_dir);
+            logger()->error("res not found: {}", res_dir);
         }
     }
 
     for (auto const& res : res_list) {
-        log()->debug("mount: {}", res);
+        logger()->debug("mount: {}", res);
     }
 }
 
 //-----------------------------------------------------------------------------
 bool app::setup_file_system() {
-    log()->info("physfs: {}", to_string(fs.get_version()));
+    logger()->info("physfs: {}", to_string(fs.get_version()));
 
     auto const& cmd_line = get_cmd_line();
 
@@ -248,7 +248,7 @@ bool app::setup_file_system() {
                        config.org,
                        get_name(),
                        config.ext)) {
-        log()->error("init file system");
+        logger()->error("init file system");
         return false;
     }
 
@@ -256,12 +256,12 @@ bool app::setup_file_system() {
 
     if (cmd_line[{"-c", "--clean"}]) {
         fs.clean_pref_dir();
-        log()->info("clean preferences");
+        logger()->info("clean preferences");
     }
 
     if (cmd_line[{"-cc", "--clean_cache"}]) {
         std::filesystem::remove_all(fs.get_pref_dir() + _cache_path_);
-        log()->info("clean cache");
+        logger()->info("clean cache");
     }
 
     return true;
@@ -280,7 +280,7 @@ bool app::setup_window() {
 
     config.update_window_state();
 
-    log()->trace("{}: {}", _fullscreen_, config.window_state->fullscreen);
+    logger()->trace("{}: {}", _fullscreen_, config.window_state->fullscreen);
 
     set_window_icon(window);
 
@@ -304,9 +304,9 @@ bool app::setup_device() {
     auto device_type = physical_device->get_device_type_string();
     auto device_driver_version = physical_device->get_driver_version();
 
-    log()->info("device: {} ({}) - driver: {}",
-                device_name, device_type,
-                to_string(device_driver_version));
+    logger()->info("device: {} ({}) - driver: {}",
+                   device_name, device_type,
+                   to_string(device_driver_version));
 
     return true;
 }
@@ -316,8 +316,8 @@ bool app::setup_render() {
     if (!create_target())
         return false;
 
-    log()->trace("{}: {}", _v_sync_, target->get_swapchain()->v_sync());
-    log()->trace("{}: {}", _triple_buffer_, target->get_swapchain()->triple_buffer());
+    logger()->trace("{}: {}", _v_sync_, target->get_swapchain()->v_sync());
+    logger()->trace("{}: {}", _triple_buffer_, target->get_swapchain()->triple_buffer());
 
     if (!camera.create(device))
         return false;
@@ -348,7 +348,7 @@ void app::setup_run() {
             config.update_window_state();
 
         if (!config_file.save())
-            log()->error("save config file: {}", config_file.get());
+            logger()->error("save config file: {}", config_file.get());
 
         config_file.clear();
 
@@ -567,7 +567,7 @@ void app::handle_window() {
             || target->reload_request()) {
             device->wait_for_idle();
 
-            log()->info("- {}", _reload_);
+            logger()->info("- {}", _reload_);
 
             destroy_target();
             destroy_imgui();
@@ -577,8 +577,8 @@ void app::handle_window() {
 
                 config.window_state->fullscreen = !config.window_state->fullscreen;
 
-                log()->debug("{}: {}", _fullscreen_,
-                             config.window_state->fullscreen ? _on_ : _off_);
+                logger()->debug("{}: {}", _fullscreen_,
+                                config.window_state->fullscreen ? _on_ : _off_);
 
                 if (!window.switch_mode(config.window_state))
                     return false;
@@ -591,8 +591,8 @@ void app::handle_window() {
             if (toggle_v_sync) {
                 config.v_sync = !config.v_sync;
 
-                log()->debug("{}: {}", _v_sync_,
-                             config.v_sync ? _on_ : _off_);
+                logger()->debug("{}: {}", _v_sync_,
+                                config.v_sync ? _on_ : _off_);
 
                 toggle_v_sync = false;
             }
@@ -702,11 +702,11 @@ string app::screenshot() {
     image->destroy();
 
     if (!saved) {
-        log()->error("screenshot failed: {}", path);
+        logger()->error("screenshot failed: {}", path);
         return {};
     }
 
-    log()->info("screenshot: {}", path);
+    logger()->info("screenshot: {}", path);
     return path;
 }
 
@@ -716,7 +716,7 @@ bool app::switch_config(string_ref id) {
         return true;
 
     if (!load_config(id))
-        log()->debug("new config id (switch): {}", id);
+        logger()->debug("new config id (switch): {}", id);
 
     if (!headless) {
         window.set_state(config.window_state.value());

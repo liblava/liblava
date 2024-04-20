@@ -68,14 +68,14 @@ bool window::create(state::optional state) {
             handle = glfwCreateWindow(mode->width, mode->height,
                                       str(default_title), monitor, nullptr);
             if (!handle) {
-                log()->error("create fullscreen window (state)");
+                logger()->error("create fullscreen window (state)");
                 return false;
             }
         } else {
             handle = glfwCreateWindow(state->width, state->height,
                                       str(default_title), nullptr, nullptr);
             if (!handle) {
-                log()->error("create window (state)");
+                logger()->error("create window (state)");
                 return false;
             }
 
@@ -103,14 +103,14 @@ bool window::create(state::optional state) {
             handle = glfwCreateWindow(mode->width, mode->height,
                                       str(default_title), monitor, nullptr);
             if (!handle) {
-                log()->error("create fullscreen window");
+                logger()->error("create fullscreen window");
                 return false;
             }
         } else {
             handle = glfwCreateWindow(width, height,
                                       str(default_title), nullptr, nullptr);
             if (!handle) {
-                log()->error("create window");
+                logger()->error("create window");
                 return false;
             }
 

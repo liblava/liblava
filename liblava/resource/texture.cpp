@@ -55,7 +55,7 @@ bool texture::create(device::ptr device,
     };
 
     if (!device->vkCreateSampler(&sampler_info, &sampler)) {
-        log()->error("create texture sampler");
+        logger()->error("create texture sampler");
         return false;
     }
 
@@ -75,7 +75,7 @@ bool texture::create(device::ptr device,
     img->set_view_type(view_type);
 
     if (!img->create(device, size, VMA_MEMORY_USAGE_GPU_ONLY)) {
-        log()->error("create texture image");
+        logger()->error("create texture image");
         return false;
     }
 
@@ -125,7 +125,7 @@ bool texture::upload(void const* data,
 //-----------------------------------------------------------------------------
 bool texture::stage(VkCommandBuffer cmd_buf) {
     if (!upload_buffer || !upload_buffer->valid()) {
-        log()->error("stage texture");
+        logger()->error("stage texture");
         return false;
     }
 

@@ -177,7 +177,7 @@ bool swapchain::setup() {
              surface, &present_mode_count, nullptr)
          != VK_SUCCESS)
         || (present_mode_count == 0)) {
-        log()->error("create swapchain present mode count");
+        logger()->error("create swapchain present mode count");
         return false;
     }
 
@@ -186,7 +186,7 @@ bool swapchain::setup() {
             device->get_vk_physical_device(),
             surface, &present_mode_count, present_modes.data())
         != VK_SUCCESS) {
-        log()->error("create swapchain present mode");
+        logger()->error("create swapchain present mode");
         return false;
     }
 
@@ -212,12 +212,12 @@ bool swapchain::setup() {
     for (auto& image : images) {
         auto backbuffer = image::make(format.format, image);
         if (!backbuffer) {
-            log()->error("setup swapchain backbuffer image");
+            logger()->error("setup swapchain backbuffer image");
             return false;
         }
 
         if (!backbuffer->create(device, size)) {
-            log()->error("setup swapchain backBuffer");
+            logger()->error("setup swapchain backBuffer");
             return false;
         }
 
