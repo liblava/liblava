@@ -17,6 +17,9 @@ namespace lava {
  * @brief First Person / Look At camera
  */
 struct camera : entity {
+    /// Pointer to camera
+    using ptr = camera*;
+
     /// Shared pointer to camera
     using s_ptr = std::shared_ptr<camera>;
 
@@ -273,8 +276,5 @@ private:
     /// View matrix
     mat4 view = mat4(0.f);
 };
-
-/// Camera type
-using camera_t = camera;
 
 } // namespace lava

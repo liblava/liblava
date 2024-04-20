@@ -150,8 +150,8 @@ struct data {
 
     /**
      * @brief Set and allocate data by length
-     * @param length   Length of data
-     * @param mode     Data mode
+     * @param length    Length of data
+     * @param mode      Data mode
      * @return Allocate was successful or failed (mode: alloc)
      */
     bool set(size_t length,

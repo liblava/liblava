@@ -84,7 +84,7 @@ struct app : frame {
     device::ptr device = nullptr;
 
     /// Main camera
-    camera_t camera;
+    camera camera;
 
     /// Gamepad
     gamepad pad;
