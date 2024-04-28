@@ -621,7 +621,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 
 # Keyboard Shortcuts
 
-**lava app** defines some *shortcuts* for common **actions**:
+**lava** defines some *shortcuts* for common **actions**:
 
 <br />
 
@@ -631,6 +631,7 @@ cmake -DLIBLAVA_TEMPLATE_NAME="My-Project" ..
 | *alt + backspace* |     **v-sync** | off     |        app/v-sync |
 | *control + tab*   |      **imgui** | on      |         app/imgui |
 | *control + space* |      **pause** | off     |        app/paused |
+| *control + ^*     |   **hud menu** | off     |                   |
 | *control + b*     |  **benchmark** |         |                   |
 | *control + p*     | **screenshot** |         |                   |
 | *control + q*     |       **quit** |         |                   |

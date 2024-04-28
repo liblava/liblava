@@ -161,6 +161,12 @@ struct app : frame {
     }
 
     /**
+     * @brief Get frames per second info
+     * @return string    Frames per second info
+     */
+    string get_fps_info() const;
+
+    /**
      * @brief Draw about information
      * @param separator    Prepend separator
      * @param fps          FPS counter

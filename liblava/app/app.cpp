@@ -729,6 +729,16 @@ bool app::switch_config(string_ref id) {
 }
 
 //-----------------------------------------------------------------------------
+string app::get_fps_info() const {
+    auto info = string("%.f fps");
+    if (v_sync())
+        info += " (v-sync)";
+    if (fps_cap() != 0)
+        info += " (cap)";
+    return info;
+}
+
+//-----------------------------------------------------------------------------
 void app::draw_about(bool separator,
                      bool fps,
                      bool spacing) const {
@@ -753,13 +763,7 @@ void app::draw_about(bool separator,
         if (spacing)
             imgui_left_spacing();
 
-        auto fps_info = string("%.f fps");
-        if (v_sync())
-            fps_info += " (v-sync)";
-        if (fps_cap() != 0)
-            fps_info += " (cap)";
-
-        ImGui::Text(str(fps_info), ImGui::GetIO().Framerate);
+        ImGui::Text(str(get_fps_info()), ImGui::GetIO().Framerate);
 
         if (run_time.paused) {
             ImGui::SameLine();

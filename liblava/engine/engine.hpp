@@ -38,11 +38,33 @@ struct engine : app {
     /// Producer
     producer producer;
 
+    /// Hud menu function
+    using hud_menu_func = std::function<void()>;
+
+    /// Function called on hud menu
+    hud_menu_func on_menu;
+
+    /// Hud active state
+    bool hud_active = false;
+
 private:
     /**
      * @brief Handle configuration file
      */
     void handle_config();
+
+    /**
+     * @brief Handle hud menu
+     */
+    void hud_menu();
+
+    /// Hud menu id
+    id menu_layer;
+
+#if LAVA_DEBUG
+    /// Demo id
+    id demo_layer;
+#endif
 
     /// Configuration file callback
     json_file::callback config_callback;

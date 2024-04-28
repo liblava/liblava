@@ -6,6 +6,7 @@
  */
 
 #include "liblava/engine/engine.hpp"
+#include "imgui.h"
 
 namespace lava {
 
@@ -41,6 +42,9 @@ bool engine::setup() {
     producer.context = this;
     props.context = this;
 
+    if (!headless)
+        hud_menu();
+
     return true;
 }
 
@@ -64,6 +68,80 @@ void engine::handle_config() {
     };
 
     config_file.add(&config_callback);
+}
+
+//-----------------------------------------------------------------------------
+void engine::hud_menu() {
+    input.key.listeners.add([&](key_event::ref event) {
+        if (!imgui.activated())
+            return input_ignore;
+
+        if (!config.handle_key_events)
+            return input_ignore;
+
+        if (event.pressed(key::grave_accent, mod::control)) {
+            hud_active = !hud_active;
+            return input_done;
+        }
+
+        return input_ignore;
+    });
+
+#if LAVA_DEBUG
+    demo_layer = imgui.layers.add_inactive("imgui demo", []() {
+        ImGui::ShowDemoWindow();
+    });
+#endif
+
+    menu_layer = imgui.layers.add("hud", [&]() {
+        if (!hud_active)
+            return;
+
+        if (!ImGui::BeginMainMenuBar())
+            return;
+
+        ImGui::Spacing();
+
+        if (ImGui::MenuItem(run_time.paused
+                                ? "PAUSE"
+                                : "LIVE",
+                            "Ctrl+Space",
+                            !run_time.paused))
+            run_time.paused = !run_time.paused;
+
+        ImGui::Spacing();
+
+        if (on_menu)
+            on_menu();
+
+        if (ImGui::BeginMenu("Layer")) {
+            for (auto const& layer : imgui.layers.get_all()) {
+                if (layer->get_id() == menu_layer) {
+                    ImGui::MenuItem(layer->name.c_str(),
+                                    "",
+                                    &hud_active);
+                } else {
+                    ImGui::MenuItem(layer->name.c_str(),
+                                    "",
+                                    &layer->active);
+                }
+            }
+
+            ImGui::Separator();
+
+            if (ImGui::MenuItem("Exit",
+                                "Ctrl+Q"))
+                shut_down();
+
+            ImGui::EndMenu();
+        }
+
+        ImGui::Spacing();
+
+        ImGui::Text(str(get_fps_info()), ImGui::GetIO().Framerate);
+
+        ImGui::EndMainMenuBar();
+    });
 }
 
 } // namespace lava
