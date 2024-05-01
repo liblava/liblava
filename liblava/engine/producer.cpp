@@ -108,7 +108,7 @@ c_data producer::get_shader(string_ref name,
         if (!reload)
             return shaders.at(name);
 
-        shaders.at(name).free();
+        shaders.at(name).deallocate();
         shaders.erase(name);
     }
 
@@ -372,7 +372,7 @@ void producer::destroy() {
         texture->destroy();
 
     for (auto& [prop, shader] : shaders)
-        shader.free();
+        shader.deallocate();
 }
 
 //-----------------------------------------------------------------------------

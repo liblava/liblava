@@ -175,7 +175,7 @@ int main(int argc, char* argv[]) {
 
         app.on_destroy = [&]() {
             for (VkDescriptorSet& set : descriptor_sets)
-                descriptor->free(set, descriptor_pool->get());
+                descriptor->deallocate(set, descriptor_pool->get());
 
             descriptor_sets.clear();
 

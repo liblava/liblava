@@ -276,20 +276,20 @@ struct descriptor : entity {
     }
 
     /**
-     * @brief Free descriptor set
+     * @brief Deallocate descriptor set
      * @param descriptor_set    Descriptor set
      * @param pool              Descriptor pool
-     * @return Free was successful or failed
+     * @return Deallocate was successful or failed
      */
-    bool free_set(VkDescriptorSet& descriptor_set,
-                  VkDescriptorPool pool);
+    bool deallocate_set(VkDescriptorSet& descriptor_set,
+                        VkDescriptorPool pool);
 
     /**
-     * @see free_set
+     * @see deallocate_set
      */
-    bool free(VkDescriptorSet& descriptor_set,
-              VkDescriptorPool pool) {
-        return free_set(descriptor_set, pool);
+    bool deallocate(VkDescriptorSet& descriptor_set,
+                    VkDescriptorPool pool) {
+        return deallocate_set(descriptor_set, pool);
     }
 
     /**
@@ -310,20 +310,20 @@ struct descriptor : entity {
     }
 
     /**
-     * @brief Free descriptor sets
+     * @brief Deallocate descriptor sets
      * @param descriptor_sets    List of descriptor sets
      * @param pool               Descriptor pool
-     * @return Free was successful or failed
+     * @return Deallocate was successful or failed
      */
-    bool free_sets(VkDescriptorSets& descriptor_sets,
-                   VkDescriptorPool pool);
+    bool deallocate_sets(VkDescriptorSets& descriptor_sets,
+                         VkDescriptorPool pool);
 
     /**
-     * @see free_sets
+     * @see deallocate_sets
      */
-    bool free(VkDescriptorSets& descriptor_sets,
-              VkDescriptorPool pool) {
-        return free_sets(descriptor_sets, pool);
+    bool deallocate(VkDescriptorSets& descriptor_sets,
+                    VkDescriptorPool pool) {
+        return deallocate_sets(descriptor_sets, pool);
     }
 
 private:

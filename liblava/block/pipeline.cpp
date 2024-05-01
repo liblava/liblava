@@ -76,7 +76,7 @@ bool pipeline::shader_stage::create(device::ptr d,
     device = d;
 
     if (specialization_data.size > 0) {
-        specialization_data_copy.free();
+        specialization_data_copy.deallocate();
         specialization_data_copy.set(specialization_data.size);
         memcpy(specialization_data_copy.addr,
                specialization_data.addr,

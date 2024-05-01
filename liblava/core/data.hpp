@@ -175,9 +175,9 @@ struct data {
     }
 
     /**
-     * @brief Free data
+     * @brief Deallocate data
      */
-    void free() {
+    void deallocate() {
         if (!addr)
             return;
 
@@ -299,7 +299,7 @@ struct unique_data : data {
      * @brief Destroy the unique data
      */
     ~unique_data() {
-        free();
+        deallocate();
     }
 };
 

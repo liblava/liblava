@@ -202,8 +202,8 @@ int main(int argc, char* argv[]) {
     };
 
     app.on_destroy = [&]() {
-        descriptor->free(descriptor_set,
-                         descriptor_pool->get());
+        descriptor->deallocate(descriptor_set,
+                               descriptor_pool->get());
 
         descriptor_pool->destroy();
         descriptor->destroy();

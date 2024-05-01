@@ -480,7 +480,7 @@ void imgui::invalidate_device_objects() {
     vertex_buffers.clear();
     index_buffers.clear();
 
-    descriptor->free(descriptor_set, descriptor_pool->get());
+    descriptor->deallocate(descriptor_set, descriptor_pool->get());
 
     descriptor_pool->destroy();
     descriptor->destroy();

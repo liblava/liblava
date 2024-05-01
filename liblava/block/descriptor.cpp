@@ -125,8 +125,8 @@ VkDescriptorSet descriptor::allocate_set(VkDescriptorPool pool) {
 }
 
 //-----------------------------------------------------------------------------
-bool descriptor::free_set(VkDescriptorSet& descriptor_set,
-                          VkDescriptorPool pool) {
+bool descriptor::deallocate_set(VkDescriptorSet& descriptor_set,
+                                VkDescriptorPool pool) {
     std::array<VkDescriptorSet, 1> const descriptor_sets = {descriptor_set};
 
     auto result = check(device->call().vkFreeDescriptorSets(device->get(),
@@ -159,8 +159,8 @@ VkDescriptorSets descriptor::allocate_sets(ui32 size,
 }
 
 //-----------------------------------------------------------------------------
-bool descriptor::free_sets(VkDescriptorSets& descriptor_sets,
-                           VkDescriptorPool pool) {
+bool descriptor::deallocate_sets(VkDescriptorSets& descriptor_sets,
+                                 VkDescriptorPool pool) {
     auto result = check(device->call().vkFreeDescriptorSets(device->get(),
                                                             pool,
                                                             to_ui32(descriptor_sets.size()),
