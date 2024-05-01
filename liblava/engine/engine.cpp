@@ -139,6 +139,11 @@ void engine::hud_menu() {
         ImGui::Spacing();
 
         ImGui::Text(str(get_fps_info()), ImGui::GetIO().Framerate);
+        if (ImGui::IsItemHovered())
+            ImGui::SetTooltip("%s %s - v%s",
+                              _liblava_,
+                              str(version_string()),
+                              str(sem_version_string()));
 
         ImGui::EndMainMenuBar();
     });

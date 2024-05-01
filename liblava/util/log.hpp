@@ -125,7 +125,8 @@ namespace log {
 
     /**
      * @brief Set up logging
-     * @param config    Log configuration
+     * @param config       Log configuration
+     * @return s_logger    Logger
      */
     inline s_logger setup(config config = {}) {
         if (config.debug) {
@@ -159,7 +160,7 @@ namespace log {
 struct global_logger {
     /**
      * @brief Get global logger singleton
-     * @return log_global&    Global logger
+     * @return global_logger&    Global logger
      */
     static global_logger& singleton() {
         static global_logger global_logger;
@@ -168,10 +169,10 @@ struct global_logger {
 
     /**
      * @brief Get logger
-     * @return logger    Logger
+     * @return s_logger    Logger
      */
     s_logger get() {
-        return log;
+        return logger;
     }
 
     /**
@@ -179,24 +180,24 @@ struct global_logger {
      * @param l    Logger
      */
     void set(lava::s_logger l) {
-        log = l;
+        logger = l;
     }
 
     /**
      * @brief Reset logger
      */
     void reset() {
-        log = nullptr;
+        logger = nullptr;
     }
 
 private:
     /// Logger
-    s_logger log;
+    s_logger logger;
 };
 
 /**
  * @brief Get global logger
- * @return logger    Logger
+ * @return s_logger    Logger
  */
 inline s_logger logger() {
     return global_logger::singleton().get();
