@@ -9,7 +9,7 @@ set(gli_GITHUB g-truc/gli)
 set(gli_TAG 779b99ac6656e4d30c3b24e96e0136a59649a869)
 
 set(glm_GITHUB g-truc/glm)
-set(glm_TAG a2844eede81f92b7dfb327f831c0bc0dbb273078)
+set(glm_TAG 45008b225e28eb700fa0f7d3ff69b7c1db94fadf)
 
 set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG 31209b7c2ce629dbda0db2329ce469ab9a2b90b9)
@@ -18,7 +18,7 @@ set(json_GITHUB nlohmann/json)
 set(json_TAG 8c391e04fe4195d8be862c97f38cfe10e2a3472e)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG a2b4262090fd3f005c2315dcb5be2f0f1774a005)
+set(spdlog_TAG 27cb4c76708608465c413f6d0e6b8d99a4d84302)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG ae721c50eaf761660b4f90cc590453cdb0c2acd0)
@@ -39,25 +39,25 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 96c8d39dee3eb33a64e42eee0d8f3ca40320df78)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG b720c0f541c0d000df078433a59c0738c40df386)
+set(imgui_TAG b30df8890de9468aa2f7d0c2a5e184ec6794bcb8)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG b555984a94b1c5a5f2f192d1513547c4b112c976)
+set(imgui_docking_TAG ebb8d781020a77d1d5185009e208068e3bf8753b)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
-set(SPIRV-Headers_TAG 4f7b471f1a66b6d06462cd4ba57628cc0cd087d7)
+set(SPIRV-Headers_TAG 5e3ad389ee56fca27c9705d093ae5387ce404df4)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG dadb3012d51702cccae71967f9f2acaec8f393d5)
+set(SPIRV-Tools_TAG bfc3a15683d5174840eaf8c5d21065f60fe70a10)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG 68df2230566b02c6495ffd8c200db523392fa797)
+set(glslang_TAG 142052fa30f9eca191aa9dcf65359fcaed09eeec)
 
 set(shaderc_GITHUB google/shaderc)
-set(shaderc_TAG c78975365d9360951925288b24e6b0ac02a5d603)
+set(shaderc_TAG f59f0d11b80fd622383199c867137ededf89d43b)
 
 set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
 
 set(Catch2_GITHUB catchorg/Catch2)
-set(Catch2_TAG f2320724a74f95d83f8c259e1a96cf2cd9a1d6aa)
+set(Catch2_TAG fa5a53df17303339eff8fda5cae0b601af207085)
