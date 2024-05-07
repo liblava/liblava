@@ -39,8 +39,8 @@ bool engine::setup() {
         producer.destroy();
     });
 
-    producer.context = this;
-    props.context = this;
+    producer.app = this;
+    props.app = this;
 
     if (!headless)
         hud_menu();

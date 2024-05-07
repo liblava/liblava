@@ -29,7 +29,7 @@ struct producer {
     using ptr = producer*;
 
     /// Engine
-    engine* context = nullptr;
+    engine* app = nullptr;
 
     /**
      * @brief Create a mesh product

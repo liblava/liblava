@@ -19,7 +19,7 @@ namespace lava {
  */
 struct property : configurable {
     /// Engine
-    engine* context = nullptr;
+    engine* app = nullptr;
 
     /**
      * @brief Prop

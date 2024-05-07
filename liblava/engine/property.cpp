@@ -55,7 +55,7 @@ bool property::check() {
     auto result = true;
 
     for (auto& [name, prop] : map) {
-        if (!context->fs.exists(prop.filename)) {
+        if (!app->fs.exists(prop.filename)) {
             logger()->warn("prop missing: {} = {}",
                            name, prop.filename);
 

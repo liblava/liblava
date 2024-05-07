@@ -18,7 +18,7 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 mesh::s_ptr producer::create_mesh(mesh_type mesh_type) {
-    auto product = lava::create_mesh(context->device,
+    auto product = lava::create_mesh(app->device,
                                      mesh_type);
     if (!add_mesh(product))
         return nullptr;
@@ -33,11 +33,11 @@ mesh::s_ptr producer::get_mesh(string_ref name) {
             return meshes.get(id);
     }
 
-    context->fs.create_folder(string(_cache_path_) + _temp_path_);
+    app->fs.create_folder(string(_cache_path_) + _temp_path_);
 
-    auto product = load_mesh(context->device,
-                             context->props.get_filename(name),
-                             context->fs.get_pref_dir() + _cache_path_ + _temp_path_);
+    auto product = load_mesh(app->device,
+                             app->props.get_filename(name),
+                             app->fs.get_pref_dir() + _cache_path_ + _temp_path_);
     if (!product)
         return nullptr;
 
@@ -61,7 +61,7 @@ bool producer::add_mesh(mesh::s_ptr product) {
 
 //-----------------------------------------------------------------------------
 texture::s_ptr producer::create_texture(uv2 size) {
-    auto product = create_default_texture(context->device,
+    auto product = create_default_texture(app->device,
                                           size);
     if (!add_texture(product))
         return nullptr;
@@ -76,8 +76,8 @@ texture::s_ptr producer::get_texture(string_ref name) {
             return textures.get(id);
     }
 
-    auto product = load_texture(context->device,
-                                context->props.get_filename(name));
+    auto product = load_texture(app->device,
+                                app->props.get_filename(name));
     if (!product)
         return nullptr;
 
@@ -97,7 +97,7 @@ bool producer::add_texture(texture::s_ptr product) {
 
     textures.add(product);
 
-    context->staging.add(product);
+    app->staging.add(product);
     return true;
 }
 
@@ -112,7 +112,7 @@ c_data producer::get_shader(string_ref name,
         shaders.erase(name);
     }
 
-    auto filename = context->fs.get_pref_dir() + _cache_path_ + _shader_path_
+    auto filename = app->fs.get_pref_dir() + _cache_path_ + _shader_path_
                     + name + ".spirv";
 
     if (!reload) {
@@ -133,22 +133,22 @@ c_data producer::get_shader(string_ref name,
         reload = true;
     }
 
-    if (reload && context->props.exists(name))
-        context->props.unload(name);
+    if (reload && app->props.exists(name))
+        app->props.unload(name);
 
-    auto product = context->props(name);
+    auto product = app->props(name);
     if (!product.addr)
         return {};
 
     auto module_data = compile_shader(product,
                                       name,
-                                      context->props.get_filename(name));
+                                      app->props.get_filename(name));
     if (!module_data.addr)
         return {};
 
-    context->props.unload(name);
+    app->props.unload(name);
 
-    context->fs.create_folder(string(_cache_path_) + _shader_path_);
+    app->fs.create_folder(string(_cache_path_) + _shader_path_);
 
     file file(filename, file_mode::write);
     if (file.opened())
@@ -387,9 +387,9 @@ void producer::clear() {
 //-----------------------------------------------------------------------------
 void producer::update_hash(string_ref name,
                            string_map_ref file_hash_map) const {
-    context->fs.create_folder(string(_cache_path_) + _shader_path_);
+    app->fs.create_folder(string(_cache_path_) + _shader_path_);
 
-    auto filename = context->fs.get_pref_dir() + _cache_path_ + _shader_path_ + _hash_json_;
+    auto filename = app->fs.get_pref_dir() + _cache_path_ + _shader_path_ + _hash_json_;
     json_file hash_file(filename);
 
     json_file::callback callback;
@@ -408,7 +408,7 @@ void producer::update_hash(string_ref name,
 bool producer::valid_shader(string_ref name) const {
     auto valid = true;
 
-    auto filename = context->fs.get_pref_dir() + _cache_path_ + _shader_path_ + _hash_json_;
+    auto filename = app->fs.get_pref_dir() + _cache_path_ + _shader_path_ + _hash_json_;
     json_file hash_file(filename);
 
     json_file::callback callback;
