@@ -15,7 +15,7 @@ namespace lava {
 //-----------------------------------------------------------------------------
 image_loader::image_loader(string_ref filename) {
     file image_file(filename);
-    unique_data data_guard(image_file.get_size(), data::mode::no_alloc);
+    u_data data_guard(image_file.get_size(), data::mode::no_alloc);
 
     if (image_file.opened()) {
         if (!data_guard.allocate())

@@ -151,7 +151,7 @@ bool app::create_pipeline_cache() {
 void app::destroy_pipeline_cache() {
     size_t size = 0;
     if (check(vkGetPipelineCacheData(device->get(), pipeline_cache, &size, nullptr))) {
-        unique_data pipeline_cache_data(size);
+        u_data pipeline_cache_data(size);
 
         if (check(vkGetPipelineCacheData(device->get(), pipeline_cache, &size, pipeline_cache_data.addr))) {
             fs.create_folder(_cache_path_);

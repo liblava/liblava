@@ -115,7 +115,7 @@ void set_object_tag(VkDevice device,
                     VkObjectType type,
                     VkObjectHandle handle,
                     ui64 name,
-                    void_cp tag,
+                    void_c_ptr tag,
                     size_t size) {
     if (!instance::singleton().get_debug_config().utils)
         return;

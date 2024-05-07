@@ -23,7 +23,7 @@ struct descriptor : entity {
         using s_ptr = std::shared_ptr<binding>;
 
         /// List of bindings
-        using list = std::vector<s_ptr>;
+        using s_list = std::vector<s_ptr>;
 
         /**
          * @brief Make a new descriptor binding
@@ -103,7 +103,7 @@ struct descriptor : entity {
         using s_ptr = std::shared_ptr<pool>;
 
         /// List of pools
-        using list = std::vector<s_ptr>;
+        using s_list = std::vector<s_ptr>;
 
         /**
          * @brief Make a new descriptor pool
@@ -182,7 +182,7 @@ struct descriptor : entity {
     using s_ptr = std::shared_ptr<descriptor>;
 
     /// List of descriptors
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new descriptor
@@ -239,9 +239,9 @@ struct descriptor : entity {
 
     /**
      * @brief Get the bindings
-     * @return binding::list const&    List of bindings
+     * @return binding::s_list const&    List of bindings
      */
-    binding::list const& get_bindings() {
+    binding::s_list const& get_bindings() {
         return bindings;
     }
 
@@ -334,7 +334,7 @@ private:
     VkDescriptorSetLayout layout = VK_NULL_HANDLE;
 
     /// List of descriptor bindings
-    binding::list bindings;
+    binding::s_list bindings;
 };
 
 } // namespace lava

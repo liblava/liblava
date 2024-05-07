@@ -19,10 +19,10 @@ struct render_pipeline : pipeline {
     using s_ptr = std::shared_ptr<render_pipeline>;
 
     /// Map of render pipelines
-    using map = std::map<id, s_ptr>;
+    using s_map = std::map<id, s_ptr>;
 
     /// List of render pipelines
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Sizing modes
@@ -264,9 +264,9 @@ struct render_pipeline : pipeline {
 
     /**
      * @brief Get the shader stages
-     * @return shader_stage::list const&    List of shader stages
+     * @return shader_stage::s_list const&    List of shader stages
      */
-    shader_stage::list const& get_shader_stages() const {
+    shader_stage::s_list const& get_shader_stages() const {
         return shader_stages;
     }
 
@@ -449,7 +449,7 @@ private:
     VkDynamicStates dynamic_states;
 
     /// List of shader stages
-    shader_stage::list shader_stages;
+    shader_stage::s_list shader_stages;
 
     /// Sizing mode
     sizing_mode sizing = sizing_mode::input;

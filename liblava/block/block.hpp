@@ -22,7 +22,7 @@ struct command : entity {
     using c_ptr = command const*;
 
     /// Map of commands
-    using map = std::map<id, s_ptr>;
+    using s_map = std::map<id, s_ptr>;
 
     /// List of commands
     using c_list = std::vector<c_ptr>;
@@ -81,7 +81,7 @@ struct block : entity {
     using c_ptr = block const*;
 
     /// Map of blocks
-    using map = std::map<id, s_ptr>;
+    using s_map = std::map<id, s_ptr>;
 
     /// List of blocks
     using c_list = std::vector<c_ptr>;
@@ -203,9 +203,9 @@ struct block : entity {
 
     /**
      * @brief Get the commands
-     * @return command::map const&    Map of commands
+     * @return command::s_map const&    Map of commands
      */
-    command::map const& get_commands() const {
+    command::s_map const& get_commands() const {
         return commands;
     }
 
@@ -251,7 +251,7 @@ private:
     VkCommandPools cmd_pools = {};
 
     /// Map of commands
-    command::map commands;
+    command::s_map commands;
 
     /// Ordered list of commands
     command::c_list cmd_order;

@@ -19,7 +19,7 @@ struct subpass : entity {
     using s_ptr = std::shared_ptr<subpass>;
 
     /// List of subpasses
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new subpass
@@ -218,7 +218,7 @@ private:
     index_list preserve_attachments;
 
     /// List of render pipelines
-    render_pipeline::list pipelines;
+    render_pipeline::s_list pipelines;
 };
 
 /**
@@ -229,7 +229,7 @@ struct subpass_dependency {
     using s_ptr = std::shared_ptr<subpass_dependency>;
 
     /// List of subpass dependencies
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new subpass dependency

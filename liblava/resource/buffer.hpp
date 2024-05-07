@@ -19,7 +19,7 @@ struct buffer : entity {
     using s_ptr = std::shared_ptr<buffer>;
 
     /// List of buffers
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new buffer

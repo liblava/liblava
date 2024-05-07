@@ -99,9 +99,9 @@ struct instance : no_copy_no_move {
 
     /**
      * @brief Get the physical devices
-     * @return physical_device::list const&    List of physical devices
+     * @return physical_device::s_list const&    List of physical devices
      */
-    physical_device::list const& get_physical_devices() const {
+    physical_device::s_list const& get_physical_devices() const {
         return physical_devices;
     }
 
@@ -176,7 +176,7 @@ private:
     VkInstance vk_instance = nullptr;
 
     /// List of all physical devices
-    physical_device::list physical_devices;
+    physical_device::s_list physical_devices;
 
     /// Debug configuration
     debug_config debug;

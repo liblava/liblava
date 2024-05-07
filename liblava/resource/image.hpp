@@ -19,10 +19,10 @@ struct image : entity {
     using s_ptr = std::shared_ptr<image>;
 
     /// Map of images
-    using map = std::map<id, s_ptr>;
+    using s_map = std::map<id, s_ptr>;
 
     /// List of images
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new image

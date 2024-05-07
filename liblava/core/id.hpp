@@ -227,10 +227,10 @@ private:
 template <typename T, typename Meta>
 struct id_registry {
     /// Shared pointer to id registry
-    using ptr = std::shared_ptr<T>;
+    using s_ptr = std::shared_ptr<T>;
 
     /// Map of id registries
-    using map = std::map<id, ptr>;
+    using s_map = std::map<id, s_ptr>;
 
     /// Map of ids with meta
     using meta_map = std::map<id, Meta>;
@@ -252,7 +252,7 @@ struct id_registry {
      * @param object    Object to add
      * @param info      Meta of object
      */
-    void add(ptr object,
+    void add(s_ptr object,
              Meta info = {}) {
         objects.emplace(object->get_id(), object);
         meta.emplace(object->get_id(), info);
@@ -270,9 +270,9 @@ struct id_registry {
     /**
      * @brief Get the object by id
      * @param object_id    Object id
-     * @return ptr         Shared pointer to object
+     * @return s_ptr       Shared pointer to object
      */
-    ptr get(id::ref object_id) const {
+    s_ptr get(id::ref object_id) const {
         return objects.at(object_id);
     }
 
@@ -287,9 +287,9 @@ struct id_registry {
 
     /**
      * @brief Get all objects
-     * @return map const&    Map with objects
+     * @return s_map const&    Map with objects
      */
-    map const& get_all() const {
+    s_map const& get_all() const {
         return objects;
     }
 
@@ -335,7 +335,7 @@ struct id_registry {
 
 private:
     /// Map of objects
-    map objects;
+    s_map objects;
 
     /// Map of metas
     meta_map meta;

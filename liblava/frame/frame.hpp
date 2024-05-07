@@ -97,7 +97,7 @@ constexpr bool const run_continue = true;
  */
 struct frame : interface, no_copy_no_move {
     /// Shared pointer to framework
-    using ptr = std::shared_ptr<frame>;
+    using s_ptr = std::shared_ptr<frame>;
 
     /**
      * @brief Construct a new framework
@@ -243,7 +243,7 @@ struct frame : interface, no_copy_no_move {
     }
 
     /// Run time
-    run_time_t run_time;
+    run_time run_time;
 
     /// Stage platform
     platform platform;

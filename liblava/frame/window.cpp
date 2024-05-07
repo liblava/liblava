@@ -229,7 +229,7 @@ bool window::switch_mode(state::optional state) {
 void window::handle_mouse_message() {
     glfwSetMouseButtonCallback(handle,
                                [](GLFWwindow* handle,
-                                  i32 button, i32 action, i32 mods) {
+                                  i32 button, i32 a, i32 m) {
                                    auto window = get_window(handle);
                                    if (!window)
                                        return;
@@ -238,8 +238,8 @@ void window::handle_mouse_message() {
                                        window->input->mouse_button.add(
                                            {window->get_id(),
                                             mouse_button(button),
-                                            action_t(action),
-                                            mod_t(mods)});
+                                            action(a),
+                                            mod(m)});
                                });
 
     glfwSetCursorPosCallback(handle,
@@ -284,17 +284,17 @@ void window::handle_message() {
 
     glfwSetKeyCallback(handle,
                        [](GLFWwindow* handle,
-                          i32 key, i32 scancode,
-                          i32 action, i32 mods) {
+                          i32 k, i32 scancode,
+                          i32 a, i32 m) {
                            auto window = get_window(handle);
                            if (!window)
                                return;
 
                            window->input->key.add(
                                {window->get_id(),
-                                key_t(key),
-                                action_t(action),
-                                mod_t(mods),
+                                key(k),
+                                action(a),
+                                mod(m),
                                 scancode});
                        });
 

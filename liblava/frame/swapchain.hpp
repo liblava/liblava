@@ -109,9 +109,9 @@ struct swapchain : entity {
 
     /**
      * @brief Get the backbuffers
-     * @return image::list const&    List of backbuffer images
+     * @return image::s_list const&    List of backbuffer images
      */
-    image::list const& get_backbuffers() const {
+    image::s_list const& get_backbuffers() const {
         return backbuffers;
     }
 
@@ -214,7 +214,7 @@ private:
     VkSwapchainKHR vk_swapchain = VK_NULL_HANDLE;
 
     /// List of backbuffer images
-    image::list backbuffers;
+    image::s_list backbuffers;
 
     /// Size of swapchain
     uv2 size;

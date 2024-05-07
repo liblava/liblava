@@ -44,10 +44,10 @@ struct texture : entity {
     using s_ptr = std::shared_ptr<texture>;
 
     /// Map of textures
-    using map = std::map<id, s_ptr>;
+    using s_map = std::map<id, s_ptr>;
 
     /// List of textures
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Texture mip level
@@ -232,10 +232,10 @@ struct staging {
 
 private:
     /// List of textures to stage
-    texture::list todo;
+    texture::s_list todo;
 
     /// Map of textures by frame index
-    using frame_stage_map = std::map<index, texture::list>;
+    using frame_stage_map = std::map<index, texture::s_list>;
 
     /// Map of staged textures
     frame_stage_map staged;

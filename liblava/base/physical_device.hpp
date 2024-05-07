@@ -16,10 +16,10 @@ namespace lava {
  */
 struct physical_device : entity {
     /// Shared pointer to physical device
-    using ptr = std::shared_ptr<physical_device>;
+    using s_ptr = std::shared_ptr<physical_device>;
 
     /// List of physical devices
-    using list = std::vector<ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /// Reference to physical device
     using ref = physical_device const&;
@@ -27,9 +27,9 @@ struct physical_device : entity {
     /**
      * @brief Make a new physical device
      * @param vk_physical_device    Vulkan physical device
-     * @return ptr                  Shared pointer to physical device
+     * @return s_ptr                Shared pointer to physical device
      */
-    static ptr make(VkPhysicalDevice vk_physical_device) {
+    static s_ptr make(VkPhysicalDevice vk_physical_device) {
         return std::make_shared<physical_device>(vk_physical_device);
     }
 

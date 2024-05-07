@@ -156,9 +156,6 @@ struct run_time {
     bool paused = false;
 };
 
-/// Run time type
-using run_time_t = run_time;
-
 #ifdef _WIN32
     #pragma warning(push)
     #pragma warning(disable : 4996) //_CRT_SECURE_NO_WARNINGS

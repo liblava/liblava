@@ -29,7 +29,7 @@ struct device : device_table, entity {
     using s_ptr = std::shared_ptr<device>;
 
     /// List of devices
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /// Const pointer to a physical device
     using physical_device_c_ptr = physical_device const*;

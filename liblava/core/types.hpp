@@ -120,10 +120,10 @@ using real = r64;
 using delta = r32;
 
 /// Void pointer
-using void_p = void*;
+using void_ptr = void*;
 
 /// Const void pointer
-using void_cp = void const*;
+using void_c_ptr = void const*;
 
 /// Undefined value
 constexpr i32 const undef = -1;
@@ -133,9 +133,6 @@ using flag = ui32;
 
 /// Index
 using index = ui32;
-
-/// Index type
-using index_t = index;
 
 /// No index
 constexpr index const no_index = 0xffffffff;

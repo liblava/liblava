@@ -420,7 +420,7 @@ bool producer::valid_shader(string_ref name) const {
 
         auto j_shader = j[name];
         for (auto& [key, value] : j_shader.items()) {
-            unique_data data;
+            u_data data;
             if (!load_file_data(key, data)) {
                 valid = false;
                 break;

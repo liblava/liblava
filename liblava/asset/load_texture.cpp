@@ -49,7 +49,7 @@ namespace lava {
 texture::s_ptr create_gli_texture_2d(device::ptr device,
                                      file::ref file,
                                      VkFormat format,
-                                     unique_data::ref temp_data) {
+                                     u_data::ref temp_data) {
     gli::texture2d tex(file.opened() ? gli::load(temp_data.addr, temp_data.size)
                                      : gli::load(file.get_path()));
     LAVA_ASSERT(!tex.empty());
@@ -129,7 +129,7 @@ texture::layer::list create_layer_list(auto const& tex, ui32 layer_count) {
 texture::s_ptr create_gli_texture_array(device::ptr device,
                                         file::ref file,
                                         VkFormat format,
-                                        unique_data::ref temp_data) {
+                                        u_data::ref temp_data) {
     gli::texture2d_array tex(file.opened() ? gli::load(temp_data.addr, temp_data.size)
                                            : gli::load(file.get_path()));
     LAVA_ASSERT(!tex.empty());
@@ -166,7 +166,7 @@ texture::s_ptr create_gli_texture_array(device::ptr device,
 texture::s_ptr create_gli_texture_cube_map(device::ptr device,
                                            file::ref file,
                                            VkFormat format,
-                                           unique_data::ref temp_data) {
+                                           u_data::ref temp_data) {
     gli::texture_cube tex(file.opened() ? gli::load(temp_data.addr, temp_data.size)
                                         : gli::load(file.get_path()));
     LAVA_ASSERT(!tex.empty());
@@ -201,7 +201,7 @@ texture::s_ptr create_gli_texture_cube_map(device::ptr device,
  */
 texture::s_ptr create_stbi_texture(device::ptr device,
                                    file::ref file,
-                                   unique_data::ref temp_data) {
+                                   u_data::ref temp_data) {
     i32 tex_width = 0, tex_height = 0;
     stbi_uc* data = nullptr;
 
@@ -256,7 +256,7 @@ texture::s_ptr load_texture(device::ptr device,
         return nullptr;
 
     file file(file_format.path);
-    unique_data temp_data(file.get_size(), data::mode::no_alloc);
+    u_data temp_data(file.get_size(), data::mode::no_alloc);
 
     if (file.opened()) {
         if (!temp_data.allocate())
@@ -316,7 +316,7 @@ texture::s_ptr create_default_texture(device::ptr device,
         return nullptr;
 
     i32 const block_size = format_block_size(format);
-    unique_data data(size.x * size.y * block_size);
+    u_data data(size.x * size.y * block_size);
     memset(data.addr, 0, data.size);
 
     ui32 const color_r = 255 * color.r;

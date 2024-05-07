@@ -117,9 +117,9 @@ struct render_target : entity {
 
     /**
      * @brief Get the backbuffers
-     * @return image::list const&    List of backbuffer images
+     * @return image::s_list const&    List of backbuffer images
      */
-    image::list const& get_backbuffers() const {
+    image::s_list const& get_backbuffers() const {
         return target.get_backbuffers();
     }
 
@@ -157,7 +157,7 @@ struct render_target : entity {
      * @brief Add callback
      * @param callback    Target callback
      */
-    void add_callback(target_callback::cptr callback) {
+    void add_callback(target_callback::c_ptr callback) {
         target_callbacks.push_back(callback);
     }
 
@@ -165,7 +165,7 @@ struct render_target : entity {
      * @brief Remove callback
      * @param callback    Target callback
      */
-    void remove_callback(target_callback::cptr callback) {
+    void remove_callback(target_callback::c_ptr callback) {
         remove(target_callbacks, callback);
     }
 
@@ -201,7 +201,7 @@ private:
     swapchain::callback swapchain_callback;
 
     /// List of target callbacks
-    target_callback::clist target_callbacks;
+    target_callback::c_list target_callbacks;
 };
 
 /**

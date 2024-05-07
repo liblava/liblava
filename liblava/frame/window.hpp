@@ -80,7 +80,7 @@ struct window : entity {
     using event = std::function<void(s_ptr)>;
 
     /// Map of windows
-    using map = std::map<id, s_ptr>;
+    using s_map = std::map<id, s_ptr>;
 
     /// Reference to window
     using ref = window const&;

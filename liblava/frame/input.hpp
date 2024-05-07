@@ -161,9 +161,6 @@ enum class key : i32 {
     last = menu,
 };
 
-/// Key type
-using key_t = key;
-
 /// Reference to key
 using key_ref = key const&;
 
@@ -196,9 +193,6 @@ enum class action : index {
     repeat
 };
 
-/// Action type
-using action_t = action;
-
 /// Refernece to action
 using action_ref = action const&;
 
@@ -216,9 +210,6 @@ enum class mod : flag {
 };
 
 ENUM_FLAG_OPERATORS(mod)
-
-/// Mod type
-using mod_t = mod;
 
 /**
  * @brief Check if mod is active
@@ -260,13 +251,13 @@ struct key_event {
     id sender;
 
     /// Input key
-    key_t key;
+    key key;
 
     /// Input action
-    action_t action;
+    action action;
 
     /// Input mod
-    mod_t mod;
+    mod mod;
 
     /// Input scan code
     i32 scancode = 0;
@@ -434,10 +425,10 @@ struct mouse_button_event {
     mouse_button button;
 
     /// Input action
-    action_t action;
+    action action;
 
     /// Input mod
-    mod_t mod;
+    mod mod;
 
     /**
      * @brief Check if mouse button is pressed
@@ -671,8 +662,8 @@ struct tooltip {
      * @param mod     Input mod
      */
     tooltip(string_ref name,
-            key_t key,
-            mod_t mod)
+            key key,
+            mod mod)
     : name(name), key(key), mod(mod) {
     }
 
@@ -683,10 +674,10 @@ struct tooltip {
     string name;
 
     /// Input key
-    key_t key;
+    key key;
 
     /// Input mod
-    mod_t mod;
+    mod mod;
 };
 
 /**
@@ -700,8 +691,8 @@ struct tooltip_list {
      * @param mod     Input mod (default: none)
      */
     void add(string_ref name,
-             key_t key,
-             mod_t mod = mod::none) {
+             key key,
+             mod mod = mod::none) {
         tooltips.emplace_back(name, key, mod);
     }
 

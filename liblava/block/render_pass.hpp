@@ -21,7 +21,7 @@ struct render_pass : entity {
     using s_ptr = std::shared_ptr<render_pass>;
 
     /// List of render passes
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new render pass
@@ -104,9 +104,9 @@ struct render_pass : entity {
 
     /**
      * @brief Get the subpasses
-     * @return subpass::list const&    List of subpasses
+     * @return subpass::s_list const&    List of subpasses
      */
-    subpass::list const& get_subpasses() const {
+    subpass::s_list const& get_subpasses() const {
         return subpasses;
     }
 
@@ -211,13 +211,13 @@ private:
     VkFramebuffers framebuffers = {};
 
     /// List of attachments
-    attachment::list attachments;
+    attachment::s_list attachments;
 
     /// List of subpass dependencies
-    subpass_dependency::list dependencies;
+    subpass_dependency::s_list dependencies;
 
     /// List of subpasses
-    subpass::list subpasses;
+    subpass::s_list subpasses;
 
     /// List of clear values
     VkClearValues clear_values = {};

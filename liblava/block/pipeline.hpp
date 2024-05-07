@@ -19,7 +19,7 @@ struct pipeline : entity {
     using s_ptr = std::shared_ptr<pipeline>;
 
     /// List of pipelines
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /// Pipeline process function
     using process_func = std::function<void(VkCommandBuffer)>;
@@ -144,7 +144,7 @@ struct pipeline : entity {
         using s_ptr = std::shared_ptr<shader_stage>;
 
         /// List of shader stages
-        using list = std::vector<s_ptr>;
+        using s_list = std::vector<s_ptr>;
 
         /**
          * @brief Make a new pipline shader stage

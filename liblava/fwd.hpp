@@ -52,8 +52,8 @@ struct subpass_dependency;
 // liblava/core.hpp
 struct data_provider;
 struct data;
-struct cdata;
-struct unique_data;
+struct c_data;
+struct u_data;
 struct id;
 struct ids;
 struct entity;

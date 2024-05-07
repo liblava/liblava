@@ -45,7 +45,7 @@ mesh::s_ptr load_mesh(device::ptr device, string_ref filename, string_ref temp_d
                 temp_file = temp_dir;
                 temp_file += get_filename_from(target_file, true);
 
-                unique_data temp_data(file.get_size());
+                u_data temp_data(file.get_size());
                 if (!temp_data.addr)
                     return nullptr;
 

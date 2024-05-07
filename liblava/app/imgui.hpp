@@ -353,10 +353,10 @@ private:
     index max_frames = 4;
 
     /// Vertex buffer list
-    buffer::list vertex_buffers;
+    buffer::s_list vertex_buffers;
 
     /// Index buffer list
-    buffer::list index_buffers;
+    buffer::s_list index_buffers;
 
     /// Vulkan descriptor
     descriptor::s_ptr descriptor;

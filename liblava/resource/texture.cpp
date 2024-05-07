@@ -231,7 +231,7 @@ bool staging::stage(VkCommandBuffer cmd_buf,
     if (todo.empty())
         return false;
 
-    texture::list stage_done;
+    texture::s_list stage_done;
 
     for (auto& texture : todo) {
         if (!texture->stage(cmd_buf))
@@ -241,7 +241,7 @@ bool staging::stage(VkCommandBuffer cmd_buf,
     }
 
     if (!staged.count(frame))
-        staged.emplace(frame, texture::list());
+        staged.emplace(frame, texture::s_list());
 
     for (auto& texture : stage_done) {
         if (!contains(staged.at(frame), texture))

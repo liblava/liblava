@@ -48,7 +48,7 @@ bool write_image_png(device::ptr device,
     auto const width = size.x;
     auto const height = size.y;
 
-    unique_data rgb_data(height * width * img_data_block_size);
+    u_data rgb_data(height * width * img_data_block_size);
     auto const rgb_data_format = VK_FORMAT_R8G8B8_UNORM;
     auto const rgb_data_block_size = format_block_size(rgb_data_format);
 

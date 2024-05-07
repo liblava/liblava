@@ -19,10 +19,10 @@ struct compute_pipeline : pipeline {
     using s_ptr = std::shared_ptr<compute_pipeline>;
 
     /// Map of compute pipelines
-    using map = std::map<id, s_ptr>;
+    using s_map = std::map<id, s_ptr>;
 
     /// List of compute pipelines
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new compute pipeline

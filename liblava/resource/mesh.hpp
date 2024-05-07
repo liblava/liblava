@@ -79,10 +79,10 @@ struct mesh_template : entity {
     using s_ptr = std::shared_ptr<mesh_template<T>>;
 
     /// Map of meshes
-    using map = std::map<id, s_ptr>;
+    using s_map = std::map<id, s_ptr>;
 
     /// List of meshes
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /// List of vertices
     using vertex_list = std::vector<T>;

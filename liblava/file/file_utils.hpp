@@ -77,12 +77,12 @@ bool load_file_data(string_ref filename,
 /**
  * @brief File data
  */
-struct file_data : unique_data {
+struct file_data : u_data {
     /// Reference to file data
     using ref = file_data const&;
 
     /// Unique data constructors
-    using unique_data::unique_data;
+    using u_data::u_data;
 
     /**
      * @brief Construct a new file data

@@ -28,7 +28,7 @@ void json_file::remove(callback* callback) {
 
 //-----------------------------------------------------------------------------
 bool json_file::load() {
-    unique_data data;
+    u_data data;
     if (!load_file_data(path, data))
         return false;
 
@@ -50,7 +50,7 @@ bool json_file::load() {
 bool json_file::save() {
     json j;
 
-    unique_data data;
+    u_data data;
     if (load_file_data(path, data) && (data.size > 0))
         if (json::accept(data.addr, data.end()))
             j = json::parse(data.addr, data.end());

@@ -24,10 +24,10 @@ struct camera : entity {
     using s_ptr = std::shared_ptr<camera>;
 
     /// Map of cameras
-    using map = std::map<id, s_ptr>;
+    using s_map = std::map<id, s_ptr>;
 
     /// List of cameras
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Camera modes

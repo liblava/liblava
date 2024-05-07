@@ -20,7 +20,7 @@ struct attachment {
     using s_ptr = std::shared_ptr<attachment>;
 
     /// List of attachments
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new attachment

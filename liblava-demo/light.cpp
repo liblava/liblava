@@ -364,7 +364,7 @@ int main(int argc, char* argv[]) {
         return true;
     };
 
-    app.on_process = [&](VkCommandBuffer cmd_buf, index_t frame) {
+    app.on_process = [&](VkCommandBuffer cmd_buf, index frame) {
         scoped_label label(cmd_buf, "on_process");
 
         // start custom renderpass,

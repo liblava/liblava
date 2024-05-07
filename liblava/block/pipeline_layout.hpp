@@ -19,7 +19,7 @@ struct pipeline_layout : entity {
     using s_ptr = std::shared_ptr<pipeline_layout>;
 
     /// List of pipeline layouts
-    using list = std::vector<s_ptr>;
+    using s_list = std::vector<s_ptr>;
 
     /**
      * @brief Make a new pipeline layout
@@ -111,9 +111,9 @@ struct pipeline_layout : entity {
 
     /**
      * @brief Get the descriptors
-     * @return descriptor::list const&    List of descriptors
+     * @return descriptor::s_list const&    List of descriptors
      */
-    descriptor::list const& get_descriptors() const {
+    descriptor::s_list const& get_descriptors() const {
         return descriptors;
     }
 
@@ -165,7 +165,7 @@ private:
     VkPipelineLayout layout = VK_NULL_HANDLE;
 
     /// List of descriptors
-    descriptor::list descriptors;
+    descriptor::s_list descriptors;
 
     /// List of push constant ranges
     VkPushConstantRanges push_constant_ranges;

@@ -270,17 +270,17 @@ struct c_data {
 /**
  * @brief Unique data wrapper
  */
-struct unique_data : data {
+struct u_data : data {
     /// Reference to unique data wrapper
-    using ref = unique_data const&;
+    using ref = u_data const&;
 
     /**
      * @brief Construct a new unique data
      * @param length    Length of data
      * @param mode      Data mode
      */
-    unique_data(size_t length = 0,
-                data::mode mode = data::mode::alloc) {
+    u_data(size_t length = 0,
+           data::mode mode = data::mode::alloc) {
         if (length)
             set(length, mode);
     }
@@ -289,7 +289,7 @@ struct unique_data : data {
      * @brief Construct a new unique data from another data
      * @param data    Source data
      */
-    explicit unique_data(data::ref data) {
+    explicit u_data(data::ref data) {
         addr = data.addr;
         size = data.size;
         alignment = data.alignment;
@@ -298,7 +298,7 @@ struct unique_data : data {
     /**
      * @brief Destroy the unique data
      */
-    ~unique_data() {
+    ~u_data() {
         deallocate();
     }
 };

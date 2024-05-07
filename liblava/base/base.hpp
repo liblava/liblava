@@ -213,13 +213,13 @@ using VkAttachmentsRef = VkAttachments const&;
  */
 struct target_callback {
     /// Const pointer to target callback
-    using cptr = target_callback const*;
+    using c_ptr = target_callback const*;
 
     /// List of target callbacks
     using list = std::vector<target_callback*>;
 
     /// Const list of target callbacks
-    using clist = std::vector<cptr>;
+    using c_list = std::vector<c_ptr>;
 
     /// Created function
     using created_func = std::function<bool(VkAttachmentsRef, rect::ref)>;
