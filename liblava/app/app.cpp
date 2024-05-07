@@ -739,16 +739,14 @@ string app::get_fps_info() const {
 }
 
 //-----------------------------------------------------------------------------
-void app::draw_about(bool separator,
-                     bool fps,
-                     bool spacing) const {
+void app::draw_about(about_info_setting setting) const {
     if (headless)
         return;
 
-    if (separator)
+    if (setting.draw_separator)
         ImGui::Separator();
 
-    if (spacing) {
+    if (setting.draw_spacing) {
         ImGui::Spacing();
 
         imgui_left_spacing(2);
@@ -759,8 +757,8 @@ void app::draw_about(bool separator,
     if (config.handle_key_events && ImGui::IsItemHovered())
         ImGui::SetTooltip("%s", str(tooltips.format_string()));
 
-    if (fps) {
-        if (spacing)
+    if (setting.draw_fps) {
+        if (setting.draw_spacing)
             imgui_left_spacing();
 
         ImGui::Text(str(get_fps_info()), ImGui::GetIO().Framerate);

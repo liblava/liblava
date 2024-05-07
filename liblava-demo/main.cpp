@@ -205,8 +205,11 @@ int main(int argc, char* argv[]) {
 
             bool always_open = true;
             if (ImGui::Begin(_liblava_, &always_open, win_flags)) {
-                app.draw_about(draw_no_separator, show_fps ? draw_fps : draw_no_fps,
-                               draw_no_spacing);
+                app::about_info_setting info_setting;
+                info_setting.draw_separator = false;
+                info_setting.draw_fps = show_fps;
+                info_setting.draw_spacing = false;
+                app.draw_about(info_setting);
 
                 if (ImGui::Button(to_char(ICON_FA_ARROW_LEFT)))
                     previous();

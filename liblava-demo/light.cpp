@@ -471,7 +471,9 @@ int main(int argc, char* argv[]) {
 
         ImGui::Begin(app.get_name());
 
-        app.draw_about(draw_no_separator);
+        app::about_info_setting info_setting;
+        info_setting.draw_separator = false;
+        app.draw_about(info_setting);
 
         ImGui::End();
     });
