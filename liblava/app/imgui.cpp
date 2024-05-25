@@ -148,6 +148,8 @@ void imgui::setup(GLFWwindow* w, config config) {
     ImGui::CreateContext();
 
     auto& io = ImGui::GetIO();
+    io.ConfigFlags = config.flags;
+    
     io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
     io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 

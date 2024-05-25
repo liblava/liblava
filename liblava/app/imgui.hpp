@@ -112,6 +112,9 @@ struct imgui {
 
         /// ImGui state file path
         std::filesystem::path ini_file_dir;
+
+        /// ImGuiConfigFlags
+        i32 flags = 0;
     };
 
     /**
