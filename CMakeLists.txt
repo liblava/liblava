@@ -431,8 +431,8 @@ add_library(lava.engine
   ${LIBLAVA_DIR}/engine/engine.hpp
   ${LIBLAVA_DIR}/engine/producer.cpp
   ${LIBLAVA_DIR}/engine/producer.hpp
-  ${LIBLAVA_DIR}/engine/property.cpp
-  ${LIBLAVA_DIR}/engine/property.hpp
+  ${LIBLAVA_DIR}/engine/props.cpp
+  ${LIBLAVA_DIR}/engine/props.hpp
   )
 
 target_include_directories(lava.engine PRIVATE

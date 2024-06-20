@@ -1,11 +1,11 @@
 /**
- * @file         liblava/engine/property.cpp
- * @brief        Props master
+ * @file         liblava/engine/props.cpp
+ * @brief        Props
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
 
-#include "liblava/engine/property.hpp"
+#include "liblava/engine/props.hpp"
 #include "liblava/base/base.hpp"
 #include "liblava/engine/engine.hpp"
 #include "liblava/file/file_system.hpp"
@@ -13,15 +13,15 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-void property::add(string_ref name,
-                   string_ref filename) {
+void props::add(string_ref name,
+                string_ref filename) {
     map.emplace(name, filename);
 
     logger()->trace("prop: {} = {}", name, filename);
 }
 
 //-----------------------------------------------------------------------------
-void property::remove(string_ref name) {
+void props::remove(string_ref name) {
     if (!map.count(name))
         return;
 
@@ -29,14 +29,14 @@ void property::remove(string_ref name) {
 }
 
 //-----------------------------------------------------------------------------
-bool property::install(string_ref name,
-                       string_ref filename) {
+bool props::install(string_ref name,
+                    string_ref filename) {
     add(name, filename);
     return load(name);
 }
 
 //-----------------------------------------------------------------------------
-c_data property::operator()(string_ref name) {
+c_data props::operator()(string_ref name) {
     auto& prop = map.at(name);
     if (prop.data.addr)
         return {prop.data.addr, prop.data.size};
@@ -51,7 +51,7 @@ c_data property::operator()(string_ref name) {
 }
 
 //-----------------------------------------------------------------------------
-bool property::check() {
+bool props::check() {
     auto result = true;
 
     for (auto& [name, prop] : map) {
@@ -67,7 +67,7 @@ bool property::check() {
 }
 
 //-----------------------------------------------------------------------------
-bool property::load(string_ref name) {
+bool props::load(string_ref name) {
     auto& prop = map.at(name);
     if (prop.data.addr)
         prop.data = {}; // reload
@@ -82,7 +82,7 @@ bool property::load(string_ref name) {
 }
 
 //-----------------------------------------------------------------------------
-bool property::load_all() {
+bool props::load_all() {
     for (auto& [name, prop] : map) {
         if (!load_file_data(name, prop.data)) {
             logger()->error("prop load (all): {} = {}",
@@ -95,7 +95,7 @@ bool property::load_all() {
 }
 
 //-----------------------------------------------------------------------------
-void property::parse(cmd_line cmd_line) {
+void props::parse(cmd_line cmd_line) {
     for (auto& [name, prop] : map) {
         auto cmd_arg = "--" + name;
 
@@ -110,7 +110,7 @@ void property::parse(cmd_line cmd_line) {
 }
 
 //-----------------------------------------------------------------------------
-void property::set_json(json_ref j) {
+void props::set_json(json_ref j) {
     for (auto& [name, prop] : map) {
         if (j.count(name)) {
             string filename = j[name];
@@ -127,7 +127,7 @@ void property::set_json(json_ref j) {
 }
 
 //-----------------------------------------------------------------------------
-json property::get_json() const {
+json props::get_json() const {
     json j;
 
     for (auto& [name, prop] : map)

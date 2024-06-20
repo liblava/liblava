@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
 
 ## lava [engine](liblava/engine) 
 
-[![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](liblava/engine/engine.hpp) [![producer](https://img.shields.io/badge/lava-producer-brightgreen.svg)](liblava/engine/producer.hpp) [![property](https://img.shields.io/badge/lava-property-brightgreen.svg)](liblava/engine/property.hpp)
+[![engine](https://img.shields.io/badge/lava-engine-brightgreen.svg)](liblava/engine/engine.hpp) [![producer](https://img.shields.io/badge/lava-producer-brightgreen.svg)](liblava/engine/producer.hpp) [![props](https://img.shields.io/badge/lava-props-brightgreen.svg)](liblava/engine/props.hpp)
 
 &nbsp; ➜ &nbsp; *depends on [app](#lava-app)*
 

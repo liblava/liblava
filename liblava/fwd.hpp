@@ -69,7 +69,7 @@ struct version;
 // liblava/engine.hpp
 struct engine;
 struct producer;
-struct property;
+struct props;
 
 // liblava/file.hpp
 struct file_guard;

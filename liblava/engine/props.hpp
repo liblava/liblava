@@ -1,6 +1,6 @@
 /**
- * @file         liblava/engine/property.hpp
- * @brief        Props master
+ * @file         liblava/engine/props.hpp
+ * @brief        Props
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
@@ -15,24 +15,24 @@
 namespace lava {
 
 /**
- * @brief Props master
+ * @brief Props
  */
-struct property : configurable {
+struct props : configurable {
     /// Engine
     engine* app = nullptr;
 
     /**
-     * @brief Prop
+     * @brief Prop item
      */
-    struct prop {
-        /// Map of props
-        using map = std::map<string, prop>;
+    struct item {
+        /// Map of items
+        using map = std::map<string, item>;
 
         /**
          * @brief Construct a new prop
          * @param filename    File name of prop
          */
-        prop(string_ref filename)
+        item(string_ref filename)
         : filename(filename) {}
 
         /// File name of prop
@@ -159,9 +159,9 @@ struct property : configurable {
 
     /**
      * @brief Get all props
-     * @return prop::map const&    Map of props
+     * @return item::map const&    Map of props
      */
-    prop::map const& get_all() const {
+    item::map const& get_all() const {
         return map;
     }
 
@@ -173,7 +173,7 @@ struct property : configurable {
 
 private:
     /// Map of props
-    prop::map map;
+    item::map map;
 };
 
 } // namespace lava

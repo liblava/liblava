@@ -9,7 +9,7 @@
 
 #include "liblava/app/app.hpp"
 #include "liblava/engine/producer.hpp"
-#include "liblava/engine/property.hpp"
+#include "liblava/engine/props.hpp"
 
 namespace lava {
 
@@ -32,8 +32,8 @@ struct engine : app {
      */
     bool setup() override;
 
-    /// Props master
-    property props;
+    /// Props
+    props props;
 
     /// Producer
     producer producer;
