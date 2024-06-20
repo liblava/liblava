@@ -12,6 +12,44 @@
 namespace lava {
 
 /**
+ * @brief Image data
+ */
+struct image_data {
+    /// Shared pointer to image data
+    using s_ptr = std::shared_ptr<image_data>;
+
+    /// Pointer to image data
+    data::ptr data = nullptr;
+
+    /// Dimensions
+    uv2 dimensions = uv2(0, 0);
+
+    /// Number of channels
+    ui32 channels = 0;
+
+    /**
+     * @brief Check if image data is ready
+     * @return Image data is ready or not
+     */
+    bool ready() const {
+        return data != nullptr;
+    }
+
+    /**
+     * @brief Get image data size
+     * @return size_t    Image data size
+     */
+    size_t size() const {
+        return channels * dimensions.x * dimensions.y;
+    }
+
+    /**
+     * @brief Destroy the image data
+     */
+    ~image_data();
+};
+
+/**
  * @brief Image
  */
 struct image : entity {

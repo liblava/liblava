@@ -17,9 +17,6 @@ struct app_config;
 struct forward_shading;
 struct imgui;
 
-// liblava/asset.hpp
-struct image_loader;
-
 // liblava/base.hpp
 struct target_callback;
 struct vk_result;
@@ -103,6 +100,7 @@ struct window;
 
 // liblava/resource.hpp
 struct buffer;
+struct image_data;
 struct image;
 struct vertex;
 struct mesh_meta;

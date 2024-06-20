@@ -134,7 +134,7 @@ int main(int argc, char* argv[]) {
 
 ## lava [asset](liblava/asset)
 
-[![image_loader](https://img.shields.io/badge/lava-image_loader-red.svg)](liblava/asset/image_loader.hpp) [![load_mesh](https://img.shields.io/badge/lava-load_mesh-red.svg)](liblava/asset/load_mesh.hpp) [![load_texture](https://img.shields.io/badge/lava-load_texture-red.svg)](liblava/asset/load_texture.hpp) [![write_image](https://img.shields.io/badge/lava-write_image-red.svg)](liblava/asset/write_image.hpp)
+[![load_image](https://img.shields.io/badge/lava-load_image-red.svg)](liblava/asset/load_image.hpp) [![load_mesh](https://img.shields.io/badge/lava-load_mesh-red.svg)](liblava/asset/load_mesh.hpp) [![load_texture](https://img.shields.io/badge/lava-load_texture-red.svg)](liblava/asset/load_texture.hpp) [![write_image](https://img.shields.io/badge/lava-write_image-red.svg)](liblava/asset/write_image.hpp)
 
 &nbsp; ➜ &nbsp; *depends on [resource](#lava-resource) + [file](#lava-file)*
 

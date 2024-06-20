@@ -8,7 +8,7 @@
 #include "liblava/app/config.hpp"
 #include "liblava/app/app.hpp"
 #include "liblava/app/icon.hpp"
-#include "liblava/asset/image_loader.hpp"
+#include "liblava/asset/load_image.hpp"
 
 namespace lava {
 
@@ -119,12 +119,13 @@ void app_config::update_window_state() {
 
 //-----------------------------------------------------------------------------
 void set_window_icon(window& window, string_ref icon_file) {
-    image_loader icon(icon_file);
-    if (icon.ready()) {
-        window.set_icon(icon.get(), icon.get_dimensions());
+    auto icon = load_image(icon_file);
+    if (icon && icon->ready()) {
+        window.set_icon(icon->data, icon->dimensions);
     } else {
-        image_loader default_icon({icon_png, icon_png_len});
-        window.set_icon(default_icon.get(), default_icon.get_dimensions());
+        auto default_icon = load_image({icon_png, icon_png_len});
+        if (default_icon && default_icon->ready())
+            window.set_icon(default_icon->data, default_icon->dimensions);
     }
 }
 

@@ -12,6 +12,12 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
+image_data::~image_data() {
+    if (data)
+        free(data);
+}
+
+//-----------------------------------------------------------------------------
 image::image(VkFormat format,
              VkImage vk_image)
 : vk_image(vk_image) {
