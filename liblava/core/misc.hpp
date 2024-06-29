@@ -8,6 +8,7 @@
 #pragma once
 
 #include "liblava/core/types.hpp"
+#include <algorithm>
 #include <cstring>
 #include <utility>
 
@@ -126,7 +127,7 @@ inline string trim_copy(string s) {
  * @return string&    Cleared string
  */
 inline string& remove_chars(string& s, string_ref chars) {
-    s.erase(remove_if(s.begin(), s.end(), [&chars](name_ref c) {
+    s.erase(std::remove_if(s.begin(), s.end(), [&chars](name_ref c) {
                 return chars.find(c) != string::npos;
             }),
             s.end());
@@ -161,7 +162,7 @@ inline string remove_chars_copy(string s, string_ref chars) {
  * @return string&    Cleared string
  */
 inline string& remove_nondigit(string& s) {
-    s.erase(remove_if(s.begin(), s.end(), [](name_ref c) {
+    s.erase(std::remove_if(s.begin(), s.end(), [](name_ref c) {
                 return !isdigit(c);
             }),
             s.end());
@@ -184,7 +185,7 @@ inline string remove_nondigit_copy(string s) {
  * @return string&    Cleared string
  */
 inline string& remove_chars_if_not(string& s, string_ref allowed) {
-    s.erase(remove_if(s.begin(), s.end(), [&allowed](name_ref c) {
+    s.erase(std::remove_if(s.begin(), s.end(), [&allowed](name_ref c) {
                 return allowed.find(c) == string::npos;
             }),
             s.end());
