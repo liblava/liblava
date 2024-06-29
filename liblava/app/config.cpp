@@ -121,11 +121,11 @@ void app_config::update_window_state() {
 void set_window_icon(window& window, string_ref icon_file) {
     auto icon = load_image(icon_file);
     if (icon && icon->ready()) {
-        window.set_icon(icon->data, icon->dimensions);
+        window.set_icon(icon->get_data(), icon->dimensions);
     } else {
         auto default_icon = load_image({icon_png, icon_png_len});
         if (default_icon && default_icon->ready())
-            window.set_icon(default_icon->data, default_icon->dimensions);
+            window.set_icon(default_icon->get_data(), default_icon->dimensions);
     }
 }
 

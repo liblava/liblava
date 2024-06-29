@@ -243,10 +243,10 @@ struct frame : interface, no_copy_no_move {
     }
 
     /// Run time
-    run_time run_time;
+    lava::run_time run_time;
 
     /// Stage platform
-    platform platform;
+    lava::platform platform;
 
     /// Message dispatcher
     message_dispatcher telegraph;

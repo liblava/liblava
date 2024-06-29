@@ -44,7 +44,7 @@ struct telegram {
                       ms dispatch_time = {},
                       any info = {})
     : sender(sender), receiver(receiver),
-      id(msg), dispatch_time(dispatch_time),
+      msg_id(msg), dispatch_time(dispatch_time),
       info(std::move(info)) {}
 
     /**
@@ -56,7 +56,7 @@ struct telegram {
         return ((dispatch_time - rhs.dispatch_time) < telegram_min_delay)
                && (sender == rhs.sender)
                && (receiver == rhs.receiver)
-               && (id == rhs.id);
+               && (msg_id == rhs.msg_id);
     }
 
     /**
@@ -78,7 +78,7 @@ struct telegram {
     id receiver;
 
     /// Message id
-    index id = no_index;
+    index msg_id = no_index;
 
     /// Dispatch time
     ms dispatch_time;

@@ -18,9 +18,6 @@ struct image_data {
     /// Shared pointer to image data
     using s_ptr = std::shared_ptr<image_data>;
 
-    /// Pointer to image data
-    data::ptr data = nullptr;
-
     /// Dimensions
     uv2 dimensions = uv2(0, 0);
 
@@ -32,7 +29,23 @@ struct image_data {
      * @return Image data is ready or not
      */
     bool ready() const {
-        return data != nullptr;
+        return m_data != nullptr;
+    }
+
+    /**
+     * @brief Get image data
+     * @return data::ptr    Pointer to image data
+     */
+    data::ptr get_data() {
+        return m_data;
+    }
+
+    /**
+     * @brief Set image data
+     * @param data    Pointer to image data
+     */
+    void set_data(data::ptr data) {
+        m_data = data;
     }
 
     /**
@@ -47,6 +60,10 @@ struct image_data {
      * @brief Destroy the image data
      */
     ~image_data();
+
+private:
+    /// Pointer to image data
+    data::ptr m_data = nullptr;
 };
 
 /**

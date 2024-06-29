@@ -48,13 +48,13 @@ struct app : frame {
     bool headless = false;
 
     /// Main window
-    window window;
+    lava::window window;
 
     /// Window input
-    input input;
+    lava::input input;
 
     /// ImGui handling
-    imgui imgui;
+    lava::imgui imgui;
 
     /// ImGui configuration
     imgui::config imgui_config;
@@ -63,22 +63,22 @@ struct app : frame {
     tooltip_list tooltips;
 
     /// Vulkan device
-    device::ptr device = nullptr;
+    lava::device::ptr device = nullptr;
 
     /// Main camera
-    camera camera;
+    lava::camera camera;
 
     /// Gamepad
     gamepad pad;
 
     /// Texture staging
-    staging staging;
+    lava::staging staging;
 
     /// Basic block
-    block block;
+    lava::block block;
 
     /// Plain renderer
-    renderer renderer;
+    lava::renderer renderer;
 
     /// Forward shading
     forward_shading shading;
@@ -160,13 +160,21 @@ struct app : frame {
 
         /// Draw with spacing
         bool draw_spacing = true;
+
+        /**
+         * @brief Get about info setting for all
+         * @return about_info_setting    About information setting
+         */
+        static about_info_setting all() {
+            return {};
+        }
     };
 
     /**
      * @brief Draw about information
      * @param setting    Setting
      */
-    void draw_about(about_info_setting setting = {}) const;
+    void draw_about(about_info_setting setting = about_info_setting::all()) const;
 
     /// Application configuration
     app_config config;

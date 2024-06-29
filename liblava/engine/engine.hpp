@@ -33,10 +33,10 @@ struct engine : app {
     bool setup() override;
 
     /// Props
-    props props;
+    lava::props props;
 
     /// Producer
-    producer producer;
+    lava::producer producer;
 
     /// Hud menu function
     using hud_menu_func = std::function<void()>;

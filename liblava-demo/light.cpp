@@ -364,7 +364,7 @@ int main(int argc, char* argv[]) {
         return true;
     };
 
-    app.on_process = [&](VkCommandBuffer cmd_buf, index frame) {
+    app.on_process = [&](VkCommandBuffer cmd_buf, lava::index frame) {
         scoped_label label(cmd_buf, "on_process");
 
         // start custom renderpass,

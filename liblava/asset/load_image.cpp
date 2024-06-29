@@ -32,16 +32,16 @@ image_data::s_ptr load_image(string_ref filename) {
         return nullptr;
 
     if (image_file.opened())
-        result->data = data::as_ptr(stbi_load_from_memory((stbi_uc const*)data_guard.addr,
-                                                          to_i32(data_guard.size),
-                                                          &tex_width, &tex_height,
-                                                          &tex_channels, STBI_rgb_alpha));
+        result->set_data(data::as_ptr(stbi_load_from_memory((stbi_uc const*)data_guard.addr,
+                                                            to_i32(data_guard.size),
+                                                            &tex_width, &tex_height,
+                                                            &tex_channels, STBI_rgb_alpha)));
     else
-        result->data = data::as_ptr(stbi_load(str(filename),
-                                              &tex_width, &tex_height,
-                                              &tex_channels, STBI_rgb_alpha));
+        result->set_data(data::as_ptr(stbi_load(str(filename),
+                                                &tex_width, &tex_height,
+                                                &tex_channels, STBI_rgb_alpha)));
 
-    if (!result->data)
+    if (!result->ready())
         return nullptr;
 
     result->dimensions = {tex_width, tex_height};
@@ -57,12 +57,12 @@ image_data::s_ptr load_image(c_data::ref data) {
     if (!result)
         return nullptr;
 
-    result->data = data::as_ptr(stbi_load_from_memory((stbi_uc const*)data.addr,
-                                                      to_i32(data.size),
-                                                      &tex_width, &tex_height,
-                                                      &tex_channels, STBI_rgb_alpha));
+    result->set_data(data::as_ptr(stbi_load_from_memory((stbi_uc const*)data.addr,
+                                                        to_i32(data.size),
+                                                        &tex_width, &tex_height,
+                                                        &tex_channels, STBI_rgb_alpha)));
 
-    if (!result->data)
+    if (!result->ready())
         return nullptr;
 
     result->dimensions = {tex_width, tex_height};

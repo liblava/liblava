@@ -251,13 +251,13 @@ struct key_event {
     id sender;
 
     /// Input key
-    key key;
+    lava::key key;
 
     /// Input action
-    action action;
+    lava::action action;
 
     /// Input mod
-    mod mod;
+    lava::mod mod;
 
     /// Input scan code
     i32 scancode = 0;
@@ -425,10 +425,10 @@ struct mouse_button_event {
     mouse_button button;
 
     /// Input action
-    action action;
+    lava::action action;
 
     /// Input mod
-    mod mod;
+    lava::mod mod;
 
     /**
      * @brief Check if mouse button is pressed
@@ -674,10 +674,10 @@ struct tooltip {
     string name;
 
     /// Input key
-    key key;
+    lava::key key;
 
     /// Input mod
-    mod mod;
+    lava::mod mod;
 };
 
 /**
