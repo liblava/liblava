@@ -204,7 +204,7 @@ struct device : device_table, entity {
      * @return queue::list const&    Graphics queues
      */
     queue::list const& get_graphics_queues() const {
-        return graphics_queue_list;
+        return m_graphics_queue_list;
     }
 
     /**
@@ -219,7 +219,7 @@ struct device : device_table, entity {
      * @return queue::list const&    Compute queues
      */
     queue::list const& get_compute_queues() const {
-        return compute_queue_list;
+        return m_compute_queue_list;
     }
 
     /**
@@ -234,7 +234,7 @@ struct device : device_table, entity {
      * @return queue::list const&    Transfer queues
      */
     queue::list const& get_transfer_queues() const {
-        return transfer_queue_list;
+        return m_transfer_queue_list;
     }
 
     /**
@@ -249,7 +249,7 @@ struct device : device_table, entity {
      * @return queue::list const&    List of all queues
      */
     queue::list const& get_queues() const {
-        return queue_list;
+        return m_queue_list;
     }
 
     /**
@@ -288,7 +288,7 @@ struct device : device_table, entity {
      * @return physical_device_c_ptr    Physical device
      */
     physical_device_c_ptr get_physical_device() const {
-        return physical_device;
+        return m_physical_device;
     }
 
     /**
@@ -321,7 +321,7 @@ struct device : device_table, entity {
      * @param value    Allocator
      */
     void set_allocator(allocator::s_ptr value) {
-        mem_allocator = value;
+        m_mem_allocator = value;
     }
 
     /**
@@ -329,7 +329,7 @@ struct device : device_table, entity {
      * @return allocator::s_ptr    Allocator
      */
     allocator::s_ptr get_allocator() {
-        return mem_allocator;
+        return m_mem_allocator;
     }
 
     /**
@@ -337,32 +337,32 @@ struct device : device_table, entity {
      * @return VmaAllocator    VMA allocator
      */
     VmaAllocator alloc() const {
-        return mem_allocator != nullptr
-                   ? mem_allocator->get()
+        return m_mem_allocator != nullptr
+                   ? m_mem_allocator->get()
                    : nullptr;
     }
 
 private:
     /// Physical device
-    physical_device_c_ptr physical_device = nullptr;
+    physical_device_c_ptr m_physical_device = nullptr;
 
     /// List of qraphics queues
-    queue::list graphics_queue_list;
+    queue::list m_graphics_queue_list;
 
     /// List of compute queues
-    queue::list compute_queue_list;
+    queue::list m_compute_queue_list;
 
     /// List of transfer queues
-    queue::list transfer_queue_list;
+    queue::list m_transfer_queue_list;
 
     /// List of all queues
-    queue::list queue_list;
+    queue::list m_queue_list;
 
     /// Device features
-    VkPhysicalDeviceFeatures features{};
+    VkPhysicalDeviceFeatures m_features{};
 
     /// Device allocator
-    allocator::s_ptr mem_allocator;
+    allocator::s_ptr m_mem_allocator;
 };
 
 /**

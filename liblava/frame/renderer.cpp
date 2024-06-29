@@ -15,32 +15,32 @@ namespace lava {
 bool renderer::create(swapchain* t) {
     for (auto& queue : t->get_device()->get_graphics_queues()) {
         if (t->surface_supported(queue.family)) {
-            graphics_queue = queue;
+            m_graphics_queue = queue;
             break;
         }
     }
 
-    if (!graphics_queue.valid())
+    if (!m_graphics_queue.valid())
         return false;
 
-    target = t;
-    device = target->get_device();
+    m_target = t;
+    m_device = m_target->get_device();
 
-    queued_frames = target->get_backbuffer_count();
+    m_queued_frames = m_target->get_backbuffer_count();
 
-    fences.resize(queued_frames);
-    fences_in_use.resize(queued_frames, 0);
-    image_acquired_semaphores.resize(queued_frames);
-    render_complete_semaphores.resize(queued_frames);
+    m_fences.resize(m_queued_frames);
+    m_fences_in_use.resize(m_queued_frames, 0);
+    m_image_acquired_semaphores.resize(m_queued_frames);
+    m_render_complete_semaphores.resize(m_queued_frames);
 
-    for (auto i = 0u; i < queued_frames; ++i) {
+    for (auto i = 0u; i < m_queued_frames; ++i) {
         {
             VkFenceCreateInfo const create_info{
                 .sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO,
                 .flags = VK_FENCE_CREATE_SIGNALED_BIT,
             };
 
-            if (!device->vkCreateFence(&create_info, &fences[i]))
+            if (!m_device->vkCreateFence(&create_info, &m_fences[i]))
                 return false;
         }
 
@@ -49,12 +49,12 @@ bool renderer::create(swapchain* t) {
                 .sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO,
             };
 
-            if (!device->vkCreateSemaphore(&create_info,
-                                           &image_acquired_semaphores[i]))
+            if (!m_device->vkCreateSemaphore(&create_info,
+                                             &m_image_acquired_semaphores[i]))
                 return false;
 
-            if (!device->vkCreateSemaphore(&create_info,
-                                           &render_complete_semaphores[i]))
+            if (!m_device->vkCreateSemaphore(&create_info,
+                                             &m_render_complete_semaphores[i]))
                 return false;
         }
     }
@@ -67,18 +67,18 @@ void renderer::destroy() {
     if (on_destroy)
         on_destroy();
 
-    for (auto i = 0u; i < queued_frames; ++i) {
-        device->vkDestroyFence(fences[i]);
-        device->vkDestroySemaphore(image_acquired_semaphores[i]);
-        device->vkDestroySemaphore(render_complete_semaphores[i]);
+    for (auto i = 0u; i < m_queued_frames; ++i) {
+        m_device->vkDestroyFence(m_fences[i]);
+        m_device->vkDestroySemaphore(m_image_acquired_semaphores[i]);
+        m_device->vkDestroySemaphore(m_render_complete_semaphores[i]);
     }
 
-    fences.clear();
-    fences_in_use.clear();
-    image_acquired_semaphores.clear();
-    render_complete_semaphores.clear();
+    m_fences.clear();
+    m_fences_in_use.clear();
+    m_image_acquired_semaphores.clear();
+    m_render_complete_semaphores.clear();
 
-    queued_frames = 0;
+    m_queued_frames = 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -86,13 +86,13 @@ optional_index renderer::begin_frame() {
     if (!active)
         return std::nullopt;
 
-    std::array<VkFence, 1> const wait_fences = {fences[current_sync]};
+    std::array<VkFence, 1> const wait_fences = {m_fences[m_current_sync]};
 
     for (;;) {
-        auto result = device->vkWaitForFences(to_ui32(wait_fences.size()),
-                                              wait_fences.data(),
-                                              VK_TRUE,
-                                              100);
+        auto result = m_device->vkWaitForFences(to_ui32(wait_fences.size()),
+                                                wait_fences.data(),
+                                                VK_TRUE,
+                                                100);
         if (result)
             break;
 
@@ -100,7 +100,7 @@ optional_index renderer::begin_frame() {
             continue;
 
         if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
-            target->request_reload();
+            m_target->request_reload();
             return std::nullopt;
         }
 
@@ -108,29 +108,29 @@ optional_index renderer::begin_frame() {
             return std::nullopt;
     }
 
-    auto current_semaphore = image_acquired_semaphores[current_sync];
+    auto current_semaphore = m_image_acquired_semaphores[m_current_sync];
 
-    auto result = device->vkAcquireNextImageKHR(target->get(),
-                                                UINT64_MAX,
-                                                current_semaphore,
-                                                0,
-                                                &current_frame);
+    auto result = m_device->vkAcquireNextImageKHR(m_target->get(),
+                                                  UINT64_MAX,
+                                                  current_semaphore,
+                                                  0,
+                                                  &m_current_frame);
     if (result.value == VK_ERROR_OUT_OF_DATE_KHR || result.value == VK_SUBOPTIMAL_KHR) {
-        target->request_reload();
+        m_target->request_reload();
         return std::nullopt;
     }
 
     // because frames might not come in sequential order
     // current frame might still be locked
-    if ((fences_in_use[current_frame] != 0)
-        && (fences_in_use[current_frame] != fences[current_sync])) {
-        auto result = device->vkWaitForFences(1,
-                                              &fences_in_use[current_frame],
-                                              VK_TRUE,
-                                              UINT64_MAX);
+    if ((m_fences_in_use[m_current_frame] != 0)
+        && (m_fences_in_use[m_current_frame] != m_fences[m_current_sync])) {
+        auto result = m_device->vkWaitForFences(1,
+                                                &m_fences_in_use[m_current_frame],
+                                                VK_TRUE,
+                                                UINT64_MAX);
 
         if (result.value == VK_ERROR_OUT_OF_DATE_KHR) {
-            target->request_reload();
+            m_target->request_reload();
             return std::nullopt;
         }
 
@@ -138,13 +138,13 @@ optional_index renderer::begin_frame() {
             return std::nullopt;
     }
 
-    fences_in_use[current_frame] = fences[current_sync];
+    m_fences_in_use[m_current_frame] = m_fences[m_current_sync];
 
     if (!result)
         return std::nullopt;
 
-    if (!device->vkResetFences(to_ui32(wait_fences.size()),
-                               wait_fences.data()))
+    if (!m_device->vkResetFences(to_ui32(wait_fences.size()),
+                                 wait_fences.data()))
         return std::nullopt;
 
     return get_frame();
@@ -155,7 +155,7 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
     LAVA_ASSERT(!cmd_buffers.empty());
 
     VkSemaphores wait_semaphores = {
-        image_acquired_semaphores[current_sync]};
+        m_image_acquired_semaphores[m_current_sync]};
     if (!user_frame_wait_semaphores.empty())
         append(wait_semaphores, user_frame_wait_semaphores);
 
@@ -165,10 +165,10 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
         append(wait_stages, user_frame_wait_stages);
 
     std::array<VkSemaphore, 1> const sync_present_semaphores = {
-        render_complete_semaphores[current_sync]};
+        m_render_complete_semaphores[m_current_sync]};
 
     VkSemaphores signal_semaphores = {
-        render_complete_semaphores[current_sync]};
+        m_render_complete_semaphores[m_current_sync]};
     if (!user_frame_signal_semaphores.empty())
         append(signal_semaphores, user_frame_signal_semaphores);
 
@@ -186,15 +186,15 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
     };
 
     std::array<VkSubmitInfo, 1> const submit_infos = {submit_info};
-    VkFence current_fence = fences[current_sync];
-    if (!device->vkQueueSubmit(graphics_queue.vk_queue,
-                               to_ui32(submit_infos.size()),
-                               submit_infos.data(),
-                               current_fence))
+    VkFence current_fence = m_fences[m_current_sync];
+    if (!m_device->vkQueueSubmit(m_graphics_queue.vk_queue,
+                                 to_ui32(submit_infos.size()),
+                                 submit_infos.data(),
+                                 current_fence))
         return false;
 
-    std::array<VkSwapchainKHR, 1> const swapchains = {target->get()};
-    std::array<ui32, 1> const indices = {current_frame};
+    std::array<VkSwapchainKHR, 1> const swapchains = {m_target->get()};
+    std::array<ui32, 1> const indices = {m_current_frame};
 
     VkPresentInfoKHR const present_info{
         .sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR,
@@ -205,16 +205,16 @@ bool renderer::end_frame(VkCommandBuffers const& cmd_buffers) {
         .pImageIndices = indices.data(),
     };
 
-    auto result = device->vkQueuePresentKHR(graphics_queue.vk_queue, &present_info);
+    auto result = m_device->vkQueuePresentKHR(m_graphics_queue.vk_queue, &present_info);
     if (result.value == VK_ERROR_OUT_OF_DATE_KHR || result.value == VK_SUBOPTIMAL_KHR) {
-        target->request_reload();
+        m_target->request_reload();
         return true;
     }
 
     if (!result)
         return false;
 
-    current_sync = (current_sync + 1) % queued_frames;
+    m_current_sync = (m_current_sync + 1) % m_queued_frames;
 
     return true;
 }

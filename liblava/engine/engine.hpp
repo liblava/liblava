@@ -59,15 +59,15 @@ private:
     void hud_menu();
 
     /// Hud menu id
-    id menu_layer;
+    id m_menu_layer;
 
 #if LAVA_DEBUG
     /// Demo id
-    id demo_layer;
+    id m_demo_layer;
 #endif
 
     /// Configuration file callback
-    json_file::callback config_callback;
+    json_file::callback m_config_callback;
 };
 
 } // namespace lava

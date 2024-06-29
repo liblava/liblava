@@ -122,7 +122,7 @@ struct block : entity {
      * @return index    Number of frames
      */
     index get_frame_count() const {
-        return to_index(cmd_pools.size());
+        return to_index(m_cmd_pools.size());
     }
 
     /**
@@ -165,7 +165,7 @@ struct block : entity {
      * @return index    Current frame
      */
     index get_current_frame() const {
-        return current_frame;
+        return m_current_frame;
     }
 
     /**
@@ -174,7 +174,7 @@ struct block : entity {
      * @return VkCommandBuffer    Vulkan command buffer
      */
     VkCommandBuffer get_command_buffer(id::ref cmd_id) const {
-        return commands.at(cmd_id)->buffers.at(current_frame);
+        return m_commands.at(cmd_id)->buffers.at(m_current_frame);
     }
 
     /**
@@ -184,7 +184,7 @@ struct block : entity {
      * @return VkCommandBuffer    Vulkan command buffer
      */
     VkCommandBuffer get_command_buffer(id::ref cmd_id, index frame) const {
-        return commands.at(cmd_id)->buffers.at(frame);
+        return m_commands.at(cmd_id)->buffers.at(frame);
     }
 
     /**
@@ -194,9 +194,9 @@ struct block : entity {
     VkCommandBuffers collect_buffers() {
         VkCommandBuffers result;
 
-        for (auto& cmd : cmd_order)
+        for (auto& cmd : m_cmd_order)
             if (cmd->active)
-                result.push_back(cmd->buffers.at(current_frame));
+                result.push_back(cmd->buffers.at(m_current_frame));
 
         return result;
     }
@@ -206,7 +206,7 @@ struct block : entity {
      * @return command::s_map const&    Map of commands
      */
     command::s_map const& get_commands() const {
-        return commands;
+        return m_commands;
     }
 
     /**
@@ -214,7 +214,7 @@ struct block : entity {
      * @return command::c_list const&    List of commands
      */
     command::c_list const& get_cmd_order() const {
-        return cmd_order;
+        return m_cmd_order;
     }
 
     /**
@@ -237,24 +237,24 @@ struct block : entity {
      * @return device::ptr    Vulkan device
      */
     device::ptr get_device() {
-        return device;
+        return m_device;
     }
 
 private:
     /// Vulkan device
-    device::ptr device = nullptr;
+    device::ptr m_device = nullptr;
 
     /// Current frame index
-    index current_frame = 0;
+    index m_current_frame = 0;
 
     /// Command pools
-    VkCommandPools cmd_pools = {};
+    VkCommandPools m_cmd_pools = {};
 
     /// Map of commands
-    command::s_map commands;
+    command::s_map m_commands;
 
     /// Ordered list of commands
-    command::c_list cmd_order;
+    command::c_list m_cmd_order;
 };
 
 } // namespace lava

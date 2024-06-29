@@ -33,14 +33,14 @@ struct pipeline_layout : entity {
      * @see add_descriptor
      */
     void add(descriptor::s_ptr const& descriptor) {
-        descriptors.push_back(descriptor);
+        m_descriptors.push_back(descriptor);
     }
 
     /**
      * @see add_push_constant_range
      */
     void add(VkPushConstantRange const& range) {
-        push_constant_ranges.push_back(range);
+        m_push_constant_ranges.push_back(range);
     }
 
     /**
@@ -63,14 +63,14 @@ struct pipeline_layout : entity {
      * @brief Clear descriptors
      */
     void clear_descriptors() {
-        descriptors.clear();
+        m_descriptors.clear();
     }
 
     /**
      * @brief Clear push constant ranges
      */
     void clear_ranges() {
-        push_constant_ranges.clear();
+        m_push_constant_ranges.clear();
     }
 
     /**
@@ -98,7 +98,7 @@ struct pipeline_layout : entity {
      * @return VkPipelineLayout    Pipeline layout
      */
     VkPipelineLayout get() const {
-        return layout;
+        return m_layout;
     }
 
     /**
@@ -106,7 +106,7 @@ struct pipeline_layout : entity {
      * @return device::ptr    Vulkan device
      */
     device::ptr get_device() {
-        return device;
+        return m_device;
     }
 
     /**
@@ -114,7 +114,7 @@ struct pipeline_layout : entity {
      * @return descriptor::s_list const&    List of descriptors
      */
     descriptor::s_list const& get_descriptors() const {
-        return descriptors;
+        return m_descriptors;
     }
 
     /**
@@ -122,7 +122,7 @@ struct pipeline_layout : entity {
      * @return VkPushConstantRanges const&    List of push constant ranges
      */
     VkPushConstantRanges const& get_push_constant_ranges() const {
-        return push_constant_ranges;
+        return m_push_constant_ranges;
     }
 
     /// List of offsets
@@ -159,16 +159,16 @@ struct pipeline_layout : entity {
 
 private:
     /// Vulkan device
-    device::ptr device = nullptr;
+    device::ptr m_device = nullptr;
 
     /// Pipeline layout
-    VkPipelineLayout layout = VK_NULL_HANDLE;
+    VkPipelineLayout m_layout = VK_NULL_HANDLE;
 
     /// List of descriptors
-    descriptor::s_list descriptors;
+    descriptor::s_list m_descriptors;
 
     /// List of push constant ranges
-    VkPushConstantRanges push_constant_ranges;
+    VkPushConstantRanges m_push_constant_ranges;
 };
 
 } // namespace lava

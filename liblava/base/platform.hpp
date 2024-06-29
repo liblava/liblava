@@ -44,7 +44,7 @@ struct platform {
      * @return device::s_list const&    List of devices
      */
     device::s_list const& get_devices() const {
-        return devices;
+        return m_devices;
     }
 
     /**
@@ -72,7 +72,7 @@ struct platform {
 
 private:
     /// List of managed devices
-    device::s_list devices;
+    device::s_list m_devices;
 };
 
 } // namespace lava

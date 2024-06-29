@@ -76,7 +76,7 @@ struct layer_list {
         layer->on_func = func;
         layer->active = active;
 
-        layers.push_back(layer);
+        m_layers.push_back(layer);
 
         return layer->get_id();
     }
@@ -86,7 +86,7 @@ struct layer_list {
      * @param layer    Layer to add
      */
     void add(layer::s_ptr layer) {
-        layers.push_back(layer);
+        m_layers.push_back(layer);
     }
 
     /**
@@ -106,7 +106,7 @@ struct layer_list {
      * @return layer::ptr    Shared pointer to layer
      */
     layer::s_ptr get(id::ref layer_id) {
-        for (auto const& layer : layers)
+        for (auto const& layer : m_layers)
             if (layer->get_id() == layer_id)
                 return layer;
 
@@ -119,9 +119,9 @@ struct layer_list {
      * @return Remove was successful or failed
      */
     bool remove(id::ref layer_id) {
-        for (auto const& layer : layers) {
+        for (auto const& layer : m_layers) {
             if (layer->get_id() == layer_id) {
-                lava::remove(layers, layer);
+                lava::remove(m_layers, layer);
                 return true;
             }
         }
@@ -134,19 +134,19 @@ struct layer_list {
      * @return layer::list const&    List of layers
      */
     layer::list const& get_all() const {
-        return layers;
+        return m_layers;
     }
 
     /**
      * @brief Clear layer list
      */
     void clear() {
-        layers.clear();
+        m_layers.clear();
     }
 
 private:
     /// List of layers
-    layer::list layers;
+    layer::list m_layers;
 };
 
 } // namespace lava

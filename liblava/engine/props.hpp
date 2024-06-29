@@ -78,7 +78,7 @@ struct props : configurable {
      * @return string_ref    File name
      */
     string_ref get_filename(string_ref name) const {
-        return map.at(name).filename;
+        return m_map.at(name).filename;
     }
 
     /**
@@ -88,7 +88,7 @@ struct props : configurable {
      */
     void set_filename(string_ref name,
                       string_ref filename) {
-        map.at(name).filename = filename;
+        m_map.at(name).filename = filename;
     }
 
     /**
@@ -97,7 +97,7 @@ struct props : configurable {
      * @return Prop exists or not
      */
     bool exists(string_ref name) const {
-        return map.count(name);
+        return m_map.count(name);
     }
 
     /**
@@ -106,7 +106,7 @@ struct props : configurable {
      * @return Prop data is empty or not
      */
     bool empty(string_ref name) const {
-        return map.at(name).data.addr == nullptr;
+        return m_map.at(name).data.addr == nullptr;
     }
 
     /**
@@ -121,7 +121,7 @@ struct props : configurable {
      * @param name      Name of prop
      */
     void unload(string_ref name) {
-        map.at(name).data = {};
+        m_map.at(name).data = {};
     }
 
     /**
@@ -134,7 +134,7 @@ struct props : configurable {
      * @brief Unload all prop data
      */
     void unload_all() {
-        for (auto& [name, prop] : map)
+        for (auto& [name, prop] : m_map)
             prop.data = {};
     }
 
@@ -154,7 +154,7 @@ struct props : configurable {
      * @brief Clear all props
      */
     void clear() {
-        map.clear();
+        m_map.clear();
     }
 
     /**
@@ -162,7 +162,7 @@ struct props : configurable {
      * @return item::map const&    Map of props
      */
     item::map const& get_all() const {
-        return map;
+        return m_map;
     }
 
     /// @see configurable::set_json
@@ -173,7 +173,7 @@ struct props : configurable {
 
 private:
     /// Map of props
-    item::map map;
+    item::map m_map;
 };
 
 } // namespace lava

@@ -112,7 +112,7 @@ struct image : entity {
      * @return device::ptr    Vulkan device
      */
     device::ptr get_device() {
-        return device;
+        return m_device;
     }
 
     /**
@@ -120,7 +120,7 @@ struct image : entity {
      * @return VkFormat    Image format
      */
     VkFormat get_format() const {
-        return info.format;
+        return m_info.format;
     }
 
     /**
@@ -128,7 +128,7 @@ struct image : entity {
      * @return uv2    Image size
      */
     uv2 get_size() const {
-        return {info.extent.width, info.extent.height};
+        return {m_info.extent.width, m_info.extent.height};
     }
 
     /**
@@ -136,7 +136,7 @@ struct image : entity {
      * @return ui32    Image depth
      */
     ui32 get_depth() const {
-        return info.extent.depth;
+        return m_info.extent.depth;
     }
 
     /**
@@ -144,7 +144,7 @@ struct image : entity {
      * @return VkImage    Vulkan image
      */
     VkImage get() const {
-        return vk_image;
+        return m_vk_image;
     }
 
     /**
@@ -152,7 +152,7 @@ struct image : entity {
      * @return VkImageView    Vulkan image view
      */
     VkImageView get_view() const {
-        return view;
+        return m_view;
     }
 
     /**
@@ -160,7 +160,7 @@ struct image : entity {
      * @return VkImageCreateInfo const&    Image create information
      */
     VkImageCreateInfo const& get_info() const {
-        return info;
+        return m_info;
     }
 
     /**
@@ -168,7 +168,7 @@ struct image : entity {
      * @return VkImageViewCreateInfo const&    Image view create information
      */
     VkImageViewCreateInfo const& get_view_info() const {
-        return view_info;
+        return m_view_info;
     }
 
     /**
@@ -176,7 +176,7 @@ struct image : entity {
      * @return VkImageSubresourceRange const&    Image subresource range
      */
     VkImageSubresourceRange const& get_subresource_range() const {
-        return subresource_range;
+        return m_subresource_range;
     }
 
     /**
@@ -184,7 +184,7 @@ struct image : entity {
      * @param flags    Image create flag bits
      */
     void set_flags(VkImageCreateFlagBits flags) {
-        info.flags = flags;
+        m_info.flags = flags;
     }
 
     /**
@@ -192,7 +192,7 @@ struct image : entity {
      * @param tiling    Image tiling
      */
     void set_tiling(VkImageTiling tiling) {
-        info.tiling = tiling;
+        m_info.tiling = tiling;
     }
 
     /**
@@ -200,7 +200,7 @@ struct image : entity {
      * @param usage    Image usage flags
      */
     void set_usage(VkImageUsageFlags usage) {
-        info.usage = usage;
+        m_info.usage = usage;
     }
 
     /**
@@ -208,7 +208,7 @@ struct image : entity {
      * @param initial    Initial image layout
      */
     void set_layout(VkImageLayout initial) {
-        info.initialLayout = initial;
+        m_info.initialLayout = initial;
     }
 
     /**
@@ -216,7 +216,7 @@ struct image : entity {
      * @param aspectMask    Image aspect flags
      */
     void set_aspect_mask(VkImageAspectFlags aspectMask) {
-        subresource_range.aspectMask = aspectMask;
+        m_subresource_range.aspectMask = aspectMask;
     }
 
     /**
@@ -224,8 +224,8 @@ struct image : entity {
      * @param levels    Number of levels
      */
     void set_level_count(ui32 levels) {
-        subresource_range.levelCount = levels;
-        info.mipLevels = levels;
+        m_subresource_range.levelCount = levels;
+        m_info.mipLevels = levels;
     }
 
     /**
@@ -233,8 +233,8 @@ struct image : entity {
      * @param layers    Number of layers
      */
     void set_layer_count(ui32 layers) {
-        subresource_range.layerCount = layers;
-        info.arrayLayers = layers;
+        m_subresource_range.layerCount = layers;
+        m_info.arrayLayers = layers;
     }
 
     /**
@@ -242,7 +242,7 @@ struct image : entity {
      * @param mapping    Component mapping
      */
     void set_component(VkComponentMapping mapping = {}) {
-        view_info.components = mapping;
+        m_view_info.components = mapping;
     }
 
     /**
@@ -250,7 +250,7 @@ struct image : entity {
      * @param type    Image view type
      */
     void set_view_type(VkImageViewType type) {
-        view_info.viewType = type;
+        m_view_info.viewType = type;
     }
 
     /**
@@ -258,30 +258,30 @@ struct image : entity {
      * @return VmaAllocation const&    Image allocation
      */
     VmaAllocation const& get_allocation() const {
-        return allocation;
+        return m_allocation;
     }
 
 private:
     /// Vulkan device
-    device::ptr device = nullptr;
+    device::ptr m_device = nullptr;
 
     /// Vulkan image
-    VkImage vk_image = VK_NULL_HANDLE;
+    VkImage m_vk_image = VK_NULL_HANDLE;
 
     /// Image create information
-    VkImageCreateInfo info;
+    VkImageCreateInfo m_info;
 
     /// Allocation
-    VmaAllocation allocation = nullptr;
+    VmaAllocation m_allocation = nullptr;
 
     /// Vulkan image view
-    VkImageView view = VK_NULL_HANDLE;
+    VkImageView m_view = VK_NULL_HANDLE;
 
     /// Image view create information
-    VkImageViewCreateInfo view_info;
+    VkImageViewCreateInfo m_view_info;
 
     /// Image subresource range
-    VkImageSubresourceRange subresource_range;
+    VkImageSubresourceRange m_subresource_range;
 };
 
 /**

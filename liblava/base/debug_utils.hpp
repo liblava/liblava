@@ -156,20 +156,20 @@ struct scoped_label {
      * @param color    Color of label
      */
     scoped_label(T scope, name label, v4 color = v4(0.f))
-    : scope(scope) {
-        begin_label(scope, label, color);
+    : m_scope(scope) {
+        begin_label(m_scope, label, color);
     }
 
     /**
      * @brief Destroy the scoped label
      */
     ~scoped_label() {
-        end_label(scope);
+        end_label(m_scope);
     }
 
 private:
     /// Scoped label
-    T scope;
+    T m_scope;
 };
 
 /**

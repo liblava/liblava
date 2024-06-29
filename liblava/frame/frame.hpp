@@ -121,7 +121,7 @@ struct frame : interface, no_copy_no_move {
      * @return Framework is ready or not
      */
     bool ready() const {
-        return initialized;
+        return m_initialized;
     }
 
     /// Framework result
@@ -176,7 +176,7 @@ struct frame : interface, no_copy_no_move {
      * @param func    Run once function
      */
     void add_run_once(run_once_func_ref func) {
-        run_once_list.push_back(func);
+        m_run_once_list.push_back(func);
     }
 
     /**
@@ -191,7 +191,7 @@ struct frame : interface, no_copy_no_move {
      * @return ms    Time since start of framework
      */
     ms get_running_time() const {
-        return now() - start_time;
+        return now() - m_start_time;
     }
 
     /**
@@ -207,7 +207,7 @@ struct frame : interface, no_copy_no_move {
      * @return cmd_line    Command line arguments
      */
     cmd_line get_cmd_line() const {
-        return env.cmd_line;
+        return m_env.cmd_line;
     }
 
     /**
@@ -215,7 +215,7 @@ struct frame : interface, no_copy_no_move {
      * @return frame_env::ref    Framework environment
      */
     frame_env::ref get_env() const {
-        return env;
+        return m_env;
     }
 
     /**
@@ -223,7 +223,7 @@ struct frame : interface, no_copy_no_move {
      * @return name    Name of application
      */
     name get_name() const {
-        return env.info.app_name;
+        return m_env.info.app_name;
     }
 
     /**
@@ -231,7 +231,7 @@ struct frame : interface, no_copy_no_move {
      * @return Framework waits for events or not
      */
     bool waiting_for_events() const {
-        return wait_for_events;
+        return m_wait_for_events;
     }
 
     /**
@@ -239,7 +239,7 @@ struct frame : interface, no_copy_no_move {
      * @param value    Wait for events state
      */
     void set_wait_for_events(bool value = true) {
-        wait_for_events = value;
+        m_wait_for_events = value;
     }
 
     /// Run time
@@ -280,40 +280,40 @@ private:
     void trigger_run_end();
 
     /// Initialized state
-    bool initialized = false;
+    bool m_initialized = false;
 
     /// Framework environment
-    frame_env env;
+    frame_env m_env;
 
     /// Running state
-    bool running = false;
+    bool m_running = false;
 
     /// Wait for events state
-    bool wait_for_events = false;
+    bool m_wait_for_events = false;
 
     /// Framework start time
-    ms start_time;
+    ms m_start_time;
 
     /// Map of run functions
     using run_func_map = std::map<id, run_func>;
 
     /// Map of run functions
-    run_func_map run_map;
+    run_func_map m_run_map;
 
     /// Map fo run end functions
     using run_end_func_map = std::map<id, run_end_func>;
 
     /// Map fo run end functions
-    run_end_func_map run_end_map;
+    run_end_func_map m_run_end_map;
 
     /// Map of run once functions
     using run_once_func_list = std::vector<run_once_func>;
 
     /// Map of run once functions
-    run_once_func_list run_once_list;
+    run_once_func_list m_run_once_list;
 
     /// List of run ids to remove
-    id::list run_remove_list;
+    id::list m_run_remove_list;
 };
 
 /**

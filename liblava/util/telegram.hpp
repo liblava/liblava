@@ -122,14 +122,14 @@ struct message_dispatcher : telegraph {
      * @param thread_count    Number of threads
      */
     void setup(ui32 thread_count) {
-        pool.setup(thread_count);
+        m_pool.setup(thread_count);
     }
 
     /**
      * @brief Tear down the dispatcher
      */
     void teardown() {
-        pool.teardown();
+        m_pool.teardown();
     }
 
     /**
@@ -137,8 +137,8 @@ struct message_dispatcher : telegraph {
      * @param current    Time in milliseconds
      */
     void update(ms current) {
-        current_time = current;
-        dispatch_delayed_messages(current_time);
+        m_current_time = current;
+        dispatch_delayed_messages(m_current_time);
     }
 
     /// @see telegraph::send_message
@@ -150,7 +150,7 @@ struct message_dispatcher : telegraph {
         telegram msg(sender,
                      receiver,
                      message,
-                     current_time,
+                     m_current_time,
                      info);
 
         if (delay == ms{0}) {
@@ -159,7 +159,7 @@ struct message_dispatcher : telegraph {
         }
 
         msg.dispatch_time += delay;
-        messages.insert(msg);
+        m_messages.insert(msg);
     }
 
     /// Message function
@@ -172,12 +172,12 @@ struct message_dispatcher : telegraph {
      * @return Dispatch added or not
      */
     bool add_dispatch(id::ref target, message_func func) {
-        std::lock_guard guard(lock);
+        std::lock_guard guard(m_lock);
 
-        if (dispatches.count(target))
+        if (m_dispatches.count(target))
             return false;
 
-        dispatches.emplace(target, func);
+        m_dispatches.emplace(target, func);
         return true;
     }
 
@@ -187,12 +187,12 @@ struct message_dispatcher : telegraph {
      * @return Dispatch removed or not
      */
     bool remove_dispatch(id::ref target) {
-        std::lock_guard guard(lock);
+        std::lock_guard guard(m_lock);
 
-        if (!dispatches.count(target))
+        if (!m_dispatches.count(target))
             return false;
 
-        dispatches.erase(target);
+        m_dispatches.erase(target);
         return true;
     }
 
@@ -202,7 +202,7 @@ struct message_dispatcher : telegraph {
      * @return Dispatch exists or not
      */
     bool has_dispatch(id::ref target) const {
-        return dispatches.count(target);
+        return m_dispatches.count(target);
     }
 
 private:
@@ -211,8 +211,8 @@ private:
      * @param message    Message to discharge
      */
     void discharge(telegram::ref message) {
-        pool.enqueue([&, message](id::ref thread_id) {
-            std::lock_guard guard(lock);
+        m_pool.enqueue([&, message](id::ref thread_id) {
+            std::lock_guard guard(m_lock);
 
             auto dispatch = get_dispatch(message.receiver);
             LAVA_ASSERT(dispatch);
@@ -226,11 +226,11 @@ private:
      * @param time    Current time
      */
     void dispatch_delayed_messages(ms time) {
-        while (!messages.empty()
-               && (messages.begin()->dispatch_time < time)) {
-            discharge(*messages.begin());
+        while (!m_messages.empty()
+               && (m_messages.begin()->dispatch_time < time)) {
+            discharge(*m_messages.begin());
 
-            messages.erase(messages.begin());
+            m_messages.erase(m_messages.begin());
         }
     }
 
@@ -239,29 +239,29 @@ private:
      * @param target    Receiver id
      */
     message_func get_dispatch(id::ref target) {
-        if (!dispatches.count(target))
+        if (!m_dispatches.count(target))
             return nullptr;
 
-        return dispatches.at(target);
+        return m_dispatches.at(target);
     }
 
     /// Map of dispatches
     using dispatch_map = std::map<id, message_func>;
 
     /// Registered dispatches
-    dispatch_map dispatches;
+    dispatch_map m_dispatches;
 
     /// Lock for dispatches
-    std::mutex lock;
+    std::mutex m_lock;
 
     /// Time in milliseconds
-    ms current_time;
+    ms m_current_time;
 
     /// Thread pool
-    thread_pool pool;
+    thread_pool m_pool;
 
     /// List of messages
-    telegram::set messages;
+    telegram::set m_messages;
 };
 
 } // namespace lava

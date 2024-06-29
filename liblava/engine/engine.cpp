@@ -50,7 +50,7 @@ bool engine::setup() {
 
 //-----------------------------------------------------------------------------
 void engine::handle_config() {
-    config_callback.on_load = [&](json_ref j) {
+    m_config_callback.on_load = [&](json_ref j) {
         if (!j.count(config.id))
             return;
 
@@ -61,13 +61,13 @@ void engine::handle_config() {
         props.set_json(j_config[_props_]);
     };
 
-    config_callback.on_save = [&]() {
+    m_config_callback.on_save = [&]() {
         json j;
         j[config.id][_props_] = props.get_json();
         return j;
     };
 
-    config_file.add(&config_callback);
+    config_file.add(&m_config_callback);
 }
 
 //-----------------------------------------------------------------------------
@@ -88,12 +88,12 @@ void engine::hud_menu() {
     });
 
 #if LAVA_DEBUG
-    demo_layer = imgui.layers.add_inactive("imgui demo", []() {
+    m_demo_layer = imgui.layers.add_inactive("imgui demo", []() {
         ImGui::ShowDemoWindow();
     });
 #endif
 
-    menu_layer = imgui.layers.add("hud", [&]() {
+    m_menu_layer = imgui.layers.add("hud", [&]() {
         if (!hud_active)
             return;
 
@@ -116,7 +116,7 @@ void engine::hud_menu() {
 
         if (ImGui::BeginMenu("Layer")) {
             for (auto const& layer : imgui.layers.get_all()) {
-                if (layer->get_id() == menu_layer) {
+                if (layer->get_id() == m_menu_layer) {
                     ImGui::MenuItem(layer->name.c_str(),
                                     "",
                                     &hud_active);

@@ -47,7 +47,7 @@ struct descriptor : entity {
          * @return VkDescriptorSetLayoutBinding const&    Vulkan binding
          */
         VkDescriptorSetLayoutBinding const& get() const {
-            return vk_binding;
+            return m_vk_binding;
         }
 
         /**
@@ -55,7 +55,7 @@ struct descriptor : entity {
          * @param index    Binding index
          */
         void set(index index) {
-            vk_binding.binding = index;
+            m_vk_binding.binding = index;
         }
 
         /**
@@ -63,7 +63,7 @@ struct descriptor : entity {
          * @param descriptor_type    Descriptor type
          */
         void set_type(VkDescriptorType descriptor_type) {
-            vk_binding.descriptorType = descriptor_type;
+            m_vk_binding.descriptorType = descriptor_type;
         }
 
         /**
@@ -71,7 +71,7 @@ struct descriptor : entity {
          * @param descriptor_count    Descriptor count
          */
         void set_count(ui32 descriptor_count) {
-            vk_binding.descriptorCount = descriptor_count;
+            m_vk_binding.descriptorCount = descriptor_count;
         }
 
         /**
@@ -79,7 +79,7 @@ struct descriptor : entity {
          * @param stage_flags    Shader stage flags
          */
         void set_stage_flags(VkShaderStageFlags stage_flags) {
-            vk_binding.stageFlags = stage_flags;
+            m_vk_binding.stageFlags = stage_flags;
         }
 
         /**
@@ -87,12 +87,12 @@ struct descriptor : entity {
          * @param immutable_samplers    Pointer to immutable samplers
          */
         void set_samplers(VkSampler const* immutable_samplers) {
-            vk_binding.pImmutableSamplers = immutable_samplers;
+            m_vk_binding.pImmutableSamplers = immutable_samplers;
         }
 
     private:
         /// Vulkan binding
-        VkDescriptorSetLayoutBinding vk_binding;
+        VkDescriptorSetLayoutBinding m_vk_binding;
     };
 
     /**
@@ -137,7 +137,7 @@ struct descriptor : entity {
          * @return VkDescriptorPool    Vulkan descriptor pool
          */
         VkDescriptorPool get() const {
-            return vk_pool;
+            return m_vk_pool;
         }
 
         /**
@@ -145,7 +145,7 @@ struct descriptor : entity {
          * @return device::ptr    Vulkan device
          */
         device::ptr get_device() {
-            return device;
+            return m_device;
         }
 
         /**
@@ -153,7 +153,7 @@ struct descriptor : entity {
          * @return VkDescriptorPoolSizes const&    Descriptor pool sizes
          */
         VkDescriptorPoolSizes const& get_sizes() const {
-            return sizes;
+            return m_sizes;
         }
 
         /**
@@ -161,21 +161,21 @@ struct descriptor : entity {
          * @return ui32    Number of pools
          */
         ui32 get_max() const {
-            return max;
+            return m_max;
         }
 
     private:
         /// Vulkan device
-        device::ptr device = nullptr;
+        device::ptr m_device = nullptr;
 
         /// Vulkan descriptor pool
-        VkDescriptorPool vk_pool = VK_NULL_HANDLE;
+        VkDescriptorPool m_vk_pool = VK_NULL_HANDLE;
 
         /// Descritpr pool sizes
-        VkDescriptorPoolSizes sizes;
+        VkDescriptorPoolSizes m_sizes;
 
         /// Number of pools
-        ui32 max = 0;
+        ui32 m_max = 0;
     };
 
     /// Shared pointer to descriptor
@@ -206,7 +206,7 @@ struct descriptor : entity {
      * @brief Clear bindings
      */
     void clear_bindings() {
-        bindings.clear();
+        m_bindings.clear();
     }
 
     /**
@@ -214,7 +214,7 @@ struct descriptor : entity {
      * @param binding    Descriptor binding
      */
     void add(binding::s_ptr const& binding) {
-        bindings.push_back(binding);
+        m_bindings.push_back(binding);
     }
 
     /**
@@ -234,7 +234,7 @@ struct descriptor : entity {
      * @return ui32    Number of bindings
      */
     ui32 get_binding_count() const {
-        return to_ui32(bindings.size());
+        return to_ui32(m_bindings.size());
     }
 
     /**
@@ -242,7 +242,7 @@ struct descriptor : entity {
      * @return binding::s_list const&    List of bindings
      */
     binding::s_list const& get_bindings() {
-        return bindings;
+        return m_bindings;
     }
 
     /**
@@ -250,7 +250,7 @@ struct descriptor : entity {
      * @return VkDescriptorSetLayout    Vulkan descriptor set layout
      */
     VkDescriptorSetLayout get() const {
-        return layout;
+        return m_layout;
     }
 
     /**
@@ -258,7 +258,7 @@ struct descriptor : entity {
      * @return device::ptr    Vulkan device
      */
     device::ptr get_device() {
-        return device;
+        return m_device;
     }
 
     /**
@@ -328,13 +328,13 @@ struct descriptor : entity {
 
 private:
     /// Vulkan device
-    device::ptr device = nullptr;
+    device::ptr m_device = nullptr;
 
     /// Vulkan descriptor set layout
-    VkDescriptorSetLayout layout = VK_NULL_HANDLE;
+    VkDescriptorSetLayout m_layout = VK_NULL_HANDLE;
 
     /// List of descriptor bindings
-    binding::s_list bindings;
+    binding::s_list m_bindings;
 };
 
 } // namespace lava

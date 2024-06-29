@@ -102,7 +102,7 @@ struct instance : no_copy_no_move {
      * @return physical_device::s_list const&    List of physical devices
      */
     physical_device::s_list const& get_physical_devices() const {
-        return physical_devices;
+        return m_physical_devices;
     }
 
     /**
@@ -110,7 +110,7 @@ struct instance : no_copy_no_move {
      * @return physical_device::ref    Physcial device
      */
     physical_device::ref get_first_physical_device() const {
-        return *physical_devices.front().get();
+        return *m_physical_devices.front().get();
     }
 
     /**
@@ -118,7 +118,7 @@ struct instance : no_copy_no_move {
      * @return VkInstance    Vulkan instance
      */
     VkInstance get() const {
-        return vk_instance;
+        return m_vk_instance;
     }
 
     /**
@@ -126,7 +126,7 @@ struct instance : no_copy_no_move {
      * @return debug_config::ref    Debug configuration
      */
     debug_config::ref get_debug_config() const {
-        return debug;
+        return m_debug;
     }
 
     /**
@@ -134,7 +134,7 @@ struct instance : no_copy_no_move {
      * @return instance_info::ref    Instance information
      */
     instance_info::ref get_info() const {
-        return info;
+        return m_info;
     }
 
 private:
@@ -173,19 +173,19 @@ private:
     void destroy_debug_messenger();
 
     /// Vulkan instance
-    VkInstance vk_instance = nullptr;
+    VkInstance m_vk_instance = nullptr;
 
     /// List of all physical devices
-    physical_device::s_list physical_devices;
+    physical_device::s_list m_physical_devices;
 
     /// Debug configuration
-    debug_config debug;
+    debug_config m_debug;
 
     /// Instance information
-    instance_info info;
+    instance_info m_info;
 
     /// Debug utils messenger
-    VkDebugUtilsMessengerEXT debug_messenger = VK_NULL_HANDLE;
+    VkDebugUtilsMessengerEXT m_debug_messenger = VK_NULL_HANDLE;
 };
 
 /**

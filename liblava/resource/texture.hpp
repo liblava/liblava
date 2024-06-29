@@ -135,7 +135,7 @@ struct texture : entity {
      * @return VkDescriptorImageInfo const*    Descriptor image information
      */
     VkDescriptorImageInfo const* get_descriptor_info() const {
-        return &descriptor;
+        return &m_descriptor;
     }
 
     /**
@@ -143,7 +143,7 @@ struct texture : entity {
      * @return image::s_ptr    Shared pointer to image
      */
     image::s_ptr get_image() {
-        return img;
+        return m_img;
     }
 
     /**
@@ -151,7 +151,7 @@ struct texture : entity {
      * @return uv2    Texture size
      */
     uv2 get_size() const {
-        return img ? img->get_size() : uv2();
+        return m_img ? m_img->get_size() : uv2();
     }
 
     /**
@@ -159,7 +159,7 @@ struct texture : entity {
      * @return texture_type    Texture type
      */
     texture_type get_type() const {
-        return type;
+        return m_type;
     }
 
     /**
@@ -167,27 +167,27 @@ struct texture : entity {
      * @return VkFormat    Texture format
      */
     VkFormat get_format() const {
-        return img ? img->get_format() : VK_FORMAT_UNDEFINED;
+        return m_img ? m_img->get_format() : VK_FORMAT_UNDEFINED;
     }
 
 private:
     /// Texture image
-    image::s_ptr img;
+    image::s_ptr m_img;
 
     /// Texture type
-    texture_type type = texture_type::none;
+    texture_type m_type = texture_type::none;
 
     /// List of layers
-    layer::list layers;
+    layer::list m_layers;
 
     /// Texture sampler
-    VkSampler sampler = 0;
+    VkSampler m_sampler = 0;
 
     /// Descriptor image information
-    VkDescriptorImageInfo descriptor = {};
+    VkDescriptorImageInfo m_descriptor = {};
 
     /// Upload buffer
-    buffer::s_ptr upload_buffer;
+    buffer::s_ptr m_upload_buffer;
 };
 
 /**
@@ -202,7 +202,7 @@ struct staging {
      * @param texture    Texture to stage
      */
     void add(texture::s_ptr texture) {
-        todo.push_back(texture);
+        m_todo.push_back(texture);
     }
 
     /**
@@ -218,8 +218,8 @@ struct staging {
      * @brief Clear staging
      */
     void clear() {
-        todo.clear();
-        staged.clear();
+        m_todo.clear();
+        m_staged.clear();
     }
 
     /**
@@ -227,18 +227,18 @@ struct staging {
      * @return Staging is busy or not
      */
     bool busy() const {
-        return !todo.empty() || !staged.empty();
+        return !m_todo.empty() || !m_staged.empty();
     }
 
 private:
     /// List of textures to stage
-    texture::s_list todo;
+    texture::s_list m_todo;
 
     /// Map of textures by frame index
     using frame_stage_map = std::map<index, texture::s_list>;
 
     /// Map of staged textures
-    frame_stage_map staged;
+    frame_stage_map m_staged;
 };
 
 /// Texture registry

@@ -12,35 +12,35 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 bool pipeline_layout::create(device::ptr dev) {
-    device = dev;
+    m_device = dev;
 
     VkDescriptorSetLayouts layouts;
-    for (auto& layout : descriptors)
+    for (auto& layout : m_descriptors)
         layouts.push_back(layout->get());
 
     VkPipelineLayoutCreateInfo const pipelineLayoutInfo{
         .sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO,
         .setLayoutCount = to_ui32(layouts.size()),
         .pSetLayouts = layouts.data(),
-        .pushConstantRangeCount = to_ui32(push_constant_ranges.size()),
-        .pPushConstantRanges = push_constant_ranges.data(),
+        .pushConstantRangeCount = to_ui32(m_push_constant_ranges.size()),
+        .pPushConstantRanges = m_push_constant_ranges.data(),
     };
 
-    return check(device->call().vkCreatePipelineLayout(device->get(),
-                                                       &pipelineLayoutInfo,
-                                                       memory::instance().alloc(),
-                                                       &layout));
+    return check(m_device->call().vkCreatePipelineLayout(m_device->get(),
+                                                         &pipelineLayoutInfo,
+                                                         memory::instance().alloc(),
+                                                         &m_layout));
 }
 
 //-----------------------------------------------------------------------------
 void pipeline_layout::destroy() {
-    if (!layout)
+    if (!m_layout)
         return;
 
-    device->call().vkDestroyPipelineLayout(device->get(),
-                                           layout,
-                                           memory::instance().alloc());
-    layout = VK_NULL_HANDLE;
+    m_device->call().vkDestroyPipelineLayout(m_device->get(),
+                                             m_layout,
+                                             memory::instance().alloc());
+    m_layout = VK_NULL_HANDLE;
 
     clear();
 }
@@ -53,14 +53,14 @@ void pipeline_layout::bind_descriptor_set(VkCommandBuffer cmd_buf,
                                           VkPipelineBindPoint bind_point) {
     std::array<VkDescriptorSet, 1> const descriptor_sets = {descriptor_set};
 
-    device->call().vkCmdBindDescriptorSets(cmd_buf,
-                                           bind_point,
-                                           layout,
-                                           first_set,
-                                           to_ui32(descriptor_sets.size()),
-                                           descriptor_sets.data(),
-                                           to_ui32(offsets.size()),
-                                           offsets.data());
+    m_device->call().vkCmdBindDescriptorSets(cmd_buf,
+                                             bind_point,
+                                             m_layout,
+                                             first_set,
+                                             to_ui32(descriptor_sets.size()),
+                                             descriptor_sets.data(),
+                                             to_ui32(offsets.size()),
+                                             offsets.data());
 }
 
 } // namespace lava

@@ -79,8 +79,8 @@ struct driver {
      * @param stage    Stage to add
      */
     void add_stage(stage* stage) {
-        assert(!stages.count(stage->id) && "stage id already defined.");
-        stages.emplace(stage->id, stage);
+        assert(!m_stages.count(stage->id) && "stage id already defined.");
+        m_stages.emplace(stage->id, stage);
     }
 
     /**
@@ -88,7 +88,7 @@ struct driver {
      * @return stage::map const&    Map of stages
      */
     stage::map const& get_stages() const {
-        return stages;
+        return m_stages;
     }
 
     /**
@@ -111,7 +111,7 @@ private:
     driver() = default;
 
     /// Map of stages
-    stage::map stages;
+    stage::map m_stages;
 };
 
 } // namespace lava

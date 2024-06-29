@@ -49,11 +49,11 @@ void command::destroy(device::ptr device,
 bool block::create(device::ptr dev,
                    index frame_count,
                    index queue_family) {
-    device = dev;
+    m_device = dev;
 
-    current_frame = 0;
+    m_current_frame = 0;
 
-    cmd_pools.resize(frame_count);
+    m_cmd_pools.resize(frame_count);
 
     for (auto i = 0u; i < frame_count; ++i) {
         VkCommandPoolCreateInfo const create_info{
@@ -61,17 +61,17 @@ bool block::create(device::ptr dev,
             .flags = 0,
             .queueFamilyIndex = queue_family,
         };
-        if (failed(device->call().vkCreateCommandPool(device->get(),
-                                                      &create_info,
-                                                      memory::instance().alloc(),
-                                                      &cmd_pools.at(i)))) {
+        if (failed(m_device->call().vkCreateCommandPool(m_device->get(),
+                                                        &create_info,
+                                                        memory::instance().alloc(),
+                                                        &m_cmd_pools.at(i)))) {
             logger()->error("create block command pool");
             return false;
         }
     }
 
-    for (auto& [id, command] : commands)
-        if (!command->create(device, frame_count, cmd_pools))
+    for (auto& [id, command] : m_commands)
+        if (!command->create(m_device, frame_count, m_cmd_pools))
             return false;
 
     return true;
@@ -79,17 +79,17 @@ bool block::create(device::ptr dev,
 
 //-----------------------------------------------------------------------------
 void block::destroy() {
-    for (auto& [id, command] : commands)
-        command->destroy(device, cmd_pools);
+    for (auto& [id, command] : m_commands)
+        command->destroy(m_device, m_cmd_pools);
 
-    for (auto i = 0u; i < cmd_pools.size(); ++i)
-        device->call().vkDestroyCommandPool(device->get(),
-                                            cmd_pools.at(i),
-                                            memory::instance().alloc());
+    for (auto i = 0u; i < m_cmd_pools.size(); ++i)
+        m_device->call().vkDestroyCommandPool(m_device->get(),
+                                              m_cmd_pools.at(i),
+                                              memory::instance().alloc());
 
-    cmd_pools.clear();
-    cmd_order.clear();
-    commands.clear();
+    m_cmd_pools.clear();
+    m_cmd_order.clear();
+    m_commands.clear();
 }
 
 //-----------------------------------------------------------------------------
@@ -98,43 +98,43 @@ id block::add_cmd(command::process_func func, bool active) {
     cmd->on_process = func;
     cmd->active = active;
 
-    if (device && !cmd_pools.empty())
-        if (!cmd->create(device, get_frame_count(), cmd_pools))
+    if (m_device && !m_cmd_pools.empty())
+        if (!cmd->create(m_device, get_frame_count(), m_cmd_pools))
             return undef_id;
 
     auto result = cmd->get_id();
 
-    commands.emplace(result, cmd);
-    cmd_order.push_back(commands.at(result).get());
+    m_commands.emplace(result, cmd);
+    m_cmd_order.push_back(m_commands.at(result).get());
 
     return result;
 }
 
 //-----------------------------------------------------------------------------
 void block::remove_cmd(id::ref cmd_id) {
-    if (!commands.count(cmd_id))
+    if (!m_commands.count(cmd_id))
         return;
 
-    auto command = commands.at(cmd_id);
-    command->destroy(device, cmd_pools);
+    auto command = m_commands.at(cmd_id);
+    command->destroy(m_device, m_cmd_pools);
 
-    remove(cmd_order, (command::c_ptr)(command.get()));
+    remove(m_cmd_order, (command::c_ptr)(command.get()));
 
-    commands.erase(cmd_id);
+    m_commands.erase(cmd_id);
 }
 
 //-----------------------------------------------------------------------------
 bool block::process(index frame) {
-    current_frame = frame;
+    m_current_frame = frame;
 
-    if (failed(device->call().vkResetCommandPool(device->get(),
-                                                 cmd_pools.at(frame),
-                                                 0))) {
+    if (failed(m_device->call().vkResetCommandPool(m_device->get(),
+                                                   m_cmd_pools.at(frame),
+                                                   0))) {
         logger()->error("block reset command pool");
         return false;
     }
 
-    for (auto& command : cmd_order) {
+    for (auto& command : m_cmd_order) {
         if (!command->active)
             continue;
 
@@ -144,13 +144,13 @@ bool block::process(index frame) {
             .sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO,
             .flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT,
         };
-        if (failed(device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
+        if (failed(m_device->call().vkBeginCommandBuffer(cmd_buf, &begin_info)))
             return false;
 
         if (command->on_process)
             command->on_process(cmd_buf);
 
-        if (failed(device->call().vkEndCommandBuffer(cmd_buf)))
+        if (failed(m_device->call().vkEndCommandBuffer(cmd_buf)))
             return false;
     }
 
@@ -159,18 +159,18 @@ bool block::process(index frame) {
 
 //-----------------------------------------------------------------------------
 bool block::activated(id::ref cmd_id) {
-    if (!commands.count(cmd_id))
+    if (!m_commands.count(cmd_id))
         return false;
 
-    return commands.at(cmd_id)->active;
+    return m_commands.at(cmd_id)->active;
 }
 
 //-----------------------------------------------------------------------------
 bool block::set_active(id::ref cmd_id, bool active) {
-    if (!commands.count(cmd_id))
+    if (!m_commands.count(cmd_id))
         return false;
 
-    commands.at(cmd_id)->active = active;
+    m_commands.at(cmd_id)->active = active;
     return true;
 }
 

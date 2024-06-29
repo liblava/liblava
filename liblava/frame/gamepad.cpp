@@ -15,31 +15,31 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 gamepad::gamepad(gamepad_id_ref pad_id)
-: pad_id(pad_id) {
+: m_pad_id(pad_id) {
     if (ready())
         update();
 }
 
 //-----------------------------------------------------------------------------
 name gamepad::get_name() const {
-    return glfwGetGamepadName(to_i32(pad_id));
+    return glfwGetGamepadName(to_i32(m_pad_id));
 }
 
 //-----------------------------------------------------------------------------
 bool gamepad::ready() const {
-    return glfwJoystickPresent(to_i32(pad_id));
+    return glfwJoystickPresent(to_i32(m_pad_id));
 }
 
 //-----------------------------------------------------------------------------
 bool gamepad::update() {
-    return glfwGetGamepadState(to_i32(pad_id), (GLFWgamepadstate*)&state)
+    return glfwGetGamepadState(to_i32(m_pad_id), (GLFWgamepadstate*)&m_state)
            == GLFW_TRUE;
 }
 
 //-----------------------------------------------------------------------------
 gamepad_manager::gamepad_manager() {
     glfwSetJoystickCallback([](int pad_id, int e) {
-        for (auto const& [func_id, event] : gamepad_manager::singleton().map)
+        for (auto const& [func_id, event] : gamepad_manager::singleton().m_map)
             if (event(gamepad(gamepad_id(pad_id)), e == GLFW_CONNECTED))
                 break;
     });
@@ -48,16 +48,16 @@ gamepad_manager::gamepad_manager() {
 //-----------------------------------------------------------------------------
 id gamepad_manager::add(listener_func event) {
     auto id = ids::instance().next();
-    map.emplace(id, event);
+    m_map.emplace(id, event);
     return id;
 }
 
 //-----------------------------------------------------------------------------
 void gamepad_manager::remove(id::ref func_id) {
-    if (!map.count(func_id))
+    if (!m_map.count(func_id))
         return;
 
-    map.erase(func_id);
+    m_map.erase(func_id);
 }
 
 //-----------------------------------------------------------------------------

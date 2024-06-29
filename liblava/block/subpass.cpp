@@ -12,16 +12,16 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 subpass::subpass() {
-    description.flags = 0;
-    description.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-    description.inputAttachmentCount = 0;
-    description.pInputAttachments = nullptr;
-    description.colorAttachmentCount = 0;
-    description.pColorAttachments = nullptr;
-    description.pResolveAttachments = nullptr;
-    description.pDepthStencilAttachment = nullptr;
-    description.preserveAttachmentCount = 0;
-    description.pPreserveAttachments = nullptr;
+    m_description.flags = 0;
+    m_description.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+    m_description.inputAttachmentCount = 0;
+    m_description.pInputAttachments = nullptr;
+    m_description.colorAttachmentCount = 0;
+    m_description.pColorAttachments = nullptr;
+    m_description.pResolveAttachments = nullptr;
+    m_description.pDepthStencilAttachment = nullptr;
+    m_description.preserveAttachmentCount = 0;
+    m_description.pPreserveAttachments = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -31,15 +31,15 @@ void subpass::destroy() {
 
 //-----------------------------------------------------------------------------
 void subpass::clear_pipelines() {
-    for (auto& pipeline : pipelines)
+    for (auto& pipeline : m_pipelines)
         pipeline->destroy();
 
-    pipelines.clear();
+    m_pipelines.clear();
 }
 
 //-----------------------------------------------------------------------------
 void subpass::remove(render_pipeline::s_ptr pipeline) {
-    lava::remove(pipelines, std::move(pipeline));
+    lava::remove(m_pipelines, std::move(pipeline));
 }
 
 //-----------------------------------------------------------------------------
@@ -62,10 +62,10 @@ void subpass::set_color_attachment(VkAttachmentReference attachment) {
 
 //-----------------------------------------------------------------------------
 void subpass::set_color_attachments(VkAttachmentReferences const& attachments) {
-    color_attachments = attachments;
+    m_color_attachments = attachments;
 
-    description.colorAttachmentCount = to_ui32(color_attachments.size());
-    description.pColorAttachments = color_attachments.data();
+    m_description.colorAttachmentCount = to_ui32(m_color_attachments.size());
+    m_description.pColorAttachments = m_color_attachments.data();
 }
 
 //-----------------------------------------------------------------------------
@@ -80,9 +80,9 @@ void subpass::set_depth_stencil_attachment(index attachment,
 
 //-----------------------------------------------------------------------------
 void subpass::set_depth_stencil_attachment(VkAttachmentReference attachment) {
-    depth_stencil_attachment = attachment;
+    m_depth_stencil_attachment = attachment;
 
-    description.pDepthStencilAttachment = &depth_stencil_attachment;
+    m_description.pDepthStencilAttachment = &m_depth_stencil_attachment;
 }
 
 //-----------------------------------------------------------------------------
@@ -105,10 +105,10 @@ void subpass::set_input_attachment(VkAttachmentReference attachment) {
 
 //-----------------------------------------------------------------------------
 void subpass::set_input_attachments(VkAttachmentReferences const& attachments) {
-    input_attachments = attachments;
+    m_input_attachments = attachments;
 
-    description.inputAttachmentCount = to_ui32(input_attachments.size());
-    description.pInputAttachments = input_attachments.data();
+    m_description.inputAttachmentCount = to_ui32(m_input_attachments.size());
+    m_description.pInputAttachments = m_input_attachments.data();
 }
 
 //-----------------------------------------------------------------------------
@@ -131,30 +131,30 @@ void subpass::set_resolve_attachment(VkAttachmentReference attachment) {
 
 //-----------------------------------------------------------------------------
 void subpass::set_resolve_attachments(VkAttachmentReferences const& attachments) {
-    resolve_attachments = attachments;
+    m_resolve_attachments = attachments;
 
-    description.pResolveAttachments = resolve_attachments.data();
+    m_description.pResolveAttachments = m_resolve_attachments.data();
 }
 
 //-----------------------------------------------------------------------------
 void subpass::add_preserve_attachment(ui32 attachment) {
-    preserve_attachments.push_back(attachment);
+    m_preserve_attachments.push_back(attachment);
 
-    set_preserve_attachments(preserve_attachments);
+    set_preserve_attachments(m_preserve_attachments);
 }
 
 //-----------------------------------------------------------------------------
 void subpass::set_preserve_attachments(index_list const& attachments) {
-    preserve_attachments = attachments;
+    m_preserve_attachments = attachments;
 
-    description.preserveAttachmentCount = to_ui32(preserve_attachments.size());
-    description.pPreserveAttachments = preserve_attachments.data();
+    m_description.preserveAttachmentCount = to_ui32(m_preserve_attachments.size());
+    m_description.pPreserveAttachments = m_preserve_attachments.data();
 }
 
 //-----------------------------------------------------------------------------
 void subpass::process(VkCommandBuffer cmd_buf,
                       uv2 size) {
-    for (auto& pipeline : pipelines) {
+    for (auto& pipeline : m_pipelines) {
         if (!pipeline->activated())
             continue;
 
@@ -176,13 +176,13 @@ void subpass::process(VkCommandBuffer cmd_buf,
 
 //-----------------------------------------------------------------------------
 subpass_dependency::subpass_dependency() {
-    dependency.srcSubpass = 0;
-    dependency.dstSubpass = 0;
-    dependency.srcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-    dependency.dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
-    dependency.srcAccessMask = 0;
-    dependency.dstAccessMask = 0;
-    dependency.dependencyFlags = 0;
+    m_dependency.srcSubpass = 0;
+    m_dependency.dstSubpass = 0;
+    m_dependency.srcStageMask = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
+    m_dependency.dstStageMask = VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT;
+    m_dependency.srcAccessMask = 0;
+    m_dependency.dstAccessMask = 0;
+    m_dependency.dependencyFlags = 0;
 }
 
 } // namespace lava

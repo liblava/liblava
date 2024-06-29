@@ -64,7 +64,7 @@ struct renderer : entity {
      * @return index    Frame index
      */
     index get_frame() const {
-        return current_frame;
+        return m_current_frame;
     }
 
     /**
@@ -72,7 +72,7 @@ struct renderer : entity {
      * @return device::ptr    Vulkan device
      */
     device::ptr get_device() {
-        return device;
+        return m_device;
     }
 
     /// The frame waits additionally for these semaphores (Usefully for additional CommandBuffers)
@@ -95,34 +95,34 @@ struct renderer : entity {
 
 private:
     /// Vulkan device
-    device::ptr device = nullptr;
+    device::ptr m_device = nullptr;
 
     /// Graphics queue
-    queue graphics_queue;
+    queue m_graphics_queue;
 
     /// Swapchain target
-    swapchain* target = nullptr;
+    swapchain* m_target = nullptr;
 
     /// Current frame index
-    index current_frame = 0;
+    index m_current_frame = 0;
 
     /// Number of queued frames
-    ui32 queued_frames = 2;
+    ui32 m_queued_frames = 2;
 
     /// Current sync frame
-    ui32 current_sync = 0;
+    ui32 m_current_sync = 0;
 
     /// List of fences
-    VkFences fences = {};
+    VkFences m_fences = {};
 
     /// List of fences in use
-    VkFences fences_in_use = {};
+    VkFences m_fences_in_use = {};
 
     /// List of image acquired semaphores
-    VkSemaphores image_acquired_semaphores = {};
+    VkSemaphores m_image_acquired_semaphores = {};
 
     /// List of render complete semaphores
-    VkSemaphores render_complete_semaphores = {};
+    VkSemaphores m_render_complete_semaphores = {};
 };
 
 } // namespace lava

@@ -13,48 +13,48 @@
 namespace lava {
 
 //-----------------------------------------------------------------------------
-bool swapchain::create(device::ptr d,
+bool swapchain::create(device::ptr dev,
                        VkSurfaceKHR s,
                        VkSurfaceFormatKHR f,
                        uv2 sz,
                        bool v,
                        bool t) {
-    device = d;
-    surface = s;
-    format = f;
-    size = sz;
-    v_sync_active = v;
-    triple_buffer_active = t;
+    m_device = dev;
+    m_surface = s;
+    m_format = f;
+    m_size = sz;
+    m_v_sync_active = v;
+    m_triple_buffer_active = t;
 
     return setup();
 }
 
 //-----------------------------------------------------------------------------
 void swapchain::destroy() {
-    device->wait_for_idle();
+    m_device->wait_for_idle();
 
     destroy_backbuffer_views();
     teardown();
 
     vkDestroySurfaceKHR(instance::singleton().get(),
-                        surface,
+                        m_surface,
                         memory::instance().alloc());
-    surface = VK_NULL_HANDLE;
+    m_surface = VK_NULL_HANDLE;
 }
 
 //-----------------------------------------------------------------------------
 bool swapchain::resize(uv2 new_size) {
-    device->wait_for_idle();
+    m_device->wait_for_idle();
 
-    if (!backbuffers.empty()) {
-        for (auto& callback : callbacks)
+    if (!m_backbuffers.empty()) {
+        for (auto& callback : m_callbacks)
             callback->on_destroyed();
 
         destroy_backbuffer_views();
     }
 
-    size = new_size;
-    if (size.x == 0 || size.y == 0)
+    m_size = new_size;
+    if (m_size.x == 0 || m_size.y == 0)
         return true;
 
     auto result = setup();
@@ -62,7 +62,7 @@ bool swapchain::resize(uv2 new_size) {
     if (!result)
         return false;
 
-    for (auto& callback : reverse(callbacks)) {
+    for (auto& callback : reverse(m_callbacks)) {
         result = callback->on_created();
         LAVA_ASSERT(result);
         if (!result)
@@ -109,10 +109,10 @@ VkSwapchainCreateInfoKHR swapchain::create_info(VkPresentModeKHRs present_modes)
 
     VkSwapchainCreateInfoKHR info{
         .sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR,
-        .surface = surface,
+        .surface = m_surface,
         .minImageCount = 0,
-        .imageFormat = format.format,
-        .imageColorSpace = format.colorSpace,
+        .imageFormat = m_format.format,
+        .imageColorSpace = m_format.colorSpace,
         .imageExtent = {},
         .imageArrayLayers = 1,
         .imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT,
@@ -122,25 +122,25 @@ VkSwapchainCreateInfoKHR swapchain::create_info(VkPresentModeKHRs present_modes)
         .compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR,
         .presentMode = present_mode,
         .clipped = VK_TRUE,
-        .oldSwapchain = vk_swapchain,
+        .oldSwapchain = m_vk_swapchain,
     };
 
     VkSurfaceCapabilitiesKHR cap{};
     check(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(
-        device->get_vk_physical_device(), surface, &cap));
+        m_device->get_vk_physical_device(), m_surface, &cap));
 
     info.minImageCount = cap.minImageCount + 1;
     if ((cap.maxImageCount > 0) && (info.minImageCount > cap.maxImageCount))
         info.minImageCount = cap.maxImageCount;
 
     if (cap.currentExtent.width == 0xffffffff) {
-        info.imageExtent.width = size.x;
-        info.imageExtent.height = size.y;
+        info.imageExtent.width = m_size.x;
+        info.imageExtent.height = m_size.y;
     } else {
-        size.x = cap.currentExtent.width;
-        size.y = cap.currentExtent.height;
-        info.imageExtent.width = size.x;
-        info.imageExtent.height = size.y;
+        m_size.x = cap.currentExtent.width;
+        m_size.y = cap.currentExtent.height;
+        info.imageExtent.width = m_size.x;
+        info.imageExtent.height = m_size.y;
     }
 
     info.preTransform = cap.supportedTransforms & VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR
@@ -173,8 +173,8 @@ VkSwapchainCreateInfoKHR swapchain::create_info(VkPresentModeKHRs present_modes)
 bool swapchain::setup() {
     auto present_mode_count = 0u;
     if ((vkGetPhysicalDeviceSurfacePresentModesKHR(
-             device->get_vk_physical_device(),
-             surface, &present_mode_count, nullptr)
+             m_device->get_vk_physical_device(),
+             m_surface, &present_mode_count, nullptr)
          != VK_SUCCESS)
         || (present_mode_count == 0)) {
         logger()->error("create swapchain present mode count");
@@ -183,86 +183,86 @@ bool swapchain::setup() {
 
     VkPresentModeKHRs present_modes(present_mode_count);
     if (vkGetPhysicalDeviceSurfacePresentModesKHR(
-            device->get_vk_physical_device(),
-            surface, &present_mode_count, present_modes.data())
+            m_device->get_vk_physical_device(),
+            m_surface, &present_mode_count, present_modes.data())
         != VK_SUCCESS) {
         logger()->error("create swapchain present mode");
         return false;
     }
 
-    VkSwapchainKHR old_swapchain = vk_swapchain;
+    VkSwapchainKHR old_swapchain = m_vk_swapchain;
 
     auto info = create_info(present_modes);
-    if (!device->vkCreateSwapchainKHR(&info,
-                                      &vk_swapchain))
+    if (!m_device->vkCreateSwapchainKHR(&info,
+                                        &m_vk_swapchain))
         return false;
 
     auto backbuffer_count = 0u;
-    if (!device->vkGetSwapchainImagesKHR(vk_swapchain,
-                                         &backbuffer_count,
-                                         nullptr))
+    if (!m_device->vkGetSwapchainImagesKHR(m_vk_swapchain,
+                                           &backbuffer_count,
+                                           nullptr))
         return false;
 
     VkImages images(backbuffer_count);
-    if (!device->vkGetSwapchainImagesKHR(vk_swapchain,
-                                         &backbuffer_count,
-                                         images.data()))
+    if (!m_device->vkGetSwapchainImagesKHR(m_vk_swapchain,
+                                           &backbuffer_count,
+                                           images.data()))
         return false;
 
     for (auto& image : images) {
-        auto backbuffer = image::make(format.format, image);
+        auto backbuffer = image::make(m_format.format, image);
         if (!backbuffer) {
             logger()->error("setup swapchain backbuffer image");
             return false;
         }
 
-        if (!backbuffer->create(device, size)) {
+        if (!backbuffer->create(m_device, m_size)) {
             logger()->error("setup swapchain backBuffer");
             return false;
         }
 
-        backbuffers.push_back(backbuffer);
+        m_backbuffers.push_back(backbuffer);
     }
 
     if (old_swapchain)
-        device->vkDestroySwapchainKHR(old_swapchain);
+        m_device->vkDestroySwapchainKHR(old_swapchain);
 
-    reload_request_active = false;
+    m_reload_request_active = false;
 
     return true;
 }
 
 //-----------------------------------------------------------------------------
 void swapchain::teardown() {
-    if (!vk_swapchain)
+    if (!m_vk_swapchain)
         return;
 
-    device->vkDestroySwapchainKHR(vk_swapchain);
-    vk_swapchain = VK_NULL_HANDLE;
+    m_device->vkDestroySwapchainKHR(m_vk_swapchain);
+    m_vk_swapchain = VK_NULL_HANDLE;
 }
 
 //-----------------------------------------------------------------------------
 void swapchain::destroy_backbuffer_views() {
-    for (auto& backBuffer : backbuffers)
+    for (auto& backBuffer : m_backbuffers)
         backBuffer->destroy_view();
 
-    backbuffers.clear();
+    m_backbuffers.clear();
 }
 
 //-----------------------------------------------------------------------------
 void swapchain::add_callback(callback* cb) {
-    callbacks.push_back(cb);
+    m_callbacks.push_back(cb);
 }
 
 //-----------------------------------------------------------------------------
 void swapchain::remove_callback(callback* cb) {
-    remove(callbacks, cb);
+    remove(m_callbacks, cb);
 }
 
 //-----------------------------------------------------------------------------
 bool swapchain::surface_supported(index queue_family) const {
-    return device->get_physical_device()->surface_supported(queue_family,
-                                                            surface);
+    return m_device->get_physical_device()->surface_supported(queue_family,
+                                                              m_surface);
 }
 
 } // namespace lava

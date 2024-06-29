@@ -114,7 +114,7 @@ struct camera : entity {
      * @return Camera is valid or not
      */
     bool valid() const {
-        return data ? data->valid() : false;
+        return m_data ? m_data->valid() : false;
     }
 
     /**
@@ -122,7 +122,7 @@ struct camera : entity {
      * @return VkDescriptorBufferInfo const*    Descriptor buffer info
      */
     VkDescriptorBufferInfo const* get_descriptor_info() const {
-        return data ? data->get_descriptor_info() : nullptr;
+        return m_data ? m_data->get_descriptor_info() : nullptr;
     }
 
     /**
@@ -145,7 +145,7 @@ struct camera : entity {
      * @param value    Active state
      */
     void set_active(bool value = true) {
-        active = value;
+        m_active = value;
     }
 
     /**
@@ -153,7 +153,7 @@ struct camera : entity {
      * @return Camera is active or not
      */
     bool activated() const {
-        return active;
+        return m_active;
     }
 
     /**
@@ -161,7 +161,7 @@ struct camera : entity {
      * @return Camera is moving or does not move
      */
     bool moving() const {
-        return move_up || move_down || move_left || move_right;
+        return m_move_up || m_move_down || m_move_left || m_move_right;
     }
 
     /**
@@ -173,10 +173,10 @@ struct camera : entity {
      */
     void set_movement_keys(keys_ref up, keys_ref down,
                            keys_ref left, keys_ref right) {
-        up_keys = up;
-        down_keys = down;
-        left_keys = left;
-        right_keys = right;
+        m_up_keys = up;
+        m_down_keys = down;
+        m_left_keys = left;
+        m_right_keys = right;
     }
 
     /// Camera position
@@ -223,58 +223,58 @@ private:
     void move_first_person(delta dt);
 
     /// Active state
-    bool active = true;
+    bool m_active = true;
 
     /// Up movement
-    bool move_up = false;
+    bool m_move_up = false;
 
     /// Down movement
-    bool move_down = false;
+    bool m_move_down = false;
 
     /// Left movement
-    bool move_left = false;
+    bool m_move_left = false;
 
     /// Right movement
-    bool move_right = false;
+    bool m_move_right = false;
 
     /// Rotation state
-    bool rotate = false;
+    bool m_rotate = false;
 
     /// Translate state
-    bool translate = false;
+    bool m_translate = false;
 
     /// Mouse X position
-    r64 mouse_pos_x = 0.0;
+    r64 m_mouse_pos_x = 0.0;
 
     /// Mouse Y position
-    r64 mouse_pos_y = 0.0;
+    r64 m_mouse_pos_y = 0.0;
 
     /// Scroll position
-    r64 scroll_pos = 0.0;
+    r64 m_scroll_pos = 0.0;
 
     /// Up input keys
-    keys up_keys{key::w};
+    keys m_up_keys{key::w};
 
     /// Down input keys
-    keys down_keys{key::s};
+    keys m_down_keys{key::s};
 
     /// Left input keys
-    keys left_keys{key::a};
+    keys m_left_keys{key::a};
 
     /// Right input keys
-    keys right_keys{key::d};
+    keys m_right_keys{key::d};
 
     /// Vulkan buffer
-    buffer::s_ptr data;
+    buffer::s_ptr m_data;
 
     /// Buffer size (projection + view)
-    size_t size = sizeof(mat4) * 2;
+    size_t m_size = sizeof(mat4) * 2;
 
     /// Projection matrix
-    mat4 projection = mat4(0.f);
+    mat4 m_projection = mat4(0.f);
 
     /// View matrix
-    mat4 view = mat4(0.f);
+    mat4 m_view = mat4(0.f);
 };
 
 } // namespace lava

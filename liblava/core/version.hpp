@@ -78,9 +78,9 @@ struct version {
 };
 
 /// Build date
-constexpr name _build_date = LAVA_BUILD_DATE;
+constexpr name g_build_date = LAVA_BUILD_DATE;
 
 /// Build time
-constexpr name _build_time = LAVA_BUILD_TIME;
+constexpr name g_build_time = LAVA_BUILD_TIME;
 
 } // namespace lava

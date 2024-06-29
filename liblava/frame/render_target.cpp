@@ -18,19 +18,19 @@ bool render_target::create(device::ptr device,
                            uv2 size,
                            bool v_sync,
                            bool triple_buffer) {
-    if (!target.create(device,
-                       surface,
-                       format,
-                       size,
-                       v_sync,
-                       triple_buffer))
+    if (!m_target.create(device,
+                         surface,
+                         format,
+                         size,
+                         v_sync,
+                         triple_buffer))
         return false;
 
-    swapchain_callback.on_created = [&]() {
+    m_swapchain_callback.on_created = [&]() {
         if (on_create_attachments) {
             auto target_attachments = on_create_attachments();
 
-            for (auto& callback : target_callbacks)
+            for (auto& callback : m_target_callbacks)
                 if (!callback->on_created(target_attachments,
                                           {{}, get_size()}))
                     return false;
@@ -43,28 +43,28 @@ bool render_target::create(device::ptr device,
         return true;
     };
 
-    swapchain_callback.on_destroyed = [&]() {
+    m_swapchain_callback.on_destroyed = [&]() {
         if (on_swapchain_stop)
             on_swapchain_stop();
 
-        for (auto& callback : target_callbacks)
+        for (auto& callback : m_target_callbacks)
             callback->on_destroyed();
 
         if (on_destroy_attachments)
             on_destroy_attachments();
     };
 
-    target.add_callback(&swapchain_callback);
+    m_target.add_callback(&m_swapchain_callback);
 
     return true;
 }
 
 //-----------------------------------------------------------------------------
 void render_target::destroy() {
-    target_callbacks.clear();
+    m_target_callbacks.clear();
 
-    target.remove_callback(&swapchain_callback);
-    target.destroy();
+    m_target.remove_callback(&m_swapchain_callback);
+    m_target.destroy();
 }
 
 //-----------------------------------------------------------------------------

@@ -56,7 +56,7 @@ struct render_target : entity {
      * @return uv2    Size of render target
      */
     uv2 get_size() const {
-        return target.get_size();
+        return m_target.get_size();
     }
 
     /**
@@ -65,7 +65,7 @@ struct render_target : entity {
      * @return Resize was successful or failed
      */
     bool resize(uv2 new_size) {
-        return target.resize(new_size);
+        return m_target.resize(new_size);
     }
 
     /**
@@ -73,7 +73,7 @@ struct render_target : entity {
      * @return ui32    Number of frames
      */
     ui32 get_frame_count() const {
-        return target.get_backbuffer_count();
+        return m_target.get_backbuffer_count();
     }
 
     /**
@@ -81,14 +81,14 @@ struct render_target : entity {
      * @return Request reload or not
      */
     bool reload_request() const {
-        return target.reload_request();
+        return m_target.reload_request();
     }
 
     /**
      * @brief Reload the render target
      */
     void reload() {
-        target.resize(target.get_size());
+        m_target.resize(m_target.get_size());
     }
 
     /**
@@ -96,7 +96,7 @@ struct render_target : entity {
      * @return device::ptr    Vulkan device
      */
     device::ptr get_device() {
-        return target.get_device();
+        return m_target.get_device();
     }
 
     /**
@@ -104,7 +104,7 @@ struct render_target : entity {
      * @return swapchain*    Target swapchain
      */
     swapchain* get_swapchain() {
-        return &target;
+        return &m_target;
     }
 
     /**
@@ -112,7 +112,7 @@ struct render_target : entity {
      * @return VkFormat    Target format
      */
     VkFormat get_format() const {
-        return target.get_format();
+        return m_target.get_format();
     }
 
     /**
@@ -120,7 +120,7 @@ struct render_target : entity {
      * @return image::s_list const&    List of backbuffer images
      */
     image::s_list const& get_backbuffers() const {
-        return target.get_backbuffers();
+        return m_target.get_backbuffers();
     }
 
     /**
@@ -158,7 +158,7 @@ struct render_target : entity {
      * @param callback    Target callback
      */
     void add_callback(target_callback::c_ptr callback) {
-        target_callbacks.push_back(callback);
+        m_target_callbacks.push_back(callback);
     }
 
     /**
@@ -166,7 +166,7 @@ struct render_target : entity {
      * @param callback    Target callback
      */
     void remove_callback(target_callback::c_ptr callback) {
-        remove(target_callbacks, callback);
+        remove(m_target_callbacks, callback);
     }
 
     /// Swapchain start function
@@ -195,13 +195,13 @@ struct render_target : entity {
 
 private:
     /// Target swapchain
-    swapchain target;
+    swapchain m_target;
 
     /// Swapchain callback
-    swapchain::callback swapchain_callback;
+    swapchain::callback m_swapchain_callback;
 
     /// List of target callbacks
-    target_callback::c_list target_callbacks;
+    target_callback::c_list m_target_callbacks;
 };
 
 /**

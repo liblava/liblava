@@ -13,26 +13,26 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 i32 driver::run(argh::parser cmd_line) {
-    if (stages.empty()) {
+    if (m_stages.empty()) {
         std::cerr << "no stages" << std::endl;
         return error::stages_empty;
     }
 
     if (cmd_line[{"-ls", "--stages"}]) {
-        for (auto& [id, stage] : stages)
+        for (auto& [id, stage] : m_stages)
             std::cout << id << ". " << stage->name << std::endl;
 
-        return to_i32(stages.size());
+        return to_i32(m_stages.size());
     }
 
     if (auto id = undef;
         cmd_line({"-st", "--stage"}) >> id) {
-        if (!stages.count(id)) {
+        if (!m_stages.count(id)) {
             std::cerr << "stage " << id << " not found" << std::endl;
             return error::stage_not_found;
         }
 
-        auto& stage = stages.at(id);
+        auto& stage = m_stages.at(id);
         std::cout << "stage " << id << " - " << stage->name << std::endl;
         return stage->on_func(cmd_line);
     }
@@ -49,8 +49,8 @@ i32 driver::run(argh::parser cmd_line) {
         if (result.driver < 0)
             return result.driver;
 
-        if (stages.count(result.selected)) {
-            auto& stage = stages.at(result.selected);
+        if (m_stages.count(result.selected)) {
+            auto& stage = m_stages.at(result.selected);
 
             std::cout << "stage " << result.selected
                       << " - " << stage->name << std::endl;

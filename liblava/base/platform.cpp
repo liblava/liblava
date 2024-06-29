@@ -47,7 +47,7 @@ device::s_ptr platform::create(device::create_param::ref param) {
 
     result->set_allocator(allocator);
 
-    devices.push_back(result);
+    m_devices.push_back(result);
     return result;
 }
 
@@ -62,15 +62,15 @@ device::ptr platform::create_device(index pd) {
 
 //-----------------------------------------------------------------------------
 void platform::wait_idle() {
-    for (auto& device : devices)
+    for (auto& device : m_devices)
         device->wait_for_idle();
 }
 
 //-----------------------------------------------------------------------------
 bool platform::remove(id::ref device_id) {
-    for (auto const& device : devices) {
+    for (auto const& device : m_devices) {
         if (device->get_id() == device_id) {
-            lava::remove(devices, device);
+            lava::remove(m_devices, device);
             return true;
         }
     }
@@ -80,10 +80,10 @@ bool platform::remove(id::ref device_id) {
 
 //-----------------------------------------------------------------------------
 void platform::clear() {
-    for (auto& device : devices)
+    for (auto& device : m_devices)
         device->destroy();
 
-    devices.clear();
+    m_devices.clear();
 }
 
 } // namespace lava

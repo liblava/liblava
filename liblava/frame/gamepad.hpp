@@ -126,7 +126,7 @@ struct gamepad {
      * @return Button is pressed or not
      */
     bool pressed(gamepad_button_ref button) const {
-        return state.buttons[to_ui32(button)];
+        return m_state.buttons[to_ui32(button)];
     }
 
     /**
@@ -135,7 +135,7 @@ struct gamepad {
      * @return r32    Axis value
      */
     r32 value(gamepad_axis_ref axis) const {
-        return state.axes[to_ui32(axis)];
+        return m_state.axes[to_ui32(axis)];
     }
 
     /**
@@ -143,7 +143,7 @@ struct gamepad {
      * @return gamepad_id_ref    Gamepad id
      */
     gamepad_id_ref get_pad_id() const {
-        return pad_id;
+        return m_pad_id;
     }
 
     /**
@@ -162,7 +162,7 @@ struct gamepad {
 
 private:
     /// Gamepad id
-    gamepad_id pad_id;
+    gamepad_id m_pad_id;
 
     /**
      * @brief Gamepad state
@@ -176,7 +176,7 @@ private:
     };
 
     /// Gamepad state
-    gamepad::state state;
+    gamepad::state m_state;
 };
 
 /**
@@ -224,7 +224,7 @@ private:
     using listener_map = std::map<id, listener_func>;
 
     /// Map of gamepad listeners
-    listener_map map;
+    listener_map m_map;
 };
 
 } // namespace lava

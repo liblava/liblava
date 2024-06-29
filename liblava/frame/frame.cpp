@@ -32,13 +32,13 @@ ms now() {
 
 //-----------------------------------------------------------------------------
 frame::frame(argh::parser cmd_line) {
-    env.cmd_line = cmd_line;
+    m_env.cmd_line = cmd_line;
     setup();
 }
 
 //-----------------------------------------------------------------------------
 frame::frame(frame_env env)
-: env(env) {
+: m_env(env) {
     setup();
 }
 
@@ -87,12 +87,12 @@ void handle_env(frame_env& env) {
                        sem_version_string(),
                        env.info.app_name,
                        to_string(env.info.app_version),
-                       _build_date, _build_time);
+                       g_build_date, g_build_time);
     } else {
         logger()->info(">>> {} / {} - {} - {} {}", version_string(),
                        sem_version_string(),
                        env.info.app_name,
-                       _build_date, _build_time);
+                       g_build_date, g_build_time);
     }
 
     log_command_line(cmd_line);
@@ -104,14 +104,14 @@ void handle_env(frame_env& env) {
 
 //-----------------------------------------------------------------------------
 bool frame::setup() {
-    if (initialized)
+    if (m_initialized)
         return false;
 
 #if _WIN32 && LAVA_DEBUG
     AllocConsole();
 #endif
 
-    handle_env(env);
+    handle_env(m_env);
 
     logger()->info("=== frame ===");
 
@@ -144,28 +144,28 @@ bool frame::setup() {
     auto glfw_extensions_count = 0u;
     auto glfw_extensions = glfwGetRequiredInstanceExtensions(&glfw_extensions_count);
     for (auto i = 0u; i < glfw_extensions_count; ++i)
-        env.param.extensions.push_back(glfw_extensions[i]);
+        m_env.param.extensions.push_back(glfw_extensions[i]);
 
 #ifdef __APPLE__
-    env.param.extensions.push_back("VK_KHR_portability_enumeration");
-    env.param.extensions.push_back("VK_KHR_get_physical_device_properties2");
+    m_env.param.extensions.push_back("VK_KHR_portability_enumeration");
+    m_env.param.extensions.push_back("VK_KHR_get_physical_device_properties2");
 #endif
 
-    if (!instance::singleton().create(env.param, env.debug, env.info)) {
+    if (!instance::singleton().create(m_env.param, m_env.debug, m_env.info)) {
         logger()->error("create instance");
         return false;
     }
 
-    telegraph.setup(env.telegraph_thread_count);
+    telegraph.setup(m_env.telegraph_thread_count);
 
-    initialized = true;
+    m_initialized = true;
 
     return true;
 }
 
 //-----------------------------------------------------------------------------
 void frame::teardown() {
-    if (!initialized)
+    if (!m_initialized)
         return;
 
     telegraph.teardown();
@@ -180,20 +180,20 @@ void frame::teardown() {
     logger()->flush();
 
     global_logger::singleton().reset();
-    log::teardown(env.log);
+    log::teardown(m_env.log);
 
-    initialized = false;
+    m_initialized = false;
 }
 
 //-----------------------------------------------------------------------------
 frame::result frame::run() {
-    if (running)
+    if (m_running)
         return error::still_running;
 
-    running = true;
-    start_time = now();
+    m_running = true;
+    m_start_time = now();
 
-    while (running) {
+    while (m_running) {
         if (!run_step())
             break;
     }
@@ -203,37 +203,37 @@ frame::result frame::run() {
     trigger_run_end();
 
     auto result = 0;
-    if (running) {
+    if (m_running) {
         result = error::run_aborted;
-        running = false;
+        m_running = false;
     }
 
-    start_time = {};
+    m_start_time = {};
 
     return result;
 }
 
 //-----------------------------------------------------------------------------
 bool frame::run_step() {
-    handle_events(wait_for_events);
+    handle_events(m_wait_for_events);
 
     telegraph.update(run_time.current);
 
-    if (!run_once_list.empty()) {
-        for (auto& func : run_once_list) {
+    if (!m_run_once_list.empty()) {
+        for (auto& func : m_run_once_list) {
             if (!func())
                 return run_abort;
         }
 
-        run_once_list.clear();
+        m_run_once_list.clear();
     }
 
-    for (auto& [id, func] : run_map) {
+    for (auto& [id, func] : m_run_map) {
         if (!func(id))
             return run_abort;
     }
 
-    if (!run_remove_list.empty())
+    if (!m_run_remove_list.empty())
         trigger_run_remove();
 
     return run_continue;
@@ -241,10 +241,10 @@ bool frame::run_step() {
 
 //-----------------------------------------------------------------------------
 bool frame::shut_down() {
-    if (!running)
+    if (!m_running)
         return false;
 
-    running = false;
+    m_running = false;
 
     return true;
 }
@@ -252,41 +252,41 @@ bool frame::shut_down() {
 //-----------------------------------------------------------------------------
 id frame::add_run(run_func_ref func) {
     auto id = ids::instance().next();
-    run_map.emplace(id, func);
+    m_run_map.emplace(id, func);
     return id;
 }
 
 //-----------------------------------------------------------------------------
 id frame::add_run_end(run_end_func_ref func) {
     auto id = ids::instance().next();
-    run_end_map.emplace(id, func);
+    m_run_end_map.emplace(id, func);
     return id;
 }
 
 //-----------------------------------------------------------------------------
 bool frame::remove(id::ref func_id) {
-    if (contains(run_remove_list, func_id))
+    if (contains(m_run_remove_list, func_id))
         return false;
 
-    run_remove_list.push_back(func_id);
+    m_run_remove_list.push_back(func_id);
     return true;
 }
 
 //-----------------------------------------------------------------------------
 void frame::trigger_run_remove() {
-    for (auto& func_id : run_remove_list) {
-        if (run_map.count(func_id))
-            run_map.erase(func_id);
-        else if (run_end_map.count(func_id))
-            run_end_map.erase(func_id);
+    for (auto& func_id : m_run_remove_list) {
+        if (m_run_map.count(func_id))
+            m_run_map.erase(func_id);
+        else if (m_run_end_map.count(func_id))
+            m_run_end_map.erase(func_id);
     }
 
-    run_remove_list.clear();
+    m_run_remove_list.clear();
 }
 
 //-----------------------------------------------------------------------------
 void frame::trigger_run_end() {
-    for (auto& [id, func] : reverse(run_end_map))
+    for (auto& [id, func] : reverse(m_run_end_map))
         func();
 }
 

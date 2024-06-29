@@ -18,21 +18,21 @@ bool texture::create(device::ptr device,
                      VkFormat format,
                      layer::list const& l,
                      texture_type t) {
-    layers = l;
-    type = t;
+    m_layers = l;
+    m_type = t;
 
-    if (layers.empty()) {
+    if (m_layers.empty()) {
         layer layer;
 
         mip_level level;
         level.extent = size;
 
         layer.levels.push_back(level);
-        layers.push_back(layer);
+        m_layers.push_back(layer);
     }
 
     VkSamplerAddressMode sampler_address_mode = VK_SAMPLER_ADDRESS_MODE_REPEAT;
-    if (type == texture_type::array || type == texture_type::cube_map)
+    if (m_type == texture_type::array || m_type == texture_type::cube_map)
         sampler_address_mode = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
 
     VkSamplerCreateInfo sampler_info{
@@ -49,39 +49,39 @@ bool texture::create(device::ptr device,
         .compareEnable = VK_FALSE,
         .compareOp = VK_COMPARE_OP_NEVER,
         .minLod = 0.f,
-        .maxLod = to_r32(layers.front().levels.size()),
+        .maxLod = to_r32(m_layers.front().levels.size()),
         .borderColor = VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK,
         .unnormalizedCoordinates = VK_FALSE,
     };
 
-    if (!device->vkCreateSampler(&sampler_info, &sampler)) {
+    if (!device->vkCreateSampler(&sampler_info, &m_sampler)) {
         logger()->error("create texture sampler");
         return false;
     }
 
-    img = image::make(format);
+    m_img = image::make(format);
 
-    if (type == texture_type::cube_map)
-        img->set_flags(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
+    if (m_type == texture_type::cube_map)
+        m_img->set_flags(VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT);
 
     auto view_type = VK_IMAGE_VIEW_TYPE_2D;
-    if (type == texture_type::array)
+    if (m_type == texture_type::array)
         view_type = VK_IMAGE_VIEW_TYPE_2D_ARRAY;
-    else if (type == texture_type::cube_map)
+    else if (m_type == texture_type::cube_map)
         view_type = VK_IMAGE_VIEW_TYPE_CUBE;
 
-    img->set_level_count(to_ui32(layers.front().levels.size()));
-    img->set_layer_count(to_ui32(layers.size()));
-    img->set_view_type(view_type);
+    m_img->set_level_count(to_ui32(m_layers.front().levels.size()));
+    m_img->set_layer_count(to_ui32(m_layers.size()));
+    m_img->set_view_type(view_type);
 
-    if (!img->create(device, size, VMA_MEMORY_USAGE_GPU_ONLY)) {
+    if (!m_img->create(device, size, VMA_MEMORY_USAGE_GPU_ONLY)) {
         logger()->error("create texture image");
         return false;
     }
 
-    descriptor.sampler = sampler;
-    descriptor.imageView = img->get_view();
-    descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+    m_descriptor.sampler = m_sampler;
+    m_descriptor.imageView = m_img->get_view();
+    m_descriptor.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
 
     return true;
 }
@@ -90,41 +90,41 @@ bool texture::create(device::ptr device,
 void texture::destroy() {
     destroy_upload_buffer();
 
-    if (sampler) {
-        if (img)
-            if (auto device = img->get_device())
-                device->vkDestroySampler(sampler);
+    if (m_sampler) {
+        if (m_img)
+            if (auto device = m_img->get_device())
+                device->vkDestroySampler(m_sampler);
 
-        sampler = VK_NULL_HANDLE;
+        m_sampler = VK_NULL_HANDLE;
     }
 
-    if (img) {
-        img->destroy();
-        img = nullptr;
+    if (m_img) {
+        m_img->destroy();
+        m_img = nullptr;
     }
 }
 
 //-----------------------------------------------------------------------------
 void texture::destroy_upload_buffer() {
-    upload_buffer = nullptr;
+    m_upload_buffer = nullptr;
 }
 
 //-----------------------------------------------------------------------------
 bool texture::upload(void const* data,
                      size_t data_size) {
-    upload_buffer = buffer::make();
+    m_upload_buffer = buffer::make();
 
-    return upload_buffer->create(img->get_device(),
-                                 data,
-                                 data_size,
-                                 VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                                 false,
-                                 VMA_MEMORY_USAGE_CPU_TO_GPU);
+    return m_upload_buffer->create(m_img->get_device(),
+                                   data,
+                                   data_size,
+                                   VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+                                   false,
+                                   VMA_MEMORY_USAGE_CPU_TO_GPU);
 }
 
 //-----------------------------------------------------------------------------
 bool texture::stage(VkCommandBuffer cmd_buf) {
-    if (!upload_buffer || !upload_buffer->valid()) {
+    if (!m_upload_buffer || !m_upload_buffer->valid()) {
         logger()->error("stage texture");
         return false;
     }
@@ -132,25 +132,25 @@ bool texture::stage(VkCommandBuffer cmd_buf) {
     VkImageSubresourceRange subresource_range{
         .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
         .baseMipLevel = 0,
-        .levelCount = to_ui32(layers.front().levels.size()),
+        .levelCount = to_ui32(m_layers.front().levels.size()),
         .baseArrayLayer = 0,
-        .layerCount = to_ui32(layers.size()),
+        .layerCount = to_ui32(m_layers.size()),
     };
 
-    auto device = img->get_device();
+    auto device = m_img->get_device();
 
-    set_image_layout(device, cmd_buf, img->get(), VK_IMAGE_LAYOUT_UNDEFINED,
+    set_image_layout(device, cmd_buf, m_img->get(), VK_IMAGE_LAYOUT_UNDEFINED,
                      VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, subresource_range,
                      VK_PIPELINE_STAGE_HOST_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
 
     std::vector<VkBufferImageCopy> regions;
 
-    if (to_ui32(layers.front().levels.size()) > 1) {
+    if (to_ui32(m_layers.front().levels.size()) > 1) {
         auto offset = 0u;
 
-        for (auto layer = 0u; layer < layers.size(); ++layer) {
+        for (auto layer = 0u; layer < m_layers.size(); ++layer) {
             for (auto level = 0u;
-                 level < to_ui32(layers.front().levels.size());
+                 level < to_ui32(m_layers.front().levels.size());
                  ++level) {
                 VkImageSubresourceLayers image_subresource{
                     .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
@@ -160,8 +160,8 @@ bool texture::stage(VkCommandBuffer cmd_buf) {
                 };
 
                 VkExtent3D image_extent{
-                    .width = layers[layer].levels[level].extent.x,
-                    .height = layers[layer].levels[level].extent.y,
+                    .width = m_layers[layer].levels[level].extent.x,
+                    .height = m_layers[layer].levels[level].extent.y,
                     .depth = 1,
                 };
 
@@ -173,7 +173,7 @@ bool texture::stage(VkCommandBuffer cmd_buf) {
 
                 regions.push_back(buffer_copy_region);
 
-                offset += layers[layer].levels[level].size;
+                offset += m_layers[layer].levels[level].size;
             }
         }
     } else {
@@ -181,10 +181,10 @@ bool texture::stage(VkCommandBuffer cmd_buf) {
             .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
             .mipLevel = 0,
             .baseArrayLayer = 0,
-            .layerCount = to_ui32(layers.size()),
+            .layerCount = to_ui32(m_layers.size()),
         };
 
-        auto size = img->get_size();
+        auto size = m_img->get_size();
 
         VkBufferImageCopy region{
             .bufferOffset = 0,
@@ -199,15 +199,15 @@ bool texture::stage(VkCommandBuffer cmd_buf) {
     }
 
     device->call().vkCmdCopyBufferToImage(cmd_buf,
-                                          upload_buffer->get(),
-                                          img->get(),
+                                          m_upload_buffer->get(),
+                                          m_img->get(),
                                           VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
                                           to_ui32(regions.size()),
                                           regions.data());
 
     set_image_layout(device,
                      cmd_buf,
-                     img->get(),
+                     m_img->get(),
                      VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
                      VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
                      subresource_range,
@@ -220,34 +220,34 @@ bool texture::stage(VkCommandBuffer cmd_buf) {
 //-----------------------------------------------------------------------------
 bool staging::stage(VkCommandBuffer cmd_buf,
                     index frame) {
-    if (!staged.empty() && staged.count(frame)
-        && !staged.at(frame).empty()) {
-        for (auto& texture : staged.at(frame))
+    if (!m_staged.empty() && m_staged.count(frame)
+        && !m_staged.at(frame).empty()) {
+        for (auto& texture : m_staged.at(frame))
             texture->destroy_upload_buffer();
 
-        staged.erase(frame);
+        m_staged.erase(frame);
     }
 
-    if (todo.empty())
+    if (m_todo.empty())
         return false;
 
     texture::s_list stage_done;
 
-    for (auto& texture : todo) {
+    for (auto& texture : m_todo) {
         if (!texture->stage(cmd_buf))
             continue;
 
         stage_done.push_back(texture);
     }
 
-    if (!staged.count(frame))
-        staged.emplace(frame, texture::s_list());
+    if (!m_staged.count(frame))
+        m_staged.emplace(frame, texture::s_list());
 
     for (auto& texture : stage_done) {
-        if (!contains(staged.at(frame), texture))
-            staged.at(frame).push_back(texture);
+        if (!contains(m_staged.at(frame), texture))
+            m_staged.at(frame).push_back(texture);
 
-        remove(todo, texture);
+        remove(m_todo, texture);
     }
 
     return true;

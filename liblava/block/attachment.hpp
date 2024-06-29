@@ -40,15 +40,15 @@ struct attachment {
      */
     explicit attachment(VkFormat format = VK_FORMAT_UNDEFINED,
                         VkSampleCountFlagBits samples = VK_SAMPLE_COUNT_1_BIT) {
-        description.flags = 0;
-        description.format = format;
-        description.samples = samples;
-        description.loadOp = VK_ATTACHMENT_LOAD_OP_LOAD;
-        description.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-        description.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_LOAD;
-        description.stencilStoreOp = VK_ATTACHMENT_STORE_OP_STORE;
-        description.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-        description.finalLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        m_description.flags = 0;
+        m_description.format = format;
+        m_description.samples = samples;
+        m_description.loadOp = VK_ATTACHMENT_LOAD_OP_LOAD;
+        m_description.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+        m_description.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_LOAD;
+        m_description.stencilStoreOp = VK_ATTACHMENT_STORE_OP_STORE;
+        m_description.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+        m_description.finalLayout = VK_IMAGE_LAYOUT_UNDEFINED;
     }
 
     /**
@@ -56,7 +56,7 @@ struct attachment {
      * @return VkAttachmentDescription const&    Attachment description
      */
     VkAttachmentDescription const& get_description() const {
-        return description;
+        return m_description;
     }
 
     /**
@@ -64,7 +64,7 @@ struct attachment {
      * @param format    Attachment format
      */
     void set_format(VkFormat format) {
-        description.format = format;
+        m_description.format = format;
     }
 
     /**
@@ -72,7 +72,7 @@ struct attachment {
      * @param samples    Attachment sample count flag bits
      */
     void set_samples(VkSampleCountFlagBits samples) {
-        description.samples = samples;
+        m_description.samples = samples;
     }
 
     /**
@@ -90,7 +90,7 @@ struct attachment {
      * @param load_op    Attachment load op
      */
     void set_load_op(VkAttachmentLoadOp load_op) {
-        description.loadOp = load_op;
+        m_description.loadOp = load_op;
     }
 
     /**
@@ -98,7 +98,7 @@ struct attachment {
      * @param store_op    Attachment store op
      */
     void set_store_op(VkAttachmentStoreOp store_op) {
-        description.storeOp = store_op;
+        m_description.storeOp = store_op;
     }
 
     /**
@@ -117,7 +117,7 @@ struct attachment {
      * @param load_op    Attachment load op
      */
     void set_stencil_load_op(VkAttachmentLoadOp load_op) {
-        description.stencilLoadOp = load_op;
+        m_description.stencilLoadOp = load_op;
     }
 
     /**
@@ -125,7 +125,7 @@ struct attachment {
      * @param store_op    Attachment store op
      */
     void set_stencil_store_op(VkAttachmentStoreOp store_op) {
-        description.stencilStoreOp = store_op;
+        m_description.stencilStoreOp = store_op;
     }
 
     /**
@@ -144,7 +144,7 @@ struct attachment {
      * @param layout    Image layout
      */
     void set_initial_layout(VkImageLayout layout) {
-        description.initialLayout = layout;
+        m_description.initialLayout = layout;
     }
 
     /**
@@ -152,12 +152,12 @@ struct attachment {
      * @param layout    Image layout
      */
     void set_final_layout(VkImageLayout layout) {
-        description.finalLayout = layout;
+        m_description.finalLayout = layout;
     }
 
 private:
     /// Attachment description
-    VkAttachmentDescription description;
+    VkAttachmentDescription m_description;
 };
 
 } // namespace lava

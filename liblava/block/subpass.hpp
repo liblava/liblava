@@ -48,7 +48,7 @@ struct subpass : entity {
      * @param pipeline    Render pipeline
      */
     void add(render_pipeline::s_ptr const& pipeline) {
-        pipelines.push_back(pipeline);
+        m_pipelines.push_back(pipeline);
     }
 
     /**
@@ -56,7 +56,7 @@ struct subpass : entity {
      * @param pipeline    Render pipeline
      */
     void add_front(render_pipeline::s_ptr const& pipeline) {
-        pipelines.insert(pipelines.begin(), pipeline);
+        m_pipelines.insert(m_pipelines.begin(), pipeline);
     }
 
     /**
@@ -83,7 +83,7 @@ struct subpass : entity {
      * @return VkSubpassDescription const&    Subpass description
      */
     VkSubpassDescription const& get_description() const {
-        return description;
+        return m_description;
     }
 
     /**
@@ -91,7 +91,7 @@ struct subpass : entity {
      * @param pipeline_bind_point    Pipeline bind point
      */
     void set(VkPipelineBindPoint pipeline_bind_point) {
-        description.pipelineBindPoint = pipeline_bind_point;
+        m_description.pipelineBindPoint = pipeline_bind_point;
     }
 
     /**
@@ -184,7 +184,7 @@ struct subpass : entity {
      * @param value    Enable state
      */
     void set_active(bool value = true) {
-        active = value;
+        m_active = value;
     }
 
     /**
@@ -192,33 +192,33 @@ struct subpass : entity {
      * @return Subpass is active or not
      */
     bool activated() const {
-        return active;
+        return m_active;
     }
 
 private:
     /// Vulkan subpass description
-    VkSubpassDescription description;
+    VkSubpassDescription m_description;
 
     //// Active state
-    bool active = true;
+    bool m_active = true;
 
     /// List of color attachment references
-    VkAttachmentReferences color_attachments;
+    VkAttachmentReferences m_color_attachments;
 
     /// Depth stencil attachment reference
-    VkAttachmentReference depth_stencil_attachment{};
+    VkAttachmentReference m_depth_stencil_attachment{};
 
     /// List of input attachment references
-    VkAttachmentReferences input_attachments;
+    VkAttachmentReferences m_input_attachments;
 
     /// List of resolve attachment references
-    VkAttachmentReferences resolve_attachments;
+    VkAttachmentReferences m_resolve_attachments;
 
     /// List of preserve attachment indicies
-    index_list preserve_attachments;
+    index_list m_preserve_attachments;
 
     /// List of render pipelines
-    render_pipeline::s_list pipelines;
+    render_pipeline::s_list m_pipelines;
 };
 
 /**
@@ -258,7 +258,7 @@ struct subpass_dependency {
      * @return VkSubpassDependency const&    Vulkan subpass dependency
      */
     VkSubpassDependency const& get_dependency() const {
-        return dependency;
+        return m_dependency;
     }
 
     /**
@@ -276,7 +276,7 @@ struct subpass_dependency {
      * @param src    Source Subpass
      */
     void set_src_subpass(ui32 src) {
-        dependency.srcSubpass = src;
+        m_dependency.srcSubpass = src;
     }
 
     /**
@@ -284,7 +284,7 @@ struct subpass_dependency {
      * @param dst    Destination subpass
      */
     void set_dst_subpass(ui32 dst) {
-        dependency.dstSubpass = dst;
+        m_dependency.dstSubpass = dst;
     }
 
     /**
@@ -303,7 +303,7 @@ struct subpass_dependency {
      * @param mask    Pipeline stage flags
      */
     void set_src_stage_mask(VkPipelineStageFlags mask) {
-        dependency.srcStageMask = mask;
+        m_dependency.srcStageMask = mask;
     }
 
     /**
@@ -311,7 +311,7 @@ struct subpass_dependency {
      * @param mask    Pipeline stage flags
      */
     void set_dst_stage_mask(VkPipelineStageFlags mask) {
-        dependency.dstStageMask = mask;
+        m_dependency.dstStageMask = mask;
     }
 
     /**
@@ -330,7 +330,7 @@ struct subpass_dependency {
      * @param mask    Access flags
      */
     void set_src_access_mask(VkAccessFlags mask) {
-        dependency.srcAccessMask = mask;
+        m_dependency.srcAccessMask = mask;
     }
 
     /**
@@ -338,7 +338,7 @@ struct subpass_dependency {
      * @param mask    Access flags
      */
     void set_dst_access_mask(VkAccessFlags mask) {
-        dependency.dstAccessMask = mask;
+        m_dependency.dstAccessMask = mask;
     }
 
     /**
@@ -346,12 +346,12 @@ struct subpass_dependency {
      * @param flags    Dependency flags
      */
     void set_dependency_flags(VkDependencyFlags flags) {
-        dependency.dependencyFlags = flags;
+        m_dependency.dependencyFlags = flags;
     }
 
 private:
     /// Vulkan subpass dependency
-    VkSubpassDependency dependency;
+    VkSubpassDependency m_dependency;
 };
 
 } // namespace lava

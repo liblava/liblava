@@ -58,7 +58,7 @@ struct compute_pipeline : pipeline {
      * @param stage    Shader state
      */
     void set(shader_stage::s_ptr const& stage) {
-        shader_stage = stage;
+        m_shader_stage = stage;
     }
 
     /**
@@ -66,7 +66,7 @@ struct compute_pipeline : pipeline {
      * @return shader_stage::s_ptr const&    Shader state
      */
     shader_stage::s_ptr const& get_shader_stage() const {
-        return shader_stage;
+        return m_shader_stage;
     }
 
     /**
@@ -96,7 +96,7 @@ private:
     void teardown() override;
 
     /// Shader stage
-    shader_stage::s_ptr shader_stage;
+    shader_stage::s_ptr m_shader_stage;
 };
 
 } // namespace lava

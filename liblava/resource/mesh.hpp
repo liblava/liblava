@@ -27,7 +27,6 @@ struct mesh_template_data {
     /// List of indices.
     index_list indices;
 
-public:
     /**
      * @brief Move mesh data by offset
      * @tparam PosType    Coordinate element typename
@@ -144,7 +143,7 @@ struct mesh_template : entity {
      * @return Mesh is empty or not
      */
     bool empty() const {
-        return data.vertices.empty();
+        return m_data.vertices.empty();
     }
 
     /**
@@ -152,7 +151,7 @@ struct mesh_template : entity {
      * @param value    Mesh data
      */
     void set_data(mesh_template_data<T> const& value) {
-        data = value;
+        m_data = value;
     }
 
     /**
@@ -160,7 +159,7 @@ struct mesh_template : entity {
      * @return mesh_data&    Mesh data
      */
     mesh_template_data<T>& get_data() {
-        return data;
+        return m_data;
     }
 
     /**
@@ -168,7 +167,7 @@ struct mesh_template : entity {
      * @param value    Mesh data to add
      */
     void add_data(mesh_template_data<T> const& value) {
-        data = value;
+        m_data = value;
     }
 
     /**
@@ -176,7 +175,7 @@ struct mesh_template : entity {
      * @return vertex::list&    List of vertices
      */
     vertex_list& get_vertices() {
-        return data.vertices;
+        return m_data.vertices;
     }
 
     /**
@@ -184,7 +183,7 @@ struct mesh_template : entity {
      * @return vertex::list const&    List of vertices
      */
     vertex_list const& get_vertices() const {
-        return data.vertices;
+        return m_data.vertices;
     }
 
     /**
@@ -192,7 +191,7 @@ struct mesh_template : entity {
      * @return ui32    Number of vertices
      */
     ui32 get_vertices_count() const {
-        return to_ui32(data.vertices.size());
+        return to_ui32(m_data.vertices.size());
     }
 
     /**
@@ -200,7 +199,7 @@ struct mesh_template : entity {
      * @return index_list&    List of indices
      */
     index_list& get_indices() {
-        return data.indices;
+        return m_data.indices;
     }
 
     /**
@@ -208,7 +207,7 @@ struct mesh_template : entity {
      * @return index_list const&    List of indices
      */
     index_list const& get_indices() const {
-        return data.indices;
+        return m_data.indices;
     }
 
     /**
@@ -216,7 +215,7 @@ struct mesh_template : entity {
      * @return ui32    Number of indices
      */
     ui32 get_indices_count() const {
-        return to_ui32(data.indices.size());
+        return to_ui32(m_data.indices.size());
     }
 
     /**
@@ -230,7 +229,7 @@ struct mesh_template : entity {
      * @return buffer::s_ptr    Shared pointer to buffer
      */
     buffer::s_ptr get_vertex_buffer() {
-        return vertex_buffer;
+        return m_vertex_buffer;
     }
 
     /**
@@ -238,44 +237,44 @@ struct mesh_template : entity {
      * @return buffer::s_ptr    Shared pointer to buffer
      */
     buffer::s_ptr get_index_buffer() {
-        return index_buffer;
+        return m_index_buffer;
     }
 
 private:
     /// Vulkan device
-    device::ptr device = nullptr;
+    device::ptr m_device = nullptr;
 
     /// Mesh data
-    mesh_template_data<T> data;
+    mesh_template_data<T> m_data;
 
     /// Vertex buffer
-    buffer::s_ptr vertex_buffer;
+    buffer::s_ptr m_vertex_buffer;
 
     /// Index buffer
-    buffer::s_ptr index_buffer;
+    buffer::s_ptr m_index_buffer;
 
     /// Mapped state
-    bool mapped = false;
+    bool m_mapped = false;
 
     /// Memory usage
-    VmaMemoryUsage memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
+    VmaMemoryUsage m_memory_usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
 };
 
 //-----------------------------------------------------------------------------
 template <typename T>
 void mesh_template<T>::bind(VkCommandBuffer cmd_buf) const {
-    if (vertex_buffer && vertex_buffer->valid()) {
+    if (m_vertex_buffer && m_vertex_buffer->valid()) {
         std::array<VkDeviceSize, 1> const buffer_offsets = {0};
-        std::array<VkBuffer, 1> const buffers = {vertex_buffer->get()};
+        std::array<VkBuffer, 1> const buffers = {m_vertex_buffer->get()};
 
         vkCmdBindVertexBuffers(cmd_buf, 0,
                                to_ui32(buffers.size()), buffers.data(),
                                buffer_offsets.data());
     }
 
-    if (index_buffer && index_buffer->valid())
+    if (m_index_buffer && m_index_buffer->valid())
         vkCmdBindIndexBuffer(cmd_buf,
-                             index_buffer->get(),
+                             m_index_buffer->get(),
                              0,
                              VK_INDEX_TYPE_UINT32);
 }
@@ -283,31 +282,31 @@ void mesh_template<T>::bind(VkCommandBuffer cmd_buf) const {
 //-----------------------------------------------------------------------------
 template <typename T>
 void mesh_template<T>::draw(VkCommandBuffer cmd_buf) const {
-    if (!data.indices.empty())
+    if (!m_data.indices.empty())
         vkCmdDrawIndexed(cmd_buf,
-                         to_ui32(data.indices.size()),
+                         to_ui32(m_data.indices.size()),
                          1, 0, 0, 0);
     else
         vkCmdDraw(cmd_buf,
-                  to_ui32(data.vertices.size()),
+                  to_ui32(m_data.vertices.size()),
                   1, 0, 0);
 }
 
 //-----------------------------------------------------------------------------
 template <typename T>
 void mesh_template<T>::destroy() {
-    vertex_buffer = nullptr;
-    index_buffer = nullptr;
-    device = nullptr;
+    m_vertex_buffer = nullptr;
+    m_index_buffer = nullptr;
+    m_device = nullptr;
 }
 
 //-----------------------------------------------------------------------------
 template <typename T>
 bool mesh_template<T>::reload() {
-    auto dev = device;
+    auto dev = m_device;
     destroy();
 
-    return create(dev, mapped, memory_usage);
+    return create(dev, m_mapped, m_memory_usage);
 }
 
 /**
@@ -356,36 +355,36 @@ std::shared_ptr<mesh_template<T>> create_mesh(device::ptr& device,
 
 //-----------------------------------------------------------------------------
 template <typename T>
-bool mesh_template<T>::create(device::ptr d,
+bool mesh_template<T>::create(device::ptr dev,
                               bool m,
                               VmaMemoryUsage mu) {
-    device = d;
-    mapped = m;
-    memory_usage = mu;
+    m_device = dev;
+    m_mapped = m;
+    m_memory_usage = mu;
 
-    if (!data.vertices.empty()) {
-        vertex_buffer = buffer::make();
+    if (!m_data.vertices.empty()) {
+        m_vertex_buffer = buffer::make();
 
-        if (!vertex_buffer->create(device,
-                                   data.vertices.data(),
-                                   sizeof(T) * data.vertices.size(),
-                                   VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-                                   mapped,
-                                   memory_usage)) {
+        if (!m_vertex_buffer->create(m_device,
+                                     m_data.vertices.data(),
+                                     sizeof(T) * m_data.vertices.size(),
+                                     VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+                                     m_mapped,
+                                     m_memory_usage)) {
             logger()->error("create mesh vertex buffer");
             return false;
         }
     }
 
-    if (!data.indices.empty()) {
-        index_buffer = buffer::make();
+    if (!m_data.indices.empty()) {
+        m_index_buffer = buffer::make();
 
-        if (!index_buffer->create(device,
-                                  data.indices.data(),
-                                  sizeof(ui32) * data.indices.size(),
-                                  VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
-                                  mapped,
-                                  memory_usage)) {
+        if (!m_index_buffer->create(m_device,
+                                    m_data.indices.data(),
+                                    sizeof(ui32) * m_data.indices.size(),
+                                    VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
+                                    m_mapped,
+                                    m_memory_usage)) {
             logger()->error("create mesh index buffer");
             return false;
         }

@@ -45,7 +45,7 @@ struct forward_shading {
      * @return render_pass::s_ptr    Render pass
      */
     render_pass::s_ptr get_pass() const {
-        return pass;
+        return m_pass;
     }
 
     /**
@@ -53,7 +53,7 @@ struct forward_shading {
      * @return VkRenderPass    Vulkan Render pass
      */
     VkRenderPass get_vk_pass() const {
-        return pass->get();
+        return m_pass->get();
     }
 
     /**
@@ -61,18 +61,18 @@ struct forward_shading {
      * @return image::s_ptr    Depth stencil Image
      */
     image::s_ptr get_depth_stencil() const {
-        return depth_stencil;
+        return m_depth_stencil;
     }
 
 private:
     /// Render target
-    render_target::s_ptr target;
+    render_target::s_ptr m_target;
 
     /// Render pass
-    render_pass::s_ptr pass;
+    render_pass::s_ptr m_pass;
 
     /// Depth stencil image
-    image::s_ptr depth_stencil;
+    image::s_ptr m_depth_stencil;
 };
 
 } // namespace lava

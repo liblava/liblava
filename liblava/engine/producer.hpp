@@ -164,7 +164,7 @@ private:
     using shader_map = std::map<string, data>;
 
     /// Shader products
-    shader_map shaders;
+    shader_map m_shaders;
 };
 
 } // namespace lava

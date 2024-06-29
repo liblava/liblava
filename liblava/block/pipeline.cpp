@@ -13,12 +13,12 @@ namespace lava {
 //-----------------------------------------------------------------------------
 pipeline::pipeline(device::ptr dev,
                    VkPipelineCache pipeline_cache)
-: device(dev), pipeline_cache(pipeline_cache) {}
+: m_device(dev), m_pipeline_cache(pipeline_cache) {}
 
 //-----------------------------------------------------------------------------
 pipeline::~pipeline() {
-    pipeline_cache = VK_NULL_HANDLE;
-    layout = nullptr;
+    m_pipeline_cache = VK_NULL_HANDLE;
+    m_layout = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -30,30 +30,30 @@ bool pipeline::create() {
 void pipeline::destroy() {
     teardown();
 
-    if (vk_pipeline) {
-        device->call().vkDestroyPipeline(device->get(),
-                                         vk_pipeline,
-                                         memory::instance().alloc());
-        vk_pipeline = VK_NULL_HANDLE;
+    if (m_vk_pipeline) {
+        m_device->call().vkDestroyPipeline(m_device->get(),
+                                           m_vk_pipeline,
+                                           memory::instance().alloc());
+        m_vk_pipeline = VK_NULL_HANDLE;
     }
 
-    layout = nullptr;
+    m_layout = nullptr;
 }
 
 //-----------------------------------------------------------------------------
 pipeline::shader_stage::shader_stage() {
-    create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-    create_info.pNext = nullptr;
-    create_info.flags = 0;
-    create_info.stage = VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
-    create_info.module = VK_NULL_HANDLE;
-    create_info.pName = _main_;
-    create_info.pSpecializationInfo = &specialization_info;
+    m_create_info.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+    m_create_info.pNext = nullptr;
+    m_create_info.flags = 0;
+    m_create_info.stage = VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
+    m_create_info.module = VK_NULL_HANDLE;
+    m_create_info.pName = _main_;
+    m_create_info.pSpecializationInfo = &m_specialization_info;
 
-    specialization_info.mapEntryCount = 0;
-    specialization_info.pMapEntries = nullptr;
-    specialization_info.dataSize = 0;
-    specialization_info.pData = nullptr;
+    m_specialization_info.mapEntryCount = 0;
+    m_specialization_info.pMapEntries = nullptr;
+    m_specialization_info.dataSize = 0;
+    m_specialization_info.pData = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -64,44 +64,44 @@ pipeline::shader_stage::~shader_stage() {
 //-----------------------------------------------------------------------------
 void pipeline::shader_stage::add_specialization_entry(
     VkSpecializationMapEntry const& specialization) {
-    specialization_entries.push_back(specialization);
-    specialization_info.mapEntryCount = to_ui32(specialization_entries.size());
-    specialization_info.pMapEntries = specialization_entries.data();
+    m_specialization_entries.push_back(specialization);
+    m_specialization_info.mapEntryCount = to_ui32(m_specialization_entries.size());
+    m_specialization_info.pMapEntries = m_specialization_entries.data();
 }
 
 //-----------------------------------------------------------------------------
-bool pipeline::shader_stage::create(device::ptr d,
+bool pipeline::shader_stage::create(device::ptr dev,
                                     c_data::ref shader_data,
                                     c_data::ref specialization_data) {
-    device = d;
+    m_device = dev;
 
     if (specialization_data.size > 0) {
-        specialization_data_copy.deallocate();
-        specialization_data_copy.set(specialization_data.size);
-        memcpy(specialization_data_copy.addr,
+        m_specialization_data_copy.deallocate();
+        m_specialization_data_copy.set(specialization_data.size);
+        memcpy(m_specialization_data_copy.addr,
                specialization_data.addr,
                specialization_data.size);
 
-        specialization_info.dataSize = specialization_data_copy.size;
-        specialization_info.pData = specialization_data_copy.addr;
+        m_specialization_info.dataSize = m_specialization_data_copy.size;
+        m_specialization_info.pData = m_specialization_data_copy.addr;
     }
 
-    create_info.module = create_shader_module(device, shader_data);
+    m_create_info.module = create_shader_module(m_device, shader_data);
 
-    return create_info.module != VK_NULL_HANDLE;
+    return m_create_info.module != VK_NULL_HANDLE;
 }
 
 //-----------------------------------------------------------------------------
 void pipeline::shader_stage::destroy() {
-    if (!create_info.module)
+    if (!m_create_info.module)
         return;
 
-    device->call().vkDestroyShaderModule(device->get(),
-                                         create_info.module,
-                                         memory::instance().alloc());
+    m_device->call().vkDestroyShaderModule(m_device->get(),
+                                           m_create_info.module,
+                                           memory::instance().alloc());
 
-    create_info.module = VK_NULL_HANDLE;
-    device = nullptr;
+    m_create_info.module = VK_NULL_HANDLE;
+    m_device = nullptr;
 }
 
 //-----------------------------------------------------------------------------

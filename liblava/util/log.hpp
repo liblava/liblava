@@ -172,7 +172,7 @@ struct global_logger {
      * @return s_logger    Logger
      */
     s_logger get() {
-        return logger;
+        return m_logger;
     }
 
     /**
@@ -180,19 +180,19 @@ struct global_logger {
      * @param l    Logger
      */
     void set(lava::s_logger l) {
-        logger = l;
+        m_logger = l;
     }
 
     /**
      * @brief Reset logger
      */
     void reset() {
-        logger = nullptr;
+        m_logger = nullptr;
     }
 
 private:
     /// Logger
-    s_logger logger;
+    s_logger m_logger;
 };
 
 /**

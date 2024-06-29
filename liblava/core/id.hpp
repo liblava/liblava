@@ -118,12 +118,12 @@ struct ids {
      * @return id    Next id
      */
     id next() {
-        return {++next_id};
+        return {++m_next};
     }
 
 private:
     /// Next id
-    std::atomic<index> next_id = {no_index};
+    std::atomic<index> m_next = {no_index};
 };
 
 /**
@@ -171,7 +171,7 @@ struct id_listeners {
      * @return id         Id of listener
      */
     id add(typename T::func const& listener) {
-        return add_id_map(listener, list);
+        return add_id_map(listener, m_list);
     }
 
     /**
@@ -179,7 +179,7 @@ struct id_listeners {
      * @param id    Id of listener
      */
     void remove(id& id) {
-        if (remove_id_map(id, list))
+        if (remove_id_map(id, m_list))
             id.invalidate();
     }
 
@@ -188,12 +188,12 @@ struct id_listeners {
      * @return T::listeners const&    List of listeners
      */
     typename T::listeners const& get_list() const {
-        return list;
+        return m_list;
     }
 
 private:
     /// List of listeners
-    typename T::listeners list = {};
+    typename T::listeners m_list = {};
 };
 
 /**
@@ -204,19 +204,19 @@ struct entity : no_copy_no_move, interface {
      * @brief Construct a new entity
      */
     entity()
-    : entity_id(ids::instance().next()) {}
+    : m_id(ids::instance().next()) {}
 
     /**
      * @brief Get the id of entity
      * @return id::ref    Entity id
      */
     id::ref get_id() const {
-        return entity_id;
+        return m_id;
     }
 
 private:
     /// Entity id
-    id entity_id;
+    id m_id;
 };
 
 /**
@@ -254,8 +254,8 @@ struct id_registry {
      */
     void add(s_ptr object,
              Meta info = {}) {
-        objects.emplace(object->get_id(), object);
-        meta.emplace(object->get_id(), info);
+        m_objects.emplace(object->get_id(), object);
+        m_meta.emplace(object->get_id(), info);
     }
 
     /**
@@ -264,7 +264,7 @@ struct id_registry {
      * @return Object exists or not
      */
     bool exists(id::ref object_id) const {
-        return objects.count(object_id);
+        return m_objects.count(object_id);
     }
 
     /**
@@ -273,7 +273,7 @@ struct id_registry {
      * @return s_ptr       Shared pointer to object
      */
     s_ptr get(id::ref object_id) const {
-        return objects.at(object_id);
+        return m_objects.at(object_id);
     }
 
     /**
@@ -282,7 +282,7 @@ struct id_registry {
      * @return Meta        Meta object
      */
     Meta const& get_meta(id::ref object_id) const {
-        return meta.at(object_id);
+        return m_meta.at(object_id);
     }
 
     /**
@@ -290,7 +290,7 @@ struct id_registry {
      * @return s_map const&    Map with objects
      */
     s_map const& get_all() const {
-        return objects;
+        return m_objects;
     }
 
     /**
@@ -298,7 +298,7 @@ struct id_registry {
      * @return meta_map const&    Map with metas
      */
     meta_map const& get_all_meta() const {
-        return meta;
+        return m_meta;
     }
 
     /**
@@ -312,7 +312,7 @@ struct id_registry {
         if (!exists(object_id))
             return false;
 
-        meta.at(object_id) = meta;
+        m_meta.at(object_id) = meta;
         return true;
     }
 
@@ -321,24 +321,24 @@ struct id_registry {
      * @param object_id    Object id
      */
     void remove(id::ref object_id) {
-        objects.erase(object_id);
-        meta.erase(object_id);
+        m_objects.erase(object_id);
+        m_meta.erase(object_id);
     }
 
     /**
      * @brief Clear the registry
      */
     void clear() {
-        objects.clear();
-        meta.clear();
+        m_objects.clear();
+        m_meta.clear();
     }
 
 private:
     /// Map of objects
-    s_map objects;
+    s_map m_objects;
 
     /// Map of metas
-    meta_map meta;
+    meta_map m_meta;
 };
 
 } // namespace lava

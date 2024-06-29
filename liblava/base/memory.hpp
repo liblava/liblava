@@ -46,7 +46,7 @@ struct allocator {
      * @param allocator    VMA allocator
      */
     explicit allocator(VmaAllocator allocator)
-    : vma_allocator(allocator) {}
+    : m_allocator(allocator) {}
 
     /**
      * @brief Create a new allocator
@@ -67,7 +67,7 @@ struct allocator {
      * @return Allocator is valid or not
      */
     bool valid() const {
-        return vma_allocator != nullptr;
+        return m_allocator != nullptr;
     }
 
     /**
@@ -75,12 +75,12 @@ struct allocator {
      * @return VmaAllocator    VMA allocator
      */
     VmaAllocator get() const {
-        return vma_allocator;
+        return m_allocator;
     }
 
 private:
     /// VMA allocator
-    VmaAllocator vma_allocator = nullptr;
+    VmaAllocator m_allocator = nullptr;
 };
 
 /**
@@ -121,8 +121,8 @@ struct memory : no_copy_no_move {
      * @return VkAllocationCallbacks*    Allocation callbacks
      */
     VkAllocationCallbacks* alloc() {
-        if (use_custom_cpu_callbacks)
-            return &vk_callbacks;
+        if (m_use_custom_cpu_callbacks)
+            return &m_vk_callbacks;
 
         return nullptr;
     }
@@ -132,7 +132,7 @@ struct memory : no_copy_no_move {
      * @param callbacks    Allocation Callbacks
      */
     void set_callbacks(VkAllocationCallbacks const& callbacks) {
-        vk_callbacks = callbacks;
+        m_vk_callbacks = callbacks;
     }
 
     /**
@@ -140,15 +140,15 @@ struct memory : no_copy_no_move {
      * @param value    Value state
      */
     void set_use_custom_cpu_callbacks(bool value) {
-        use_custom_cpu_callbacks = value;
+        m_use_custom_cpu_callbacks = value;
     }
 
 private:
     /// Use custom cpu callbacks
-    bool use_custom_cpu_callbacks = true;
+    bool m_use_custom_cpu_callbacks = true;
 
     /// @see https://www.khronos.org/registry/vulkan/specs/1.3-extensions/man/html/VkAllocationCallbacks.html
-    VkAllocationCallbacks vk_callbacks = {};
+    VkAllocationCallbacks m_vk_callbacks = {};
 };
 
 /**

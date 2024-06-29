@@ -95,7 +95,7 @@ struct window : entity {
      * @param title    Title of window
      */
     explicit window(name title)
-    : title(title) {}
+    : m_title(title) {}
 
     /**
      * @brief Create a new window with optional state
@@ -132,7 +132,7 @@ struct window : entity {
      * @return name    Title of window
      */
     string_ref get_title() const {
-        return title;
+        return m_title;
     }
 
     /**
@@ -140,7 +140,7 @@ struct window : entity {
      * @param save    Save name of window
      */
     void set_save_name(string_ref save) {
-        save_name = save;
+        m_save_name = save;
     }
 
     /**
@@ -148,7 +148,7 @@ struct window : entity {
      * @return name    Save name of window
      */
     string_ref get_save_name() const {
-        return save_name;
+        return m_save_name;
     }
 
     /**
@@ -299,8 +299,8 @@ struct window : entity {
      * @param active    Fullscreen or windowed mode
      */
     void set_fullscreen(bool active) {
-        if (fullscreen_active != active)
-            switch_mode_request_active = true;
+        if (m_fullscreen_active != active)
+            m_switch_mode_request_active = true;
     }
 
     /**
@@ -308,7 +308,7 @@ struct window : entity {
      * @return Window is fullscreen or not
      */
     bool fullscreen() const {
-        return fullscreen_active;
+        return m_fullscreen_active;
     }
 
     /**
@@ -364,7 +364,7 @@ struct window : entity {
      * @return Window has switch mode request or not
      */
     bool switch_mode_request() const {
-        return switch_mode_request_active;
+        return m_switch_mode_request_active;
     }
 
     /**
@@ -379,7 +379,7 @@ struct window : entity {
      * @return GLFWwindow*    GLFW window handle
      */
     GLFWwindow* get() const {
-        return handle;
+        return m_handle;
     }
 
     /**
@@ -387,7 +387,7 @@ struct window : entity {
      * @return Window has resize request or not
      */
     bool resize_request() const {
-        return resize_request_active;
+        return m_resize_request_active;
     }
 
     /**
@@ -396,11 +396,11 @@ struct window : entity {
      */
     bool handle_resize() {
         if (on_resize)
-            if (!on_resize(framebuffer_width,
-                           framebuffer_height))
+            if (!on_resize(m_framebuffer_width,
+                           m_framebuffer_height))
                 return false;
 
-        resize_request_active = false;
+        m_resize_request_active = false;
         return true;
     }
 
@@ -408,8 +408,8 @@ struct window : entity {
      * @brief Update window state
      */
     void update_state() {
-        get_position(pos_x, pos_y);
-        get_size(width, height);
+        get_position(m_pos_x, m_pos_y);
+        get_size(m_width, m_height);
     }
 
     /// Resize window function
@@ -423,7 +423,7 @@ struct window : entity {
      * @param callback    Input callbacl
      */
     void assign(input::ptr callback) {
-        input = callback;
+        m_input = callback;
     }
 
     /**
@@ -431,7 +431,7 @@ struct window : entity {
      * @param value    Save title state
      */
     void show_save_title(bool value = true) {
-        save_title_active = value;
+        m_save_title_active = value;
     }
 
     /**
@@ -439,14 +439,14 @@ struct window : entity {
      * @return Save title is active or not
      */
     bool save_title() const {
-        return save_title_active;
+        return m_save_title_active;
     }
 
     /**
      * @brief Update the window title
      */
     void update_title() {
-        set_title(title);
+        set_title(m_title);
     }
 
     /**
@@ -485,46 +485,46 @@ private:
     void handle_mouse_message();
 
     /// GLFW window handle
-    GLFWwindow* handle = nullptr;
+    GLFWwindow* m_handle = nullptr;
 
     /// Input handling
-    input::ptr input = nullptr;
+    input::ptr m_input = nullptr;
 
     /// Window title
-    string title = _lava_;
+    string m_title = _lava_;
 
     /// Window save name
-    string save_name = _default_;
+    string m_save_name = _default_;
 
     /// Fullscreen state
-    bool fullscreen_active = false;
+    bool m_fullscreen_active = false;
 
     /// Save title state
-    bool save_title_active = false;
+    bool m_save_title_active = false;
 
     /// Switch mode request state
-    bool switch_mode_request_active = false;
+    bool m_switch_mode_request_active = false;
 
     /// Resize request state
-    bool resize_request_active = false;
+    bool m_resize_request_active = false;
 
     /// Framebuffer width
-    ui32 framebuffer_width = 0;
+    ui32 m_framebuffer_width = 0;
 
     /// Framebuffer height
-    ui32 framebuffer_height = 0;
+    ui32 m_framebuffer_height = 0;
 
     /// Window X position
-    i32 pos_x = 0;
+    i32 m_pos_x = 0;
 
     /// Window Y position
-    i32 pos_y = 0;
+    i32 m_pos_y = 0;
 
     /// Window width
-    ui32 width = 0;
+    ui32 m_width = 0;
 
     /// Window height
-    ui32 height = 0;
+    ui32 m_height = 0;
 };
 
 /**

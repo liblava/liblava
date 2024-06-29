@@ -71,20 +71,20 @@ bool app::load_config(string_ref config_id) {
 
     config.context = this;
 
-    config_callback.on_load = [&](json_ref j) {
+    m_config_callback.on_load = [&](json_ref j) {
         if (!j.count(config.id))
             return;
 
         config.set_json(j[config.id]);
     };
 
-    config_callback.on_save = [&]() {
+    m_config_callback.on_save = [&]() {
         json j;
         j[config.id] = config.get_json();
         return j;
     };
 
-    config_file.add(&config_callback);
+    config_file.add(&m_config_callback);
     return config_file.load();
 }
 
@@ -95,7 +95,7 @@ bool app::create_block() {
                       device->graphics_queue().family))
         return false;
 
-    block_command = block.add_cmd([&](VkCommandBuffer cmd_buf) {
+    m_block_command = block.add_cmd([&](VkCommandBuffer cmd_buf) {
         scoped_label block_mark(cmd_buf,
                                 _lava_block_,
                                 {default_color, 1.f});
@@ -209,8 +209,8 @@ bool app::setup() {
 
     setup_run();
 
-    if (parse_benchmark(get_cmd_line(), frames))
-        benchmark(*this, frames);
+    if (parse_benchmark(get_cmd_line(), m_frames))
+        benchmark(*this, m_frames);
 
     return true;
 }
@@ -374,7 +374,7 @@ void app::setup_run() {
         return on_create ? on_create() : run_continue;
     });
 
-    frame_counter = 0;
+    m_frame_counter = 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -402,11 +402,11 @@ bool app::create_imgui() {
 
     shading.get_pass()->add(imgui.get_pipeline());
 
-    imgui_fonts = texture::make();
-    if (!imgui.upload_fonts(imgui_fonts))
+    m_imgui_fonts = texture::make();
+    if (!imgui.upload_fonts(m_imgui_fonts))
         return false;
 
-    staging.add(imgui_fonts);
+    staging.add(m_imgui_fonts);
 
     if (auto imgui_active = undef;
         get_cmd_line()({"-ig", "--imgui"}) >> imgui_active)
@@ -418,7 +418,7 @@ bool app::create_imgui() {
 //-----------------------------------------------------------------------------
 void app::destroy_imgui() {
     imgui.destroy();
-    imgui_fonts->destroy();
+    m_imgui_fonts->destroy();
 }
 
 //-----------------------------------------------------------------------------
@@ -468,8 +468,8 @@ void app::handle_keys() {
                 }
 
                 if (event.pressed(key::b)) {
-                    frames.exit = false;
-                    benchmark(*this, frames);
+                    m_frames.exit = false;
+                    benchmark(*this, m_frames);
                     return input_done;
                 }
 
@@ -489,7 +489,7 @@ void app::handle_keys() {
                 }
 
                 if (event.pressed(key::backspace)) {
-                    toggle_v_sync = true;
+                    m_toggle_v_sync = true;
                     return input_done;
                 }
             }
@@ -563,7 +563,7 @@ void app::handle_window() {
             return shut_down();
 
         if (window.switch_mode_request()
-            || toggle_v_sync
+            || m_toggle_v_sync
             || target->reload_request()) {
             device->wait_for_idle();
 
@@ -588,13 +588,13 @@ void app::handle_window() {
                 set_window_icon(window);
             }
 
-            if (toggle_v_sync) {
+            if (m_toggle_v_sync) {
                 config.v_sync = !config.v_sync;
 
                 logger()->debug("{}: {}", _v_sync_,
                                 config.v_sync ? _on_ : _off_);
 
-                toggle_v_sync = false;
+                m_toggle_v_sync = false;
             }
 
             if (!create_target())
@@ -653,19 +653,19 @@ void app::render() {
 
         if (config.fps_cap != 0) {
             auto const frame_time_ms = (1000.f / config.fps_cap);
-            auto const next_render_time = last_render_time
+            auto const next_render_time = m_last_render_time
                                           + us(to_i32(frame_time_ms * 1000));
             if (get_current_timestamp_us() < next_render_time)
                 return run_continue;
         }
 
-        last_render_time = get_current_timestamp_us();
+        m_last_render_time = get_current_timestamp_us();
 
         auto const frame_index = renderer.begin_frame();
         if (!frame_index.has_value())
             return run_continue;
 
-        frame_counter++;
+        m_frame_counter++;
 
         if (!block.process(*frame_index))
             return run_abort;

@@ -65,7 +65,7 @@ struct render_pass : entity {
      * @return device::ptr    Vulkan device
      */
     device::ptr get_device() {
-        return device;
+        return m_device;
     }
 
     /**
@@ -73,7 +73,7 @@ struct render_pass : entity {
      * @return VkRenderPass    Vulkan render pass
      */
     VkRenderPass get() const {
-        return vk_render_pass;
+        return m_vk_render_pass;
     }
 
     /**
@@ -81,7 +81,7 @@ struct render_pass : entity {
      * @return ui32    Number of subpasses
      */
     ui32 get_subpass_count() const {
-        return to_ui32(subpasses.size());
+        return to_ui32(m_subpasses.size());
     }
 
     /**
@@ -90,7 +90,7 @@ struct render_pass : entity {
      * @return Subpass exists or not
      */
     bool exists_subpass(index index = 0) const {
-        return index < subpasses.size();
+        return index < m_subpasses.size();
     }
 
     /**
@@ -99,7 +99,7 @@ struct render_pass : entity {
      * @return subpass*    Subpass
      */
     subpass* get_subpass(index index = 0) {
-        return subpasses.at(index).get();
+        return m_subpasses.at(index).get();
     }
 
     /**
@@ -107,7 +107,7 @@ struct render_pass : entity {
      * @return subpass::s_list const&    List of subpasses
      */
     subpass::s_list const& get_subpasses() const {
-        return subpasses;
+        return m_subpasses;
     }
 
     /**
@@ -115,7 +115,7 @@ struct render_pass : entity {
      * @param attachment    Attachment
      */
     void add(attachment::s_ptr const& attachment) {
-        attachments.push_back(attachment);
+        m_attachments.push_back(attachment);
     }
 
     /**
@@ -123,7 +123,7 @@ struct render_pass : entity {
      * @param dependency    Subpass dependency
      */
     void add(subpass_dependency::s_ptr const& dependency) {
-        dependencies.push_back(dependency);
+        m_dependencies.push_back(dependency);
     }
 
     /**
@@ -131,7 +131,7 @@ struct render_pass : entity {
      * @param subpass    Subpass
      */
     void add(subpass::s_ptr const& subpass) {
-        subpasses.push_back(subpass);
+        m_subpasses.push_back(subpass);
     }
 
     /**
@@ -139,7 +139,7 @@ struct render_pass : entity {
      * @param values    List of clear values
      */
     void set_clear_values(VkClearValues const& values) {
-        clear_values = values;
+        m_clear_values = values;
     }
 
     /**
@@ -147,7 +147,7 @@ struct render_pass : entity {
      * @return VkClearValues const&    List of clear values
      */
     VkClearValues const& get_clear_values() const {
-        return clear_values;
+        return m_clear_values;
     }
 
     /**
@@ -169,7 +169,7 @@ struct render_pass : entity {
      */
     void add(render_pipeline::s_ptr pipeline,
              index subpass = 0) {
-        subpasses.at(subpass)->add(pipeline);
+        m_subpasses.at(subpass)->add(pipeline);
     }
 
     /**
@@ -179,7 +179,7 @@ struct render_pass : entity {
      */
     void add_front(render_pipeline::s_ptr pipeline,
                    index subpass = 0) {
-        subpasses.at(subpass)->add_front(pipeline);
+        m_subpasses.at(subpass)->add_front(pipeline);
     }
 
     /**
@@ -189,7 +189,7 @@ struct render_pass : entity {
      */
     void remove(render_pipeline::s_ptr pipeline,
                 index subpass = 0) {
-        subpasses.at(subpass)->remove(pipeline);
+        m_subpasses.at(subpass)->remove(pipeline);
     }
 
     /**
@@ -197,36 +197,36 @@ struct render_pass : entity {
      * @return target_callback const&    Target callback
      */
     target_callback const& get_target_callback() const {
-        return callback;
+        return m_callback;
     }
 
 private:
     /// Vulkan device
-    device::ptr device = nullptr;
+    device::ptr m_device = nullptr;
 
     /// Vulkan render pass
-    VkRenderPass vk_render_pass = VK_NULL_HANDLE;
+    VkRenderPass m_vk_render_pass = VK_NULL_HANDLE;
 
     /// List of frame buffers
-    VkFramebuffers framebuffers = {};
+    VkFramebuffers m_framebuffers = {};
 
     /// List of attachments
-    attachment::s_list attachments;
+    attachment::s_list m_attachments;
 
     /// List of subpass dependencies
-    subpass_dependency::s_list dependencies;
+    subpass_dependency::s_list m_dependencies;
 
     /// List of subpasses
-    subpass::s_list subpasses;
+    subpass::s_list m_subpasses;
 
     /// List of clear values
-    VkClearValues clear_values = {};
+    VkClearValues m_clear_values = {};
 
     /// Rectangle area
-    rect area;
+    rect m_area;
 
     /// Target callback
-    target_callback callback;
+    target_callback m_callback;
 
     /**
      * @brief Begin the render pass

@@ -90,7 +90,7 @@ struct buffer : entity {
      * @return device::ptr    Vulkan device
      */
     device::ptr get_device() {
-        return device;
+        return m_device;
     }
 
     /**
@@ -98,7 +98,7 @@ struct buffer : entity {
      * @return Buffer is valid or not
      */
     bool valid() const {
-        return vk_buffer != VK_NULL_HANDLE;
+        return m_vk_buffer != VK_NULL_HANDLE;
     }
 
     /**
@@ -106,7 +106,7 @@ struct buffer : entity {
      * @return VkBuffer    Vulkan buffer
      */
     VkBuffer get() const {
-        return vk_buffer;
+        return m_vk_buffer;
     }
 
     /**
@@ -114,7 +114,7 @@ struct buffer : entity {
      * @return VkDescriptorBufferInfo const*    Descriptor buffer information
      */
     VkDescriptorBufferInfo const* get_descriptor_info() const {
-        return &descriptor;
+        return &m_descriptor;
     }
 
     /**
@@ -128,7 +128,7 @@ struct buffer : entity {
      * @return VkDeviceSize    Device size
      */
     VkDeviceSize get_size() const {
-        return allocation_info.size;
+        return m_allocation_info.size;
     }
 
     /**
@@ -136,7 +136,7 @@ struct buffer : entity {
      * @return void*    Pointer to data
      */
     void* get_mapped_data() const {
-        return allocation_info.pMappedData;
+        return m_allocation_info.pMappedData;
     }
 
     /**
@@ -144,7 +144,7 @@ struct buffer : entity {
      * @return VkDeviceMemory    Device memory
      */
     VkDeviceMemory get_device_memory() const {
-        return allocation_info.deviceMemory;
+        return m_allocation_info.deviceMemory;
     }
 
     /**
@@ -160,7 +160,7 @@ struct buffer : entity {
      * @return VmaAllocation const&    Allocation
      */
     VmaAllocation const& get_allocation() const {
-        return allocation;
+        return m_allocation;
     }
 
     /**
@@ -168,24 +168,24 @@ struct buffer : entity {
      * @return VmaAllocationInfo const&    Allocation information
      */
     VmaAllocationInfo const& get_allocation_info() const {
-        return allocation_info;
+        return m_allocation_info;
     }
 
 private:
     /// Vulkan device
-    device::ptr device = nullptr;
+    device::ptr m_device = nullptr;
 
     /// Vulkan buffer
-    VkBuffer vk_buffer = VK_NULL_HANDLE;
+    VkBuffer m_vk_buffer = VK_NULL_HANDLE;
 
     /// Allocation
-    VmaAllocation allocation = nullptr;
+    VmaAllocation m_allocation = nullptr;
 
     /// Allocation information
-    VmaAllocationInfo allocation_info = {};
+    VmaAllocationInfo m_allocation_info = {};
 
     /// Descriptor buffer information
-    VkDescriptorBufferInfo descriptor = {};
+    VkDescriptorBufferInfo m_descriptor = {};
 };
 
 /**

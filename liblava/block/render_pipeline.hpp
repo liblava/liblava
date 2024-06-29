@@ -94,7 +94,7 @@ struct render_pipeline : pipeline {
      * @param pass    Render pass
      */
     void set_render_pass(VkRenderPass pass) {
-        render_pass = pass;
+        m_render_pass = pass;
     }
 
     /**
@@ -109,7 +109,7 @@ struct render_pipeline : pipeline {
      * @return VkRenderPass    Render pass
      */
     VkRenderPass get_render_pass() const {
-        return render_pass;
+        return m_render_pass;
     }
 
     /**
@@ -117,7 +117,7 @@ struct render_pipeline : pipeline {
      * @return index    Index of subpass
      */
     index get_subpass() const {
-        return subpass;
+        return m_subpass;
     }
 
     /**
@@ -125,7 +125,7 @@ struct render_pipeline : pipeline {
      * @param value    Index of subpass
      */
     void set_subpass(index value) {
-        subpass = value;
+        m_subpass = value;
     }
 
     /**
@@ -259,7 +259,7 @@ struct render_pipeline : pipeline {
      * @param shader_stage    Shader stage
      */
     void add(shader_stage::s_ptr const& shader_stage) {
-        shader_stages.push_back(shader_stage);
+        m_shader_stages.push_back(shader_stage);
     }
 
     /**
@@ -267,14 +267,14 @@ struct render_pipeline : pipeline {
      * @return shader_stage::s_list const&    List of shader stages
      */
     shader_stage::s_list const& get_shader_stages() const {
-        return shader_stages;
+        return m_shader_stages;
     }
 
     /**
      * @brief Clear the shader stages
      */
     void clear_shader_stages() {
-        shader_stages.clear();
+        m_shader_stages.clear();
     }
 
     /**
@@ -290,7 +290,7 @@ struct render_pipeline : pipeline {
      * @param value    Enable state
      */
     void set_auto_size(bool value = true) {
-        auto_size = value;
+        m_auto_size = value;
     }
 
     /**
@@ -298,7 +298,7 @@ struct render_pipeline : pipeline {
      * @return Auto sizing is enabled or not
      */
     bool auto_sizing() const {
-        return auto_size;
+        return m_auto_size;
     }
 
     /**
@@ -306,7 +306,7 @@ struct render_pipeline : pipeline {
      * @return VkViewport    Vulkan viewport
      */
     VkViewport get_viewport() const {
-        return viewport;
+        return m_viewport;
     }
 
     /**
@@ -314,7 +314,7 @@ struct render_pipeline : pipeline {
      * @param value    Vulkan viewport
      */
     void set_viewport(VkViewport value) {
-        viewport = value;
+        m_viewport = value;
     }
 
     /**
@@ -322,7 +322,7 @@ struct render_pipeline : pipeline {
      * @return VkRect2D    Scissor rectangle
      */
     VkRect2D get_scissor() const {
-        return scissor;
+        return m_scissor;
     }
 
     /**
@@ -330,7 +330,7 @@ struct render_pipeline : pipeline {
      * @param value    Scissor rectangle
      */
     void set_scissor(VkRect2D value) {
-        scissor = value;
+        m_scissor = value;
     }
 
     /**
@@ -338,7 +338,7 @@ struct render_pipeline : pipeline {
      * @return sizing_mode    Sizing mode
      */
     sizing_mode get_sizing() const {
-        return sizing;
+        return m_sizing;
     }
 
     /**
@@ -346,7 +346,7 @@ struct render_pipeline : pipeline {
      * @param value    Sizing mode
      */
     void set_sizing(sizing_mode value) {
-        sizing = value;
+        m_sizing = value;
     }
 
     /**
@@ -368,7 +368,7 @@ struct render_pipeline : pipeline {
      * @param value    Line width
      */
     void set_line_width(r32 value) {
-        line_width = value;
+        m_line_width = value;
     }
 
     /**
@@ -376,7 +376,7 @@ struct render_pipeline : pipeline {
      * @return r32    Line width
      */
     r32 get_line_width() const {
-        return line_width;
+        return m_line_width;
     }
 
     /**
@@ -384,7 +384,7 @@ struct render_pipeline : pipeline {
      * @return Auto line width is enabled or not
      */
     bool auto_line_width() const {
-        return auto_line_width_state;
+        return m_auto_line_width_state;
     }
 
     /**
@@ -392,7 +392,7 @@ struct render_pipeline : pipeline {
      * @param value    Enable state
      */
     void set_auto_line_width(bool value = true) {
-        auto_line_width_state = value;
+        m_auto_line_width_state = value;
     }
 
     /**
@@ -400,7 +400,7 @@ struct render_pipeline : pipeline {
      * @param cmd_buf    Command buffer
      */
     void set_line_width(VkCommandBuffer cmd_buf) {
-        vkCmdSetLineWidth(cmd_buf, line_width);
+        vkCmdSetLineWidth(cmd_buf, m_line_width);
     }
 
     /// Create function
@@ -422,52 +422,52 @@ private:
     void teardown() override;
 
     /// Vulkan render pass
-    VkRenderPass render_pass = VK_NULL_HANDLE;
+    VkRenderPass m_render_pass = VK_NULL_HANDLE;
 
     /// Subpass index
-    index subpass = 0;
+    index m_subpass = 0;
 
     /// Create information
-    create_info info;
+    create_info m_info;
 
     /// List of vertex input binding descriptions
-    VkVertexInputBindingDescriptions vertex_input_bindings;
+    VkVertexInputBindingDescriptions m_vertex_input_bindings;
 
     /// List of vertex input attribute descriptions
-    VkVertexInputAttributeDescriptions vertex_input_attributes;
+    VkVertexInputAttributeDescriptions m_vertex_input_attributes;
 
     /// List of pipeline color blend attachment states
-    VkPipelineColorBlendAttachmentStates color_blend_attachment_states;
+    VkPipelineColorBlendAttachmentStates m_color_blend_attachment_states;
 
     /// Pipeline color blend state create information
-    VkPipelineColorBlendStateCreateInfo color_blend_state;
+    VkPipelineColorBlendStateCreateInfo m_color_blend_state;
 
     /// Pipeline dynamic state create information
-    VkPipelineDynamicStateCreateInfo dynamic_state;
+    VkPipelineDynamicStateCreateInfo m_dynamic_state;
 
     /// List of dynamic states
-    VkDynamicStates dynamic_states;
+    VkDynamicStates m_dynamic_states;
 
     /// List of shader stages
-    shader_stage::s_list shader_stages;
+    shader_stage::s_list m_shader_stages;
 
     /// Sizing mode
-    sizing_mode sizing = sizing_mode::input;
+    sizing_mode m_sizing = sizing_mode::input;
 
     /// Vulkan viewport
-    VkViewport viewport;
+    VkViewport m_viewport;
 
     /// Scissor rectangle
-    VkRect2D scissor;
+    VkRect2D m_scissor;
 
     /// Auto size
-    bool auto_size = true;
+    bool m_auto_size = true;
 
     /// Auto line width state
-    bool auto_line_width_state = false;
+    bool m_auto_line_width_state = false;
 
     /// Line width
-    r32 line_width = 1.f;
+    r32 m_line_width = 1.f;
 };
 
 /**

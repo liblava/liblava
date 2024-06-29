@@ -139,7 +139,7 @@ struct app : frame {
      * @return ui32    Number of rendered frames
      */
     ui32 get_frame_counter() const {
-        return frame_counter;
+        return m_frame_counter;
     }
 
     /**
@@ -185,7 +185,7 @@ struct app : frame {
      * @return id::ref    Id to access the command
      */
     id::ref block_cmd() const {
-        return block_command;
+        return m_block_command;
     }
 
     /// Set up function
@@ -319,25 +319,25 @@ private:
     void destroy_pipeline_cache();
 
     /// Texture for ImGui fonts
-    texture::s_ptr imgui_fonts;
+    texture::s_ptr m_imgui_fonts;
 
     /// Toggle V-Sync state
-    bool toggle_v_sync = false;
+    bool m_toggle_v_sync = false;
 
     /// Number of frames rendered
-    ui32 frame_counter = 0;
+    ui32 m_frame_counter = 0;
 
     /// Last render time
-    us last_render_time{0};
+    us m_last_render_time{0};
 
     /// Configuration file callback
-    json_file::callback config_callback;
+    json_file::callback m_config_callback;
 
     /// Block command id
-    id block_command;
+    id m_block_command;
 
     /// Benchmark frames
-    benchmark_data frames;
+    benchmark_data m_frames;
 };
 
 } // namespace lava

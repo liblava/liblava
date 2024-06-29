@@ -21,7 +21,7 @@ struct random_generator {
      */
     random_generator() {
         std::random_device rd;
-        mt = std::mt19937(rd());
+        m_engine = std::mt19937(rd());
     }
 
     /**
@@ -32,7 +32,7 @@ struct random_generator {
      */
     i32 get(i32 low, i32 high) {
         std::uniform_int_distribution<i32> dist(low, high);
-        return dist(mt);
+        return dist(m_engine);
     }
 
     /**
@@ -45,12 +45,12 @@ struct random_generator {
     template <typename T = real>
     T get(T low, T high) {
         std::uniform_real_distribution<T> dist(low, high);
-        return dist(mt);
+        return dist(m_engine);
     }
 
 private:
     /// Mersenne twister algorithm
-    std::mt19937 mt;
+    std::mt19937 m_engine;
 };
 
 /**
@@ -81,14 +81,14 @@ struct pseudo_random_generator {
      * @param seed    Seed for generator
      */
     explicit pseudo_random_generator(ui32 seed)
-    : seed(seed) {}
+    : m_seed(seed) {}
 
     /**
      * @brief Set the seed
      * @param value    Generator seed
      */
     void set_seed(ui32 value) {
-        seed = value;
+        m_seed = value;
     }
 
     /**
@@ -101,14 +101,14 @@ struct pseudo_random_generator {
 
 private:
     /// Generator seed
-    ui32 seed = 0;
+    ui32 m_seed = 0;
 
     /**
      * @brief Generate fast random number
      * @return ui32    Random number
      */
     ui32 generate_fast() {
-        return seed = (seed * 196314165 + 907633515);
+        return m_seed = (m_seed * 196314165 + 907633515);
     }
 };
 

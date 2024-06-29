@@ -134,7 +134,7 @@ struct file : no_copy_no_move {
      * @return File is writable or only readable
      */
     bool writable() const {
-        return mode == file_mode::write;
+        return m_mode == file_mode::write;
     }
 
     /**
@@ -142,7 +142,7 @@ struct file : no_copy_no_move {
      * @return file_type    Type of file
      */
     file_type get_type() const {
-        return type;
+        return m_type;
     }
 
     /**
@@ -150,27 +150,27 @@ struct file : no_copy_no_move {
      * @return name    File path
      */
     string_ref get_path() const {
-        return path;
+        return m_path;
     }
 
 private:
     /// File type
-    file_type type = file_type::none;
+    file_type m_type = file_type::none;
 
     /// File mode
-    file_mode mode = file_mode::read;
+    file_mode m_mode = file_mode::read;
 
     /// File path
-    string path;
+    string m_path;
 
     /// Physfs file handle
-    PHYSFS_File* fs_file = nullptr;
+    PHYSFS_File* m_file = nullptr;
 
     /// Std input file stream
-    mutable std::ifstream i_stream;
+    mutable std::ifstream m_istream;
 
     /// Std output file stream
-    mutable std::ofstream o_stream;
+    mutable std::ofstream m_ostream;
 };
 
 } // namespace lava

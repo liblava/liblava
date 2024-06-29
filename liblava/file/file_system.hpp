@@ -123,7 +123,7 @@ struct file_system : no_copy_no_move {
      * @return string_ref    Name of organization
      */
     string_ref get_org() const {
-        return org;
+        return m_org;
     }
 
     /**
@@ -131,7 +131,7 @@ struct file_system : no_copy_no_move {
      * @return string_ref    Name of application
      */
     string_ref get_app() const {
-        return app;
+        return m_app;
     }
 
     /**
@@ -139,7 +139,7 @@ struct file_system : no_copy_no_move {
      * @return string_ref    Name of extension
      */
     string_ref get_ext() const {
-        return ext;
+        return m_ext;
     }
 
     /**
@@ -147,24 +147,24 @@ struct file_system : no_copy_no_move {
      * @return File system is ready or not
      */
     bool ready() const {
-        return initialized;
+        return m_initialized;
     }
 
 private:
     /// Initialized state
-    bool initialized = false;
+    bool m_initialized = false;
 
     /// Organization name
-    string org;
+    string m_org;
 
     /// Application name
-    string app;
+    string m_app;
 
     /// Extension name
-    string ext;
+    string m_ext;
 
     /// Path to resources
-    string res_path;
+    string m_res_path;
 };
 
 } // namespace lava

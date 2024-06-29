@@ -74,17 +74,17 @@ instance::~instance() {
 
 //-----------------------------------------------------------------------------
 bool instance::check_debug(create_param& param) const {
-    if (debug.validation) {
+    if (m_debug.validation) {
         if (!exists(param.layers, VK_LAYER_KHRONOS_VALIDATION_NAME))
             param.layers.push_back(VK_LAYER_KHRONOS_VALIDATION_NAME);
     }
 
-    if (debug.render_doc) {
+    if (m_debug.render_doc) {
         if (!exists(param.layers, VK_LAYER_RENDERDOC_CAPTURE_NAME))
             param.layers.push_back(VK_LAYER_RENDERDOC_CAPTURE_NAME);
     }
 
-    if (debug.utils) {
+    if (m_debug.utils) {
         if (!exists(param.extensions, VK_EXT_DEBUG_UTILS_EXTENSION_NAME))
             param.extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
     }
@@ -106,23 +106,23 @@ bool instance::check_debug(create_param& param) const {
 
 //-----------------------------------------------------------------------------
 bool instance::create(create_param& param,
-                      debug_config::ref d,
-                      instance_info::ref i) {
-    debug = d;
-    info = i;
+                      debug_config::ref debug,
+                      instance_info::ref info) {
+    m_debug = debug;
+    m_info = info;
 
     if (!check_debug(param))
         return false;
 
     VkApplicationInfo application_info{
         .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
-        .pApplicationName = info.app_name,
-        .applicationVersion = to_vk_version(info.app_version),
-        .pEngineName = info.engine_name,
-        .engineVersion = to_vk_version(info.engine_version),
+        .pApplicationName = m_info.app_name,
+        .applicationVersion = to_vk_version(m_info.app_version),
+        .pEngineName = m_info.engine_name,
+        .engineVersion = to_vk_version(m_info.engine_version),
     };
 
-    switch (info.req_api_version) {
+    switch (m_info.req_api_version) {
     case api_version::v1_1:
         application_info.apiVersion = VK_API_VERSION_1_1;
         break;
@@ -150,15 +150,15 @@ bool instance::create(create_param& param,
 
     if (failed(vkCreateInstance(&create_info,
                                 memory::instance().alloc(),
-                                &vk_instance)))
+                                &m_vk_instance)))
         return false;
 
-    volkLoadInstance(vk_instance);
+    volkLoadInstance(m_vk_instance);
 
     if (!enumerate_physical_devices())
         return false;
 
-    if (debug.utils)
+    if (m_debug.utils)
         if (!create_debug_messenger())
             return false;
 
@@ -167,17 +167,17 @@ bool instance::create(create_param& param,
 
 //-----------------------------------------------------------------------------
 void instance::destroy() {
-    if (!vk_instance)
+    if (!m_vk_instance)
         return;
 
-    physical_devices.clear();
+    m_physical_devices.clear();
 
-    if (debug.utils)
+    if (m_debug.utils)
         destroy_debug_messenger();
 
-    vkDestroyInstance(vk_instance,
+    vkDestroyInstance(m_vk_instance,
                       memory::instance().alloc());
-    vk_instance = nullptr;
+    m_vk_instance = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -193,48 +193,48 @@ bool instance::create_debug_messenger() {
         .pfnUserCallback = debug_messenger_callback,
     };
 
-    if (debug.verbose)
+    if (m_debug.verbose)
         create_info.messageSeverity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT
                                        | VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
 
-    return check(vkCreateDebugUtilsMessengerEXT(vk_instance,
+    return check(vkCreateDebugUtilsMessengerEXT(m_vk_instance,
                                                 &create_info,
                                                 memory::instance().alloc(),
-                                                &debug_messenger));
+                                                &m_debug_messenger));
 }
 
 //-----------------------------------------------------------------------------
 void instance::destroy_debug_messenger() {
-    if (!debug_messenger)
+    if (!m_debug_messenger)
         return;
 
-    vkDestroyDebugUtilsMessengerEXT(vk_instance,
-                                    debug_messenger,
+    vkDestroyDebugUtilsMessengerEXT(m_vk_instance,
+                                    m_debug_messenger,
                                     memory::instance().alloc());
 
-    debug_messenger = VK_NULL_HANDLE;
+    m_debug_messenger = VK_NULL_HANDLE;
 }
 
 //-----------------------------------------------------------------------------
 bool instance::enumerate_physical_devices() {
-    physical_devices.clear();
+    m_physical_devices.clear();
 
     auto count = 0u;
-    auto result = vkEnumeratePhysicalDevices(vk_instance,
+    auto result = vkEnumeratePhysicalDevices(m_vk_instance,
                                              &count,
                                              nullptr);
     if (failed(result))
         return false;
 
     VkPhysicalDevices devices(count);
-    result = vkEnumeratePhysicalDevices(vk_instance,
+    result = vkEnumeratePhysicalDevices(m_vk_instance,
                                         &count,
                                         devices.data());
     if (failed(result))
         return false;
 
     for (auto& device : devices)
-        physical_devices.emplace_back(physical_device::make(device));
+        m_physical_devices.emplace_back(physical_device::make(device));
 
     return true;
 }

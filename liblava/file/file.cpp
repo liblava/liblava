@@ -25,29 +25,29 @@ bool file::open(string_ref p, file_mode m) {
     if (p.empty())
         return false;
 
-    path = p;
-    mode = m;
+    m_path = p;
+    m_mode = m;
 
-    if (mode == file_mode::write)
-        fs_file = PHYSFS_openWrite(str(path));
+    if (m_mode == file_mode::write)
+        m_file = PHYSFS_openWrite(str(m_path));
     else
-        fs_file = PHYSFS_openRead(str(path));
+        m_file = PHYSFS_openRead(str(m_path));
 
-    if (fs_file) {
-        type = file_type::fs;
+    if (m_file) {
+        m_type = file_type::fs;
     } else {
-        if (mode == file_mode::write) {
-            o_stream = std::ofstream(path,
-                                     std::ios::binary);
-            if (o_stream.is_open())
-                type = file_type::f_stream;
+        if (m_mode == file_mode::write) {
+            m_ostream = std::ofstream(m_path,
+                                      std::ios::binary);
+            if (m_ostream.is_open())
+                m_type = file_type::f_stream;
         } else {
-            i_stream = std::ifstream(path,
-                                     std::ios::binary);
-            if (i_stream.is_open())
-                type = file_type::f_stream;
+            m_istream = std::ifstream(m_path,
+                                      std::ios::binary);
+            if (m_istream.is_open())
+                m_type = file_type::f_stream;
 
-            i_stream.seekg(0, i_stream.beg);
+            m_istream.seekg(0, m_istream.beg);
         }
     }
 
@@ -56,25 +56,25 @@ bool file::open(string_ref p, file_mode m) {
 
 //-----------------------------------------------------------------------------
 void file::close() {
-    if (type == file_type::fs) {
-        PHYSFS_close(fs_file);
-    } else if (type == file_type::f_stream) {
-        if (mode == file_mode::write)
-            o_stream.close();
+    if (m_type == file_type::fs) {
+        PHYSFS_close(m_file);
+    } else if (m_type == file_type::f_stream) {
+        if (m_mode == file_mode::write)
+            m_ostream.close();
         else
-            i_stream.close();
+            m_istream.close();
     }
 }
 
 //-----------------------------------------------------------------------------
 bool file::opened() const {
-    if (type == file_type::fs) {
-        return fs_file != nullptr;
-    } else if (type == file_type::f_stream) {
-        if (mode == file_mode::write)
-            return o_stream.is_open();
+    if (m_type == file_type::fs) {
+        return m_file != nullptr;
+    } else if (m_type == file_type::f_stream) {
+        if (m_mode == file_mode::write)
+            return m_ostream.is_open();
         else
-            return i_stream.is_open();
+            return m_istream.is_open();
     }
 
     return false;
@@ -82,20 +82,20 @@ bool file::opened() const {
 
 //-----------------------------------------------------------------------------
 i64 file::get_size() const {
-    if (type == file_type::fs) {
-        return PHYSFS_fileLength(fs_file);
-    } else if (type == file_type::f_stream) {
-        if (mode == file_mode::write) {
-            auto current = o_stream.tellp();
-            o_stream.seekp(0, o_stream.end);
-            auto result = o_stream.tellp();
-            o_stream.seekp(current);
+    if (m_type == file_type::fs) {
+        return PHYSFS_fileLength(m_file);
+    } else if (m_type == file_type::f_stream) {
+        if (m_mode == file_mode::write) {
+            auto current = m_ostream.tellp();
+            m_ostream.seekp(0, m_ostream.end);
+            auto result = m_ostream.tellp();
+            m_ostream.seekp(current);
             return result;
         } else {
-            auto current = i_stream.tellg();
-            i_stream.seekg(0, i_stream.end);
-            auto result = i_stream.tellg();
-            i_stream.seekg(current);
+            auto current = m_istream.tellg();
+            m_istream.seekg(0, m_istream.end);
+            auto result = m_istream.tellg();
+            m_istream.seekg(current);
             return result;
         }
     }
@@ -105,26 +105,26 @@ i64 file::get_size() const {
 
 //-----------------------------------------------------------------------------
 i64 file::read(data::ptr data, ui64 size) {
-    if (mode == file_mode::write)
+    if (m_mode == file_mode::write)
         return file_error_result;
 
-    if (type == file_type::fs)
-        return PHYSFS_readBytes(fs_file, data, size);
-    else if (type == file_type::f_stream)
-        return i_stream.read(data, size).gcount();
+    if (m_type == file_type::fs)
+        return PHYSFS_readBytes(m_file, data, size);
+    else if (m_type == file_type::f_stream)
+        return m_istream.read(data, size).gcount();
 
     return file_error_result;
 }
 
 //-----------------------------------------------------------------------------
 i64 file::write(data::c_ptr data, ui64 size) {
-    if (mode != file_mode::write)
+    if (m_mode != file_mode::write)
         return file_error_result;
 
-    if (type == file_type::fs) {
-        return PHYSFS_writeBytes(fs_file, data, size);
-    } else if (type == file_type::f_stream) {
-        o_stream.write(data, size);
+    if (m_type == file_type::fs) {
+        return PHYSFS_writeBytes(m_file, data, size);
+    } else if (m_type == file_type::f_stream) {
+        m_ostream.write(data, size);
         return to_i64(size);
     }
 
@@ -133,13 +133,13 @@ i64 file::write(data::c_ptr data, ui64 size) {
 
 //-----------------------------------------------------------------------------
 i64 file::seek(ui64 position) {
-    if (type == file_type::fs) {
-        return PHYSFS_seek(fs_file, position);
-    } else if (type == file_type::f_stream) {
-        if (mode == file_mode::write)
-            o_stream.seekp(position);
+    if (m_type == file_type::fs) {
+        return PHYSFS_seek(m_file, position);
+    } else if (m_type == file_type::f_stream) {
+        if (m_mode == file_mode::write)
+            m_ostream.seekp(position);
         else
-            i_stream.seekg(position);
+            m_istream.seekg(position);
 
         return tell();
     }
@@ -149,13 +149,13 @@ i64 file::seek(ui64 position) {
 
 //-----------------------------------------------------------------------------
 i64 file::tell() const {
-    if (type == file_type::fs) {
-        return PHYSFS_tell(fs_file);
-    } else if (type == file_type::f_stream) {
-        if (mode == file_mode::write)
-            return to_i64(o_stream.tellp());
+    if (m_type == file_type::fs) {
+        return PHYSFS_tell(m_file);
+    } else if (m_type == file_type::f_stream) {
+        if (m_mode == file_mode::write)
+            return to_i64(m_ostream.tellp());
         else
-            return to_i64(i_stream.tellg());
+            return to_i64(m_istream.tellg());
     }
 
     return file_error_result;

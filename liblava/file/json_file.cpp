@@ -14,22 +14,22 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 json_file::json_file(string_ref path)
-: path(path) {}
+: m_path(path) {}
 
 //-----------------------------------------------------------------------------
 void json_file::add(callback* callback) {
-    callbacks.push_back(callback);
+    m_callbacks.push_back(callback);
 }
 
 //-----------------------------------------------------------------------------
 void json_file::remove(callback* callback) {
-    lava::remove(callbacks, callback);
+    lava::remove(m_callbacks, callback);
 }
 
 //-----------------------------------------------------------------------------
 bool json_file::load() {
     u_data data;
-    if (!load_file_data(path, data))
+    if (!load_file_data(m_path, data))
         return false;
 
     if (data.size == 0)
@@ -40,7 +40,7 @@ bool json_file::load() {
 
     auto j = json::parse(data.addr, data.end());
 
-    for (auto callback : callbacks)
+    for (auto callback : m_callbacks)
         callback->on_load(j);
 
     return true;
@@ -51,11 +51,11 @@ bool json_file::save() {
     json j;
 
     u_data data;
-    if (load_file_data(path, data) && (data.size > 0))
+    if (load_file_data(m_path, data) && (data.size > 0))
         if (json::accept(data.addr, data.end()))
             j = json::parse(data.addr, data.end());
 
-    for (auto callback : callbacks) {
+    for (auto callback : m_callbacks) {
         auto d = callback->on_save();
         if (d.empty())
             continue;
@@ -63,7 +63,7 @@ bool json_file::save() {
         j.merge_patch(d);
     }
 
-    file file(path, file_mode::write);
+    file file(m_path, file_mode::write);
     if (!file.opened())
         return false;
 

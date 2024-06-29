@@ -12,11 +12,11 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 render_pass::render_pass(device::ptr dev)
-: device(dev) {
-    callback.on_created =
+: m_device(dev) {
+    m_callback.on_created =
         [&](VkAttachmentsRef target_attachments, rect::ref area) { return on_target_created(
                                                                        target_attachments, area); };
-    callback.on_destroyed = [&]() { on_target_destroyed(); };
+    m_callback.on_destroyed = [&]() { on_target_destroyed(); };
 }
 
 //-----------------------------------------------------------------------------
@@ -24,17 +24,17 @@ bool render_pass::create(VkAttachmentsRef target_attachments,
                          rect::ref area) {
     std::vector<VkAttachmentDescription> attachment_descriptions;
 
-    for (auto& attachment : attachments)
+    for (auto& attachment : m_attachments)
         attachment_descriptions.push_back(attachment->get_description());
 
     std::vector<VkSubpassDescription> subpass_descriptions;
 
-    for (auto& subpass : subpasses)
+    for (auto& subpass : m_subpasses)
         subpass_descriptions.push_back(subpass->get_description());
 
     std::vector<VkSubpassDependency> subpass_dependencies;
 
-    for (auto& dependency : dependencies)
+    for (auto& dependency : m_dependencies)
         subpass_dependencies.push_back(dependency->get_dependency());
 
     VkRenderPassCreateInfo const create_info{
@@ -47,10 +47,10 @@ bool render_pass::create(VkAttachmentsRef target_attachments,
         .pDependencies = subpass_dependencies.data(),
     };
 
-    if (!check(device->call().vkCreateRenderPass(device->get(),
-                                                 &create_info,
-                                                 memory::instance().alloc(),
-                                                 &vk_render_pass))) {
+    if (!check(m_device->call().vkCreateRenderPass(m_device->get(),
+                                                   &create_info,
+                                                   memory::instance().alloc(),
+                                                   &m_vk_render_pass))) {
         logger()->error("create render pass");
         return false;
     }
@@ -60,49 +60,49 @@ bool render_pass::create(VkAttachmentsRef target_attachments,
 
 //-----------------------------------------------------------------------------
 void render_pass::destroy() {
-    attachments.clear();
-    dependencies.clear();
+    m_attachments.clear();
+    m_dependencies.clear();
 
-    for (auto& subpass : subpasses)
+    for (auto& subpass : m_subpasses)
         subpass->destroy();
 
-    subpasses.clear();
+    m_subpasses.clear();
 
     on_target_destroyed();
 
-    if (vk_render_pass) {
-        device->call().vkDestroyRenderPass(device->get(),
-                                           vk_render_pass,
-                                           memory::instance().alloc());
-        vk_render_pass = VK_NULL_HANDLE;
+    if (m_vk_render_pass) {
+        m_device->call().vkDestroyRenderPass(m_device->get(),
+                                             m_vk_render_pass,
+                                             memory::instance().alloc());
+        m_vk_render_pass = VK_NULL_HANDLE;
     }
 
-    device = nullptr;
+    m_device = nullptr;
 }
 
 //-----------------------------------------------------------------------------
 void render_pass::begin(VkCommandBuffer cmd_buf,
                         index frame) {
-    auto origin = area.get_origin();
-    auto size = area.get_size();
+    auto origin = m_area.get_origin();
+    auto size = m_area.get_size();
 
     VkRenderPassBeginInfo const info{
         .sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
-        .renderPass = vk_render_pass,
-        .framebuffer = framebuffers[frame],
+        .renderPass = m_vk_render_pass,
+        .framebuffer = m_framebuffers[frame],
         .renderArea = {{origin.x, origin.y}, {size.x, size.y}},
-        .clearValueCount = to_ui32(clear_values.size()),
-        .pClearValues = clear_values.data(),
+        .clearValueCount = to_ui32(m_clear_values.size()),
+        .pClearValues = m_clear_values.data(),
     };
 
-    device->call().vkCmdBeginRenderPass(cmd_buf,
-                                        &info,
-                                        VK_SUBPASS_CONTENTS_INLINE);
+    m_device->call().vkCmdBeginRenderPass(cmd_buf,
+                                          &info,
+                                          VK_SUBPASS_CONTENTS_INLINE);
 }
 
 //-----------------------------------------------------------------------------
 void render_pass::end(VkCommandBuffer cmd_buf) {
-    device->call().vkCmdEndRenderPass(cmd_buf);
+    m_device->call().vkCmdEndRenderPass(cmd_buf);
 }
 
 //-----------------------------------------------------------------------------
@@ -112,15 +112,15 @@ void render_pass::process(VkCommandBuffer cmd_buf,
 
     ui32 count = 0;
 
-    for (auto& subpass : subpasses) {
+    for (auto& subpass : m_subpasses) {
         if (count > 0)
-            device->call().vkCmdNextSubpass(cmd_buf,
-                                            VK_SUBPASS_CONTENTS_INLINE);
+            m_device->call().vkCmdNextSubpass(cmd_buf,
+                                              VK_SUBPASS_CONTENTS_INLINE);
 
         if (!subpass->activated())
             continue;
 
-        subpass->process(cmd_buf, area.get_size());
+        subpass->process(cmd_buf, m_area.get_size());
 
         ++count;
     }
@@ -130,39 +130,39 @@ void render_pass::process(VkCommandBuffer cmd_buf,
 
 //-----------------------------------------------------------------------------
 void render_pass::set_clear_color(v3 value) {
-    clear_values.resize(2);
+    m_clear_values.resize(2);
 
-    clear_values[0].color.float32[0] = value.r;
-    clear_values[0].color.float32[1] = value.g;
-    clear_values[0].color.float32[2] = value.b;
-    clear_values[0].color.float32[3] = 1.f;
+    m_clear_values[0].color.float32[0] = value.r;
+    m_clear_values[0].color.float32[1] = value.g;
+    m_clear_values[0].color.float32[2] = value.b;
+    m_clear_values[0].color.float32[3] = 1.f;
 
-    clear_values[1].depthStencil = {1.f, 0};
+    m_clear_values[1].depthStencil = {1.f, 0};
 }
 
 //-----------------------------------------------------------------------------
 v3 render_pass::get_clear_color() const {
     return {
-        clear_values[0].color.float32[0],
-        clear_values[0].color.float32[1],
-        clear_values[0].color.float32[2],
+        m_clear_values[0].color.float32[0],
+        m_clear_values[0].color.float32[1],
+        m_clear_values[0].color.float32[2],
     };
 }
 
 //-----------------------------------------------------------------------------
 bool render_pass::on_target_created(VkAttachmentsRef target_attachments,
                                     rect::ref a) {
-    area = a;
-    framebuffers.resize(target_attachments.size());
+    m_area = a;
+    m_framebuffers.resize(target_attachments.size());
 
-    auto size = area.get_size();
+    auto size = m_area.get_size();
 
     ui32 count = 0;
 
     for (auto& attachment : target_attachments) {
         VkFramebufferCreateInfo const create_info{
             .sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO,
-            .renderPass = vk_render_pass,
+            .renderPass = m_vk_render_pass,
             .attachmentCount = to_ui32(attachment.size()),
             .pAttachments = attachment.data(),
             .width = size.x,
@@ -170,10 +170,10 @@ bool render_pass::on_target_created(VkAttachmentsRef target_attachments,
             .layers = 1,
         };
 
-        if (failed(device->call().vkCreateFramebuffer(device->get(),
-                                                      &create_info,
-                                                      memory::instance().alloc(),
-                                                      &framebuffers[count]))) {
+        if (failed(m_device->call().vkCreateFramebuffer(m_device->get(),
+                                                        &create_info,
+                                                        memory::instance().alloc(),
+                                                        &m_framebuffers[count]))) {
             logger()->error("create render pass target");
             return false;
         }
@@ -186,17 +186,17 @@ bool render_pass::on_target_created(VkAttachmentsRef target_attachments,
 
 //-----------------------------------------------------------------------------
 void render_pass::on_target_destroyed() {
-    for (auto& framebuffer : framebuffers) {
+    for (auto& framebuffer : m_framebuffers) {
         if (!framebuffer)
             continue;
 
-        device->call().vkDestroyFramebuffer(device->get(),
-                                            framebuffer,
-                                            memory::instance().alloc());
+        m_device->call().vkDestroyFramebuffer(m_device->get(),
+                                              framebuffer,
+                                              memory::instance().alloc());
         framebuffer = VK_NULL_HANDLE;
     }
 
-    framebuffers.clear();
+    m_framebuffers.clear();
 }
 
 } // namespace lava

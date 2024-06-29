@@ -20,8 +20,8 @@ image_data::~image_data() {
 //-----------------------------------------------------------------------------
 image::image(VkFormat format,
              VkImage vk_image)
-: vk_image(vk_image) {
-    info = {
+: m_vk_image(vk_image) {
+    m_info = {
         .sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO,
         .pNext = nullptr,
         .flags = 0,
@@ -41,7 +41,7 @@ image::image(VkFormat format,
         .initialLayout = VK_IMAGE_LAYOUT_UNDEFINED,
     };
 
-    subresource_range = {
+    m_subresource_range = {
         .aspectMask = format_aspect_mask(format),
         .baseMipLevel = 0,
         .levelCount = 1,
@@ -49,7 +49,7 @@ image::image(VkFormat format,
         .layerCount = 1,
     };
 
-    view_info = {
+    m_view_info = {
         .sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
         .pNext = nullptr,
         .flags = 0,
@@ -61,62 +61,62 @@ image::image(VkFormat format,
             VK_COMPONENT_SWIZZLE_G,
             VK_COMPONENT_SWIZZLE_B,
             VK_COMPONENT_SWIZZLE_A},
-        .subresourceRange = subresource_range,
+        .subresourceRange = m_subresource_range,
     };
 }
 
 //-----------------------------------------------------------------------------
-bool image::create(device::ptr d,
+bool image::create(device::ptr dev,
                    uv2 size,
                    VmaMemoryUsage memory_usage,
                    VmaAllocationCreateFlags allocation_flags) {
-    device = d;
+    m_device = dev;
 
-    info.extent = {size.x, size.y, 1};
+    m_info.extent = {size.x, size.y, 1};
 
-    if (!vk_image) {
+    if (!m_vk_image) {
         VmaAllocationCreateInfo const create_info{
             .flags = allocation_flags,
             .usage = memory_usage,
         };
 
-        if (failed(vmaCreateImage(device->alloc(),
-                                  &info,
+        if (failed(vmaCreateImage(m_device->alloc(),
+                                  &m_info,
                                   &create_info,
-                                  &vk_image,
-                                  &allocation,
+                                  &m_vk_image,
+                                  &m_allocation,
                                   nullptr))) {
             logger()->error("create image");
             return false;
         }
     }
 
-    view_info.image = vk_image;
-    view_info.subresourceRange = subresource_range;
+    m_view_info.image = m_vk_image;
+    m_view_info.subresourceRange = m_subresource_range;
 
-    return device->vkCreateImageView(&view_info,
-                                     &view);
+    return m_device->vkCreateImageView(&m_view_info,
+                                       &m_view);
 }
 
 //-----------------------------------------------------------------------------
 void image::destroy(bool view_only) {
-    if (view) {
-        device->vkDestroyImageView(view);
-        view = 0;
+    if (m_view) {
+        m_device->vkDestroyImageView(m_view);
+        m_view = VK_NULL_HANDLE;
     }
 
     if (view_only)
         return;
 
-    if (vk_image) {
-        vmaDestroyImage(device->alloc(),
-                        vk_image,
-                        allocation);
-        vk_image = 0;
-        allocation = nullptr;
+    if (m_vk_image) {
+        vmaDestroyImage(m_device->alloc(),
+                        m_vk_image,
+                        m_allocation);
+        m_vk_image = VK_NULL_HANDLE;
+        m_allocation = nullptr;
     }
 
-    device = nullptr;
+    m_device = nullptr;
 }
 
 //-----------------------------------------------------------------------------

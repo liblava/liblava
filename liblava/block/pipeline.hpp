@@ -62,7 +62,7 @@ struct pipeline : entity {
      * @param value    Active state
      */
     void set_active(bool value = true) {
-        active = value;
+        m_active = value;
     }
 
     /**
@@ -70,14 +70,14 @@ struct pipeline : entity {
      * @return Pipeline is active or note
      */
     bool activated() const {
-        return active;
+        return m_active;
     }
 
     /**
      * @brief Toggle activation
      */
     void toggle() {
-        active = !active;
+        m_active = !m_active;
     }
 
     /**
@@ -85,7 +85,7 @@ struct pipeline : entity {
      * @param value    Enable state
      */
     void set_auto_bind(bool value = true) {
-        auto_bind_active = value;
+        m_auto_bind_active = value;
     }
 
     /**
@@ -93,7 +93,7 @@ struct pipeline : entity {
      * @return Auto bind is enabled or not
      */
     bool auto_bind() const {
-        return auto_bind_active;
+        return m_auto_bind_active;
     }
 
     /**
@@ -101,7 +101,7 @@ struct pipeline : entity {
      * @return Pipeline is ready or not
      */
     bool ready() const {
-        return vk_pipeline != VK_NULL_HANDLE;
+        return m_vk_pipeline != VK_NULL_HANDLE;
     }
 
     /**
@@ -109,7 +109,7 @@ struct pipeline : entity {
      * @return VkPipeline    Vulkan pipeline
      */
     VkPipeline get() const {
-        return vk_pipeline;
+        return m_vk_pipeline;
     }
 
     /**
@@ -117,7 +117,7 @@ struct pipeline : entity {
      * @return device::ptr    Vulkan device
      */
     device::ptr get_device() {
-        return device;
+        return m_device;
     }
 
     /**
@@ -125,7 +125,7 @@ struct pipeline : entity {
      * @return pipeline_layout::s_ptr    Pipeline layout
      */
     pipeline_layout::s_ptr get_layout() const {
-        return layout;
+        return m_layout;
     }
 
     /**
@@ -133,7 +133,7 @@ struct pipeline : entity {
      * @param value    Pipeline layout
      */
     void set_layout(pipeline_layout::s_ptr const& value) {
-        layout = value;
+        m_layout = value;
     }
 
     /**
@@ -172,7 +172,7 @@ struct pipeline : entity {
          * @param stage    Shader stage flag bits
          */
         void set_stage(VkShaderStageFlagBits stage) {
-            create_info.stage = stage;
+            m_create_info.stage = stage;
         }
 
         /**
@@ -202,24 +202,24 @@ struct pipeline : entity {
          * @return VkPipelineShaderStageCreateInfo const&    Pipeline shader stage create information
          */
         VkPipelineShaderStageCreateInfo const& get_create_info() const {
-            return create_info;
+            return m_create_info;
         }
 
     private:
         /// Vulkan device
-        device::ptr device = nullptr;
+        device::ptr m_device = nullptr;
 
         /// Pipeline shader stage create information
-        VkPipelineShaderStageCreateInfo create_info;
+        VkPipelineShaderStageCreateInfo m_create_info;
 
         /// Secialization information
-        VkSpecializationInfo specialization_info;
+        VkSpecializationInfo m_specialization_info;
 
         /// Map of specialization entries
-        VkSpecializationMapEntries specialization_entries;
+        VkSpecializationMapEntries m_specialization_entries;
 
         /// Specialization data copy
-        data specialization_data_copy;
+        data m_specialization_data_copy;
     };
 
 protected:
@@ -235,23 +235,23 @@ protected:
     virtual void teardown() = 0;
 
     /// Vulkan device
-    device::ptr device = nullptr;
+    device::ptr m_device = nullptr;
 
     /// Vulkan pipeline
-    VkPipeline vk_pipeline = VK_NULL_HANDLE;
+    VkPipeline m_vk_pipeline = VK_NULL_HANDLE;
 
     /// Vulkan pipeline cache
-    VkPipelineCache pipeline_cache = VK_NULL_HANDLE;
+    VkPipelineCache m_pipeline_cache = VK_NULL_HANDLE;
 
     /// Pipeline layout
-    pipeline_layout::s_ptr layout;
+    pipeline_layout::s_ptr m_layout;
 
 private:
     /// Active state
-    bool active = true;
+    bool m_active = true;
 
     /// Auto bind state
-    bool auto_bind_active = true;
+    bool m_auto_bind_active = true;
 };
 
 /**

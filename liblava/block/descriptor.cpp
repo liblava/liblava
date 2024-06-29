@@ -12,58 +12,58 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 descriptor::binding::binding() {
-    vk_binding.binding = 0;
-    vk_binding.descriptorType = VK_DESCRIPTOR_TYPE_MAX_ENUM;
-    vk_binding.descriptorCount = 0;
-    vk_binding.stageFlags = VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
-    vk_binding.pImmutableSamplers = nullptr;
+    m_vk_binding.binding = 0;
+    m_vk_binding.descriptorType = VK_DESCRIPTOR_TYPE_MAX_ENUM;
+    m_vk_binding.descriptorCount = 0;
+    m_vk_binding.stageFlags = VK_SHADER_STAGE_FLAG_BITS_MAX_ENUM;
+    m_vk_binding.pImmutableSamplers = nullptr;
 }
 
 //-----------------------------------------------------------------------------
-bool descriptor::pool::create(device::ptr d,
+bool descriptor::pool::create(device::ptr dev,
                               VkDescriptorPoolSizesRef s,
                               ui32 m,
                               VkDescriptorPoolCreateFlags flags) {
     if (s.empty() || (m == 0))
         return false;
 
-    device = d;
-    sizes = s;
-    max = m;
+    m_device = dev;
+    m_sizes = s;
+    m_max = m;
 
     VkDescriptorPoolCreateInfo const pool_info{
         .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
         .flags = flags,
-        .maxSets = max,
+        .maxSets = m_max,
         .poolSizeCount = to_ui32(s.size()),
-        .pPoolSizes = sizes.data(),
+        .pPoolSizes = m_sizes.data(),
     };
 
-    return check(device->call().vkCreateDescriptorPool(device->get(),
-                                                       &pool_info,
-                                                       memory::instance().alloc(),
-                                                       &vk_pool));
+    return check(m_device->call().vkCreateDescriptorPool(m_device->get(),
+                                                         &pool_info,
+                                                         memory::instance().alloc(),
+                                                         &m_vk_pool));
 }
 
 //-----------------------------------------------------------------------------
 void descriptor::pool::destroy() {
-    device->call().vkDestroyDescriptorPool(device->get(),
-                                           vk_pool,
-                                           memory::instance().alloc());
-    vk_pool = VK_NULL_HANDLE;
+    m_device->call().vkDestroyDescriptorPool(m_device->get(),
+                                             m_vk_pool,
+                                             memory::instance().alloc());
+    m_vk_pool = VK_NULL_HANDLE;
 
-    device = nullptr;
-    sizes.clear();
-    max = 0;
+    m_device = nullptr;
+    m_sizes.clear();
+    m_max = 0;
 }
 
 //-----------------------------------------------------------------------------
 bool descriptor::create(device::ptr dev) {
-    device = dev;
+    m_device = dev;
 
     VkDescriptorSetLayoutBindings layoutBindings;
 
-    for (auto& binding : bindings)
+    for (auto& binding : m_bindings)
         layoutBindings.push_back(binding->get());
 
     VkDescriptorSetLayoutCreateInfo create_info{
@@ -72,21 +72,21 @@ bool descriptor::create(device::ptr dev) {
         .pBindings = layoutBindings.data(),
     };
 
-    return check(device->call().vkCreateDescriptorSetLayout(device->get(),
-                                                            &create_info,
-                                                            memory::instance().alloc(),
-                                                            &layout));
+    return check(m_device->call().vkCreateDescriptorSetLayout(m_device->get(),
+                                                              &create_info,
+                                                              memory::instance().alloc(),
+                                                              &m_layout));
 }
 
 //-----------------------------------------------------------------------------
 void descriptor::destroy() {
-    if (!layout)
+    if (!m_layout)
         return;
 
-    device->call().vkDestroyDescriptorSetLayout(device->get(),
-                                                layout,
-                                                memory::instance().alloc());
-    layout = VK_NULL_HANDLE;
+    m_device->call().vkDestroyDescriptorSetLayout(m_device->get(),
+                                                  m_layout,
+                                                  memory::instance().alloc());
+    m_layout = VK_NULL_HANDLE;
 
     clear_bindings();
 
@@ -113,12 +113,12 @@ VkDescriptorSet descriptor::allocate_set(VkDescriptorPool pool) {
         .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
         .descriptorPool = pool,
         .descriptorSetCount = 1,
-        .pSetLayouts = &layout,
+        .pSetLayouts = &m_layout,
     };
 
-    if (failed(device->call().vkAllocateDescriptorSets(device->get(),
-                                                       &alloc_info,
-                                                       &descriptor_set)))
+    if (failed(m_device->call().vkAllocateDescriptorSets(m_device->get(),
+                                                         &alloc_info,
+                                                         &descriptor_set)))
         return 0;
 
     return descriptor_set;
@@ -129,10 +129,10 @@ bool descriptor::deallocate_set(VkDescriptorSet& descriptor_set,
                                 VkDescriptorPool pool) {
     std::array<VkDescriptorSet, 1> const descriptor_sets = {descriptor_set};
 
-    auto result = check(device->call().vkFreeDescriptorSets(device->get(),
-                                                            pool,
-                                                            to_ui32(descriptor_sets.size()),
-                                                            descriptor_sets.data()));
+    auto result = check(m_device->call().vkFreeDescriptorSets(m_device->get(),
+                                                              pool,
+                                                              to_ui32(descriptor_sets.size()),
+                                                              descriptor_sets.data()));
     if (result)
         descriptor_set = VK_NULL_HANDLE;
     return result;
@@ -147,12 +147,12 @@ VkDescriptorSets descriptor::allocate_sets(ui32 size,
         .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO,
         .descriptorPool = pool,
         .descriptorSetCount = size,
-        .pSetLayouts = &layout,
+        .pSetLayouts = &m_layout,
     };
 
-    if (failed(device->call().vkAllocateDescriptorSets(device->get(),
-                                                       &alloc_info,
-                                                       result.data())))
+    if (failed(m_device->call().vkAllocateDescriptorSets(m_device->get(),
+                                                         &alloc_info,
+                                                         result.data())))
         return {};
 
     return result;
@@ -161,10 +161,10 @@ VkDescriptorSets descriptor::allocate_sets(ui32 size,
 //-----------------------------------------------------------------------------
 bool descriptor::deallocate_sets(VkDescriptorSets& descriptor_sets,
                                  VkDescriptorPool pool) {
-    auto result = check(device->call().vkFreeDescriptorSets(device->get(),
-                                                            pool,
-                                                            to_ui32(descriptor_sets.size()),
-                                                            descriptor_sets.data()));
+    auto result = check(m_device->call().vkFreeDescriptorSets(m_device->get(),
+                                                              pool,
+                                                              to_ui32(descriptor_sets.size()),
+                                                              descriptor_sets.data()));
 
     if (result)
         descriptor_sets.clear();

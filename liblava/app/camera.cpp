@@ -13,20 +13,20 @@ namespace lava {
 bool camera::create(device::ptr device) {
     update_projection();
 
-    data = buffer::make();
+    m_data = buffer::make();
 
-    return data->create_mapped(device,
-                               &projection, size,
-                               VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT);
+    return m_data->create_mapped(device,
+                                 &m_projection, m_size,
+                                 VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT);
 }
 
 //-----------------------------------------------------------------------------
 void camera::destroy() {
-    if (!data)
+    if (!m_data)
         return;
 
-    data->destroy();
-    data = nullptr;
+    m_data->destroy();
+    m_data = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -40,7 +40,7 @@ void camera::move_first_person(delta dt) {
 
     auto speed = dt * movement_speed * 2.f;
 
-    if (move_up) {
+    if (m_move_up) {
         if (lock_z)
             position -= glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f)))
                         * speed;
@@ -48,7 +48,7 @@ void camera::move_first_person(delta dt) {
             position -= (front * speed);
     }
 
-    if (move_down) {
+    if (m_move_down) {
         if (lock_z)
             position += glm::normalize(glm::cross(front, v3(1.f, 0.f, 0.f)))
                         * speed;
@@ -56,39 +56,39 @@ void camera::move_first_person(delta dt) {
             position += (front * speed);
     }
 
-    if (move_left)
+    if (m_move_left)
         position += glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f)))
                     * speed;
 
-    if (move_right)
+    if (m_move_right)
         position -= glm::normalize(glm::cross(front, v3(0.f, 1.f, 0.f)))
                     * speed;
 }
 
 //-----------------------------------------------------------------------------
 void camera::update_view(delta dt, mouse_position mouse_pos) {
-    if (translate || rotate) {
-        auto dx = mouse_pos_x - mouse_pos.x;
-        auto dy = mouse_pos_y - mouse_pos.y;
+    if (m_translate || m_rotate) {
+        auto dx = m_mouse_pos_x - mouse_pos.x;
+        auto dy = m_mouse_pos_y - mouse_pos.y;
 
-        if (rotate && !lock_rotation) {
+        if (m_rotate && !lock_rotation) {
             auto speed = dt * rotation_speed;
             rotation += v3(dy * speed, -dx * speed, 0.f);
         }
 
-        if (translate) {
+        if (m_translate) {
             auto speed = dt * movement_speed;
             position -= v3(-dx * speed, -dy * speed, 0.f);
         }
 
-        mouse_pos_x = mouse_pos.x;
-        mouse_pos_y = mouse_pos.y;
+        m_mouse_pos_x = mouse_pos.x;
+        m_mouse_pos_y = mouse_pos.y;
     }
 
-    if ((scroll_pos != 0.0)) {
+    if ((m_scroll_pos != 0.0)) {
         auto speed = dt * zoom_speed;
-        position -= v3(-0.f, 0.f, scroll_pos * speed);
-        scroll_pos = 0.0;
+        position -= v3(-0.f, 0.f, m_scroll_pos * speed);
+        m_scroll_pos = 0.0;
     }
 
     if (mode == mode::first_person && moving()) {
@@ -103,12 +103,12 @@ void camera::update_view(delta dt, mouse_position mouse_pos) {
     auto trans_m = glm::translate(mat4(1.f), -position);
 
     if (mode == mode::first_person)
-        view = rot_m * trans_m;
+        m_view = rot_m * trans_m;
     else
-        view = trans_m * rot_m;
+        m_view = trans_m * rot_m;
 
     if (valid())
-        memcpy(data::as_ptr(data->get_mapped_data()) + sizeof(mat4), &view, sizeof(mat4));
+        memcpy(data::as_ptr(m_data->get_mapped_data()) + sizeof(mat4), &m_view, sizeof(mat4));
 }
 
 //-----------------------------------------------------------------------------
@@ -168,29 +168,29 @@ void camera::update_view(delta dt, gamepad::ref pad) {
 
 //-----------------------------------------------------------------------------
 void camera::update_projection() {
-    projection = glm::perspective(glm::radians(fov), aspect_ratio, z_near, z_far);
+    m_projection = glm::perspective(glm::radians(fov), aspect_ratio, z_near, z_far);
 
     if (valid())
-        memcpy(data::as_ptr(data->get_mapped_data()), &projection, sizeof(mat4));
+        memcpy(data::as_ptr(m_data->get_mapped_data()), &m_projection, sizeof(mat4));
 }
 
 //-----------------------------------------------------------------------------
 mat4 camera::get_view() const {
-    return view;
+    return m_view;
 }
 //-----------------------------------------------------------------------------
 mat4 camera::get_projection() const {
-    return projection;
+    return m_projection;
 }
 
 //-----------------------------------------------------------------------------
 mat4 camera::calc_view_projection() const {
-    return projection * view;
+    return m_projection * m_view;
 }
 
 //-----------------------------------------------------------------------------
 void camera::upload() {
-    memcpy(data->get_mapped_data(), &projection, size);
+    memcpy(m_data->get_mapped_data(), &m_projection, m_size);
 }
 
 //-----------------------------------------------------------------------------
@@ -204,20 +204,20 @@ bool camera::handle(key_event::ref event) {
         return input_ignore;
     };
 
-    for (auto const& current_key : up_keys) {
-        if (check_key(current_key, pressed_key, move_up))
+    for (auto const& current_key : m_up_keys) {
+        if (check_key(current_key, pressed_key, m_move_up))
             return input_done;
     }
-    for (auto const& current_key : down_keys) {
-        if (check_key(current_key, pressed_key, move_down))
+    for (auto const& current_key : m_down_keys) {
+        if (check_key(current_key, pressed_key, m_move_down))
             return input_done;
     }
-    for (auto const& current_key : left_keys) {
-        if (check_key(current_key, pressed_key, move_left))
+    for (auto const& current_key : m_left_keys) {
+        if (check_key(current_key, pressed_key, m_move_left))
             return input_done;
     }
-    for (auto const& current_key : right_keys) {
-        if (check_key(current_key, pressed_key, move_right))
+    for (auto const& current_key : m_right_keys) {
+        if (check_key(current_key, pressed_key, m_move_right))
             return input_done;
     }
 
@@ -226,12 +226,12 @@ bool camera::handle(key_event::ref event) {
 
 //-----------------------------------------------------------------------------
 bool camera::handle(mouse_button_event::ref event, mouse_position mouse_pos) {
-    rotate = event.pressed(mouse_button::left);
-    translate = event.pressed(mouse_button::right);
+    m_rotate = event.pressed(mouse_button::left);
+    m_translate = event.pressed(mouse_button::right);
 
-    if (rotate || translate) {
-        mouse_pos_x = mouse_pos.x;
-        mouse_pos_y = mouse_pos.y;
+    if (m_rotate || m_translate) {
+        m_mouse_pos_x = mouse_pos.x;
+        m_mouse_pos_y = mouse_pos.y;
 
         return input_done;
     }
@@ -241,24 +241,24 @@ bool camera::handle(mouse_button_event::ref event, mouse_position mouse_pos) {
 
 //-----------------------------------------------------------------------------
 bool camera::handle(scroll_event::ref event) {
-    scroll_pos += event.offset.y;
+    m_scroll_pos += event.offset.y;
 
     return input_done;
 }
 
 //-----------------------------------------------------------------------------
 void camera::stop() {
-    move_up = false;
-    move_down = false;
-    move_left = false;
-    move_right = false;
+    m_move_up = false;
+    m_move_down = false;
+    m_move_left = false;
+    m_move_right = false;
 
-    rotate = false;
-    translate = false;
+    m_rotate = false;
+    m_translate = false;
 
-    mouse_pos_x = 0.0;
-    mouse_pos_y = 0.0;
-    scroll_pos = 0.0;
+    m_mouse_pos_x = 0.0;
+    m_mouse_pos_y = 0.0;
+    m_scroll_pos = 0.0;
 }
 
 //-----------------------------------------------------------------------------

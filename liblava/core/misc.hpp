@@ -135,7 +135,7 @@ inline string& remove_chars(string& s, string_ref chars) {
 }
 
 /// Punctuation marks
-constexpr name _punctuation_marks_ = "\"\'";
+constexpr name g_punctuation_marks_ = "\"\'";
 
 /**
  * @brief Remove punctuation marks in string
@@ -143,7 +143,7 @@ constexpr name _punctuation_marks_ = "\"\'";
  * @return string&    Cleared string
  */
 inline string& remove_punctuation_marks(string& s) {
-    return remove_chars(s, _punctuation_marks_);
+    return remove_chars(s, g_punctuation_marks_);
 }
 
 /**

@@ -611,7 +611,7 @@ struct input {
      * @param callback    Callback to add
      */
     void add(input_callback::cptr callback) {
-        callbacks.push_back(callback);
+        m_callbacks.push_back(callback);
     }
 
     /**
@@ -619,7 +619,7 @@ struct input {
      * @param callback    Callback to remove
      */
     void remove(input_callback::cptr callback) {
-        lava::remove(callbacks, callback);
+        lava::remove(m_callbacks, callback);
     }
 
     /**
@@ -627,7 +627,7 @@ struct input {
      * @return mouse_position_ref    Current mouse position
      */
     mouse_position_ref get_mouse_position() const {
-        return current_position;
+        return m_current_position;
     }
 
     /**
@@ -635,7 +635,7 @@ struct input {
      * @param position    Current mouse position
      */
     void set_mouse_position(mouse_position_ref position) {
-        current_position = position;
+        m_current_position = position;
     }
 
 private:
@@ -645,10 +645,10 @@ private:
     void handle_mouse_events();
 
     /// Current mouse position
-    mouse_position current_position;
+    mouse_position m_current_position;
 
     /// List of input callbacks
-    input_callback::clist callbacks;
+    input_callback::clist m_callbacks;
 };
 
 /**
@@ -693,14 +693,14 @@ struct tooltip_list {
     void add(string_ref name,
              key key,
              mod mod = mod::none) {
-        tooltips.emplace_back(name, key, mod);
+        m_tooltips.emplace_back(name, key, mod);
     }
 
     /**
      * @brief Clear tooltips
      */
     void clear() {
-        tooltips.clear();
+        m_tooltips.clear();
     }
 
     /**
@@ -708,7 +708,7 @@ struct tooltip_list {
      * @return tooltip::list    List of tooltips
      */
     tooltip::list const& get_list() const {
-        return tooltips;
+        return m_tooltips;
     }
 
     /**
@@ -716,7 +716,7 @@ struct tooltip_list {
      * @param list    List of tooltips
      */
     void set(tooltip::list const& list) {
-        tooltips = list;
+        m_tooltips = list;
     }
 
     /**
@@ -727,7 +727,7 @@ struct tooltip_list {
 
 private:
     /// List of tooltips
-    tooltip::list tooltips;
+    tooltip::list m_tooltips;
 };
 
 } // namespace lava

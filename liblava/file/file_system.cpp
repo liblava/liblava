@@ -32,12 +32,12 @@ string file_system::get_full_base_dir(string_ref path) {
 
 //-----------------------------------------------------------------------------
 string file_system::get_pref_dir() {
-    return string(PHYSFS_getPrefDir(str(org), str(app)));
+    return string(PHYSFS_getPrefDir(str(m_org), str(m_app)));
 }
 
 //-----------------------------------------------------------------------------
 string file_system::get_res_dir() {
-    return get_full_base_dir(res_path);
+    return get_full_base_dir(m_res_path);
 }
 
 //-----------------------------------------------------------------------------
@@ -75,30 +75,30 @@ string_list file_system::enumerate_files(string_ref path) {
 
 //-----------------------------------------------------------------------------
 bool file_system::initialize(string_ref argv_0,
-                             string_ref o,
-                             string_ref a,
-                             string_ref e) {
-    LAVA_ASSERT(!initialized); // only once
-    if (initialized)
-        return initialized;
+                             string_ref org,
+                             string_ref app,
+                             string_ref ext) {
+    LAVA_ASSERT(!m_initialized); // only once
+    if (m_initialized)
+        return m_initialized;
 
-    if (!initialized) {
+    if (!m_initialized) {
         PHYSFS_init(str(argv_0));
 
-        PHYSFS_setSaneConfig(str(o), str(a), str(e), 0, 0);
-        initialized = true;
+        PHYSFS_setSaneConfig(str(org), str(app), str(ext), 0, 0);
+        m_initialized = true;
 
-        org = o;
-        app = a;
-        ext = e;
+        m_org = org;
+        m_app = app;
+        m_ext = ext;
     }
 
-    return initialized;
+    return m_initialized;
 }
 
 //-----------------------------------------------------------------------------
 void file_system::terminate() {
-    if (!initialized)
+    if (!m_initialized)
         return;
 
     PHYSFS_deinit();
@@ -108,12 +108,12 @@ void file_system::terminate() {
 string_list file_system::mount_res() {
 #if LAVA_DEBUG
     #if _WIN32
-    res_path = "../../res/";
+    m_res_path = "../../res/";
     #else
-    res_path = "../res/";
+    m_res_path = "../res/";
     #endif
 #else
-    res_path = "res/";
+    m_res_path = "res/";
 #endif
 
     string_list result;

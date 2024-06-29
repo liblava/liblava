@@ -20,7 +20,7 @@ bool buffer::create(device::ptr dev,
                     VkSharingMode sharing_mode,
                     std::vector<ui32> const& shared_queue_family_indices,
                     i32 alignment) {
-    device = dev;
+    m_device = dev;
 
     VkBufferCreateInfo buffer_info{
         .sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO,
@@ -40,23 +40,23 @@ bool buffer::create(device::ptr dev,
     };
 
     if (alignment >= 0) {
-        if (failed(vmaCreateBufferWithAlignment(device->alloc(),
+        if (failed(vmaCreateBufferWithAlignment(m_device->alloc(),
                                                 &buffer_info,
                                                 &alloc_info,
                                                 alignment,
-                                                &vk_buffer,
-                                                &allocation,
-                                                &allocation_info))) {
+                                                &m_vk_buffer,
+                                                &m_allocation,
+                                                &m_allocation_info))) {
             logger()->error("create buffer with alignment");
             return false;
         }
     } else {
-        if (failed(vmaCreateBuffer(device->alloc(),
+        if (failed(vmaCreateBuffer(m_device->alloc(),
                                    &buffer_info,
                                    &alloc_info,
-                                   &vk_buffer,
-                                   &allocation,
-                                   &allocation_info))) {
+                                   &m_vk_buffer,
+                                   &m_allocation,
+                                   &m_allocation_info))) {
             logger()->error("create buffer");
             return false;
         }
@@ -65,8 +65,8 @@ bool buffer::create(device::ptr dev,
     if (!mapped) {
         if (data) {
             data::ptr map = nullptr;
-            if (failed(vmaMapMemory(device->alloc(),
-                                    allocation,
+            if (failed(vmaMapMemory(m_device->alloc(),
+                                    m_allocation,
                                     (void**)(&map)))) {
                 logger()->error("map buffer memory");
                 return false;
@@ -74,20 +74,20 @@ bool buffer::create(device::ptr dev,
 
             memcpy(map, data, size);
 
-            vmaUnmapMemory(device->alloc(),
-                           allocation);
+            vmaUnmapMemory(m_device->alloc(),
+                           m_allocation);
         }
-    } else if (data && allocation_info.pMappedData) {
-        memcpy(allocation_info.pMappedData,
+    } else if (data && m_allocation_info.pMappedData) {
+        memcpy(m_allocation_info.pMappedData,
                data,
                size);
 
         flush();
     }
 
-    descriptor.buffer = vk_buffer;
-    descriptor.offset = 0;
-    descriptor.range = size;
+    m_descriptor.buffer = m_vk_buffer;
+    m_descriptor.offset = 0;
+    m_descriptor.range = size;
 
     return true;
 }
@@ -114,27 +114,27 @@ bool buffer::create_mapped(device::ptr dev,
 
 //-----------------------------------------------------------------------------
 void buffer::destroy() {
-    if (!vk_buffer)
+    if (!m_vk_buffer)
         return;
 
-    vmaDestroyBuffer(device->alloc(),
-                     vk_buffer,
-                     allocation);
+    vmaDestroyBuffer(m_device->alloc(),
+                     m_vk_buffer,
+                     m_allocation);
 
-    vk_buffer = VK_NULL_HANDLE;
-    allocation = nullptr;
+    m_vk_buffer = VK_NULL_HANDLE;
+    m_allocation = nullptr;
 
-    device = nullptr;
+    m_device = nullptr;
 }
 
 //-----------------------------------------------------------------------------
 VkDeviceAddress buffer::get_address() const {
-    if (device->call().vkGetBufferDeviceAddressKHR) {
+    if (m_device->call().vkGetBufferDeviceAddressKHR) {
         VkBufferDeviceAddressInfoKHR addr_info{
             .sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO_KHR,
-            .buffer = vk_buffer};
-        return device->call().vkGetBufferDeviceAddressKHR(device->get(),
-                                                          &addr_info);
+            .buffer = m_vk_buffer};
+        return m_device->call().vkGetBufferDeviceAddressKHR(m_device->get(),
+                                                            &addr_info);
     } else {
         return 0;
     }
@@ -142,8 +142,8 @@ VkDeviceAddress buffer::get_address() const {
 
 //-----------------------------------------------------------------------------
 void buffer::flush(VkDeviceSize offset, VkDeviceSize size) {
-    vmaFlushAllocation(device->alloc(),
-                       allocation,
+    vmaFlushAllocation(m_device->alloc(),
+                       m_allocation,
                        offset,
                        size);
 }

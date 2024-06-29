@@ -169,7 +169,7 @@ struct imgui {
         if (!create(dev, frames, pipeline_cache))
             return false;
 
-        return pipeline->create(pass);
+        return m_pipeline->create(pass);
     }
 
     /**
@@ -189,7 +189,7 @@ struct imgui {
      * @return ImGui is ready or not
      */
     bool ready() const {
-        return initialized;
+        return m_initialized;
     }
 
     /**
@@ -197,7 +197,7 @@ struct imgui {
      * @return render_pipeline::s_ptr    Render pipeline
      */
     render_pipeline::s_ptr get_pipeline() {
-        return pipeline;
+        return m_pipeline;
     }
 
     /// Draw function
@@ -226,7 +226,7 @@ struct imgui {
      * @param value    Active state
      */
     void set_active(bool value = true) {
-        active = value;
+        m_active = value;
     }
 
     /**
@@ -234,14 +234,14 @@ struct imgui {
      * @return ImGui is active or not
      */
     bool activated() const {
-        return active;
+        return m_active;
     }
 
     /**
      * @brief Togge active state
      */
     void toggle() {
-        active = !active;
+        m_active = !m_active;
     }
 
     /**
@@ -255,7 +255,7 @@ struct imgui {
      * @return fs::path    Path of file
      */
     std::filesystem::path get_ini_file() const {
-        return std::filesystem::path(ini_file);
+        return std::filesystem::path(m_ini_file);
     }
 
     /**
@@ -268,7 +268,7 @@ struct imgui {
      * @return input_callback const&    Input callback
      */
     input_callback const& get_input_callback() const {
-        return callback;
+        return m_callback;
     }
 
 private:
@@ -335,64 +335,64 @@ private:
     void render(VkCommandBuffer cmd_buf);
 
     /// Vulkan device
-    device::ptr device = nullptr;
+    device::ptr m_device = nullptr;
 
     // Initialized state
-    bool initialized = false;
+    bool m_initialized = false;
 
     /// Render pipeline
-    render_pipeline::s_ptr pipeline;
+    render_pipeline::s_ptr m_pipeline;
 
     /// Pipeline layout
-    pipeline_layout::s_ptr layout;
+    pipeline_layout::s_ptr m_layout;
 
     /// Buffer memory alignment
-    size_t buffer_memory_alignment = 256;
+    size_t m_buffer_memory_alignment = 256;
 
     /// Current frame index
-    index frame = 0;
+    index m_frame = 0;
 
     /// Number of frames
-    index max_frames = 4;
+    index m_max_frames = 4;
 
     /// Vertex buffer list
-    buffer::s_list vertex_buffers;
+    buffer::s_list m_vertex_buffers;
 
     /// Index buffer list
-    buffer::s_list index_buffers;
+    buffer::s_list m_index_buffers;
 
     /// Vulkan descriptor
-    descriptor::s_ptr descriptor;
+    descriptor::s_ptr m_descriptor;
 
     /// Vulkan descriptor pool
-    descriptor::pool::s_ptr descriptor_pool;
+    descriptor::pool::s_ptr m_descriptor_pool;
 
     /// Vulkan descriptor set
-    VkDescriptorSet descriptor_set = VK_NULL_HANDLE;
+    VkDescriptorSet m_descriptor_set = VK_NULL_HANDLE;
 
     /// Target window
-    GLFWwindow* window = nullptr;
+    GLFWwindow* m_window = nullptr;
 
     /// Mouse just pressed state
-    bool mouse_just_pressed[5] = {false, false, false, false, false};
+    bool m_mouse_just_pressed[5] = {false, false, false, false, false};
 
     /// Current time
-    r64 current_time = 0.0;
+    r64 m_current_time = 0.0;
 
     /// Mouse cursors
-    std::vector<GLFWcursor*> mouse_cursors;
+    std::vector<GLFWcursor*> m_mouse_cursors;
 
     /// File for state (path)
-    string ini_file;
+    string m_ini_file;
 
     /// Active state
-    bool active = true;
+    bool m_active = true;
 
     /// Input callback
-    input_callback callback;
+    input_callback m_callback;
 
     /// Font icons range
-    std::array<ui16, 3> icons_range;
+    std::array<ui16, 3> m_icons_range;
 };
 
 /**

@@ -84,16 +84,16 @@ void VKAPI_PTR custom_cpu_free(void* user_data,
 
 //-----------------------------------------------------------------------------
 memory::memory() {
-    if (!use_custom_cpu_callbacks)
+    if (!m_use_custom_cpu_callbacks)
         return;
 
-    vk_callbacks.pUserData = LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA;
+    m_vk_callbacks.pUserData = LAVA_CUSTOM_CPU_ALLOCATION_CALLBACK_USER_DATA;
 
-    vk_callbacks.pfnAllocation = reinterpret_cast<PFN_vkAllocationFunction>(
+    m_vk_callbacks.pfnAllocation = reinterpret_cast<PFN_vkAllocationFunction>(
         &custom_cpu_allocation);
-    vk_callbacks.pfnReallocation = reinterpret_cast<PFN_vkReallocationFunction>(
+    m_vk_callbacks.pfnReallocation = reinterpret_cast<PFN_vkReallocationFunction>(
         &custom_cpu_reallocation);
-    vk_callbacks.pfnFree = reinterpret_cast<PFN_vkFreeFunction>(&custom_cpu_free);
+    m_vk_callbacks.pfnFree = reinterpret_cast<PFN_vkFreeFunction>(&custom_cpu_free);
 }
 
 //-----------------------------------------------------------------------------
@@ -142,16 +142,16 @@ bool allocator::create(device_c_ptr device, VmaAllocatorCreateFlags flags) {
         .instance = instance::singleton().get(),
     };
 
-    return check(vmaCreateAllocator(&allocator_info, &vma_allocator));
+    return check(vmaCreateAllocator(&allocator_info, &m_allocator));
 }
 
 //-----------------------------------------------------------------------------
 void allocator::destroy() {
-    if (!vma_allocator)
+    if (!m_allocator)
         return;
 
-    vmaDestroyAllocator(vma_allocator);
-    vma_allocator = nullptr;
+    vmaDestroyAllocator(m_allocator);
+    m_allocator = nullptr;
 }
 
 //-----------------------------------------------------------------------------

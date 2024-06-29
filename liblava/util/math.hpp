@@ -63,7 +63,7 @@ struct rect {
      */
     rect(i32 left, i32 top,
          ui32 width, ui32 height)
-    : left_top({left, top}) {
+    : m_left_top({left, top}) {
         set_size({width, height});
     }
 
@@ -75,7 +75,7 @@ struct rect {
      */
     rect(iv2 const& left_top,
          ui32 width, ui32 height)
-    : left_top(left_top) {
+    : m_left_top(left_top) {
         set_size({width, height});
     }
 
@@ -86,7 +86,7 @@ struct rect {
      */
     rect(iv2 const& left_top,
          uv2 const& size)
-    : left_top(left_top) {
+    : m_left_top(left_top) {
         set_size(size);
     }
 
@@ -95,7 +95,7 @@ struct rect {
      * @return iv2 const&    Left top position
      */
     iv2 const& get_origin() const {
-        return left_top;
+        return m_left_top;
     }
 
     /**
@@ -103,7 +103,7 @@ struct rect {
      * @return iv2 const&    Right bottom position
      */
     iv2 const& get_end_point() const {
-        return right_bottom;
+        return m_right_bottom;
     }
 
     /**
@@ -111,10 +111,10 @@ struct rect {
      * @return uv2    Width and height
      */
     uv2 get_size() const {
-        LAVA_ASSERT(left_top.x <= right_bottom.x);
-        LAVA_ASSERT(left_top.y <= right_bottom.y);
-        return {right_bottom.x - left_top.x,
-                right_bottom.y - left_top.y};
+        LAVA_ASSERT(m_left_top.x <= m_right_bottom.x);
+        LAVA_ASSERT(m_left_top.y <= m_right_bottom.y);
+        return {m_right_bottom.x - m_left_top.x,
+                m_right_bottom.y - m_left_top.y};
     }
 
     /**
@@ -122,8 +122,8 @@ struct rect {
      * @param size    Width and height
      */
     void set_size(uv2 const& size) {
-        right_bottom.x = left_top.x + size.x;
-        right_bottom.y = left_top.y + size.y;
+        m_right_bottom.x = m_left_top.x + size.x;
+        m_right_bottom.y = m_left_top.y + size.y;
     }
 
     /**
@@ -131,8 +131,8 @@ struct rect {
      * @param offset    Offset to move
      */
     void move(iv2 const& offset) {
-        left_top += offset;
-        right_bottom += offset;
+        m_left_top += offset;
+        m_right_bottom += offset;
     }
 
     /**
@@ -141,18 +141,18 @@ struct rect {
      * @return Point is inside or out
      */
     bool contains(iv2 point) const {
-        return (left_top.x < point.x)
-               && (left_top.y < point.y)
-               && (right_bottom.x > point.x)
-               && (right_bottom.y > point.y);
+        return (m_left_top.x < point.x)
+               && (m_left_top.y < point.y)
+               && (m_right_bottom.x > point.x)
+               && (m_right_bottom.y > point.y);
     }
 
 private:
     /// Left top position
-    iv2 left_top = iv2();
+    iv2 m_left_top = iv2();
 
     /// Right bottom position
-    iv2 right_bottom = iv2();
+    iv2 m_right_bottom = iv2();
 };
 
 /**

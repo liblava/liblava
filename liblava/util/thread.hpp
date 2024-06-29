@@ -53,20 +53,20 @@ struct thread_pool {
      */
     void setup(ui32 count = 2) {
         for (auto i = 0u; i < count; ++i)
-            workers.emplace_back(worker(*this));
+            m_workers.emplace_back(worker(*this));
     }
 
     /**
      * @brief Tear down the thread pool
      */
     void teardown() {
-        stop = true;
-        condition.notify_all();
+        m_stop = true;
+        m_condition.notify_all();
 
-        for (auto& worker : workers)
+        for (auto& worker : m_workers)
             worker.join();
 
-        workers.clear();
+        m_workers.clear();
     }
 
     /**
@@ -75,10 +75,10 @@ struct thread_pool {
      */
     void enqueue(auto f) {
         {
-            std::unique_lock<std::mutex> lock(queue_mutex);
-            tasks.push_back(task(f));
+            std::unique_lock<std::mutex> lock(m_queue_mutex);
+            m_tasks.push_back(task(f));
         }
-        condition.notify_one();
+        m_condition.notify_one();
     }
 
 private:
@@ -91,7 +91,7 @@ private:
          * @param pool    Thread pool
          */
         explicit worker(thread_pool& pool)
-        : pool(pool) {}
+        : m_pool(pool) {}
 
         /**
          * @brief Run task operator
@@ -102,16 +102,16 @@ private:
             task task;
             while (true) {
                 {
-                    std::unique_lock<std::mutex> lock(pool.queue_mutex);
+                    std::unique_lock<std::mutex> lock(m_pool.m_queue_mutex);
 
-                    while (!pool.stop && pool.tasks.empty())
-                        pool.condition.wait(lock);
+                    while (!m_pool.m_stop && m_pool.m_tasks.empty())
+                        m_pool.m_condition.wait(lock);
 
-                    if (pool.stop)
+                    if (m_pool.m_stop)
                         break;
 
-                    task = pool.tasks.front();
-                    pool.tasks.pop_front();
+                    task = m_pool.m_tasks.front();
+                    m_pool.m_tasks.pop_front();
                 }
 
                 task(thread_id);
@@ -120,23 +120,23 @@ private:
 
     private:
         /// Thread pool
-        thread_pool& pool;
+        thread_pool& m_pool;
     };
 
     /// List of workers
-    std::vector<std::thread> workers;
+    std::vector<std::thread> m_workers;
 
     /// List of tasks
-    std::deque<task> tasks;
+    std::deque<task> m_tasks;
 
     /// Queue mutex
-    std::mutex queue_mutex;
+    std::mutex m_queue_mutex;
 
     /// Condition variable
-    std::condition_variable condition;
+    std::condition_variable m_condition;
 
     /// Stop state
-    bool stop = false;
+    bool m_stop = false;
 };
 
 } // namespace lava

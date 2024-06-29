@@ -104,12 +104,12 @@ bool producer::add_texture(texture::s_ptr product) {
 //-----------------------------------------------------------------------------
 c_data producer::get_shader(string_ref name,
                             bool reload) {
-    if (shaders.count(name)) {
+    if (m_shaders.count(name)) {
         if (!reload)
-            return shaders.at(name);
+            return m_shaders.at(name);
 
-        shaders.at(name).deallocate();
-        shaders.erase(name);
+        m_shaders.at(name).deallocate();
+        m_shaders.erase(name);
     }
 
     auto filename = app->fs.get_pref_dir() + _cache_path_ + _shader_path_
@@ -119,7 +119,7 @@ c_data producer::get_shader(string_ref name,
         if (valid_shader(name)) {
             data module_data;
             if (load_file_data(filename, module_data)) {
-                shaders.emplace(name, module_data);
+                m_shaders.emplace(name, module_data);
 
                 logger()->info("shader cache: {} - {} bytes",
                                name, module_data.size);
@@ -155,7 +155,7 @@ c_data producer::get_shader(string_ref name,
         if (!file.write(module_data.addr, module_data.size))
             logger()->warn("shader not cached: {}", filename);
 
-    shaders.emplace(name, module_data);
+    m_shaders.emplace(name, module_data);
 
     return module_data;
 }
@@ -371,7 +371,7 @@ void producer::destroy() {
     for (auto& [id, texture] : textures.get_all())
         texture->destroy();
 
-    for (auto& [prop, shader] : shaders)
+    for (auto& [prop, shader] : m_shaders)
         shader.deallocate();
 }
 
@@ -381,7 +381,7 @@ void producer::clear() {
 
     meshes.clear();
     textures.clear();
-    shaders.clear();
+    m_shaders.clear();
 }
 
 //-----------------------------------------------------------------------------

@@ -17,40 +17,40 @@ physical_device::physical_device(VkPhysicalDevice vk_physical_device) {
 
 //-----------------------------------------------------------------------------
 void physical_device::initialize(VkPhysicalDevice pd) {
-    vk_physical_device = pd;
+    m_vk_physical_device = pd;
 
-    vkGetPhysicalDeviceProperties(vk_physical_device, &properties);
-    vkGetPhysicalDeviceFeatures(vk_physical_device, &features);
-    vkGetPhysicalDeviceMemoryProperties(vk_physical_device, &memory_properties);
+    vkGetPhysicalDeviceProperties(m_vk_physical_device, &m_properties);
+    vkGetPhysicalDeviceFeatures(m_vk_physical_device, &m_features);
+    vkGetPhysicalDeviceMemoryProperties(m_vk_physical_device, &m_memory_properties);
 
     auto queue_family_count = 0u;
-    vkGetPhysicalDeviceQueueFamilyProperties(vk_physical_device,
+    vkGetPhysicalDeviceQueueFamilyProperties(m_vk_physical_device,
                                              &queue_family_count,
                                              nullptr);
     if (queue_family_count > 0) {
-        queue_family_properties.resize(queue_family_count);
-        vkGetPhysicalDeviceQueueFamilyProperties(vk_physical_device,
+        m_queue_family_properties.resize(queue_family_count);
+        vkGetPhysicalDeviceQueueFamilyProperties(m_vk_physical_device,
                                                  &queue_family_count,
-                                                 queue_family_properties.data());
+                                                 m_queue_family_properties.data());
     }
 
     auto extension_count = 0u;
-    vkEnumerateDeviceExtensionProperties(vk_physical_device,
+    vkEnumerateDeviceExtensionProperties(m_vk_physical_device,
                                          nullptr,
                                          &extension_count,
                                          nullptr);
     if (extension_count > 0) {
-        extension_properties.resize(extension_count);
-        vkEnumerateDeviceExtensionProperties(vk_physical_device,
+        m_extension_properties.resize(extension_count);
+        vkEnumerateDeviceExtensionProperties(m_vk_physical_device,
                                              nullptr,
                                              &extension_count,
-                                             extension_properties.data());
+                                             m_extension_properties.data());
     }
 }
 
 //-----------------------------------------------------------------------------
 bool physical_device::supported(string_ref extension) const {
-    for (auto& extension_property : extension_properties) {
+    for (auto& extension_property : m_extension_properties) {
         if (string(extension_property.extensionName) == extension)
             return true;
     }
@@ -60,8 +60,8 @@ bool physical_device::supported(string_ref extension) const {
 
 //-----------------------------------------------------------------------------
 bool physical_device::get_queue_family(index& index, VkQueueFlags flags) const {
-    for (size_t i = 0, e = queue_family_properties.size(); i != e; ++i) {
-        if ((queue_family_properties[i].queueFlags & flags) == flags) {
+    for (size_t i = 0, e = m_queue_family_properties.size(); i != e; ++i) {
+        if ((m_queue_family_properties[i].queueFlags & flags) == flags) {
             index = to_index(i);
             return true;
         }
@@ -85,13 +85,13 @@ device::create_param physical_device::create_default_device_param() const {
 
 //-----------------------------------------------------------------------------
 name physical_device::get_device_name() const {
-    return properties.deviceName;
+    return m_properties.deviceName;
 }
 
 //-----------------------------------------------------------------------------
 string physical_device::get_device_type_string() const {
     string result;
-    switch (properties.deviceType) {
+    switch (m_properties.deviceType) {
     case VK_PHYSICAL_DEVICE_TYPE_OTHER:
         result = "OTHER";
         break;
@@ -116,7 +116,7 @@ string physical_device::get_device_type_string() const {
 
 //-----------------------------------------------------------------------------
 sem_version physical_device::get_driver_version() const {
-    return to_version(properties.driverVersion);
+    return to_version(m_properties.driverVersion);
 }
 
 //-----------------------------------------------------------------------------
@@ -128,7 +128,7 @@ bool physical_device::swapchain_supported() const {
 bool physical_device::surface_supported(index queue_family,
                                         VkSurfaceKHR surface) const {
     auto res = VK_FALSE;
-    if (failed(vkGetPhysicalDeviceSurfaceSupportKHR(vk_physical_device,
+    if (failed(vkGetPhysicalDeviceSurfaceSupportKHR(m_vk_physical_device,
                                                     queue_family, surface, &res)))
         return false;
 

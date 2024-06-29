@@ -107,13 +107,13 @@ struct timer {
      * @brief Construct a new timer
      */
     timer()
-    : start_time(clock::now()) {}
+    : m_start_time(clock::now()) {}
 
     /**
      * @brief Reset the timer
      */
     void reset() {
-        start_time = clock::now();
+        m_start_time = clock::now();
     }
 
     /**
@@ -122,12 +122,12 @@ struct timer {
      */
     ms elapsed() const {
         return std::chrono::duration_cast<ms>(clock::now()
-                                              - start_time);
+                                              - m_start_time);
     }
 
 private:
     /// Start time
-    time_point start_time;
+    time_point m_start_time;
 };
 
 /**

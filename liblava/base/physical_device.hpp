@@ -76,7 +76,7 @@ struct physical_device : entity {
      * @return VkPhysicalDeviceProperties const&    Physical device properties
      */
     VkPhysicalDeviceProperties const& get_properties() const {
-        return properties;
+        return m_properties;
     }
 
     /**
@@ -84,7 +84,7 @@ struct physical_device : entity {
      * @return VkPhysicalDeviceFeatures const&    Physical device features
      */
     VkPhysicalDeviceFeatures const& get_features() const {
-        return features;
+        return m_features;
     }
 
     /**
@@ -92,7 +92,7 @@ struct physical_device : entity {
      * @return VkPhysicalDeviceMemoryProperties const&    Physical device memory properties
      */
     VkPhysicalDeviceMemoryProperties const& get_memory_properties() const {
-        return memory_properties;
+        return m_memory_properties;
     }
 
     /**
@@ -100,7 +100,7 @@ struct physical_device : entity {
      * @return VkQueueFamilyPropertiesList const&    List of queue family properties
      */
     VkQueueFamilyPropertiesList const& get_queue_family_properties() const {
-        return queue_family_properties;
+        return m_queue_family_properties;
     }
 
     /**
@@ -108,7 +108,7 @@ struct physical_device : entity {
      * @return VkExtensionPropertiesList const&    List of extension properties
      */
     VkExtensionPropertiesList const& get_extension_properties() const {
-        return extension_properties;
+        return m_extension_properties;
     }
 
     /**
@@ -116,7 +116,7 @@ struct physical_device : entity {
      * @return VkPhysicalDevice    Vulkan physical device
      */
     VkPhysicalDevice get() const {
-        return vk_physical_device;
+        return m_vk_physical_device;
     }
 
     /**
@@ -154,22 +154,22 @@ struct physical_device : entity {
 
 private:
     /// Vulkan physical device
-    VkPhysicalDevice vk_physical_device = nullptr;
+    VkPhysicalDevice m_vk_physical_device = nullptr;
 
     /// Physical device properties
-    VkPhysicalDeviceProperties properties = {};
+    VkPhysicalDeviceProperties m_properties = {};
 
     /// Physical device features
-    VkPhysicalDeviceFeatures features = {};
+    VkPhysicalDeviceFeatures m_features = {};
 
     /// Physical device memory properties
-    VkPhysicalDeviceMemoryProperties memory_properties = {};
+    VkPhysicalDeviceMemoryProperties m_memory_properties = {};
 
     /// List of queue family properties
-    VkQueueFamilyPropertiesList queue_family_properties;
+    VkQueueFamilyPropertiesList m_queue_family_properties;
 
     /// List of extension properties
-    VkExtensionPropertiesList extension_properties;
+    VkExtensionPropertiesList m_extension_properties;
 };
 
 } // namespace lava

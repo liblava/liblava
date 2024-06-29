@@ -12,20 +12,20 @@ namespace lava {
 
 //-----------------------------------------------------------------------------
 bool forward_shading::create(render_target::s_ptr t) {
-    target = t;
+    m_target = t;
 
-    auto depth_format = find_supported_depth_format(target->get_device()->get_vk_physical_device());
+    auto depth_format = find_supported_depth_format(m_target->get_device()->get_vk_physical_device());
     if (!depth_format.has_value())
         return false;
 
-    pass = render_pass::make(target->get_device());
+    m_pass = render_pass::make(m_target->get_device());
     {
-        auto color_attachment = attachment::make(target->get_format());
+        auto color_attachment = attachment::make(m_target->get_format());
         color_attachment->set_op(VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE);
         color_attachment->set_stencil_op(VK_ATTACHMENT_LOAD_OP_DONT_CARE,
                                          VK_ATTACHMENT_STORE_OP_DONT_CARE);
         color_attachment->set_layouts(VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
-        pass->add(color_attachment);
+        m_pass->add(color_attachment);
 
         auto depth_attachment = attachment::make(*depth_format);
         depth_attachment->set_op(VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE);
@@ -33,12 +33,12 @@ bool forward_shading::create(render_target::s_ptr t) {
                                          VK_ATTACHMENT_STORE_OP_DONT_CARE);
         depth_attachment->set_layouts(VK_IMAGE_LAYOUT_UNDEFINED,
                                       VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
-        pass->add(depth_attachment);
+        m_pass->add(depth_attachment);
 
         auto subpass = subpass::make(VK_PIPELINE_BIND_POINT_GRAPHICS);
         subpass->set_color_attachment(0, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
         subpass->set_depth_stencil_attachment(1, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL);
-        pass->add(subpass);
+        m_pass->add(subpass);
 
         auto first_subpass_dependency = subpass_dependency::make(VK_SUBPASS_EXTERNAL, 0);
         first_subpass_dependency->set_stage_mask(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
@@ -50,7 +50,7 @@ bool forward_shading::create(render_target::s_ptr t) {
                                                       | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT
                                                       | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT
                                                       | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT);
-        pass->add(first_subpass_dependency);
+        m_pass->add(first_subpass_dependency);
 
         auto second_subpass_dependency = subpass_dependency::make(0, VK_SUBPASS_EXTERNAL);
         second_subpass_dependency->set_stage_mask(VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT
@@ -62,31 +62,31 @@ bool forward_shading::create(render_target::s_ptr t) {
                                                        | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT,
                                                    VK_ACCESS_MEMORY_READ_BIT
                                                        | VK_ACCESS_MEMORY_WRITE_BIT);
-        pass->add(second_subpass_dependency);
+        m_pass->add(second_subpass_dependency);
     }
 
-    depth_stencil = image::make(*depth_format);
-    if (!depth_stencil)
+    m_depth_stencil = image::make(*depth_format);
+    if (!m_depth_stencil)
         return false;
 
-    depth_stencil->set_usage(VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
-                             | VK_IMAGE_USAGE_TRANSFER_SRC_BIT);
-    depth_stencil->set_layout(VK_IMAGE_LAYOUT_UNDEFINED);
-    depth_stencil->set_aspect_mask(VK_IMAGE_ASPECT_DEPTH_BIT
-                                   | VK_IMAGE_ASPECT_STENCIL_BIT);
-    depth_stencil->set_component();
+    m_depth_stencil->set_usage(VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT
+                               | VK_IMAGE_USAGE_TRANSFER_SRC_BIT);
+    m_depth_stencil->set_layout(VK_IMAGE_LAYOUT_UNDEFINED);
+    m_depth_stencil->set_aspect_mask(VK_IMAGE_ASPECT_DEPTH_BIT
+                                     | VK_IMAGE_ASPECT_STENCIL_BIT);
+    m_depth_stencil->set_component();
 
-    target->on_create_attachments = [&]() -> VkAttachments {
+    m_target->on_create_attachments = [&]() -> VkAttachments {
         VkAttachments result;
 
-        if (!depth_stencil->create(target->get_device(), target->get_size()))
+        if (!m_depth_stencil->create(m_target->get_device(), m_target->get_size()))
             return {};
 
-        for (auto& backbuffer : target->get_backbuffers()) {
+        for (auto& backbuffer : m_target->get_backbuffers()) {
             VkImageViews attachments;
 
             attachments.push_back(backbuffer->get_view());
-            attachments.push_back(depth_stencil->get_view());
+            attachments.push_back(m_depth_stencil->get_view());
 
             result.push_back(attachments);
         }
@@ -94,34 +94,34 @@ bool forward_shading::create(render_target::s_ptr t) {
         return result;
     };
 
-    target->on_destroy_attachments = [&]() {
-        depth_stencil->destroy();
+    m_target->on_destroy_attachments = [&]() {
+        m_depth_stencil->destroy();
     };
 
-    if (!pass->create(target->on_create_attachments(), {{}, target->get_size()}))
+    if (!m_pass->create(m_target->on_create_attachments(), {{}, m_target->get_size()}))
         return false;
 
-    target->add_callback(&pass->get_target_callback());
+    m_target->add_callback(&m_pass->get_target_callback());
 
-    pass->set_clear_color();
+    m_pass->set_clear_color();
 
     return true;
 }
 
 //-----------------------------------------------------------------------------
 void forward_shading::destroy() {
-    if (!target)
+    if (!m_target)
         return;
 
-    target->remove_callback(&pass->get_target_callback());
+    m_target->remove_callback(&m_pass->get_target_callback());
 
-    pass->destroy();
-    pass = nullptr;
+    m_pass->destroy();
+    m_pass = nullptr;
 
-    depth_stencil->destroy();
-    depth_stencil = nullptr;
+    m_depth_stencil->destroy();
+    m_depth_stencil = nullptr;
 
-    target = nullptr;
+    m_target = nullptr;
 }
 
 } // namespace lava

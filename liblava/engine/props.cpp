@@ -15,17 +15,17 @@ namespace lava {
 //-----------------------------------------------------------------------------
 void props::add(string_ref name,
                 string_ref filename) {
-    map.emplace(name, filename);
+    m_map.emplace(name, filename);
 
     logger()->trace("prop: {} = {}", name, filename);
 }
 
 //-----------------------------------------------------------------------------
 void props::remove(string_ref name) {
-    if (!map.count(name))
+    if (!m_map.count(name))
         return;
 
-    map.erase(name);
+    m_map.erase(name);
 }
 
 //-----------------------------------------------------------------------------
@@ -37,7 +37,7 @@ bool props::install(string_ref name,
 
 //-----------------------------------------------------------------------------
 c_data props::operator()(string_ref name) {
-    auto& prop = map.at(name);
+    auto& prop = m_map.at(name);
     if (prop.data.addr)
         return {prop.data.addr, prop.data.size};
 
@@ -54,7 +54,7 @@ c_data props::operator()(string_ref name) {
 bool props::check() {
     auto result = true;
 
-    for (auto& [name, prop] : map) {
+    for (auto& [name, prop] : m_map) {
         if (!app->fs.exists(prop.filename)) {
             logger()->warn("prop missing: {} = {}",
                            name, prop.filename);
@@ -68,7 +68,7 @@ bool props::check() {
 
 //-----------------------------------------------------------------------------
 bool props::load(string_ref name) {
-    auto& prop = map.at(name);
+    auto& prop = m_map.at(name);
     if (prop.data.addr)
         prop.data = {}; // reload
 
@@ -83,7 +83,7 @@ bool props::load(string_ref name) {
 
 //-----------------------------------------------------------------------------
 bool props::load_all() {
-    for (auto& [name, prop] : map) {
+    for (auto& [name, prop] : m_map) {
         if (!load_file_data(name, prop.data)) {
             logger()->error("prop load (all): {} = {}",
                             name, prop.filename);
@@ -96,7 +96,7 @@ bool props::load_all() {
 
 //-----------------------------------------------------------------------------
 void props::parse(cmd_line cmd_line) {
-    for (auto& [name, prop] : map) {
+    for (auto& [name, prop] : m_map) {
         auto cmd_arg = "--" + name;
 
         auto filename = get_cmd(cmd_line, {cmd_arg.c_str()});
@@ -111,7 +111,7 @@ void props::parse(cmd_line cmd_line) {
 
 //-----------------------------------------------------------------------------
 void props::set_json(json_ref j) {
-    for (auto& [name, prop] : map) {
+    for (auto& [name, prop] : m_map) {
         if (j.count(name)) {
             string filename = j[name];
 
@@ -130,7 +130,7 @@ void props::set_json(json_ref j) {
 json props::get_json() const {
     json j;
 
-    for (auto& [name, prop] : map)
+    for (auto& [name, prop] : m_map)
         j[name] = prop.filename;
 
     return j;

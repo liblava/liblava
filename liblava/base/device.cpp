@@ -81,8 +81,8 @@ verify_queues_result device::create_param::verify_queues() const {
 
 //-----------------------------------------------------------------------------
 bool device::create(create_param::ref param) {
-    physical_device = param.physical_device;
-    if (!physical_device)
+    m_physical_device = param.physical_device;
+    if (!m_physical_device)
         return false;
 
     auto verify_result = param.verify_queues();
@@ -122,7 +122,7 @@ bool device::create(create_param::ref param) {
                                 : &param.features,
     };
 
-    if (failed(vkCreateDevice(physical_device->get(),
+    if (failed(vkCreateDevice(m_physical_device->get(),
                               &create_info,
                               memory::instance().alloc(),
                               &vk_device))) {
@@ -130,19 +130,19 @@ bool device::create(create_param::ref param) {
         return false;
     }
 
-    features = param.features;
+    m_features = param.features;
 
     load_table();
 
-    graphics_queue_list.clear();
-    compute_queue_list.clear();
-    transfer_queue_list.clear();
-    queue_list.clear();
+    m_graphics_queue_list.clear();
+    m_compute_queue_list.clear();
+    m_transfer_queue_list.clear();
+    m_queue_list.clear();
 
     for (auto i = 0u; i != queue_create_info_list.size(); ++i) {
         auto queue_family_index = queue_create_info_list[i].queueFamilyIndex;
         auto queue_family_flags =
-            physical_device->get_queue_family_properties().at(queue_family_index).queueFlags;
+            m_physical_device->get_queue_family_properties().at(queue_family_index).queueFlags;
 
         for (auto queue_index = 0u;
              queue_index != queue_create_info_list[i].queueCount;
@@ -160,13 +160,13 @@ bool device::create(create_param::ref param) {
                 vk_queue, queue_family_flags, queue_family_index, priority};
 
             if (flags & VK_QUEUE_GRAPHICS_BIT)
-                graphics_queue_list.push_front(queue);
+                m_graphics_queue_list.push_front(queue);
             if (flags & VK_QUEUE_COMPUTE_BIT)
-                compute_queue_list.push_front(queue);
+                m_compute_queue_list.push_front(queue);
             if (flags & VK_QUEUE_TRANSFER_BIT)
-                transfer_queue_list.push_front(queue);
+                m_transfer_queue_list.push_front(queue);
 
-            queue_list.push_back(queue);
+            m_queue_list.push_back(queue);
         }
     }
 
@@ -178,14 +178,14 @@ void device::destroy() {
     if (!vk_device)
         return;
 
-    graphics_queue_list.clear();
-    compute_queue_list.clear();
-    transfer_queue_list.clear();
-    queue_list.clear();
+    m_graphics_queue_list.clear();
+    m_compute_queue_list.clear();
+    m_transfer_queue_list.clear();
+    m_queue_list.clear();
 
-    if (mem_allocator) {
-        mem_allocator->destroy();
-        mem_allocator = nullptr;
+    if (m_mem_allocator) {
+        m_mem_allocator->destroy();
+        m_mem_allocator = nullptr;
     }
 
     call().vkDestroyDevice(vk_device, memory::instance().alloc());
@@ -196,8 +196,8 @@ void device::destroy() {
 
 //-----------------------------------------------------------------------------
 bool device::surface_supported(VkSurfaceKHR surface) const {
-    for (auto& queue : queue_list) {
-        if (physical_device->surface_supported(queue.family, surface))
+    for (auto& queue : m_queue_list) {
+        if (m_physical_device->surface_supported(queue.family, surface))
             return true;
     }
 
@@ -206,17 +206,17 @@ bool device::surface_supported(VkSurfaceKHR surface) const {
 
 //-----------------------------------------------------------------------------
 VkPhysicalDevice device::get_vk_physical_device() const {
-    return physical_device->get();
+    return m_physical_device->get();
 }
 
 //-----------------------------------------------------------------------------
 VkPhysicalDeviceFeatures const& device::get_features() const {
-    return features;
+    return m_features;
 }
 
 //-----------------------------------------------------------------------------
 VkPhysicalDeviceProperties const& device::get_properties() const {
-    return physical_device->get_properties();
+    return m_physical_device->get_properties();
 }
 
 //-----------------------------------------------------------------------------

@@ -57,7 +57,7 @@ struct json_file {
      * @brief Clear all callbacks
      */
     void clear() {
-        callbacks.clear();
+        m_callbacks.clear();
     }
 
     /**
@@ -65,7 +65,7 @@ struct json_file {
      * @param value    Name of file
      */
     void set(string_ref value) {
-        path = value;
+        m_path = value;
     }
 
     /**
@@ -73,7 +73,7 @@ struct json_file {
      * @return name    Name of file
      */
     string_ref get() const {
-        return path;
+        return m_path;
     }
 
     /**
@@ -90,10 +90,10 @@ struct json_file {
 
 private:
     /// Name of file
-    string path;
+    string m_path;
 
     /// List of callbacks
-    callback::list callbacks;
+    callback::list m_callbacks;
 };
 
 } // namespace lava

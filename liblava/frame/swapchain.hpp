@@ -48,7 +48,7 @@ struct swapchain : entity {
      * @brief Request a reload of the swapchain
      */
     void request_reload() {
-        reload_request_active = true;
+        m_reload_request_active = true;
     }
 
     /**
@@ -56,7 +56,7 @@ struct swapchain : entity {
      * @return Reload is requested or not
      */
     bool reload_request() const {
-        return reload_request_active;
+        return m_reload_request_active;
     }
 
     /**
@@ -64,7 +64,7 @@ struct swapchain : entity {
      * @return device::ptr    Vulkan device
      */
     device::ptr get_device() {
-        return device;
+        return m_device;
     }
 
     /**
@@ -72,7 +72,7 @@ struct swapchain : entity {
      * @return uv2    Swapchain size
      */
     uv2 get_size() const {
-        return size;
+        return m_size;
     }
 
     /**
@@ -80,7 +80,7 @@ struct swapchain : entity {
      * @return VkFormat    Swapchain format
      */
     VkFormat get_format() const {
-        return format.format;
+        return m_format.format;
     }
 
     /**
@@ -88,7 +88,7 @@ struct swapchain : entity {
      * @return VkColorSpaceKHR    Swapchain color space
      */
     VkColorSpaceKHR get_color_space() const {
-        return format.colorSpace;
+        return m_format.colorSpace;
     }
 
     /**
@@ -96,7 +96,7 @@ struct swapchain : entity {
      * @return VkSwapchainKHR    Vulkan swapchain
      */
     VkSwapchainKHR get() const {
-        return vk_swapchain;
+        return m_vk_swapchain;
     }
 
     /**
@@ -104,7 +104,7 @@ struct swapchain : entity {
      * @return ui32    Number of backbuffers
      */
     ui32 get_backbuffer_count() const {
-        return to_ui32(backbuffers.size());
+        return to_ui32(m_backbuffers.size());
     }
 
     /**
@@ -112,7 +112,7 @@ struct swapchain : entity {
      * @return image::s_list const&    List of backbuffer images
      */
     image::s_list const& get_backbuffers() const {
-        return backbuffers;
+        return m_backbuffers;
     }
 
     /**
@@ -152,7 +152,7 @@ struct swapchain : entity {
      * @return V-Sync is active or not
      */
     bool v_sync() const {
-        return v_sync_active;
+        return m_v_sync_active;
     }
 
     /**
@@ -160,7 +160,7 @@ struct swapchain : entity {
      * @return VK_PRESENT_MODE_MAILBOX_KHR preferred over VK_PRESENT_MODE_IMMEDIATE_KHR or not
      */
     bool triple_buffer() const {
-        return triple_buffer_active;
+        return m_triple_buffer_active;
     }
 
     /**
@@ -202,34 +202,34 @@ private:
     void destroy_backbuffer_views();
 
     /// Vulkan device
-    device::ptr device = nullptr;
+    device::ptr m_device = nullptr;
 
     /// Vulkan surface
-    VkSurfaceKHR surface = VK_NULL_HANDLE;
+    VkSurfaceKHR m_surface = VK_NULL_HANDLE;
 
     /// Surface format
-    VkSurfaceFormatKHR format = {};
+    VkSurfaceFormatKHR m_format = {};
 
     /// Vulkan swapchain
-    VkSwapchainKHR vk_swapchain = VK_NULL_HANDLE;
+    VkSwapchainKHR m_vk_swapchain = VK_NULL_HANDLE;
 
     /// List of backbuffer images
-    image::s_list backbuffers;
+    image::s_list m_backbuffers;
 
     /// Size of swapchain
-    uv2 size;
+    uv2 m_size;
 
     /// Reload request active state
-    bool reload_request_active = false;
+    bool m_reload_request_active = false;
 
     /// V-Sync active state
-    bool v_sync_active = false;
+    bool m_v_sync_active = false;
 
     /// Prefer VK_PRESENT_MODE_MAILBOX_KHR over VK_PRESENT_MODE_IMMEDIATE_KHR state
-    bool triple_buffer_active = true;
+    bool m_triple_buffer_active = true;
 
     /// List of swapchain callbacks
-    callback::list callbacks;
+    callback::list m_callbacks;
 };
 
 } // namespace lava
