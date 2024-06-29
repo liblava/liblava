@@ -40,8 +40,12 @@ using sem_version = semantic_version;
  */
 inline sem_version to_version(string_ref str) {
     sem_version result{0, 0, 0};
-    sscanf_s(str.c_str(), "%d.%d.%d",
-           &result.major, &result.minor, &result.patch);
+#ifdef _WIN32
+    sscanf_s
+#else
+    sscanf
+#endif
+        (str.c_str(), "%d.%d.%d", &result.major, &result.minor, &result.patch);
     return result;
 }
 
