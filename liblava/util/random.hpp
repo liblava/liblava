@@ -73,14 +73,14 @@ inline auto random(auto high) {
 }
 
 /**
- * @brief Pseudo random generator
+ * @brief Pseudorandom generator
  */
-struct pseudo_random_generator {
+struct pseudorandom_generator {
     /**
-     * @brief Construct a new pseudo random generator
+     * @brief Construct a new pseudorandom generator
      * @param seed    Seed for generator
      */
-    explicit pseudo_random_generator(ui32 seed)
+    explicit pseudorandom_generator(ui32 seed)
     : m_seed(seed) {}
 
     /**
@@ -92,7 +92,7 @@ struct pseudo_random_generator {
     }
 
     /**
-     * @brief Get next pseudo random number
+     * @brief Get next pseudorandom number
      * @return ui32    Random number
      */
     ui32 get() {

@@ -119,7 +119,7 @@ struct hex_grid;
 struct log_config;
 struct rect;
 struct random_generator;
-struct pseudo_random_generator;
+struct pseudorandom_generator;
 struct telegram;
 struct telegraph;
 struct message_dispatcher;
