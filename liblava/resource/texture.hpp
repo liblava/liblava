@@ -23,11 +23,11 @@ enum class texture_type : index {
 };
 
 /**
- * @brief File format
+ * @brief Texture file path with format
  */
-struct file_format {
-    /// List of file formats
-    using list = std::vector<file_format>;
+struct texture_file {
+    /// List of texture files
+    using list = std::vector<texture_file>;
 
     /// File path
     string path;
@@ -242,6 +242,6 @@ private:
 };
 
 /// Texture registry
-using texture_registry = id_registry<texture, file_format>;
+using texture_registry = id_registry<texture, texture_file>;
 
 } // namespace lava

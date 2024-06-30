@@ -14,12 +14,12 @@ namespace lava {
 /**
  * @brief Load texture from file
  * @param device             Vulkan device
- * @param file_format        File and format
+ * @param tex_file           Texture file
  * @param type               Type of texture
  * @return texture::s_ptr    Loaded texture
  */
 texture::s_ptr load_texture(device::ptr device,
-                            file_format file_format,
+                            texture_file tex_file,
                             texture_type type = texture_type::tex_2d);
 
 /**

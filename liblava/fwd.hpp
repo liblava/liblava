@@ -104,7 +104,7 @@ struct image_data;
 struct image;
 struct vertex;
 struct mesh_meta;
-struct file_format;
+struct texture_file;
 struct texture;
 struct staging;
 

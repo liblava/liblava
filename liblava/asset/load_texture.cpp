@@ -242,20 +242,20 @@ texture::s_ptr create_stbi_texture(device::ptr device,
 
 //-----------------------------------------------------------------------------
 texture::s_ptr load_texture(device::ptr device,
-                            file_format file_format,
+                            texture_file tex_file,
                             texture_type type) {
-    auto use_gli = extension(file_format.path,
+    auto use_gli = extension(tex_file.path,
                              {"DDS", "KTX", "KMG"});
     auto use_stbi = false;
 
     if (!use_gli)
-        use_stbi = extension(file_format.path,
+        use_stbi = extension(tex_file.path,
                              {"JPG", "PNG", "TGA", "BMP", "PSD", "GIF", "HDR", "PIC"});
 
     if (!use_gli && !use_stbi)
         return nullptr;
 
-    file file(file_format.path);
+    file file(tex_file.path);
     u_data temp_data(file.get_size(), data::mode::no_alloc);
 
     if (file.opened()) {
@@ -273,21 +273,21 @@ texture::s_ptr load_texture(device::ptr device,
         case texture_type::tex_2d: {
             return create_gli_texture_2d(device,
                                          file,
-                                         file_format.format,
+                                         tex_file.format,
                                          temp_data);
         }
 
         case texture_type::array: {
             return create_gli_texture_array(device,
                                             file,
-                                            file_format.format,
+                                            tex_file.format,
                                             temp_data);
         }
 
         case texture_type::cube_map: {
             return create_gli_texture_cube_map(device,
                                                file,
-                                               file_format.format,
+                                               tex_file.format,
                                                temp_data);
         }
 
