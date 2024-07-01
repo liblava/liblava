@@ -39,7 +39,7 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 62d27fa93d8f1f881dac18f13881dd97af66fa74)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG c47928ffc0f42bd08e5643eb1d788812cba1ac3e)
+set(imgui_TAG f2c07ed7175c79ab6e2999d14bb694c39510ad41)
 
 set(imgui_docking_GITHUB ocornut/imgui)
 set(imgui_docking_TAG 3fec562da1d5af5f5c35e236e3e843ef0eadbcf3)
