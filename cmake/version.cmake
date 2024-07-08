@@ -15,10 +15,10 @@ set(physfs_GITHUB icculus/physfs)
 set(physfs_TAG 31209b7c2ce629dbda0db2329ce469ab9a2b90b9)
 
 set(json_GITHUB nlohmann/json)
-set(json_TAG 8c391e04fe4195d8be862c97f38cfe10e2a3472e)
+set(json_TAG 960b763ecd144f156d05ec61f577b04107290137)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG c3aed4b68373955e1cc94307683d44dca1515d2b)
+set(spdlog_TAG d276069a6e916b1e1fd45885b15b72bd8ee000a7)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG 013ac3beddff3dbffafd5177e7972067cd2b5083)
@@ -27,7 +27,7 @@ set(tinyobjloader_GITHUB syoyo/tinyobjloader)
 set(tinyobjloader_TAG cab4ad7254cbf7eaaafdb73d272f99e92f166df8)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
-set(Vulkan-Headers_TAG 190d2cb24e90e5bf2bec0a75604a9b3586485b6d)
+set(Vulkan-Headers_TAG 6c539b2ed2dba2997cdedeac0b376ff2fe382595)
 
 set(volk_GITHUB zeux/volk)
 set(volk_TAG 692bef4349111d5a1e24fa0fed79eee41496a09f)
@@ -39,22 +39,22 @@ set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 62d27fa93d8f1f881dac18f13881dd97af66fa74)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG f2c07ed7175c79ab6e2999d14bb694c39510ad41)
+set(imgui_TAG 2937339c1757e64df2723a4a9a4938f964c22531)
 
 set(imgui_docking_GITHUB ocornut/imgui)
-set(imgui_docking_TAG 3fec562da1d5af5f5c35e236e3e843ef0eadbcf3)
+set(imgui_docking_TAG 527b2c45af2f8964f95826bd16ab7c7ed372ae41)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
-set(SPIRV-Headers_TAG 2acb319af38d43be3ea76bfabf3998e5281d8d12)
+set(SPIRV-Headers_TAG 41a8eb27f1a7554dadfcdd45819954eaa94935e6)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG c91d9ec1580dce89b10b0ca6a368800e2deaf1cb)
+set(SPIRV-Tools_TAG 9f2ccaef5f70c32bcd6c911a2b09dbb26106b437)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG 33c7e30860928bab3819c3abae8297b109a02f73)
+set(glslang_TAG 4a516f28a17d3128f144affd7952142a90ab22e7)
 
 set(shaderc_GITHUB google/shaderc)
-set(shaderc_TAG d875f303474e0051b286a11dd772817ab190e02e)
+set(shaderc_TAG 5d0f6ed6e46d3c0ccd23151c6a1486c2ec90c037)
 
 set(PicoSHA2_GITHUB okdshin/PicoSHA2)
 set(PicoSHA2_TAG 27fcf6979298949e8a462e16d09a0351c18fcaf2)
