@@ -20,7 +20,14 @@ You can **update all externals** by running the script:
 ```bash
 python ext/update.py > ext/version.json
 ```
+
 <br />
+
+# Requirements
+
+```bash
+pip install requests
+```
 
 <br />
 
