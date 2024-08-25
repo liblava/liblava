@@ -219,13 +219,14 @@ bool frame::run_step() {
 
     telegraph.update(run_time.current);
 
-    if (!m_run_once_list.empty()) {
-        for (auto& func : m_run_once_list) {
+    auto run_once_list = m_run_once_list;
+    m_run_once_list.clear();
+
+    if (!run_once_list.empty()) {
+        for (auto& func : run_once_list) {
             if (!func())
                 return run_abort;
         }
-
-        m_run_once_list.clear();
     }
 
     for (auto& [id, func] : m_run_map) {
