@@ -33,7 +33,8 @@ mesh::s_ptr producer::get_mesh(string_ref name) {
             return meshes.get(id);
     }
 
-    app->fs.create_folder(string(_cache_path_) + _temp_path_);
+    if (!app->fs.create_folder(string(_cache_path_) + _temp_path_))
+        return nullptr;
 
     auto product = load_mesh(app->device,
                              app->props.get_filename(name),
@@ -148,7 +149,8 @@ c_data producer::get_shader(string_ref name,
 
     app->props.unload(name);
 
-    app->fs.create_folder(string(_cache_path_) + _shader_path_);
+    if (!app->fs.create_folder(string(_cache_path_) + _shader_path_))
+        return {};
 
     file file(filename, file_mode::write);
     if (file.opened())
@@ -387,7 +389,8 @@ void producer::clear() {
 //-----------------------------------------------------------------------------
 void producer::update_hash(string_ref name,
                            string_map_ref file_hash_map) const {
-    app->fs.create_folder(string(_cache_path_) + _shader_path_);
+    if (!app->fs.create_folder(string(_cache_path_) + _shader_path_))
+        return;
 
     auto filename = app->fs.get_pref_dir() + _cache_path_ + _shader_path_ + _hash_json_;
     json_file hash_file(filename);

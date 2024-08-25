@@ -154,12 +154,12 @@ void app::destroy_pipeline_cache() {
         u_data pipeline_cache_data(size);
 
         if (check(vkGetPipelineCacheData(device->get(), pipeline_cache, &size, pipeline_cache_data.addr))) {
-            fs.create_folder(_cache_path_);
-
-            file file(string(_cache_path_) + _pipeline_cache_file_, file_mode::write);
-            if (file.opened())
-                if (!file.write(pipeline_cache_data.addr, pipeline_cache_data.size))
-                    logger()->warn("app pipeline cache not saved: {}", file.get_path());
+            if (!fs.create_folder(_cache_path_)) {
+                file file(string(_cache_path_) + _pipeline_cache_file_, file_mode::write);
+                if (file.opened())
+                    if (!file.write(pipeline_cache_data.addr, pipeline_cache_data.size))
+                        logger()->warn("app pipeline cache not saved: {}", file.get_path());
+            }
         }
     }
 
@@ -688,7 +688,8 @@ string app::screenshot() {
         return {};
 
     string screenshot_path = "screenshot/";
-    fs.create_folder(screenshot_path);
+    if (!fs.create_folder(screenshot_path))
+        return {};
 
     auto const path = fs.get_pref_dir() + screenshot_path
                       + get_current_time() + ".png";
