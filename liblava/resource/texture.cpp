@@ -214,6 +214,8 @@ bool texture::stage(VkCommandBuffer cmd_buf) {
                      VK_PIPELINE_STAGE_TRANSFER_BIT,
                      VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
 
+    logger()->trace("texture staged: {}", get_id().value);
+
     return true;
 }
 
