@@ -28,7 +28,7 @@ struct telegram {
     using ref = telegram const&;
 
     /// Set of telegrams
-    using set = std::set<telegram>;
+    using set = std::multiset<telegram>;
 
     /**
      * @brief Construct a new telegram
