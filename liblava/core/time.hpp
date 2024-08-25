@@ -14,6 +14,9 @@
 
 namespace lava {
 
+/// Chrono literals
+using namespace std::chrono_literals;
+
 /// Seconds
 using seconds = std::chrono::seconds;
 
