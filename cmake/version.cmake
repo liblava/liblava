@@ -18,7 +18,7 @@ set(json_GITHUB nlohmann/json)
 set(json_TAG 960b763ecd144f156d05ec61f577b04107290137)
 
 set(spdlog_GITHUB gabime/spdlog)
-set(spdlog_TAG 5ebfc927306fd7ce551fa22244be801cf2b9fdd9)
+set(spdlog_TAG a3a0c9d66386962fcaf0178fcae03ac77c1e0257)
 
 set(stb_GITHUB nothings/stb)
 set(stb_TAG f75e8d1cad7d90d72ef7a4661f1b994ef78b4e31)
@@ -27,31 +27,31 @@ set(tinyobjloader_GITHUB syoyo/tinyobjloader)
 set(tinyobjloader_TAG 50461d0e0a77c178bb478e9319d7de82f469a848)
 
 set(Vulkan-Headers_GITHUB KhronosGroup/Vulkan-Headers)
-set(Vulkan-Headers_TAG a6a5dc0d078ade9bde75bd78404462509cbdce99)
+set(Vulkan-Headers_TAG c6391a7b8cd57e79ce6b6c832c8e3043c4d9967b)
 
 set(volk_GITHUB zeux/volk)
-set(volk_TAG d2d0cdd3a14ad44a0ef594547f22a1846db90164)
+set(volk_TAG 6368f2cb05abfd7b5b0a9666cf6c7e1e405ae55f)
 
 set(VulkanMemoryAllocator_GITHUB GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator)
-set(VulkanMemoryAllocator_TAG b8e57472fffa3bd6e0a0b675f4615bf0a823ec4d)
+set(VulkanMemoryAllocator_TAG 5fadb5d497ad3692395286736ddb0c4dd5030268)
 
 set(IconFontCppHeaders_GITHUB juliettef/IconFontCppHeaders)
 set(IconFontCppHeaders_TAG 173c9b99be9a9980d2eeaf4b627d8c14b344bc68)
 
 set(imgui_GITHUB ocornut/imgui)
-set(imgui_TAG 864a2bf6b824f9c1329d8493386208d4b0fd311c)
+set(imgui_TAG 1d88609043fd7a25df7f5f4acd7aa3cc4aaf8033)
 
 set(imgui_docking_GITHUB ocornut/imgui)
 set(imgui_docking_TAG 226e0d579d2632a81d95f60bb5d65c70e55feb90)
 
 set(SPIRV-Headers_GITHUB KhronosGroup/SPIRV-Headers)
-set(SPIRV-Headers_TAG 69ab0f32dc6376d74b3f5b0b7161c6681478badd)
+set(SPIRV-Headers_TAG efb6b4099ddb8fa60f62956dee592c4b94ec6a49)
 
 set(SPIRV-Tools_GITHUB KhronosGroup/SPIRV-Tools)
-set(SPIRV-Tools_TAG edc68950bf725edc89b3e1974c533454cf2ae37c)
+set(SPIRV-Tools_TAG b21dda0ee7a3ea4e0192a7b2b09db1df1de9d5e7)
 
 set(glslang_GITHUB KhronosGroup/glslang)
-set(glslang_TAG ffd454c57bdbea8ae493df7a5d2733ae2b02cb81)
+set(glslang_TAG 12cbda959b6df2af119a76a73ff906c2bed36884)
 
 set(shaderc_GITHUB google/shaderc)
 set(shaderc_TAG 6d2848321250a19641800f8afb07738f3b0b7f18)
