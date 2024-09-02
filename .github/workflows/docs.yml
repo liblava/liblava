@@ -42,7 +42,7 @@ jobs:
         doxybook2 --input _doxygen/xml --output _doxybook --config config.json
 
     - name: Upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: ${{github.workspace}}/docs/
 
