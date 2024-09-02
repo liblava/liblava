@@ -43,6 +43,6 @@ jobs:
            cpack -C ${{env.BUILD_TYPE}}
 
     - name: Upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: ${{github.workspace}}/build/packages/
