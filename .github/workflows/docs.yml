@@ -15,6 +15,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Set env
+      shell: bash
+      run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
     - name: Run Doxygen
       uses: mattnotmitt/doxygen-action@edge
       with:
@@ -23,7 +27,7 @@ jobs:
         enable-latex: true
 
     - name: Install Doxybook2
-      uses: engineerd/configurator@v0.0.9
+      uses: engineerd/configurator@v0.0.10
       with:
         name: doxybook2
         pathInArchive: bin/doxybook2
@@ -44,6 +48,7 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
+        name: liblava-${{ env.SHORT_SHA }}-docs
         path: ${{github.workspace}}/docs/
 
     - name: Deploy

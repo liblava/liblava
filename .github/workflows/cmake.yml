@@ -17,6 +17,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Set env
+      shell: bash
+      run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
     - name: Prepare (ubuntu)
       run: |
            sudo apt-get update
@@ -45,5 +49,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.os }}
+        name: liblava-${{ env.SHORT_SHA }}-${{ matrix.os }}
         path: ${{github.workspace}}/build/packages/
