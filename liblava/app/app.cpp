@@ -712,21 +712,20 @@ string app::screenshot() {
 }
 
 //-----------------------------------------------------------------------------
-bool app::switch_config(string_ref id) {
+void app::switch_config(string_ref id) {
     if (id == config.id)
-        return true;
+        return;
 
     if (!load_config(id))
         logger()->debug("new config id (switch): {}", id);
 
-    if (!headless) {
-        window.set_state(config.window_state.value());
-        window.set_save_name(id);
+    if (headless)
+        return;
 
-        window.update_title();
-    }
+    window.set_state(config.window_state.value());
+    window.set_save_name(id);
 
-    return true;
+    window.update_title();
 }
 
 //-----------------------------------------------------------------------------

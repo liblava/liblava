@@ -211,9 +211,8 @@ struct app : frame {
     /**
      * Switch config id
      * @param id    Config id
-     * @return Switch was successful of failed
      */
-    bool switch_config(string_ref id);
+    void switch_config(string_ref id);
 
 private:
     /**
