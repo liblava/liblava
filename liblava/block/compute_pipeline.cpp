@@ -23,7 +23,7 @@ bool compute_pipeline::set_shader_stage(c_data::ref data,
         return false;
     }
 
-    auto shader_stage = create_pipeline_shader_stage(m_device, data, stage);
+    m_shader_stage = create_pipeline_shader_stage(m_device, data, stage);
     if (!m_shader_stage) {
         logger()->error("create compute pipeline shader stage");
         return false;
