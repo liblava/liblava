@@ -1,0 +1,98 @@
+#version 450
+
+layout(local_size_x = 16, local_size_y = 16, local_size_z = 1) in;
+
+/**
+ * Modified from https://www.shadertoy.com/view/WdtXz2
+ **/
+
+layout(set = 0, binding = 0) uniform Params {
+    float time;
+};
+
+layout(set = 0, binding = 1, rgba8) uniform image2D OutputImage;
+
+vec2 resolution = imageSize(OutputImage);
+const float BORDER_WIDTH = 0.005;
+
+float hash12(vec2 p)
+{
+    vec3 p3  = fract(p.xyx * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return fract((p3.x + p3.y) * p3.z);
+}
+
+float sphereSDF(vec2 point, float radius)
+{
+    return length(point) - radius;
+}
+
+vec2 sphereCenter(vec2 rootUV)
+{
+    float hash = hash12(rootUV);
+    vec2 relativePos = vec2(sin(hash * 532.121 + time * 2.0), cos(hash * 532.121 + time * 2.0)) * 0.5 + 0.5;
+    return rootUV + relativePos;
+}
+
+float addObjects(float o1, float o2)
+{
+    return min(o1, o2);
+}
+
+float addObjectsSmooth(float o1, float o2, float smoothness)
+{
+    float k = clamp((o1 - o2) / smoothness * 0.5 + 0.5, 0.0, 1.0);
+    return mix(o1, o2, k) - k * (1.0 - k) * smoothness;
+}
+
+float sphereGridSDF(vec2 point, float radius, float gridScale)
+{
+    point *= gridScale;
+    vec2 rootUV = floor(point);
+    float minSDF = 1e10; // Use a large float value
+    
+    for (float x = -1.0; x <= 1.0; x++)
+    {
+        for (float y = -1.0; y <= 1.0; y++)
+        {
+            float currentSphereSDF = sphereSDF(point - sphereCenter(rootUV + vec2(x, y)), radius);
+            minSDF = addObjectsSmooth(minSDF, currentSphereSDF, 0.3);
+        }
+    }
+    
+    return minSDF / gridScale;
+}
+
+float objSDF(vec2 point)
+{
+    float object = sphereSDF(point, 0.2);
+    
+    vec2 circularMovement = vec2(sin(time * 0.2), cos(time * 0.2)) * 2.0;
+    vec2 dotsShift = vec2(-cos(time * 0.2), sin(time * 0.2));
+    
+    float gridSphereRadius = (smoothstep(0.5, 0.0, length(point - dotsShift * 0.1)) - 0.4);
+    float smallGridSphereRadius = (smoothstep(0.4, 0.0, length(point - dotsShift * 0.1)) - 0.5);
+    
+    object = addObjectsSmooth(object, sphereGridSDF(point + circularMovement, gridSphereRadius, 10.0), 0.1);
+    object = addObjectsSmooth(object, sphereGridSDF(point + circularMovement, smallGridSphereRadius, 20.0), 0.01);
+    return object;
+}
+
+vec3 objSDFToColor(float objSDF_val)
+{
+    float positive = smoothstep(-BORDER_WIDTH, BORDER_WIDTH, objSDF_val);
+    return vec3(1.0) * positive;
+}
+
+void main()
+{
+    ivec2 fragCoord = ivec2(gl_GlobalInvocationID.xy);
+
+    vec2 uv = (2.0 * vec2(fragCoord) - resolution.xy) / float(resolution.x);
+
+    float sdf_value = objSDF(uv);
+    
+    vec3 col = objSDFToColor(sdf_value);
+    
+    imageStore(OutputImage, fragCoord, vec4(col, 1.0));
+}
