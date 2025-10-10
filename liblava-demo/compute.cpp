@@ -1,6 +1,6 @@
 /**
- * @file         liblava-demo/triangle.cpp
- * @brief        Triangle demo
+ * @file         liblava-demo/compute.cpp
+ * @brief        compute demo
  * @authors      Lava Block OÜ and contributors
  * @copyright    Copyright (c) 2018-present, MIT License
  */
@@ -11,7 +11,7 @@
 using namespace lava;
 
 #ifdef LAVA_DEMO
-LAVA_STAGE(10, "compute") {
+LAVA_STAGE(7, "compute") {
 #else
 int main(int argc, char* argv[]) {
     argh::parser argh(argc, argv);
@@ -20,21 +20,22 @@ int main(int argc, char* argv[]) {
     engine app("lava compute", argh);
     if (!app.setup())
         return error::not_ready;
-    app.props.add("compute", "res/compute/sdf.comp");
+    app.props.add("compute", "res/compute/mandelbrot.comp");
     app.props.add(_vertex_, "res/compute/present.vert");
     app.props.add(_fragment_, "res/compute/present.frag");
 
     pipeline_layout::s_ptr compute_layout;
     compute_pipeline::s_ptr compute_pipeline;
+    VkDescriptorSet compute_descriptor_set = VK_NULL_HANDLE;
+    descriptor::s_ptr compute_descriptor;
 
     pipeline_layout::s_ptr graphics_layout;
     render_pipeline::s_ptr graphics_pipeline;
     VkDescriptorSet graphics_descriptor_set = VK_NULL_HANDLE;
-
-    descriptor::s_ptr compute_descriptor;
-    descriptor::pool::s_ptr descriptor_pool;
-    VkDescriptorSet compute_descriptor_set = VK_NULL_HANDLE;
+    descriptor::s_ptr graphics_descriptor;
     render_pass::s_ptr graphics_render_pass = render_pass::make(app.device);
+
+    descriptor::pool::s_ptr descriptor_pool;
 
     VkSampler sampler = VK_NULL_HANDLE;
 
@@ -49,29 +50,15 @@ int main(int argc, char* argv[]) {
 
     app.on_create = [&]() {
         // sampler
-        VkSamplerCreateInfo sampler_info{
+        VkSamplerCreateInfo const sampler_info = {
             .sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO,
-            .magFilter = VK_FILTER_LINEAR,
-            .minFilter = VK_FILTER_LINEAR,
-            .mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR,
-            .addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE,
-            .addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE,
-            .addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE,
-            .mipLodBias = 0.0f,
-            .anisotropyEnable = VK_FALSE,
-            .maxAnisotropy = 1.0f,
-            .compareEnable = VK_FALSE,
-            .compareOp = VK_COMPARE_OP_ALWAYS,
-            .minLod = 0.0f,
-            .maxLod = 1.0f,
-            .borderColor = VK_BORDER_COLOR_INT_OPAQUE_BLACK,
-            .unnormalizedCoordinates = VK_FALSE};
-        VkResult result = vkCreateSampler(app.device->get(), &sampler_info, nullptr, &sampler);
-        if (result != VK_SUCCESS) {
-            throw std::runtime_error("Failed to create sampler!");
-        }
+            .magFilter = VK_FILTER_NEAREST,
+            .minFilter = VK_FILTER_NEAREST,
+            .mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST};
+        if (!app.device->vkCreateSampler(&sampler_info, &sampler))
+            return false;
 
-        // buffers
+        // buffer
         params_buffer.create_mapped(app.device,
                                     &params,
                                     sizeof(params),
@@ -91,6 +78,10 @@ int main(int argc, char* argv[]) {
                                         storage_image->get_subresource_range());
         });
 
+        // descriptor pool
+        descriptor_pool = descriptor::pool::make();
+        descriptor_pool->create(app.device, {{VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1}, {VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1}, {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1}}, 2);
+
         // compute descriptor set
         compute_descriptor = descriptor::make();
         compute_descriptor->add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
@@ -99,9 +90,6 @@ int main(int argc, char* argv[]) {
                                         VK_SHADER_STAGE_COMPUTE_BIT);
         if (!compute_descriptor->create(app.device))
             return false;
-
-        descriptor_pool = descriptor::pool::make();
-        descriptor_pool->create(app.device, {{VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1}, {VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1}, {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1}}, 2);
 
         compute_descriptor_set = compute_descriptor->allocate(descriptor_pool->get());
         if (!compute_descriptor_set)
@@ -126,7 +114,7 @@ int main(int argc, char* argv[]) {
                                            write_sets.data());
 
         // graphics descriptor set
-        auto graphics_descriptor = descriptor::make();
+        graphics_descriptor = descriptor::make();
         graphics_descriptor->add_binding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
                                          VK_SHADER_STAGE_FRAGMENT_BIT);
         graphics_descriptor->create(app.device);
@@ -157,13 +145,6 @@ int main(int argc, char* argv[]) {
                                                 VK_SHADER_STAGE_COMPUTE_BIT))
             return false;
         compute_pipeline->set_layout(compute_layout);
-        compute_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
-            auto window_size = app.window.get_size();
-            scoped_label label(cmd_buf, "compute");
-            compute_layout->bind(cmd_buf, compute_descriptor_set);
-            app.device->call().vkCmdDispatch(cmd_buf, (window_size.x + 15) / 16, (window_size.y + 15) / 16, 1);
-            return true;
-        };
         if (!compute_pipeline->create())
             return false;
 
@@ -192,6 +173,7 @@ int main(int argc, char* argv[]) {
         graphics_render_pass->add_front(graphics_pipeline);
 
         graphics_pipeline->on_process = [&](VkCommandBuffer cmd_buf) {
+            scoped_label label(cmd_buf, "presentation");
             graphics_pipeline->bind(cmd_buf);
             graphics_layout->bind(cmd_buf, graphics_descriptor_set);
             app.device->call().vkCmdDraw(cmd_buf, 3, 1, 0, 0);
@@ -202,16 +184,39 @@ int main(int argc, char* argv[]) {
     };
 
     app.on_process = [&](VkCommandBuffer cmd_buf, lava::index frame) {
+        // compute dispatch
         auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<float> elapsed = end - start_time;
         auto ellapsed = elapsed.count();
         vkCmdUpdateBuffer(cmd_buf, params_buffer.get(), 0, sizeof(params.time), &ellapsed);
         auto window_size = app.window.get_size();
         scoped_label label(cmd_buf, "compute");
-        compute_layout->bind(cmd_buf, compute_descriptor_set);
-        vkCmdBindPipeline(cmd_buf, VK_PIPELINE_BIND_POINT_COMPUTE, compute_pipeline->get());
-        vkCmdBindDescriptorSets(cmd_buf, VK_PIPELINE_BIND_POINT_COMPUTE, compute_layout->get(), 0, 1, &compute_descriptor_set, 0, nullptr);
+        compute_pipeline->bind(cmd_buf);
+        compute_layout->bind(cmd_buf, compute_descriptor_set, 0, {}, VK_PIPELINE_BIND_POINT_COMPUTE);
         app.device->call().vkCmdDispatch(cmd_buf, (window_size.x + 15) / 16, (window_size.y + 15) / 16, 1);
+
+        // barrier between compute pass and graphics pass
+        insert_image_memory_barrier(app.device, cmd_buf, storage_image->get(), VK_ACCESS_SHADER_WRITE_BIT, VK_ACCESS_SHADER_READ_BIT, VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, storage_image->get_subresource_range());
     };
+
+    app.on_destroy = [&]() {
+        app.device->vkDestroySampler(sampler);
+        sampler = VK_NULL_HANDLE;
+
+        params_buffer.destroy();
+        storage_image->destroy();
+
+        compute_pipeline->destroy();
+        compute_layout->destroy();
+
+        graphics_pipeline->destroy();
+        graphics_layout->destroy();
+        graphics_render_pass->destroy();
+
+        compute_descriptor->destroy();
+        graphics_descriptor->destroy();
+        descriptor_pool->destroy();
+    };
+
     return app.run();
 }
