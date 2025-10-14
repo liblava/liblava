@@ -623,6 +623,7 @@ if(LIBLAVA_DEMO)
     ${LIBLAVA_DEMO_DIR}/shapes.cpp
     ${LIBLAVA_DEMO_DIR}/spawn.cpp
     ${LIBLAVA_DEMO_DIR}/triangle.cpp
+    ${LIBLAVA_DEMO_DIR}/compute.cpp
     )
 
   target_compile_definitions(lava-demo PRIVATE LAVA_DEMO)
@@ -771,6 +772,22 @@ if(LIBLAVA_DEMO)
   set_target_properties(lava-light PROPERTIES FOLDER "lava-demo")
   set_property(TARGET lava-light PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
 
+  message(STATUS ">> lava-compute")
+
+  add_executable(lava-compute
+    ${LIBLAVA_DEMO_DIR}/compute.cpp
+  )
+
+  source_group("Shader Files" FILES ${COMPUTE_SHADERS})
+
+  target_link_libraries(lava-compute PRIVATE
+    lava::engine
+    ${LIBLAVA_ENGINE_LIBRARIES}
+    )
+
+  set_target_properties(lava-compute PROPERTIES FOLDER "lava-demo")
+  set_property(TARGET lava-compute PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_BINARY_DIR}")
+
   # install demo targets
 
   install(TARGETS
@@ -781,6 +798,7 @@ if(LIBLAVA_DEMO)
     lava-lamp
     lava-spawn
     lava-light
+    lava-compute
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     COMPONENT "liblava_Runtime"
     )
