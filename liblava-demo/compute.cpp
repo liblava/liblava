@@ -20,9 +20,9 @@ int main(int argc, char* argv[]) {
     engine app("lava compute", argh);
     if (!app.setup())
         return error::not_ready;
-    app.props.add("compute", "res/compute/mandelbrot.comp");
-    app.props.add(_vertex_, "res/compute/present.vert");
-    app.props.add(_fragment_, "res/compute/present.frag");
+    app.props.add("compute", "compute/mandelbrot.comp");
+    app.props.add(_vertex_, "compute/present.vert");
+    app.props.add(_fragment_, "compute/present.frag");
 
     pipeline_layout::s_ptr compute_layout;
     compute_pipeline::s_ptr compute_pipeline;
